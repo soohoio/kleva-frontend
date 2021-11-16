@@ -1,0 +1,49 @@
+.GTWalletBalance {
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 25px;
+  padding-top: 20px;
+  padding-left: 28px;
+  padding-right: 28px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  
+  @include desktop {
+    box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+    padding-bottom: auto;
+    padding-top: auto;
+    padding-left: 32px;
+    padding-right: 36px;
+    flex: 1;
+    height: 120px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+}
+
+.GTWalletBalance__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.GTWalletBalance__label {
+  @include font-style('font-1', 'm', 16px);
+  color: #131414;
+}
+
+.GTWalletBalance__value {
+  @include font-style('font-1', 'b', 30px);
+  color: #3369ff;
+}
+
+.GTWalletBalance__right {
+
+}
+
+.GTWalletBalance__image {
+  width: 64px;
+  height: 64px;
+}

@@ -1,0 +1,91 @@
+// Input
+
+@mixin input {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  padding-right: 38px;
+}
+
+@mixin input-wrapper($height: 44px) {
+  position: relative;
+  display: flex;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  border: 1px solid #f2f2f2;
+  align-items: center;
+  height: $height;
+  padding: 0 16px;
+
+  &--active {
+    background-color: #fafbff;
+    border: 1px solid #c4d1f5;
+  }
+}
+
+@mixin input-text {
+  @include font-style('font-1', 'sb', 16px);
+  color: #131414;
+
+  &::placeholder {
+    color: #a9abb3;
+  }
+}
+
+// Button
+
+@mixin button {
+  border: 0;
+  outline: 0;
+  padding: 0;
+}
+
+@mixin button-1($height: 36px) {
+  @include button;
+  @include font-style('font-1', 'sb', 14px);
+  display: flex;
+  cursor: pointer;
+  height: $height;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #3369ff;
+  color: #ffffff;
+}
+
+@mixin button-2($height: 36px) {
+  @include button;
+  @include font-style('font-1', 'sb', 14px);
+  display: flex;
+  cursor: pointer;
+  height: $height;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+}
+
+// Text
+@mixin text-1(
+  $color: #797b80, 
+  $hover-color: #3369ff, 
+  $active-color: rgba(51, 105, 255, 0.7),
+  $disable-color: #797b80
+) {
+  color: $color;
+  transition: color 100ms;
+
+  &:hover {
+    color: $hover-color;
+  }
+  
+  &:active {
+    color: $active-color;
+  }
+
+  &--disabled {
+    color: $disable-color;
+  }
+}

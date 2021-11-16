@@ -1,0 +1,37 @@
+.AssetInfo {
+  display: flex;
+  align-items: center;
+}
+
+.AssetInfo__icon {
+
+  width: 48px;
+  height: 48px;
+
+  @include desktop {
+    width: 36px;
+    height: 36px;
+  }
+
+  border-radius: 50%;
+  margin-right: 18px;
+}
+
+.AssetInfo__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.AssetInfo__title {
+  @include font-style('font-1', 'b', 18px);
+  color: #131414;
+  margin-bottom: 4px;
+}
+
+.AssetInfo__priceInfo {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  padding: 1px 8px;
+}

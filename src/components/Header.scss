@@ -1,0 +1,76 @@
+.Header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+
+  padding-left: 20px;
+  padding-right: 24px;
+
+  @include desktop {
+    padding-left: 0;
+  }
+}
+
+.Header__left {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.Header__logo {
+  // width: 115px;
+  // height: 40px;
+  cursor: pointer;
+  position: relative;
+  width: 128px;
+  height: 32px;
+
+  @include desktop {
+    
+  }
+}
+
+.Header__logoTitle {
+  @include font-style('font-1', 'b', 24px);
+  margin-left: 12px;
+  color: $white;
+  
+  @include desktop {
+    color: #3369ff;
+  }
+}
+
+.Header__right {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+
+  @include desktop {
+    flex-direction: row;
+    display: flex;
+  }
+}
+
+.Header__mobileOnly {
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  @include desktop {
+    display: none;
+  }
+}
+
+.Header__mobileRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @include desktop {
+    display: none;
+  }
+}

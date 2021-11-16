@@ -1,0 +1,14 @@
+.StakingPools {
+
+}
+
+.StakingPools__title {
+  @include font-style('font-1', 'b', 20px);
+  color: #131414;
+  margin-bottom: 24px;
+  padding-left: 16px;
+
+  @include desktop {
+    padding-left: 0;
+  }
+}

@@ -1,0 +1,11 @@
+.ConnectWalletMobile {
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.ConnectWalletMobile__icon {
+  position: relative;
+  top: 2px;
+}

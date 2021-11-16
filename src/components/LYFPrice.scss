@@ -1,0 +1,15 @@
+.LYFPrice {
+  display: flex;
+  align-items: center;
+}
+
+.LYFPrice__label {
+  @include font-style('font-1', 'm', 14px);
+  color: #797b80;
+  margin-right: 12px;
+}
+
+.LYFPrice__value {
+  @include font-style('font-1', 'sb', 14px);
+  color: #616666;
+}

@@ -1,0 +1,15 @@
+.HeaderInfo {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.01);
+  margin-right: 16px;
+}
+
+.HeaderInfo__liner {
+  width: 1px;
+  height: 14px;
+  margin: 0 16px;
+  background-color: #c1c4cc;
+}

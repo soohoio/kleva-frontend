@@ -1,0 +1,67 @@
+.ConnectWalletPopup {
+  
+}
+
+.ConnectWalletPopup__connectedInfo {
+  
+}
+
+.ConnectWalletPopup__connectedAs {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  margin-bottom: 12px;
+  align-items: center;
+
+  @include font-style('font-1', 'm', 13px);
+  color: #797b80;
+
+  span {
+    @include font-style('font-1', 'sb', 13px);
+    color: #797b80;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.ConnectWalletPopup__disconnectButton {
+  @include button-2(32px);
+  @include font-style('font-1', 'sb', 13px);
+  width: 100%;
+  background-color: #ffeae8;
+  color: #f25a49;
+}
+
+.ConnectWalletPopup__items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.WalletConnectOption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 128px;
+  border-radius: 6px;
+  border: solid 1px #e6e6e6;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.WalletConnectOption__title {
+  @include font-style('font-1', 'm', 14px);
+  color: #171b1d;
+}
+
+.WalletConnectOption__image {
+  margin-bottom: 16px;
+}

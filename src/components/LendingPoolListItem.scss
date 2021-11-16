@@ -1,0 +1,39 @@
+.LendingPoolListItem {
+  @include font-style('font-1', 'm', 14px);
+  display: flex;
+  flex-direction: column;
+  color: #131414;
+  justify-content: center;
+  height: 147px;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:nth-child(7n+1) { padding-right: 32px; }
+  &:nth-child(7n+2) { padding-right: 32px; }
+  &:nth-child(7n+3) { padding-right: 16px; }
+  &:nth-child(7n+4) { padding-right: 16px; }
+  &:nth-child(7n+5) { padding-right: 16px; }
+  &:nth-child(7n+6) { padding-right: 16px; }
+  &:nth-child(7n) { padding-right: 0; }
+
+  .LabelAndValue {
+    width: 85%;
+  }
+}
+
+.LendingDepositWithdraw {
+  display: flex;
+  flex-direction: column;
+}
+
+.LendingDepositWithdraw__depositButton {
+  @include button-1(40px);
+  width: 128px;
+  margin-bottom: 12px;
+}
+
+.LendingDepositWithdraw__withdrawButton {
+  @include button-1(40px);
+  width: 128px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+}

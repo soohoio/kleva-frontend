@@ -1,0 +1,64 @@
+@import "colors.scss";
+
+@mixin not-draggable {
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+@mixin height-max-to-568 {
+  @media only screen and (max-height: 568px) {
+    @content;
+  }
+}
+
+@mixin height-max-to-600 {
+  @media only screen and (max-height: 600px) {
+    @content;
+  }
+}
+
+@mixin height-max-to-768 {
+  @media only screen and (max-height: 768px) {
+    @content;
+  }
+}
+
+@mixin height-max-to-968 {
+  @media only screen and (max-height: 968px) {
+    @content;
+  }
+}
+
+@mixin mobile-320 {
+  @media only screen and (min-width: 320px) and (max-width: 413px) {
+    @content;
+  }
+}
+
+@mixin mobile-414 {
+  @media only screen and (min-width: 414px) and (max-width: 719px) {
+    @content;
+  }
+}
+
+@mixin mobile-720 {
+  @media only screen and (min-width: 720px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: 1080px) {
+    @content;
+  }
+}
+
+@mixin active {
+  &:active, &--mobile-active {
+    @content;
+  }
+}

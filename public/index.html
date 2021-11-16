@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:site_name" content="LYF" />
+    <meta property="og:title" content="LYF" />
+    <meta property="og:description" content="LYF" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="title" content="LYF" />
+    <meta name="keywords" content="LYF" />
+    <meta name="description" content="LYF" />
+    <meta name="google" content="notranslate" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>LYF</title>
+  </head>
+  <body>
+    <script>
+      !function (e) { var n = /iPhone/i, t = /iPod/i, r = /iPad/i, a = /\bAndroid(?:.+)Mobile\b/i, p = /Android/i, b = /\bAndroid(?:.+)SD4930UR\b/i, l = /\bAndroid(?:.+)(?:KF[A-Z]{2,4})\b/i, f = /Windows Phone/i, s = /\bWindows(?:.+)ARM\b/i, u = /BlackBerry/i, c = /BB10/i, h = /Opera Mini/i, v = /\b(CriOS|Chrome)(?:.+)Mobile/i, w = /Mobile(?:.+)Firefox\b/i; function m(e, i) { return e.test(i) } function i(e) { var i = e || ("undefined" != typeof navigator ? navigator.userAgent : ""), o = i.split("[FBAN"); void 0 !== o[1] && (i = o[0]), void 0 !== (o = i.split("Twitter"))[1] && (i = o[0]); var d = { apple: { phone: m(n, i) && !m(f, i), ipod: m(t, i), tablet: !m(n, i) && m(r, i) && !m(f, i), device: (m(n, i) || m(t, i) || m(r, i)) && !m(f, i) }, amazon: { phone: m(b, i), tablet: !m(b, i) && m(l, i), device: m(b, i) || m(l, i) }, android: { phone: !m(f, i) && m(b, i) || !m(f, i) && m(a, i), tablet: !m(f, i) && !m(b, i) && !m(a, i) && (m(l, i) || m(p, i)), device: !m(f, i) && (m(b, i) || m(l, i) || m(a, i) || m(p, i)) || m(/\bokhttp\b/i, i) }, windows: { phone: m(f, i), tablet: m(s, i), device: m(f, i) || m(s, i) }, other: { blackberry: m(u, i), blackberry10: m(c, i), opera: m(h, i), firefox: m(w, i), chrome: m(v, i), device: m(u, i) || m(c, i) || m(h, i) || m(w, i) || m(v, i) } }; return d.any = d.apple.device || d.android.device || d.windows.device || d.other.device, d.phone = d.apple.phone || d.android.phone || d.windows.phone, d.tablet = d.apple.tablet || d.android.tablet || d.windows.tablet, d } "undefined" != typeof module && module.exports && "undefined" == typeof window ? module.exports = i : "undefined" != typeof module && module.exports && "undefined" != typeof window ? (module.exports = i(), module.exports.isMobile = i) : "function" == typeof define && define.amd ? define([], e.isMobile = i()) : e.isMobile = i() }(this);
+    </script>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>

@@ -1,0 +1,79 @@
+.MyPositions {
+
+}
+
+.MyPositions__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+
+.MyPositions__headerLeft {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.MyPositions__headerRight {
+
+}
+
+.MyPositions__title {
+  @include font-style('font-1', 'b', 20px);
+  color: #131414;
+  margin-bottom: 24px;
+}
+
+.MyPositions__positionToggle {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.MyPositions__positionItem {
+  @include font-style('font-1', 'm', 16px);
+  color: #797b80;
+  padding-bottom: 8px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+
+  &--active {
+    @include font-style('font-1', 'sb', 16px);
+    color: #3369ff;
+    border-bottom: 3px solid #3369ff;
+  }
+}
+
+.MyPositions__KlevaEarned {
+  min-width: 532px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  background-color: #fff;
+  height: 72px;
+  padding: 16px;
+}
+
+.MyPositions__KlevaEarnedInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.MyPositions__KlevaEarnedValue {
+  @include font-style('font-1', 'b', 20px);
+  color: #3369ff;
+}
+
+.MyPositions__KlevaEarnedLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #131414;
+}
+
+.MyPositions__KleaveEarnedEarnButton {
+  @include button-2(40px);
+  width: 108px;
+}

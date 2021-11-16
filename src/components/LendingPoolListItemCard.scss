@@ -1,0 +1,95 @@
+.LendingPoolListItemCard {
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  padding: 20px 16px;
+  padding-bottom: 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.LendingPoolListItemCard__contentWrapper {
+  
+}
+
+.LendingPoolListItemCard__content {
+  padding-top: 36px;
+}
+
+.LendingPoolListItemCard__lv {
+  margin-bottom: 10px;
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'sb', 13px);
+    color: #797b80;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #131414;
+  }
+
+  &--apy {
+    .LabelAndValue__label {
+      color: #3369ff;
+    }
+
+    .LabelAndValue__value {
+      @include font-style('font-1', 'b', 16px);
+      color: #3369ff;
+    }
+  }
+
+  &--apr {
+    // margin-bottom: 16px;
+  }
+
+  &--balance {
+    margin-bottom: 36px;
+  }
+
+}
+
+.LendingPoolListItemCard__buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  padding-bottom: 25px;
+
+  .LendingPoolListItemCard__depositButton {
+    width: 50%;
+  }
+  
+  .LendingPoolListItemCard__withdrawButton {
+    width: 50%;
+  }
+}
+
+.LendingPoolListItemCard__depositButton {
+  @include button-1(44px);
+}
+
+.LendingPoolListItemCard__withdrawButton {
+  @include button-2(44px);
+}
+
+.LendingPoolListItemCard__aprDetail {
+  border-left: 4px solid #f5f5f5;
+  padding-left: 12px;
+  margin-bottom: 13px;
+}
+
+.LendingPoolListItemCard__aprDetailItem {
+  margin-bottom: 4px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 13px);
+    color: #494a4d;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 13px);
+    color: #494a4d;
+  }
+}
