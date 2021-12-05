@@ -1,0 +1,30 @@
+.AddPositionPopup__modal {
+  @include desktop {
+    width: 884px;
+  }
+}
+
+.AddPositionPopup {
+  
+}
+
+.AddPositionPopup__content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 36px;
+  margin-bottom: 54px;
+}
+
+.AddPositionPopup__controller {
+  flex: 1;
+}
+
+.AddPositionPopup__summary {
+  flex: 1;
+}
+
+.AddPositionPopup__farmButton {
+  @include button-1(54px);
+  width: 100%;
+}

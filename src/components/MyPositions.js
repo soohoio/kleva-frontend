@@ -1,14 +1,20 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge } from 'rxjs'
-import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
+import { Subject, merge, of, interval, BehaviorSubject } from 'rxjs'
+import { filter, switchMap, distinctUntilChanged, takeUntil, tap, startWith } from 'rxjs/operators'
 
 import PositionList from 'components/PositionList'
+import FarmList from './FarmList'
 
 import './MyPositions.scss'
+import { logout$, selectedAddress$ } from '../streams/wallet'
+import { getPositions$ } from '../streams/graphql'
+import { getPositionInfo$ } from '../streams/contract'
+import { aprInfo$, workerInfo$ } from '../streams/farming'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
+  positions$ = new BehaviorSubject([])
   
   state = {
     // "active", "liquidated"
@@ -16,7 +22,35 @@ class MyPositions extends Component {
   }
 
   componentDidMount() {
-    
+    merge(
+      selectedAddress$.pipe(
+        filter((a) => !!a),
+        switchMap(() => {
+          return interval(5000).pipe(
+            startWith(0),
+            switchMap(() => getPositions$(selectedAddress$.value)),
+            switchMap((positions) => getPositionInfo$(positions)),
+            tap((positions) => {
+              const positionsAttachedWorkerInfo = positions.map((p) => {
+                const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
+                return { ...p, ..._workerInfo }
+              },)
+              this.positions$.next(positionsAttachedWorkerInfo)
+            }),
+            takeUntil(this.destroy$)
+          )
+        })
+      ),
+      this.positions$,
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
+
+    logout$.subscribe(() => {
+      this.positions$.next([])
+    })
   }
   
   componentWillUnMount() {
@@ -28,7 +62,9 @@ class MyPositions extends Component {
 
     const earned = 3384471.89
     
-    return (
+    
+
+    return this.positions$.value.length !== 0 && (
       <div className="MyPositions">
         <div className="MyPositions__header">
           <div className="MyPositions__headerLeft">
@@ -42,14 +78,14 @@ class MyPositions extends Component {
               >
                 Active
               </span>
-              <span
+              {/* <span
                 onClick={() => this.setState({ view: 'liquidated' })} 
                 className={cx("MyPositions__positionItem", {
                   "MyPositions__positionItem--active": view === "liquidated",
                 })}
               >
                 Liquidated
-              </span>
+              </span> */}
             </div>
           </div>
           <div className="MyPositions__headerRight">
@@ -65,7 +101,9 @@ class MyPositions extends Component {
           </div>
         </div>
         <div className="MyPositions__content">
-          <PositionList />
+          <PositionList 
+            list={this.positions$.value} 
+          />
         </div>
       </div>
     )

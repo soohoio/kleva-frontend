@@ -13,7 +13,7 @@ BigNumber.config({
 import { localeChange$ } from 'streams/i18n'
 import { isDesktop$ } from 'streams/ui'
 import { connectInjected, selectedAddress$, balancesInWallet$, balancesInStakingPool$, allowancesInLendingPool$ } from 'streams/wallet'
-import { balanceOfMultiInWallet$, balanceOfMultiInStakingPool$, listTokenSupplyInfo$, allowancesMultiInLendingPool$ } from './streams/contract'
+import { balanceOfMultiInWallet$, balanceOfMultiInStakingPool$, listTokenSupplyInfo$, allowancesMultiInLendingPool$, caver } from './streams/contract'
 
 import Overlay from 'components/Overlay'
 // import Toast from 'components/Toast'
@@ -26,6 +26,8 @@ import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
 import { fetchWalletInfo$ } from './streams/wallet'
 import { walletInfoFetcher$ } from './streams/fetcher'
+import { GRAPH_NODE_URL } from 'streams/graphql'
+import LZUTF8 from 'lzutf8'
 
 type Props = {
   isLoading: boolean,
@@ -102,3 +104,11 @@ class App extends Component<Props> {
 }
 
 export default App
+
+
+const decompressed = LZUTF8.decompress("MHgw3wHZATI5NjU2ZjY=", {
+  inputEncoding: "Base64",
+})
+
+console.log(decompressed, "decompressed")
+// caver.klay.decodeParameters([])

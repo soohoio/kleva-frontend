@@ -75,3 +75,127 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+.PositionItem__id {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+}
+
+.PositionItem__info {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.PositionItem__infoIconList {
+  display: flex;
+  flex-direction: column;
+}
+
+.PositionItem__infoIcon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+
+  &:last-of-type {
+    top: -6px;
+    z-index: 9;
+  }
+}
+
+.PositionItem__infoTitleList {
+  display: flex; 
+  flex-direction: column;
+}
+
+.PositionItem__infoTitle {
+  @include font-style('font-1', 'b', 14px);
+  color: #131414;
+}
+
+.PositionItem__infoExchangeTitle {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.PositionItem__positionValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__debtValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__equityValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__apy {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__debtRatio {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__liquidationThreshold {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.PositionItem__safetyBuffer {
+  @include font-style('font-1', 'm', 12px);
+  color: #00b470;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+
+.PositionItem__adjustButton {
+  @include button-2(28px);
+  @include font-style('font-1', 'sb', 12px);
+  background-color: #ebf0ff;
+  color: #3369ff;
+  width: 92px;
+  margin-bottom: 4px;
+}
+
+.PositionItem__closeButton {
+  @include button-2(28px);
+  @include font-style('font-1', 'sb', 12px);
+  background-color: #ffeae8;
+  color: #f25a49;
+  width: 92px;
+}

@@ -1,0 +1,68 @@
+.LeverageGauge {
+  margin-bottom: 48px;
+}
+
+.LeverageGauge__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.LeverageGauge__title {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+}
+
+.LeverageGauge__inputWrapper {
+  display: flex;
+  padding: 0 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: solid 1px #f2f2f2;
+  background-color: #fcfcfc;
+  width: 72px;
+}
+
+.LeverageGauge__leverageInput {
+  @include font-style('font-1', 'sb', 13px);
+  color: #797b80;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  width: 100%
+}
+
+.LeverageGauge__x {
+  @include font-style('font-1', 'sb', 13px);
+  color: #494a4d;
+}
+
+// Gauge Bar
+.GaugeBar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+}
+
+.GaugeBar__bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30%;
+  border-radius: 2px;
+  background-color: #3369ff;
+  height: 4px;
+  z-index: 9;
+  max-width: 100%;
+}
+.GaugeBar__barBehind {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  border-radius: 2px;
+  background-color: #f2f2f2;
+  height: 4px; 
+}

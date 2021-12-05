@@ -1,0 +1,21 @@
+.ClosePositionPopup {
+
+}
+
+.ClosePositionPopup__closePositionButton {
+  @include button-2(54px);
+  background-color: #ffeae8;
+  color: #f25a49;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.ClosePositionPopup__methodSelectTitle {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+  margin-bottom: 24px;
+}
+
+.ClosePositionPopup__radioSet {
+  margin-bottom: 36px;
+}

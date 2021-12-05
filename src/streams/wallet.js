@@ -81,3 +81,5 @@ logout$.subscribe(() => {
 window.selectedAddress$ = selectedAddress$
 window.balancesInWallet$ = balancesInWallet$
 window.balancesInStakingPool$ = balancesInStakingPool$
+
+window.allowancesInLendingPool$ = allowancesInLendingPool$

@@ -49,7 +49,6 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
     allowancesInLendingPool$.next(allowancesInLendingPool)
     allowancesInStakingPool$.next(allowancesInStakingPool)
     pendingGT$.next(pendingGT)
-    console.log(pendingGT, 'pendingGT')
     // depositedAt$.next(depositedAt)
   }),
   retryWhen((errors) => {

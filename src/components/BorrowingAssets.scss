@@ -1,0 +1,13 @@
+.BorrowingAssets {
+  
+  .Dropdown__item {
+    height: 44px;
+    margin-left: 0;
+  }
+}
+
+.BorrowingAssets__title {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+  margin-bottom: 28px;
+}

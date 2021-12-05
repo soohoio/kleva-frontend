@@ -1,0 +1,40 @@
+.LeverageController {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.LeverageController__title {
+  @include font-style('font-1', 'sb', 16px);
+  color: #494a4d;
+}
+
+.LeverageController__content {
+  width: 140px;
+  height: 44px;
+  border-radius: 8px;
+  border: solid 1px #f2f2f2;
+  background-color: #fcfcfc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.LeverageController__leverageValue {
+  @include font-style('font-1', 'sb', 16px);
+  color: #131414;
+}
+
+.LeverageController__minusIcon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.LeverageController__plusIcon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}

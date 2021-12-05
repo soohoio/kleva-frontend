@@ -1,0 +1,102 @@
+.FarmItem {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  background-color: #fff;
+  width: 32.5%;
+  max-width: 328px;
+}
+
+.FarmItem__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: solid 2px #f2f2f2;
+  height: 87px;
+}
+
+.FarmItem__content {
+  padding: 24px;
+}
+
+.FarmItem__footer {
+  padding: 0 24px;
+  padding-bottom: 24px;
+}
+
+.FarmItem__tokenImages {
+  display: flex;
+}
+
+.FarmItem__tokenIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+
+  &--baseToken {
+    position: relative;
+    left: -12px;
+    box-shadow: -2px 0 3px 0 rgba(0, 0, 0, 0.06);
+  }  
+}
+
+.FarmItem__mainInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.FarmItem__title {
+  @include font-style('font-1', 'b', 16px);
+  color: #131414;
+}
+
+.FarmItem__tvl {
+  @include font-style('font-1', 'm', 11px);
+  color: #131414;
+  text-decoration: underline;
+}
+
+.FarmItem__subInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.FarmItem__apy {
+  @include font-style('font-1', 'm', 18px);
+  color: #3369ff;
+}
+
+.FarmItem__exchange {
+  @include font-style('font-1', 'm', 10px);
+  color: #797b80;
+}
+
+.FarmItem__button {
+  @include button-1(40px);
+  width: 100%;
+}
+
+// FarmProperty
+
+.FarmProperty {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
+  color: #494a4d;
+}
+
+.FarmProperty__label {
+  @include font-style('font-1', 'm', 13px);
+}
+
+.FarmProperty__value {
+  @include font-style('font-1', 'm', 13px);
+}
+
+.FarmItem__totalAPR {
+  color: #3369ff;
+}

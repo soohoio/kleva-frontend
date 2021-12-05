@@ -38,8 +38,6 @@ class LendingPoolListItem extends Component {
 
     const utilization = new BigNumber(totalBorrowed).div(totalSupply).multipliedBy(100).toNumber()
 
-    console.log(depositedTokenBalance, "depositedTokenBalance")
-
     return (
       <>
         <div className="LendingPoolListItem">

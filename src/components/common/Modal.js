@@ -18,10 +18,10 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, children } = this.props
+    const { title, className, children } = this.props
 
     return (
-      <div className="Modal">
+      <div className={cx("Modal", className)}>
         <div className="Modal__header">
           <span className="Modal__title">{title}</span>
           <img onClick={() => closeModal$.next(true)} className="Modal__close" src="/static/images/close-black.svg" />

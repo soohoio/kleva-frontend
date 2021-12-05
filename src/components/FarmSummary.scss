@@ -1,0 +1,25 @@
+.FarmSummary {
+  border-radius: 7px;
+  background-color: #fafafa;
+  padding: 28px 24px;
+}
+
+.FarmSummary__title {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+  margin-bottom: 28px;
+}
+
+.BeforeAfter {
+  display: flex;
+  align-items: center;
+}
+
+.BeforeAfter__before {
+  @include font-style('font-1', 'r', 13px);
+  color: #797b80;
+}
+
+.BeforeAfter__after {
+  @include font-style('font-1', 'sb', 13px);
+} 

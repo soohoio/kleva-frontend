@@ -16,13 +16,22 @@ import IERC20ABI from 'abis/IERC20.json'
 import VaultABI from 'abis/VaultKleva.json'
 // import FairLaunchABI from 'abis/FairLaunch.json'
 import FairLaunchABI from 'abis/FairLaunchKleva.json'
+import KlayswapWorkerABI from 'abis/KlayswapWorker.json'
+import VaultConfigABI from 'abis/VaultConfig.json'
+
+// Klayswap 
+import KlayswapExchangeABI from 'abis/KlayswapExchange.json'
 
 import { closeModal$, isFocused$ } from './ui'
 import { coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
 
+import { MAX_UINT } from 'constants/setting'
+
 const NODE_URL = 'http://klaytn.staging.sooho.io:8551'
-const caver = new Caver(NODE_URL)
+export const caver = new Caver(NODE_URL)
+
+window.BigNumber = BigNumber
 
 caver.klay.getBlockNumber().then(console.log)
 
@@ -275,6 +284,7 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
       return flatten(coupled).reduce((acc, cur, idx) => {
         const vaultAddress = lendingPools[idx].vaultAddress
         const stakingToken = lendingPools[idx].stakingToken
+        const ibToken = lendingPools[idx].ibToken
         const stakingTokenAddress = stakingToken && stakingToken.address
         const stakingTokenDecimals = stakingToken && stakingToken.decimals
 
@@ -282,14 +292,54 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
           // Deposited real token balance
           depositedTokenBalance: new BigNumber(cur.totalSupply._hex).div(10 ** stakingTokenDecimals).toString(),
           
+          totalSupplyPure: new BigNumber(cur.totalToken._hex).toString(),
+          totalBorrowedPure: new BigNumber(cur.totalToken._hex).minus(cur.balance._hex).toString(),
+
           totalSupply: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).toString(),
           totalBorrowed: new BigNumber(cur.totalToken._hex).minus(cur.balance._hex).div(10 ** stakingTokenDecimals).toString(),
           tvl: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).multipliedBy().toString(),
+
+          ibToken: ibToken,
           ibTokenPrice: new BigNumber(cur.totalToken._hex).div(cur.totalSupply._hex).toString(),
         }
 
         return acc
       }, {})
+    }),
+    switchMap((totalInfo) => {
+      const m_borrowingIntrests = multicall(
+        VaultConfigABI,
+        lendingPools.map(({ vaultAddress, vaultConfigAddress }) => {
+          const info = totalInfo[vaultAddress]
+          return {
+            address: vaultConfigAddress,
+            name: 'calcInterestRate',
+            params: [info.totalBorrowedPure, new BigNumber(info.totalSupplyPure).minus(info.totalBorrowedPure).toString()],
+          }
+        })
+      )
+
+      return from(m_borrowingIntrests).pipe(
+        map((_borrowingInterests) => {
+          const borrowingInterests = flatten(_borrowingInterests).reduce((acc, cur) => {
+            acc.push(new BigNumber(cur._hex).toString())
+            return acc
+          }, [])
+
+          return Object.entries(totalInfo).reduce((acc, [vaultAddress, item], idx) => {  
+            const _borrowingInterest = borrowingInterests[idx]
+            acc[vaultAddress] = {
+              ...item,
+              borrowingInterest: _borrowingInterest,
+            }
+
+            acc[item.ibToken.originalToken.address] = { borrowingInterest: _borrowingInterest, }
+            acc[item.ibToken.originalToken.address.toLowerCase()] = { borrowingInterest: _borrowingInterest, }
+
+            return acc
+          }, {})
+        })
+      )
     })
   )
 }
@@ -450,11 +500,47 @@ export const harvestFromStakingPool$ = (pid) => {
   })
 }
 
-// call pendingAlpaca
-export const getPendingGT$ = (stakingPoolList, account) => {
-  // const callName = 'pendingAlpaca'
-  const callName = 'calcPendingReward'
+// Farming
+export const addPosition$ = (vaultAddress, {
+  workerAddress,
+  principalAmount,
+  borrowAmount,
+  maxReturn,
+  data,
+  value = 0,
+}) => {
 
+  console.log(
+    workerAddress,
+    principalAmount,
+    borrowAmount,
+    maxReturn,
+    data,
+    value
+  )
+
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "addPosition",
+    params: [workerAddress, principalAmount, borrowAmount, maxReturn, data],
+    value,
+  })
+}
+
+export const closePosition$ = (vaultAddress, { positionId, data }) => {
+
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, MAX_UINT, data],
+  })
+}
+
+export const getPendingGT$ = (stakingPoolList, account) => {
+  const callName = 'calcPendingReward'
+  
   const p1 = multicall(
     FairLaunchABI,
     stakingPoolList.map(({ pid }) => {
@@ -509,6 +595,186 @@ export const allowancesMultiInStakingPool$ = (account, stakingPools) => {
         // const vaultAddress = stakingPools[idx] && stakingPools[idx].vaultAddress
         const stakingToken = stakingPools[idx] && stakingPools[idx].stakingToken
         acc[stakingToken.address] = new BigNumber(cur._hex).toString()
+
+        return acc
+      }, {})
+    })
+  )
+}
+
+export const getPositionInfo$ = (positionList) => {
+  const p1 = multicall(
+    VaultABI,
+    positionList.map(({ vaultAddress, id }) => {
+      return { address: vaultAddress, name: 'positionInfo', params: [id] }
+    })
+  )
+
+  return from(p1).pipe(
+    map((positionInfoList) => {
+      return flatten(positionInfoList).reduce((acc, cur, idx) => {
+
+        const _position = positionList[parseInt(idx / 2)]
+
+        acc[_position.id] = acc[_position.id] || { ..._position }
+        acc[_position.id][idx % 2 === 0 ? 'positionValue' : 'debtValue'] = new BigNumber(cur._hex).toString()
+        
+        return acc
+      }, {})
+    }),
+    map((positionInfoMap) => {
+      return Object.entries(positionInfoMap).reduce((acc, [positionId, item]) => {
+        acc.push(item)
+        return acc
+      }, [])
+    })
+  )
+}
+
+export const getWorkerInfo$ = (workerList) => {
+  console.log(workerList, "workerList")
+  // KillFactorBPS
+  const p1 = multicall(
+    KlayswapWorkerABI,
+    workerList.map(({ workerAddress, id }) => {
+      return { address: workerAddress, name: 'killFactorBps', params: [] }
+    })
+  )
+  
+  const p2 = multicall(
+    KlayswapWorkerABI,
+    workerList.map(({ workerAddress, id }) => {
+      return { address: workerAddress, name: 'workFactorBps', params: [] }
+    })
+  )
+
+  return forkJoin(p1, p2).pipe(
+    map(([killFactorBpsList, workFactorBpsList]) => {
+
+      const coupled = coupleArray({
+        arrayA: flatten(killFactorBpsList),
+        labelA: 'killFactorBps',
+        arrayB: flatten(workFactorBpsList),
+        labelB: 'workFactorBps',
+      })
+
+      return flatten(coupled).reduce((acc, cur, idx) => {
+        const _worker = workerList[idx]
+        const workerAddress = _worker && _worker.workerAddress
+
+        acc[workerAddress] = {
+          // Deposited real token balance
+          ..._worker,
+          killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
+          workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
+        }
+
+        return acc
+      }, {})
+    })
+  )
+}
+
+export const call$ = ({ abi, address, methodName, params }) => {
+  const _contract = new caver.klay.Contract(abi, address)
+  const _method = _contract.methods[methodName](...params)
+  try {
+    return from(_method.call())
+  } catch (e) {
+    console.log(e, '*error')
+    return from(0)
+  }
+}
+
+export const getOutputTokenAmount$ = (lpTokenAddress, inputTokenAddress, inputTokenAmount) => {  
+  console.log(inputTokenAmount, '@inputTokenAmount')
+  return forkJoin(
+    getCurrentPool$(lpTokenAddress),
+    getOutputAmount$(lpTokenAddress, inputTokenAddress, inputTokenAmount),
+  ).pipe(
+    map(([currentPool, outputAmount]) => {
+      const originalRatio = currentPool.outputAmountA / currentPool.outputAmountB
+      const optimalOutputAmount = inputTokenAmount * originalRatio
+      const realOutputAmount = outputAmount
+      const priceImpact = 1 - (optimalOutputAmount / realOutputAmount)
+
+      return { outputAmount, priceImpact }
+    })
+  )
+}
+
+export const getOutputAmount$ = (lpTokenAddress, inputTokenAddress, inputTokenAmount) => {
+  return call$({ abi: KlayswapExchangeABI, address: lpTokenAddress, methodName: 'estimatePos', params: [inputTokenAddress, inputTokenAmount] })
+}
+
+export const getCurrentPool$ = (lpTokenAddress) => {
+  return call$({ abi: KlayswapExchangeABI, address: lpTokenAddress, methodName: 'getCurrentPool', params: [] })
+}
+
+export const getPoolReserves$ = (lpTokenList) => {
+  console.log(lpTokenList, "lpTokenList")
+  
+  const p1 = multicall(
+    KlayswapExchangeABI,
+    lpTokenList.map(({ address }) => {
+      console.log(address, '@address')
+      return { address, name: 'getCurrentPool', params: [] }
+    })
+  )
+
+  return from(p1).pipe(
+    map((reserves) => {
+      return flatten(reserves).reduce((acc, cur, idx) => {
+        const lpToken = lpTokenList[parseInt(idx / 2)]
+        const tokenA = lpToken && lpToken.ingredients[0]
+        const tokenB = lpToken && lpToken.ingredients[1]
+
+        acc[lpToken.address] = acc[lpToken.address] || {}
+
+        if (idx % 2 === 0) {
+          acc[lpToken.address] = {
+            title: lpToken.title,
+            ...acc[lpToken.address],
+            [tokenA.address]: new BigNumber(cur._hex).toString()
+          }
+        } else {
+          acc[lpToken.address] = {
+            title: lpToken.title,
+            ...acc[lpToken.address],
+            [tokenB.address]: new BigNumber(cur._hex).toString()
+          }
+        }
+
+        // Cover lowercase key
+        acc[lpToken.address.toLowerCase()] = acc[lpToken.address]
+
+        return acc
+      }, {})
+    })
+  )
+}
+
+// alloc point
+export const getKlevaInterest$ = () => {
+
+}
+
+export const checkAllowances$ = (account, targetContractAddress, tokens) => {
+
+  const p1 = multicall(
+    IERC20ABI,
+    tokens.map(({ address }) => {
+      return { address, name: 'allowance', params: [account, targetContractAddress] }
+    })
+  )
+
+  return from(p1).pipe(
+    map((allowances) => {
+      return flatten(allowances).reduce((acc, cur, idx) => {
+        const tokenAddress = tokens[idx] && tokens[idx].address
+        acc[tokenAddress] = new BigNumber(cur._hex).toString()
+
+        console.log(acc, '@acc')
 
         return acc
       }, {})
