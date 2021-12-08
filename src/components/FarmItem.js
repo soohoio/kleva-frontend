@@ -12,6 +12,7 @@ import AddPositionPopup from './AddPositionPopup'
 import './FarmItem.scss'
 import { toAPY } from '../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
+import BorrowingAssetSelector from './BorrowingAssetSelector'
 
 const FarmProperty = ({ className, label, value }) => {
   return (
@@ -33,9 +34,16 @@ class FarmItem extends Component {
       return hasLendingPool
     })
 
+    const defaultBorrowingAsset = this.borrowingAvailableAssets[0]
+
+    const selectedWorker = props.workerList.find((w) => {
+      return w.baseToken.address.toLowerCase() === defaultBorrowingAsset.address.toLowerCase()
+    })
+
     this.state = {
       leverageValue: 1,
-      borrowingAsset: this.borrowingAvailableAssets[0],
+      borrowingAsset: defaultBorrowingAsset,
+      worker: selectedWorker,
     }
   }
 
@@ -48,18 +56,25 @@ class FarmItem extends Component {
   }
 
   setBorrowingAsset = (asset) => {
-    this.setState({ borrowingAsset: asset })
+    const { workerList } = this.props
+
+    const selectedWorker = workerList.find((w) => {
+      return w.baseToken.address.toLowerCase() === asset.address.toLowerCase()
+    })
+    this.setState({ 
+      borrowingAsset: asset,
+      worker: selectedWorker,
+    })
   }
     
   render() {
-    const { leverageValue, borrowingAsset } = this.state
+    const { leverageValue, borrowingAsset, worker } = this.state
     const {
       workerList,
 
       token1,
       token2,
 
-      leverageCap,
       tvl,
       exchange,
       klevaRewards = 0,
@@ -69,25 +84,48 @@ class FarmItem extends Component {
 
       token1BorrowingInterest,
       token2BorrowingInterest,
+
+      workerInfo,
     } = this.props
     
     const yieldFarmingAPR = aprInfo && 
       new BigNumber(aprInfo.kspMiningAPR || 0)
       .plus(aprInfo.airdropAPR || 0)
+      .multipliedBy(leverageValue)
       .toNumber()
+      
     const tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0).toNumber()
 
-    const borrowingInterest = borrowingAsset.title === token1.title 
-      ? token1BorrowingInterest
-      : token2BorrowingInterest
+    const borrowingInterestsAPR = {
+      [token1.address.toLowerCase()]: (token1BorrowingInterest || 0) * (leverageValue - 1),
+      [token2.address.toLowerCase()]: (token2BorrowingInterest || 0) * (leverageValue - 1),
+    }
+
+    const selectedBorrowingInterestAPR = borrowingInterestsAPR[borrowingAsset.address.toLowerCase()]
+
+    const borrowingInterestAttachedAssets = this.borrowingAvailableAssets
+      .map((item) => {
+        return {
+          ...item,
+          title: `${item.title} -${borrowingInterestsAPR[item.address.toLowerCase()]}%`,
+          borrowingInterestAPR: borrowingInterestsAPR[item.address.toLowerCase()]
+        }
+      })
+
+    const selectedBorrowingAssetWithInterest = borrowingInterestAttachedAssets.find((a) => a.address.toLowerCase() === borrowingAsset.address.toLowerCase())
 
     const totalAPR = new BigNumber(yieldFarmingAPR)
       .plus(tradingFeeAPR)
       .plus(klevaRewards)
-      .minus(borrowingInterest)
+      .minus(selectedBorrowingInterestAPR)
       .toNumber()
 
     const APY = toAPY(totalAPR)
+
+    const workerConfig = workerInfo &&
+      workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
+
+    const leverageCap = workerConfig && (workerConfig.workFactorBps / (10000 - workerConfig.workFactorBps))
 
     return (
       <div className="FarmItem">
@@ -109,12 +147,23 @@ class FarmItem extends Component {
           <FarmProperty label="Yield Farming" value={`${yieldFarmingAPR}%`} />
           <FarmProperty label="Trading Fees" value={`${tradingFeeAPR}%`} />
           <FarmProperty label="KLEVA Rewards" value={`${klevaRewards}%`} />
-          <FarmProperty label="Borrowing Interest" value={`${borrowingInterest}%`} />
+          <FarmProperty 
+            label="Borrowing Interest" 
+            value={(
+              <BorrowingAssetSelector
+                list={borrowingInterestAttachedAssets}
+                selected={selectedBorrowingAssetWithInterest}
+                borrowingInterestsAPR={borrowingInterestsAPR}
+              />
+            )} 
+          />
           <FarmProperty className="FarmItem__totalAPR" label="Total APR" value={`${Number(totalAPR).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
         </div>
         <div className="FarmItem__footer">
           <LeverageController
+            offset={0.5}
             currentLeverage={leverageValue}
+            leverageCap={leverageCap}
             setLeverage={(v) => {
               if (v < 1) return
               if (v > leverageCap) return
@@ -132,6 +181,7 @@ class FarmItem extends Component {
                   tradingFeeAPR={tradingFeeAPR}
                   
                   workerList={workerList}
+                  workerInfo={workerInfo}
 
                   token1={token1}
                   token2={token2}

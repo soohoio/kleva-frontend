@@ -41,7 +41,7 @@ class LendingPoolListItemCard extends Component {
     } = this.props
 
     const utilization = new BigNumber(totalBorrowed).div(totalSupply).multipliedBy(100).toNumber()
-    
+
     return (
       <div className="LendingPoolListItemCard">
         <AssetInfo
@@ -67,17 +67,17 @@ class LendingPoolListItemCard extends Component {
             <>
               <div className="LendingPoolListItemCard__aprDetail">
                 <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Lending APR" value="0.0518%" />
-                <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Staking APR" value="0.0518%" />
-                <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Protocol APR" value="0.0518%" />
+                {/* <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Staking APR" value="0.0518%" /> */}
+                {/* <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Protocol APR" value="0.0518%" /> */}
               </div>
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--supply" label="Total Supply" value={(
                 <>
-                  {nFormatter(totalSupply, 2)} {stakingToken.title}
+                  {nFormatter(totalSupply, 6)} {stakingToken.title}
                 </>
               )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--borrowed" label="Total Borrowed" value={(
                 <>
-                  {nFormatter(totalBorrowed, 2)} {stakingToken.title}
+                  {nFormatter(totalBorrowed, 6)} {stakingToken.title}
                 </>
               )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--utilization" label="Utilization" value={(

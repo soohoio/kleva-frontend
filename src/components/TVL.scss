@@ -5,11 +5,11 @@
 
 .TVL__label {
   @include font-style('font-1', 'm', 14px);
-  color: #797b80;
+  color: rgba(#ffffff, .7);
   margin-right: 12px;
 }
 
 .TVL__value {
   @include font-style('font-1', 'sb', 14px);
-  color: #616666;
+  color: #ffffff;
 }

@@ -45,8 +45,8 @@ class Header extends Component {
             <img 
               className="Header__logo" 
               src={isDesktop$.value 
-                ? "/static/images/icons-gnb-logo@3x.png"
-                : "/static/images/icons-gnb-logo-white@3x.png"
+                ? "/static/images/logo-kleva.svg"
+                : "/static/images/logo-kleva.svg"
               }
             />
           </div>

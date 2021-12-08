@@ -11,13 +11,13 @@ export const stakingPools = [
   {
     title: "ibKLEVA",
     vaultAddress: tokenList.ibKLEVA.address,
-    pid: 1,
+    pid: 2,
     stakingToken: tokenList.ibKLEVA,
   },
   {
     title: "ibKUSDT",
     vaultAddress: tokenList.ibKUSDT.address,
-    pid: 2,
+    pid: 4,
     stakingToken: tokenList.ibKUSDT,
   }
 ]

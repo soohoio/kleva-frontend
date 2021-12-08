@@ -24,6 +24,11 @@ class PageBuilder extends Component {
 
     return (
       <div className="PageBuilder">
+        <div className="PageBuilder__topDecoration">
+          <div className="PageBuilder__topDecorationContent">
+            <img className="PageBuilder__topDecorationImage" src="/static/images/top-decoration.svg" />
+          </div>
+        </div>
         <Header />
         <div className="PageBuilder__headerDecoration" />
         <div className="PageBuilder__content">

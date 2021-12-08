@@ -30,7 +30,6 @@ export const getPositions$ = (owner, page = 1) => {
     map(({ positions }) => {
       return positions
         .filter((item) => {
-          console.log(item, '@item')
           const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
 
           // Invalid or Deprecated worker

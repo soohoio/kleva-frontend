@@ -44,7 +44,7 @@ export default class {
 
   selectWorker = (borrowingAsset) => {
     const selectedWorker = this.workerList.find((w) => {
-      return w.baseToken.address.toLowerCase() === this.borrowingAsset$.value.address.toLowerCase()
+      return w.baseToken.address.toLowerCase() === borrowingAsset.address.toLowerCase()
     })
     this.worker$.next(selectedWorker)
   }

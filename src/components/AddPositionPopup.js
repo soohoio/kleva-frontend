@@ -100,6 +100,8 @@ class AddPositionPopup extends Component {
     const farmingTokenAllowance = this.bloc.allowances$.value[farmingToken.address]
     const isFarmingTokenApproved = farmingTokenAllowance && farmingTokenAllowance != 0
 
+    console.log(this.bloc.allowances$.value, "this.bloc.allowances$.value")
+
     // Base Token Allowance Check
     if (!isBaseTokenApproved) {
       return (
@@ -129,7 +131,7 @@ class AddPositionPopup extends Component {
         onClick={this.bloc.addPosition}
         className="AddPositionPopup__farmButton"
       >
-        Farm {leverage}x
+        Farm {Number(this.bloc.leverage$.value).toFixed(2)}x
       </button>
     )
   }
@@ -145,6 +147,7 @@ class AddPositionPopup extends Component {
 
       token1,
       token2,
+      workerInfo,
     } = this.props  
 
     const totalAPR = new BigNumber(yieldFarmingAPR)
@@ -156,12 +159,17 @@ class AddPositionPopup extends Component {
     const APY = toAPY(totalAPR)
 
     const farmingToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
-        ? token2ㅇ
+        ? token2
         : token1
     
     const baseToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
         ? token1
         : token2
+
+    const workerConfig = workerInfo && 
+      workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
+
+    const leverageCap = workerConfig.workFactorBps / (10000 - workerConfig.workFactorBps)
 
     return (
       <Modal className="AddPositionPopup__modal" title={title}>
@@ -179,6 +187,7 @@ class AddPositionPopup extends Component {
               />
               <LeverageGauge 
                 leverage$={this.bloc.leverage$}
+                leverageCap={leverageCap}
               />
               <BorrowingAssets
                 items={borrowingAvailableAssets}

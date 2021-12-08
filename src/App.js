@@ -104,11 +104,3 @@ class App extends Component<Props> {
 }
 
 export default App
-
-
-const decompressed = LZUTF8.decompress("MHgw3wHZATI5NjU2ZjY=", {
-  inputEncoding: "Base64",
-})
-
-console.log(decompressed, "decompressed")
-// caver.klay.decodeParameters([])

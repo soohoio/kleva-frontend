@@ -43,6 +43,7 @@ class FarmPage extends Component {
         )
       }),
       tap(([workerInfo, aprInfo]) => {
+
         const _workerInfo = Object.entries(workerInfo).reduce((acc, [key, item]) => {
           acc[key.toLowerCase()] = item
           acc[key] = item
@@ -51,7 +52,6 @@ class FarmPage extends Component {
 
         workerInfo$.next(_workerInfo)
 
-        console.log(aprInfo, "aprInfo")
         aprInfo$.next(aprInfo)
       }),
       takeUntil(this.destroy$)

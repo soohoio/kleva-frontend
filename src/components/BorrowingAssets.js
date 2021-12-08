@@ -20,12 +20,13 @@ class BorrowingAssets extends Component {
     
   render() {
     const { items, selectedItem, onSelect } = this.props
+
+    console.log(items, "items")
     
     return (
       <div className="BorrowingAssets">
         <p className="BorrowingAssets__title">Borrowing Assets</p>
         <Dropdown
-          noSearch
           items={items}
           selectedItem={selectedItem}
           onSelect={onSelect}

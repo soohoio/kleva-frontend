@@ -11,14 +11,13 @@
   display: flex;
   align-items: center;
   height: 24px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
   cursor: pointer;
-  
 
   &--active {
     .SidebarItem__title {
-      @include font-style('font-1', 'b', 20px);
-      color: #3369ff;
+      @include font-style('font-1', 'b', 18px);
+      color: #ffffff;
     }
   }
 }
@@ -30,8 +29,8 @@
 }
 
 .SidebarItem__title {
-  @include font-style('font-1', 'm', 20px);
-  color: #272729;
+  @include font-style('font-1', 'r', 18px);
+  color: #ffffff;
 }
 
 .Sidebar__hr {

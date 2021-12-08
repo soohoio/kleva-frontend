@@ -4,7 +4,7 @@
   flex-direction: column;
   color: #131414;
   justify-content: center;
-  height: 147px;
+  height: 103px;
   border-bottom: 1px solid #f5f5f5;
 
   &:nth-child(7n+1) { padding-right: 32px; }
@@ -23,17 +23,20 @@
 .LendingDepositWithdraw {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .LendingDepositWithdraw__depositButton {
-  @include button-1(40px);
-  width: 128px;
-  margin-bottom: 12px;
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 84px;
+  margin-bottom: 8px;
 }
 
 .LendingDepositWithdraw__withdrawButton {
-  @include button-1(40px);
-  width: 128px;
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 84px;
   background-color: #ebf0ff;
   color: #3369ff;
 }

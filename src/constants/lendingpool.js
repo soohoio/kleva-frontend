@@ -12,7 +12,7 @@ export const lendingPools = [
 
     stakingToken: tokenList["KLAY"],
     stakingTokenInternal: tokenList["WKLAY"],
-    vaultConfigAddress: "0x8EcA4309fe4Db57bdF020764951D61de4CD2db15",
+    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
   },
   {
     title: "KLEVA",
@@ -21,7 +21,7 @@ export const lendingPools = [
     ibToken: tokenList["ibKLEVA"],
     
     stakingToken: tokenList["KLEVA"],
-    vaultConfigAddress: "0x8EcA4309fe4Db57bdF020764951D61de4CD2db15",
+    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
   },
   {
     title: "KUSDT",
@@ -30,7 +30,7 @@ export const lendingPools = [
     ibToken: tokenList["ibKUSDT"],
 
     stakingToken: tokenList["KUSDT"],
-    vaultConfigAddress: "0x8EcA4309fe4Db57bdF020764951D61de4CD2db15",
+    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
   }
 ]
 

@@ -9,12 +9,38 @@
   // overflow: scroll;
 
   @include desktop {
-    min-width: 1200px;
+    min-width: 1280px;
     max-width: 1920px;
+    // width: 1280px;
     padding: 0;
-    padding-left: 28px;
+    padding-left: 40px;
+    padding-right: 40px;
     padding-top: 36px;
   }
+}
+
+.PageBuilder__topDecoration {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  position: absolute;
+  height: 408px;
+  background-image: linear-gradient(to bottom, #3369ff, #2e5fe6 58%);
+}
+
+.PageBuilder__topDecorationContent {
+  min-width: 1280px;
+  max-width: 1920px;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.PageBuilder__topDecorationImage {
+  position: absolute;
+  left: -100px;
+  height: 100%;
 }
 
 .PageBuilder__headerDecoration {

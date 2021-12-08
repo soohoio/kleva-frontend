@@ -2,12 +2,12 @@
   z-index: 9;
   width: 100%;
   margin: 0 20px;
-  padding: 12px 16px;
   border-radius: 8px;
-  background-color: #2f61eb;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  background-image: linear-gradient(to right, #2855cf, #244bb8);
 }
 
 .HeaderInfoMobile__item {
@@ -24,4 +24,68 @@
 .HeaderInfoMobile__itemValue {
   @include font-style('font-1', 'm', 15px);
   color: $white;
+}
+
+.HeaderInfoMobile__itemLeft {
+  display: flex;
+  align-items: center;
+}
+
+
+.HeaderInfoMobile__itemImage {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 50%;
+
+  background-image: url(/static/images/logo-kleva-mini.svg);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: center;
+
+  margin-right: 4px;
+}
+
+.HeaderInfoMobile__top {
+  width: 100%;
+  background-color: #2855cf;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.HeaderInfoMobile__developedByWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  justify-content: space-between;
+}
+
+.HeaderInfoMobile__developedBy {
+  @include font-style('font-1', 'r', 10px);
+  color: rgba(255, 255, 255, 0.3);
+  margin-right: 12px;
+  position: relative;
+  top: 1px;
+}
+
+.HeaderInfoMobile__images {
+  display: flex;
+  align-items: center;
+}
+
+.HeaderInfoMobile__developedTeamIcon {
+  height: 15px;
+
+  // &:last-of-type {
+  //   margin-right: 16px;
+  // }
+}
+
+.HeaderInfoMobile__circle {
+  width: 5px;
+  height: 5px;
+  margin: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
 }

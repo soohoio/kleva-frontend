@@ -61,6 +61,8 @@ class Dropdown extends Component {
     const { isOpen, searchKey } = this.state
     const { items = [], selectedItem, onSelect, noSearch } = this.props
 
+    console.log(items, "@@items")
+
     return (
       <div className="Dropdown">
         <DropdownItem
@@ -105,13 +107,12 @@ class Dropdown extends Component {
 
             }} className="Dropdown__list">
               {items
-                .filter((item) => this.filterSearch(item, searchKey))
+                // .filter((item) => this.filterSearch(item, searchKey))
                 .map((item) => {
-
                   const { iconSrc, iconSrcList, title, key, rightContent } = item
-                  console.log(key, '@key')
-                  console.log(selectedItem.key, '@selectedItem')
-                  console.log(selectedItem.key == key, 'selectedItem.key == key')
+
+                  console.log(item, '!@item')
+
                   return (
                     <DropdownItem
                       isOpen={isOpen}

@@ -12,11 +12,23 @@ export const farmPool = [
     // baseToken: tokenList.KUSDT,
     // vaultAddress: tokenList.ibKUSDT.address, // ib${baseToken} address
     // workerAddress: "0xc1B2A0B1fb504EBD7f1c84123Ec3776753AB9e0D",
-    leverageCap: 4,
     exchange: 'klayswap',
     tvl: 1000,
     klevaRewards: 0,
-  }
+  },
+  {
+    token1: tokenList.KLEVA,
+    token2: tokenList.KUSDT,
+    lpToken: tokenList["KLEVA-KUSDT LP"],
+    workerList: workersBy(tokenList.KLEVA, tokenList.KUSDT),
+    // farmingToken: tokenList.KSP,
+    // baseToken: tokenList.KUSDT,
+    // vaultAddress: tokenList.ibKUSDT.address, // ib${baseToken} address
+    // workerAddress: "0xc1B2A0B1fb504EBD7f1c84123Ec3776753AB9e0D",
+    exchange: 'klayswap',
+    tvl: 1000,
+    klevaRewards: 0,
+  },
 ]
 
 export const farmPoolByWorker = farmPool.reduce((acc, cur) => {
@@ -34,5 +46,3 @@ export const farmPoolByWorker = farmPool.reduce((acc, cur) => {
 
   return acc
 }, {})
-
-console.log(farmPoolByWorker, "farmPoolByWorker")

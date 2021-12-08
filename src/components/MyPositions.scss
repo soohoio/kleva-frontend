@@ -22,27 +22,28 @@
 
 .MyPositions__title {
   @include font-style('font-1', 'b', 20px);
-  color: #131414;
+  color: #ffffff;
   margin-bottom: 24px;
 }
 
 .MyPositions__positionToggle {
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-around;
   gap: 16px;
 }
 
 .MyPositions__positionItem {
   @include font-style('font-1', 'm', 16px);
-  color: #797b80;
   padding-bottom: 8px;
   border-bottom: 3px solid transparent;
   cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  
 
   &--active {
     @include font-style('font-1', 'sb', 16px);
-    color: #3369ff;
-    border-bottom: 3px solid #3369ff;
+    color: #ffffff;
+    border-bottom: 3px solid #ffffff;
   }
 }
 

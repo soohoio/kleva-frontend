@@ -6,7 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './FarmList.scss'
 import FarmItem from './FarmItem'
 import { farmPool } from '../constants/farmpool'
-import { aprInfo$ } from '../streams/farming'
+import { aprInfo$, workerInfo$ } from '../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 
 class FarmList extends Component {
@@ -16,6 +16,7 @@ class FarmList extends Component {
     merge(
       aprInfo$,
       lendingTokenSupplyInfo$,
+      workerInfo$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -43,7 +44,6 @@ class FarmList extends Component {
             token2,
 
             lpToken,
-            leverageCap,
             tvl,
             exchange,
             yieldFarming,
@@ -62,11 +62,11 @@ class FarmList extends Component {
             return (
               <FarmItem
                 aprInfo={aprInfo}
+                workerInfo={workerInfo$.value}
                 workerList={workerList}
                 token1={token1}
                 token2={token2}
                 lpToken={lpToken}
-                leverageCap={leverageCap}
                 tvl={tvl}
                 exchange={exchange}
                 yieldFarming={yieldFarming}

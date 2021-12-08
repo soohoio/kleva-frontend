@@ -1,5 +1,94 @@
 .LendPage {
   display: flex;
+  flex-direction: column;
   justify-content: left;
   width: 100%;
+}
+
+.LendPage__brief {
+  display: none;
+  
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+  }
+  background-image: linear-gradient(to right, #2855cf, #244bb8);
+  height: 159px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.LendPage__briefFooter {
+  @include font-style('font-1', 'r', 13px);
+  color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: flex-end;
+}
+
+.LendPage__developedBy {
+  margin-right: 16px;
+  position: relative;
+  top: 1px;
+}
+
+.LendPage__developedTeamIcon {
+  height: 20px;
+
+  &:last-of-type {
+    margin-right: 16px;
+  }
+}
+
+.LendPage__circle {
+  width: 5px;
+  height: 5px;
+  margin: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.TVLBrief {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #2855cf;
+  padding: 16px 44px 8px 40px;
+  border-radius: 8px;
+}
+
+.TVLBrief__left {
+  position: relative;
+  top: 12px;
+}
+
+.TVLBrief__title {
+  @include font-style('font-1', 'm', 15px);
+  color: rgba($white, .7);
+  margin-bottom: 4px;
+}
+
+.TVLBrief__description {
+  @include font-style('font-1', 'sb', 40px);
+  color: $white;
+  margin-bottom: 8px;
+}
+
+.TVLBrief__right {
+
+}
+
+.TVLBrief__banner {
+  @include font-style('font-1', 'm', 15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 88px;
+  color: #cccccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  background-color: #fff;
 }

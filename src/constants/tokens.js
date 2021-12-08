@@ -14,7 +14,7 @@ export const singleTokens = {
   },
   "KLEVA": {
     title: "KLEVA",
-    address: "0x045cfbeA9E160eD1471ADd4ea6b9e00ffeeD321A",
+    address: "0x0b430ad7bf84eb307e221f0e66216205502f835d",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: 18,
   },
@@ -35,7 +35,7 @@ export const singleTokens = {
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
-    address: "0x998B6714b45363adD63231fb68362c686D45cDF6",
+    address: "0x0C952D740dF769FDec998776B8F4e727687CCC3A",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: singleTokens["WKLAY"].decimals,
 
@@ -43,7 +43,7 @@ export const ibTokens = {
   },
   "ibKLEVA": {
     title: "ibKLEVA",
-    address: "0x0b3CC19a21DC88e86C59929DFCAd23d81D4298dB",
+    address: "0xE9e0901A825D32d0DB0e9aE47738d07F5F3c966F",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: singleTokens["KLEVA"].decimals,
 
@@ -51,7 +51,7 @@ export const ibTokens = {
   },
   "ibKUSDT": {
     title: "ibKUSDT",
-    address: "0x8E3259221E3e7D84D3d73c6807C21e00ac85fCc0",
+    address: "0x0d5083559cb5E483DA4476DDCFcE004535221447",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: singleTokens["KUSDT"].decimals,
 
@@ -66,6 +66,13 @@ export const lpTokens = {
     ingredients: [singleTokens.KSP, singleTokens.KUSDT],
     title: "KSP-KUSDT LP",
     address: "0xE75a6A3a800A2C5123e67e3bde911Ba761FE0705",
+    decimals: 18,
+  },
+  "KLEVA-KUSDT LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLEVA, singleTokens.KUSDT],
+    title: "KLEVA-KUSDT LP",
+    address: "0x0b5dBD999eEda642B1B2F93B5034A9155456f5Fc",
     decimals: 18,
   },
 }

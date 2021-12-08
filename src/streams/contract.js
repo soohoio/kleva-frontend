@@ -269,9 +269,18 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
       }
     })
   )
+  
+  const m_totalDebtValues = multicall(
+    VaultABI,
+    lendingPools.map(({ vaultAddress }) => ({
+      address: vaultAddress,
+      name: 'totalDebtAmount',
+      params: [],
+    }))
+  )
 
-  return forkJoin(m_totalTokens, m_balances, m_totalSupplies).pipe(
-    map(([totalTokens, balances, totalSupplies]) => {
+  return forkJoin(m_totalTokens, m_balances, m_totalSupplies, m_totalDebtValues).pipe(
+    map(([totalTokens, balances, totalSupplies, totalDebtValues]) => {
       const coupled = coupleArray({
         arrayA: flatten(totalTokens), 
         labelA: 'totalToken',
@@ -279,6 +288,8 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
         labelB: 'balance',
         arrayC: flatten(totalSupplies),
         labelC: 'totalSupply',
+        arrayD: flatten(totalDebtValues),
+        labelD: 'totalDebtAmount',
       })
 
       return flatten(coupled).reduce((acc, cur, idx) => {
@@ -289,8 +300,14 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
         const stakingTokenDecimals = stakingToken && stakingToken.decimals
 
         acc[vaultAddress] = {
+
+          // totalToken: realToken floating balance + realToken debt balance
+          // totalSupply: ibToken balance
+
+          // depositedTokenBalance: new BigNumber(cur.totalSupply._hex).div(10 ** stakingTokenDecimals).toString(),
+          
           // Deposited real token balance
-          depositedTokenBalance: new BigNumber(cur.totalSupply._hex).div(10 ** stakingTokenDecimals).toString(),
+          depositedTokenBalance: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).toString(),
           
           totalSupplyPure: new BigNumber(cur.totalToken._hex).toString(),
           totalBorrowedPure: new BigNumber(cur.totalToken._hex).minus(cur.balance._hex).toString(),
@@ -314,7 +331,12 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
           return {
             address: vaultConfigAddress,
             name: 'calcInterestRate',
-            params: [info.totalBorrowedPure, new BigNumber(info.totalSupplyPure).minus(info.totalBorrowedPure).toString()],
+            params: [
+                info.totalBorrowedPure, 
+                new BigNumber(info.totalSupplyPure)
+                .minus(info.totalBorrowedPure)
+                .toString()
+            ],
           }
         })
       )
@@ -327,7 +349,12 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
           }, [])
 
           return Object.entries(totalInfo).reduce((acc, [vaultAddress, item], idx) => {  
-            const _borrowingInterest = borrowingInterests[idx]
+            const _borrowingInterest = new BigNumber(borrowingInterests[idx])
+              .multipliedBy(60 * 60 * 24 * 365)
+              .div(10 ** 18)
+              .multipliedBy(100)
+              .toString()
+
             acc[vaultAddress] = {
               ...item,
               borrowingInterest: _borrowingInterest,
@@ -413,6 +440,7 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
   const p2 = multicall(
     FairLaunchABI,
     stakingPoolList.map(({ pid }) => {
+      // console.log(pid, "pid", account, "account")
       // return { address: FAIRLAUNCH, name: 'userInfo', params: [pid, account] }
       return { address: FAIRLAUNCH, name: 'userInfos', params: [pid, account] }
     })
@@ -420,6 +448,7 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
 
   return from(p2).pipe(
     map((balancesInStaking) => {
+      console.log(balancesInStaking, "@balancesInStaking")
       balancesInStaking = balancesInStaking.reduce((acc, cur, idx) => {
         acc.push(cur.amount)
         return acc
@@ -632,7 +661,6 @@ export const getPositionInfo$ = (positionList) => {
 }
 
 export const getWorkerInfo$ = (workerList) => {
-  console.log(workerList, "workerList")
   // KillFactorBPS
   const p1 = multicall(
     KlayswapWorkerABI,
@@ -712,12 +740,10 @@ export const getCurrentPool$ = (lpTokenAddress) => {
 }
 
 export const getPoolReserves$ = (lpTokenList) => {
-  console.log(lpTokenList, "lpTokenList")
   
   const p1 = multicall(
     KlayswapExchangeABI,
     lpTokenList.map(({ address }) => {
-      console.log(address, '@address')
       return { address, name: 'getCurrentPool', params: [] }
     })
   )

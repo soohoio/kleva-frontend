@@ -49,16 +49,16 @@ class LendingPoolListItem extends Component {
         </div>
         <div className="LendingPoolListItem">
           <LabelAndValue label="Lending APR" value="-%" />
-          <LabelAndValue label="Staking APR" value="-%" />
-          <LabelAndValue label="Protocol APR" value="-%" />
+          {/* <LabelAndValue label="Staking APR" value="-%" />
+          <LabelAndValue label="Protocol APR" value="-%" /> */}
           <LabelAndValue label="Total APR" value="-%" />
           <LabelAndValue color="#3369ff" label="Total APY" value="-%" />
         </div>
         <div className="LendingPoolListItem">
-          {nFormatter(totalSupply, 2)} {stakingToken.title}
+          {nFormatter(totalSupply, 6)} {stakingToken.title}
         </div>
         <div className="LendingPoolListItem">
-          {nFormatter(totalBorrowed, 2)} {stakingToken.title}
+          {nFormatter(totalBorrowed, 6)} {stakingToken.title}
         </div>
         <div className="LendingPoolListItem">
           {utilization.toLocaleString('en-us', { maximumFractionDigits: 2 })}%

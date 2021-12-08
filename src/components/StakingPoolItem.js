@@ -78,9 +78,9 @@ class StakingPoolItem extends Component {
           "StakingPoolItem--expand": isExpand
         })}
       >
-        <p className="StakingPoolItem__title">
+        {/* <p className="StakingPoolItem__title">
           Stake {stakingToken && stakingToken.title}, Earn {GT_TOKEN.title}
-        </p>
+        </p> */}
         <div className="StakingPoolItem__contentWrapper">
           <div onClick={onClick}  className="StakingPoolItem__content">
             <StakingAssetInfo

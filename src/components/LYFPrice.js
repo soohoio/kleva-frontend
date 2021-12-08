@@ -21,7 +21,7 @@ class LYFPrice extends Component {
 
     return (
       <div className="LYFPrice">
-        <span className="LYFPrice__label">KLEVA</span> 
+        <div className="LYFPrice__image" />
         <span className="LYFPrice__value">${_price.toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>
       </div>
     )
