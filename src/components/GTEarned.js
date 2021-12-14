@@ -5,18 +5,10 @@ import { Subject, merge, interval } from 'rxjs'
 import { takeUntil, tap, filter, switchMap, startWith } from 'rxjs/operators'
 
 import './GTEarned.scss'
-import { getPendingGT$ } from '../streams/contract'
-import { stakingPools } from '../constants/stakingpool'
+import { getPendingGTInFairlaunchPool$ } from '../streams/contract'
+import { stakingPools, stakingPoolsByPID } from '../constants/stakingpool'
 import { selectedAddress$ } from '../streams/wallet'
 import { pendingGT$ } from '../streams/vault'
-
-const getPendingGTInterval$ = (account) => interval(1000 * 5).pipe(
-  startWith(0),
-  switchMap(() => getPendingGT$(stakingPools, account)),
-  tap((pendingGT) => {
-    pendingGT$.next(pendingGT)
-  })
-)
 
 class GTEarned extends Component {
   destroy$ = new Subject()
@@ -25,7 +17,6 @@ class GTEarned extends Component {
     merge(
       selectedAddress$.pipe(
         filter((a) => !!a),
-        switchMap(() => getPendingGTInterval$(selectedAddress$.value)),
       ),
       pendingGT$,
     ).pipe(
@@ -41,8 +32,10 @@ class GTEarned extends Component {
   }
 
   getTotal = () => {
-    const total = pendingGT$.value && Object.values(pendingGT$.value).reduce((acc, cur) => {
-      acc = new BigNumber(acc).plus(new BigNumber(cur).div(10 ** 18)).toString()
+    const total = pendingGT$.value && Object.entries(pendingGT$.value).reduce((acc, [pid, pendingAmount]) => {
+      if (stakingPoolsByPID[pid]) {
+        acc = new BigNumber(acc).plus(new BigNumber(pendingAmount).div(10 ** 18)).toString()
+      }
       return acc
     }, new BigNumber(0))
 

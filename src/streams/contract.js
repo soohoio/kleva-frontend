@@ -27,6 +27,8 @@ import { coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
 
 import { MAX_UINT } from 'constants/setting'
+import { showParamsOnCall } from '../utils/callHelper'
+import { tokenList } from '../constants/tokens'
 
 const NODE_URL = 'http://klaytn.staging.sooho.io:8551'
 export const caver = new Caver(NODE_URL)
@@ -317,7 +319,9 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
           tvl: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).multipliedBy().toString(),
 
           ibToken: ibToken,
-          ibTokenPrice: new BigNumber(cur.totalToken._hex).div(cur.totalSupply._hex).toString(),
+          ibTokenPrice: new BigNumber(cur.totalToken._hex)
+            .div(cur.totalSupply._hex)
+            .toString(),
         }
 
         return acc
@@ -448,7 +452,6 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
 
   return from(p2).pipe(
     map((balancesInStaking) => {
-      console.log(balancesInStaking, "@balancesInStaking")
       balancesInStaking = balancesInStaking.reduce((acc, cur, idx) => {
         acc.push(cur.amount)
         return acc
@@ -567,21 +570,21 @@ export const closePosition$ = (vaultAddress, { positionId, data }) => {
   })
 }
 
-export const getPendingGT$ = (stakingPoolList, account) => {
+export const getPendingGTInFairlaunchPool$ = (fairLaunchPoolList, account) => {
   const callName = 'calcPendingReward'
-  
+
   const p1 = multicall(
     FairLaunchABI,
-    stakingPoolList.map(({ pid }) => {
+    fairLaunchPoolList.map(({ pid }) => {
       return { address: FAIRLAUNCH, name: callName, params: [pid, account] }
     })
   )
 
   return from(p1).pipe(
     map((pendingGTList) => {
-      return flatten(pendingGTList).reduce((acc, cur, idx) => {
-        const _stakingPool = stakingPoolList[idx]
-        acc[_stakingPool.vaultAddress] = new BigNumber(cur._hex).toString()
+      return showParamsOnCall(pendingGTList, ['pendingReward']).reduce((acc, cur, idx) => {
+        const _fairLaunchPool = fairLaunchPoolList[idx]
+        acc[_fairLaunchPool.pid] = new BigNumber(cur.pendingReward).toString()
         return acc
       }, {})
     })
@@ -676,14 +679,23 @@ export const getWorkerInfo$ = (workerList) => {
     })
   )
 
-  return forkJoin(p1, p2).pipe(
-    map(([killFactorBpsList, workFactorBpsList]) => {
+  const p3 = multicall(
+    KlayswapWorkerABI,
+    workerList.map(({ workerAddress, id }) => {
+      return { address: workerAddress, name: 'lpPoolId', params: [] }
+    })
+  )
+
+  return forkJoin(p1, p2, p3).pipe(
+    map(([killFactorBpsList, workFactorBpsList, lpPoolIdList]) => {
 
       const coupled = coupleArray({
         arrayA: flatten(killFactorBpsList),
         labelA: 'killFactorBps',
         arrayB: flatten(workFactorBpsList),
         labelB: 'workFactorBps',
+        arrayC: flatten(lpPoolIdList),
+        labelC: 'lpPoolId'
       })
 
       return flatten(coupled).reduce((acc, cur, idx) => {
@@ -695,6 +707,7 @@ export const getWorkerInfo$ = (workerList) => {
           ..._worker,
           killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
           workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
+          lpPoolId: new BigNumber(cur.lpPoolId._hex).toString(),
         }
 
         return acc
@@ -781,8 +794,43 @@ export const getPoolReserves$ = (lpTokenList) => {
 }
 
 // alloc point
-export const getKlevaInterest$ = () => {
+export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
+  const p1 = multicall(
+    FairLaunchABI,
+    fairLaunchPoolList.map(({ pid }) => {
+      return { address: FAIRLAUNCH, name: 'poolInfos', params: [pid] }
+    })
+  )
 
+  const p2 = call$({ abi: FairLaunchABI, address: FAIRLAUNCH, methodName: 'getRewardPerBlock', params: [] })
+  const p3 = call$({ abi: FairLaunchABI, address: FAIRLAUNCH, methodName: 'getTotalAllocPoint', params: [] })
+
+  return forkJoin(
+    from(p1),
+    from(p2),
+    from(p3),
+  ).pipe(
+    map(([poolInfos, rewardPerBlock, totalAllocPoint]) => {
+
+      return showParamsOnCall(poolInfos, [
+        'vaultToken',
+        'allocPoint',
+        'lastRewardBlockNumber',
+        'accRewardPerShare',
+      ]).reduce((acc, cur, idx) => {
+        const pool = fairLaunchPoolList[idx]
+
+        acc[pool.pid] = new BigNumber(rewardPerBlock)
+          .multipliedBy(86400 * 365) // 1 year
+          .div(10 ** tokenList.KLEVA.decimals)
+          .multipliedBy(cur.allocPoint)
+          .div(totalAllocPoint)
+          .toString()
+
+        return acc
+      }, {})
+    })
+  )
 }
 
 export const checkAllowances$ = (account, targetContractAddress, tokens) => {
@@ -802,6 +850,63 @@ export const checkAllowances$ = (account, targetContractAddress, tokens) => {
 
         console.log(acc, '@acc')
 
+        return acc
+      }, {})
+    })
+  )
+}
+
+export const getPoolAmountOfStakingPool$ = (stakingPools) => {
+  const p1 = multicall(
+    IERC20ABI,
+    stakingPools.map(({ stakingToken }, idx) => {
+      return { address: stakingToken && stakingToken.address, name: 'balanceOf', params: [FAIRLAUNCH] }
+    })
+  )
+  
+  return from(p1).pipe(
+    map((poolAmounts) => {
+      return showParamsOnCall(poolAmounts, ['poolAmount']).reduce((acc, cur, idx) => {
+        const stakingPool = stakingPools[idx]
+        const stakingToken = stakingPool && stakingPool.stakingToken
+        
+        acc[stakingPool.pid] = new BigNumber(cur.poolAmount).div(10 ** stakingToken.decimals).toString()
+
+        return acc
+      }, {})
+    })
+  )
+}
+
+export const getFarmTVL$ = (farmPools, workerInfoMap) => {  
+  const multicallArray = flatten(farmPools.reduce((acc, cur, farmIdx) => {
+
+    const feedForMulticall = cur.workerList.map(({ workerAddress }, workerIdx) => {
+      const workerInfo = workerInfoMap[workerAddress]
+      return { 
+        address: FAIRLAUNCH, 
+        name: 'userInfos', 
+        params: [workerInfo.lpPoolId, workerAddress],
+        info: { farmIdx: farmIdx, farm: cur }
+      }
+    })
+
+    acc.push(feedForMulticall)
+
+    return acc
+
+  }, []))
+
+  const p1 = multicall(
+    FairLaunchABI,
+    multicallArray
+  )
+
+  return from(p1).pipe(
+    map((workerLPAmountList) => {
+      return showParamsOnCall(workerLPAmountList, ['amount', 'rewardDebt', 'fundedBy']).reduce((acc, cur, idx) => {
+        const multicallArrayItem = multicallArray[idx]
+        acc[multicallArrayItem.info.farmIdx] = (acc[multicallArrayItem.farmIdx] || 0) + Number(cur.amount)
         return acc
       }, {})
     })

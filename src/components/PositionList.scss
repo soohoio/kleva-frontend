@@ -71,9 +71,12 @@
   height: 75px;
   padding: 0 24px;
   border-bottom: solid 1px #f5f5f5;
-  border-radius: 8px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 0;
+
+  &:last-of-type {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
 }
 
 .PositionItem__id {

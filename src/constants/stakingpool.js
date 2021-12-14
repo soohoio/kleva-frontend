@@ -21,3 +21,8 @@ export const stakingPools = [
     stakingToken: tokenList.ibKUSDT,
   }
 ]
+
+export const stakingPoolsByPID = stakingPools.reduce((acc, cur) => {
+  acc[cur.pid] = cur
+  return acc
+}, {})

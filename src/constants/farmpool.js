@@ -8,26 +8,15 @@ export const farmPool = [
     token2: tokenList.KUSDT,
     lpToken: tokenList["KSP-KUSDT LP"],
     workerList: workersBy(tokenList.KSP, tokenList.KUSDT),
-    // farmingToken: tokenList.KSP,
-    // baseToken: tokenList.KUSDT,
-    // vaultAddress: tokenList.ibKUSDT.address, // ib${baseToken} address
-    // workerAddress: "0xc1B2A0B1fb504EBD7f1c84123Ec3776753AB9e0D",
+    
     exchange: 'klayswap',
-    tvl: 1000,
-    klevaRewards: 0,
   },
   {
     token1: tokenList.KLEVA,
     token2: tokenList.KUSDT,
     lpToken: tokenList["KLEVA-KUSDT LP"],
     workerList: workersBy(tokenList.KLEVA, tokenList.KUSDT),
-    // farmingToken: tokenList.KSP,
-    // baseToken: tokenList.KUSDT,
-    // vaultAddress: tokenList.ibKUSDT.address, // ib${baseToken} address
-    // workerAddress: "0xc1B2A0B1fb504EBD7f1c84123Ec3776753AB9e0D",
     exchange: 'klayswap',
-    tvl: 1000,
-    klevaRewards: 0,
   },
 ]
 

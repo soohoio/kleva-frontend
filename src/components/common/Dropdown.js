@@ -61,8 +61,6 @@ class Dropdown extends Component {
     const { isOpen, searchKey } = this.state
     const { items = [], selectedItem, onSelect, noSearch } = this.props
 
-    console.log(items, "@@items")
-
     return (
       <div className="Dropdown">
         <DropdownItem

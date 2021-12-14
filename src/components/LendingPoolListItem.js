@@ -11,6 +11,7 @@ import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 import AssetInfo from './AssetInfo'
 import LabelAndValue from './LabelAndValue'
+import { toAPY } from '../utils/calc'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -30,13 +31,17 @@ class LendingPoolListItem extends Component {
       totalSupply, 
       totalBorrowed, 
       depositedTokenBalance, 
+      lendingAPR,
       vaultAddress, 
       ibTokenPrice,
       balanceInWallet,
       ibTokenBalanceInWallet,
+      utilization,
     } = this.props
 
-    const utilization = new BigNumber(totalBorrowed).div(totalSupply).multipliedBy(100).toNumber()
+    const totalAPR = lendingAPR
+
+    const totalAPY = toAPY(totalAPR)
 
     return (
       <>
@@ -48,11 +53,10 @@ class LendingPoolListItem extends Component {
           />
         </div>
         <div className="LendingPoolListItem">
-          <LabelAndValue label="Lending APR" value="-%" />
-          {/* <LabelAndValue label="Staking APR" value="-%" />
-          <LabelAndValue label="Protocol APR" value="-%" /> */}
-          <LabelAndValue label="Total APR" value="-%" />
-          <LabelAndValue color="#3369ff" label="Total APY" value="-%" />
+          <LabelAndValue label="Lending APR" value={`${Number(lendingAPR).toLocaleString('en-us', { maximumFractionDigits:2 })}%`} />
+          {/* <LabelAndValue label="Staking APR" value="-%" /> */}
+          <LabelAndValue label="Total APR" value={`${Number(totalAPR).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
+          <LabelAndValue color="#3369ff" label="Total APY" value={`${Number(totalAPY).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
         </div>
         <div className="LendingPoolListItem">
           {nFormatter(totalSupply, 6)} {stakingToken.title}

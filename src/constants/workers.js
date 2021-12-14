@@ -26,13 +26,6 @@ export const workersBy = (token1, token2) => {
     const isOrderFB = farmingToken.address.toLowerCase() === token1.address.toLowerCase() && baseToken.address.toLowerCase() === token2.address.toLowerCase()
     const isOrderBF = farmingToken.address.toLowerCase() === token2.address.toLowerCase() && baseToken.address.toLowerCase() === token1.address.toLowerCase()
 
-    console.log(farmingToken, 'farmingToken')
-    console.log(baseToken, 'baseToken')
-    console.log(token1, 'token1')
-    console.log(token2, 'token2')
-    console.log(isOrderBF, 'isOrderBF')
-    console.log(isOrderFB, 'isOrderFB')
-
     return isOrderBF || isOrderFB
   })
 }

@@ -13,6 +13,7 @@ import './FarmItem.scss'
 import { toAPY } from '../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import BorrowingAssetSelector from './BorrowingAssetSelector'
+import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
 
 const FarmProperty = ({ className, label, value }) => {
   return (
@@ -66,6 +67,25 @@ class FarmItem extends Component {
       worker: selectedWorker,
     })
   }
+
+  getKlevaRewardsAPR = () => {
+    const { borrowingAsset, leverageValue } = this.state
+    const { klevaAnnualRewards, farmPoolTVL, tokenPrices } = this.props
+
+    const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
+    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
+    const debtTokenPid = debtToken && debtToken.pid
+    const klevaAnnualReward = klevaAnnualRewards[debtTokenPid]
+
+    const klevaRewardsAPR = new BigNumber(klevaAnnualReward)
+      .multipliedBy(tokenPrices[tokenList.KLEVA.address])
+      .div(farmPoolTVL)
+      .multipliedBy(leverageValue)
+      .multipliedBy(100)
+      .toNumber()
+
+    return klevaRewardsAPR || 0
+  }
     
   render() {
     const { leverageValue, borrowingAsset, worker } = this.state
@@ -77,7 +97,6 @@ class FarmItem extends Component {
 
       tvl,
       exchange,
-      klevaRewards = 0,
 
       aprInfo,
       lpToken,
@@ -86,6 +105,8 @@ class FarmItem extends Component {
       token2BorrowingInterest,
 
       workerInfo,
+      klevaAnnualRewards,
+      tokenPrices,
     } = this.props
     
     const yieldFarmingAPR = aprInfo && 
@@ -105,18 +126,23 @@ class FarmItem extends Component {
 
     const borrowingInterestAttachedAssets = this.borrowingAvailableAssets
       .map((item) => {
+
+        const interest = borrowingInterestsAPR[item.address.toLowerCase()]
+
         return {
           ...item,
-          title: `${item.title} -${borrowingInterestsAPR[item.address.toLowerCase()]}%`,
-          borrowingInterestAPR: borrowingInterestsAPR[item.address.toLowerCase()]
+          title: `${item.title} -${Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`,
+          borrowingInterestAPR: Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })
         }
       })
 
     const selectedBorrowingAssetWithInterest = borrowingInterestAttachedAssets.find((a) => a.address.toLowerCase() === borrowingAsset.address.toLowerCase())
 
+    const klevaRewardsAPR = this.getKlevaRewardsAPR()
+
     const totalAPR = new BigNumber(yieldFarmingAPR)
       .plus(tradingFeeAPR)
-      .plus(klevaRewards)
+      .plus(klevaRewardsAPR)
       .minus(selectedBorrowingInterestAPR)
       .toNumber()
 
@@ -146,7 +172,7 @@ class FarmItem extends Component {
         <div className="FarmItem__content">
           <FarmProperty label="Yield Farming" value={`${yieldFarmingAPR}%`} />
           <FarmProperty label="Trading Fees" value={`${tradingFeeAPR}%`} />
-          <FarmProperty label="KLEVA Rewards" value={`${klevaRewards}%`} />
+          <FarmProperty label="KLEVA Rewards" value={`${Number(klevaRewardsAPR).toLocaleString('en-us', { maximumFractionDigits: 4 })}%`} />
           <FarmProperty 
             label="Borrowing Interest" 
             value={(

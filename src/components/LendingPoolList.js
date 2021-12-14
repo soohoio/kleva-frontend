@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Subject, merge, interval, forkJoin } from 'rxjs'
 import { takeUntil, tap, switchMap, startWith } from 'rxjs/operators'
 import './LendingPoolList.scss'
-import { lendingPools } from '../constants/lendingpool'
+import { lendingPools, PROTOCOL_FEE } from '../constants/lendingpool'
 import LendingPoolListItem from './LendingPoolListItem'
 import { listTokenSupplyInfo$ } from '../streams/contract'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
@@ -68,11 +68,28 @@ class LendingPoolList extends Component {
                   const ibTokenPrice = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
                   const ibTokenAddress = vaultAddress
 
+                  const utilization = new BigNumber(totalBorrowed)
+                    .div(totalSupply)
+                    .multipliedBy(100)
+                    .toNumber()
+
+                  const borrowingInterest = lendingTokenSupplyInfo$.value &&
+                    lendingTokenSupplyInfo$.value[stakingToken.address] &&
+                    lendingTokenSupplyInfo$.value[stakingToken.address].borrowingInterest
+
+                  const lendingAPR = new BigNumber(borrowingInterest)
+                    .multipliedBy(utilization / 100)
+                    .multipliedBy(1 - PROTOCOL_FEE)
+                    .multipliedBy(100)
+                    .toNumber()
+
                   return (
                     <LendingPoolListItem
                       balanceInWallet={balancesInWallet$.value[stakingToken.address]}
                       ibTokenBalanceInWallet={balancesInWallet$.value[ibTokenAddress]}
+                      lendingAPR={lendingAPR}
                       title={title}
+                      utilization={utilization}
                       stakingToken={stakingToken}
                       vaultAddress={vaultAddress}
                       totalSupply={totalSupply}

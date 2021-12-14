@@ -9,8 +9,11 @@ import './StakingPools.scss'
 import StakingPoolItem from './StakingPoolItem'
 import StakingPoolItemCard from './StakingPoolItemCard'
 import { allowancesInStakingPool$, balancesInStakingPool$, balancesInWallet$ } from '../streams/wallet'
-import { lendingTokenSupplyInfo$, pendingGT$ } from '../streams/vault'
+import { lendingTokenSupplyInfo$, pendingGT$, poolAmountInStakingPool$ } from '../streams/vault'
 import { isDesktop$ } from '../streams/ui'
+import { klevaAnnualRewards$ } from '../streams/farming'
+import { tokenPrices$ } from '../streams/tokenPrice'
+import { tokenList } from '../constants/tokens'
 
 class StakingPools extends Component {
   destroy$ = new Subject()
@@ -26,7 +29,10 @@ class StakingPools extends Component {
       allowancesInStakingPool$,
       lendingTokenSupplyInfo$,
       pendingGT$,
+      klevaAnnualRewards$,
       isDesktop$,
+      tokenPrices$,
+      poolAmountInStakingPool$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -49,6 +55,20 @@ class StakingPools extends Component {
           const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[stakingToken.address]
           const isApproved = (allowancesInStakingPool$.value && allowancesInStakingPool$.value[stakingToken.address] != 0)
 
+          const poolDepositedAmount = poolAmountInStakingPool$.value[pid]
+          
+          const klevaAnnualReward = klevaAnnualRewards$.value[pid]
+          const klevaPrice = tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()]
+          const originalToken = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibToken.originalToken
+          const originalTokenPrice = tokenPrices$.value[originalToken && originalToken.address.toLowerCase()]
+          const ibTokenPriceRatio = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
+          const ibTokenPriceInUSD = originalTokenPrice * ibTokenPriceRatio
+
+          const stakingAPR = new BigNumber(klevaAnnualReward)
+            .multipliedBy(klevaPrice)
+            .div(poolDepositedAmount * ibTokenPriceInUSD)
+            .multipliedBy(100)
+            .toNumber()
           
           return isDesktop$.value 
             ? (
@@ -62,10 +82,11 @@ class StakingPools extends Component {
                 isExpand={selected === stakingToken.address}
                 stakingToken={stakingToken}
                 ibTokenPrice={lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice}
-                pendingGT={pendingGT$.value[stakingToken.address]}
+                pendingGT={pendingGT$.value[pid]}
                 balanceInWallet={balancesInWallet$.value[stakingToken.address]}
                 depositedAmount={balancesInStakingPool$.value[stakingToken.address]}
                 isApproved={isApproved}
+                stakingAPR={stakingAPR}
                 vaultAddress={vaultAddress}
               />
             )
@@ -80,10 +101,11 @@ class StakingPools extends Component {
                 isExpand={selected === stakingToken.address}
                 stakingToken={stakingToken}
                 ibTokenPrice={lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice}
-                pendingGT={pendingGT$.value[stakingToken.address]}
+                pendingGT={pendingGT$.value[pid]}
                 balanceInWallet={balancesInWallet$.value[stakingToken.address]}
                 depositedAmount={balancesInStakingPool$.value[stakingToken.address]}
                 isApproved={isApproved}
+                stakingAPR={stakingAPR}
                 vaultAddress={vaultAddress}
               />
             )

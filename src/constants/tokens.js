@@ -32,6 +32,30 @@ export const singleTokens = {
   },
 }
 
+export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cur) => {
+  acc[cur.address] = cur
+  acc[cur.address.toLowerCase()] = cur
+  return acc
+}, {})
+
+export const lpTokens = {
+  // Token A - Token B
+  "KSP-KUSDT LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KSP, singleTokens.KUSDT],
+    title: "KSP-KUSDT LP",
+    address: "0xE75a6A3a800A2C5123e67e3bde911Ba761FE0705",
+    decimals: 18,
+  },
+  "KLEVA-KUSDT LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLEVA, singleTokens.KUSDT],
+    title: "KLEVA-KUSDT LP",
+    address: "0x0b5dBD999eEda642B1B2F93B5034A9155456f5Fc",
+    decimals: 18,
+  },
+}
+
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
@@ -59,21 +83,22 @@ export const ibTokens = {
   },
 }
 
-export const lpTokens = {
-  // Token A - Token B
-  "KSP-KUSDT LP": {
-    KSLP: true,
-    ingredients: [singleTokens.KSP, singleTokens.KUSDT],
-    title: "KSP-KUSDT LP",
-    address: "0xE75a6A3a800A2C5123e67e3bde911Ba761FE0705",
-    decimals: 18,
+export const getIbTokenFromOriginalToken = (origialToken) => {
+  return Object.values(ibTokens).find((ib) => {
+    return ib.originalToken.address.toLowerCase() === origialToken.address.toLowerCase()
+  })
+}
+
+// key: ibToken address
+export const debtTokens = {
+  [ibTokens.ibKLAY.address]: {
+    pid: 1,
   },
-  "KLEVA-KUSDT LP": {
-    KSLP: true,
-    ingredients: [singleTokens.KLEVA, singleTokens.KUSDT],
-    title: "KLEVA-KUSDT LP",
-    address: "0x0b5dBD999eEda642B1B2F93B5034A9155456f5Fc",
-    decimals: 18,
+  [ibTokens.ibKLEVA.address]: {
+    pid: 3,
+  },
+  [ibTokens.ibKUSDT.address]: {
+    pid: 5,
   },
 }
 

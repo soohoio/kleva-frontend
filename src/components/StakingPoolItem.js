@@ -9,6 +9,7 @@ import StakingPoolItemExpanded from './StakingPoolItemExpanded'
 
 import './StakingPoolItem.scss'
 import { allowancesInStakingPool$, selectedAddress$ } from '../streams/wallet'
+import { toAPY } from '../utils/calc'
 
 const StakingAssetInfo = ({ iconSrc, title }) => {
   return (
@@ -65,10 +66,10 @@ class StakingPoolItem extends Component {
   }
     
   render() {
-    const { isApproved, vaultAddress, isExpand, pid, onClick, stakingToken, balanceInWallet, depositedAmount, ibTokenPrice, pendingGT } = this.props
+    const { stakingAPR, isApproved, vaultAddress, isExpand, pid, onClick, stakingToken, balanceInWallet, depositedAmount, ibTokenPrice, pendingGT } = this.props
 
-    const apy = 30.85
-    const apr = 35.27
+    const apr = stakingAPR
+    const apy = toAPY(apr)
 
     const pendingGTParsed = Number(pendingGT / 10 ** 18).toLocaleString('en-us', { maximumFractionDigits: 4 })
 

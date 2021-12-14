@@ -1,6 +1,9 @@
 import { keyBy } from "lodash"
 import { tokenList } from "./tokens"
 
+// 19%
+export const PROTOCOL_FEE = 0.19
+
 // Lending Pool Contract (= Vault Contract) (= ibToken Contract)
 export const lendingPools = [
 

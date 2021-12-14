@@ -6,8 +6,9 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './FarmList.scss'
 import FarmItem from './FarmItem'
 import { farmPool } from '../constants/farmpool'
-import { aprInfo$, workerInfo$ } from '../streams/farming'
+import { aprInfo$, farmPoolTVL$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
+import { tokenPrices$ } from '../streams/tokenPrice'
 
 class FarmList extends Component {
   destroy$ = new Subject()
@@ -17,6 +18,9 @@ class FarmList extends Component {
       aprInfo$,
       lendingTokenSupplyInfo$,
       workerInfo$,
+      klevaAnnualRewards$,
+      tokenPrices$,
+      farmPoolTVL$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -48,8 +52,7 @@ class FarmList extends Component {
             exchange,
             yieldFarming,
             tradingFee,
-            klevaRewards,
-          }) => {
+          }, idx) => {
 
             const aprInfo = aprInfo$.value[lpToken.address] || aprInfo$.value[lpToken.address.toLowerCase()]
             
@@ -61,6 +64,10 @@ class FarmList extends Component {
 
             return (
               <FarmItem
+                klevaAnnualRewards={klevaAnnualRewards$.value}
+                tokenPrices={tokenPrices$.value}
+                farmPoolTVL={farmPoolTVL$.value[idx]}
+
                 aprInfo={aprInfo}
                 workerInfo={workerInfo$.value}
                 workerList={workerList}
@@ -71,7 +78,6 @@ class FarmList extends Component {
                 exchange={exchange}
                 yieldFarming={yieldFarming}
                 tradingFee={tradingFee}
-                klevaRewards={klevaRewards}
 
                 token1BorrowingInterest={token1BorrowingInterest}
                 token2BorrowingInterest={token2BorrowingInterest}

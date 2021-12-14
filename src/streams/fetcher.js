@@ -8,9 +8,10 @@ import { fetchWalletInfo$ } from 'streams/wallet'
 import { tokenList } from 'constants/tokens'
 import { stakingPools } from 'constants/stakingpool'
 import { lendingPools } from 'constants/lendingpool'
-import { allowancesMultiInStakingPool$, getPendingGT$ } from './contract'
-import { pendingGT$ } from './vault'
+import { allowancesMultiInStakingPool$, getPendingGTInFairlaunchPool$, getPoolAmountOfStakingPool$ } from './contract'
+import { pendingGT$, poolAmountInStakingPool$ } from './vault'
 import { logout$ } from './wallet'
+import { debtTokens } from '../constants/tokens'
 
 const WALLET_INFO_FETCH_INTERVAL = 5000
 
@@ -31,7 +32,8 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
       balanceOfMultiInStakingPool$(selectedAddress, stakingPools),
       allowancesMultiInLendingPool$(selectedAddress, lendingPools.filter(({ stakingToken }) => !stakingToken.nativeCoin)),
       allowancesMultiInStakingPool$(selectedAddress, stakingPools),
-      getPendingGT$(stakingPools, selectedAddress),
+      getPoolAmountOfStakingPool$(stakingPools),
+      getPendingGTInFairlaunchPool$([...stakingPools, ...Object.values(debtTokens)], selectedAddress),
       // earnedMulti$(address, vaultList),
       // depositedAtMulti$(address, vaultAddressList),
     )
@@ -41,13 +43,17 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
     balancesInStakingPool, 
     allowancesInLendingPool, 
     allowancesInStakingPool, 
+    poolAmountInStakingPool,
     pendingGT,
   ]) => {
     balancesInWallet$.next(balancesInWallet)
     balancesInStakingPool$.next(balancesInStakingPool)
-    // balancesInStaking$.next(balancesInStaking)
     allowancesInLendingPool$.next(allowancesInLendingPool)
     allowancesInStakingPool$.next(allowancesInStakingPool)
+
+    // Staking Pool Global Deposited Amount
+    poolAmountInStakingPool$.next(poolAmountInStakingPool)
+
     pendingGT$.next(pendingGT)
     // depositedAt$.next(depositedAt)
   }),

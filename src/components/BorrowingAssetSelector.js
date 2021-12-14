@@ -22,10 +22,13 @@ class BorrowingAssetSelector extends Component {
     const { selected, list, borrowingInterestsAPR } = this.props
 
     const listAttachedBorrowingInterestAPR = list.map((item) => {
+
+      const interest = borrowingInterestsAPR[item.address.toLowerCase()]
+
       return {
         ...item,
-        title: `${item.title} -${borrowingInterestsAPR[item.address.toLowerCase()]}%`,
-        borrowingInterestAPR: borrowingInterestsAPR[item.address.toLowerCase()]
+        // title: `${item.title} -${Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`,
+        // borrowingInterestAPR: Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })
       }
     })
 
