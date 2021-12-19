@@ -4,9 +4,11 @@
 }
 
 .AssetInfo__icon {
-
   width: 48px;
   height: 48px;
+
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  background-color: #fff;
 
   @include desktop {
     width: 36px;
@@ -14,7 +16,7 @@
   }
 
   border-radius: 50%;
-  margin-right: 18px;
+  margin-right: 12px;
 }
 
 .AssetInfo__info {

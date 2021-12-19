@@ -10,4 +10,4 @@ export const poolReserves$ = new BehaviorSubject({})
 export const fetchPoolReserves$ = new Subject()
 export const klevaAnnualRewards$ = new BehaviorSubject({})
 
-export const farmPoolTVL$ = new BehaviorSubject({})
+export const farmPoolDeposited$ = new BehaviorSubject({})

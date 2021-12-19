@@ -15,7 +15,7 @@ export const lendingPools = [
 
     stakingToken: tokenList["KLAY"],
     stakingTokenInternal: tokenList["WKLAY"],
-    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
   },
   {
     title: "KLEVA",
@@ -24,7 +24,7 @@ export const lendingPools = [
     ibToken: tokenList["ibKLEVA"],
     
     stakingToken: tokenList["KLEVA"],
-    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
   },
   {
     title: "KUSDT",
@@ -33,8 +33,26 @@ export const lendingPools = [
     ibToken: tokenList["ibKUSDT"],
 
     stakingToken: tokenList["KUSDT"],
-    vaultConfigAddress: "0x6807A813675877bbFAb18CfDEbd76452EA11f6DB",
-  }
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  },
+  {
+    title: "WEMIX",
+    
+    vaultAddress: tokenList["ibWEMIX"].address,
+    ibToken: tokenList["ibWEMIX"],
+
+    stakingToken: tokenList["WEMIX"],
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  },
+  {
+    title: "KDAI",
+    
+    vaultAddress: tokenList["ibKDAI"].address,
+    ibToken: tokenList["ibKDAI"],
+
+    stakingToken: tokenList["KDAI"],
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  },
 ]
 
 export const lendingPoolsByStakingTokenAddress = lendingPools.reduce((acc, cur) => {

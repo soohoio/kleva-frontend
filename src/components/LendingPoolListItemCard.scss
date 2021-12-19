@@ -68,10 +68,18 @@
 
 .LendingPoolListItemCard__depositButton {
   @include button-1(44px);
+
+  &--disabled {
+    @include disabled-button;
+  }
 }
 
 .LendingPoolListItemCard__withdrawButton {
   @include button-2(44px);
+
+  &--disabled {
+    @include disabled-button;
+  }
 }
 
 .LendingPoolListItemCard__aprDetail {

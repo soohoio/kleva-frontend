@@ -6,22 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './LendPage.scss'
 import LendingPoolList from '../components/LendingPoolList'
 import PageBuilder from './PageBuilder'
-
-const TVLBrief = () => {
-  return (
-    <div className="TVLBrief">
-      <div className="TVLBrief__left">
-        <p className="TVLBrief__title">Total Value Locked</p>
-        <p className="TVLBrief__description">$970,205,822.64</p>
-      </div>
-      <div className="TVLBrief__right">
-        <div className="TVLBrief__banner">
-          Marketing Communcation Banners
-        </div>
-      </div>
-    </div>
-  )
-}
+import TVLBrief from '../components/TVLBrief'
 
 class LendPage extends Component {
   destroy$ = new Subject()

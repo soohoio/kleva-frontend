@@ -29,5 +29,3 @@ export const workersBy = (token1, token2) => {
     return isOrderBF || isOrderFB
   })
 }
-
-console.log(workersBy(tokenList.KLEVA, tokenList.KUSDT), "WORKER!")

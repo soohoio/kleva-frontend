@@ -8,7 +8,7 @@ import {
 } from 'streams/contract'
 import { approve$, getTransactionReceipt$ } from "../streams/contract"
 import { FAIRLAUNCH } from 'constants/address'
-import { switchMap } from "rxjs/operators"
+import { switchMap, tap } from "rxjs/operators"
 import { fetchWalletInfo$ } from "../streams/wallet"
 import { MAX_UINT } from "../constants/setting"
 
@@ -18,6 +18,7 @@ export default class {
     this.pid = pid
     this.stakeAmount$ = new BehaviorSubject('')
     this.unstakeAmount$ = new BehaviorSubject('')
+    this.isLoading$ = new BehaviorSubject(false)
   }
 
   handleStakeAmountChange = (e) => {
@@ -30,9 +31,10 @@ export default class {
 
   approve = (stakingToken) => {
     approve$(stakingToken.address, FAIRLAUNCH, MAX_UINT).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, 'approve result')
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
     })
   }
@@ -43,9 +45,10 @@ export default class {
       .toString()
 
     stakeToStakingPool$(accountFor, this.pid, stakeAmountPure).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, '*result')
+      this.isLoading$.next(false)
     })
   }
 
@@ -54,17 +57,19 @@ export default class {
       .multipliedBy(10 ** this.stakingToken.decimals)
       .toString()
     unstakeFromStakingPool$(accountFor, this.pid, unstakeAmountPure).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, '*result')
+      this.isLoading$.next(false)
     })
   }
 
   harvest = () => {
     harvestFromStakingPool$(this.pid).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, '*result')
+      this.isLoading$.next(false)
     })
   }
 }

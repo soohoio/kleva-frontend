@@ -9,10 +9,10 @@ import MyPositions from 'components/MyPositions'
 import FarmList from '../components/FarmList'
 
 import './FarmPage.scss'
-import { getFarmTVL$, getKlevaAnnualReward$, getPoolReserves$, getWorkerInfo$ } from '../streams/contract'
+import { getFarmDeposited$, getKlevaAnnualReward$, getPoolReserves$, getWorkerInfo$ } from '../streams/contract'
 import { workers } from '../constants/workers'
 import { workerInfo$ } from 'streams/farming'
-import { aprInfo$, farmPoolTVL$, fetchPoolReserves$, poolReserves$ } from '../streams/farming'
+import { aprInfo$, farmPoolDeposited$, fetchPoolReserves$, poolReserves$ } from '../streams/farming'
 import { debtTokens, lpTokens } from '../constants/tokens'
 import { stakingPools } from '../constants/stakingpool'
 import { farmPool } from '../constants/farmpool'
@@ -34,29 +34,6 @@ class FarmPage extends Component {
     ).subscribe((poolReserves) => {
       poolReserves$.next(poolReserves)
     })
-
-    interval(1000 * 60).pipe(
-      startWith(0)
-    ).pipe(
-      switchMap(() => {
-        return forkJoin(getWorkerInfo$(workers),)
-      }),
-      tap(([workerInfo]) => {
-
-        const _workerInfo = Object.entries(workerInfo).reduce((acc, [key, item]) => {
-          acc[key.toLowerCase()] = item
-          acc[key] = item
-          return acc
-        }, {})
-
-        workerInfo$.next(_workerInfo)
-      }),
-      switchMap(() => getFarmTVL$(farmPool, workerInfo$.value)),
-      tap((farmTvlInfo) => {
-        farmPoolTVL$.next(farmTvlInfo)
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe()
   }
 
   componentWillUnMount() {

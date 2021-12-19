@@ -6,6 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './GTWalletBalance.scss'
 import { balancesInWallet$ } from '../streams/wallet'
 import { tokenList } from '../constants/tokens'
+import BigNumber from 'bignumber.js'
 
 class GTWalletBalance extends Component {
   destroy$ = new Subject()
@@ -25,17 +26,25 @@ class GTWalletBalance extends Component {
   }
     
   render() {
+    const { klevaPrice } = this.props
+    
     // const gt = tokenList.ALPACA
     const gt = tokenList.KLEVA
     const gtBalance = balancesInWallet$.value 
       && balancesInWallet$.value[gt.address]
-      && balancesInWallet$.value[gt.address].balanceParsed
+      && balancesInWallet$.value[gt.address].balanceParsed || 0
 
     return (
       <div className="GTWalletBalance">
         <div className="GTWalletBalance__left">
-          <p className="GTWalletBalance__label">KLEVA Wallet Balance</p>
-          <p className="GTWalletBalance__value">{Number(gtBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</p>
+          <p className="GTWalletBalance__label">KLEVA in My Wallet</p>
+          <p className="GTWalletBalance__value">{Number(gtBalance).toLocaleString('en-us', { maximumFractionDigits: 2 })}</p>
+          <p className="GTWalletBalance__valueInUSD">
+            ~ ${new BigNumber(gtBalance)
+            .multipliedBy(klevaPrice)
+            .toNumber()
+            .toLocaleString('en-us', { maximumFractionDigits: 2 })
+          }</p>
         </div>
         <div className="GTWalletBalance__right">
           <img className="GTWalletBalance__image" src="/static/images/icon-gt-balance.svg" />

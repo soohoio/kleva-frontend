@@ -34,7 +34,7 @@
   cursor: pointer;
   display: grid;
   align-items: center;
-  grid-template-columns: 21fr 14fr 28fr 28fr 9fr;
+  grid-template-columns: 26fr 22fr 26fr 26fr 44px;
   
   max-width: calc(1920px - 240px);
 
@@ -54,7 +54,10 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 18px;
+  margin-right: 20px;
+
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  background-color: #fff;
 }
 
 .StakingAssetInfo__info {
@@ -77,30 +80,51 @@
 .StakingPoolItem__APRAPY {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+}
+
+.StakingPoolItem__APRAPYContent {
+  text-align: right;
+  width: 150px;
+  position: absolute;
+  /* right: 20%; */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .APRAPY__apy {
-  @include font-style('font-1', 'b', 25px);
+  @include font-style('font-1', 'b', 20px);
   color: #3369ff;
 }
 
+.APRAPY__apyLabel {
+  @include font-style('font-1', 'm', 16px);
+  color: #3369ff;
+  margin-right: 4px;
+}
+
 .APRAPY__apr {
-  @include font-style('font-1', 'm', 13px);
-  color: #131414;
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
 }
 
 .StakingPoolItem__Staked {
   display: flex;
   flex-direction: column;
+
+  height: 100%;
+  justify-content: center;
 }
 
 .StakingPoolItem__StakedTitle {
   @include font-style('font-1', 'm', 12px);
-  color: #131414;
+  color: #303133;
 }
 
 .StakingPoolItem__StakedIBTokenAmount {
-  @include font-style('font-1', 'sb', 20px);
+  @include font-style('font-1', 'm', 18px);
   color: #131414;
 }
 
@@ -112,15 +136,26 @@
 .StakingPoolItem__Earned {
   display: flex;
   flex-direction: column;
+
+  height: 100%;
+  justify-content: center;
 }
 
 .StakingPoolItem__EarnedTitle {
   @include font-style('font-1', 'm', 12px);
-  color: #131414;
+  color: #303133;
 }
 
 .StakingPoolItem__EarnedAmount {
-  @include font-style('font-1', 'sb', 20px);
+  @include font-style('font-1', 'm', 18px);
   color: #3369ff;
-  margin-bottom: 18px;
+}
+
+.StakingPoolItem__EarnedAmountInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
+}
+
+.StakingPoolItem__expandItem {
+  text-align: center;
 }

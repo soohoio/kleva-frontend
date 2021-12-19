@@ -20,6 +20,11 @@
       color: #ffffff;
     }
   }
+
+  &--disabled {
+    opacity: .7;
+    cursor: not-allowed;
+  }
 }
 
 .SidebarItem__icon {

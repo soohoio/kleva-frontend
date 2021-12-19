@@ -54,7 +54,7 @@ class MobileGNB extends Component {
     return (
       <div className="MobileGNB">
         <div className="MobileGNB__header">
-          <img className="MobileGNB__headerLogo" src="/static/images/icons-gnb-logo@3x.png" />
+          <img className="MobileGNB__headerLogo" src="/static/images/logo-kleva-blue.svg" />
           <img 
             onClick={() => closeModal$.next(true)} 
             className="MobileGNB__close" 
@@ -71,11 +71,11 @@ class MobileGNB extends Component {
           title="Stake"
           active={path$.value === '/stake'}
         />
-        <SidebarItem
+        {/* <SidebarItem
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}
-        />
+        /> */}
       </div>
     )
   }

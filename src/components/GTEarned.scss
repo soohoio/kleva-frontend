@@ -9,15 +9,16 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   padding-top: 24px;
-  padding-bottom: 25px;
+  padding-bottom: 0;
   
   @include desktop {
     box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
-    padding-top: auto;
     padding-left: 32px;
+    padding-bottom: 25px;
     padding-right: 36px;
     flex: 1;
-    height: 120px;
+    // height: 120px;
+    height: 134px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
   }
@@ -29,13 +30,25 @@
 }
 
 .GTEarned__label {
-  @include font-style('font-1', 'm', 16px);
+  @include font-style('font-1', 'm', 15px);
   color: #131414;
+  margin-bottom: 2px;
 }
 
 .GTEarned__value {
-  @include font-style('font-1', 'b', 30px);
-  color: #3369ff;
+  @include font-style('font-1', 'b', 24px);
+
+  @include desktop {
+    @include font-style('font-1', 'sb', 30px);
+    line-height: 30px;
+  }
+
+  color: #131414;
+}
+
+.GTEarned__valueInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
 }
 
 .GTEarned__right {

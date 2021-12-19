@@ -6,6 +6,7 @@ import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
 
 import { balancesInWallet$ } from 'streams/wallet'
 
+import InputWithPercentage from './common/InputWithPercentage'
 import Modal from './common/Modal'
 import Bloc from './WithdrawModal.bloc'
 
@@ -21,6 +22,7 @@ class WithdrawModal extends Component {
 
     merge(
       this.bloc.withdrawAmount$,
+      this.bloc.isLoading$,
       balancesInWallet$.pipe(
         distinctUntilChanged((a, b) =>
           (a[vaultAddress] && a[vaultAddress].balanceParsed) ===
@@ -56,36 +58,13 @@ class WithdrawModal extends Component {
           <span className="WithdrawModal__availableLabel">Available Balance: </span>
           <span className="WithdrawModal__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })} ib{stakingToken.title}</span>
         </div>
-        <div
-          className={cx('WithdrawModal__inputWrapper', {
-            'WithdrawModal__inputWrapper--active': !!this.bloc.withdrawAmount$.value,
-          })}>
-          <input
-            autoFocus
-            value={this.bloc.withdrawAmount$.value}
-            onChange={this.bloc.handleChange}
-            placeholder="0.00"
-            className="WithdrawModal__input"
-          />
-          <span className="WithdrawModal__inputLabel">ib{stakingToken.title}</span>
-        </div>
-        <div className="WithdrawModal__percentage">
-          {[25, 50, 75, 100].map((p) => (
-            <div
-              onClick={() => {
-                this.bloc.handleChange({
-                  target: {
-                    value: new BigNumber(availableBalance).multipliedBy(p / 100).toNumber()
-                  }
-                })
-              }}
-              className="WithdrawModal__percentageItem"
-            >
-              {p}%
-            </div>
-          ))}
-        </div>
-        <p className="WithdrawModal__youWillReceive">You will receive:</p>
+        <InputWithPercentage
+          className="WithdrawModal__withdrawInput"
+          value$={this.bloc.withdrawAmount$}
+          valueLimit={availableBalance}
+          label={stakingToken.title}
+        />
+        <p className="WithdrawModal__youWillReceive">You will receive</p>
         <div className="WithdrawModal__bottom">
           <div className="WithdrawModal__receive">
             <span className="WithdrawModal__receiveAmount">~{willReceiveAmount}</span>
@@ -95,8 +74,8 @@ class WithdrawModal extends Component {
             onClick={() => this.bloc.withdraw(stakingToken, vaultAddress)}
             className="WithdrawModal__confirmButton"
           >
-            Confirm
-            </button>
+            {this.bloc.isLoading$.value ? "..." : "Confirm"}
+          </button>
         </div>
       </Modal>
     )

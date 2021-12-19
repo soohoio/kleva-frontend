@@ -1,9 +1,12 @@
 import React, { Component, Fragment, createRef } from 'react'
+import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import { GT_TOKEN } from 'constants/setting'
+
+import InputWithPercentage from './common/InputWithPercentage'
 
 import Bloc from './StakingPoolItemExpanded.bloc'
 
@@ -23,6 +26,7 @@ class StakingPoolItemExpanded extends Component {
     merge(
       this.bloc.stakeAmount$,
       this.bloc.unstakeAmount$,
+      this.bloc.isLoading$,
       selectedAddress$,
     ).pipe(
       takeUntil(this.destroy$)
@@ -34,6 +38,82 @@ class StakingPoolItemExpanded extends Component {
   componentWillUnMount() {
     this.destroy$.next(true)
   }
+
+  renderStakeButton = () => {
+    const { isApproved, selectedAddress } = this.props
+    
+    if (this.bloc.isLoading$.value) {
+      return (
+        <button
+          className="StakingPoolItemExpanded__stakeButton"
+        >
+          ...
+        </button>
+      )
+    }
+    
+    if (isApproved) {
+      return (
+        <button
+          className={cx("StakingPoolItemExpanded__stakeButton", {
+            "StakingPoolItemExpanded__stakeButton--disabled": !selectedAddress,
+          })}
+          onClick={() => this.bloc.stake(selectedAddress$.value)}
+        >
+          Stake
+        </button>
+      )
+    }
+
+    return (
+      <button
+        className="StakingPoolItemExpanded__stakeButton"
+        onClick={() => this.bloc.approve(stakingToken)}
+      >
+        Approve
+      </button>
+    )
+  }
+  
+  renderUnstakeButton = () => {
+    const { isApproved, selectedAddress } = this.props
+
+    if (this.bloc.isLoading$.value) {
+      return (
+        <button
+          className="StakingPoolItemExpanded__unstakeButton"
+        >
+          ...
+        </button>
+      )
+    }
+
+    if (isApproved) {
+      return (
+        <button
+          className={cx("StakingPoolItemExpanded__unstakeButton", {
+            "StakingPoolItemExpanded__unstakeButton--disabled": !selectedAddress,
+          })}
+          onClick={() => this.bloc.unstake(selectedAddress$.value)}
+        >
+          Unstake
+        </button>
+      )
+    }
+
+    return (
+      <button
+        className="StakingPoolItemExpanded__unstakeButton"
+        onClick={() => this.bloc.approve(stakingToken)}
+      >
+        Approve
+      </button>
+    )
+  }
+  
+  renderClaimButton = () => {
+
+  }
     
   render() {
     
@@ -41,10 +121,12 @@ class StakingPoolItemExpanded extends Component {
       stakingToken,
       balanceInWallet,
       depositedAmount,
-      pendingGTParsed,
+      pendingGT,
+      klevaPrice,
       card,
       isApproved,
       vaultAddress,
+      selectedAddress,
     } = this.props
 
     return (
@@ -56,84 +138,49 @@ class StakingPoolItemExpanded extends Component {
         <div className="StakingPoolItemExpanded__left">
           <div className="StakingPoolItemExpanded__availableBalance">
             <span className="StakingPoolItemExpanded__availableBalanceLabel">Available {stakingToken.title} Balance</span>
-            <span className="StakingPoolItemExpanded__availableBalanceValue">{Number(balanceInWallet).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+            <span className="StakingPoolItemExpanded__availableBalanceValue">{Number(balanceInWallet || 0).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
           </div>
-          <div 
-            className={cx("StakingPoolItemExpanded__inputWrapper", {
-              "StakingPoolItemExpanded__inputWrapper--active": this.bloc.stakeAmount$.value !== "",
-            })}
-          >
-            <input 
-              className="StakingPoolItemExpanded__input"
-              onChange={this.bloc.handleStakeAmountChange}
-              value={this.bloc.stakeAmount$.value}
-            />
-            <button
-              className="StakingPoolItemExpanded__maxButton"
-              onClick={() => this.bloc.stakeAmount$.next(balanceInWallet)}
-            >
-              MAX
-            </button>
-          </div>
-          {isApproved 
-            ? (
-              <button
-                className="StakingPoolItemExpanded__stakeButton"
-                onClick={() => this.bloc.stake(selectedAddress$.value)}
-              >
-                Stake
-              </button>
-            ) :(
-              <button 
-                className="StakingPoolItemExpanded__stakeButton" 
-                onClick={() => this.bloc.approve(stakingToken)}
-              >
-                Approve
-              </button>
-          )}
+          <InputWithPercentage
+            className="StakingPoolItemExpanded__stakeInput"
+            value$={this.bloc.stakeAmount$}
+            valueLimit={balanceInWallet}
+            label={stakingToken.title}
+          />
+          {this.renderStakeButton()}
         </div>
         <div className="StakingPoolItemExpanded__center">
           <div className="StakingPoolItemExpanded__stakedBalance">
             <span className="StakingPoolItemExpanded__stakedBalanceLabel">Staked {stakingToken.title} Balance</span>
-            <span className="StakingPoolItemExpanded__stakedBalanceValue">{depositedAmount && depositedAmount.balanceParsed}</span>
+            <span className="StakingPoolItemExpanded__stakedBalanceValue">{depositedAmount && Number(depositedAmount.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
           </div>
-          <div className={cx("StakingPoolItemExpanded__inputWrapper", {
-            "StakingPoolItemExpanded__inputWrapper--active": this.bloc.unstakeAmount$.value !== "",
-          })}>
-            <input 
-              className="StakingPoolItemExpanded__input"
-              onChange={this.bloc.handleUnstakeAmountChange}
-              value={this.bloc.unstakeAmount$.value}
-            />
-            <button
-              className="StakingPoolItemExpanded__maxButton"
-              onClick={() => this.bloc.stakeAmount$.next(balanceInWallet)}
-            >
-              MAX
-            </button>
-          </div>
-
-          {isApproved
-            ? (
-              <button
-                className="StakingPoolItemExpanded__unstakeButton"
-                onClick={() => this.bloc.unstake(selectedAddress$.value)}
-              >
-                Unstake
-              </button>
-            ) : (
-              <button
-                className="StakingPoolItemExpanded__stakeButton"
-                onClick={() => this.bloc.approve(stakingToken)}
-              >
-                Approve
-              </button>
-            )}
+          <InputWithPercentage
+            className="StakingPoolItemExpanded__unstakeInput"
+            value$={this.bloc.unstakeAmount$}
+            valueLimit={depositedAmount && depositedAmount.balanceParsed || 0}
+            label={stakingToken.title}
+          />
+          {this.renderUnstakeButton()}
         </div>
         <div className="StakingPoolItemExpanded__right">
-          <p className="StakingPoolItemExpanded__totalRewardsLabel">Total {GT_TOKEN.title} Rewards</p>
-          <p className="StakingPoolItemExpanded__totalRewardsValue">{pendingGTParsed}</p>
-          <button className="StakingPoolItemExpanded__claimButton" onClick={this.bloc.harvest}>Claim</button>
+          <p className="StakingPoolItemExpanded__totalRewardsLabel">Earned {GT_TOKEN.title}</p>
+          <div className="StakingPoolItemExpanded__totalRewardsValueWrapper">
+            <p className="StakingPoolItemExpanded__totalRewardsValue">{Number(pendingGT || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}</p>
+            <p className="StakingPoolItemExpanded__totalRewardsValueInUSD">
+              ~ ${new BigNumber(pendingGT || 0)
+                .multipliedBy(klevaPrice)
+                .toNumber()
+                .toLocaleString('en-us', { maximumFractionDigits: 2 })
+              }
+            </p>
+          </div>
+          <button 
+            className={cx("StakingPoolItemExpanded__claimButton", {
+              "StakingPoolItemExpanded__claimButton--disabled": !selectedAddress,
+            })}
+            onClick={this.bloc.harvest}
+          >
+            {this.bloc.isLoading$.value ? "..." : "Claim"}
+          </button>
         </div>
       </div>
     )

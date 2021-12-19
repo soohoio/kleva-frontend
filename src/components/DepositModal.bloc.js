@@ -1,5 +1,5 @@
 import { BehaviorSubject } from "rxjs"
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { approve$, depositForLending$, getTransactionReceipt$ } from "../streams/contract"
@@ -10,6 +10,7 @@ import { closeModal$ } from "../streams/ui"
 export default class {
   constructor() {
     this.depositAmount$ = new BehaviorSubject('')
+    this.isLoading$ = new BehaviorSubject(false)
   }
 
   handleChange = (e) => {
@@ -18,9 +19,10 @@ export default class {
 
   approve = (stakingToken, vaultAddress) => {
     approve$(stakingToken.address, vaultAddress, MAX_UINT).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, 'approve result')
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
     })
   }
@@ -34,9 +36,10 @@ export default class {
       : 0
 
     depositForLending$(vaultAddress, depositAmount, nativeCoinAmount).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, 'deposit result')
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
       closeModal$.next(true)
     })

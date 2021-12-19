@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, BehaviorSubject } from 'rxjs'
+import { Subject, merge, BehaviorSubject, fromEvent } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import Dropdown from 'components/common/Dropdown'
@@ -16,9 +16,15 @@ const percentItems = [
 ]
 
 class InputWithPercentage extends Component {
+  $input = createRef()
+
   destroy$ = new Subject()
   
   selectedItem$ = new BehaviorSubject()
+
+  state = {
+    isFocused: false,
+  }
 
   componentDidMount() {
     const { value$, valueLimit } = this.props
@@ -38,6 +44,18 @@ class InputWithPercentage extends Component {
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
+    })
+
+    fromEvent(this.$input.current, 'focus').pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.setState({ isFocused: true })
+    })
+    
+    fromEvent(this.$input.current, 'blur').pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.setState({ isFocused: false })
     })
 
     // Initial value
@@ -67,21 +85,28 @@ class InputWithPercentage extends Component {
     const newValue = valueLimit 
       ? Number(valueLimit) * (value / 100)
       : 0
-    
+
     value$.next(newValue)
   }
     
   render() {
+    const { isFocused } = this.state
     const { 
       imgSrc, 
       label,
       value$,
+      className,
     } = this.props
 
     return (
-      <div className="InputWithPercentage">
-        <img className="InputWithPercentage__image" src={imgSrc} />
+      <div 
+        className={cx("InputWithPercentage", className, {
+          "InputWithPercentage--focused": isFocused,
+        })}
+      >
+        {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
         <input
+          ref={this.$input}
           className="InputWithPercentage__input"
           value={value$.value}
           placeholder="0"
@@ -89,12 +114,14 @@ class InputWithPercentage extends Component {
             value$.next(e.target.value)
           }}
         />
-        <span className="InputWithPercentage__label">{label}</span>
-        <Dropdown
-          items={percentItems}
-          selectedItem={this.selectedItem$.value}
-          onSelect={this.selectPercent}
-        />
+        <div className="InputWithPercentage__right">
+          <span className="InputWithPercentage__label">{label}</span>
+          <Dropdown
+            items={percentItems}
+            selectedItem={this.selectedItem$.value}
+            onSelect={this.selectPercent}
+          />
+        </div>
       </div>
     )
   }

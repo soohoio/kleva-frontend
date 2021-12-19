@@ -4,5 +4,4 @@ import { BehaviorSubject } from "rxjs"
 export const lendingTokenSupplyInfo$ = new BehaviorSubject({})
 
 // Staking
-export const pendingGT$ = new BehaviorSubject({})
 export const poolAmountInStakingPool$ = new BehaviorSubject({})

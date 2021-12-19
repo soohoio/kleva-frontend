@@ -7,8 +7,8 @@ import { takeUntil, tap, filter, switchMap, startWith } from 'rxjs/operators'
 import './GTEarned.scss'
 import { getPendingGTInFairlaunchPool$ } from '../streams/contract'
 import { stakingPools, stakingPoolsByPID } from '../constants/stakingpool'
-import { selectedAddress$ } from '../streams/wallet'
-import { pendingGT$ } from '../streams/vault'
+import { selectedAddress$, pendingGT$ } from '../streams/wallet'
+import { tokenList } from '../constants/tokens'
 
 class GTEarned extends Component {
   destroy$ = new Subject()
@@ -43,13 +43,17 @@ class GTEarned extends Component {
   }
     
   render() {
+    const { klevaPrice } = this.props
     const total = this.getTotal()
 
     return (
       <div className="GTEarned">
         <div className="GTEarned__left">
-          <p className="GTEarned__label">Total KLEVA Earned</p>
-          <p className="GTEarned__value">{Number(total).toLocaleString('en-us', { maximumFractionDigits: 4 })}</p>
+          <p className="GTEarned__label">Rewards to Claim</p>
+          <p className="GTEarned__value">{Number(total).toLocaleString('en-us', { maximumFractionDigits: 2 })}</p>
+          <p className="GTEarned__valueInUSD">
+            ~ ${new BigNumber(total).multipliedBy(klevaPrice).toNumber().toLocaleString('en-us', { maximumFractionDigits: 2 })}
+          </p>
         </div>
         <div className="GTEarned__right">
           <img className="GTEarned__image" src="/static/images/icon-earned.svg" />

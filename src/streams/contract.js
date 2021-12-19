@@ -28,14 +28,12 @@ import { executeContractKlip$ } from './klip'
 
 import { MAX_UINT } from 'constants/setting'
 import { showParamsOnCall } from '../utils/callHelper'
-import { tokenList } from '../constants/tokens'
+import { lpTokenByIngredients, tokenList } from '../constants/tokens'
 
 const NODE_URL = 'http://klaytn.staging.sooho.io:8551'
 export const caver = new Caver(NODE_URL)
 
 window.BigNumber = BigNumber
-
-caver.klay.getBlockNumber().then(console.log)
 
 const getBlockNumber$ = (web3Instance) => from(
   caver.klay.getBlockNumber()
@@ -301,6 +299,10 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
         const stakingTokenAddress = stakingToken && stakingToken.address
         const stakingTokenDecimals = stakingToken && stakingToken.decimals
 
+        const ibTokenPrice = new BigNumber(cur.totalToken._hex)
+          .div(cur.totalSupply._hex)
+          .toString()
+
         acc[vaultAddress] = {
 
           // totalToken: realToken floating balance + realToken debt balance
@@ -309,19 +311,35 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
           // depositedTokenBalance: new BigNumber(cur.totalSupply._hex).div(10 ** stakingTokenDecimals).toString(),
           
           // Deposited real token balance
-          depositedTokenBalance: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).toString(),
+
+          depositedTokenBalance: new BigNumber(cur.totalToken._hex)
+            .div(10 ** stakingTokenDecimals)
+            .toString(),
           
           totalSupplyPure: new BigNumber(cur.totalToken._hex).toString(),
-          totalBorrowedPure: new BigNumber(cur.totalToken._hex).minus(cur.balance._hex).toString(),
+          totalBorrowedPure: new BigNumber(cur.totalToken._hex)
+            .minus(cur.balance._hex)
+            .toString(),
 
-          totalSupply: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).toString(),
-          totalBorrowed: new BigNumber(cur.totalToken._hex).minus(cur.balance._hex).div(10 ** stakingTokenDecimals).toString(),
-          tvl: new BigNumber(cur.totalToken._hex).div(10 ** stakingTokenDecimals).multipliedBy().toString(),
+          totalSupply: new BigNumber(cur.totalToken._hex)
+            .div(10 ** stakingTokenDecimals)
+            .toString(),
+          totalBorrowed: new BigNumber(cur.totalToken._hex)
+            .minus(cur.balance._hex)
+            .div(10 ** stakingTokenDecimals)
+            .toString(),
+          totalUnborrowed: new BigNumber(cur.balance._hex)
+            .div(10 ** stakingTokenDecimals)
+            .toString(),
+          tvl: new BigNumber(cur.totalToken._hex)
+            .div(10 ** stakingTokenDecimals)
+            .multipliedBy()
+            .toString(),
 
           ibToken: ibToken,
-          ibTokenPrice: new BigNumber(cur.totalToken._hex)
-            .div(cur.totalSupply._hex)
-            .toString(),
+          ibTokenPrice: ibTokenPrice === "NaN" 
+            ? 1
+            : ibTokenPrice,
         }
 
         return acc
@@ -848,8 +866,6 @@ export const checkAllowances$ = (account, targetContractAddress, tokens) => {
         const tokenAddress = tokens[idx] && tokens[idx].address
         acc[tokenAddress] = new BigNumber(cur._hex).toString()
 
-        console.log(acc, '@acc')
-
         return acc
       }, {})
     })
@@ -878,16 +894,21 @@ export const getPoolAmountOfStakingPool$ = (stakingPools) => {
   )
 }
 
-export const getFarmTVL$ = (farmPools, workerInfoMap) => {  
+export const getFarmDeposited$ = (farmPools, workerInfoMap) => {  
   const multicallArray = flatten(farmPools.reduce((acc, cur, farmIdx) => {
 
     const feedForMulticall = cur.workerList.map(({ workerAddress }, workerIdx) => {
       const workerInfo = workerInfoMap[workerAddress]
+
       return { 
         address: FAIRLAUNCH, 
         name: 'userInfos', 
         params: [workerInfo.lpPoolId, workerAddress],
-        info: { farmIdx: farmIdx, farm: cur }
+        info: { 
+          farmIdx: farmIdx, 
+          farm: cur,
+          lpToken: lpTokenByIngredients(cur.token1, cur.token2)
+        }
       }
     })
 
@@ -906,7 +927,18 @@ export const getFarmTVL$ = (farmPools, workerInfoMap) => {
     map((workerLPAmountList) => {
       return showParamsOnCall(workerLPAmountList, ['amount', 'rewardDebt', 'fundedBy']).reduce((acc, cur, idx) => {
         const multicallArrayItem = multicallArray[idx]
-        acc[multicallArrayItem.info.farmIdx] = (acc[multicallArrayItem.farmIdx] || 0) + Number(cur.amount)
+        const _deposited = new BigNumber(cur.amount || 0)
+          .div(10 ** multicallArrayItem.info.lpToken.decimals)
+        
+          acc[multicallArrayItem.info.farmIdx] = {
+          
+            deposited: new BigNumber(acc[multicallArrayItem.info.farmIdx] && acc[multicallArrayItem.info.farmIdx].deposited || 0)
+              .plus(_deposited)
+              .toNumber(),
+
+            lpToken: multicallArrayItem.info.lpToken,
+        }
+
         return acc
       }, {})
     })

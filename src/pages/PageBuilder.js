@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 
 import './PageBuilder.scss'
+import Footer from '../components/Footer'
 
 class PageBuilder extends Component {
   destroy$ = new Subject()
@@ -23,19 +24,22 @@ class PageBuilder extends Component {
     const { children } = this.props
 
     return (
-      <div className="PageBuilder">
-        <div className="PageBuilder__topDecoration">
-          <div className="PageBuilder__topDecorationContent">
-            <img className="PageBuilder__topDecorationImage" src="/static/images/top-decoration.svg" />
+      <>
+        <div className="PageBuilder">
+          <div className="PageBuilder__topDecoration">
+            <div className="PageBuilder__topDecorationContent">
+              <img className="PageBuilder__topDecorationImage" src="/static/images/top-decoration.svg" />
+            </div>
           </div>
+          <Header />
+          <div className="PageBuilder__headerDecoration" />
+          <div className="PageBuilder__content">
+            <Sidebar />
+            {children}
+          </div>
+          <Footer />
         </div>
-        <Header />
-        <div className="PageBuilder__headerDecoration" />
-        <div className="PageBuilder__content">
-          <Sidebar />
-          {children}
-        </div>
-      </div>
+      </>
     )
   }
 }

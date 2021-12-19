@@ -29,7 +29,44 @@ export const singleTokens = {
     address: "0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654",
     iconSrc: "/static/images/tokens/token-KSP.svg",
     decimals: 18,
-  },
+  }, 
+  
+  "WEMIX": {
+    title: "WEMIX",
+    address: "0x5096db80b21ef45230c9e423c373f1fc9c0198dd",
+    iconSrc: "/static/images/tokens/token-WEMIX.png",
+    decimals: 18,
+  }, 
+  "KDAI": {
+    title: "KDAI",
+    address: "0x5c74070fdea071359b86082bd9f9b3deaafbe32b",
+    iconSrc: "/static/images/tokens/token-KDAI.png",
+    decimals: 18,
+  }, 
+  "KUSDC": {
+    title: "KUSDC",
+    address: "0x754288077d0ff82af7a5317c7cb8c444d421d103",
+    iconSrc: "/static/images/tokens/token-KUSDC.svg",
+    decimals: 6,
+  }, 
+  "KBUSD": {
+    title: "KBUSD",
+    address: "0x210bc03f49052169d5588a52c317f71cf2078b85",
+    iconSrc: "/static/images/tokens/token-KBUSD.svg",
+    decimals: 18,
+  }, 
+  "KETH": {
+    title: "KETH",
+    address: "0x34d21b1e550d73cee41151c77f3c73359527a396",
+    iconSrc: "/static/images/tokens/token-KETH.svg",
+    decimals: 18,
+  }, 
+  "KXRP": {
+    title: "KXRP",
+    address: "0x9eaefb09fe4aabfbe6b1ca316a3c36afc83a393f",
+    iconSrc: "/static/images/tokens/token-KXRP.svg",
+    decimals: 6,
+  }, 
 }
 
 export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cur) => {
@@ -56,10 +93,20 @@ export const lpTokens = {
   },
 }
 
+const _lpTokenByIngredients = Object.values(lpTokens).reduce((acc, cur) => {
+  acc[`${cur.ingredients[0].address.toLowerCase()}-${cur.ingredients[1].address.toLowerCase()}`] = cur
+  acc[`${cur.ingredients[1].address.toLowerCase()}-${cur.ingredients[0].address.toLowerCase()}`] = cur
+  return acc
+}, {})
+
+export const lpTokenByIngredients = (tokenA, tokenB) => {
+  return _lpTokenByIngredients[`${tokenA.address.toLowerCase()}-${tokenB.address.toLowerCase()}`]
+}
+
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
-    address: "0x0C952D740dF769FDec998776B8F4e727687CCC3A",
+    address: "0xF39787715B743Ab118FD36Cb8a836bC54624e5b8",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: singleTokens["WKLAY"].decimals,
 
@@ -67,7 +114,7 @@ export const ibTokens = {
   },
   "ibKLEVA": {
     title: "ibKLEVA",
-    address: "0xE9e0901A825D32d0DB0e9aE47738d07F5F3c966F",
+    address: "0x4b1A8c88443f4d7cF35afd0171eAd25AeF338428",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: singleTokens["KLEVA"].decimals,
 
@@ -75,11 +122,27 @@ export const ibTokens = {
   },
   "ibKUSDT": {
     title: "ibKUSDT",
-    address: "0x0d5083559cb5E483DA4476DDCFcE004535221447",
+    address: "0x77a767F6DE81bD85A52FFB2c8e4121f43137aD3F",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: singleTokens["KUSDT"].decimals,
 
     originalToken: singleTokens.KUSDT,
+  },
+  "ibWEMIX": {
+    title: "ibWEMIX",
+    address: "0x8DBC74D59aE4d0D0f6a389F0174A1cFFf0C2778f",
+    iconSrc: "/static/images/tokens/token-WEMIX.png",
+    decimals: singleTokens["WEMIX"].decimals,
+
+    originalToken: singleTokens.WEMIX,
+  },
+  "ibKDAI": {
+    title: "ibKDAI",
+    address: "0x292fa4ab3585E697da21BC274A13dDe85cdDa1d1",
+    iconSrc: "/static/images/tokens/token-KDAI.png",
+    decimals: singleTokens["KDAI"].decimals,
+
+    originalToken: singleTokens.KDAI,
   },
 }
 
@@ -99,6 +162,12 @@ export const debtTokens = {
   },
   [ibTokens.ibKUSDT.address]: {
     pid: 5,
+  },
+  [ibTokens.ibWEMIX.address]: {
+    pid: 7,
+  },
+  [ibTokens.ibKDAI.address]: {
+    pid: 9,
   },
 }
 

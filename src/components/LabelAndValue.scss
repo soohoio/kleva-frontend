@@ -2,7 +2,7 @@
   @include font-style('font-1', 'm', 13px);
   display: flex;
   justify-content: space-between;
-  align-items: top;
+  align-items: flex-start;
   color: #494a4d;
   margin-bottom: 2px;
 }

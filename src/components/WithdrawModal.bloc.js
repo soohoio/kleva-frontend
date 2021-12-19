@@ -2,12 +2,13 @@ import { BehaviorSubject } from "rxjs"
 import BigNumber from 'bignumber.js'
 
 import { getTransactionReceipt$, withdrawFromLending$ } from "../streams/contract"
-import { switchMap } from "rxjs/operators"
+import { switchMap, tap } from "rxjs/operators"
 import { closeModal$ } from "../streams/ui"
 import { fetchWalletInfo$ } from "../streams/wallet"
 
 export default class {
   constructor() {
+    this.isLoading$ = new BehaviorSubject(false)
     this.withdrawAmount$ = new BehaviorSubject('')
   }
 
@@ -19,9 +20,10 @@ export default class {
     const withdrawAmount = new BigNumber(this.withdrawAmount$.value).multipliedBy(10 ** stakingToken.decimals).toString()
 
     withdrawFromLending$(vaultAddress, withdrawAmount).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, 'result')
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
       closeModal$.next(true)
     })

@@ -9,11 +9,12 @@ import { tokenList } from 'constants/tokens'
 import { stakingPools } from 'constants/stakingpool'
 import { lendingPools } from 'constants/lendingpool'
 import { allowancesMultiInStakingPool$, getPendingGTInFairlaunchPool$, getPoolAmountOfStakingPool$ } from './contract'
-import { pendingGT$, poolAmountInStakingPool$ } from './vault'
-import { logout$ } from './wallet'
+import { poolAmountInStakingPool$ } from './vault'
+import { logout$, pendingGT$ } from './wallet'
 import { debtTokens } from '../constants/tokens'
 
 const WALLET_INFO_FETCH_INTERVAL = 5000
+const VAULT_INFO_FETCH_INTERVAL = 5000
 
 const tokenAddressList = [...Object.values(tokenList).filter(({ title }) =>
   title !== "KLAY"
@@ -32,7 +33,6 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
       balanceOfMultiInStakingPool$(selectedAddress, stakingPools),
       allowancesMultiInLendingPool$(selectedAddress, lendingPools.filter(({ stakingToken }) => !stakingToken.nativeCoin)),
       allowancesMultiInStakingPool$(selectedAddress, stakingPools),
-      getPoolAmountOfStakingPool$(stakingPools),
       getPendingGTInFairlaunchPool$([...stakingPools, ...Object.values(debtTokens)], selectedAddress),
       // earnedMulti$(address, vaultList),
       // depositedAtMulti$(address, vaultAddressList),
@@ -43,16 +43,12 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
     balancesInStakingPool, 
     allowancesInLendingPool, 
     allowancesInStakingPool, 
-    poolAmountInStakingPool,
     pendingGT,
   ]) => {
     balancesInWallet$.next(balancesInWallet)
     balancesInStakingPool$.next(balancesInStakingPool)
     allowancesInLendingPool$.next(allowancesInLendingPool)
     allowancesInStakingPool$.next(allowancesInStakingPool)
-
-    // Staking Pool Global Deposited Amount
-    poolAmountInStakingPool$.next(poolAmountInStakingPool)
 
     pendingGT$.next(pendingGT)
     // depositedAt$.next(depositedAt)
@@ -66,4 +62,19 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
     )
   }),
   takeUntil(logout$)
+)
+
+export const vaultInfoFetcher$ = merge(
+  interval(VAULT_INFO_FETCH_INTERVAL)
+).pipe(
+  startWith(0),
+  switchMap(() => {
+    // Staking Pool Global Deposited Amount
+    return forkJoin(
+      getPoolAmountOfStakingPool$(stakingPools),
+    )
+  }),
+  tap(([poolAmountInStakingPool]) => {
+    poolAmountInStakingPool$.next(poolAmountInStakingPool)
+  })
 )

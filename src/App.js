@@ -13,7 +13,16 @@ BigNumber.config({
 import { localeChange$ } from 'streams/i18n'
 import { isDesktop$ } from 'streams/ui'
 import { connectInjected, selectedAddress$, balancesInWallet$, balancesInStakingPool$, allowancesInLendingPool$ } from 'streams/wallet'
-import { balanceOfMultiInWallet$, balanceOfMultiInStakingPool$, listTokenSupplyInfo$, allowancesMultiInLendingPool$, caver, getKlevaAnnualReward$ } from './streams/contract'
+import { 
+  balanceOfMultiInWallet$, 
+  balanceOfMultiInStakingPool$, 
+  listTokenSupplyInfo$, 
+  allowancesMultiInLendingPool$, 
+  caver, 
+  getKlevaAnnualReward$, 
+  getWorkerInfo$, 
+  getFarmDeposited$ 
+} from './streams/contract'
 
 import Overlay from 'components/Overlay'
 // import Toast from 'components/Toast'
@@ -25,12 +34,14 @@ import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
 import { fetchWalletInfo$ } from './streams/wallet'
-import { walletInfoFetcher$ } from './streams/fetcher'
+import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { GRAPH_NODE_URL } from 'streams/graphql'
 import LZUTF8 from 'lzutf8'
-import { aprInfo$, klevaAnnualRewards$ } from './streams/farming'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from './streams/farming'
 import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
 import { getAmountOut, calcBestPathToKLAY } from './utils/calc'
+import { farmPool } from './constants/farmpool'
+import { workers } from './constants/workers'
 
 type Props = {
   isLoading: boolean,
@@ -54,7 +65,7 @@ class App extends Component<Props> {
   componentDidMount() {
     // Connect Kaikas Wallet
     // connectInjected()
-    connectInjected('metamask')
+    // connectInjected('metamask')
 
     // Fetch lending token supply info.
     interval(1000 * 10).pipe(
@@ -73,16 +84,15 @@ class App extends Component<Props> {
       const apr = klayswapInfo && klayswapInfo.apr
 
       const aprInfo = Object.entries(apr).reduce((acc, [key, val]) => {
-
-          if (acc[key] && acc[key]['kspMiningAPR']) {
+          if (acc[key] && acc[key]['kspMiningAPR'] && typeof acc[key]['kspMiningAPR'] === 'string') {
             acc[key]['kspMiningAPR'] = Number(acc[key]['kspMiningAPR'].split('%')[0])
           }
 
-          if (acc[key] && acc[key]['airdropAPR']) {
+          if (acc[key] && acc[key]['airdropAPR'] && typeof acc[key]['airdropAPR'] === 'string') {
             acc[key]['airdropAPR'] = Number(acc[key]['airdropAPR'].split('%')[0])
           }
 
-          if (acc[key] && acc[key]['tradingFeeAPR']) {
+          if (acc[key] && acc[key]['tradingFeeAPR'] && typeof acc[key]['tradingFeeAPR'] === 'string') {
             acc[key]['tradingFeeAPR'] = Number(acc[key]['tradingFeeAPR'].split('%')[0])
           }
 
@@ -99,6 +109,29 @@ class App extends Component<Props> {
       klevaAnnualRewards$.next(res)
     })
 
+    interval(1000 * 60).pipe(
+      startWith(0)
+    ).pipe(
+      switchMap(() => {
+        return forkJoin(getWorkerInfo$(workers),)
+      }),
+      tap(([workerInfo]) => {
+
+        const _workerInfo = Object.entries(workerInfo).reduce((acc, [key, item]) => {
+          acc[key.toLowerCase()] = item
+          acc[key] = item
+          return acc
+        }, {})
+
+        workerInfo$.next(_workerInfo)
+      }),
+      switchMap(() => getFarmDeposited$(farmPool, workerInfo$.value)),
+      tap((farmDepositedInfo) => {
+        farmPoolDeposited$.next(farmDepositedInfo)
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe()
+
     merge(
       // isDesktop$,
       isFocused$,
@@ -113,6 +146,10 @@ class App extends Component<Props> {
     ).subscribe(() => {
       this.forceUpdate()
     })
+
+    vaultInfoFetcher$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe()
 
     localeChange$.pipe(
       takeUntil(this.destroy$)

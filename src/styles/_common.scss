@@ -67,6 +67,12 @@
   color: #3369ff;
 }
 
+@mixin disabled-button {
+  background-color: #f2f3f5;
+  color: rgba(#475066, .3);
+  cursor: not-allowed;
+}
+
 // Text
 @mixin text-1(
   $color: #797b80, 

@@ -13,6 +13,7 @@ import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 
 import './LendingPoolListItemCard.scss'
+import { toAPY } from '../utils/calc'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -38,9 +39,17 @@ class LendingPoolListItemCard extends Component {
       ibTokenBalanceInWallet,
       isExpand,
       onClick,
+      utilization,
+      lendingAPR,
+      stakingAPR,
+      selectedAddress,
     } = this.props
 
-    const utilization = new BigNumber(totalBorrowed).div(totalSupply).multipliedBy(100).toNumber()
+    const totalAPR = new BigNumber(lendingAPR)
+      .plus(stakingAPR)
+      .toNumber()
+
+    const totalAPY = toAPY(totalAPR)
 
     return (
       <div className="LendingPoolListItemCard">
@@ -55,29 +64,37 @@ class LendingPoolListItemCard extends Component {
             <LabelAndValue
               className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--apy"
               label="Total APY"
-              value="-%"
+              value={`${nFormatter(totalAPY, 2)}%`}
             />
             <LabelAndValue
               className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--apr"
               label="Total APR"
-              value="-%"
+              value={`${nFormatter(totalAPR, 2)}%`}
             />
           </div>
           {isExpand && (
             <>
               <div className="LendingPoolListItemCard__aprDetail">
-                <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Lending APR" value="0.0518%" />
-                {/* <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Staking APR" value="0.0518%" /> */}
+                <LabelAndValue 
+                  className="LendingPoolListItemCard__aprDetailItem" 
+                  label="Lending APR" 
+                  value={`${nFormatter(lendingAPR, 2)}%`}
+                />
+                <LabelAndValue 
+                  className="LendingPoolListItemCard__aprDetailItem" 
+                  label="Staking APR" 
+                  value={`${nFormatter(stakingAPR, 2)}%`}
+                />
                 {/* <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Protocol APR" value="0.0518%" /> */}
               </div>
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--supply" label="Total Supply" value={(
                 <>
-                  {nFormatter(totalSupply, 6)} {stakingToken.title}
+                  {nFormatter(totalSupply, 2)} {stakingToken.title}
                 </>
               )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--borrowed" label="Total Borrowed" value={(
                 <>
-                  {nFormatter(totalBorrowed, 6)} {stakingToken.title}
+                  {nFormatter(totalBorrowed, 2)} {stakingToken.title}
                 </>
               )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--utilization" label="Utilization" value={(
@@ -87,28 +104,43 @@ class LendingPoolListItemCard extends Component {
               )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--balance" label="My Balance" value={(
                 <>
-                  <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p>
-                  <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
+                  <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p>
+                  <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
                 </>
               )} />
               <div className="LendingPoolListItemCard__buttons">
                 <button
-                  className="LendingPoolListItemCard__withdrawButton"
-                  onClick={() => openModal$.next({
-                    component: (
-                      <WithdrawModal
-                        ibTokenPrice={ibTokenPrice}
-                        stakingToken={stakingToken}
-                        vaultAddress={vaultAddress}
-                      />
-                    )
+                  className={cx("LendingPoolListItemCard__withdrawButton", {
+                    "LendingPoolListItemCard__withdrawButton--disabled": !selectedAddress
                   })}
+                  onClick={() => {
+
+                    if (!selectedAddress) {
+                      return
+                    }
+
+                    openModal$.next({
+                      component: (
+                        <WithdrawModal
+                          ibTokenPrice={ibTokenPrice}
+                          stakingToken={stakingToken}
+                          vaultAddress={vaultAddress}
+                        />
+                      )
+                    })
+                  }}
                 >
                   Withdraw
                 </button>
                 <button
-                  className="LendingPoolListItemCard__depositButton"
+                  className={cx("LendingPoolListItemCard__depositButton", {
+                    "LendingPoolListItemCard__depositButton--disabled": !selectedAddress
+                  })}
                   onClick={() => {
+                    if (!selectedAddress) {
+                      return
+                    }
+
                     openModal$.next({
                       component: (
                         <DepositModal

@@ -3,14 +3,13 @@ import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
+import './TVLBrief.scss'
 import { tokenPrices$ } from '../streams/tokenPrice'
 import { lendingPools } from '../constants/lendingpool'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { farmPoolDeposited$ } from '../streams/farming'
 
-import './TVL.scss'
-
-class TVL extends Component {
+class TVLBrief extends Component {
   destroy$ = new Subject()
   
   componentDidMount() {
@@ -59,15 +58,21 @@ class TVL extends Component {
   }
     
   render() {
-    const _tvl = this.getTVL()
 
     return (
-      <div className="TVL">
-        <span className="TVL__label">TVL</span>
-        <span className="TVL__value">${_tvl.toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>
+      <div className="TVLBrief">
+        <div className="TVLBrief__left">
+          <p className="TVLBrief__title">Total Value Locked</p>
+          <p className="TVLBrief__description">${this.getTVL().toLocaleString('en-us', { maximumFractionDigits: 2 })}</p>
+        </div>
+        <div className="TVLBrief__right">
+          {/* <div className="TVLBrief__banner">
+            Marketing Communcation Banners
+          </div> */}
+        </div>
       </div>
     )
   }
 }
 
-export default TVL
+export default TVLBrief

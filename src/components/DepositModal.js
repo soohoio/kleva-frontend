@@ -6,6 +6,8 @@ import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
 
 import { balancesInWallet$, allowancesInLendingPool$ } from 'streams/wallet'
 
+import InputWithPercentage from './common/InputWithPercentage'
+
 import Modal from './common/Modal'
 import Bloc from './DepositModal.bloc'
 
@@ -21,6 +23,7 @@ class DepositModal extends Component {
 
     merge(
       this.bloc.depositAmount$,
+      this.bloc.isLoading$,
       balancesInWallet$.pipe(
         distinctUntilChanged((a, b) => 
           (a[stakingToken.address] && a[stakingToken.address].balanceParsed) === 
@@ -37,6 +40,43 @@ class DepositModal extends Component {
   
   componentWillUnMount() {
     this.destroy$.next(true)
+  }
+
+  renderButton = () => {
+
+    const { vaultAddress, stakingToken } = this.props
+
+    const isApproved = stakingToken.nativeCoin || (allowancesInLendingPool$.value && allowancesInLendingPool$.value[vaultAddress] != 0)
+
+    if (this.bloc.isLoading$.value) {
+      return (
+        <button
+          className="DepositModal__confirmButton"
+        >
+          ...
+        </button>
+      )
+    }
+
+    if (isApproved) {
+      return (
+        <button
+          onClick={() => this.bloc.deposit(stakingToken, vaultAddress)}
+          className="DepositModal__confirmButton"
+        >
+          Confirm
+        </button>
+      )
+    }
+
+    return (
+      <button
+        onClick={() => this.bloc.approve(stakingToken, vaultAddress)}
+        className="DepositModal__confirmButton"
+      >
+        Approve
+      </button>
+    )
   }
     
   render() {
@@ -56,59 +96,19 @@ class DepositModal extends Component {
             <span className="DepositModal__availableLabel">Available Balance: </span>
           <span className="DepositModal__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4})} {stakingToken.title}</span>
           </div>
-          <div
-          className={cx('DepositModal__inputWrapper', {
-            'DepositModal__inputWrapper--active': !!this.bloc.depositAmount$.value,
-          })}>
-            <input 
-              autoFocus
-              value={this.bloc.depositAmount$.value}
-              onChange={this.bloc.handleChange}
-              placeholder="0.00"
-              className="DepositModal__input" 
-            />
-            <span className="DepositModal__inputLabel">{stakingToken.title}</span>
-          </div>
-          <div className="DepositModal__percentage">
-            {[25, 50, 75, 100].map((p) => (
-              <div
-                onClick={() => {
-                  this.bloc.handleChange({ 
-                    target: {
-                      value: new BigNumber(availableBalance).multipliedBy(p / 100).toNumber() 
-                    }
-                  })
-                }}
-                className="DepositModal__percentageItem"
-              >
-                {p}%
-              </div>
-            ))}
-          </div>
+          <InputWithPercentage
+            className="DepositModal__depositInput"
+            value$={this.bloc.depositAmount$}
+            valueLimit={availableBalance}
+            label={stakingToken.title}
+          />
           <p className="DepositModal__youWillReceive">You will receive:</p>
           <div className="DepositModal__bottom">
             <div className="DepositModal__receive">
               <span className="DepositModal__receiveAmount">~{willReceiveAmount}</span>
               <span className="DepositModal__receiveToken">ib{stakingToken.title}</span>
             </div>
-            {isApproved 
-              ? (
-                <button
-                  onClick={() => this.bloc.deposit(stakingToken, vaultAddress)}
-                  className="DepositModal__confirmButton"
-                >
-                  Confirm
-                </button>
-              )
-              : (
-                <button
-                  onClick={() => this.bloc.approve(stakingToken, vaultAddress)}
-                  className="DepositModal__confirmButton"
-                >
-                  Approve
-                </button>
-              )
-            }
+            {this.renderButton()}
           </div>
       </Modal>
     )

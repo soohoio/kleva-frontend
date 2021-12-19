@@ -4,12 +4,20 @@ import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import './LYFPrice.scss'
+import { tokenPrices$ } from '../streams/tokenPrice'
+import { tokenList } from '../constants/tokens'
 
 class LYFPrice extends Component {
   destroy$ = new Subject()
   
   componentDidMount() {
-    
+    merge(
+      tokenPrices$,
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
   }
   
   componentWillUnMount() {
@@ -17,7 +25,7 @@ class LYFPrice extends Component {
   }
     
   render() {
-    const _price = 31.84
+    const _price = Number(tokenPrices$.value && tokenPrices$.value[tokenList.KLEVA.address])
 
     return (
       <div className="LYFPrice">

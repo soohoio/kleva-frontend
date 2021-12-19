@@ -1,0 +1,44 @@
+.Footer {
+  width: 100vw;
+  z-index: 9;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  align-items: center;
+  background-color: #292c33;
+  display: flex;
+  padding: 24px;
+  justify-content: center;
+  
+  @include desktop {
+    display: none;
+    
+    @media only screen and (min-height: 768px) {
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      display: flex;
+      height: 52px;
+    }
+  }
+}
+
+.Footer__left {
+  width: 100%;
+  gap: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include desktop {
+    width: auto;
+    gap: 16px;
+    justify-content: unset;
+  }
+}
+
+.Footer__socialLink {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

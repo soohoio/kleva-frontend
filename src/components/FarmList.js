@@ -6,7 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './FarmList.scss'
 import FarmItem from './FarmItem'
 import { farmPool } from '../constants/farmpool'
-import { aprInfo$, farmPoolTVL$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { tokenPrices$ } from '../streams/tokenPrice'
 
@@ -20,7 +20,7 @@ class FarmList extends Component {
       workerInfo$,
       klevaAnnualRewards$,
       tokenPrices$,
-      farmPoolTVL$,
+      farmPoolDeposited$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -66,7 +66,7 @@ class FarmList extends Component {
               <FarmItem
                 klevaAnnualRewards={klevaAnnualRewards$.value}
                 tokenPrices={tokenPrices$.value}
-                farmPoolTVL={farmPoolTVL$.value[idx]}
+                farmDeposited={farmPoolDeposited$.value[idx]}
 
                 aprInfo={aprInfo}
                 workerInfo={workerInfo$.value}

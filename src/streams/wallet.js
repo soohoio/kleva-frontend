@@ -65,6 +65,7 @@ export const allowancesInStakingPool$ = new BehaviorSubject({})
 export const earned$ = new BehaviorSubject({})
 export const depositedAt$ = new BehaviorSubject({})
 export const fetchWalletInfo$ = new Subject()
+export const pendingGT$ = new BehaviorSubject({})
 
 logout$.subscribe(() => {
   console.log('logout')
@@ -76,6 +77,7 @@ logout$.subscribe(() => {
   depositedAt$.next({})
   fetchWalletInfo$.next(true)
   selectedAddress$.next(null)
+  pendingGT$.next({})
 })
 
 window.selectedAddress$ = selectedAddress$

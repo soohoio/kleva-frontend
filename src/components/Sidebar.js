@@ -8,10 +8,15 @@ import { path$ } from 'streams/location'
 
 import './Sidebar.scss'
 
-const SidebarItem = ({ active, title, iconSrc, href, clientSideHref }) => {
+const SidebarItem = ({ active, disabled, title, iconSrc, href, clientSideHref }) => {
   return (
     <div
       onClick={() => {
+
+        if (disabled) {
+          return
+        }
+
         if (clientSideHref) {
           browserHistory.push(clientSideHref)
           return
@@ -19,7 +24,8 @@ const SidebarItem = ({ active, title, iconSrc, href, clientSideHref }) => {
         window.open(href)
       }}
       className={cx("SidebarItem", {
-        "SidebarItem--active": active
+        "SidebarItem--active": active,
+        "SidebarItem--disabled": disabled,
       })}
     >
       {iconSrc && <img className="SidebarItem__icon" src={iconSrc} />}
@@ -57,6 +63,7 @@ class Sidebar extends Component {
           title="Stake"
         />
         <SidebarItem
+          disabled
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"

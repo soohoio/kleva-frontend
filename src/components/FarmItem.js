@@ -70,16 +70,19 @@ class FarmItem extends Component {
 
   getKlevaRewardsAPR = () => {
     const { borrowingAsset, leverageValue } = this.state
-    const { klevaAnnualRewards, farmPoolTVL, tokenPrices } = this.props
+    const { klevaAnnualRewards, farmDeposited, tokenPrices } = this.props
 
     const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
     const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
     const debtTokenPid = debtToken && debtToken.pid
     const klevaAnnualReward = klevaAnnualRewards[debtTokenPid]
 
+    const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
+      .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
+
     const klevaRewardsAPR = new BigNumber(klevaAnnualReward)
       .multipliedBy(tokenPrices[tokenList.KLEVA.address])
-      .div(farmPoolTVL)
+      .div(farmTVL)
       .multipliedBy(leverageValue)
       .multipliedBy(100)
       .toNumber()

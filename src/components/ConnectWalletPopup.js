@@ -6,12 +6,12 @@ import { takeUntil, tap } from 'rxjs/operators'
 import './ConnectWalletPopup.scss'
 import Modal from './common/Modal'
 import { connectInjected, logout$, selectedAddress$ } from '../streams/wallet'
-import { closeModal$ } from '../streams/ui'
+import { closeModal$, isDesktop$ } from '../streams/ui'
 import { accessKlip$ } from '../streams/klip'
 
-const WalletConnectOption = ({ title, imgSrc, onClick }) => {
+const WalletConnectOption = ({ title, className, imgSrc, onClick }) => {
   return (
-    <div onClick={onClick} className="WalletConnectOption">
+    <div onClick={onClick} className={cx("WalletConnectOption", className)}>
       <img className="WalletConnectOption__image" src={imgSrc} />
       <p className="WalletConnectOption__title">{title}</p>
     </div>
@@ -68,11 +68,11 @@ class ConnectWalletPopup extends Component {
                   closeModal$.next(true)
                 }}
               />
-              {/* <WalletConnectOption
+              <WalletConnectOption
                 title="Klip"
+                className="WalletConnectOption--klip"
                 imgSrc="/static/images/wallet-option-klip.svg"
                 onClick={() => {
-                  console.log("Klip")
                   accessKlip$.subscribe((result) => {
                     walletType$.next("klip")
                     selectedAddress$.next(result && result.klaytn_address)
@@ -82,7 +82,7 @@ class ConnectWalletPopup extends Component {
                     }
                   })
                 }}
-              /> */}
+              />
               <WalletConnectOption
                 title="Metamask"
                 imgSrc="/static/images/wallet-option-metamask.png"

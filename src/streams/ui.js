@@ -6,7 +6,7 @@ export const modalContentComponent$ = new BehaviorSubject(null)
 export const overlayBackgroundColor$ = new BehaviorSubject(null)
 export const disableScreenClose$ = new BehaviorSubject(null)
 
-const DESKTOP_START_WIDTH = 1080
+const DESKTOP_START_WIDTH = 1200
 
 export const isDesktop$ = new BehaviorSubject(window.outerWidth >= DESKTOP_START_WIDTH)
 

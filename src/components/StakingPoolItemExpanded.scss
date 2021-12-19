@@ -55,6 +55,8 @@
   align-items: center;
   width: 100%;
   margin-bottom: 8px;
+
+  padding-right: 16px;
 }
 
 .StakingPoolItemExpanded__availableBalanceLabel, .StakingPoolItemExpanded__stakedBalanceLabel {
@@ -94,31 +96,68 @@
 .StakingPoolItemExpanded__stakeButton {
   @include button-1(40px);
   width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }
 
 .StakingPoolItemExpanded__unstakeButton {
   @include button-2(40px);
   width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }
 
 .StakingPoolItemExpanded__totalRewardsLabel {
   @include font-style('font-1', 'm', 13px);
   color: #131414;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+}
+
+.StakingPoolItemExpanded__totalRewardsValueWrapper {
+  height: 44px;
+  margin-bottom: 20px;
 }
 
 .StakingPoolItemExpanded__totalRewardsValue {
-
-  @include font-style('font-1', 'm', 28px);
+  @include font-style('font-1', 'sb', 24px);
   color: #3369ff;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   
   @include desktop {
-    margin-bottom: 23px;
+    margin-bottom: 0;
   }
+}
+
+.StakingPoolItemExpanded__totalRewardsValueInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
+  position: relative;
+  top: -4px;
 }
 
 .StakingPoolItemExpanded__claimButton {
   @include button-2(40px);
   width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
+
+.StakingPoolItemExpanded__stakeInput {
+  margin-bottom: 20px;
+  .InputWithPercentage__input {
+    // width: auto;
+  }
+}
+
+.StakingPoolItemExpanded__unstakeInput {
+  margin-bottom: 20px;
+  .InputWithPercentage__input {
+    // width: auto;
+  }
 }

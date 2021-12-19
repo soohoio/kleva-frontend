@@ -9,7 +9,8 @@ const DropdownItem = ({ isOpen, selected, title, iconSrc, iconSrcList, rightCont
   return (
     <div
       className={cx("Dropdown__item", {
-        "Dropdown__item--selected": isOpen && selected,
+        "Dropdown__item--selected": !isOpen && selected,
+        "Dropdown__item--selectedAndOpen": isOpen && selected,
       })}
       onClick={onClick}
     >
@@ -108,8 +109,6 @@ class Dropdown extends Component {
                 // .filter((item) => this.filterSearch(item, searchKey))
                 .map((item) => {
                   const { iconSrc, iconSrcList, title, key, rightContent } = item
-
-                  console.log(item, '!@item')
 
                   return (
                     <DropdownItem

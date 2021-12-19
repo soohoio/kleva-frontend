@@ -7,11 +7,13 @@ import { nFormatter } from 'utils/misc'
 
 import './LendingPoolListItem.scss'
 import { openModal$ } from '../streams/ui'
+import ConnectWallet from './ConnectWallet'
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 import AssetInfo from './AssetInfo'
 import LabelAndValue from './LabelAndValue'
 import { toAPY } from '../utils/calc'
+import ConnectWalletPopup from './ConnectWalletPopup'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -37,9 +39,14 @@ class LendingPoolListItem extends Component {
       balanceInWallet,
       ibTokenBalanceInWallet,
       utilization,
+      stakingAPR,
+      tvl,
+      selectedAddress,
     } = this.props
 
-    const totalAPR = lendingAPR
+    const totalAPR = new BigNumber(lendingAPR)
+      .plus(stakingAPR)
+      .toNumber()
 
     const totalAPY = toAPY(totalAPR)
 
@@ -53,49 +60,89 @@ class LendingPoolListItem extends Component {
           />
         </div>
         <div className="LendingPoolListItem">
-          <LabelAndValue label="Lending APR" value={`${Number(lendingAPR).toLocaleString('en-us', { maximumFractionDigits:2 })}%`} />
-          {/* <LabelAndValue label="Staking APR" value="-%" /> */}
-          <LabelAndValue label="Total APR" value={`${Number(totalAPR).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
-          <LabelAndValue color="#3369ff" label="Total APY" value={`${Number(totalAPY).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
+          <LabelAndValue 
+            label="Lending APR" 
+            value={`${nFormatter(lendingAPR, 0)}%`} 
+          />
+          <LabelAndValue 
+            label="Staking APR" 
+            value={`${nFormatter(stakingAPR, 0)}%`}
+          />
+          <LabelAndValue 
+            label="Total APR" 
+            value={`${nFormatter(totalAPR, 0)}%`} 
+          />
+          <LabelAndValue 
+            color="#3369ff" 
+            label="Total APY" 
+            value={`${nFormatter(totalAPY, 0)}%`}
+          />
+        </div>
+        <div className="LendingPoolListItem LendingPoolListItem--totalSupply">
+          <span className="LendingPoolListItem__tokenValue">{nFormatter(totalSupply, 2)} </span>
+          <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
+        </div>
+        <div className="LendingPoolListItem LendingPoolListItem--totalBorrowed">
+          <span className="LendingPoolListItem__tokenValue">{nFormatter(totalBorrowed, 2)}</span>
+          <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
         </div>
         <div className="LendingPoolListItem">
-          {nFormatter(totalSupply, 6)} {stakingToken.title}
+          {nFormatter(utilization, 2)}%
         </div>
         <div className="LendingPoolListItem">
-          {nFormatter(totalBorrowed, 6)} {stakingToken.title}
-        </div>
-        <div className="LendingPoolListItem">
-          {utilization.toLocaleString('en-us', { maximumFractionDigits: 2 })}%
-        </div>
-        <div className="LendingPoolListItem">
-          <p>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p>
-          <p>{Number(balanceInWallet && balanceInWallet.balanceParsed).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
+          <div className="LendingPoolListItem__tokenBalance">
+            <span className="LendingPoolListItem__tokenValue">{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>            
+            <span className="LendingPoolListItem__tokenSymbol">ib{stakingToken.title}</span>
+          </div>
+          <div className="LendingPoolListItem__tokenBalance">
+            <span className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} </span>
+            <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
+          </div>
         </div>
         <div className="LendingPoolListItem">
           <div className="LendingDepositWithdraw">
-            <div 
-              className="LendingDepositWithdraw__depositButton"
-              onClick={() => openModal$.next({ component: (
-                <DepositModal 
-                  ibTokenPrice={ibTokenPrice} 
-                  stakingToken={stakingToken} 
-                  vaultAddress={vaultAddress}
-                />
-              )})}
+            <div
+              className={cx("LendingDepositWithdraw__depositButton", {
+                "LendingDepositWithdraw__depositButton--disabled": !selectedAddress
+              })}
+              onClick={() => {
+
+                if (!selectedAddress) {
+                  return
+                }
+
+                openModal$.next({
+                  component: (
+                    <DepositModal
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+                    />
+                  )
+                })
+              }}
             >
               Deposit
             </div>
             <div
-              className="LendingDepositWithdraw__withdrawButton"
-              onClick={() => openModal$.next({
-                component: (
-                  <WithdrawModal
-                    ibTokenPrice={ibTokenPrice}
-                    stakingToken={stakingToken}
-                    vaultAddress={vaultAddress}
-                  />
-                )
+              className={cx("LendingDepositWithdraw__withdrawButton", {
+                "LendingDepositWithdraw__withdrawButton--disabled": !selectedAddress
               })}
+              onClick={() => {
+                if (!selectedAddress) {
+                  return
+                }
+
+                openModal$.next({
+                  component: (
+                    <WithdrawModal
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+                    />
+                  )
+                })
+              }}
             >
               Withdraw
             </div>

@@ -26,7 +26,6 @@ export default class {
     }).pipe(
       switchMap((result) => getTransactionReceipt$(result && result.result))
     ).subscribe((result) => {
-      console.log(result, 'approve result')
       fetchWalletInfo$.next(true)
     })
   }

@@ -51,6 +51,9 @@
   height: 48px;
   border-radius: 50%;
   margin-right: 16px;
+
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  background-color: #fff;
 }
 
 .StakingPoolItemCard__StakingAssetInfoInfo {
@@ -68,16 +71,20 @@
   display: flex;
   flex-direction: column;
   text-align: right;
+
 }
 
 .StakingPoolItemCard__APRAPYapy {
-  @include font-style('font-1', 'b', 25px);
+  @include font-style('font-1', 'b', 20px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   color: #3369ff;
 }
 
 .StakingPoolItemCard__APRAPYapr {
-  @include font-style('font-1', 'm', 13px);
-  color: #131414;
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
 }
 
 .StakingPoolItemCard__Staked {
@@ -144,4 +151,9 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   cursor: pointer;
+}
+
+.StakingPoolItemCard__EarnedAmountInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
 }
