@@ -21,7 +21,7 @@ export default class {
 
     withdrawFromLending$(vaultAddress, withdrawAmount).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)

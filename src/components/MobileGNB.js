@@ -9,13 +9,18 @@ import { closeModal$ } from 'streams/ui'
 
 import './MobileGNB.scss'
 
-const SidebarItem = ({ href, clientSideHref, active, title, iconSrc }) => {
+const SidebarItem = ({ onClickOverwrite, href, clientSideHref, active, title, iconSrc }) => {
   return (
     <div
       className={cx("SidebarItem", {
         "SidebarItem--active": active
       })}
       onClick={() => {
+
+        if (typeof onClickOverwrite === 'function') {
+          onClickOverwrite()
+          return
+        }
 
         if (clientSideHref) {
           browserHistory.push(clientSideHref)
@@ -71,11 +76,12 @@ class MobileGNB extends Component {
           title="Stake"
           active={path$.value === '/stake'}
         />
-        {/* <SidebarItem
+        <SidebarItem
+          onClickOverwrite={() => alert("Coming Soon.")}
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}
-        /> */}
+        />
       </div>
     )
   }

@@ -24,7 +24,7 @@ export default class {
       positionId: this.positionId,
       data,
     }).pipe(
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
     })

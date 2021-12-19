@@ -32,7 +32,7 @@ export default class {
   approve = (stakingToken) => {
     approve$(stakingToken.address, FAIRLAUNCH, MAX_UINT).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
@@ -46,7 +46,7 @@ export default class {
 
     stakeToStakingPool$(accountFor, this.pid, stakeAmountPure).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
     })
@@ -58,7 +58,7 @@ export default class {
       .toString()
     unstakeFromStakingPool$(accountFor, this.pid, unstakeAmountPure).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
     })
@@ -67,7 +67,7 @@ export default class {
   harvest = () => {
     harvestFromStakingPool$(this.pid).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
     })

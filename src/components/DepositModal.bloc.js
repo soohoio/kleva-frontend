@@ -20,7 +20,7 @@ export default class {
   approve = (stakingToken, vaultAddress) => {
     approve$(stakingToken.address, vaultAddress, MAX_UINT).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
@@ -28,16 +28,17 @@ export default class {
   }
 
   deposit = (stakingToken, vaultAddress) => {
-
     const depositAmount = new BigNumber(this.depositAmount$.value).multipliedBy(10 ** stakingToken.decimals).toString()
-
+    
     const nativeCoinAmount = stakingToken.nativeCoin
-      ? depositAmount
-      : 0
+    ? depositAmount
+    : 0
 
     depositForLending$(vaultAddress, depositAmount, nativeCoinAmount).pipe(
       tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => {
+        return getTransactionReceipt$(result && result.result || result.tx_hash)
+      })
     ).subscribe((result) => {
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)

@@ -56,10 +56,27 @@
   background-color: #fff;
   cursor: pointer;
 
+  &--dcent {
+    @include desktop {
+      display: none;
+    }
+  }
+
+  &--kaikas {
+    display: none;
+    @include desktop {
+      display: flex;
+    }
+  }
+  
   &--klip {
     @include desktop {
       display: none;
     }
+  }
+  
+  &--metamask {
+
   }
 }
 

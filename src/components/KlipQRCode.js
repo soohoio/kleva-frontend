@@ -33,7 +33,6 @@ class KlipQRCode extends Component {
 
   renderQRCode = (request_key) => {
     const { observer } = this.props
-    console.log(request_key, 'request_key')
     const url = `https://klipwallet.com/?target=/a2a?request_key=${request_key}`
 
     QRCode.toCanvas(this.$qrcode.current, url, function (error) {

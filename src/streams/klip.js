@@ -11,7 +11,7 @@ import KlipQRCode from '../components/KlipQRCode'
 
 export const requestStatus$ = new BehaviorSubject({})
 
-const BAPP_NAME = "KLEVA FINANCE"
+const BAPP_NAME = "KLEVA PROTOCOL"
 
 const _auth$ = from(prepare.auth({ bappName: BAPP_NAME }))
 const _execute$ = ({ bappName, to, value, abi, params }) => from(prepare.executeContract({ bappName, to, value, abi, params }))
@@ -57,8 +57,12 @@ const _requestKeyResultPoll$ = (requestKey) => {
   const _destroy$ = new Subject()
   return new Observable((observer) => {
     interval(1000).pipe(
-      switchMap(() => getResult(requestKey)),
-      map((r) => r && r.result),
+      switchMap(() => {
+        return getResult(requestKey)
+      }),
+      map((r) => {
+        return r && r.result || r
+      }),
       takeUntil(_destroy$),
     ).subscribe((result) => {
       const _status = result && result.status
@@ -87,8 +91,4 @@ export const executeContractKlip$ = ({ bappName = BAPP_NAME, to, value = "0", ab
     )
   })
   )
-}
-
-const _methodNameToABIString = (abi, methodName) => {
-  return JSON.stringify(groupBy(abi, "name")[methodName][0])
 }

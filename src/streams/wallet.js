@@ -68,7 +68,6 @@ export const fetchWalletInfo$ = new Subject()
 export const pendingGT$ = new BehaviorSubject({})
 
 logout$.subscribe(() => {
-  console.log('logout')
   balancesInWallet$.next({})
   balancesInStakingPool$.next({})
   allowancesInLendingPool$.next({})

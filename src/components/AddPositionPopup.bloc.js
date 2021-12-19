@@ -140,7 +140,7 @@ export default class {
 
   approve = (token, vaultAddress) => {
     approve$(token.address, vaultAddress, MAX_UINT).pipe(
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
 
@@ -188,7 +188,7 @@ export default class {
       data,
       value: 0,
     }).pipe(
-      switchMap((result) => getTransactionReceipt$(result && result.result))
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
     })
