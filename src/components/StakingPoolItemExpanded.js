@@ -40,7 +40,7 @@ class StakingPoolItemExpanded extends Component {
   }
 
   renderStakeButton = () => {
-    const { isApproved, selectedAddress } = this.props
+    const { isApproved, selectedAddress, stakingToken, balanceInWallet } = this.props
     
     if (this.bloc.isLoading$.value) {
       return (
@@ -53,12 +53,21 @@ class StakingPoolItemExpanded extends Component {
     }
     
     if (isApproved) {
+
+      const isDisabled = !selectedAddress 
+        || !this.bloc.stakeAmount$.value
+        || new BigNumber(this.bloc.stakeAmount$.value).lte(0)
+        || new BigNumber(this.bloc.stakeAmount$.value).gt(balanceInWallet)
+
       return (
         <button
           className={cx("StakingPoolItemExpanded__stakeButton", {
-            "StakingPoolItemExpanded__stakeButton--disabled": !selectedAddress,
+            "StakingPoolItemExpanded__stakeButton--disabled": isDisabled,
           })}
-          onClick={() => this.bloc.stake(selectedAddress$.value)}
+          onClick={() => {
+            if (isDisabled) return
+            this.bloc.stake(selectedAddress$.value)
+          }}
         >
           Stake
         </button>
@@ -76,7 +85,7 @@ class StakingPoolItemExpanded extends Component {
   }
   
   renderUnstakeButton = () => {
-    const { isApproved, selectedAddress } = this.props
+    const { isApproved, selectedAddress, stakingToken, depositedAmount } = this.props
 
     if (this.bloc.isLoading$.value) {
       return (
@@ -89,12 +98,21 @@ class StakingPoolItemExpanded extends Component {
     }
 
     if (isApproved) {
+
+      const isDisabled = !selectedAddress
+        || !this.bloc.unstakeAmount$.value
+        || new BigNumber(this.bloc.unstakeAmount$.value).lte(0)
+        || new BigNumber(this.bloc.unstakeAmount$.value).gt(depositedAmount)
+
       return (
         <button
           className={cx("StakingPoolItemExpanded__unstakeButton", {
-            "StakingPoolItemExpanded__unstakeButton--disabled": !selectedAddress,
+            "StakingPoolItemExpanded__unstakeButton--disabled": isDisabled,
           })}
-          onClick={() => this.bloc.unstake(selectedAddress$.value)}
+          onClick={() => {
+            if (isDisabled) return
+            this.bloc.unstake(selectedAddress$.value)
+          }}
         >
           Unstake
         </button>

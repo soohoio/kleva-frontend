@@ -1,6 +1,6 @@
 .AddPositionPopup__modal {
   @include desktop {
-    width: 884px;
+    width: 884px !important;
   }
 }
 
@@ -27,4 +27,8 @@
 .AddPositionPopup__farmButton {
   @include button-1(54px);
   width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }

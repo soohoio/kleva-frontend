@@ -19,16 +19,13 @@ class BorrowingAssetSelector extends Component {
   }
     
   render() {
-    const { selected, list, borrowingInterestsAPR } = this.props
+    const { selected, list, onSelect } = this.props
 
     const listAttachedBorrowingInterestAPR = list.map((item) => {
 
-      const interest = borrowingInterestsAPR[item.address.toLowerCase()]
-
       return {
+        key: item.address.toLowerCase(),
         ...item,
-        // title: `${item.title} -${Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`,
-        // borrowingInterestAPR: Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })
       }
     })
 
@@ -37,6 +34,7 @@ class BorrowingAssetSelector extends Component {
         <Dropdown
           selectedItem={selected}
           items={listAttachedBorrowingInterestAPR}
+          onSelect={onSelect}
         />
       </div>
     )

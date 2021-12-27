@@ -44,6 +44,10 @@ export default class {
       .multipliedBy(10 ** this.stakingToken.decimals)
       .toString()
 
+    console.log(accountFor, "accountFor")
+    console.log(this.pid, "this.pid")
+    console.log(stakeAmountPure, "stakeAmountPure")
+
     stakeToStakingPool$(accountFor, this.pid, stakeAmountPure).pipe(
       tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))

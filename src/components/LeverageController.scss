@@ -3,6 +3,7 @@
   justify-content: space-between;
   margin-bottom: 24px;
   align-items: center;
+  @include not-draggable;
 }
 
 .LeverageController__title {

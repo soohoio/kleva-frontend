@@ -52,6 +52,10 @@ class WithdrawModal extends Component {
       ? new BigNumber(this.bloc.withdrawAmount$.value).div(realTokenPrice).toNumber().toLocaleString('en-us', { maximumFractionDigits: 4 })
       : "0.00"
 
+    const isDisabled = !this.bloc.withdrawAmount$.value
+      || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
+      || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableBalance)
+
     return (
       <Modal title="Withdraw">
         <div className="WithdrawModal__available">
@@ -71,8 +75,13 @@ class WithdrawModal extends Component {
             <span className="WithdrawModal__receiveToken">{stakingToken.title}</span>
           </div>
           <button
-            onClick={() => this.bloc.withdraw(stakingToken, vaultAddress)}
-            className="WithdrawModal__confirmButton"
+            onClick={() => {
+              if (isDisabled) return
+              this.bloc.withdraw(stakingToken, vaultAddress)
+            }}
+            className={cx("WithdrawModal__confirmButton", {
+              "WithdrawModal__confirmButton--disabled": isDisabled,
+            })}
           >
             {this.bloc.isLoading$.value ? "..." : "Confirm"}
           </button>

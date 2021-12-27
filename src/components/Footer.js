@@ -1,15 +1,33 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
 
 import './Footer.scss'
+import { showFooter$ } from '../streams/ui'
+
+const partners = [
+  { imgSrc: '/static/images/logo-klayfi.svg' }
+]
+
+const audits = [
+  { imgSrc: '/static/images/logo-sooho@3x.png' },
+  { imgSrc: '/static/images/logo-scvsoft@3x.png' },
+]
 
 class Footer extends Component {
   destroy$ = new Subject()
   
   componentDidMount() {
-    
+    merge(
+      showFooter$.pipe(
+        distinctUntilChanged()
+      )
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
   }
   
   componentWillUnMount() {
@@ -19,7 +37,9 @@ class Footer extends Component {
   render() {
     
     return (
-      <div className="Footer">
+      <div className={cx("Footer", {
+        "Footer--show": showFooter$.value
+      })}>
         <div className="Footer__left">
           <img 
             onClick={() => window.open('https://docs.kleva.io/v/kor/')}
@@ -43,7 +63,11 @@ class Footer extends Component {
           />
         </div>
         <div className="Footer__right">
-
+          <span className="Footer__itemCategory">Partners</span>
+          <img onClick={() => window.open('https://klayfi.finance')} className="Footer__logoImage Footer__logoImage--klayfi" src="/static/images/logo-klayfi.svg" />
+          <span className="Footer__itemCategory">Audit</span>
+          <img onClick={() => window.open('https://sooho.io')} className="Footer__logoImage Footer__logoImage--sooho" src="/static/images/logo-sooho@3x.png" />
+          <img onClick={() => window.open('https://scvsoft.net/')} className="Footer__logoImage Footer__logoImage--scvsoft" src="/static/images/logo-scvsoft@3x.png" />
         </div>
       </div>
     )

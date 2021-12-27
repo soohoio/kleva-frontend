@@ -10,15 +10,21 @@
   padding: 24px;
   justify-content: center;
   
+  flex-direction: column;
+  
   @include desktop {
     display: none;
+    flex-direction: row;
     
-    @media only screen and (min-height: 768px) {
+    &--show {
       justify-content: space-between;
       padding: 0 40px;
       position: fixed;
       display: flex;
       height: 52px;
+    }
+    
+    @media only screen and (min-height: 500px) {
     }
   }
 }
@@ -34,6 +40,61 @@
     width: auto;
     gap: 16px;
     justify-content: unset;
+  }
+}
+
+.Footer__right {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 25px;
+
+  @include desktop {
+    width: auto;
+    justify-content: unset;
+    margin-top: 0;
+  }
+}
+
+.Footer__itemCategory {
+  @include font-style('font-1', 'r', 11px);
+  color: rgba(255, 255, 255, 0.3);
+  
+  margin-left: 12px;
+  margin-right: 12px;
+  
+  @include desktop {
+    @include font-style('font-1', 'r', 13px);
+    margin-left: 28px;
+    margin-right: 20px;
+  }
+}
+
+.Footer__logoImage {
+  cursor: pointer;
+
+  &--klayfi { 
+    @include desktop {
+      height: 18px; 
+    }
+  }
+
+  &--sooho { 
+    height: 14px;
+    margin-right: 16px;
+
+    @include desktop {
+      height: 16px; 
+    }
+  }
+
+  &--scvsoft { 
+    height: 18px;
+
+    @include desktop {
+      height: 20px; 
+    }
   }
 }
 

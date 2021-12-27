@@ -77,11 +77,16 @@ class MobileGNB extends Component {
           active={path$.value === '/stake'}
         />
         <SidebarItem
-          onClickOverwrite={() => alert("Coming Soon.")}
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}
         />
+        {/* <SidebarItem
+          onClickOverwrite={() => alert("Coming Soon.")}
+          clientSideHref="/farm"
+          title="Farm"
+          active={path$.value === '/farm'}
+        /> */}
       </div>
     )
   }

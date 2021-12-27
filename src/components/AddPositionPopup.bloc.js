@@ -7,6 +7,8 @@ import { addPosition$, approve$, caver, getOutputTokenAmount$, getTransactionRec
 import { fetchWalletInfo$ } from '../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
+import { tokenList } from '../constants/tokens'
+import { closeModal$ } from '../streams/ui'
 
 export default class {
   constructor({ token1, token2, lpToken, workerList, borrowingAvailableAssets }) {
@@ -100,8 +102,6 @@ export default class {
           .toString(),
       ).subscribe(({ outputAmount, priceImpact }) => {
         this.priceImpact$.next(priceImpact)
-        console.log(outputAmount, "outputAmount")
-        console.log(priceImpact, "priceImpact")
       })
 
       return
@@ -133,8 +133,6 @@ export default class {
         .toString(),
     ).subscribe(({ outputAmount, priceImpact }) => {
       this.priceImpact$.next(priceImpact)
-      console.log(outputAmount, "outputAmount")
-      console.log(priceImpact, "priceImpact")
     })
   }
 
@@ -148,13 +146,17 @@ export default class {
     })
   }
 
+  isKLAY = (address) => address === tokenList.KLAY.address
+
   addPosition = () => {
     const { strategyType, strategyAddress } = this.getStrategy()
+
+    const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
 
     // principalAllInBaseToken 
     // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
     const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value
-    const principalAllInBaseToken = new BigNumber(this.baseTokenAmount$.value)
+    const principalAllInBaseToken = baseTokenAmount
       .plus(farmingTokenAmountConvertedInBaseToken)
       .toString()
 
@@ -162,8 +164,6 @@ export default class {
       .multipliedBy(this.leverage$.value - 1)
       .multipliedBy(10 ** this.baseToken$.value.decimals)
       .toFixed(0)
-      
-    console.log(borrowAmount, "borrowAmount")
 
     // @TODO
     const MIN_LP_AMOUNT = 0
@@ -180,17 +180,29 @@ export default class {
 
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
+    const isBaseTokenKLAY = this.isKLAY(this.baseToken$.value.address)
+
+    const principalAmount = baseTokenAmount
+      .multipliedBy(10 ** this.baseToken$.value.decimals)
+      .toString()
+
+    const _value = isBaseTokenKLAY
+      ? baseTokenAmount.multipliedBy(10 ** this.baseToken$.value.decimals).toString()
+      : 0
+
     addPosition$(this.worker$.value.vaultAddress, {
       workerAddress: this.worker$.value.workerAddress,
-      principalAmount: new BigNumber(this.baseTokenAmount$.value).multipliedBy(10 ** this.baseToken$.value.decimals).toString(),
+      principalAmount,
       borrowAmount, // @TODO
       maxReturn: 0,
       data,
-      value: 0,
+      value: _value,
     }).pipe(
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
+
+      closeModal$.next(true)
     })
   }
 }

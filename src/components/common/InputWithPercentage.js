@@ -82,11 +82,19 @@ class InputWithPercentage extends Component {
       key: `${value}%`,
     })
 
-    const newValue = valueLimit 
-      ? Number(valueLimit) * (value / 100)
-      : 0
+    const newValue = this.getNewValue(value, valueLimit)
 
     value$.next(newValue)
+  }
+
+  getNewValue = (value, valueLimit) => {
+    if (!valueLimit) return 0
+
+    if (value === 100) {
+      return valueLimit
+    }
+
+    return Number(valueLimit) * (value / 100)
   }
     
   render() {

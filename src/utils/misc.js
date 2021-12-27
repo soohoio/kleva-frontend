@@ -68,10 +68,21 @@ export const nFormatter = (num, digits) => {
     // { value: 1, symbol: "" },
     // { value: 1e3, symbol: "k" },
     { value: 1e6, symbol: "M" },
-    { value: 1e9, symbol: "G" },
+    // { value: 1e9, symbol: "G" },
+    { value: 1e9, symbol: "B" },
     { value: 1e12, symbol: "T" },
     { value: 1e15, symbol: "P" },
-    { value: 1e18, symbol: "E" }
+    { value: 1e18, symbol: "E" },
+    { value: 1e21, symbol: "Z" },
+    { value: 1e24, symbol: "Y" },
+    { value: 1e27, symbol: "b" },
+    { value: 1e30, symbol: "ge" },
+    { value: 1e33, symbol: "sa" },
+    { value: 1e36, symbol: "pi" },
+    { value: 1e39, symbol: "al" },
+    { value: 1e42, symbol: "kr" },
+    { value: 1e45, symbol: "am" },
+    { value: 1e48, symbol: "pe" },
   ]
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
   var item = lookup.slice().reverse().find(function (item) {

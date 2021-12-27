@@ -9,6 +9,7 @@ import { farmPool } from '../constants/farmpool'
 import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { tokenPrices$ } from '../streams/tokenPrice'
+import { selectedAddress$ } from '../streams/wallet'
 
 class FarmList extends Component {
   destroy$ = new Subject()
@@ -21,6 +22,7 @@ class FarmList extends Component {
       klevaAnnualRewards$,
       tokenPrices$,
       farmPoolDeposited$,
+      selectedAddress$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -78,6 +80,8 @@ class FarmList extends Component {
                 exchange={exchange}
                 yieldFarming={yieldFarming}
                 tradingFee={tradingFee}
+
+                selectedAddress={selectedAddress$.value}
 
                 token1BorrowingInterest={token1BorrowingInterest}
                 token2BorrowingInterest={token2BorrowingInterest}

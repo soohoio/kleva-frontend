@@ -4,6 +4,10 @@
   margin-bottom: 20px;
   position: relative;
   z-index: 999;
+
+  &--open {
+    z-index: 9999;
+  }
 }
 
 .Dropdown__list {
@@ -57,13 +61,18 @@
     // background-color: rgba(0, 0, 0, 0.4) !important;
     background-color: #ebf0ff !important;
     border-radius: 6px;
+    margin-right: 0;
+  }
+
+  &--selectedAndOpen {
+    margin-right: 0;
   }
 }
 
 .Dropdown__itemRight {
   display: flex;
   position: absolute;
-  right: 40px;
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
 }

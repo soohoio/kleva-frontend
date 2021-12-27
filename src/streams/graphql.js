@@ -17,7 +17,8 @@ export const getPositions$ = (owner, page = 1) => {
           owner,
           borrowAmount,
           principalAmount,
-          workerAddress
+          workerAddress,
+          edited
         }
       }
     `,

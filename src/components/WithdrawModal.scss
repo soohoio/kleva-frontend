@@ -81,6 +81,10 @@
   
   @include button-1(54px);
   @include font-style('font-1', 'sb', 18px);
+
+  &--disabled {
+    @include disabled-button;
+  }
   
   @include desktop {
     width: 180px;

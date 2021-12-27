@@ -22,6 +22,9 @@ import VaultConfigABI from 'abis/VaultConfig.json'
 // Klayswap 
 import KlayswapExchangeABI from 'abis/KlayswapExchange.json'
 
+// WKLAY
+import WKLAYABI from 'abis/WKLAY.json'
+
 import { closeModal$, isFocused$ } from './ui'
 import { coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
@@ -169,42 +172,47 @@ const makeTransaction = ({ abi, address, methodName, params, value, checkRevert 
 
 export const multicall = async (abi, calls, getGas) => {
   // const multi = new web3.klay.Contract(MulticallABI, MULTICALL)
-  const multi = new caver.klay.Contract(MulticallABI, MULTICALL)
-  const itf = new Interface(abi)
+  try {
+    const multi = new caver.klay.Contract(MulticallABI, MULTICALL)
+    const itf = new Interface(abi)
 
-  const _bufferCalls = calls.reduce((acc, cur, idx) => {
-    if (cur.except) {
-      acc.push({ idx, item: cur })
+    const _bufferCalls = calls.reduce((acc, cur, idx) => {
+      if (cur.except) {
+        acc.push({ idx, item: cur })
+        return acc
+      }
+
       return acc
-    }
+    }, [])
 
-    return acc
-  }, [])
+    calls = calls.filter((call) => !call.except)
 
-  calls = calls.filter((call) => !call.except)
+    const calldata = calls
+      .map((call) => {
+        return [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)]
+      })
+    const { returnData } = await multi.methods.aggregate(calldata).call()
+    const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
 
-  const calldata = calls
-  .map((call) => {
-    return [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)]
-  })
-  const { returnData } = await multi.methods.aggregate(calldata).call()
-  const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
+    const result = _bufferCalls.reduce((acc, cur) => {
+      return [
+        ...acc.slice(0, cur.idx),
+        cur.item.format(cur.item.value),
+        ...acc.slice(cur.idx)
+      ]
+    }, res)
 
-  const result = _bufferCalls.reduce((acc, cur) => {
-    return [
-      ...acc.slice(0, cur.idx),
-      cur.item.format(cur.item.value),
-      ...acc.slice(cur.idx)
-    ]
-  }, res)
-  
 
-  // if (getGas) {
-  //   const gas = await multi.methods.aggregate(calldata).estimateGas()
-  //   return { result: res , gas }
-  // }
+    // if (getGas) {
+    //   const gas = await multi.methods.aggregate(calldata).estimateGas()
+    //   return { result: res , gas }
+    // }
 
-  return result
+    return result
+  } catch (e) {
+    console.log(e, '@e')
+    return false
+  }
 }
 
 // common
@@ -853,9 +861,18 @@ export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
 
 export const checkAllowances$ = (account, targetContractAddress, tokens) => {
 
+  const filteredTokens = tokens
+    .map((_token) => {
+      if (_token.address === tokenList.KLAY.address) {
+        return tokenList.WKLAY
+      }
+
+      return _token
+    })
+
   const p1 = multicall(
     IERC20ABI,
-    tokens.map(({ address }) => {
+    filteredTokens.map(({ address }) => {
       return { address, name: 'allowance', params: [account, targetContractAddress] }
     })
   )
@@ -863,7 +880,7 @@ export const checkAllowances$ = (account, targetContractAddress, tokens) => {
   return from(p1).pipe(
     map((allowances) => {
       return flatten(allowances).reduce((acc, cur, idx) => {
-        const tokenAddress = tokens[idx] && tokens[idx].address
+        const tokenAddress = filteredTokens[idx] && filteredTokens[idx].address
         acc[tokenAddress] = new BigNumber(cur._hex).toString()
 
         return acc
@@ -944,3 +961,20 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap) => {
     })
   )
 }
+
+// WKLAY
+export const wrapKLAY$ = (amount) => makeTransaction({ 
+  abi: WKLAYABI,
+  address: tokenList.WKLAY.address,
+  methodName: 'deposit',
+  params: [],
+  value: amount,
+})
+
+export const unwrapWKLAY$ = (amount) => makeTransaction({ 
+  abi: WKLAYABI,
+  address: tokenList.WKLAY.address,
+  methodName: 'withdraw',
+  params: [amount],
+  value: 0,
+})

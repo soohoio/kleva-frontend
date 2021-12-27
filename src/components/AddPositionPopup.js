@@ -24,6 +24,7 @@ import { toAPY } from '../utils/calc'
 import { lendingPools, lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import { checkAllowances$ } from '../streams/contract'
 import { poolReserves$ } from '../streams/farming'
+import { tokenList } from '../constants/tokens'
 
 class AddPositionPopup extends Component {
   destroy$ = new Subject()
@@ -70,6 +71,7 @@ class AddPositionPopup extends Component {
     ).pipe(
       switchMap(() => {
         const worker = this.bloc.worker$.value
+        console.log(worker, '@worker')
         return checkAllowances$(
           selectedAddress$.value,
           worker.vaultAddress,
@@ -78,7 +80,6 @@ class AddPositionPopup extends Component {
       }),
       tap((allowances) => {
         this.bloc.allowances$.next(allowances)
-        console.log(allowances, '*allowances')
       }),
       takeUntil(this.destroy$)
     ).subscribe()
@@ -92,15 +93,24 @@ class AddPositionPopup extends Component {
     const { title, leverage, onSelect } = this.props
 
     const baseToken = this.bloc.baseToken$.value
-    const farmingToken = this.bloc.farmingToken$.value
+    
+    // KLAY -> WKLAY
+    const isFarmingTokenKLAY = this.bloc.isKLAY(this.bloc.farmingToken$.value && this.bloc.farmingToken$.value.address)
+    
+    const farmingToken = isFarmingTokenKLAY 
+      ? tokenList.WKLAY
+      : this.bloc.farmingToken$.value
 
     const baseTokenAllowance = this.bloc.allowances$.value[baseToken.address]
-    const isBaseTokenApproved = baseTokenAllowance && baseTokenAllowance != 0
+
+    const isBaseTokenApproved = this.bloc.isKLAY(baseToken.address) 
+      || this.bloc.baseTokenAmount$.value === 0 
+      || (baseTokenAllowance && baseTokenAllowance != 0)
 
     const farmingTokenAllowance = this.bloc.allowances$.value[farmingToken.address]
-    const isFarmingTokenApproved = farmingTokenAllowance && farmingTokenAllowance != 0
 
-    console.log(this.bloc.allowances$.value, "this.bloc.allowances$.value")
+    const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0 
+      || (farmingTokenAllowance && farmingTokenAllowance != 0)
 
     // Base Token Allowance Check
     if (!isBaseTokenApproved) {
@@ -126,10 +136,19 @@ class AddPositionPopup extends Component {
       )
     }
 
+    const isDisabled = this.bloc.baseTokenAmount$.value == 0 
+      && this.bloc.farmingTokenAmount$.value == 0
+
     return (
       <button
-        onClick={this.bloc.addPosition}
-        className="AddPositionPopup__farmButton"
+        onClick={() => {
+          if (isDisabled) return
+          
+          this.bloc.addPosition()
+        }}
+        className={cx("AddPositionPopup__farmButton", {
+          "AddPositionPopup__farmButton--disabled": isDisabled,
+        })}
       >
         Farm {Number(this.bloc.leverage$.value).toFixed(2)}x
       </button>
@@ -169,7 +188,7 @@ class AddPositionPopup extends Component {
     const workerConfig = workerInfo && 
       workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
 
-    const leverageCap = workerConfig.workFactorBps / (10000 - workerConfig.workFactorBps)
+    const leverageCap = 10000 / (10000 - workerConfig.workFactorBps)
 
     return (
       <Modal className="AddPositionPopup__modal" title={title}>

@@ -20,8 +20,6 @@ class BorrowingAssets extends Component {
     
   render() {
     const { items, selectedItem, onSelect } = this.props
-
-    console.log(items, "items")
     
     return (
       <div className="BorrowingAssets">

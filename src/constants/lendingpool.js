@@ -6,7 +6,15 @@ export const PROTOCOL_FEE = 0.19
 
 // Lending Pool Contract (= Vault Contract) (= ibToken Contract)
 export const lendingPools = [
-
+  {
+    title: "KLEVA",
+    
+    vaultAddress: tokenList["ibKLEVA"].address,
+    ibToken: tokenList["ibKLEVA"],
+    
+    stakingToken: tokenList["KLEVA"],
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  },
   {
     title: "KLAY",
     
@@ -15,15 +23,6 @@ export const lendingPools = [
 
     stakingToken: tokenList["KLAY"],
     stakingTokenInternal: tokenList["WKLAY"],
-    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
-  },
-  {
-    title: "KLEVA",
-    
-    vaultAddress: tokenList["ibKLEVA"].address,
-    ibToken: tokenList["ibKLEVA"],
-    
-    stakingToken: tokenList["KLEVA"],
     vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
   },
   {
@@ -36,21 +35,21 @@ export const lendingPools = [
     vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
   },
   {
+    title: "KDAI",
+
+    vaultAddress: tokenList["ibKDAI"].address,
+    ibToken: tokenList["ibKDAI"],
+
+    stakingToken: tokenList["KDAI"],
+    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  },
+  {
     title: "WEMIX",
     
     vaultAddress: tokenList["ibWEMIX"].address,
     ibToken: tokenList["ibWEMIX"],
 
     stakingToken: tokenList["WEMIX"],
-    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
-  },
-  {
-    title: "KDAI",
-    
-    vaultAddress: tokenList["ibKDAI"].address,
-    ibToken: tokenList["ibKDAI"],
-
-    stakingToken: tokenList["KDAI"],
     vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
   },
 ]

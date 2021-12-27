@@ -77,13 +77,47 @@ export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cu
 
 export const lpTokens = {
   // Token A - Token B
-  "KSP-KUSDT LP": {
+
+  "KLAY-KUSDT LP": {
     KSLP: true,
-    ingredients: [singleTokens.KSP, singleTokens.KUSDT],
-    title: "KSP-KUSDT LP",
-    address: "0xE75a6A3a800A2C5123e67e3bde911Ba761FE0705",
+    ingredients: [singleTokens.KLAY, singleTokens.KUSDT],
+    title: "KLAY-KUSDT LP",
+    address: "0xD83f1B074D81869EFf2C46C530D7308FFEC18036",
     decimals: 18,
   },
+
+  "KLAY-KSP LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.KSP],
+    title: "KLAY-KSP LP",
+    address: "0x34cF46c21539e03dEb26E4FA406618650766f3b9",
+    decimals: 18,
+  },
+
+  "KLAY-KETH LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.KETH],
+    title: "KLAY-KETH LP",
+    address: "0x27F80731dDdb90C51cD934E9BD54bfF2D4E99e8a",
+    decimals: 18,
+  },
+
+  "KLAY-KXRP LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.KXRP],
+    title: "KLAY-KXRP LP",
+    address: "0x86E614ef51B305C36a0608bAa57fcaaa45844D87",
+    decimals: 18,
+  },
+
+  "KLAY-WEMIX LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.WEMIX],
+    title: "KLAY-WEMIX LP",
+    address: "0x917EeD7ae9E7D3b0D875dd393Af93fFf3Fc301F8",
+    decimals: 18,
+  },
+  
   "KLEVA-KUSDT LP": {
     KSLP: true,
     ingredients: [singleTokens.KLEVA, singleTokens.KUSDT],

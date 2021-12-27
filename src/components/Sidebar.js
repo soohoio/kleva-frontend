@@ -8,14 +8,20 @@ import { path$ } from 'streams/location'
 
 import './Sidebar.scss'
 
-const SidebarItem = ({ active, disabled, title, iconSrc, href, clientSideHref }) => {
+const SidebarItem = ({ active, onClickOverwrite, disabled, title, iconSrc, href, clientSideHref }) => {
   return (
     <div
       onClick={() => {
 
+        if (typeof onClickOverwrite === 'function') {
+          onClickOverwrite()
+          return
+        }
+
         if (disabled) {
           return
         }
+
 
         if (clientSideHref) {
           browserHistory.push(clientSideHref)
@@ -62,8 +68,15 @@ class Sidebar extends Component {
           active={path$.value === "/stake"}
           title="Stake"
         />
+        {/* <SidebarItem
+          onClickOverwrite={() => {
+            alert("Coming Soon.")
+          }}
+          clientSideHref="/farm"
+          active={path$.value === "/farm"}
+          title="Farm"
+        /> */}
         <SidebarItem
-          disabled
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"

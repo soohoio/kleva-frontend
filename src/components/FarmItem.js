@@ -14,6 +14,7 @@ import { toAPY } from '../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import BorrowingAssetSelector from './BorrowingAssetSelector'
 import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
+import { nFormatter } from '../utils/misc'
 
 const FarmProperty = ({ className, label, value }) => {
   return (
@@ -98,7 +99,7 @@ class FarmItem extends Component {
       token1,
       token2,
 
-      tvl,
+      farmDeposited,
       exchange,
 
       aprInfo,
@@ -110,6 +111,8 @@ class FarmItem extends Component {
       workerInfo,
       klevaAnnualRewards,
       tokenPrices,
+
+      selectedAddress,
     } = this.props
     
     const yieldFarmingAPR = aprInfo && 
@@ -134,12 +137,12 @@ class FarmItem extends Component {
 
         return {
           ...item,
-          title: `${item.title} -${Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`,
-          borrowingInterestAPR: Number(interest).toLocaleString('en-us', { maximumFractionDigits: 2 })
+          rightContent: `-${Number(interest).toLocaleString('en-us', {maximumFractionDigits: 2 })}%`,
         }
       })
 
-    const selectedBorrowingAssetWithInterest = borrowingInterestAttachedAssets.find((a) => a.address.toLowerCase() === borrowingAsset.address.toLowerCase())
+    const selectedBorrowingAssetWithInterest = borrowingInterestAttachedAssets
+      .find((a) => a.address.toLowerCase() === borrowingAsset.address.toLowerCase())
 
     const klevaRewardsAPR = this.getKlevaRewardsAPR()
 
@@ -154,7 +157,7 @@ class FarmItem extends Component {
     const workerConfig = workerInfo &&
       workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
 
-    const leverageCap = workerConfig && (workerConfig.workFactorBps / (10000 - workerConfig.workFactorBps))
+    const leverageCap = workerConfig && (10000 / (10000 - workerConfig.workFactorBps))
 
     return (
       <div className="FarmItem">
@@ -165,7 +168,7 @@ class FarmItem extends Component {
           </div>
           <div className="FarmItem__mainInfo">
             <p className="FarmItem__title">{token1.title}-{token2.title}</p>
-            <p className="FarmItem__tvl">TVL ${tvl}</p>
+            <p className="FarmItem__tvl">TVL ${farmDeposited && nFormatter(farmDeposited.deposited, 2)}</p>
           </div>
           <div className="FarmItem__subInfo">
             <p className="FarmItem__apy">{Number(APY).toLocaleString('en-us', {maximumFractionDigits: 2 })}%</p>
@@ -173,20 +176,20 @@ class FarmItem extends Component {
           </div>
         </div>
         <div className="FarmItem__content">
-          <FarmProperty label="Yield Farming" value={`${yieldFarmingAPR}%`} />
-          <FarmProperty label="Trading Fees" value={`${tradingFeeAPR}%`} />
-          <FarmProperty label="KLEVA Rewards" value={`${Number(klevaRewardsAPR).toLocaleString('en-us', { maximumFractionDigits: 4 })}%`} />
+          <FarmProperty label="Yield Farming" value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
+          <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />
+          <FarmProperty label="KLEVA Rewards" value={`${nFormatter(klevaRewardsAPR, 2)}%`} />
           <FarmProperty 
             label="Borrowing Interest" 
             value={(
               <BorrowingAssetSelector
                 list={borrowingInterestAttachedAssets}
                 selected={selectedBorrowingAssetWithInterest}
-                borrowingInterestsAPR={borrowingInterestsAPR}
+                onSelect={(item) => this.setState({ borrowingAsset: item })}
               />
             )} 
           />
-          <FarmProperty className="FarmItem__totalAPR" label="Total APR" value={`${Number(totalAPR).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} />
+          <FarmProperty className="FarmItem__totalAPR" label="Total APR" value={`${nFormatter(totalAPR, 2)}%`} />
         </div>
         <div className="FarmItem__footer">
           <LeverageController
@@ -200,8 +203,13 @@ class FarmItem extends Component {
             }} 
           />
           <button 
-            className="FarmItem__button"
+            className={cx("FarmItem__button", {
+              "FarmItem__button--disabled": !selectedAddress,
+            })}
             onClick={() => {
+
+              if (!selectedAddress) return
+
               openModal$.next({
                 component: (
                 <AddPositionPopup 
@@ -222,7 +230,7 @@ class FarmItem extends Component {
               })
             }}
           >
-            Farm {leverageValue}X
+            Farm {leverageValue}x
           </button>
         </div>
       </div>

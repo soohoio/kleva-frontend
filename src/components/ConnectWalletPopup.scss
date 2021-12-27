@@ -70,9 +70,9 @@
   }
   
   &--klip {
-    @include desktop {
-      display: none;
-    }
+    // @include desktop {
+    //   display: none;
+    // }
   }
   
   &--metamask {

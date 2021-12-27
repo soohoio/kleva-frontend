@@ -59,10 +59,23 @@ class DepositModal extends Component {
     }
 
     if (isApproved) {
+
+      const availableBalance = balancesInWallet$.value[stakingToken.address] &&
+        balancesInWallet$.value[stakingToken.address].balanceParsed
+
+      const isDisabled = !this.bloc.depositAmount$.value
+        || new BigNumber(this.bloc.depositAmount$.value).lte(0)
+        || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
+
       return (
         <button
-          onClick={() => this.bloc.deposit(stakingToken, vaultAddress)}
-          className="DepositModal__confirmButton"
+          onClick={() => {
+            if (isDisabled) return
+            this.bloc.deposit(stakingToken, vaultAddress)
+          }}
+          className={cx("DepositModal__confirmButton", {
+            "DepositModal__confirmButton--disabled": isDisabled,
+          })}
         >
           Confirm
         </button>

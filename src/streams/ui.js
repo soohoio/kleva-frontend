@@ -12,6 +12,7 @@ export const isDesktop$ = new BehaviorSubject(window.outerWidth >= DESKTOP_START
 
 export const isFocused$ = new BehaviorSubject(true)
 export const focusChanged$ = new Subject()
+export const showFooter$ = new BehaviorSubject(false)
 
 fromEvent(window, 'blur').subscribe(() => {
   isFocused$.next(false)

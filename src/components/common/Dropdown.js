@@ -63,7 +63,9 @@ class Dropdown extends Component {
     const { items = [], selectedItem, onSelect, noSearch } = this.props
 
     return (
-      <div className="Dropdown">
+      <div className={cx("Dropdown", {
+        "Dropdown--open": isOpen
+      })}>
         <DropdownItem
           key="selectedItem"
           isOpen={isOpen}
@@ -71,7 +73,7 @@ class Dropdown extends Component {
           {...selectedItem}
           onClick={() => {
             // No need to open dropdown menu when there is only one item.
-            if (items.length === 1) return
+            // if (items.length === 1) return
             this.setState({ isOpen: !isOpen })
           }}
         />

@@ -1,8 +1,36 @@
 .BorrowingAssets {
+
+  .Dropdown {
+    @include not-draggable;
+    margin-bottom: 0;
+  }
   
   .Dropdown__item {
     height: 44px;
     margin-left: 0;
+
+    &--selected, &--selectedAndOpen {
+      background-color: #f5f5f5 !important;
+      padding: 0 12px;
+      position: relative;
+      right: 0;
+    }
+  }
+
+  .Dropdown__searchWrapper {
+    display: none;
+  }
+
+  .Dropdown__list {
+    top: 120%;
+    left: unset;
+    transform: unset;
+    right: 0;
+
+    .Dropdown__item {
+      margin: 0;
+      background-color: #ffffff !important;
+    }
   }
 }
 

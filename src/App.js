@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { browserHistory } from 'react-router'
 import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of } from 'rxjs'
-import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged } from 'rxjs/operators'
+import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime } from 'rxjs/operators'
 import cx from 'classnames'
 
 BigNumber.config({
@@ -28,7 +28,7 @@ import Overlay from 'components/Overlay'
 // import Toast from 'components/Toast'
 
 import './App.scss'
-import { isFocused$ } from './streams/ui'
+import { isFocused$, showFooter$ } from './streams/ui'
 import { debtTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
@@ -158,6 +158,29 @@ class App extends Component<Props> {
         languageChanged: (++this.state.languageChanged) % 3,
       })
     })
+
+    //
+    this.checkShowFooter()
+    
+    merge(
+      fromEvent(this.$app.current, 'scroll'),
+      fromEvent(window, 'resize'),
+    ).pipe(
+      // debounceTime(50),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.checkShowFooter()
+    })
+  }
+
+  checkShowFooter = () => {
+    const scrollHeight = this.$app.current.scrollHeight
+    const clientHeight = this.$app.current.clientHeight
+    const height = scrollHeight - clientHeight
+    const scrollTop = this.$app.current.scrollTop
+
+    const shouldShow = ((scrollTop / height) > 0.8) || (height - scrollTop < 52)
+    showFooter$.next(shouldShow)
   }
 
   componentWillUnmount() {
