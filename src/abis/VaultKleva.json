@@ -10,8 +10,20 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "principalAmount",
         "type": "uint256"
       },
       {
@@ -109,6 +121,43 @@
       }
     ],
     "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "principalAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "borrowAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "EditPosition",
     "type": "event"
   },
   {
@@ -306,25 +355,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "positionId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "loan",
-        "type": "uint256"
-      }
-    ],
-    "name": "Work",
-    "type": "event"
-  },
-  {
     "inputs": [],
     "name": "DEFAULT_ADMIN_ROLE",
     "outputs": [
@@ -360,11 +390,6 @@
         "type": "address"
       },
       {
-        "internalType": "bool",
-        "name": "isBaseTokenWrappedKlay_",
-        "type": "bool"
-      },
-      {
         "internalType": "string",
         "name": "name_",
         "type": "string"
@@ -394,13 +419,8 @@
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "principalAmount",
         "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "checkStability",
-        "type": "bool"
       },
       {
         "internalType": "bytes",
@@ -432,7 +452,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "maxReturn",
+        "name": "",
         "type": "uint256"
       },
       {
@@ -627,6 +647,19 @@
   },
   {
     "inputs": [],
+    "name": "crLowerLimitBps",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "debtFairLaunchPoolId",
     "outputs": [
       {
@@ -738,8 +771,23 @@
   },
   {
     "inputs": [],
-    "name": "getExecutionPositionId",
+    "name": "getPrevUtilizationRates",
     "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "",
@@ -844,6 +892,44 @@
         "type": "uint256"
       }
     ],
+    "name": "isKillable",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "address_",
+        "type": "address"
+      }
+    ],
+    "name": "isWrappedKlay",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
     "name": "kill",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -852,6 +938,32 @@
   {
     "inputs": [],
     "name": "lastAccrueTime",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastSavedUtilizationRateTime",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minTotalSupply",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1140,6 +1252,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "saveUtilizationRate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "contract IVaultConfig",
@@ -1148,6 +1267,19 @@
       }
     ],
     "name": "setConfig",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "crLowerLimitBps_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCrLowerLimitBps",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1168,12 +1300,12 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "strategyAddress",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "minTotalSupply_",
+        "type": "uint256"
       }
     ],
-    "name": "setStrategyAddress",
+    "name": "setMinTotalSupply",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1320,6 +1452,45 @@
     "name": "unpause",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "utilizationRate0",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "utilizationRate1",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "utilizationRate2",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

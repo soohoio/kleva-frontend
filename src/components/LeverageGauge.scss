@@ -5,6 +5,7 @@
 .LeverageGauge__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin-bottom: 28px;
 }
@@ -12,6 +13,12 @@
 .LeverageGauge__title {
   @include font-style('font-1', 'm', 18px);
   color: #131414;
+}
+
+.LeverageGauge__description {
+  @include font-style('font-1', 'm', 11px);
+  margin-top: 2px;
+  color: rgba(73, 74, 77, 0.5);
 }
 
 .LeverageGauge__inputWrapper {
@@ -23,6 +30,7 @@
   border: solid 1px #f2f2f2;
   background-color: #fcfcfc;
   width: 72px;
+  height: 32px;
 }
 
 .LeverageGauge__leverageInput {

@@ -54,6 +54,7 @@ class WKLAYSwitcher extends Component {
     if (selectedToken.address === tokenList.KLAY.address) {
       return (
         <InputWithPercentage
+          decimalLimit={selectedToken.decimals}
           imgSrc={imgSrc}
           value$={this.bloc.klayAmountToWrap$}
           label=""
@@ -66,6 +67,7 @@ class WKLAYSwitcher extends Component {
 
     return (
       <InputWithPercentage
+        decimalLimit={selectedToken.decimals}
         imgSrc={imgSrc}
         value$={value$}
         label=""

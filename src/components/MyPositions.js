@@ -10,11 +10,10 @@ import './MyPositions.scss'
 import { logout$, selectedAddress$ } from '../streams/wallet'
 import { getPositions$ } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
-import { aprInfo$, workerInfo$ } from '../streams/farming'
+import { aprInfo$, workerInfo$, positions$ } from '../streams/farming'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
-  positions$ = new BehaviorSubject([])
   
   state = {
     // "active", "liquidated"
@@ -33,15 +32,16 @@ class MyPositions extends Component {
             tap((positions) => {
               const positionsAttachedWorkerInfo = positions.map((p) => {
                 const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
+                console.log(_workerInfo, "@_workerInfo")
                 return { ...p, ..._workerInfo }
               },)
-              this.positions$.next(positionsAttachedWorkerInfo)
+              positions$.next(positionsAttachedWorkerInfo)
             }),
             takeUntil(this.destroy$)
           )
         })
       ),
-      this.positions$,
+      positions$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -49,7 +49,7 @@ class MyPositions extends Component {
     })
 
     logout$.subscribe(() => {
-      this.positions$.next([])
+      positions$.next([])
     })
   }
   
@@ -64,7 +64,7 @@ class MyPositions extends Component {
     
     
 
-    return this.positions$.value.length !== 0 && (
+    return positions$.value.length !== 0 && (
       <div className="MyPositions">
         <div className="MyPositions__header">
           <div className="MyPositions__headerLeft">
@@ -102,7 +102,7 @@ class MyPositions extends Component {
         </div>
         <div className="MyPositions__content">
           <PositionList 
-            list={this.positions$.value} 
+            list={positions$.value} 
           />
         </div>
       </div>

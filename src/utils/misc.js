@@ -25,7 +25,17 @@ export const getFirstBrowserLanguage = function () {
   return null
 }
 
-export const coupleArray = ({  arrayA, arrayB, arrayC, labelA, labelB, labelC }) => {
+export const coupleArray = ({  
+  arrayA, 
+  arrayB, 
+  arrayC,
+  arrayD,
+   
+  labelA, 
+  labelB, 
+  labelC,
+  labelD,
+}) => {
   let result = []
   for (let i = 0; i < arrayA.length; i++) {
     if (labelA) {
@@ -45,6 +55,13 @@ export const coupleArray = ({  arrayA, arrayB, arrayC, labelA, labelB, labelC })
       result[i] = {
         ...result[i],
         [labelC]: arrayC[i],
+      }
+    }
+    
+    if (labelD) {
+      result[i] = {
+        ...result[i],
+        [labelD]: arrayD[i],
       }
     }
   }
@@ -68,7 +85,6 @@ export const nFormatter = (num, digits) => {
     // { value: 1, symbol: "" },
     // { value: 1e3, symbol: "k" },
     { value: 1e6, symbol: "M" },
-    // { value: 1e9, symbol: "G" },
     { value: 1e9, symbol: "B" },
     { value: 1e12, symbol: "T" },
     { value: 1e15, symbol: "P" },

@@ -12,6 +12,7 @@ import Modal from './common/Modal'
 import Bloc from './DepositModal.bloc'
 
 import './DepositModal.scss'
+import { isValidDecimal } from '../utils/calc'
 
 class DepositModal extends Component {
   destroy$ = new Subject()
@@ -66,6 +67,7 @@ class DepositModal extends Component {
       const isDisabled = !this.bloc.depositAmount$.value
         || new BigNumber(this.bloc.depositAmount$.value).lte(0)
         || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
+        || !isValidDecimal(this.bloc.depositAmount$.value, stakingToken.decimals)
 
       return (
         <button
@@ -111,6 +113,7 @@ class DepositModal extends Component {
           </div>
           <InputWithPercentage
             className="DepositModal__depositInput"
+            decimalLimit={stakingToken.decimals}
             value$={this.bloc.depositAmount$}
             valueLimit={availableBalance}
             label={stakingToken.title}

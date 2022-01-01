@@ -1,0 +1,34 @@
+.AdjustPositionPopup__modal {
+  @include desktop {
+    width: 884px !important;
+  }
+}
+
+.AdjustPositionPopup {
+  
+}
+
+.AdjustPositionPopup__content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 36px;
+  margin-bottom: 54px;
+}
+
+.AdjustPositionPopup__controller {
+  flex: 1;
+}
+
+.AdjustPositionPopup__summary {
+  flex: 1;
+}
+
+.AdjustPositionPopup__farmButton {
+  @include button-1(54px);
+  width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}

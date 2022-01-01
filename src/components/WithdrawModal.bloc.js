@@ -17,7 +17,10 @@ export default class {
   }
 
   withdraw = (stakingToken, vaultAddress) => {
-    const withdrawAmount = new BigNumber(this.withdrawAmount$.value).multipliedBy(10 ** stakingToken.decimals).toString()
+
+    const withdrawAmount = new BigNumber(this.withdrawAmount$.value)
+      .multipliedBy(10 ** stakingToken.decimals)
+      .toString()
 
     withdrawFromLending$(vaultAddress, withdrawAmount).pipe(
       tap(() => this.isLoading$.next(true)),

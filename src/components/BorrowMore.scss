@@ -1,0 +1,30 @@
+.BorrowMore {
+  .LeverageGauge__header {
+    align-items: flex-start;
+  }
+}
+
+.BorrowMore__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.BorrowMore__assetInfo {
+  display: flex;
+  align-items: center;
+}
+
+.BorrowMore__assetIcon {
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.BorrowMore__assetTitle {
+  @include font-style('font-1', 'sb', 13px);
+  color: #494a4d;
+}

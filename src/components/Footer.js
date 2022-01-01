@@ -42,7 +42,7 @@ class Footer extends Component {
       })}>
         <div className="Footer__left">
           <img 
-            onClick={() => window.open('https://docs.kleva.io/v/kor/')}
+            onClick={() => window.open('https://docs.kleva.io')}
             className="Footer__socialLink" 
             src="/static/images/icons-social-gitbook.svg" 
           />

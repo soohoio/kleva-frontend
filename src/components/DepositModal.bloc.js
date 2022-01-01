@@ -28,7 +28,9 @@ export default class {
   }
 
   deposit = (stakingToken, vaultAddress) => {
-    const depositAmount = new BigNumber(this.depositAmount$.value).multipliedBy(10 ** stakingToken.decimals).toString()
+    const depositAmount = new BigNumber(this.depositAmount$.value)
+      .multipliedBy(10 ** stakingToken.decimals)
+      .toString()
     
     const nativeCoinAmount = stakingToken.nativeCoin
     ? depositAmount

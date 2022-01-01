@@ -8,6 +8,7 @@ import { tokenPrices$ } from '../streams/tokenPrice'
 import { lendingPools } from '../constants/lendingpool'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { farmPoolDeposited$ } from '../streams/farming'
+import RollingBanner from './RollingBanner'
 
 class TVLBrief extends Component {
   destroy$ = new Subject()
@@ -66,6 +67,7 @@ class TVLBrief extends Component {
           <p className="TVLBrief__description">${this.getTVL().toLocaleString('en-us', { maximumFractionDigits: 2 })}</p>
         </div>
         <div className="TVLBrief__right">
+          <RollingBanner />
           {/* <div className="TVLBrief__banner">
             Marketing Communcation Banners
           </div> */}

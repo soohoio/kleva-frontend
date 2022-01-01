@@ -60,34 +60,29 @@ class LeverageGauge extends Component {
     this.destroy$.next(true)
   }
 
-  // handleLeverageChange = (e) => {
-  //   const { leverage$, leverageCap } = this.props
-    
-  //   if (Number(e.target.value) < 1) {
-  //     leverage$.next(1)
-  //     return
-  //   }
-
-  //   if (Number(e.target.value) > leverageCap) {
-  //     leverage$.next(leverageCap)
-  //     return
-  //   }
-
-  //   leverage$.next(e.target.value)
-  // }
-
   setLeverage = (e) => {
-    const { leverageCap = 4, leverage$ } = this.props
+    const { leverageMin, leverageCap, leverage$ } = this.props
 
     const clientX = e.clientX || (e.changedTouches[0] && e.changedTouches[0].clientX)
     const rect = document.querySelector('.GaugeBar__barBehind').getBoundingClientRect()
     const percent = Math.max(0, Math.min((clientX - rect.x) / rect.width, 1))
 
+    const nextLeverageValue = 1 + (percent * (leverageCap - 1))
+
+    if (leverageMin && nextLeverageValue < leverageMin) {
+      return
+    }
+
     leverage$.next(1 + (percent * (leverageCap - 1)))
   }
     
   render() {
-    const { leverage$, leverageCap = 4 } = this.props
+    const { 
+      title = "Leverage", 
+      description, 
+      leverage$, 
+      leverageCap,
+    } = this.props
 
     const leverage = leverage$.value
     const barItemCount = parseInt(leverageCap / BAR_OFFSET) - 1
@@ -103,7 +98,10 @@ class LeverageGauge extends Component {
     return (
       <div className="LeverageGauge">
         <div className="LeverageGauge__header">
-          <span className="LeverageGauge__title">Leverage</span>
+          <div className="LeverageGauge__titleWrapper">
+            <span className="LeverageGauge__title">{title}</span>
+            {!!description && <p className="LeverageGauge__description">{description}</p>}
+          </div>
           <div className="LeverageGauge__inputWrapper">
             <input 
               className="LeverageGauge__leverageInput" 

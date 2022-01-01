@@ -8,13 +8,17 @@ import { selectedAddress$ } from 'streams/wallet'
 import { openModal$ } from 'streams/ui'
 
 import KlipQRCode from '../components/KlipQRCode'
+import { toFixed } from '../utils/calc'
 
 export const requestStatus$ = new BehaviorSubject({})
 
 const BAPP_NAME = "KLEVA PROTOCOL"
 
 const _auth$ = from(prepare.auth({ bappName: BAPP_NAME }))
-const _execute$ = ({ bappName, to, value, abi, params }) => from(prepare.executeContract({ bappName, to, value, abi, params }))
+const _execute$ = ({ bappName, to, value, abi, params }) => {
+
+  return from(prepare.executeContract({ bappName, to, value, abi, params }))
+}
 
 export const accessKlip$ = _auth$.pipe(
   switchMap((res) => {

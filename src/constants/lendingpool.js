@@ -6,15 +6,15 @@ export const PROTOCOL_FEE = 0.19
 
 // Lending Pool Contract (= Vault Contract) (= ibToken Contract)
 export const lendingPools = [
-  {
-    title: "KLEVA",
+  // {
+  //   title: "KLEVA",
     
-    vaultAddress: tokenList["ibKLEVA"].address,
-    ibToken: tokenList["ibKLEVA"],
+  //   vaultAddress: tokenList["ibKLEVA"].address,
+  //   ibToken: tokenList["ibKLEVA"],
     
-    stakingToken: tokenList["KLEVA"],
-    vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
-  },
+  //   stakingToken: tokenList["KLEVA"],
+  //   vaultConfigAddress: "0x27fd51dab61c9f979A463d7b1F4f1F17648974bE",
+  // },
   {
     title: "KLAY",
     

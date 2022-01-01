@@ -12,6 +12,7 @@ import { lendingPools } from '../constants/lendingpool'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { farmPoolDeposited$ } from '../streams/farming'
 import { range } from 'lodash'
+import RollingBanner from './RollingBanner'
 
 const Item = ({ imgSrc, title, value }) => {
   return (
@@ -125,7 +126,9 @@ class HeaderInfoMobile extends Component {
             </div>
           </div>
         </div>
-        <div className={cx("MarketingBanners", {
+        
+        <RollingBanner leftRight />
+        {/* <div className={cx("MarketingBanners", {
           "MarketingBanners--show": path$.value === '/' || path$.value === '/lend',
         })}>
           {bannerItems.map(({ title, imgSrc }) => {
@@ -136,7 +139,7 @@ class HeaderInfoMobile extends Component {
               "MarketingBanners__circle--active": idx === activeBannerIdx,
             })} />
           })}
-        </div>
+        </div> */}
       </>
     )
   }

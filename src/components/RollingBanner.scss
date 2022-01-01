@@ -1,0 +1,57 @@
+.RollingBanner {
+  width: 359px;
+  height: 88px;
+  overflow: scroll;
+  z-index: 9;
+  box-shadow: 0 2px 9px 0 rgba(24, 24, 24, 0.05);
+  margin-top: 64px;
+  border-radius: 8px;
+  gap: 20px;
+
+  @include desktop {
+    margin-top: 0;
+  }
+
+  &--leftRight {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.RollingBanner__item {
+  height: 88px;
+  cursor: pointer;
+}
+
+.RollingBanner__circleList {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-top: 16px;
+  margin-left: 0;
+
+  @include desktop {
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 16px;
+  }
+}
+
+.RollingBanner__circle {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 50%; 
+  cursor: pointer;
+
+  @include desktop {
+    background-color: rgba(255, 255, 255, .1);
+  }
+
+  &--active {
+    background-color: #3369ff;
+    @include desktop {
+      background-color: #fff;
+    }
+  }
+}

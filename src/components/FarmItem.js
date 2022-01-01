@@ -185,7 +185,9 @@ class FarmItem extends Component {
               <BorrowingAssetSelector
                 list={borrowingInterestAttachedAssets}
                 selected={selectedBorrowingAssetWithInterest}
-                onSelect={(item) => this.setState({ borrowingAsset: item })}
+                onSelect={(item) => {
+                  this.setState({ borrowingAsset: item })
+                }}
               />
             )} 
           />

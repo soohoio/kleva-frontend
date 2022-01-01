@@ -12,6 +12,7 @@ import Bloc from './StakingPoolItemExpanded.bloc'
 
 import './StakingPoolItemExpanded.scss'
 import { selectedAddress$ } from '../streams/wallet'
+import { isValidDecimal } from '../utils/calc'
 
 class StakingPoolItemExpanded extends Component {
   destroy$ = new Subject()
@@ -58,6 +59,7 @@ class StakingPoolItemExpanded extends Component {
         || !this.bloc.stakeAmount$.value
         || new BigNumber(this.bloc.stakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.stakeAmount$.value).gt(balanceInWallet)
+        || !isValidDecimal(this.bloc.stakeAmount$.value, stakingToken.decimals)
 
       return (
         <button
@@ -103,6 +105,7 @@ class StakingPoolItemExpanded extends Component {
         || !this.bloc.unstakeAmount$.value
         || new BigNumber(this.bloc.unstakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.unstakeAmount$.value).gt(depositedAmount)
+        || !isValidDecimal(this.bloc.unstakeAmount$.value, stakingToken.decimals)
 
       return (
         <button
@@ -160,6 +163,7 @@ class StakingPoolItemExpanded extends Component {
           </div>
           <InputWithPercentage
             className="StakingPoolItemExpanded__stakeInput"
+            decimalLimit={stakingToken.decimals}
             value$={this.bloc.stakeAmount$}
             valueLimit={balanceInWallet}
             label={stakingToken.title}
@@ -172,6 +176,7 @@ class StakingPoolItemExpanded extends Component {
             <span className="StakingPoolItemExpanded__stakedBalanceValue">{depositedAmount && Number(depositedAmount.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
           </div>
           <InputWithPercentage
+            decimalLimit={stakingToken.decimals}
             className="StakingPoolItemExpanded__unstakeInput"
             value$={this.bloc.unstakeAmount$}
             valueLimit={depositedAmount && depositedAmount.balanceParsed || 0}
@@ -193,9 +198,15 @@ class StakingPoolItemExpanded extends Component {
           </div>
           <button 
             className={cx("StakingPoolItemExpanded__claimButton", {
-              "StakingPoolItemExpanded__claimButton--disabled": !selectedAddress,
+              // "StakingPoolItemExpanded__claimButton--disabled": !selectedAddress,
+              "StakingPoolItemExpanded__claimButton--disabled": true,
             })}
-            onClick={this.bloc.harvest}
+            onClick={() => {
+              
+              // @TODO
+
+              // this.bloc.harvest()
+            }}
           >
             {this.bloc.isLoading$.value ? "..." : "Claim"}
           </button>

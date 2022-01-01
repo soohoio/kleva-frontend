@@ -11,6 +11,7 @@ import Modal from './common/Modal'
 import Bloc from './WithdrawModal.bloc'
 
 import './WithdrawModal.scss'
+import { isValidDecimal } from '../utils/calc'
 
 class WithdrawModal extends Component {
   destroy$ = new Subject()
@@ -55,6 +56,7 @@ class WithdrawModal extends Component {
     const isDisabled = !this.bloc.withdrawAmount$.value
       || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
       || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableBalance)
+      || !isValidDecimal(this.bloc.withdrawAmount$.value, stakingToken.decimals)
 
     return (
       <Modal title="Withdraw">
@@ -63,6 +65,7 @@ class WithdrawModal extends Component {
           <span className="WithdrawModal__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })} ib{stakingToken.title}</span>
         </div>
         <InputWithPercentage
+          decimalLimit={stakingToken.decimals}
           className="WithdrawModal__withdrawInput"
           value$={this.bloc.withdrawAmount$}
           valueLimit={availableBalance}

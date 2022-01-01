@@ -42,8 +42,22 @@
 }
 
 .StakingPoolItemCard__StakingAssetInfo {
+  position: relative;
   display: flex;
   align-items: center;
+
+  &::before {
+    @include font-style('font-1', 'b', 10px);
+    color: $white;
+    content: "ib";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: #3369ff;
+  }
 }
 
 .StakingPoolItemCard__StakingAssetInfoIcon {
@@ -54,6 +68,12 @@
 
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
   background-color: #fff;
+
+  border: double 1px transparent;
+  border-radius: 50%;
+  background-image: linear-gradient(#fff,#fff ), radial-gradient(circle at top left, #2a51bd,#668fff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 .StakingPoolItemCard__StakingAssetInfoInfo {

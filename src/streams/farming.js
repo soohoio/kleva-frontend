@@ -11,3 +11,6 @@ export const fetchPoolReserves$ = new Subject()
 export const klevaAnnualRewards$ = new BehaviorSubject({})
 
 export const farmPoolDeposited$ = new BehaviorSubject({})
+
+// positions
+export const positions$ = new BehaviorSubject([])

@@ -7,8 +7,9 @@ import BigNumber from 'bignumber.js'
 import './PositionList.scss'
 import { openModal$ } from '../streams/ui'
 import ClosePositionPopup from './ClosePositionPopup'
-import { tokenList } from '../constants/tokens'
-import { aprInfo$ } from '../streams/farming'
+import { lpTokenByIngredients, tokenList } from '../constants/tokens'
+import { aprInfo$, positions$, workerInfo$ } from '../streams/farming'
+import AdjustPositionPopup from './AdjustPositionPopup'
 
 // const positions = [
 //   {
@@ -79,24 +80,38 @@ const PositionItem = ({
   positionValue,
   debtValue,
   exchange, // klayswap
-  workerFactorBps, // leverage cap
+  workFactorBps, // leverage cap
   killFactorBps, // liquidation threshold
 
   vaultAddress,
   workerAddress,
+
+  workerInfo,
 }) => {
 
-  const apy = 3000
+  const lpToken = lpTokenByIngredients(farmingToken, baseToken)
 
-  const equityValue = new BigNumber(positionValue)
+  const apy = 3000
+  
+  const debtRatio = new BigNumber(debtValue || 0)
+    .div(positionValue || 1)
+    .toFixed(2)
+
+  const positionValueParsed = new BigNumber(positionValue)
+    .div(10 ** baseToken.decimals)
+    .toNumber()
+    .toLocaleString('en-us', { maximumFractionDigits: 6 })
+
+  const equityValueParsed = new BigNumber(positionValue)
     .minus(debtValue)
     .div(10 ** baseToken.decimals)
     .toNumber()
     .toLocaleString('en-us', { maximumFractionDigits: 6 })
-  
-  const debtRatio = new BigNumber(debtValue)
-    .div(positionValue)
-    .toFixed(2)
+
+  const debtValueParsed = new BigNumber(debtValue)
+    .div(10 ** baseToken.decimals)
+    .toNumber()
+    .toLocaleString('en-us', { maximumFractionDigits: 6 })
 
   const liquidationThreshold = debtValue == 0 
     ? 0
@@ -109,6 +124,8 @@ const PositionItem = ({
       .minus(debtRatio)
       .toNumber()
       .toLocaleString('en-us', { maximumFractionDigits: 2 })
+
+  const leverageCap = 10000 / (10000 - Number(workFactorBps))
 
   return (
     <div className="PositionItem">
@@ -144,7 +161,7 @@ const PositionItem = ({
         }</strong> {baseToken.title}
       </div>
       <div className="PositionItem__equityValue">
-        <strong>{equityValue}</strong> {baseToken.title}
+        <strong>{equityValueParsed}</strong> {baseToken.title}
       </div>
       <div className="PositionItem__apy">
         <strong>{apy}</strong>%
@@ -159,14 +176,28 @@ const PositionItem = ({
         <strong>{safetyBuffer || 'No Debt'}</strong>{!!safetyBuffer && '%'}
       </div>
       <div className="PositionItem__blank">
-        <button onClick={() => alert('alpha3')} className="PositionItem__adjustButton">Adjust</button>
+        <button onClick={() => {
+          openModal$.next({
+            component: <AdjustPositionPopup
+              title="Adjust Position"
+              positionId={id}
+              vaultAddress={vaultAddress}
+              farmingToken={farmingToken}
+              baseToken={baseToken}
+              workerInfo={workerInfo}
+              leverageCap={leverageCap}
+            />
+          })
+
+          
+        }} className="PositionItem__adjustButton">Adjust</button>
         <button className="PositionItem__closeButton" onClick={() => {
           openModal$.next({
             component: (
               <ClosePositionPopup
                 title="Close Position"
                 farmingToken={farmingToken} 
-                baseToken={baseToken} 
+                baseToken={baseToken}
                 
                 positionId={id}
                 vaultAddress={vaultAddress}
@@ -186,6 +217,7 @@ class PositionList extends Component {
   componentDidMount() {
     merge(
       aprInfo$,
+      workerInfo$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -219,9 +251,11 @@ class PositionList extends Component {
           {/* Content */}
           {list.map((positionInfo) => {
             const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
+            const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
             return (
               <PositionItem 
                 aprInfo={aprInfo}
+                workerInfo={workerInfo}
                 {...positionInfo}
               />
             )

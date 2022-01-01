@@ -67,6 +67,9 @@ export const depositedAt$ = new BehaviorSubject({})
 export const fetchWalletInfo$ = new Subject()
 export const pendingGT$ = new BehaviorSubject({})
 
+export const lockedKlevaAmount$ = new BehaviorSubject(0)
+export const fetchUnlockAmount$ = new Subject()
+
 logout$.subscribe(() => {
   balancesInWallet$.next({})
   balancesInStakingPool$.next({})
@@ -84,3 +87,5 @@ window.balancesInWallet$ = balancesInWallet$
 window.balancesInStakingPool$ = balancesInStakingPool$
 
 window.allowancesInLendingPool$ = allowancesInLendingPool$
+
+

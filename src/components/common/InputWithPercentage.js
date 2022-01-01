@@ -6,6 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import Dropdown from 'components/common/Dropdown'
 
 import './InputWithPercentage.scss'
+import { toFixed } from '../../utils/calc'
 
 const percentItems = [
   { title: "0%", value: 0, key: "0%" },
@@ -74,7 +75,7 @@ class InputWithPercentage extends Component {
   }
 
   selectPercent = ({ value }) => {
-    const { value$, valueLimit } = this.props
+    const { value$, valueLimit, decimalLimit } = this.props
 
     this.selectedItem$.next({
       title: `${Number(value).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
@@ -88,13 +89,15 @@ class InputWithPercentage extends Component {
   }
 
   getNewValue = (value, valueLimit) => {
+    const { decimalLimit = 18 } = this.props
+
     if (!valueLimit) return 0
 
     if (value === 100) {
       return valueLimit
     }
 
-    return Number(valueLimit) * (value / 100)
+    return toFixed(Number(valueLimit) * (value / 100), decimalLimit)
   }
     
   render() {

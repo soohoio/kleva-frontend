@@ -12,12 +12,20 @@ export const singleTokens = {
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: 18,
   },
+  // TEST
   "KLEVA": {
     title: "KLEVA",
     address: "0x0b430ad7bf84eb307e221f0e66216205502f835d",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: 18,
   },
+  // REAL
+  // "KLEVA": {
+  //   title: "KLEVA",
+  //   address: "0x5fff3a6c16c2208103f318f4713d4d90601a7313",
+  //   iconSrc: "/static/images/tokens/token-KLEVA.svg",
+  //   decimals: 18,
+  // },
   "KUSDT": {
     title: "KUSDT",
     address: "0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167",

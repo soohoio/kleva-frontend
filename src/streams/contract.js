@@ -18,6 +18,7 @@ import VaultABI from 'abis/VaultKleva.json'
 import FairLaunchABI from 'abis/FairLaunchKleva.json'
 import KlayswapWorkerABI from 'abis/KlayswapWorker.json'
 import VaultConfigABI from 'abis/VaultConfig.json'
+import KLEVATokenABI from 'abis/KLEVAToken.json'
 
 // Klayswap 
 import KlayswapExchangeABI from 'abis/KlayswapExchange.json'
@@ -32,8 +33,9 @@ import { executeContractKlip$ } from './klip'
 import { MAX_UINT } from 'constants/setting'
 import { showParamsOnCall } from '../utils/callHelper'
 import { lpTokenByIngredients, tokenList } from '../constants/tokens'
+import { isValidDecimal, toFixed } from '../utils/calc'
 
-const NODE_URL = 'http://klaytn.staging.sooho.io:8551'
+const NODE_URL = 'https://klaytn-secure.staging.sooho.io/'
 export const caver = new Caver(NODE_URL)
 
 window.BigNumber = BigNumber
@@ -87,6 +89,7 @@ const sendAsync$ = (method, txObject) => {
       }
 
       // Klip
+
       if (walletType$.value === "klip") {
         executeContractKlip$({
           to: txObject.to,
@@ -503,6 +506,27 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
 
 export const depositForLending$ = (vaultAddress, tokenAmount, nativeCoinAmount = 0) => {
 
+  console.log(nativeCoinAmount, "nativeCoinAmount")
+  
+  if (walletType$.value === 'klip' && (nativeCoinAmount === tokenAmount)) {
+    const valueSplitted = Number(nativeCoinAmount / 10 ** 18)
+      .toLocaleString('en-us', { maximumFractionDigits: 18 }).split('.')
+
+    let valueDecimalPoint = valueSplitted && valueSplitted[1]
+
+    if (valueDecimalPoint && valueDecimalPoint.length > 6) {
+
+      nativeCoinAmount = new BigNumber(`${valueSplitted[0]}.${valueDecimalPoint.slice(0, 6)}`)
+        .multipliedBy(10 ** 18)
+        .toString()
+      
+      tokenAmount = new BigNumber(`${valueSplitted[0]}.${valueDecimalPoint.slice(0, 6)}`)
+        .multipliedBy(10 ** 18)
+        .toString()
+
+    }
+  }
+
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
@@ -567,15 +591,6 @@ export const addPosition$ = (vaultAddress, {
   data,
   value = 0,
 }) => {
-
-  console.log(
-    workerAddress,
-    principalAmount,
-    borrowAmount,
-    maxReturn,
-    data,
-    value
-  )
 
   return makeTransaction({
     abi: VaultABI,
@@ -712,8 +727,15 @@ export const getWorkerInfo$ = (workerList) => {
     })
   )
 
-  return forkJoin(p1, p2, p3).pipe(
-    map(([killFactorBpsList, workFactorBpsList, lpPoolIdList]) => {
+  const p4 = multicall(
+    KlayswapWorkerABI,
+    workerList.map(({ workerAddress, id }) => {
+      return { address: workerAddress, name: 'rawKillFactorBps', params: [] }
+    })
+  )
+
+  return forkJoin(p1, p2, p3, p4).pipe(
+    map(([killFactorBpsList, workFactorBpsList, lpPoolIdList, rawKillFactorBpsList]) => {
 
       const coupled = coupleArray({
         arrayA: flatten(killFactorBpsList),
@@ -721,7 +743,9 @@ export const getWorkerInfo$ = (workerList) => {
         arrayB: flatten(workFactorBpsList),
         labelB: 'workFactorBps',
         arrayC: flatten(lpPoolIdList),
-        labelC: 'lpPoolId'
+        labelC: 'lpPoolId',
+        arrayD: flatten(rawKillFactorBpsList),
+        labelD: 'rawKillFactorBps',
       })
 
       return flatten(coupled).reduce((acc, cur, idx) => {
@@ -733,6 +757,7 @@ export const getWorkerInfo$ = (workerList) => {
           ..._worker,
           killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
           workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
+          rawKillFactorBps: new BigNumber(cur.rawKillFactorBps._hex).toString(),
           lpPoolId: new BigNumber(cur.lpPoolId._hex).toString(),
         }
 
@@ -977,4 +1002,88 @@ export const unwrapWKLAY$ = (amount) => makeTransaction({
   methodName: 'withdraw',
   params: [amount],
   value: 0,
+})
+
+// Adjust Position
+
+// add collateral
+export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data }) => {
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "addCollateral",
+    params: [positionId, principalAmount, data]
+  })
+}
+
+// add collateral & borrow
+export const addCollateralWithBorrowing$ = (vaultAddress, { positionId, principalAmount, debtAmount, data }) => {
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, principalAmount, debtAmount, 0, data]
+  })
+}
+
+export const minimizeTrading$ = (vaultAddress, { positionId, data }) => {
+  /*
+        const ext2 = abiCoder.encode(["uint256"], ["0"]);
+        const data2 = abiCoder.encode(
+            ["address", "bytes"],
+            [_minimizeTradingStrategyService.address, ext2]
+        );
+  */
+
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, MAX_UINT, data]
+  })
+}
+
+export const partialCloseLiquidate$ = (vaultAddress, { positionId, maxDebtRepayment, data }) => {
+  /*
+    abi.encode(
+      KlayswapPartialLiquidateStrategy_address, 
+      abi.encode(maxLpTokenToLiquidate, maxDebtRepayment, minBaseTokenAmount)
+    )
+  */
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, maxDebtRepayment, data]
+  })
+}
+
+export const partialMinimizeTrading$ = (vaultAddress, { positionId, maxDebtRepayment, data }) => {
+  /*
+    abi.encode(
+      KlayswapPartialMinimizeTradingStrategy_address, 
+      abi.encode(maxLpTokenToLiquidate, maxDebtRepayment, minFarmingTokenAmount)
+    )
+  */
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, maxDebtRepayment, data]
+  })
+}
+
+// Unlock
+export const calcUnlockableAmount$ = (account) => call$({
+  abi: KLEVATokenABI,
+  methodName: 'calcUnlockableAmount',
+  address: tokenList.KLEVA.address,
+  params: [account],
+})
+
+export const unlock$ = (account) => makeTransaction({
+  abi: KLEVATokenABI,
+  address: account,
+  methodName: "unlock",
+  params: []
 })

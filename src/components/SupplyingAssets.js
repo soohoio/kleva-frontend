@@ -19,6 +19,7 @@ const SupplyInput = ({
   inputLabel,
   priceRatio,
   valueLimit,
+  decimalLimit
 }) => {
 
   return (
@@ -28,6 +29,7 @@ const SupplyInput = ({
         <span className="SupplyInput__labelValue">{Number(labelValue).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
       </div>
       <InputWithPercentage
+        decimalLimit={decimalLimit}
         imgSrc={imgSrc}
         value$={value$}
         label={inputLabel}
@@ -56,6 +58,7 @@ class SupplyingAssets extends Component {
     
   render() {
     const { 
+      title,
       farmingToken, 
       baseToken, 
       balances,
@@ -67,7 +70,7 @@ class SupplyingAssets extends Component {
 
     return (
       <div className="SupplyingAssets">
-        <p className="SupplyingAssets__title">Supplying Assets</p>
+        <p className="SupplyingAssets__title">{title || "Supplying Assets"}</p>
         {isFarmingTokenKLAY 
           ? (
             <WKLAYSwitcher
@@ -83,6 +86,7 @@ class SupplyingAssets extends Component {
           )
           : (
             <SupplyInput
+              decimalLimit={farmingToken.decimals}
               value$={farmingTokenAmount$}
               valueLimit={balances[farmingToken.address] && balances[farmingToken.address].balanceParsed}
               labelValue={balances[farmingToken.address] && balances[farmingToken.address].balanceParsed}
@@ -93,6 +97,7 @@ class SupplyingAssets extends Component {
           )
         }
         <SupplyInput 
+          decimalLimit={baseToken.decimals}
           value$={baseTokenAmount$}
           valueLimit={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
           labelValue={balances[baseToken.address] && balances[baseToken.address].balanceParsed}

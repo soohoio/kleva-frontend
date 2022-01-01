@@ -8,6 +8,7 @@ import Sidebar from '../components/Sidebar'
 
 import './PageBuilder.scss'
 import Footer from '../components/Footer'
+import LockedKLEVA from '../components/LockedKLEVA'
 
 class PageBuilder extends Component {
   destroy$ = new Subject()

@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of } from 'rxjs'
 import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime } from 'rxjs/operators'
 import cx from 'classnames'
+import 'utils/tweening'
 
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
@@ -21,19 +22,20 @@ import {
   caver, 
   getKlevaAnnualReward$, 
   getWorkerInfo$, 
-  getFarmDeposited$ 
+  getFarmDeposited$, 
+  calcUnlockableAmount$
 } from './streams/contract'
 
 import Overlay from 'components/Overlay'
 // import Toast from 'components/Toast'
 
 import './App.scss'
-import { isFocused$, showFooter$ } from './streams/ui'
+import { isFocused$, openModal$, showFooter$ } from './streams/ui'
 import { debtTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
-import { fetchWalletInfo$ } from './streams/wallet'
+import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { GRAPH_NODE_URL } from 'streams/graphql'
 import LZUTF8 from 'lzutf8'
@@ -42,6 +44,7 @@ import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
 import { getAmountOut, calcBestPathToKLAY } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
+import LockedKLEVAPopup from './components/LockedKLEVAPopup'
 
 type Props = {
   isLoading: boolean,
@@ -138,6 +141,7 @@ class App extends Component<Props> {
       selectedAddress$.pipe(
         filter((a) => !!a),
         switchMap((selectedAddress) => {
+
           return walletInfoFetcher$(selectedAddress)
         }),
       ),
@@ -146,6 +150,42 @@ class App extends Component<Props> {
     ).subscribe(() => {
       this.forceUpdate()
     })
+
+    this.notifiedAlready = false
+
+    selectedAddress$.pipe(
+      filter((a) => !!a),
+      switchMap((account) => {
+        if (!account) {
+          this.notifiedAlready = false
+          lockedKlevaAmount$.next(0)
+          return of(false)
+        }
+
+        return merge(
+          fetchUnlockAmount$,
+          interval(1000 * 60),
+        ).pipe(
+          startWith(0),
+          switchMap(() => calcUnlockableAmount$(account)),
+          tap((lockedAmount) => {
+            if (!this.notifiedAlready && !isDesktop$.value && lockedAmount != 0) {
+              this.notifiedAlready = true
+              openModal$.next({
+                component: <LockedKLEVAPopup />
+              })
+            }
+
+
+            const lockedAmountParsed = new BigNumber(lockedAmount)
+              .div(10 ** tokenList.KLEVA.decimals)
+              .toNumber()
+
+            lockedKlevaAmount$.next(lockedAmountParsed)
+          })
+        )
+      })
+    ).subscribe()
 
     vaultInfoFetcher$.pipe(
       takeUntil(this.destroy$)

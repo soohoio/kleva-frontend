@@ -7,6 +7,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import { path$ } from 'streams/location'
 
 import './Sidebar.scss'
+import LockedKLEVA from './LockedKLEVA'
 
 const SidebarItem = ({ active, onClickOverwrite, disabled, title, iconSrc, href, clientSideHref }) => {
   return (
@@ -68,19 +69,20 @@ class Sidebar extends Component {
           active={path$.value === "/stake"}
           title="Stake"
         />
-        {/* <SidebarItem
+        <SidebarItem
           onClickOverwrite={() => {
             alert("Coming Soon.")
           }}
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"
-        /> */}
-        <SidebarItem
+        />
+        {/* <SidebarItem
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"
-        />
+        /> */}
+        <LockedKLEVA />
       </div>
     )
   }
