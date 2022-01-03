@@ -15,7 +15,7 @@ import Modal from './common/Modal'
 
 import './AdjustPositionPopup.scss'
 import { tokenList } from '../constants/tokens'
-import { checkAllowances$ } from '../streams/contract'
+import { borrowMore$, checkAllowances$ } from '../streams/contract'
 import { positions$ } from '../streams/farming'
 
 class AdjustPositionPopup extends Component {
@@ -39,12 +39,17 @@ class AdjustPositionPopup extends Component {
       this.bloc.fetchAllowances$,
       this.bloc.borrowMore$,
       this.bloc.addCollateralAvailable$,
+      this.bloc.borrowMoreAvailable$,
       
       this.bloc.equityValue$,
       this.bloc.debtValue$,
 
-      positions$.pipe(
-        tap((positions) => {
+      merge(
+        this.bloc.leverage$,
+        positions$
+      ).pipe(
+        tap(() => {
+          const positions = positions$.value
           const positionInfo = positions && positions.find(({ id }) => id == this.props.positionId)
 
           const positionValue = positionInfo && positionInfo.positionValue
@@ -81,14 +86,20 @@ class AdjustPositionPopup extends Component {
           }
 
           const rawKillFactorBps = this.props.workerInfo && this.props.workerInfo.rawKillFactorBps
+          const workFactorBps = this.props.workerInfo && this.props.workerInfo.workFactorBps
 
           // addCollateral available condition
           // (positionValue * rawKillFactor >= debtValue * 1e4)
           const _addCollateralAvailable = new BigNumber(positionValue)
             .multipliedBy(rawKillFactorBps)
             .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
+
+          const _borrowMoreAvailable = new BigNumber(positionValue)
+            .multipliedBy(workFactorBps)
+            .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
           
           this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
+          this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)
         })
       ),
     ).pipe(
@@ -166,22 +177,38 @@ class AdjustPositionPopup extends Component {
       )
     }
 
-    const isDisabled = this.bloc.baseTokenAmount$.value == 0
+    const isAddCollateralDisabled = this.bloc.baseTokenAmount$.value == 0
       && this.bloc.farmingTokenAmount$.value == 0
       || !this.bloc.addCollateralAvailable$.value 
+
+    const isBorrowMoreDisabled = (this.bloc.leverage$.value == this.bloc.currentPositionLeverage$.value) 
+      || !this.bloc.borrowMoreAvailable$.value
+
+    const isDisabled = this.bloc.borrowMore$.value  
+      ? isBorrowMoreDisabled
+      : isAddCollateralDisabled
 
     return (
       <button
         onClick={() => {
           if (isDisabled) return
 
+          if (!!this.bloc.borrowMore$.value) {
+            this.bloc.borrowMore()
+            return
+          }
+
           this.bloc.addCollateral()
+
         }}
         className={cx("AddPositionPopup__farmButton", {
           "AddPositionPopup__farmButton--disabled": isDisabled,
         })}
       >
-        Add Collateral
+        {this.bloc.borrowMore$.value 
+          ? `Borrow More`
+          : `Add Collateral`
+        }
         {/* Farm {Number(this.bloc.leverage$.value).toFixed(2)}x */}
       </button>
     )
@@ -197,8 +224,6 @@ class AdjustPositionPopup extends Component {
       workerInfo,
       leverageCap,
     } = this.props
-
-    console.log(this.bloc.addCollateralAvailable$.value, "this.bloc.addCollateralAvailable$.value")
 
     return (
       <Modal className="AdjustPositionPopup__modal" title={title}>

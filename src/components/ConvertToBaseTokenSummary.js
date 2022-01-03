@@ -28,8 +28,6 @@ class ConvertToBaseTokenSummary extends Component {
       borrowingAsset,
       borrowingAmount,
     } = this.props
-
-    console.log(this.props, "this.props")
     
     const convertedPositionValueInBaseToken = 3000
     const approxReceiveFarmingTokenAmount = 2000

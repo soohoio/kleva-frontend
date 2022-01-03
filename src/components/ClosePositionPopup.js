@@ -12,6 +12,7 @@ import Bloc from './ClosePositionPopup.bloc'
 import MinimizeTradingSummary from './MinimizeTradingSummary'
 
 import RadioSet from 'components/common/RadioSet'
+import { positions$ } from '../streams/farming'
 
 class ClosePositionPopup extends Component {
   destroy$ = new Subject()
@@ -23,7 +24,45 @@ class ClosePositionPopup extends Component {
   
   componentDidMount() {
     merge(
+      this.bloc.positionValue$,
+      this.bloc.equityValue$,
+      this.bloc.debtValue$,
       this.bloc.closingMethod$,
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
+
+    merge(positions$).pipe(
+      tap(() => {
+        const positions = positions$.value
+        const positionInfo = positions && positions.find(({ id }) => id == this.props.positionId)
+
+        const positionValue = positionInfo && positionInfo.positionValue
+        const debtValue = positionInfo && positionInfo.debtValue
+        const equityValue = positionInfo && new BigNumber(positionInfo.positionValue).minus(debtValue)
+
+        const positionValueParsed = new BigNumber(positionValue)
+          .div(10 ** this.props.baseToken.decimals)
+          .toNumber()
+          .toLocaleString('en-us', { maximumFractionDigits: 6 })
+
+        const equityValueParsed = new BigNumber(positionValue)
+          .minus(debtValue)
+          .div(10 ** this.props.baseToken.decimals)
+          .toNumber()
+          .toLocaleString('en-us', { maximumFractionDigits: 6 })
+
+        const debtValueParsed = new BigNumber(debtValue)
+          .div(10 ** this.props.baseToken.decimals)
+          .toNumber()
+          .toLocaleString('en-us', { maximumFractionDigits: 6 })
+
+        this.bloc.positionValue$.next(positionValueParsed)
+        this.bloc.equityValue$.next(equityValueParsed)
+        this.bloc.debtValue$.next(debtValueParsed)
+      })
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -42,7 +81,13 @@ class ClosePositionPopup extends Component {
     switch (this.bloc.closingMethod$.value) {
       case 'minimizeTrading':
         return (
-          <MinimizeTradingSummary />
+          <MinimizeTradingSummary
+            baseToken={baseToken}
+            farmingToken={farmingToken}
+            positionValue$={this.bloc.positionValue$}
+            equityValue$={this.bloc.equityValue$}
+            debtValue$={this.bloc.debtValue$}
+          />
         )
       case 'convertToBaseToken':
         return (

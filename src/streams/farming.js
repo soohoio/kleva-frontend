@@ -1,5 +1,5 @@
 import { BehaviorSubject, Subject } from "rxjs";
-import { map } from "rxjs/operators"
+import { map, filter } from "rxjs/operators"
 
 import { ajax$ } from 'streams/api'
 
@@ -14,3 +14,19 @@ export const farmPoolDeposited$ = new BehaviorSubject({})
 
 // positions
 export const positions$ = new BehaviorSubject([])
+
+// Pagination
+export const viewingPositionLatestBlockTime$ = new BehaviorSubject()
+
+positions$.pipe(
+  filter((positions) => positions && positions.length != 0)
+).subscribe((positions) => {
+  const latestViewingPosition = positions.reduce((acc, cur) => {
+    return new BigNumber(cur.latestBlockTime).gte(acc.latestBlockTime)
+      ? cur
+      : acc
+  })
+;
+  viewingPositionLatestBlockTime$.next(latestViewingPosition && latestViewingPosition.latestBlockTime)
+})
+

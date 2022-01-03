@@ -10,10 +10,12 @@ import './MyPositions.scss'
 import { logout$, selectedAddress$ } from '../streams/wallet'
 import { getPositions$ } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
-import { aprInfo$, workerInfo$, positions$ } from '../streams/farming'
+import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$ } from '../streams/farming'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
+
+  page$ = new BehaviorSubject(1)
   
   state = {
     // "active", "liquidated"
@@ -25,14 +27,18 @@ class MyPositions extends Component {
       selectedAddress$.pipe(
         filter((a) => !!a),
         switchMap(() => {
-          return interval(5000).pipe(
+          return merge(
+            this.page$,
+            interval(5000)
+          ).pipe(
             startWith(0),
-            switchMap(() => getPositions$(selectedAddress$.value)),
-            switchMap((positions) => getPositionInfo$(positions)),
+            switchMap(() => getPositions$(selectedAddress$.value, this.page$.value)),
+            switchMap((positions) => {
+              return getPositionInfo$(positions)
+            }),
             tap((positions) => {
               const positionsAttachedWorkerInfo = positions.map((p) => {
                 const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
-                console.log(_workerInfo, "@_workerInfo")
                 return { ...p, ..._workerInfo }
               },)
               positions$.next(positionsAttachedWorkerInfo)
@@ -105,6 +111,8 @@ class MyPositions extends Component {
             list={positions$.value} 
           />
         </div>
+        <p onClick={() => this.page$.next(this.page$.value - 1)}>Prev</p>
+        <p onClick={() => this.page$.next(this.page$.value + 1)}>Next</p>
       </div>
     )
   }

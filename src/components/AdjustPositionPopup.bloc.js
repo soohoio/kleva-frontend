@@ -12,6 +12,7 @@ import {
   getOutputTokenAmount$, 
   approve$, 
   getTransactionReceipt$,
+  borrowMore$,
 } from '../streams/contract'
 import { closeModal$ } from "../streams/ui"
 import { fetchWalletInfo$ } from "../streams/wallet"
@@ -49,6 +50,7 @@ export default class {
     this.fetchAllowances$ = new Subject()
 
     this.addCollateralAvailable$ = new BehaviorSubject()
+    this.borrowMoreAvailable$ = new BehaviorSubject()
   }
 
   getStrategy = () => {
@@ -135,7 +137,34 @@ export default class {
     })
   }
 
-  editPosition = () => {
+  // Borrow more
+  borrowMore = () => {
     
+    const borrowAmount = new BigNumber(this.equityValue$.value)
+      .multipliedBy(this.leverage$.value - 1)
+      .multipliedBy(10 ** this.baseToken.decimals)
+      .toFixed(0)
+
+    console.log(this.equityValue$.value,"this.equityValue$.value")
+    console.log(this.leverage$.value,"this.leverage$.value")
+    console.log(borrowAmount, 'borrowAmount')
+
+    const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
+    
+    // @TODO
+    const MIN_LP_AMOUNT = 0
+    const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
+    const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
+
+    borrowMore$(this.vaultAddress, {
+      positionId: this.positionId,
+      debtAmount: borrowAmount,
+      data,
+    }).pipe(
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
+    ).subscribe(() => {
+      fetchWalletInfo$.next(true)
+      closeModal$.next(true)
+    })
   }
 }

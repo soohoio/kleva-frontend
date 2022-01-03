@@ -3,7 +3,9 @@ import { from, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { farmPool, farmPoolByWorker } from '../constants/farmpool'
 
-export const GRAPH_NODE_URL = "http://13.213.38.24:8000/subgraphs/name/kleva"
+export const ITEM_PER_PAGE = 5
+
+export const GRAPH_NODE_URL = "http://13.213.38.24:8000/subgraphs/name/kleva2"
 
 export const getPositions$ = (owner, page = 1) => {
 
@@ -12,20 +14,22 @@ export const getPositions$ = (owner, page = 1) => {
     GRAPH_NODE_URL,
     gql`
       query($first: Int!, $skip: Int!, $where: Position_filter) {
-        positions(where: $where) {
+        positions(first: $first, skip: $skip, where: $where, orderBy: id, orderDirection: desc) {
           id,
           owner,
           borrowAmount,
           principalAmount,
           workerAddress,
-          edited
+          lpShare,
+          debtShare,
+          latestBlockTime,
         }
       }
     `,
     { 
-      first: 10,
-      skip: 10 * (page - 1),
-      where: { owner } 
+      first: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (page - 1),
+      where: { owner },
     }
   )).pipe(
     map(({ positions }) => {

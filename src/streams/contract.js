@@ -83,10 +83,10 @@ const sendAsync$ = (method, txObject) => {
     )
 
     gas$.subscribe((gas) => {
-      if (gas instanceof Error) {
-        alert("error occurred.")
-        return
-      }
+      // if (gas instanceof Error) {
+      //   alert("error occurred.")
+      //   return
+      // }
 
       // Klip
 
@@ -583,34 +583,6 @@ export const harvestFromStakingPool$ = (pid) => {
 }
 
 // Farming
-export const addPosition$ = (vaultAddress, {
-  workerAddress,
-  principalAmount,
-  borrowAmount,
-  maxReturn,
-  data,
-  value = 0,
-}) => {
-
-  return makeTransaction({
-    abi: VaultABI,
-    address: vaultAddress,
-    methodName: "addPosition",
-    params: [workerAddress, principalAmount, borrowAmount, maxReturn, data],
-    value,
-  })
-}
-
-export const closePosition$ = (vaultAddress, { positionId, data }) => {
-
-  return makeTransaction({
-    abi: VaultABI,
-    address: vaultAddress,
-    methodName: "editPosition",
-    params: [positionId, 0, 0, MAX_UINT, data],
-  })
-}
-
 export const getPendingGTInFairlaunchPool$ = (fairLaunchPoolList, account) => {
   const callName = 'calcPendingReward'
 
@@ -696,10 +668,12 @@ export const getPositionInfo$ = (positionList) => {
       }, {})
     }),
     map((positionInfoMap) => {
-      return Object.entries(positionInfoMap).reduce((acc, [positionId, item]) => {
-        acc.push(item)
-        return acc
-      }, [])
+      return Object.entries(positionInfoMap)
+        .reduce((acc, [positionId, item]) => {
+          acc.push(item)
+          return acc
+        }, [])
+        .sort((a, b) => Number(b.id) - Number(a.id))
     })
   )
 }
@@ -1016,6 +990,43 @@ export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data
   })
 }
 
+export const addPosition$ = (vaultAddress, {
+  workerAddress,
+  principalAmount,
+  borrowAmount,
+  maxReturn,
+  data,
+  value = 0,
+}) => {
+
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "addPosition",
+    params: [workerAddress, principalAmount, borrowAmount, maxReturn, data],
+    value,
+  })
+}
+
+export const convertToBaseToken$ = (vaultAddress, { positionId, data }) => {
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, MAX_UINT, data],
+  })
+}
+
+export const minimizeTrading$ = (vaultAddress, { positionId, data }) => {
+
+  return makeTransaction({
+    abi: VaultABI,
+    address: vaultAddress,
+    methodName: "editPosition",
+    params: [positionId, 0, 0, MAX_UINT, data]
+  })
+}
+
 // add collateral & borrow
 export const addCollateralWithBorrowing$ = (vaultAddress, { positionId, principalAmount, debtAmount, data }) => {
   return makeTransaction({
@@ -1026,20 +1037,13 @@ export const addCollateralWithBorrowing$ = (vaultAddress, { positionId, principa
   })
 }
 
-export const minimizeTrading$ = (vaultAddress, { positionId, data }) => {
-  /*
-        const ext2 = abiCoder.encode(["uint256"], ["0"]);
-        const data2 = abiCoder.encode(
-            ["address", "bytes"],
-            [_minimizeTradingStrategyService.address, ext2]
-        );
-  */
+export const borrowMore$ = (vaultAddress, { positionId, debtAmount, data }) => {
 
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
     methodName: "editPosition",
-    params: [positionId, 0, 0, MAX_UINT, data]
+    params: [positionId, 0, debtAmount, 0, data]
   })
 }
 

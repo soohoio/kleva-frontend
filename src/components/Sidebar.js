@@ -69,19 +69,19 @@ class Sidebar extends Component {
           active={path$.value === "/stake"}
           title="Stake"
         />
-        <SidebarItem
+        {/* <SidebarItem
           onClickOverwrite={() => {
             alert("Coming Soon.")
           }}
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"
-        />
-        {/* <SidebarItem
+        /> */}
+        <SidebarItem
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"
-        /> */}
+        />
         <LockedKLEVA />
       </div>
     )

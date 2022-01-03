@@ -11,68 +11,6 @@ import { lpTokenByIngredients, tokenList } from '../constants/tokens'
 import { aprInfo$, positions$, workerInfo$ } from '../streams/farming'
 import AdjustPositionPopup from './AdjustPositionPopup'
 
-// const positions = [
-//   {
-//     positionId: 10,
-//     poolInfo: {
-//       title: "AA"
-//     },
-//     positionValue: 10,
-//     debtValue: 10,
-//     equityValue: 10,
-//     apy: 10,
-//     debtRatio: 10,
-//     liquidationThreshold: 10,
-//     safetyBuffer: 10,
-
-//     farmingToken: tokenList.KSP,
-//     baseToken: tokenList.KUSDT,
-//   }
-// ]
-
-// const positions = [
-//   {
-//     // action
-//     action: "open",
-
-//     // base
-//     baseAmount: "431530923069598448",
-//     baseEntryPrice: "1000000000000000000",
-
-//     // blocknumber
-//     blockNumber: 12519413,
-
-//     // debt
-//     debtShare: "0",
-//     debtValue: "0",
-
-//     // entry info
-//     entryDate: "2021-11-10T02:52:51.000Z",
-//     entryPositionEquityValueInBaseToken: "863061846139196895",
-//     entryPositionEquityValueInUSD: "863061846139196895",
-
-//     // farm
-//     farmAmount: "499374225265084654",
-//     farmEntryPrice: "864143364308655104",
-
-//     id: 341803,
-//     left: "0",
-//     liquidatePrize: "0",
-//     liquidatedBy: null,
-//     lpAmount: "417834898179701080",
-//     owner: "0xa1944e9589d30dc8ea8eac7d1b2ec9729bc29de3",
-
-//     positionId: 47825,
-//     positionValueBase: "863061846139196895",
-//     totalPositionValueInUSD: { type: "BigNumber", hex: "0x0bfa362d2651d5df" },
-    
-//     transactionIndex: 92,
-//     tx: "0x75345099db35a838a37860d0d97666b9fadae90c211e7c3d916cddf581ecc23c",
-//     vault: "0x7c9e73d4c71dae564d41f78d56439bb4ba87592f",
-//     worker: "0x4bfe9489937d6c0d7cd6911f1102c25c7cbc1b5a",
-//   }
-// ]
-
 const PositionItem = ({ 
   id,
   farmingToken,
@@ -196,12 +134,11 @@ const PositionItem = ({
             component: (
               <ClosePositionPopup
                 title="Close Position"
-                farmingToken={farmingToken} 
-                baseToken={baseToken}
-                
                 positionId={id}
                 vaultAddress={vaultAddress}
-                workerAddress={workerAddress}
+                farmingToken={farmingToken} 
+                baseToken={baseToken}
+                workerInfo={workerInfo}
               />
             )
           })
