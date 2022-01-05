@@ -76,9 +76,11 @@ class RollingBanner extends Component {
   }
 
   moveUpDown = () => {
+    if (!this.$container.current) return
+
     const child = this.$container.current.children[this.activeIdx$.value]
     const { top } = this.$container.current.getBoundingClientRect()
-    
+
     const nextVal = child.offsetTop - top
 
     new Tween({ scrollTop: this.$container.current.scrollTop })
@@ -90,6 +92,8 @@ class RollingBanner extends Component {
   }
 
   moveLeftRight = () => {
+    if (!this.$container.current) return
+
     const child = this.$container.current.children[this.activeIdx$.value]
     const { x } = this.$container.current.getBoundingClientRect()
 
@@ -113,7 +117,7 @@ class RollingBanner extends Component {
           "RollingBanner--leftRight": leftRight,
         })}>
           {items && items.map(({ href, imgSrc }) => {
-            return <img onClick={() => window.open(href)} className="RollingBanner__item" src={imgSrc} />
+            return <img key={imgSrc} onClick={() => window.open(href)} className="RollingBanner__item" src={imgSrc} />
           })}
         </div>
         <div className="RollingBanner__circleList" >

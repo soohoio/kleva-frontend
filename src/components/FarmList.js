@@ -66,6 +66,8 @@ class FarmList extends Component {
 
             return (
               <FarmItem
+                key={lpToken && lpToken.address}
+
                 klevaAnnualRewards={klevaAnnualRewards$.value}
                 tokenPrices={tokenPrices$.value}
                 farmDeposited={farmPoolDeposited$.value[idx]}

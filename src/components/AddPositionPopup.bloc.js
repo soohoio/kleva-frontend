@@ -36,6 +36,7 @@ export default class {
     this.priceImpact$ = new BehaviorSubject('')
     this.allowances$ = new BehaviorSubject({})
     this.leverage$ = new BehaviorSubject(1)
+    this.borrowMoreAvailable$ = new BehaviorSubject(true)
 
     // ex) Farming Token: 10 KSP, Base Token: 100 KLEVA
     // Convert 10 KSP to [farmingTokenAmountInBaseToken] KLEVA.
@@ -148,22 +149,38 @@ export default class {
 
   isKLAY = (address) => address === tokenList.KLAY.address
 
-  addPosition = () => {
-    const { strategyType, strategyAddress } = this.getStrategy()
-
+  getPositionValue = () => {
     const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
 
     // principalAllInBaseToken 
     // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
-    const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value
-    const principalAllInBaseToken = baseTokenAmount
-      .plus(farmingTokenAmountConvertedInBaseToken)
-      .toString()
+    const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value || 0
 
-    const borrowAmount = new BigNumber(principalAllInBaseToken)
-      .multipliedBy(this.leverage$.value - 1)
+    console.log(new BigNumber(baseTokenAmount).toString(), "baseTokenAmount")
+    console.log(farmingTokenAmountConvertedInBaseToken, "farmingTokenAmountConvertedInBaseToken")
+
+    return new BigNumber(baseTokenAmount)
+      .plus(farmingTokenAmountConvertedInBaseToken)
       .multipliedBy(10 ** this.baseToken$.value.decimals)
+      .toString()
+  }
+
+  getAmountToBorrow = () => {
+    const positionValue = this.getPositionValue()
+    const leverage = this.leverage$.value
+    const baseTokenDecimal = this.baseToken$.value.decimals
+
+    return new BigNumber(positionValue)
+      .multipliedBy(leverage - 1)
       .toFixed(0)
+  }
+
+  addPosition = () => {
+    const { strategyType, strategyAddress } = this.getStrategy()
+
+    const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
+  
+    const borrowAmount = this.getAmountToBorrow()
 
     // @TODO
     const MIN_LP_AMOUNT = 0

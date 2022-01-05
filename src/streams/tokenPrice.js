@@ -7,3 +7,5 @@ export const fetchKlayswapInfo$ = from(
 )
 
 export const tokenPrices$ = new BehaviorSubject({})
+
+window.tokenPrices$ = tokenPrices$

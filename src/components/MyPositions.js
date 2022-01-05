@@ -8,9 +8,10 @@ import FarmList from './FarmList'
 
 import './MyPositions.scss'
 import { logout$, selectedAddress$ } from '../streams/wallet'
-import { getPositions$ } from '../streams/graphql'
+import { getPositions$, getUserPositionSummary$, ITEM_PER_PAGE } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
-import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$ } from '../streams/farming'
+import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$, userPositionSummary$ } from '../streams/farming'
+import Pagination from './Pagination'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
@@ -33,9 +34,7 @@ class MyPositions extends Component {
           ).pipe(
             startWith(0),
             switchMap(() => getPositions$(selectedAddress$.value, this.page$.value)),
-            switchMap((positions) => {
-              return getPositionInfo$(positions)
-            }),
+            switchMap((positions) => { return getPositionInfo$(positions) }),
             tap((positions) => {
               const positionsAttachedWorkerInfo = positions.map((p) => {
                 const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
@@ -43,11 +42,16 @@ class MyPositions extends Component {
               },)
               positions$.next(positionsAttachedWorkerInfo)
             }),
+            switchMap(() => getUserPositionSummary$(selectedAddress$.value)),
+            tap((userSummary) => {
+              userPositionSummary$.next(userSummary)
+            }),
             takeUntil(this.destroy$)
           )
         })
       ),
       positions$,
+      userPositionSummary$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -68,7 +72,11 @@ class MyPositions extends Component {
 
     const earned = 3384471.89
     
-    
+    const totalItemCount = view === 'active' 
+      ? userPositionSummary$.value && userPositionSummary$.value.livePositionCount
+      : userPositionSummary$.value && userPositionSummary$.value.killedPositionCount
+
+    const lastPage = Math.ceil(totalItemCount / ITEM_PER_PAGE)
 
     return positions$.value.length !== 0 && (
       <div className="MyPositions">
@@ -111,8 +119,18 @@ class MyPositions extends Component {
             list={positions$.value} 
           />
         </div>
-        <p onClick={() => this.page$.next(this.page$.value - 1)}>Prev</p>
-        <p onClick={() => this.page$.next(this.page$.value + 1)}>Next</p>
+        <Pagination
+          currentPage={this.page$.value} 
+          lastPage={lastPage}
+          nextAvailable={this.page$.value + 1 <= lastPage}
+          prevAvailable={this.page$.value - 1 > 0}
+          onNext={() => {
+            this.page$.next(this.page$.value + 1)
+          }}
+          onPrev={() => {
+            this.page$.next(this.page$.value - 1)
+          }}
+        />
       </div>
     )
   }

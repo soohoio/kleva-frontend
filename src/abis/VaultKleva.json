@@ -233,6 +233,49 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "debtShare",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "debtAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lpShare",
+        "type": "uint256"
+      }
+    ],
+    "name": "PositionChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "debtShare",
         "type": "uint256"
@@ -978,12 +1021,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "account",
+        "name": "",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -995,7 +1038,7 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "pure",
     "type": "function"
   },
   {

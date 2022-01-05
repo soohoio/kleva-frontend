@@ -50,7 +50,7 @@ class AdjustPositionPopup extends Component {
       ).pipe(
         tap(() => {
           const positions = positions$.value
-          const positionInfo = positions && positions.find(({ id }) => id == this.props.positionId)
+          const positionInfo = positions && positions.find(({ positionId }) => positionId == this.props.positionId)
 
           const positionValue = positionInfo && positionInfo.positionValue
           const debtValue = positionInfo && positionInfo.debtValue
@@ -94,9 +94,21 @@ class AdjustPositionPopup extends Component {
             .multipliedBy(rawKillFactorBps)
             .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
 
-          const _borrowMoreAvailable = new BigNumber(positionValue)
-            .multipliedBy(workFactorBps)
-            .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
+          const amountToBorrow = new BigNumber(this.bloc.equityValue$.value)
+            .multipliedBy(this.bloc.leverage$.value - 1)
+            .multipliedBy(10 ** this.props.baseToken.decimals)
+            .toFixed(0)
+
+          const newPositionValue = new BigNumber(positionValue).plus(amountToBorrow).toString()
+          const newDebtValue = new BigNumber(debtValue).plus(amountToBorrow).toString()
+
+          const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
+          const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
+
+          const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+
+          console.log(a1, 'a1')
+          console.log(a2, 'a2')
           
           this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
           this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)

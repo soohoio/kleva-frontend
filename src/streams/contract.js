@@ -650,8 +650,8 @@ export const allowancesMultiInStakingPool$ = (account, stakingPools) => {
 export const getPositionInfo$ = (positionList) => {
   const p1 = multicall(
     VaultABI,
-    positionList.map(({ vaultAddress, id }) => {
-      return { address: vaultAddress, name: 'positionInfo', params: [id] }
+    positionList.map(({ vaultAddress, positionId }) => {
+      return { address: vaultAddress, name: 'positionInfo', params: [positionId] }
     })
   )
 
@@ -661,8 +661,8 @@ export const getPositionInfo$ = (positionList) => {
 
         const _position = positionList[parseInt(idx / 2)]
 
-        acc[_position.id] = acc[_position.id] || { ..._position }
-        acc[_position.id][idx % 2 === 0 ? 'positionValue' : 'debtValue'] = new BigNumber(cur._hex).toString()
+        acc[_position.positionId] = acc[_position.positionId] || { ..._position }
+        acc[_position.positionId][idx % 2 === 0 ? 'positionValue' : 'debtValue'] = new BigNumber(cur._hex).toString()
         
         return acc
       }, {})
@@ -673,7 +673,7 @@ export const getPositionInfo$ = (positionList) => {
           acc.push(item)
           return acc
         }, [])
-        .sort((a, b) => Number(b.id) - Number(a.id))
+        .sort((a, b) => Number(b.positionId) - Number(a.positionId))
     })
   )
 }
@@ -981,12 +981,14 @@ export const unwrapWKLAY$ = (amount) => makeTransaction({
 // Adjust Position
 
 // add collateral
-export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data }) => {
+export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data, value }) => {
+  console.log(principalAmount, "principalAmount")
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
     methodName: "addCollateral",
-    params: [positionId, principalAmount, data]
+    params: [positionId, principalAmount, data],
+    value,
   })
 }
 

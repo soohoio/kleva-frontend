@@ -122,6 +122,7 @@ class LeverageGauge extends Component {
 
             return (
               <div
+                key={idx}
                 style={{ left: `${(idx / (barItemCount - 1)) * 100}%` }}
                 className={cx("GaugeBar__barItem", {
                   [`GaugeBar__barItem--active`]: barValue <= leverage,

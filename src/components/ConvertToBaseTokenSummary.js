@@ -35,7 +35,7 @@ class ConvertToBaseTokenSummary extends Component {
 
     return (
       <div className="ConvertToBaseTokenSummary">
-        <FarmSummaryItem
+        {/* <FarmSummaryItem
           left="Position Value Assets"
           leftSub={`1 ${farmingToken.title} = 1 ${baseToken.title} | 1 ${baseToken.title} = 1 ${farmingToken.title}`}
           right={`${farmingTokenPositionValue} ${farmingToken.title} + ${baseTokenPositionValue} ${baseToken.title}`}
@@ -63,7 +63,7 @@ class ConvertToBaseTokenSummary extends Component {
           left="You'll approximately receive"
           leftSub="Minimum received"
           right={`${approxReceiveFarmingTokenAmount} ${farmingToken.title} + ${approxReceiveBaseTokenAmount} ${baseToken.title}`}
-        />
+        /> */}
       </div>
     )
   }

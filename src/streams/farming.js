@@ -14,6 +14,7 @@ export const farmPoolDeposited$ = new BehaviorSubject({})
 
 // positions
 export const positions$ = new BehaviorSubject([])
+export const userPositionSummary$ = new BehaviorSubject({})
 
 // Pagination
 export const viewingPositionLatestBlockTime$ = new BehaviorSubject()
@@ -29,4 +30,3 @@ positions$.pipe(
 ;
   viewingPositionLatestBlockTime$.next(latestViewingPosition && latestViewingPosition.latestBlockTime)
 })
-

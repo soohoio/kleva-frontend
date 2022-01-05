@@ -42,9 +42,9 @@ class AddPositionPopup extends Component {
       this.bloc.borrowingAmount$,
       this.bloc.priceImpact$,
       this.bloc.worker$,
-      this.bloc.leverage$,
       this.bloc.farmingTokenAmountInBaseToken$,
       balancesInWallet$,
+      poolReserves$,
       merge(
         this.bloc.farmingTokenAmount$.pipe(
           tap(() => {
@@ -52,12 +52,30 @@ class AddPositionPopup extends Component {
           })
         ),
         this.bloc.baseTokenAmount$,
+        this.bloc.leverage$,
       ).pipe(
         tap(() => {
           this.bloc.getPriceImpact(poolReserves$.value)
+
+          // Check leverage available
+          const { workerInfo } = this.props
+
+          const positionValue = this.bloc.getPositionValue()
+          const amountToBorrow = this.bloc.getAmountToBorrow()
+
+          const newPositionValue = new BigNumber(positionValue).plus(amountToBorrow).toString()
+          const newDebtValue = new BigNumber(amountToBorrow).toString()
+
+          const workerConfig = workerInfo && workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
+          const workFactorBps = workerConfig && workerConfig.workFactorBps
+
+          const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
+          const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
+
+          const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+          this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)
         })
       ),
-      poolReserves$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -71,7 +89,6 @@ class AddPositionPopup extends Component {
     ).pipe(
       switchMap(() => {
         const worker = this.bloc.worker$.value
-        console.log(worker, '@worker')
         return checkAllowances$(
           selectedAddress$.value,
           worker.vaultAddress,
@@ -136,8 +153,11 @@ class AddPositionPopup extends Component {
       )
     }
 
+    console.log(this.bloc.borrowMoreAvailable$.value, '@this.bloc.borrowMoreAvailable$.value')
+
     const isDisabled = this.bloc.baseTokenAmount$.value == 0 
       && this.bloc.farmingTokenAmount$.value == 0
+      || this.bloc.borrowMoreAvailable$.value == false
 
     return (
       <button

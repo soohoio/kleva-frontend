@@ -13,6 +13,7 @@ import AdjustPositionPopup from './AdjustPositionPopup'
 
 const PositionItem = ({ 
   id,
+  positionId,
   farmingToken,
   baseToken,
   positionValue,
@@ -69,7 +70,7 @@ const PositionItem = ({
     <div className="PositionItem">
       <div className="PositionItem__id">
         {baseToken.title} <br />
-        #{id}
+        #{positionId}
       </div>
       <div className="PositionItem__info">
         <div className="PositionItem__infoIconList">
@@ -118,7 +119,7 @@ const PositionItem = ({
           openModal$.next({
             component: <AdjustPositionPopup
               title="Adjust Position"
-              positionId={id}
+              positionId={positionId}
               vaultAddress={vaultAddress}
               farmingToken={farmingToken}
               baseToken={baseToken}
@@ -134,7 +135,7 @@ const PositionItem = ({
             component: (
               <ClosePositionPopup
                 title="Close Position"
-                positionId={id}
+                positionId={positionId}
                 vaultAddress={vaultAddress}
                 farmingToken={farmingToken} 
                 baseToken={baseToken}
@@ -191,6 +192,7 @@ class PositionList extends Component {
             const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
             return (
               <PositionItem 
+                key={positionInfo && positionInfo.id}
                 aprInfo={aprInfo}
                 workerInfo={workerInfo}
                 {...positionInfo}
