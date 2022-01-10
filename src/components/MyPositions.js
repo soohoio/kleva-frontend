@@ -8,7 +8,7 @@ import FarmList from './FarmList'
 
 import './MyPositions.scss'
 import { logout$, selectedAddress$ } from '../streams/wallet'
-import { getPositions$, getUserPositionSummary$, ITEM_PER_PAGE } from '../streams/graphql'
+import { getKilledPositions$, getPositions$, getUserPositionSummary$, ITEM_PER_PAGE } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
 import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$, userPositionSummary$ } from '../streams/farming'
 import Pagination from './Pagination'
@@ -16,12 +16,9 @@ import Pagination from './Pagination'
 class MyPositions extends Component {
   destroy$ = new Subject()
 
+  // "active", "liquidated"
+  view$ = new BehaviorSubject("active")
   page$ = new BehaviorSubject(1)
-  
-  state = {
-    // "active", "liquidated"
-    view: "active",
-  }
 
   componentDidMount() {
     merge(
@@ -30,10 +27,15 @@ class MyPositions extends Component {
         switchMap(() => {
           return merge(
             this.page$,
+            this.view$,
             interval(5000)
           ).pipe(
             startWith(0),
-            switchMap(() => getPositions$(selectedAddress$.value, this.page$.value)),
+            switchMap(() => {
+              return this.view$.value === "active" 
+                ? getPositions$(selectedAddress$.value, this.page$.value)
+                : getKilledPositions$(selectedAddress$.value, this.page$.value)
+            }),
             switchMap((positions) => { return getPositionInfo$(positions) }),
             tap((positions) => {
               const positionsAttachedWorkerInfo = positions.map((p) => {
@@ -48,6 +50,14 @@ class MyPositions extends Component {
             }),
             takeUntil(this.destroy$)
           )
+        })
+      ),
+      this.view$.pipe(
+        tap(() => {
+          // Reset positions array
+          positions$.next([])
+          // Reset page
+          this.page$.next(1)
         })
       ),
       positions$,
@@ -68,7 +78,7 @@ class MyPositions extends Component {
   }
     
   render() {
-    const { view } = this.state
+    const view = this.view$.value
 
     const earned = 3384471.89
     
@@ -78,28 +88,34 @@ class MyPositions extends Component {
 
     const lastPage = Math.ceil(totalItemCount / ITEM_PER_PAGE)
 
-    return positions$.value.length !== 0 && (
+    return !!selectedAddress$.value && (
       <div className="MyPositions">
         <div className="MyPositions__header">
           <div className="MyPositions__headerLeft">
             <p className="MyPositions__title">My Positions</p>
             <div className="MyPositions__positionToggle">
               <span
-                onClick={() => this.setState({ view: 'active' })} 
+                onClick={() => {
+                  if (this.view$.value === 'active') return
+                  this.view$.next('active')
+                }} 
                 className={cx("MyPositions__positionItem", {
                   "MyPositions__positionItem--active": view === "active",
                 })}
               >
                 Active
               </span>
-              {/* <span
-                onClick={() => this.setState({ view: 'liquidated' })} 
+              <span
+                onClick={() => {
+                  if (this.view$.value === 'liquidated') return
+                  this.view$.next('liquidated')
+                }} 
                 className={cx("MyPositions__positionItem", {
                   "MyPositions__positionItem--active": view === "liquidated",
                 })}
               >
                 Liquidated
-              </span> */}
+              </span>
             </div>
           </div>
           <div className="MyPositions__headerRight">
@@ -114,23 +130,25 @@ class MyPositions extends Component {
             </div>
           </div>
         </div>
-        <div className="MyPositions__content">
-          <PositionList 
-            list={positions$.value} 
-          />
-        </div>
-        <Pagination
-          currentPage={this.page$.value} 
-          lastPage={lastPage}
-          nextAvailable={this.page$.value + 1 <= lastPage}
-          prevAvailable={this.page$.value - 1 > 0}
-          onNext={() => {
-            this.page$.next(this.page$.value + 1)
-          }}
-          onPrev={() => {
-            this.page$.next(this.page$.value - 1)
-          }}
-        />
+        {positions$.value.length !== 0 && (
+          <>
+            <div className="MyPositions__content">
+              <PositionList list={positions$.value} view={view} />
+            </div>
+            <Pagination
+              currentPage={this.page$.value}
+              lastPage={lastPage}
+              nextAvailable={this.page$.value + 1 <= lastPage}
+              prevAvailable={this.page$.value - 1 > 0}
+              onNext={() => {
+                this.page$.next(this.page$.value + 1)
+              }}
+              onPrev={() => {
+                this.page$.next(this.page$.value - 1)
+              }}
+            />
+          </>
+        )}
       </div>
     )
   }

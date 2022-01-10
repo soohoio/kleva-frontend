@@ -69,22 +69,26 @@ class FarmItem extends Component {
     })
   }
 
-  getKlevaRewardsAPR = () => {
+  getDebtTokenKlevaRewardsAPR = () => {
     const { borrowingAsset, leverageValue } = this.state
-    const { klevaAnnualRewards, farmDeposited, tokenPrices } = this.props
+    const { klevaAnnualRewards, farmDeposited, tokenPrices, lendingTokenSupplyInfo } = this.props
 
     const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
     const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
     const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualReward = klevaAnnualRewards[debtTokenPid]
+    const klevaAnnualRewardForDebtToken = klevaAnnualRewards[debtTokenPid]
 
-    const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
-      .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
+    // const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
+    //   .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
 
-    const klevaRewardsAPR = new BigNumber(klevaAnnualReward)
+    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
+    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
+
+    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
       .multipliedBy(tokenPrices[tokenList.KLEVA.address])
-      .div(farmTVL)
-      .multipliedBy(leverageValue)
+      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
+      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
+      .multipliedBy(leverageValue - 1)
       .multipliedBy(100)
       .toNumber()
 
@@ -144,11 +148,11 @@ class FarmItem extends Component {
     const selectedBorrowingAssetWithInterest = borrowingInterestAttachedAssets
       .find((a) => a.address.toLowerCase() === borrowingAsset.address.toLowerCase())
 
-    const klevaRewardsAPR = this.getKlevaRewardsAPR()
+    const debtTokenKlevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
 
     const totalAPR = new BigNumber(yieldFarmingAPR)
       .plus(tradingFeeAPR)
-      .plus(klevaRewardsAPR)
+      .plus(debtTokenKlevaRewardsAPR)
       .minus(selectedBorrowingInterestAPR)
       .toNumber()
 
@@ -178,7 +182,7 @@ class FarmItem extends Component {
         <div className="FarmItem__content">
           <FarmProperty label="Yield Farming" value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
           <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />
-          <FarmProperty label="KLEVA Rewards" value={`${nFormatter(klevaRewardsAPR, 2)}%`} />
+          <FarmProperty label="KLEVA Rewards" value={`${nFormatter(debtTokenKlevaRewardsAPR, 2)}%`} />
           <FarmProperty 
             label="Borrowing Interest" 
             value={(

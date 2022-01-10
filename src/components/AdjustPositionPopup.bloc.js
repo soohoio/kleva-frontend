@@ -65,11 +65,11 @@ export default class {
 
   calcFarmingTokenAmountInBaseToken = () => {
     getOutputTokenAmount$(
-      this.lpToken.address,
-      this.farmingToken.address,
+      this.farmingToken,
+      this.baseToken,
       new BigNumber(this.farmingTokenAmount$.value || 0)
         .multipliedBy(10 ** this.farmingToken.decimals)
-        .toString(),
+        .toFixed(0),
     ).subscribe(({ outputAmount }) => {
       this.farmingTokenAmountInBaseToken$.next(outputAmount)
     })

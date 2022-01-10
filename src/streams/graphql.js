@@ -20,7 +20,7 @@ export const getUserPositionSummary$ = (owner) => {
         }
       }
     `, {
-      id: owner.toLowerCase(),
+      id: String(owner).toLowerCase(),
     })).pipe(
       map(({ userPositionSummary }) => {
         console.log(userPositionSummary, "userPositionSummary")
@@ -51,6 +51,12 @@ export const getPositions$ = (owner, page = 1) => {
           debtShare,
           debtAmount,
           latestBlockTime,
+          
+          positionValueAtKilled,
+          debtAtKilled,
+          restAmountAtKilled,
+          prizeAtKilled,
+          killedTx,
         }
       }
     `,
@@ -104,6 +110,7 @@ export const getKilledPositions$ = (owner, page = 1) => {
           debtAtKilled,
           prizeAtKilled,
           restAmountAtKilled,
+          killedTx,
         }
       }
     `,

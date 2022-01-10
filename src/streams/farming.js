@@ -12,9 +12,14 @@ export const klevaAnnualRewards$ = new BehaviorSubject({})
 
 export const farmPoolDeposited$ = new BehaviorSubject({})
 
+// Klayswap Info
+export const klayswapPoolInfo$ = new BehaviorSubject({})
+
 // positions
 export const positions$ = new BehaviorSubject([])
 export const userPositionSummary$ = new BehaviorSubject({})
+
+window.positions$ = positions$
 
 // Pagination
 export const viewingPositionLatestBlockTime$ = new BehaviorSubject()

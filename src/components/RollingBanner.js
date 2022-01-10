@@ -86,6 +86,7 @@ class RollingBanner extends Component {
     new Tween({ scrollTop: this.$container.current.scrollTop })
       .to({ scrollTop: nextVal })
       .onUpdate((data) => {
+        if (!this.$container.current) return
         this.$container.current.scrollTop = data.scrollTop
       })
       .start()
@@ -103,6 +104,7 @@ class RollingBanner extends Component {
     new Tween({ scrollLeft: this.$container.current.scrollLeft })
       .to({ scrollLeft: nextVal })
       .onUpdate((data) => {
+        if (!this.$container.current) return
         this.$container.current.scrollLeft = data.scrollLeft
       })
       .start()

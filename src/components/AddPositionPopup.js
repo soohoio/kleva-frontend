@@ -153,8 +153,6 @@ class AddPositionPopup extends Component {
       )
     }
 
-    console.log(this.bloc.borrowMoreAvailable$.value, '@this.bloc.borrowMoreAvailable$.value')
-
     const isDisabled = this.bloc.baseTokenAmount$.value == 0 
       && this.bloc.farmingTokenAmount$.value == 0
       || this.bloc.borrowMoreAvailable$.value == false

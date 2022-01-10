@@ -198,18 +198,28 @@ export const getIbTokenFromOriginalToken = (origialToken) => {
 export const debtTokens = {
   [ibTokens.ibKLAY.address]: {
     pid: 1,
+    address: "0x1EDC9f844FF72f6034C08D1FBD265d0e17BFcd51",
+    decimals: 18,
   },
   [ibTokens.ibKLEVA.address]: {
     pid: 3,
+    address: "0xa07B54031Fdc9Dd22cA635198D71097c6353f559",
+    decimals: 18,
   },
   [ibTokens.ibKUSDT.address]: {
     pid: 5,
+    address: "0x9d3F14B57c9D47d8FA076948f8e08CC2b8933042",
+    decimals: 18,
   },
   [ibTokens.ibWEMIX.address]: {
     pid: 7,
+    address: "0x1Ff8366eEAF75Cc5c793F1145BA18C2635AfeFe6",
+    decimals: 18,
   },
   [ibTokens.ibKDAI.address]: {
     pid: 9,
+    address: "0xB481778883aB56C834cb18D2633803687261E368",
+    decimals: 18,
   },
 }
 

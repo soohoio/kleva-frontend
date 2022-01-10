@@ -42,6 +42,7 @@
 
 .FarmSummaryItem__right {
   @include font-style('font-1', 'sb', 13px);
+  text-align: right;
 }
 
 .FarmSummaryItem__rightSub {

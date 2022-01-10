@@ -76,11 +76,11 @@ export default class {
 
   calcFarmingTokenAmountInBaseToken = () => {
     getOutputTokenAmount$(
-      this.lpToken.address,
-      this.farmingToken$.value.address,
+      this.farmingToken$.value,
+      this.baseToken$.value,
       new BigNumber(this.farmingTokenAmount$.value || 0)
         .multipliedBy(10 ** this.farmingToken$.value.decimals)
-        .toString(),
+        .toFixed(0),
     ).subscribe(({ outputAmount, priceImpact }) => {
       this.farmingTokenAmountInBaseToken$.next(outputAmount)
     })
@@ -89,15 +89,19 @@ export default class {
   getPriceImpact = (_poolReserves) => {
 
     let swapFromToken
+    let swapToToken
+    
     let swapFromTokenAmount
+
     // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
     if (this.farmingTokenAmount$.value == 0) {
       swapFromToken = this.baseToken$.value
+      swapToToken = this.farmingToken$.value
       swapFromTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0).multipliedBy(0.5).toString()
-      
+
       getOutputTokenAmount$(
-        this.lpToken.address,
-        swapFromToken.address,
+        swapFromToken,
+        swapToToken,
         new BigNumber(swapFromTokenAmount || 0)
           .multipliedBy(10 ** swapFromToken.decimals)
           .toString(),
@@ -122,13 +126,17 @@ export default class {
       ? this.baseToken$.value
       : this.farmingToken$.value
 
+    swapToToken = swapFromToken.address == this.baseToken$.value.address 
+      ? this.farmingToken$.value
+      : this.baseToken$.value,
+
     swapFromTokenAmount = baseAmountWithFarmReserve >= farmAmountWithBaseReserve
       ? this.baseTokenAmount$.value
       : this.farmingTokenAmount$.value
 
     getOutputTokenAmount$(
-      this.lpToken.address,
-      swapFromToken.address,
+      swapFromToken,
+      swapToToken,
       new BigNumber(swapFromTokenAmount || 0)
         .multipliedBy(10 ** swapFromToken.decimals)
         .toString(),
@@ -155,9 +163,6 @@ export default class {
     // principalAllInBaseToken 
     // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
     const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value || 0
-
-    console.log(new BigNumber(baseTokenAmount).toString(), "baseTokenAmount")
-    console.log(farmingTokenAmountConvertedInBaseToken, "farmingTokenAmountConvertedInBaseToken")
 
     return new BigNumber(baseTokenAmount)
       .plus(farmingTokenAmountConvertedInBaseToken)

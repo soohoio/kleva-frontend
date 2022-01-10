@@ -32,8 +32,9 @@ import { executeContractKlip$ } from './klip'
 
 import { MAX_UINT } from 'constants/setting'
 import { showParamsOnCall } from '../utils/callHelper'
-import { lpTokenByIngredients, tokenList } from '../constants/tokens'
+import { lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
 import { isValidDecimal, toFixed } from '../utils/calc'
+import { klayswapPoolInfo$ } from './farming'
 
 const NODE_URL = 'https://klaytn-secure.staging.sooho.io/'
 export const caver = new Caver(NODE_URL)
@@ -245,7 +246,7 @@ export const approve$ = (tokenAddress, spender, amount) =>
   makeTransaction({ abi: IERC20ABI, address: tokenAddress, methodName: "approve", params: [spender, amount] })
 
 // Total Token = Total Supply + Total Borrowed
-export const listTokenSupplyInfo$ = (lendingPools, account) => {
+export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
   
   const nativeCoinBalance = account 
     ? caver.klay.getBalance(account)
@@ -291,7 +292,7 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
   )
 
   return forkJoin(m_totalTokens, m_balances, m_totalSupplies, m_totalDebtValues).pipe(
-    map(([totalTokens, balances, totalSupplies, totalDebtValues]) => {
+    map(([totalTokens, balances, totalSupplies, totalDebtValues, debtTokenTotalSupplies]) => {
       const coupled = coupleArray({
         arrayA: flatten(totalTokens), 
         labelA: 'totalToken',
@@ -328,15 +329,22 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
             .toString(),
           
           totalSupplyPure: new BigNumber(cur.totalToken._hex).toString(),
-          totalBorrowedPure: new BigNumber(cur.totalToken._hex)
-            .minus(cur.balance._hex)
+          
+          // totalBorrowedPure: new BigNumber(cur.totalToken._hex)
+          //   .minus(cur.balance._hex)
+          //   .toString(),
+          // totalBorrowed: new BigNumber(cur.totalToken._hex)
+          //   .minus(cur.balance._hex)
+          //   .div(10 ** stakingTokenDecimals)
+          //   .toString(),
+
+          totalBorrowedPure: new BigNumber(cur.totalDebtAmount._hex)
+            .toString(),
+          totalBorrowed: new BigNumber(cur.totalDebtAmount._hex)
+            .div(10 ** stakingTokenDecimals)
             .toString(),
 
           totalSupply: new BigNumber(cur.totalToken._hex)
-            .div(10 ** stakingTokenDecimals)
-            .toString(),
-          totalBorrowed: new BigNumber(cur.totalToken._hex)
-            .minus(cur.balance._hex)
             .div(10 ** stakingTokenDecimals)
             .toString(),
           totalUnborrowed: new BigNumber(cur.balance._hex)
@@ -374,35 +382,91 @@ export const listTokenSupplyInfo$ = (lendingPools, account) => {
         })
       )
 
-      return from(m_borrowingIntrests).pipe(
-        map((_borrowingInterests) => {
-          const borrowingInterests = flatten(_borrowingInterests).reduce((acc, cur) => {
-            acc.push(new BigNumber(cur._hex).toString())
-            return acc
-          }, [])
 
-          return Object.entries(totalInfo).reduce((acc, [vaultAddress, item], idx) => {  
-            const _borrowingInterest = new BigNumber(borrowingInterests[idx])
-              .multipliedBy(60 * 60 * 24 * 365)
-              .div(10 ** 18)
-              .multipliedBy(100)
-              .toString()
+      // debt token supplies calc
+      const _debtTokens = Object.values(debtTokens)
 
-            acc[vaultAddress] = {
-              ...item,
-              borrowingInterest: _borrowingInterest,
-            }
+      const m_debtTokenTotalSupplies = multicall(
+        IERC20ABI,
+        _debtTokens.map(({ address }) => ({
+          address,
+          name: 'totalSupply',
+          params: [],
+        }))
+      )
+      
 
-            acc[item.ibToken.originalToken.address] = { borrowingInterest: _borrowingInterest, }
-            acc[item.ibToken.originalToken.address.toLowerCase()] = { borrowingInterest: _borrowingInterest, }
+      return forkJoin(
+          from(m_borrowingIntrests),
+          from(m_debtTokenTotalSupplies),
+        ).pipe(
+          map(([_borrowingInterests, _debtTokenTotalSupplies]) => {
+            const borrowingInterests = flatten(_borrowingInterests).reduce((acc, cur) => {
+              acc.push(new BigNumber(cur._hex).toString())
+              return acc
+            }, [])
 
-            return acc
-          }, {})
-        })
+            const debtTokenTotalSupplies = flatten(_debtTokenTotalSupplies).reduce((acc, cur) => {
+              acc.push(new BigNumber(cur._hex).toString())
+              return acc
+            }, [])
+
+            return Object.entries(totalInfo).reduce((acc, [vaultAddress, item], idx) => {  
+              const _borrowingInterest = new BigNumber(borrowingInterests[idx])
+                .multipliedBy(60 * 60 * 24 * 365)
+                .div(10 ** 18)
+                .multipliedBy(100)
+                .toString()
+
+              acc[vaultAddress] = {
+                ...item,
+                borrowingInterest: _borrowingInterest,
+              }
+
+              const debtTokenInfo = _debtTokens[idx]
+              const _debtTokenTotalSupply = new BigNumber(debtTokenTotalSupplies[idx])
+                .toString()
+
+              acc[item.ibToken.originalToken.address] = { 
+                borrowingInterest: _borrowingInterest, 
+                debtTokenTotalSupply: _debtTokenTotalSupply,
+                debtTokenInfo,
+              }
+              acc[item.ibToken.originalToken.address.toLowerCase()] = { 
+                borrowingInterest: _borrowingInterest,
+                debtTokenTotalSupply: _debtTokenTotalSupply,
+                debtTokenInfo,
+              }
+
+              return acc
+            }, {})
+          })
       )
     })
   )
 }
+
+// export const getDebtTokenTotalSuplies$ = (debtTokens) => {
+
+//   const debtTokensArr = Object.entries(debtTokens)
+
+//   const m_debtTokenTotalSupplies = multicall(
+//     IERC20ABI,
+//     Object.entries(debtTokens).map(([address, _]) => ({
+//       address: address,
+//       name: 'totalSupply',
+//       params: [],
+//     }))
+//   )
+
+//   return from(m_debtTokenTotalSupplies).pipe(
+//     map((totalSupplies) => {
+//       return flatten(totalSupplies).reduce((acc, cur) => {
+//         totalSupplies
+//       }, {})
+//     })
+//   )
+// }
 
 export const balanceOfMultiInWallet$ = (account, tokenAddresses) => {
 
@@ -505,8 +569,6 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
 }
 
 export const depositForLending$ = (vaultAddress, tokenAmount, nativeCoinAmount = 0) => {
-
-  console.log(nativeCoinAmount, "nativeCoinAmount")
   
   if (walletType$.value === 'klip' && (nativeCoinAmount === tokenAmount)) {
     const valueSplitted = Number(nativeCoinAmount / 10 ** 18)
@@ -752,19 +814,56 @@ export const call$ = ({ abi, address, methodName, params }) => {
   }
 }
 
-export const getOutputTokenAmount$ = (lpTokenAddress, inputTokenAddress, inputTokenAmount) => {  
-  console.log(inputTokenAmount, '@inputTokenAmount')
+// Contract
+export const getOutputTokenAmount$ = (inputToken, outputToken, inputTokenAmount) => {  
+
+  const lpToken = lpTokenByIngredients(inputToken, outputToken)
+  const lpTokenAddress = lpToken && lpToken.address
+  const lpPoolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address.toLowerCase()]
+
+  const tokenA = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA.toLowerCase()]
+  const tokenB = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB.toLowerCase()]
+
   return forkJoin(
     getCurrentPool$(lpTokenAddress),
-    getOutputAmount$(lpTokenAddress, inputTokenAddress, inputTokenAmount),
+    getOutputAmount$(lpTokenAddress, inputToken && inputToken.address, inputTokenAmount),
   ).pipe(
     map(([currentPool, outputAmount]) => {
-      const originalRatio = currentPool.outputAmountA / currentPool.outputAmountB
-      const optimalOutputAmount = inputTokenAmount * originalRatio
-      const realOutputAmount = outputAmount
+      const outputAmountA = new BigNumber(currentPool.outputAmountA)
+        .div(10 ** tokenA.decimals)
+        .toNumber()
+      
+      const outputAmountB = new BigNumber(currentPool.outputAmountB)
+        .div(10 ** tokenB.decimals)
+        .toNumber()
+
+
+      const originalRatio = inputToken.address.toLowerCase() == tokenA.address.toLowerCase() 
+        ? new BigNumber(outputAmountB)
+          .div(outputAmountA)
+          .toNumber() // InputToken == Token A
+        : new BigNumber(outputAmountA)
+          .div(outputAmountB)
+          .toNumber() // InputToken == Token B
+
+      const optimalOutputAmount = new BigNumber(inputTokenAmount)
+        .div(10 ** inputToken.decimals)
+        .multipliedBy(originalRatio)
+        .toNumber()
+
+      const realOutputAmount = new BigNumber(outputAmount)
+        .div(10 ** outputToken.decimals)
+        .toNumber()
+
+      console.log(originalRatio, "originalRatio")
+      console.log(optimalOutputAmount, 'optimalOutputAmount')
+      console.log(realOutputAmount, 'realOutputAmount')
       const priceImpact = 1 - (optimalOutputAmount / realOutputAmount)
 
-      return { outputAmount, priceImpact }
+      return { 
+        outputAmount, 
+        priceImpact,
+      }
     })
   )
 }
@@ -1076,6 +1175,15 @@ export const partialMinimizeTrading$ = (vaultAddress, { positionId, maxDebtRepay
     address: vaultAddress,
     methodName: "editPosition",
     params: [positionId, 0, 0, maxDebtRepayment, data]
+  })
+}
+
+export const health$ = (workerAddress, { positionId }) => {
+  return call$({ 
+    abi: KlayswapWorkerABI,
+    methodName: 'health', 
+    address: workerAddress, 
+    params: [positionId],
   })
 }
 

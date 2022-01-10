@@ -18,4 +18,46 @@ export const isValidDecimal = (num, decimalLimit) => {
   return decimalPoints.length <= decimalLimit
 }
 
+export const getEachTokenBasedOnLPShare = ({ 
+  poolInfo, 
+  lpShare,
+  farmingToken,
+  baseToken,
+}) => {
+
+  if (poolInfo && !poolInfo.supply) return { 
+    userFarmingTokenAmount: 0,
+    userBaseTokenAmount: 0,
+  }
+
+  const lpPortion = new BigNumber(lpShare)
+    .div(poolInfo && poolInfo.supply)
+    .toNumber()
+
+  const userFarmingTokenAmount = poolInfo.tokenA.toLowerCase() === farmingToken.address.toLowerCase()
+    ? new BigNumber(poolInfo.amountA)
+      .multipliedBy(lpPortion)
+      .div(10 ** farmingToken.decimals)
+      .toNumber()
+    : new BigNumber(poolInfo.amountB)
+      .multipliedBy(lpPortion)
+      .div(10 ** farmingToken.decimals)
+      .toNumber()
+
+  const userBaseTokenAmount = poolInfo.tokenA.toLowerCase() === baseToken.address.toLowerCase()
+    ? new BigNumber(poolInfo.amountA)
+      .multipliedBy(lpPortion)
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+    : new BigNumber(poolInfo.amountB)
+      .multipliedBy(lpPortion)
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+
+    return {
+      userFarmingTokenAmount,
+      userBaseTokenAmount,
+    }
+}
+
 window.isValidDecimal = isValidDecimal

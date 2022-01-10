@@ -62,3 +62,17 @@
     @content;
   }
 }
+
+
+// Grid
+@mixin grid-column {
+  grid-template-columns: 8fr 20fr 9fr 9fr 9fr 9fr 9fr 10fr 8fr 9fr;
+  
+  max-width: calc(1920px - 240px);
+}
+
+@mixin killed-grid-column {
+  grid-template-columns: 8fr 20fr 9fr 9fr 9fr 9fr;
+  
+  max-width: calc(1920px - 240px);
+}

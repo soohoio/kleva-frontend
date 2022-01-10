@@ -31,7 +31,7 @@ import Overlay from 'components/Overlay'
 
 import './App.scss'
 import { isFocused$, openModal$, showFooter$ } from './streams/ui'
-import { debtTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
+import { debtTokens, ibTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
@@ -39,7 +39,7 @@ import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$ } from './stre
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { GRAPH_NODE_URL } from 'streams/graphql'
 import LZUTF8 from 'lzutf8'
-import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from './streams/farming'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$ } from './streams/farming'
 import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
 import { getAmountOut, calcBestPathToKLAY } from './utils/calc'
 import { farmPool } from './constants/farmpool'
@@ -74,7 +74,7 @@ class App extends Component<Props> {
     interval(1000 * 10).pipe(
       startWith(0),
       switchMap(() => forkJoin(
-        listTokenSupplyInfo$(lendingPools),
+        listTokenSupplyInfo$(lendingPools, debtTokens),
         fetchKlayswapInfo$
       ))
     ).subscribe(([lendingTokenSupplyInfo, klayswapInfo]) => {
@@ -103,6 +103,8 @@ class App extends Component<Props> {
       }, apr)
 
       aprInfo$.next(aprInfo)
+
+      klayswapPoolInfo$.next(klayswapInfo && klayswapInfo.recentPoolInfo)
     })
 
     // Fetch annual kleva rewards

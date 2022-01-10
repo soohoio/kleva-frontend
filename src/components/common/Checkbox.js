@@ -21,7 +21,11 @@ class Checkbox extends Component {
     
     return (
       <div onClick={() => checked$.next(!checked$.value)} className="Checkbox">
-        {checked$.value ? 'V' : 'X'}
+        <div 
+          className={cx("Checkbox__image", {
+            "Checkbox__image--checked": !!checked$.value,
+          })} 
+        />
         {/* <img 
           className="Checkbox__image"
           src={`/static/images/${checked$.value ? 'chcked' : 'unchcked'}.svg`}
