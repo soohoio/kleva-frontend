@@ -23,8 +23,13 @@ import { toNumber } from 'lodash'
 import { toAPY } from '../utils/calc'
 import { lendingPools, lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import { checkAllowances$ } from '../streams/contract'
-import { poolReserves$ } from '../streams/farming'
-import { tokenList } from '../constants/tokens'
+import { klevaAnnualRewards$, poolReserves$ } from '../streams/farming'
+import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
+import { tokenPrices$ } from '../streams/tokenPrice'
+import APRAPYBrief from './APRAPYBrief'
+import APRAPYDetailed from './APRAPYDetailed'
+import Checkbox from './common/Checkbox'
+import AddPositionPopupSummary from './AddPositionPopupSummary'
 
 class AddPositionPopup extends Component {
   destroy$ = new Subject()
@@ -39,22 +44,30 @@ class AddPositionPopup extends Component {
       selectedAddress$,
       this.bloc.allowances$,
       this.bloc.borrowingAsset$,
-      this.bloc.borrowingAmount$,
       this.bloc.priceImpact$,
       this.bloc.worker$,
       this.bloc.farmingTokenAmountInBaseToken$,
+      this.bloc.afterPositionValue$,
+      
+      this.bloc.showAPRDetail$,
+      this.bloc.showSummary$,
+
+      lendingTokenSupplyInfo$,
+      tokenPrices$,
+      klevaAnnualRewards$,
       balancesInWallet$,
       poolReserves$,
       merge(
         this.bloc.farmingTokenAmount$.pipe(
           tap(() => {
-            this.bloc.calcFarmingTokenAmountInBaseToken()
+            this.bloc.calcFarmingTokenAmountInBaseToken$().subscribe()
           })
         ),
         this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
       ).pipe(
         tap(() => {
+          this.bloc.getAfterPositionValue()
           this.bloc.getPriceImpact(poolReserves$.value)
 
           // Check leverage available
@@ -172,12 +185,36 @@ class AddPositionPopup extends Component {
       </button>
     )
   }
+
+  getDebtTokenKlevaRewardsAPR = () => {
+    const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
+    const borrowingAsset = this.bloc.borrowingAsset$.value
+
+    const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
+    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
+    const debtTokenPid = debtToken && debtToken.pid
+    const klevaAnnualRewardForDebtToken = klevaAnnualRewards$.value[debtTokenPid]
+
+    // const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
+    //   .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
+
+    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
+    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
+
+    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
+      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address])
+      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
+      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
+      .multipliedBy(this.bloc.leverage$.value - 1)
+      .multipliedBy(100)
+      .toNumber()
+
+    return klevaRewardsAPR || 0
+  }
     
   render() {
     const { 
       title, 
-      leverage, 
-      onSelect,
       yieldFarmingAPR,
       tradingFeeAPR,
       borrowingAvailableAssets,
@@ -187,31 +224,78 @@ class AddPositionPopup extends Component {
       workerInfo,
     } = this.props  
 
-    const totalAPR = new BigNumber(yieldFarmingAPR)
-      .plus(tradingFeeAPR)
-      .plus(0) // klevaRewards
-      .minus(0) // borrowingInterest
-      .toNumber()
-
-    const APY = toAPY(totalAPR)
-
     const farmingToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
-        ? token2
-        : token1
-    
-    const baseToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
-        ? token1
-        : token2
+      ? token2
+      : token1
 
-    const workerConfig = workerInfo && 
+    const baseToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
+      ? token1
+      : token2
+
+    const workerConfig = workerInfo &&
       workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
 
     const leverageCap = 10000 / (10000 - workerConfig.workFactorBps)
 
+    const klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
+    
+    const borrowingInfo = lendingTokenSupplyInfo$.value && lendingTokenSupplyInfo$.value[this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()]
+    const borrowingInterestAPR = borrowingInfo 
+      && new BigNumber(borrowingInfo.borrowingInterest)
+        .multipliedBy(this.bloc.leverage$.value - 1)
+        .toNumber()
+
+    const totalAPR = new BigNumber(yieldFarmingAPR)
+      .plus(tradingFeeAPR)
+      .plus(klevaRewardsAPR) // klevaRewards
+      .minus(borrowingInterestAPR) // borrowingInterest
+      .toNumber()
+
+    const totalAPRAfter = new BigNumber(totalAPR)
+      .multipliedBy(this.bloc.leverage$.value)
+      .toNumber()
+
+    const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+
+    const farmingTokenAmountInBaseToken = this.bloc.farmingTokenAmountInBaseToken$.value
+
+
     return (
       <Modal className="AddPositionPopup__modal" title={title}>
+        {this.bloc.showAPRDetail$.value && (
+          <APRAPYDetailed 
+            showDetail$={this.bloc.showAPRDetail$}
+            totalAPRBefore={totalAPR}
+            totalAPRAfter={totalAPRAfter}
+
+            yieldFarmingBefore={yieldFarmingAPR}
+            yieldFarmingAfter={
+              new BigNumber(yieldFarmingAPR)
+                .multipliedBy(this.bloc.leverage$.value)
+                .toNumber()
+            }
+
+            tradingFeeBefore={tradingFeeAPR}
+            tradingFeeAfter={
+              new BigNumber(tradingFeeAPR)
+                .multipliedBy(this.bloc.leverage$.value)
+                .toNumber()
+            }
+
+            klevaRewardAPR={klevaRewardsAPR}
+
+            borrowingInterestAPR={borrowingInterestAPR}
+          />
+        )}
         <div className="AddPositionPopup">
           <div className="AddPositionPopup__content">
+            <APRAPYBrief 
+              totalAPRBefore={totalAPR}
+              totalAPRAfter={totalAPRAfter}
+              showDetail$={this.bloc.showAPRDetail$}
+            />
             <div className="AddPositionPopup__controller">
               <SupplyingAssets
                 balances={balancesInWallet$.value}
@@ -232,36 +316,26 @@ class AddPositionPopup extends Component {
                 onSelect={this.bloc.selectBorrowingAsset}
               />
             </div>
-            <div className="AddPositionPopup__summary">
-              <FarmSummary
-
-                farmingToken={farmingToken}
-                baseToken={baseToken}
-
-                yieldFarmingBefore={yieldFarmingAPR}
-                yieldFarmingAfter={yieldFarmingAPR}
-                tradingFeeBefore={tradingFeeAPR}
-                tradingFeeAfter={tradingFeeAPR}
-                klevaRewardAPR={0}
-                borrowingInterestAPR={0}
-                farmingTokenSupplied={this.bloc.farmingTokenAmount$.value}
-                baseTokenSupplied={this.bloc.baseTokenAmount$.value || 0}
-                priceImpact={this.bloc.priceImpact$.value}
-                farmingTokenPositionValue={this.bloc.farmingTokenAmount$.value}
-                baseTokenPositionValue={this.bloc.baseTokenAmount$.value || 0}
-
-                borrowingAsset={this.bloc.borrowingAsset$.value}
-                borrowingAmount={this.bloc.borrowingAmount$.value}
-
-                totalAPRBefore={totalAPR}
-                totalAPYBefore={APY}
-                totalAPRAfter={totalAPR}
-                totalAPYAfter={APY}
-              />
-            </div>
           </div>
+          <Checkbox
+            className="AddPositionPopup__summaryCheckbox"
+            label="Summary"
+            checked$={this.bloc.showSummary$}
+          />
           {this.renderButton()}
         </div>
+        {this.bloc.showSummary$.value && (
+          <AddPositionPopupSummary
+            showDetail$={this.bloc.showSummary$}
+            baseToken={this.bloc.baseToken$.value}
+            farmingToken={this.bloc.farmingToken$.value}
+            farmingTokenAmount={this.bloc.farmingTokenAmount$.value}
+            baseTokenAmount={this.bloc.baseTokenAmount$.value}
+            borrowingAmount={borrowingAmount}
+            priceImpact={this.bloc.priceImpact$.value}
+            afterPositionValue={this.bloc.afterPositionValue$.value}
+          />
+        )}
       </Modal>
     )
   }

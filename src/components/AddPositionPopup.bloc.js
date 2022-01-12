@@ -1,5 +1,5 @@
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
@@ -30,7 +30,6 @@ export default class {
       .find((t) => t.address.toLowerCase() !== this.borrowingAsset$.value.address.toLowerCase())
     )
     this.baseToken$ = new BehaviorSubject(this.borrowingAsset$.value)
-    this.borrowingAmount$ = new BehaviorSubject(0)
     this.farmingTokenAmount$ = new BehaviorSubject('')
     this.baseTokenAmount$ = new BehaviorSubject('')
     this.priceImpact$ = new BehaviorSubject('')
@@ -41,8 +40,13 @@ export default class {
     // ex) Farming Token: 10 KSP, Base Token: 100 KLEVA
     // Convert 10 KSP to [farmingTokenAmountInBaseToken] KLEVA.
     this.farmingTokenAmountInBaseToken$ = new BehaviorSubject()
+    this.afterPositionValue$ = new BehaviorSubject()
 
     this.fetchAllowances$ = new Subject()
+
+    // UI
+    this.showAPRDetail$ = new BehaviorSubject(false)
+    this.showSummary$ = new BehaviorSubject(false)
   }
 
   selectWorker = (borrowingAsset) => {
@@ -74,16 +78,22 @@ export default class {
     return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"] }
   }
 
-  calcFarmingTokenAmountInBaseToken = () => {
-    getOutputTokenAmount$(
-      this.farmingToken$.value,
-      this.baseToken$.value,
+  calcFarmingTokenAmountInBaseToken$ = () => {
+    return getOutputTokenAmount$(
+      this.farmingToken$.value || 0,
+      this.baseToken$.value || 0,
       new BigNumber(this.farmingTokenAmount$.value || 0)
         .multipliedBy(10 ** this.farmingToken$.value.decimals)
         .toFixed(0),
-    ).subscribe(({ outputAmount, priceImpact }) => {
-      this.farmingTokenAmountInBaseToken$.next(outputAmount)
-    })
+    ).pipe(
+      tap(({ outputAmount }) => {
+        this.farmingTokenAmountInBaseToken$.next(
+          new BigNumber(outputAmount)
+            .div(10 ** this.baseToken$.value.decimals)
+            .toString()
+          )
+      })
+    )
   }
 
   getPriceImpact = (_poolReserves) => {
@@ -159,14 +169,14 @@ export default class {
 
   getPositionValue = () => {
     const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
+      .multipliedBy(10 ** (this.baseToken$.value && this.baseToken$.value.decimals))
 
     // principalAllInBaseToken 
     // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
-    const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value || 0
 
     return new BigNumber(baseTokenAmount)
-      .plus(farmingTokenAmountConvertedInBaseToken)
-      .multipliedBy(10 ** this.baseToken$.value.decimals)
+      .plus(new BigNumber(this.farmingTokenAmountInBaseToken$.value || 0).multipliedBy(10 ** this.baseToken$.value.decimals))
+      // .multipliedBy(10 ** this.baseToken$.value.decimals)
       .toString()
   }
 
@@ -178,6 +188,46 @@ export default class {
     return new BigNumber(positionValue)
       .multipliedBy(leverage - 1)
       .toFixed(0)
+  }
+
+  getAfterPositionValue = () => {
+    this.calcFarmingTokenAmountInBaseToken$().pipe(
+      switchMap(() => {
+        const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
+          .multipliedBy(10 ** (this.baseToken$.value && this.baseToken$.value.decimals))
+    
+        const borrowingAmount = new BigNumber(this.getAmountToBorrow() || 0)
+    
+        // principalAllInBaseToken 
+        // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
+        const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value || 0
+    
+        const afterPositionValueInBaseToken = new BigNumber(baseTokenAmount)
+          .plus(borrowingAmount)
+          .plus(farmingTokenAmountConvertedInBaseToken)
+          .toNumber() || 0
+        
+        return getOutputTokenAmount$(
+          this.baseToken$.value,
+          this.farmingToken$.value,
+          new BigNumber(afterPositionValueInBaseToken).div(2).toFixed(0),
+        ).pipe(
+          tap(({ outputAmount }) => {
+            const afterPositionValue = {
+              farmingTokenAmount: new BigNumber(outputAmount)
+                .div(10 ** this.farmingToken$.value.decimals)
+                .toNumber(),
+              baseTokenAmount: new BigNumber(afterPositionValueInBaseToken)
+                .div(2)
+                .div(10 ** this.baseToken$.value.decimals)
+                .toNumber(),
+            }
+
+            this.afterPositionValue$.next(afterPositionValue)
+          })
+        )
+      })
+    ).subscribe()
   }
 
   addPosition = () => {

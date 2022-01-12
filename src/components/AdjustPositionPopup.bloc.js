@@ -51,6 +51,12 @@ export default class {
 
     this.addCollateralAvailable$ = new BehaviorSubject()
     this.borrowMoreAvailable$ = new BehaviorSubject()
+    this.amountToBeBorrowed$ = new BehaviorSubject()
+
+    // UI
+    this.afterPositionValue$ = new BehaviorSubject()
+    this.showAPRDetail$ = new BehaviorSubject()
+    this.showSummary$ = new BehaviorSubject()
   }
 
   getStrategy = () => {
@@ -139,15 +145,12 @@ export default class {
 
   // Borrow more
   borrowMore = () => {
-    
-    const borrowAmount = new BigNumber(this.equityValue$.value)
-      .multipliedBy(this.leverage$.value - 1)
-      .multipliedBy(10 ** this.baseToken.decimals)
-      .toFixed(0)
+    // const borrowAmount = new BigNumber(this.equityValue$.value)
+    //   .multipliedBy(this.leverage$.value - 1)
+    //   .multipliedBy(10 ** this.baseToken.decimals)
+    //   .toFixed(0)
 
-    console.log(this.equityValue$.value,"this.equityValue$.value")
-    console.log(this.leverage$.value,"this.leverage$.value")
-    console.log(borrowAmount, 'borrowAmount')
+    const amountToBeBorrowed = new BigNumber(this.amountToBeBorrowed$.value).toString()
 
     const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
     
@@ -158,7 +161,7 @@ export default class {
 
     borrowMore$(this.vaultAddress, {
       positionId: this.positionId,
-      debtAmount: borrowAmount,
+      debtAmount: amountToBeBorrowed,
       data,
     }).pipe(
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))

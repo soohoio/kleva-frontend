@@ -1,0 +1,29 @@
+.APRAPYBrief__wrapper {
+  .Checkbox {
+    justify-content: flex-end;
+    margin-right: 0;
+    margin-top: 14px;
+  }
+}
+
+.APRAPYBrief {
+  padding: 16px 20px;
+  border-radius: 7px;
+  background-color: #fafafa;
+}
+
+.APRAPYBrief__apr {
+  margin-bottom: 0;
+}
+
+.APRAPYBrief__apy {
+  .FarmSummaryItem__left {
+    @include font-style('font-1', 'm', 15px);
+    color: #3369ff;
+  }
+
+  .BeforeAfter__after {
+    @include font-style('font-1', 'sb', 16px);
+    color: #3369ff;
+  }
+}

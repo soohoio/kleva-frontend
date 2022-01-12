@@ -9,17 +9,3 @@
   color: #131414;
   margin-bottom: 28px;
 }
-
-.BeforeAfter {
-  display: flex;
-  align-items: center;
-}
-
-.BeforeAfter__before {
-  @include font-style('font-1', 'r', 13px);
-  color: #797b80;
-}
-
-.BeforeAfter__after {
-  @include font-style('font-1', 'sb', 13px);
-} 

@@ -23,7 +23,6 @@ export const getUserPositionSummary$ = (owner) => {
       id: String(owner).toLowerCase(),
     })).pipe(
       map(({ userPositionSummary }) => {
-        console.log(userPositionSummary, "userPositionSummary")
         return userPositionSummary
       })
     )

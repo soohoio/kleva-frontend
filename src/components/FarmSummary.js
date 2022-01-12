@@ -6,6 +6,7 @@ import { takeUntil, tap } from 'rxjs/operators'
 import FarmSummaryItem from './FarmSummaryItem'
 
 import './FarmSummary.scss'
+import { nFormatter } from '../utils/misc'
 
 const BeforeAfter = ({ before, after }) => {
   return (
@@ -65,8 +66,8 @@ class FarmSummary extends Component {
               left="Yield Farming"
               right={(
                 <BeforeAfter 
-                  before={`${yieldFarmingBefore}%`}
-                  after={`${yieldFarmingAfter}%`}
+                  before={`${nFormatter(yieldFarmingBefore, 2)}%`}
+                  after={`${nFormatter(yieldFarmingAfter, 2)}%`}
                 />
               )}
             />
@@ -75,35 +76,35 @@ class FarmSummary extends Component {
               left="Trading Fees APR"
               right={(
                 <BeforeAfter 
-                  before={`${tradingFeeBefore}%`}
-                  after={`${tradingFeeAfter}%`}
+                  before={`${nFormatter(tradingFeeBefore, 2)}%`}
+                  after={`${nFormatter(tradingFeeAfter, 2)}%`}
                 />
               )}
             />
             <FarmSummaryItem
               className="FarmSummaryItem--klevaRewardsAPR"
               left="KLEVA Rewards APR"
-              right={`${klevaRewardAPR}%`}
+              right={`${nFormatter(klevaRewardAPR, 2)}%`}
             />
             <FarmSummaryItem
               className="FarmSummaryItem--borrowingInterestAPR"
               left="Borrowing Interest APR"
-              right={`${borrowingInterestAPR}%`}
+              right={`${nFormatter(borrowingInterestAPR, 2)}%`}
             />
             <FarmSummaryItem 
               className="FarmSummaryItem--totalAPR"
               left="Total APR"
               right={<BeforeAfter 
-                  before={`${totalAPRBefore.toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} 
-                  after={`${totalAPRAfter.toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} 
+                  before={`${nFormatter(totalAPRBefore, 2)}%`} 
+                  after={`${nFormatter(totalAPRAfter, 2)}%`} 
                 />}
             />
             <FarmSummaryItem 
               className="FarmSummaryItem--totalAPY"
               left="Total APY"
               right={<BeforeAfter 
-                before={`${totalAPYBefore.toLocaleString('en-us', { maximumFractionDigits: 2 })}%`} 
-                after={`${totalAPYAfter.toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                before={`${nFormatter(totalAPYBefore, 2)}%`} 
+                after={`${nFormatter(totalAPYAfter, 2)}%`}
               />}
             />
             <div className="FarmSummary__line" />
@@ -125,16 +126,6 @@ class FarmSummary extends Component {
               left="Total Assets in Position Value"
               right={`${farmingTokenPositionValue || 0} ${farmingToken.title} + ${baseTokenPositionValue || 0} ${baseToken.title}`}
             />
-            {/* <FarmSummaryItem
-              left="Share of Pool"
-              leftSub="KLEVA Finance"
-              right={shareOfPool}
-            />
-            <FarmSummaryItem
-              left="Share of Pool"
-              leftSub="KLAYswap"
-              right={shareOfPool}
-            /> */}
         </div>
       </div>
     )

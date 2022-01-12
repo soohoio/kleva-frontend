@@ -132,6 +132,9 @@ class PositionItem extends Component {
       .plus(aprInfo.airdropAPR || 0)
       .toNumber()
 
+    const tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
+      .toNumber()
+
     const currentPositionLeverage = this.getCurrentLeverageValue()
 
     // Yield Farming APR
@@ -213,6 +216,13 @@ class PositionItem extends Component {
                 baseToken={baseToken}
                 workerInfo={workerInfo}
                 leverageCap={leverageCap}
+
+                yieldFarmingAPR={yieldFarmingAPR}
+                tradingFeeAPR={tradingFeeAPR}
+                leveragedYieldFarmingAPR={leveragedYieldFarmingAPR}
+                klevaRewardsAPR={klevaRewardsAPR}
+                borrowingInterestAPR={borrowingInterestAPR}
+                apy={apy}
               />
             })
 

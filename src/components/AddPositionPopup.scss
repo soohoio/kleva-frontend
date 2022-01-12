@@ -1,6 +1,7 @@
 .AddPositionPopup__modal {
   @include desktop {
-    width: 884px !important;
+    // width: 884px !important;
+    width: auto !important;
   }
 }
 
@@ -10,7 +11,8 @@
 
 .AddPositionPopup__content {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
+  flex-direction: column;
   width: 100%;
   gap: 36px;
   margin-bottom: 54px;
@@ -31,4 +33,10 @@
   &--disabled {
     @include disabled-button;
   }
+}
+
+.AddPositionPopup__summaryCheckbox {
+  margin-bottom: 20px;
+  justify-content: flex-end;
+  margin-right: 0;
 }

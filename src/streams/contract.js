@@ -855,9 +855,6 @@ export const getOutputTokenAmount$ = (inputToken, outputToken, inputTokenAmount)
         .div(10 ** outputToken.decimals)
         .toNumber()
 
-      console.log(originalRatio, "originalRatio")
-      console.log(optimalOutputAmount, 'optimalOutputAmount')
-      console.log(realOutputAmount, 'realOutputAmount')
       const priceImpact = 1 - (optimalOutputAmount / realOutputAmount)
 
       return { 

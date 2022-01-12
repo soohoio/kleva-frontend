@@ -56,9 +56,6 @@ class FarmList extends Component {
             tradingFee,
           }, idx) => {
 
-            console.log(token1, 'token1')
-            console.log(token2, 'token2')
-
             const aprInfo = aprInfo$.value[lpToken.address] || aprInfo$.value[lpToken.address.toLowerCase()]
             
             const token1BorrowingInterest = lendingTokenSupplyInfo$.value[token1.address.toLowerCase()] 

@@ -17,19 +17,15 @@ class Checkbox extends Component {
   }
     
   render() {
-    const { label, checked$ } = this.props
+    const { label, checked$, className } = this.props
     
     return (
-      <div onClick={() => checked$.next(!checked$.value)} className="Checkbox">
+      <div onClick={() => checked$.next(!checked$.value)} className={cx("Checkbox", className)}>
         <div 
           className={cx("Checkbox__image", {
             "Checkbox__image--checked": !!checked$.value,
           })} 
         />
-        {/* <img 
-          className="Checkbox__image"
-          src={`/static/images/${checked$.value ? 'chcked' : 'unchcked'}.svg`}
-        /> */}
         <span className="Checkbox__label">{label}</span>
       </div>
     )
