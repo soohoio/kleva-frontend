@@ -8,6 +8,8 @@ import { path$ } from 'streams/location'
 
 import './Sidebar.scss'
 import LockedKLEVA from './LockedKLEVA'
+import { openModal$ } from '../streams/ui'
+import OpenSoon from './OpenSoon'
 
 const SidebarItem = ({ active, onClickOverwrite, disabled, title, iconSrc, href, clientSideHref }) => {
   return (
@@ -69,15 +71,12 @@ class Sidebar extends Component {
           active={path$.value === "/stake"}
           title="Stake"
         />
-        {/* <SidebarItem
-          onClickOverwrite={() => {
-            alert("Coming Soon.")
-          }}
-          clientSideHref="/farm"
-          active={path$.value === "/farm"}
-          title="Farm"
-        /> */}
         <SidebarItem
+          onClickOverwrite={() => {
+            openModal$.next({
+              component: <OpenSoon />
+            })
+          }}
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"

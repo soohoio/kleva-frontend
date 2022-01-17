@@ -8,6 +8,8 @@ import { path$ } from 'streams/location'
 import { closeModal$ } from 'streams/ui'
 
 import './MobileGNB.scss'
+import { openModal$ } from '../streams/ui'
+import OpenSoon from './OpenSoon'
 
 const SidebarItem = ({ onClickOverwrite, href, clientSideHref, active, title, iconSrc }) => {
   return (
@@ -82,7 +84,11 @@ class MobileGNB extends Component {
           active={path$.value === '/farm'}
         /> */}
         <SidebarItem
-          onClickOverwrite={() => alert("Coming Soon.")}
+          onClickOverwrite={() => {
+            openModal$.next({
+              component: <OpenSoon />
+            })
+          }}
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}
