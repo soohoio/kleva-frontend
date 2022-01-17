@@ -17,12 +17,12 @@ class DetailedHideable extends Component {
   }
     
   render() {
-    const { title, className, showDetail$, children } = this.props
+    const { title, className, showDetail$, children, alwaysShow } = this.props
     return (
       <div className={cx("DetailedHideable", className)}>
         <div className="DetailedHideable__header">
           <span className="DetailedHideable__title">{title}</span>
-          <button onClick={() => showDetail$.next(false)} className="DetailedHideable__hideButton">Hide</button>
+          {!alwaysShow && <button onClick={() => showDetail$.next(false)} className="DetailedHideable__hideButton">Hide</button>}
         </div>
         <div className="DetailedHideable__content">
           {children}

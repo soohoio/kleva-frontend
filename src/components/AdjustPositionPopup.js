@@ -1,8 +1,8 @@
 import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
-import { Subject, merge } from 'rxjs'
-import { takeUntil, tap, switchMap, filter } from 'rxjs/operators'
+import { Subject, merge, forkJoin, of } from 'rxjs'
+import { takeUntil, tap, switchMap, filter, distinctUntilChanged } from 'rxjs/operators'
 
 import SupplyingAssets from './SupplyingAssets'
 import LeverageGauge from './LeverageGauge'
@@ -16,7 +16,7 @@ import APRAPYBrief from './APRAPYBrief'
 import APRAPYDetailed from './APRAPYDetailed'
 import Checkbox from './common/Checkbox'
 
-import { borrowMore$, checkAllowances$ } from '../streams/contract'
+import { borrowMore$, checkAllowances$, getOutputAmount$, getOutputTokenAmount$ } from '../streams/contract'
 import { klayswapPoolInfo$, klevaAnnualRewards$, positions$ } from '../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { balancesInWallet$, selectedAddress$ } from '../streams/wallet'
@@ -24,6 +24,7 @@ import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants
 import { getEachTokenBasedOnLPShare } from '../utils/calc'
 
 import './AdjustPositionPopup.scss'
+import AdjustPositionPopupOptionSwitcher from './AdjustPositionPopupOptionSwitcher'
 
 class AdjustPositionPopup extends Component {
   destroy$ = new Subject()
@@ -42,25 +43,67 @@ class AdjustPositionPopup extends Component {
       klevaAnnualRewards$,
       klayswapPoolInfo$,
 
-      this.bloc.farmingTokenAmount$,
+      this.bloc.farmingTokenAmount$.pipe(
+        tap(() => {
+          this.bloc.calcFarmingTokenAmountInBaseToken()
+        })
+      ),
       this.bloc.baseTokenAmount$,
       this.bloc.farmingTokenAmountInBaseToken$,
-      this.bloc.leverage$,
+      this.bloc.leverage$, // for borrowMore
+      this.bloc.finalCalculatedLeverage$, // finally calculated after adjusting
       this.bloc.fetchAllowances$,
-      this.bloc.borrowMore$,
       this.bloc.addCollateralAvailable$,
       this.bloc.borrowMoreAvailable$,
       
       this.bloc.equityValue$,
       this.bloc.debtValue$,
 
+      this.bloc.newEquityValue$,
+      this.bloc.newDebtValue$,
+      this.bloc.newPositionValue$,
+      this.bloc.lpShare$,
+      this.bloc.lpToken$,
+
+      this.bloc.before_userFarmingTokenAmount$,
+      this.bloc.before_userBaseTokenAmount$,
+
+      this.bloc.finalPositionIngredientBaseTokenAmount$,
+      this.bloc.finalPositionIngredientFarmingTokenAmount$,
+
       this.bloc.amountToBeBorrowed$,
+      this.bloc.liquidationThreshold$,
 
       this.bloc.afterPositionValue$,
       this.bloc.showAPRDetail$,
       this.bloc.showSummary$,
+      this.bloc.priceImpact$,
+      this.bloc.borrowMore$.pipe(
+        distinctUntilChanged(),
+        tap(() => {
+          // Reset all
+          this.bloc.farmingTokenAmount$.next('')
+          this.bloc.baseTokenAmount$.next('')
+          this.bloc.farmingTokenAmountInBaseToken$.next('')
+          this.bloc.leverage$.next(this.bloc.currentPositionLeverage$.value)
+          this.bloc.before_userFarmingTokenAmount$.next('')
+          this.bloc.before_userBaseTokenAmount$.next('')
+          this.bloc.newEquityValue$.next('')
+          this.bloc.newDebtValue$.next('')
+          this.bloc.newPositionValue$.next('')
+          this.bloc.amountToBeBorrowed$.next('')
+          this.bloc.addCollateralAvailable$.next('')
+          this.bloc.borrowMoreAvailable$.next('')
+          this.bloc.priceImpact$.next('')
+          this.bloc.finalPositionIngredientBaseTokenAmount$.next('')
+          this.bloc.finalPositionIngredientFarmingTokenAmount$.next('')
+        })
+      ),
 
       merge(
+        this.bloc.farmingTokenAmount$,
+        this.bloc.baseTokenAmount$,
+        this.bloc.farmingTokenAmountInBaseToken$,
         this.bloc.leverage$,
         positions$
       ).pipe(
@@ -94,10 +137,17 @@ class AdjustPositionPopup extends Component {
             .plus(debtValue)
             .div(equityValue)
 
+            // Liquidiation Threshold
+          const liquidationThreshold = positionInfo && (new BigNumber(positionInfo.killFactorBps).div(100).toNumber())
+          this.bloc.liquidationThreshold$.next(liquidationThreshold)
+
           this.bloc.positionValue$.next(positionValueParsed)
           this.bloc.equityValue$.next(equityValueParsed)
           this.bloc.debtValue$.next(debtValueParsed)
           this.bloc.currentPositionLeverage$.next(currentPositionLeverage)
+
+          this.bloc.lpShare$.next(lpShare)
+          this.bloc.lpToken$.next(lpToken)
 
           if (!this.bloc.leverage$.value) {
             this.bloc.leverage$.next(this.bloc.currentPositionLeverage$.value)
@@ -106,24 +156,47 @@ class AdjustPositionPopup extends Component {
           const rawKillFactorBps = this.props.workerInfo && this.props.workerInfo.rawKillFactorBps
           const workFactorBps = this.props.workerInfo && this.props.workerInfo.workFactorBps
 
-          // addCollateral available condition
-          // (positionValue * rawKillFactor >= debtValue * 1e4)
-          const _addCollateralAvailable = new BigNumber(positionValue)
-            .multipliedBy(rawKillFactorBps)
-            .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
-
           const amountToBorrow = new BigNumber(this.bloc.equityValue$.value)
             .multipliedBy(this.bloc.leverage$.value - 1)
             .multipliedBy(10 ** this.props.baseToken.decimals)
             .toFixed(0)
 
-          const newPositionValue = new BigNumber(positionValue).plus(amountToBorrow).toString()
-          const newDebtValue = new BigNumber(debtValue).plus(amountToBorrow).toString()
+          const amountToBeBorrowed = new BigNumber(this.bloc.equityValue$.value)
+            .multipliedBy(this.bloc.leverage$.value - this.bloc.currentPositionLeverage$.value)
+            .multipliedBy(10 ** this.props.baseToken.decimals)
+            .toNumber(0)
+
+          // Finally calculate leverage value
+          const amountToCollateral = new BigNumber(this.bloc.baseTokenAmount$.value || 0)
+            .multipliedBy(10 ** this.props.baseToken.decimals)
+            .plus(this.bloc.farmingTokenAmountInBaseToken$.value || 0)
+            .toNumber()
+          
+          const newEquityValue = new BigNumber(equityValue)
+            .plus(amountToCollateral)
+            .toString()
+
+          const newDebtValue = new BigNumber(debtValue)
+            .plus(amountToBeBorrowed)
+            .toString()
+
+          const newPositionValue = new BigNumber(newEquityValue)
+            .plus(newDebtValue)
+            .toString()
+
+          const finalCalculatedLeverage = new BigNumber(newPositionValue).div(newEquityValue).toNumber()
+          this.bloc.finalCalculatedLeverage$.next(finalCalculatedLeverage)
 
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
           const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+
+          // addCollateral available condition
+          // (positionValue * rawKillFactor >= debtValue * 1e4)
+          const _addCollateralAvailable = new BigNumber(newPositionValue)
+            .multipliedBy(rawKillFactorBps)
+            .gte(new BigNumber(debtValue).multipliedBy(10 ** 4))
 
           // For Summary
 
@@ -136,14 +209,119 @@ class AdjustPositionPopup extends Component {
             baseToken: this.props.baseToken,
           })
 
-          const amountToBeBorrowed = new BigNumber(this.bloc.equityValue$.value)
-            .multipliedBy(this.bloc.leverage$.value - this.bloc.currentPositionLeverage$.value)
-            .multipliedBy(10 ** this.props.baseToken.decimals)
-            .toNumber(0)
+          this.bloc.before_userFarmingTokenAmount$.next(userFarmingTokenAmount)
+          this.bloc.before_userBaseTokenAmount$.next(userBaseTokenAmount)
 
+          this.bloc.newEquityValue$.next(newEquityValue)
+          this.bloc.newDebtValue$.next(newDebtValue)
+          this.bloc.newPositionValue$.next(newPositionValue)
+          
           this.bloc.amountToBeBorrowed$.next(Math.max(0, amountToBeBorrowed))
           this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
           this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)
+
+          // Calculate Price Impact
+
+          // if (!this.bloc.farmingTokenAmountInBaseToken$.value) {
+          //   return
+          // }
+
+          const { 
+            userFarmingTokenAmountPure: _fa, 
+            userBaseTokenAmountPure: _ba 
+        } = getEachTokenBasedOnLPShare({
+            poolInfo,
+            lpShare: 1 * 10 ** lpToken.decimals,
+            farmingToken: this.props.farmingToken,
+            baseToken: this.props.baseToken,
+          })
+
+          const baseTokenPriceInFarmingToken = new BigNumber(_fa).div(_ba).toNumber()
+          const farmingTokenPriceInBaseToken = new BigNumber(_ba).div(_fa).toNumber()
+
+          if (this.bloc.borrowMore$.value) {
+
+            const finalPositionIngredientBaseTokenAmount = new BigNumber(userBaseTokenAmount)
+              .multipliedBy(10 ** this.props.baseToken.decimals)
+              .plus(new BigNumber(amountToBeBorrowed).div(2))
+              .toNumber()
+
+            const finalPositionIngredientFarmingTokenAmount = new BigNumber(finalPositionIngredientBaseTokenAmount)
+              .multipliedBy(baseTokenPriceInFarmingToken)
+              .toNumber()
+
+            this.bloc.finalPositionIngredientBaseTokenAmount$.next(finalPositionIngredientBaseTokenAmount)
+            this.bloc.finalPositionIngredientFarmingTokenAmount$.next(finalPositionIngredientFarmingTokenAmount)
+
+            this.bloc.finalPositionIngredientBaseTokenAmount$.next(
+              new BigNumber(finalPositionIngredientBaseTokenAmount).div(10 ** this.props.baseToken.decimals).toNumber()
+            )
+            this.bloc.finalPositionIngredientFarmingTokenAmount$.next(
+              new BigNumber(finalPositionIngredientFarmingTokenAmount).div(10 ** this.props.farmingToken.decimals).toNumber()
+            )
+
+            getOutputTokenAmount$(
+              this.props.baseToken, 
+              this.props.farmingToken, 
+              Math.max(0, new BigNumber(amountToBeBorrowed).div(2).toFixed(0))
+            ).subscribe(({ priceImpact }) => {
+              this.bloc.priceImpact$.next(priceImpact)
+            })
+          } else {
+
+            // const farmingTokenPriceInBaseToken = new BigNumber(_ba).div(_fa).toNumber()
+            
+            const baseTokenAmountPure = new BigNumber(this.bloc.baseTokenAmount$.value || 0)
+              .multipliedBy(10 ** this.props.baseToken.decimals)
+              .toFixed(0)
+            
+            const farmingTokenAmountPure = new BigNumber(this.bloc.farmingTokenAmount$.value || 0)
+              .multipliedBy(10 ** this.props.farmingToken.decimals)
+              .toFixed(0)
+
+            const finalPositionIngredientBaseTokenAmount = new BigNumber(userBaseTokenAmount)
+            .multipliedBy(10 ** this.props.baseToken.decimals)
+            .plus(
+              new BigNumber(this.bloc.farmingTokenAmountInBaseToken$.value)
+                .plus(baseTokenAmountPure || 0)
+                .div(2)
+            ).toFixed(0)
+
+            const finalPositionIngredientFarmingTokenAmount = new BigNumber(finalPositionIngredientBaseTokenAmount)
+              .multipliedBy(baseTokenPriceInFarmingToken)
+              .toFixed(0)
+
+            const farmingTokenAmountToTrade = new BigNumber(finalPositionIngredientFarmingTokenAmount)
+              .minus(farmingTokenAmountPure || 0)
+              .toFixed(0)
+
+            const baseTokenAmountToTrade = new BigNumber(finalPositionIngredientBaseTokenAmount)
+              .minus(baseTokenAmountPure || 0)
+              .toFixed(0)
+
+            this.bloc.finalPositionIngredientBaseTokenAmount$.next(
+              new BigNumber(finalPositionIngredientBaseTokenAmount)
+                .div(10 ** this.props.baseToken.decimals)
+                .toNumber(0)
+            )
+            this.bloc.finalPositionIngredientFarmingTokenAmount$.next(
+              new BigNumber(finalPositionIngredientFarmingTokenAmount)
+                .div(10 ** this.props.farmingToken.decimals)
+                .toNumber(0)
+            )
+
+            forkJoin(
+              Number(farmingTokenAmountToTrade) > 0 
+                ? getOutputTokenAmount$(this.props.farmingToken, this.props.baseToken, farmingTokenAmountToTrade)
+                : of({ priceImpact: 0 }),
+              Number(baseTokenAmountToTrade) > 0 
+                ? getOutputTokenAmount$(this.props.baseToken, this.props.farmingToken, baseTokenAmountToTrade)
+                : of({ priceImpact: 0 }),
+            ).subscribe(([a, b]) => {
+              const priceImpact = (a.priceImpact + b.priceImpact)
+              this.bloc.priceImpact$.next(priceImpact)
+            })
+          }
         })
       ),
     ).pipe(
@@ -221,8 +399,7 @@ class AdjustPositionPopup extends Component {
       )
     }
 
-    const isAddCollateralDisabled = this.bloc.baseTokenAmount$.value == 0
-      && this.bloc.farmingTokenAmount$.value == 0
+    const isAddCollateralDisabled = (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0) 
       || !this.bloc.addCollateralAvailable$.value 
 
     const isBorrowMoreDisabled = (this.bloc.leverage$.value == this.bloc.currentPositionLeverage$.value) 
@@ -253,12 +430,11 @@ class AdjustPositionPopup extends Component {
           ? `Borrow More`
           : `Add Collateral`
         }
-        {/* Farm {Number(this.bloc.leverage$.value).toFixed(2)}x */}
       </button>
     )
   }
 
-  getDebtTokenKlevaRewardsAPR = () => {
+  getDebtTokenKlevaRewardsAPR = (leverage) => {
     const { baseToken } = this.props
     const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
     const borrowingAsset = baseToken
@@ -268,9 +444,6 @@ class AdjustPositionPopup extends Component {
     const debtTokenPid = debtToken && debtToken.pid
     const klevaAnnualRewardForDebtToken = klevaAnnualRewards$.value[debtTokenPid]
 
-    // const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
-    //   .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
-
     const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
     const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
 
@@ -278,7 +451,7 @@ class AdjustPositionPopup extends Component {
       .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address])
       .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
       .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(this.bloc.leverage$.value - 1)
+      .multipliedBy(leverage - 1)
       .multipliedBy(100)
       .toNumber()
 
@@ -295,95 +468,121 @@ class AdjustPositionPopup extends Component {
       workerInfo,
       leverageCap,
 
-      yieldFarmingAPR,
-      tradingFeeAPR,
-      klevaRewardsAPR,
-      borrowingInterestAPR,
+      yieldFarmingAPRBefore,
+      tradingFeeAPRBefore,
+      klevaRewardsAPRBefore,
+      borrowingInterestAPRBefore,
     } = this.props
 
-    // const workerConfig = workerInfo &&
-    //   workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
+    // Final Caluclated Leverage Value
+    const finalLeverageValue = this.bloc.finalCalculatedLeverage$.value
 
-    // const leverageCap = 10000 / (10000 - workerConfig.workFactorBps)
-
-    // const klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
-
-    // const borrowingInfo = lendingTokenSupplyInfo$.value && lendingTokenSupplyInfo$.value[baseToken && baseToken.address.toLowerCase()]
-    // const borrowingInterestAPR = borrowingInfo
-    //   && new BigNumber(borrowingInfo.borrowingInterest)
-    //     .multipliedBy(this.bloc.leverage$.value - 1)
-    //     .toNumber()
-
-    const totalAPR = new BigNumber(yieldFarmingAPR)
-      .plus(tradingFeeAPR)
-      .plus(klevaRewardsAPR) // klevaRewards
-      .minus(borrowingInterestAPR) // borrowingInterest
+    const before_totalAPR = new BigNumber(yieldFarmingAPRBefore)
+      .plus(tradingFeeAPRBefore)
+      .plus(klevaRewardsAPRBefore) // klevaRewards
+      .minus(borrowingInterestAPRBefore) // borrowingInterest
       .toNumber()
 
-    const totalAPRAfter = new BigNumber(totalAPR)
-      .multipliedBy(this.bloc.leverage$.value)
+    const before_debtRatio = new BigNumber(this.bloc.debtValue$.value)
+      .div(this.bloc.positionValue$.value)
+      .multipliedBy(100)
       .toNumber()
 
-    // const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
-    //   .div(10 ** baseToken.decimals)
-    //   .toNumber()
+    const before_safetyBuffer = new BigNumber(this.bloc.liquidationThreshold$.value)
+      .minus(before_debtRatio)
+      .toNumber()
 
-    // const farmingTokenAmountInBaseToken = this.bloc.farmingTokenAmountInBaseToken$.value
+    const after_debtRatio = new BigNumber(this.bloc.newDebtValue$.value)
+      .div(this.bloc.newPositionValue$.value)
+      .multipliedBy(100)
+      .toNumber()
+
+    const after_safetyBuffer = new BigNumber(this.bloc.liquidationThreshold$.value)
+      .minus(after_debtRatio)
+      .toNumber()
+
+    const after_yieldFarmingAPR = new BigNumber(yieldFarmingAPRBefore)
+      .multipliedBy(finalLeverageValue)
+      .div(this.bloc.currentPositionLeverage$.value)
+      .toNumber()
+    
+    const after_tradingFeeAPR = new BigNumber(tradingFeeAPRBefore)
+      .multipliedBy(finalLeverageValue)
+      .div(this.bloc.currentPositionLeverage$.value)
+      .toNumber()
+
+    const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(finalLeverageValue)
+
+    const after_borrowingInterestAPR = new BigNumber(borrowingInterestAPRBefore)
+      .multipliedBy(finalLeverageValue - 1)
+      .div(this.bloc.currentPositionLeverage$.value - 1)
+      .toNumber()
+
+    const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
+      .plus(after_tradingFeeAPR)
+      .plus(after_klevaRewardsAPR) // klevaRewards
+      .minus(after_borrowingInterestAPR) // borrowingInterest
+      .toNumber()
 
     return (
       <Modal className="AdjustPositionPopup__modal" title={title}>
         {this.bloc.showAPRDetail$.value && (
           <APRAPYDetailed
             showDetail$={this.bloc.showAPRDetail$}
-            totalAPRBefore={totalAPR}
-            totalAPRAfter={totalAPRAfter}
+            
+            totalAPRBefore={before_totalAPR}
+            totalAPRAfter={after_totalAPR}
 
-            yieldFarmingBefore={yieldFarmingAPR}
-            yieldFarmingAfter={
-              new BigNumber(yieldFarmingAPR)
-                .multipliedBy(this.bloc.leverage$.value)
-                .toNumber()
-            }
+            yieldFarmingBefore={yieldFarmingAPRBefore}
+            yieldFarmingAfter={after_yieldFarmingAPR}
 
-            tradingFeeBefore={tradingFeeAPR}
-            tradingFeeAfter={
-              new BigNumber(tradingFeeAPR)
-                .multipliedBy(this.bloc.leverage$.value)
-                .toNumber()
-            }
+            tradingFeeBefore={tradingFeeAPRBefore}
+            tradingFeeAfter={after_tradingFeeAPR}
+            
+            klevaRewardsAPRBefore={klevaRewardsAPRBefore}
+            klevaRewardsAPRAfter={after_klevaRewardsAPR}
 
-            klevaRewardAPR={klevaRewardsAPR}
-
-            borrowingInterestAPR={borrowingInterestAPR}
+            borrowingInterestAPRBefore={borrowingInterestAPRBefore}
+            borrowingInterestAPRAfter={after_borrowingInterestAPR}
           />
         )}
         <div className="AdjustPositionPopup">
           <div className="AdjustPositionPopup__content">
             <APRAPYBrief
-              totalAPRBefore={totalAPR}
-              totalAPRAfter={totalAPRAfter}
+              totalAPRBefore={before_totalAPR}
+              totalAPRAfter={after_totalAPR}
               showDetail$={this.bloc.showAPRDetail$}
             />
-            <div className="AdjustPositionPopup__controller">
-              <SupplyingAssets
-                title="Adding Collateral"
-                balances={balancesInWallet$.value}
+            <AdjustPositionPopupOptionSwitcher
+              baseToken={baseToken}
+              borrowMore$={this.bloc.borrowMore$}
+            >
+              <div className="AdjustPositionPopup__controller">
+                {!this.bloc.borrowMore$.value
+                  ? (
+                    <SupplyingAssets
+                      title="Adding Collateral"
+                      balances={balancesInWallet$.value}
 
-                farmingToken={farmingToken}
-                baseToken={baseToken}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
 
-                farmingTokenAmount$={this.bloc.farmingTokenAmount$}
-                baseTokenAmount$={this.bloc.baseTokenAmount$}
-              />
-              <BorrowMore
-                equityValue={this.bloc.equityValue$.value}
-                debtValue={this.bloc.debtValue$.value}
-                borrowingAsset={baseToken}
-                leverageCap={leverageCap}
-                borrowMore$={this.bloc.borrowMore$}
-                leverage$={this.bloc.leverage$}
-              />
-            </div>
+                      farmingTokenAmount$={this.bloc.farmingTokenAmount$}
+                      baseTokenAmount$={this.bloc.baseTokenAmount$}
+                    />
+                  )
+                  : (
+                    <BorrowMore
+                      equityValue={this.bloc.equityValue$.value}
+                      debtValue={this.bloc.debtValue$.value}
+                      borrowingAsset={baseToken}
+                      leverageCap={leverageCap}
+                      borrowMore$={this.bloc.borrowMore$}
+                      leverage$={this.bloc.leverage$}
+                    />
+                  )}
+              </div>
+            </AdjustPositionPopupOptionSwitcher>
           </div>
           <Checkbox
             className="AdjustPositionPopup__summaryCheckbox"
@@ -394,11 +593,32 @@ class AdjustPositionPopup extends Component {
         </div>
         {this.bloc.showSummary$.value && (
           <AdjustPositionPopupSummary
+            borrowMore={this.bloc.borrowMore$.value}
             showDetail$={this.bloc.showSummary$}
             baseToken={baseToken}
             farmingToken={farmingToken}
+            
             debtValueBefore={this.bloc.debtValue$.value}
             amountToBeBorrowed={this.bloc.amountToBeBorrowed$.value}
+
+            yieldFarmingBefore={yieldFarmingAPRBefore}
+            yieldFarmingAfter={after_yieldFarmingAPR}
+
+            safetyBufferBefore={before_safetyBuffer}
+            safetyBufferAfter={after_safetyBuffer}
+
+            userFarmingTokenBefore={this.bloc.before_userFarmingTokenAmount$.value}
+            userBaseTokenBefore={this.bloc.before_userBaseTokenAmount$.value}
+
+            userFarmingTokenAmountToAdd={this.bloc.farmingTokenAmount$.value}
+            userBaseTokenAmountToAdd={this.bloc.baseTokenAmount$.value}
+
+            newDebtValue={this.bloc.newDebtValue$.value}
+
+            priceImpact={this.bloc.priceImpact$.value}
+
+            finalPositionIngredientBaseTokenAmount={this.bloc.finalPositionIngredientBaseTokenAmount$.value}
+            finalPositionIngredientFarmingTokenAmount={this.bloc.finalPositionIngredientFarmingTokenAmount$.value}
           />
         )}
       </Modal>

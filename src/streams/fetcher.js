@@ -50,7 +50,10 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
     allowancesInLendingPool$.next(allowancesInLendingPool)
     allowancesInStakingPool$.next(allowancesInStakingPool)
 
-    pendingGT$.next(pendingGT)
+    pendingGT$.next({
+      ...pendingGT$.value,
+      ...pendingGT,
+    })
     // depositedAt$.next(depositedAt)
   }),
   retryWhen((errors) => {

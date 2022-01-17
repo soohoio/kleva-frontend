@@ -5,7 +5,7 @@ import { farmPool, farmPoolByWorker } from '../constants/farmpool'
 
 export const ITEM_PER_PAGE = 5
 
-export const GRAPH_NODE_URL = "http://13.213.38.24:8000/subgraphs/name/kleva2"
+export const GRAPH_NODE_URL = "http://13.229.40.166:8000/subgraphs/name/kleva2"
 
 export const getUserPositionSummary$ = (owner) => {
   return from(

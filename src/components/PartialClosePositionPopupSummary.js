@@ -1,51 +1,110 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
+import BigNumber from 'bignumber.js'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
-import './APRAPYDetailed.scss'
+import './PartialClosePositionPopupSummary.scss'
 
 import FarmSummaryItem from './FarmSummaryItem'
 import DetailedHideable from './DetailedHideable'
 import BeforeAfter from './BeforeAfter'
 import { nFormatter } from '../utils/misc'
 import { toAPY } from '../utils/calc'
+import { getOutputTokenAmount$ } from '../streams/contract'
 
-class APRAPYDetailed extends Component {
+class PartialClosePositionPopupSummary extends Component {
   destroy$ = new Subject()
-  
+
   componentDidMount() {
-    
+
   }
-  
+
   componentWillUnmount() {
     this.destroy$.next(true)
   }
-    
+
   render() {
-    const { 
-      totalAPRBefore, 
-      totalAPRAfter,
-      
+    const {
+      farmingToken,
+      baseToken,
+
       yieldFarmingBefore,
       yieldFarmingAfter,
-      
-      tradingFeeBefore,
-      tradingFeeAfter,
-      
+
+      tradingFeeAPRBefore,
+      tradingFeeAPRAfter,
+
       klevaRewardsAPRBefore,
       klevaRewardsAPRAfter,
 
       borrowingInterestAPRBefore,
       borrowingInterestAPRAfter,
 
-      showDetail$,
+      totalAPRBefore,
+      totalAPRAfter,
+
+      userFarmingTokenBefore,
+      userBaseTokenBefore,
+
+      finalPositionIngredientBaseTokenAmount,
+      finalPositionIngredientFarmingTokenAmount,
+
+      debtValueBefore,
+      debtValutAfter,
+
+      debtRatioBefore,
+      debtRatioAfter,
+
+      safetyBufferBefore,
+      safetyBufferAfter,
     } = this.props
 
     return (
-      <DetailedHideable title="Detailed APR/APY" showDetail$={showDetail$} className="APRAPYDetailed">
+      <DetailedHideable
+        title="Details"
+        className={cx("PartialClosePositionPopupSummary")}
+        alwaysShow
+      >
         <FarmSummaryItem
-          className="APRAPYDetailed__apy"
+          left="Updated Position Value Assets"
+          right={(
+            <BeforeAfter
+              before={`${nFormatter(userFarmingTokenBefore, 4)} ${farmingToken.title} + ${nFormatter(userBaseTokenBefore, 4)} ${baseToken.title}`}
+              after={`${nFormatter(finalPositionIngredientFarmingTokenAmount, 4)} ${farmingToken.title} + ${nFormatter(finalPositionIngredientBaseTokenAmount, 4)} ${baseToken.title}`}
+            />
+          )}
+        />
+        <hr className="PartialClosePositionPopupSummary__hr" />
+        <FarmSummaryItem
+          left="Updated Debt Value"
+          right={(
+            <BeforeAfter
+              before={`${nFormatter(debtValueBefore, 4)}`}
+              after={`${nFormatter(debtValutAfter, 4)}`}
+            />
+          )}
+        />
+        <FarmSummaryItem
+          left="Updated Debt Ratio"
+          leftSub="Leverage"
+          right={(
+            <BeforeAfter
+              before={`${nFormatter(debtRatioBefore, 2)}%`}
+              after={`${nFormatter(debtRatioAfter, 2)}%`}
+            />
+          )}
+        />
+        <FarmSummaryItem
+          left="Updated Safety Buffer"
+          right={(
+            <BeforeAfter
+              before={`${nFormatter(safetyBufferBefore, 2)}%`}
+              after={`${nFormatter(safetyBufferAfter, 2)}%`}
+            />
+          )}
+        />
+        <FarmSummaryItem
           left="Total APY"
           right={(
             <BeforeAfter
@@ -55,8 +114,7 @@ class APRAPYDetailed extends Component {
           )}
         />
         <FarmSummaryItem
-          className="APRAPYDetailed__apy"
-          left="Total APY"
+          left="Total APR"
           right={(
             <BeforeAfter
               before={`${nFormatter(totalAPRBefore, 2)}%`}
@@ -80,8 +138,8 @@ class APRAPYDetailed extends Component {
             left="Trading Fees APR"
             right={(
               <BeforeAfter
-                before={`${nFormatter(tradingFeeBefore, 2)}%`}
-                after={`${nFormatter(tradingFeeAfter, 2)}%`}
+                before={`${nFormatter(tradingFeeAPRBefore, 2)}%`}
+                after={`${nFormatter(tradingFeeAPRAfter, 2)}%`}
               />
             )}
           />
@@ -111,4 +169,4 @@ class APRAPYDetailed extends Component {
   }
 }
 
-export default APRAPYDetailed
+export default PartialClosePositionPopupSummary

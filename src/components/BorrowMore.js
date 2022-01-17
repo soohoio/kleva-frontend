@@ -21,7 +21,6 @@ class BorrowMore extends Component {
     
   render() {
     const { 
-      borrowMore$, 
       borrowingAsset, 
       leverage$, 
       leverageCap,
@@ -36,25 +35,19 @@ class BorrowMore extends Component {
 
     return (
       <div className="BorrowMore">
-        <div className="BorrowMore__header">
-          <Checkbox
-            checked$={borrowMore$}
-            label="Borrow More" 
-          />
+        {/* <div className="BorrowMore__header">
           <div className="BorrowMore__assetInfo">
             <img className="BorrowMore__assetIcon" src={borrowingAsset.iconSrc} />
             <span className="BorrowMore__assetTitle">{borrowingAsset.title}</span>
           </div>
-        </div>
-        {!!borrowMore$.value && (
-          <LeverageGauge
-            leverageMin={currentPositionLeverage}
-            title="Target Position Leverage"
-            description={`Current Position Leverage ${currentPositionLeverage}x`}
-            leverage$={leverage$}
-            leverageCap={leverageCap}
-          />
-        )}
+        </div> */}
+        <LeverageGauge
+          leverageMin={currentPositionLeverage}
+          title="Target Position Leverage"
+          description={`Current Position Leverage ${currentPositionLeverage}x`}
+          leverage$={leverage$}
+          leverageCap={leverageCap}
+        />
       </div>
     )
   }

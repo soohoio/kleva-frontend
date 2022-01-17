@@ -1,0 +1,53 @@
+.EarnedPopup {
+  width: 700px !important;
+}
+
+.EarnedItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 16px;
+  padding-top: 16px;
+
+  &:last-of-type {
+    border: 0;
+  }
+}
+
+.EarnedItem__icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+.EarnedItem__left {
+  @include font-style('font-1', 'm', 13px);
+  color: #131414;
+  display: flex;
+  align-items: center;
+}
+
+.EarnedItem__right {
+  display: flex;
+  align-items: center;
+  
+  @include font-style('font-1', 'm', 13px);
+  color: #131414;
+
+  strong {
+    @include font-style('font-1', 'b', 15px);
+    color: #3369ff;
+    margin-right: 6px; 
+  }
+}
+
+.EarnedItem__claimButton {
+  @include button-1(28px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 72px;
+  margin-left: 20px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+}

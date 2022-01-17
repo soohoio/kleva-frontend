@@ -1,16 +1,15 @@
-.AdjustPositionPopupSummary {
+.PartialClosePositionPopupSummary {
   position: absolute;
   bottom: 0;
   // right: -50%;
   background-color: white;
 
-  right: -372px;
+  right: -412px;
 
-  &--borrowMore {
-    bottom: -66px;
-  }
+  width: 400px !important;
 }
-.AdjustPositionPopupSummary__hr {
+
+.PartialClosePositionPopupSummary__hr {
   border: 0;
   border-bottom: 1px solid #e6e6e6;
   margin: 24px 0;

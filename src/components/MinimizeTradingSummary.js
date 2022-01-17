@@ -71,10 +71,6 @@ class MinimizeTradingSummary extends Component {
   componentWillUnMount() {
     this.destroy$.next(true)
   }
-
-  getAmountToTrade = () => {
-
-  }
     
   render() {
     const {

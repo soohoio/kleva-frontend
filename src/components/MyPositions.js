@@ -7,11 +7,14 @@ import PositionList from 'components/PositionList'
 import FarmList from './FarmList'
 
 import './MyPositions.scss'
-import { logout$, selectedAddress$ } from '../streams/wallet'
+import { logout$, pendingGT$, selectedAddress$ } from '../streams/wallet'
 import { getKilledPositions$, getPositions$, getUserPositionSummary$, ITEM_PER_PAGE } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
 import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$, userPositionSummary$ } from '../streams/farming'
 import Pagination from './Pagination'
+import { debtTokens, tokenList } from '../constants/tokens'
+import { openModal$ } from '../streams/ui'
+import EarnedPopup from './EarnedPopup'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
@@ -22,6 +25,7 @@ class MyPositions extends Component {
 
   componentDidMount() {
     merge(
+      pendingGT$,
       selectedAddress$.pipe(
         filter((a) => !!a),
         switchMap(() => {
@@ -80,7 +84,14 @@ class MyPositions extends Component {
   render() {
     const view = this.view$.value
 
-    const earned = 3384471.89
+    const earned = Object.values(debtTokens).reduce((acc, cur) => {
+
+      const pendingAmount = new BigNumber(pendingGT$.value[cur.pid])
+        .div(10 ** (tokenList && tokenList["KLEVA"].decimals))
+        .toNumber()
+
+      return new BigNumber(acc).plus(pendingAmount).toNumber()
+    }, new BigNumber(0))
     
     const totalItemCount = view === 'active' 
       ? userPositionSummary$.value && userPositionSummary$.value.livePositionCount
@@ -124,7 +135,7 @@ class MyPositions extends Component {
                 <span className="MyPositions__KlevaEarnedValue">{Number(earned).toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>
                 <span className="MyPositions__KlevaEarnedLabel">KLEVA Earned</span>
               </div>
-              <button className="MyPositions__KleaveEarnedEarnButton">
+              <button onClick={() => openModal$.next({ component: <EarnedPopup />})} className="MyPositions__KleaveEarnedEarnButton">
                 Claim
               </button>
             </div>

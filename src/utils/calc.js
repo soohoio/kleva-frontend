@@ -34,29 +34,28 @@ export const getEachTokenBasedOnLPShare = ({
     .div(poolInfo && poolInfo.supply)
     .toNumber()
 
-  const userFarmingTokenAmount = poolInfo.tokenA.toLowerCase() === farmingToken.address.toLowerCase()
+  const userFarmingTokenAmountPure = (poolInfo && poolInfo.tokenA && poolInfo.tokenA.toLowerCase()) === farmingToken.address.toLowerCase()
     ? new BigNumber(poolInfo.amountA)
       .multipliedBy(lpPortion)
-      .div(10 ** farmingToken.decimals)
       .toNumber()
     : new BigNumber(poolInfo.amountB)
       .multipliedBy(lpPortion)
-      .div(10 ** farmingToken.decimals)
       .toNumber()
 
-  const userBaseTokenAmount = poolInfo.tokenA.toLowerCase() === baseToken.address.toLowerCase()
+  const userBaseTokenAmountPure = (poolInfo && poolInfo.tokenA && poolInfo.tokenA.toLowerCase()) === baseToken.address.toLowerCase()
     ? new BigNumber(poolInfo.amountA)
       .multipliedBy(lpPortion)
-      .div(10 ** baseToken.decimals)
       .toNumber()
     : new BigNumber(poolInfo.amountB)
       .multipliedBy(lpPortion)
-      .div(10 ** baseToken.decimals)
       .toNumber()
 
     return {
-      userFarmingTokenAmount,
-      userBaseTokenAmount,
+      userFarmingTokenAmount: new BigNumber(userFarmingTokenAmountPure).div(10 ** farmingToken.decimals).toNumber(),
+      userBaseTokenAmount: new BigNumber(userBaseTokenAmountPure).div(10 ** baseToken.decimals).toNumber(),
+
+      userFarmingTokenAmountPure,
+      userBaseTokenAmountPure,
     }
 }
 

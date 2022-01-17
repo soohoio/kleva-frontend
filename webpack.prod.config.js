@@ -19,6 +19,9 @@ const envPath = ENV_DIR + `${process.env.NODE_ENV}`.toLowerCase() + '.env'
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty',
+  },
   entry: [
     'whatwg-fetch',
     '@babel/polyfill',

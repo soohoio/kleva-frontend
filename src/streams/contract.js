@@ -666,6 +666,27 @@ export const getPendingGTInFairlaunchPool$ = (fairLaunchPoolList, account) => {
   )
 }
 
+export const getPendingGTInDebtTokenPool$ = (debtTokenList, account) => {
+  const callName = 'calcPendingReward'
+
+  const p1 = multicall(
+    FairLaunchABI,
+    debtTokenList.map(({ pid }) => {
+      return { address: FAIRLAUNCH, name: callName, params: [pid, account] }
+    })
+  )
+
+  return from(p1).pipe(
+    map((pendingGTList) => {
+      return showParamsOnCall(pendingGTList, ['pendingReward']).reduce((acc, cur, idx) => {
+        const _debtTokenPool = debtTokenList[idx]
+        acc[_debtTokenPool.pid] = new BigNumber(cur.pendingReward).toString()
+        return acc
+      }, {})
+    })
+  )
+}
+
 export const allowancesMultiInLendingPool$ = (account, lendingPools) => {
 
   const p1 = multicall(
@@ -829,33 +850,41 @@ export const getOutputTokenAmount$ = (inputToken, outputToken, inputTokenAmount)
     getOutputAmount$(lpTokenAddress, inputToken && inputToken.address, inputTokenAmount),
   ).pipe(
     map(([currentPool, outputAmount]) => {
-      const outputAmountA = new BigNumber(currentPool.outputAmountA)
-        .div(10 ** tokenA.decimals)
+
+      const reserveA = new BigNumber(currentPool.outputAmountA)
+        // .div(10 ** tokenA.decimals)
         .toNumber()
       
-      const outputAmountB = new BigNumber(currentPool.outputAmountB)
-        .div(10 ** tokenB.decimals)
+      const reserveB = new BigNumber(currentPool.outputAmountB)
+        // .div(10 ** tokenB.decimals)
         .toNumber()
 
+      const priceImpact = inputToken.address.toLowerCase() == tokenA.address.toLowerCase()
+        ? new BigNumber(inputTokenAmount)
+          .div(new BigNumber(reserveA).plus(inputTokenAmount))
+          .toString()
+        : new BigNumber(inputTokenAmount)
+          .div(new BigNumber(reserveB).plus(inputTokenAmount))
+          .toString()
+        
+      // const originalRatio = inputToken.address.toLowerCase() == tokenA.address.toLowerCase() 
+      //   ? new BigNumber(reserveB)
+      //     .div(reserveA)
+      //     .toNumber() // InputToken == Token A
+      //   : new BigNumber(reserveA)
+      //     .div(reserveB)
+      //     .toNumber() // InputToken == Token B
 
-      const originalRatio = inputToken.address.toLowerCase() == tokenA.address.toLowerCase() 
-        ? new BigNumber(outputAmountB)
-          .div(outputAmountA)
-          .toNumber() // InputToken == Token A
-        : new BigNumber(outputAmountA)
-          .div(outputAmountB)
-          .toNumber() // InputToken == Token B
+      // const optimalOutputAmount = new BigNumber(inputTokenAmount)
+      //   .div(10 ** inputToken.decimals)
+      //   .multipliedBy(originalRatio)
+      //   .toNumber()
 
-      const optimalOutputAmount = new BigNumber(inputTokenAmount)
-        .div(10 ** inputToken.decimals)
-        .multipliedBy(originalRatio)
-        .toNumber()
+      // const realOutputAmount = new BigNumber(outputAmount)
+      //   .div(10 ** outputToken.decimals)
+      //   .toNumber()
 
-      const realOutputAmount = new BigNumber(outputAmount)
-        .div(10 ** outputToken.decimals)
-        .toNumber()
-
-      const priceImpact = 1 - (optimalOutputAmount / realOutputAmount)
+      // const priceImpact = 1 - (optimalOutputAmount / realOutputAmount)
 
       return { 
         outputAmount, 

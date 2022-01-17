@@ -29,7 +29,6 @@ export default class {
     this.vaultAddress = vaultAddress
     this.farmingToken = farmingToken
     this.baseToken = baseToken
-
     this.workerInfo = workerInfo
     
     this.farmingTokenAmount$ = new BehaviorSubject('')
@@ -42,10 +41,26 @@ export default class {
     this.positionValue$ = new BehaviorSubject()
     this.equityValue$ = new BehaviorSubject()
     this.debtValue$ = new BehaviorSubject()
+    
+    this.newPositionValue$ = new BehaviorSubject()
+    this.newEquityValue$ = new BehaviorSubject()
+    this.newDebtValue$ = new BehaviorSubject()
 
     this.currentPositionLeverage$ = new BehaviorSubject()
+    this.liquidationThreshold$ = new BehaviorSubject()
+    this.lpShare$ = new BehaviorSubject()
+    this.lpToken$ = new BehaviorSubject()
+
+    this.before_userFarmingTokenAmount$ = new BehaviorSubject()
+    this.before_userBaseTokenAmount$ = new BehaviorSubject()
+
+    this.finalPositionIngredientBaseTokenAmount$ = new BehaviorSubject()
+    this.finalPositionIngredientFarmingTokenAmount$ = new BehaviorSubject()
     
+    // For Borrow More
     this.leverage$ = new BehaviorSubject()
+
+    this.finalCalculatedLeverage$ = new BehaviorSubject()
 
     this.fetchAllowances$ = new Subject()
 
@@ -53,10 +68,14 @@ export default class {
     this.borrowMoreAvailable$ = new BehaviorSubject()
     this.amountToBeBorrowed$ = new BehaviorSubject()
 
+    this.priceImpact$ = new BehaviorSubject()
+
     // UI
     this.afterPositionValue$ = new BehaviorSubject()
     this.showAPRDetail$ = new BehaviorSubject()
     this.showSummary$ = new BehaviorSubject()
+    // 'addCollateral', 'borrowMore'
+    this.selectedOption$ = new BehaviorSubject('addCollateral')
   }
 
   getStrategy = () => {
@@ -150,7 +169,7 @@ export default class {
     //   .multipliedBy(10 ** this.baseToken.decimals)
     //   .toFixed(0)
 
-    const amountToBeBorrowed = new BigNumber(this.amountToBeBorrowed$.value).toString()
+    const amountToBeBorrowed = new BigNumber(this.amountToBeBorrowed$.value).toFixed(0)
 
     const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
     

@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js'
 import { STRATEGIES } from '../constants/address'
 import { caver, convertToBaseToken$, getTransactionReceipt$, minimizeTrading$, partialCloseLiquidate$, partialMinimizeTrading$ } from '../streams/contract'
 import { fetchWalletInfo$ } from '../streams/wallet'
+import { closeModal$ } from '../streams/ui'
 
 export default class {
   constructor({ 
@@ -29,6 +30,12 @@ export default class {
     this.positionValue$ = new BehaviorSubject()
     this.equityValue$ = new BehaviorSubject()
     this.debtValue$ = new BehaviorSubject()
+    
+    this.newPositionValue$ = new BehaviorSubject()
+    this.newDebtValue$ = new BehaviorSubject()
+    this.liquidationThreshold$ = new BehaviorSubject()
+    this.currentPositionLeverage$ = new BehaviorSubject()
+    this.finalCalculatedLeverage$ = new BehaviorSubject()
 
     // Based on lp share / lp total supply
     this.lpToken$ = new BehaviorSubject()
@@ -36,23 +43,50 @@ export default class {
     this.userFarmingTokenAmount$ = new BehaviorSubject()
     this.userBaseTokenAmount$ = new BehaviorSubject()
 
+    this.newUserFarmingTokenAmount$ = new BehaviorSubject()
+    this.newUserBaseTokenAmount$ = new BehaviorSubject()
+
     this.health$ = new BehaviorSubject()
     
     this.closingMethod$ = new BehaviorSubject('convertToBaseToken')
 
+    this.entirelyClose$ = new BehaviorSubject(true)
+    this.partialCloseAvailable$ = new BehaviorSubject(false)
+    
     // Partial
     this.partialCloseRatio$ = new BehaviorSubject(0)
     this.repayDebtRatio$ = new BehaviorSubject(0)
+
+    this.priceImpact$ = new BehaviorSubject()
+    this.amountToTrade$ = new BehaviorSubject()
   }
 
   closePosition = () => {
+
+    // Entire Close
+    if (this.entirelyClose$.value) {
+      if (this.closingMethod$.value === "convertToBaseToken") {
+        this.convertToBaseToken()
+        return
+      }
+  
+      if (this.closingMethod$.value === "minimizeTrading") {
+        this.minimizeTrading()
+        return
+      }
+    }
+
+    // Partial Close
     if (this.closingMethod$.value === "convertToBaseToken") {
-      this.convertToBaseToken()
+      console.log("partialConvertToBaseToken")
+      this.partialConvertToBaseToken()
       return
     }
 
     if (this.closingMethod$.value === "minimizeTrading") {
-      this.minimizeTrading()
+      console.log("partialMinimizeTrading")
+      this.partialMinimizeTrading()
+      return
     }
   }
 
@@ -97,13 +131,13 @@ export default class {
 
   partialConvertToBaseToken = () => {
     const strategyAddress = STRATEGIES["PARTIAL_LIQUIDATE_STRATEGY"]
-    // @TODO
+
     const MAX_LP_TOKEN_TO_LIQUIDATE = new BigNumber(this.lpShare$.value)
-      .multipliedBy(this.partialCloseRatio$.value)
+      .multipliedBy(this.partialCloseRatio$.value / 100)
       .toFixed(0)
 
     const MAX_DEBT_REPAYMENT = new BigNumber(MAX_LP_TOKEN_TO_LIQUIDATE)
-      .multipliedBy(this.repayDebtRatio$)
+      .multipliedBy(this.repayDebtRatio$.value / 100)
       .toFixed(0)
 
     const MIN_BASE_TOKEN_AMOUNT = 0
@@ -130,11 +164,11 @@ export default class {
     const strategyAddress = STRATEGIES["PARTIAL_MINIMIZE_TRADING_STRATEGY"]
     // @TODO
     const MAX_LP_TOKEN_TO_LIQUIDATE = new BigNumber(this.lpShare$.value)
-      .multipliedBy(this.partialCloseRatio$.value)
+      .multipliedBy(this.partialCloseRatio$.value / 100)
       .toFixed(0)
 
     const MAX_DEBT_REPAYMENT = new BigNumber(MAX_LP_TOKEN_TO_LIQUIDATE)
-      .multipliedBy(this.repayDebtRatio$)
+      .multipliedBy(this.repayDebtRatio$.value / 100)
       .toFixed(0)
 
     const MIN_FARMING_TOKEN_AMOUNT = 0
@@ -155,6 +189,7 @@ export default class {
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
+      closeModal$.next(true)
     })
   }
 }

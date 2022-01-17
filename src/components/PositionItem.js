@@ -44,10 +44,8 @@ class PositionItem extends Component {
     return currentPositionLeverage
   }
 
-  getDebtTokenKlevaRewardsAPR = () => {
+  getDebtTokenKlevaRewardsAPR = (leverageValue) => {
     const { baseToken, klevaAnnualRewards, tokenPrices, lendingTokenSupplyInfo } = this.props
-
-    const leverageValue = this.getCurrentLeverageValue()
 
     const ibToken = getIbTokenFromOriginalToken(baseToken)
     const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
@@ -128,33 +126,33 @@ class PositionItem extends Component {
     const leverageCap = 10000 / (10000 - Number(workFactorBps))
 
     // APR
-    const yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.kspMiningAPR || 0)
-      .plus(aprInfo.airdropAPR || 0)
-      .toNumber()
-
-    const tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
-      .toNumber()
-
     const currentPositionLeverage = this.getCurrentLeverageValue()
 
-    // Yield Farming APR
-    const leveragedYieldFarmingAPR = new BigNumber(yieldFarmingAPR)
+    // const yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.kspMiningAPR || 0)
+    //   .plus(aprInfo.airdropAPR || 0)
+    //   .toNumber()
+
+    // APR Before
+    const before_yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.kspMiningAPR || 0)
+      .plus(aprInfo.airdropAPR || 0)
       .multipliedBy(currentPositionLeverage)
       .toNumber()
 
-    // KLEVA Rewards APR
-    const klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
+    const before_tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
+      .multipliedBy(currentPositionLeverage)
+      .toNumber()
 
-    // Borrow Interest
-    const borrowingInterestAPR = new BigNumber(this.getBorrowingInterestAPR())
+    const before_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(currentPositionLeverage)
+
+    const before_borrowingInterestAPR = new BigNumber(this.getBorrowingInterestAPR())
       .multipliedBy(currentPositionLeverage - 1)
       .toNumber()
 
-    const apy = new BigNumber(leveragedYieldFarmingAPR)
-      .plus(klevaRewardsAPR)
-      .minus(borrowingInterestAPR)
+    const before_apy = new BigNumber(before_yieldFarmingAPR)
+      .plus(before_tradingFeeAPR)
+      .plus(before_klevaRewardsAPR)
+      .minus(before_borrowingInterestAPR)
       .toNumber()
-
 
     return (
       <div className="PositionItem">
@@ -193,7 +191,7 @@ class PositionItem extends Component {
           <strong>{equityValueParsed}</strong> {baseToken.title}
         </div>
         <div className="PositionItem__apy">
-          <strong>{nFormatter(apy, 2)}</strong>%
+          <strong>{nFormatter(before_apy, 2)}</strong>%
       </div>
         <div className="PositionItem__debtRatio">
           <strong>{debtRatio}</strong>%
@@ -217,12 +215,10 @@ class PositionItem extends Component {
                 workerInfo={workerInfo}
                 leverageCap={leverageCap}
 
-                yieldFarmingAPR={yieldFarmingAPR}
-                tradingFeeAPR={tradingFeeAPR}
-                leveragedYieldFarmingAPR={leveragedYieldFarmingAPR}
-                klevaRewardsAPR={klevaRewardsAPR}
-                borrowingInterestAPR={borrowingInterestAPR}
-                apy={apy}
+                yieldFarmingAPRBefore={before_yieldFarmingAPR}
+                tradingFeeAPRBefore={before_tradingFeeAPR}
+                klevaRewardsAPRBefore={before_klevaRewardsAPR}
+                borrowingInterestAPRBefore={before_borrowingInterestAPR}
               />
             })
 
@@ -240,6 +236,11 @@ class PositionItem extends Component {
                   farmingToken={farmingToken}
                   baseToken={baseToken}
                   workerInfo={workerInfo}
+
+                  yieldFarmingAPRBefore={before_yieldFarmingAPR}
+                  tradingFeeAPRBefore={before_tradingFeeAPR}
+                  klevaRewardsAPRBefore={before_klevaRewardsAPR}
+                  borrowingInterestAPRBefore={before_borrowingInterestAPR}
                 />
               )
             })

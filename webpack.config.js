@@ -14,6 +14,9 @@ const envPath = ENV_DIR + `${process.env.NODE_ENV}`.toLowerCase() + '.env'
 module.exports = {
   devtool: 'source-map',
   mode: 'development',
+  node: {
+    fs: 'empty',
+  },
   entry: [
     'whatwg-fetch',
     '@babel/polyfill',

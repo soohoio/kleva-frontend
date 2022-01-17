@@ -237,22 +237,39 @@ class AddPositionPopup extends Component {
 
     const leverageCap = 10000 / (10000 - workerConfig.workFactorBps)
 
-    const klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
-    
+    // APR Before
+    const before_yieldFarmingAPR = yieldFarmingAPR
+    const before_tradingFeeAPR = tradingFeeAPR
+    const before_klevaRewardsAPR = 0
+    const before_borrowingInterestAPR = 0
+
+    const before_totalAPR = new BigNumber(before_yieldFarmingAPR)
+      .plus(before_tradingFeeAPR)
+      .plus(before_klevaRewardsAPR) // klevaRewards
+      .minus(before_borrowingInterestAPR) // borrowingInterest
+      .toNumber()
+
+    // APR After
+    const after_yieldFarmingAPR = new BigNumber(before_yieldFarmingAPR)
+      .multipliedBy(this.bloc.leverage$.value)
+      .toNumber()
+
+    const after_tradingFeeAPR = new BigNumber(before_tradingFeeAPR)
+      .multipliedBy(this.bloc.leverage$.value)
+      .toNumber()
+
+    const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
+
     const borrowingInfo = lendingTokenSupplyInfo$.value && lendingTokenSupplyInfo$.value[this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()]
-    const borrowingInterestAPR = borrowingInfo 
+    const after_borrowingInterestAPR = borrowingInfo
       && new BigNumber(borrowingInfo.borrowingInterest)
         .multipliedBy(this.bloc.leverage$.value - 1)
         .toNumber()
 
-    const totalAPR = new BigNumber(yieldFarmingAPR)
-      .plus(tradingFeeAPR)
-      .plus(klevaRewardsAPR) // klevaRewards
-      .minus(borrowingInterestAPR) // borrowingInterest
-      .toNumber()
-
-    const totalAPRAfter = new BigNumber(totalAPR)
-      .multipliedBy(this.bloc.leverage$.value)
+    const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
+      .plus(after_tradingFeeAPR)
+      .plus(after_klevaRewardsAPR)
+      .minus(after_borrowingInterestAPR)
       .toNumber()
 
     const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
@@ -261,39 +278,32 @@ class AddPositionPopup extends Component {
 
     const farmingTokenAmountInBaseToken = this.bloc.farmingTokenAmountInBaseToken$.value
 
-
     return (
       <Modal className="AddPositionPopup__modal" title={title}>
         {this.bloc.showAPRDetail$.value && (
           <APRAPYDetailed 
             showDetail$={this.bloc.showAPRDetail$}
-            totalAPRBefore={totalAPR}
-            totalAPRAfter={totalAPRAfter}
+            
+            totalAPRBefore={before_totalAPR}
+            totalAPRAfter={after_totalAPR}
 
-            yieldFarmingBefore={yieldFarmingAPR}
-            yieldFarmingAfter={
-              new BigNumber(yieldFarmingAPR)
-                .multipliedBy(this.bloc.leverage$.value)
-                .toNumber()
-            }
+            yieldFarmingBefore={before_yieldFarmingAPR}
+            yieldFarmingAfter={after_yieldFarmingAPR}
+            tradingFeeBefore={before_tradingFeeAPR}
+            tradingFeeAfter={after_tradingFeeAPR}
 
-            tradingFeeBefore={tradingFeeAPR}
-            tradingFeeAfter={
-              new BigNumber(tradingFeeAPR)
-                .multipliedBy(this.bloc.leverage$.value)
-                .toNumber()
-            }
+            klevaRewardsAPRBefore={before_klevaRewardsAPR}
+            klevaRewardsAPRAfter={after_klevaRewardsAPR}
 
-            klevaRewardAPR={klevaRewardsAPR}
-
-            borrowingInterestAPR={borrowingInterestAPR}
+            borrowingInterestAPRBefore={before_borrowingInterestAPR}
+            borrowingInterestAPRAfter={after_borrowingInterestAPR}
           />
         )}
         <div className="AddPositionPopup">
           <div className="AddPositionPopup__content">
             <APRAPYBrief 
-              totalAPRBefore={totalAPR}
-              totalAPRAfter={totalAPRAfter}
+              totalAPRBefore={before_totalAPR}
+              totalAPRAfter={after_totalAPR}
               showDetail$={this.bloc.showAPRDetail$}
             />
             <div className="AddPositionPopup__controller">

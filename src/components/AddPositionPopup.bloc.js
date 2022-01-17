@@ -129,8 +129,12 @@ export default class {
     const baseTokenReserve = poolReserves[this.baseToken$.value.address.toLowerCase()]
     const farmingTokenReserve = poolReserves[this.farmingToken$.value.address.toLowerCase()]
     
-    const baseAmountWithFarmReserve = new BigNumber(this.baseTokenAmount$.value).multipliedBy(farmingTokenReserve)
-    const farmAmountWithBaseReserve = new BigNumber(this.farmingTokenAmount$.value).multipliedBy(baseTokenReserve)
+    const baseAmountWithFarmReserve = new BigNumber(this.baseTokenAmount$.value)
+      .multipliedBy(farmingTokenReserve)
+      .toNumber()
+    const farmAmountWithBaseReserve = new BigNumber(this.farmingTokenAmount$.value)
+      .multipliedBy(baseTokenReserve)
+      .toNumber()
 
     swapFromToken = baseAmountWithFarmReserve >= farmAmountWithBaseReserve 
       ? this.baseToken$.value
@@ -143,6 +147,12 @@ export default class {
     swapFromTokenAmount = baseAmountWithFarmReserve >= farmAmountWithBaseReserve
       ? this.baseTokenAmount$.value
       : this.farmingTokenAmount$.value
+
+    console.log(baseAmountWithFarmReserve, "baseAmountWithFarmReserve")
+    console.log(farmAmountWithBaseReserve, "farmAmountWithBaseReserve")
+    console.log(swapFromToken, 'swapFromToken')
+    console.log(swapToToken, 'swapToToken')
+    console.log(swapFromTokenAmount, 'swapFromTokenAmount')
 
     getOutputTokenAmount$(
       swapFromToken,
@@ -200,8 +210,10 @@ export default class {
     
         // principalAllInBaseToken 
         // == sum(base token amount, convertToBaseTokenAmount(farming token amount))
-        const farmingTokenAmountConvertedInBaseToken = this.farmingTokenAmountInBaseToken$.value || 0
-    
+        const farmingTokenAmountConvertedInBaseToken = new BigNumber(this.farmingTokenAmountInBaseToken$.value || 0)
+          .multipliedBy(10 ** this.baseToken$.value.decimals)
+          .toNumber()
+
         const afterPositionValueInBaseToken = new BigNumber(baseTokenAmount)
           .plus(borrowingAmount)
           .plus(farmingTokenAmountConvertedInBaseToken)
@@ -213,6 +225,7 @@ export default class {
           new BigNumber(afterPositionValueInBaseToken).div(2).toFixed(0),
         ).pipe(
           tap(({ outputAmount }) => {
+
             const afterPositionValue = {
               farmingTokenAmount: new BigNumber(outputAmount)
                 .div(10 ** this.farmingToken$.value.decimals)

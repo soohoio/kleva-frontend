@@ -11,6 +11,7 @@ import DetailedHideable from './DetailedHideable'
 import BeforeAfter from './BeforeAfter'
 import { nFormatter } from '../utils/misc'
 import { toAPY } from '../utils/calc'
+import { getOutputTokenAmount$ } from '../streams/contract'
 
 class AdjustPositionPopupSummary extends Component {
   destroy$ = new Subject()
@@ -35,19 +36,41 @@ class AdjustPositionPopupSummary extends Component {
       afterPositionValue,
       debtValueBefore,
       amountToBeBorrowed,
+
+      yieldFarmingBefore,
+      yieldFarmingAfter,
+
+      safetyBufferBefore,
+      safetyBufferAfter,
+
+      userFarmingTokenBefore,
+      userBaseTokenBefore,
+      userFarmingTokenAmountToAdd,
+      userBaseTokenAmountToAdd,
+
+      newDebtValue,
+
+      finalPositionIngredientBaseTokenAmount,
+      finalPositionIngredientFarmingTokenAmount,
+      borrowMore,
     } = this.props
 
-    
     const amountToBeBorrowedParsed = new BigNumber(amountToBeBorrowed)
-    .div(10 ** baseToken.decimals)
-    .toNumber()
+      .div(10 ** baseToken.decimals)
+      .toNumber()
     
     const debtValueAfter = new BigNumber(debtValueBefore)
-    .plus(amountToBeBorrowedParsed)
-    .toNumber()
-    
+      .plus(amountToBeBorrowedParsed)
+      .toNumber()
+
     return (
-      <DetailedHideable title="Summary" showDetail$={showDetail$} className="AdjustPositionPopupSummary">
+      <DetailedHideable 
+        title="Summary" 
+        showDetail$={showDetail$} 
+        className={cx("AdjustPositionPopupSummary", {
+          "AdjustPositionPopupSummary--borrowMore": borrowMore,
+        })}
+      >
         <FarmSummaryItem
           left="Assets to be Borrowed"
           right={`${nFormatter(amountToBeBorrowedParsed, 4) || 0} ${baseToken.title}`}
@@ -61,38 +84,55 @@ class AdjustPositionPopupSummary extends Component {
             />
           )}
         />
-        {/* <FarmSummaryItem
-          left="Updated Debt Value"
-          right={`${nFormatter(baseTokenAmount, 4) || 0} ${baseToken.title}`}
-        />
         <FarmSummaryItem
           left="Yield Farming"
           leftSub="Leverage"
-          right={`${nFormatter(baseTokenAmount, 4) || 0} ${baseToken.title}`}
+          right={(
+            <BeforeAfter
+              before={`${nFormatter(yieldFarmingBefore, 2)}%`}
+              after={`${nFormatter(yieldFarmingAfter, 2)}%`}
+            />
+          )}
         />
         <FarmSummaryItem
           left="Updated Safety Buffer"
-          right={`${nFormatter(baseTokenAmount, 4) || 0} ${baseToken.title}`}
+          right={(
+            <BeforeAfter 
+              before={`${nFormatter(safetyBufferBefore, 2)}%`}
+              after={`${nFormatter(safetyBufferAfter, 2)}%`}
+            />
+          )}
         />
-        <hr /> */}
-        {/* <FarmSummaryItem
+        <hr className="AdjustPositionPopupSummary__hr" />
+        <FarmSummaryItem
           left="Total Assets Supplied"
           leftSub="Equity Value before Fees"
-          right={`${nFormatter(farmingTokenAmount, 4) || 0} ${farmingToken && farmingToken.title} + ${nFormatter(baseTokenAmount, 4) || 0} ${baseToken.title}`}
+          right={`
+              ${nFormatter(
+              new BigNumber(userFarmingTokenBefore)
+                .plus(userFarmingTokenAmountToAdd || 0)
+                .toNumber(), 6) || 0} ${farmingToken && farmingToken.title} 
+              + 
+              ${nFormatter(new BigNumber(userBaseTokenBefore)
+                  .plus(userBaseTokenAmountToAdd || 0)
+                  .toNumber(), 6) || 0} ${baseToken.title}`
+            }
         />
         <FarmSummaryItem
           left="Total Assets Borrowed"
           leftSub="Debt Value"
-          right={`${nFormatter(borrowingAmount, 4)} ${baseToken && baseToken.title}`}
+          right={`${nFormatter(
+              new BigNumber(newDebtValue).div(10 ** baseToken.decimals).toNumber(), 4)
+            } ${baseToken && baseToken.title}`}
         />
         <FarmSummaryItem
           left="Price Impact & Trading Fees"
-          right={`${priceImpact && Number(priceImpact * 100).toLocaleString('en-us', { maximumFractionDigits: 2 }) || 0}%`}
+          right={`${priceImpact && !isNaN(priceImpact) && Number(priceImpact * 100).toLocaleString('en-us', { maximumFractionDigits: 2 }) || 0}%`}
         />
         <FarmSummaryItem
           left="Total Assets in Position Value"
-          right={`${nFormatter(afterPositionValue && afterPositionValue.farmingTokenAmount || 0, 4)} ${farmingToken.title} + ${nFormatter(afterPositionValue && afterPositionValue.baseTokenAmount || 0, 4)} ${baseToken.title}`}
-        /> */}
+          right={`${nFormatter(finalPositionIngredientFarmingTokenAmount || 0, 6)} ${farmingToken.title} + ${nFormatter(finalPositionIngredientBaseTokenAmount || 0, 6)} ${baseToken.title}`}
+        />
       </DetailedHideable>
     )
   }
