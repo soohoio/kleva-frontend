@@ -8,24 +8,17 @@ export const singleTokens = {
   },
   "WKLAY": {
     title: "WKLAY",
-    address: "0x70c6F26b0134567Cb218aAc9022E209Ed9C0b85f",
+    address: "0xF6F6b8Bd0aC500639148f8ca5a590341A97De0DE",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: 18,
   },
   // TEST
   "KLEVA": {
     title: "KLEVA",
-    address: "0x0b430ad7bf84eb307e221f0e66216205502f835d",
+    address: "0x5fFF3a6C16C2208103F318F4713D4D90601A7313",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: 18,
   },
-  // REAL
-  // "KLEVA": {
-  //   title: "KLEVA",
-  //   address: "0x5fff3a6c16c2208103f318f4713d4d90601a7313",
-  //   iconSrc: "/static/images/tokens/token-KLEVA.svg",
-  //   decimals: 18,
-  // },
   "KUSDT": {
     title: "KUSDT",
     address: "0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167",
@@ -142,29 +135,21 @@ const _lpTokenByIngredients = Object.values(lpTokens).reduce((acc, cur) => {
 }, {})
 
 export const lpTokenByIngredients = (tokenA, tokenB) => {
-  return _lpTokenByIngredients[`${tokenA.address.toLowerCase()}-${tokenB.address.toLowerCase()}`]
+  return _lpTokenByIngredients[`${tokenA && tokenA.address.toLowerCase()}-${tokenB && tokenB.address.toLowerCase()}`]
 }
 
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
-    address: "0xF39787715B743Ab118FD36Cb8a836bC54624e5b8",
+    address: "0xa691c5891D8a98109663d07Bcf3ED8d3edef820A",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: singleTokens["WKLAY"].decimals,
 
     originalToken: singleTokens.KLAY,
   },
-  "ibKLEVA": {
-    title: "ibKLEVA",
-    address: "0x4b1A8c88443f4d7cF35afd0171eAd25AeF338428",
-    iconSrc: "/static/images/tokens/token-KLEVA.svg",
-    decimals: singleTokens["KLEVA"].decimals,
-
-    originalToken: singleTokens.KLEVA,
-  },
   "ibKUSDT": {
     title: "ibKUSDT",
-    address: "0x77a767F6DE81bD85A52FFB2c8e4121f43137aD3F",
+    address: "0xfAeeC9B2623b66BBB3545cA24cFc32A8504fcF1B",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: singleTokens["KUSDT"].decimals,
 
@@ -172,7 +157,7 @@ export const ibTokens = {
   },
   "ibWEMIX": {
     title: "ibWEMIX",
-    address: "0x8DBC74D59aE4d0D0f6a389F0174A1cFFf0C2778f",
+    address: "0xD429914222b7474Ea2C288Ec581D303599EeD137",
     iconSrc: "/static/images/tokens/token-WEMIX.png",
     decimals: singleTokens["WEMIX"].decimals,
 
@@ -180,11 +165,19 @@ export const ibTokens = {
   },
   "ibKDAI": {
     title: "ibKDAI",
-    address: "0x292fa4ab3585E697da21BC274A13dDe85cdDa1d1",
+    address: "0x58770d59238B99Bd75c4298E33c6493eC4F17E2C",
     iconSrc: "/static/images/tokens/token-KDAI.png",
     decimals: singleTokens["KDAI"].decimals,
 
     originalToken: singleTokens.KDAI,
+  },
+  "ibKLEVA": {
+    title: "ibKLEVA",
+    address: "0x7fFc4146B43cD099928a813b2c219Af2e49611E0",
+    iconSrc: "/static/images/tokens/token-KLEVA.svg",
+    decimals: singleTokens["KLEVA"].decimals,
+
+    originalToken: singleTokens.KLEVA,
   },
 }
 
@@ -198,27 +191,32 @@ export const getIbTokenFromOriginalToken = (origialToken) => {
 export const debtTokens = {
   [ibTokens.ibKLAY.address]: {
     pid: 1,
-    address: "0x1EDC9f844FF72f6034C08D1FBD265d0e17BFcd51",
+    title: "KLAY",
+    address: "0xf009bcB2F955B23c846dD0385352085988677DbC",
     decimals: 18,
   },
   [ibTokens.ibKLEVA.address]: {
     pid: 3,
-    address: "0xa07B54031Fdc9Dd22cA635198D71097c6353f559",
+    title: "KLEVA",
+    address: "0x5b23006A210410157783b25d6C029FBceD2a9d45",
     decimals: 18,
   },
   [ibTokens.ibKUSDT.address]: {
     pid: 5,
-    address: "0x9d3F14B57c9D47d8FA076948f8e08CC2b8933042",
+    title: "KUSDT",
+    address: "0xD9757c73997b4587eaBCFaF7FF3449d2568124Af",
     decimals: 18,
   },
   [ibTokens.ibWEMIX.address]: {
     pid: 7,
-    address: "0x1Ff8366eEAF75Cc5c793F1145BA18C2635AfeFe6",
+    title: "WEMIX",
+    address: "0xBc0a901DB4e73C79A5d548672ed8F49132a4595D",
     decimals: 18,
   },
   [ibTokens.ibKDAI.address]: {
     pid: 9,
-    address: "0xB481778883aB56C834cb18D2633803687261E368",
+    title: "KDAI",
+    address: "0xD04895719347Dd120EDce247504f6B9c6262b3fb",
     decimals: 18,
   },
 }

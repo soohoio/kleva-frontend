@@ -8,29 +8,29 @@ export const stakingPools = [
     stakingToken: tokenList.ibKLAY,
     stakingTokenInternal: tokenList.WKLAY,
   },
-  // {
-  //   title: "ibKLEVA",
-  //   vaultAddress: tokenList.ibKLEVA.address,
-  //   pid: 2,
-  //   stakingToken: tokenList.ibKLEVA,
-  // },
   {
     title: "ibKUSDT",
     vaultAddress: tokenList.ibKUSDT.address,
-    pid: 4,
+    pid: 2,
     stakingToken: tokenList.ibKUSDT,
   },
   {
     title: "ibWEMIX",
     vaultAddress: tokenList.ibWEMIX.address,
-    pid: 6,
+    pid: 4,
     stakingToken: tokenList.ibWEMIX,
   },
   {
     title: "ibKDAI",
     vaultAddress: tokenList.ibKDAI.address,
-    pid: 8,
+    pid: 6,
     stakingToken: tokenList.ibKDAI,
+  },
+  {
+    title: "ibKLEVA",
+    vaultAddress: tokenList.ibKLEVA.address,
+    pid: 8,
+    stakingToken: tokenList.ibKLEVA,
   },
 ]
 
