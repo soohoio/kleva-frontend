@@ -1,11 +1,11 @@
 .BorrowingAssets {
 
-  .Dropdown {
+  .Opener {
     @include not-draggable;
     margin-bottom: 0;
   }
   
-  .Dropdown__item {
+  .Opener__item {
     height: 44px;
     margin-left: 0;
 
@@ -17,17 +17,17 @@
     }
   }
 
-  .Dropdown__searchWrapper {
+  .Opener__searchContainer {
     display: none;
   }
 
-  .Dropdown__list {
+  .Opener__list {
     top: 120%;
     left: unset;
     transform: unset;
     right: 0;
 
-    .Dropdown__item {
+    .Opener__item {
       margin: 0;
       background-color: #ffffff !important;
     }

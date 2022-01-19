@@ -26,7 +26,7 @@ import {
   calcUnlockableAmount$
 } from './streams/contract'
 
-import Overlay from 'components/Overlay'
+import CoverLayer from 'components/CoverLayer'
 // import Toast from 'components/Toast'
 
 import './App.scss'
@@ -45,6 +45,7 @@ import { getAmountOut, calcBestPathToKLAY } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
 import LockedKLEVAPopup from './components/LockedKLEVAPopup'
+import LaunchDelay from './components/LaunchDelay'
 
 type Props = {
   isLoading: boolean,
@@ -69,6 +70,14 @@ class App extends Component<Props> {
     // Connect Kaikas Wallet
     // connectInjected()
     // connectInjected('metamask')
+
+    const isInLaunchDelay = new Date().getTime() < 1642587600000
+
+    if (isInLaunchDelay) {
+      openModal$.next({
+        component: <LaunchDelay />
+      })
+    }
 
     // Fetch lending token supply info.
     interval(1000 * 10).pipe(
@@ -236,7 +245,7 @@ class App extends Component<Props> {
     return (
       <div key={languageChanged} ref={this.$app} className="App">
         {children}
-        <Overlay />
+        <CoverLayer />
         {/* <Toast /> */}
       </div>
     )

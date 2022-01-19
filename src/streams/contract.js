@@ -49,6 +49,8 @@ const getBlockNumber$ = (web3Instance) => from(
   })
 )
 
+getBlockNumber$(caver).subscribe(console.log)
+
 // Library
 export const willRevert$ = (method, txObject) => {
   txObject.value = '0x' + new BigNumber(txObject.value || 0).toString(16)

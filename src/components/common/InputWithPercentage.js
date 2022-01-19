@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Subject, merge, BehaviorSubject, fromEvent } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
-import Dropdown from 'components/common/Dropdown'
+import Opener from 'components/common/Opener'
 
 import './InputWithPercentage.scss'
 import { toFixed } from '../../utils/calc'
@@ -63,14 +63,14 @@ class InputWithPercentage extends Component {
     this.selectedItem$.next(percentItems[0])
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 
   calcPercentageFromValue = (val) => {
     const { valueLimit } = this.props
-    return (val && valueLimit) 
-      ? (val / valueLimit) * 100
+    return (val && valueLimit != 0) 
+      ? new BigNumber(val).div(valueLimit).toNumber() * 100
       : 0
   }
 
@@ -127,7 +127,7 @@ class InputWithPercentage extends Component {
         />
         <div className="InputWithPercentage__right">
           <span className="InputWithPercentage__label">{label}</span>
-          <Dropdown
+          <Opener
             items={percentItems}
             selectedItem={this.selectedItem$.value}
             onSelect={this.selectPercent}

@@ -30,7 +30,7 @@ class PositionList extends Component {
     })
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
     

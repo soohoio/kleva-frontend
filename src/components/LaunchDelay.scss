@@ -1,0 +1,25 @@
+.LaunchDelay {
+
+  .Modal__header {
+    display: none;
+  }
+}
+
+.LaunchDelay__description {
+  @include desktop {
+    @include font-style('font-1', 'm', 15px);
+  }
+  @include font-style('font-1', 'm', 13px);
+  color: #131414;
+  text-align: left;
+  margin-bottom: 48px;
+  line-height: 1.4;
+}
+
+.LaunchDelay__okButton {
+  @include button-1(54px);
+  @include font-style('font-1', 'sb', 18px);
+  color: #3369ff;
+  background-color: #ebf0ff;
+  width: 100%;
+}

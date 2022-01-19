@@ -37,7 +37,7 @@ class WithdrawModal extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 

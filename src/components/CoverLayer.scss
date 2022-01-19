@@ -1,4 +1,4 @@
-.Overlay {
+.CoverLayer {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
   }
 }
 
-.Overlay__wrapper {
+.CoverLayer__wrapper {
   &--hide {
     display: none;
   }

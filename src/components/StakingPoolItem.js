@@ -75,7 +75,7 @@ class StakingPoolItem extends Component {
     
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
     

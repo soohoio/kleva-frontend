@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
-import Dropdown from 'components/common/Dropdown'
+import Opener from 'components/common/Opener'
 
 import './BorrowingAssets.scss'
 
@@ -14,7 +14,7 @@ class BorrowingAssets extends Component {
     
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
     
@@ -24,7 +24,7 @@ class BorrowingAssets extends Component {
     return (
       <div className="BorrowingAssets">
         <p className="BorrowingAssets__title">Borrowing Assets</p>
-        <Dropdown
+        <Opener
           items={items}
           selectedItem={selectedItem}
           onSelect={onSelect}

@@ -3,24 +3,25 @@ import cx from 'classnames'
 import { Subject, merge, fromEvent } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
-import './Dropdown.scss'
+import './Opener.scss'
 
-const DropdownItem = ({ isOpen, selected, title, iconSrc, iconSrcList, rightContent, onClick }) => {
+const OpenerItem = ({ isOpen, selectedRoot, selected, title, iconSrc, iconSrcList, rightContent, onClick }) => {
   return (
     <div
-      className={cx("Dropdown__item", {
-        "Dropdown__item--selected": !isOpen && selected,
-        "Dropdown__item--selectedAndOpen": isOpen && selected,
+      className={cx("Opener__item", {
+        "Opener__item--selected": !isOpen && selected,
+        "Opener__item--selectedAndOpen": isOpen && selected,
+        "Opener__item--selectedRoot": selectedRoot,
       })}
       onClick={onClick}
     >
       {iconSrcList && iconSrcList.map((_iconSrc) =>
-        <img className="Dropdown__itemIcon" src={_iconSrc} />
+        <img className="Opener__itemIcon" src={_iconSrc} />
       )}
-      {iconSrc && <img className="Dropdown__itemIcon" src={iconSrc} />}
-      <span className="Dropdown__itemTitle">{title}</span>
+      {iconSrc && <img className="Opener__itemIcon" src={iconSrc} />}
+      <span className="Opener__itemTitle">{title}</span>
       {rightContent && (
-        <div className="Dropdown__itemRight">
+        <div className="Opener__itemRight">
           {rightContent}
         </div>
       )}
@@ -28,7 +29,7 @@ const DropdownItem = ({ isOpen, selected, title, iconSrc, iconSrcList, rightCont
   )
 }
 
-class Dropdown extends Component {
+class Opener extends Component {
   destroy$ = new Subject()
 
   state = {
@@ -46,12 +47,12 @@ class Dropdown extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 
   isClickOuterArea = (e) => {
-    return e.target.className.indexOf("Dropdown__") === -1
+    return e.target.className.indexOf("Opener__") === -1
   }
 
   filterSearch = (item, searchKey) => {
@@ -63,29 +64,30 @@ class Dropdown extends Component {
     const { items = [], selectedItem, onSelect, noSearch } = this.props
 
     return (
-      <div className={cx("Dropdown", {
-        "Dropdown--open": isOpen
+      <div className={cx("Opener", {
+        "Opener--open": isOpen
       })}>
-        <DropdownItem
+        <OpenerItem
           key="selectedItem"
           isOpen={isOpen}
           selected
+          selectedRoot
           {...selectedItem}
           onClick={() => {
-            // No need to open dropdown menu when there is only one item.
+            // No need to open Opener menu when there is only one item.
             // if (items.length === 1) return
             this.setState({ isOpen: !isOpen })
           }}
         />
         {isOpen && !noSearch && (
           <>
-            <div className="Dropdown__searchWrapper">
+            <div className="Opener__searchContainer">
               <input
                 ref={(elem) => {
                   if (!elem) return
                   elem.focus()
                 }}
-                className="Dropdown__search"
+                className="Opener__search"
                 placeholder="Search"
                 onChange={(e) => this.setState({ searchKey: e.target.value })}
               />
@@ -93,8 +95,8 @@ class Dropdown extends Component {
             <div ref={(elem) => {
               if (!elem) return
 
-              const $list = document.querySelector('.Dropdown__list')
-              const $selected = elem.querySelector('.Dropdown__item--selected')
+              const $list = document.querySelector('.Opener__list')
+              const $selected = elem.querySelector('.Opener__item--selected')
 
               if (!$selected || !$list || $list.dirty) return
 
@@ -106,14 +108,14 @@ class Dropdown extends Component {
               $list.scrollTop = _scrollTop
               $list.dirty = true
 
-            }} className="Dropdown__list">
+            }} className="Opener__list">
               {items
                 // .filter((item) => this.filterSearch(item, searchKey))
                 .map((item) => {
                   const { iconSrc, iconSrcList, title, key, rightContent } = item
 
                   return (
-                    <DropdownItem
+                    <OpenerItem
                       isOpen={isOpen}
                       selected={key == (selectedItem && selectedItem.key)}
                       key={key}
@@ -136,4 +138,4 @@ class Dropdown extends Component {
   }
 }
 
-export default Dropdown
+export default Opener

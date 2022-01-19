@@ -18,7 +18,7 @@ class KlipQRCode extends Component {
     this.renderQRCode(request_key)
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 

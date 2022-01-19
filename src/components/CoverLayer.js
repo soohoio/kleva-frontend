@@ -5,13 +5,13 @@ import { takeUntil, tap } from 'rxjs/operators'
 
 import { modalContentComponent$, overlayBackgroundColor$, openModal$, closeModal$ } from 'streams/ui'
 
-import './Overlay.scss'
+import './CoverLayer.scss'
 
 type Props = {
 
 }
 
-class Overlay extends Component<Props> {
+class CoverLayer extends Component<Props> {
   destroy$ = new Subject()
 
   componentDidMount() {
@@ -29,14 +29,14 @@ class Overlay extends Component<Props> {
   render() {
     return (
       <div
-        className={cx('Overlay__wrapper', {
-          'Overlay__wrapper--hide': !modalContentComponent$.value,
+        className={cx('CoverLayer__wrapper', {
+          'CoverLayer__wrapper--hide': !modalContentComponent$.value,
         })}
       >
         <div
           style={{ backgroundColor: overlayBackgroundColor$.value }}
           ref={this.$overlay}
-          className="Overlay"
+          className="CoverLayer"
           onClick={() => closeModal$.next(true)}
         />
         {modalContentComponent$.value}
@@ -45,4 +45,4 @@ class Overlay extends Component<Props> {
   }
 }
 
-export default Overlay
+export default CoverLayer

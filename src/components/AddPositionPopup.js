@@ -115,7 +115,7 @@ class AddPositionPopup extends Component {
     ).subscribe()
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 

@@ -19,17 +19,17 @@
     background-color: #fafbff;
   }
 
-  .Dropdown {
+  .Opener {
     width: 72px;
     margin-bottom: 0;
     border-radius: 8px;
   }
 
-  .Dropdown__searchWrapper {
+  .Opener__searchContainer {
     display: none;
   }
   
-  .Dropdown__item {
+  .Opener__item {
     height: 32px;
     border-radius: 8px;
     display: flex;
@@ -45,7 +45,7 @@
     }
 
     &--selected {
-      .Dropdown__itemTitle {
+      .Opener__itemTitle {
         color: #3369ff;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -53,10 +53,10 @@
     }
   }
 
-  .Dropdown__list {
+  .Opener__list {
     top: 100%;
 
-    .Dropdown__item {
+    .Opener__item {
       min-width: unset;
     }
   }

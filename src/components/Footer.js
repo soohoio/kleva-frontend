@@ -30,7 +30,7 @@ class Footer extends Component {
     })
   }
   
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
     

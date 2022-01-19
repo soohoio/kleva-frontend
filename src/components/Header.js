@@ -27,7 +27,7 @@ class Header extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this.destroy$.next(true)
   }
 
