@@ -100,7 +100,7 @@ class ConnectWalletPopup extends Component {
                   })
                 }}
               />
-              <WalletConnectOption
+              {/* <WalletConnectOption
                 title="Metamask"
                 className="WalletConnectOption--metamask"
                 imgSrc="/static/images/wallet-option-metamask.png"
@@ -108,7 +108,7 @@ class ConnectWalletPopup extends Component {
                   connectInjected('metamask')
                   closeModal$.next(true)
                 }}
-              />
+              /> */}
             </div>
           )
         }
