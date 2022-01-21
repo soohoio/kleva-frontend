@@ -27,13 +27,14 @@
 
 .PositionItem__info {
   display: flex;
-  gap: 18px;
   align-items: center;
 }
 
 .PositionItem__infoIconList {
   display: flex;
   flex-direction: column;
+
+  @include gap-like(18px);
 }
 
 .PositionItem__infoIcon {

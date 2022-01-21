@@ -71,7 +71,10 @@
 .Header__mobileRight {
   display: flex;
   align-items: center;
-  gap: 16px;
+
+  .ConnectWalletMobile {
+    @include gap-like(16px);
+  }
 
   @include desktop {
     display: none;

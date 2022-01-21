@@ -37,28 +37,18 @@ import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
 
-const kasOption = {
-  headers: [
-    { name: 'Authorization', value: "Basic S0FTS1RIQVhOSlBGWjRQUklURkZHNUozOjl4T19JMjRPMm5TU053NTF2RnZSTnVKRkVsQ3hYMXZQeHpPc1MteGo=" },
-    { name: 'x-chain-id', value: '8217' },
-  ]
-}
-
 const NODE_URL = 'https://klaytn-secure.staging.sooho.io/'
-const NODE_2_URL = "https://node-api.klaytnapi.com/v1/klaytn"
 const NODE_3_URL = "https://en5.klayfi.finance"
 const NODE_4_URL = "https://en6.klayfi.finance"
 const NODE_5_URL = "https://nodepelican.com/"
 
-export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
-export const caver_2 = new Caver(new Caver.providers.HttpProvider(NODE_2_URL, kasOption))
-export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
-export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
-export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
+export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL))
+export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL))
+export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL))
+export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL))
 
 export let caver = sample([
-  // caver_1,
-  caver_2,
+  caver_1,
   caver_3,
   caver_4,
   caver_5,
@@ -82,10 +72,6 @@ interval(3000).pipe(
     from(getBlockNumber$(caver_1).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_URL })),
       catchError(() => of({ blockNumber: 0, url: "" }))
-    )),
-    from(getBlockNumber$(caver_2).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
     )),
     from(getBlockNumber$(caver_3).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
@@ -114,7 +100,7 @@ interval(3000).pipe(
 
   if (bestNode && bestNode.url) {
     currentBlockNumber$.next(bestNode.blockNumber)
-    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url, kasOption))
+    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url))
   }
 })
 

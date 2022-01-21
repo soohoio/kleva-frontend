@@ -76,3 +76,15 @@
   
   max-width: calc(1920px - 240px);
 }
+
+@mixin gap-like($px) {
+  margin-right: $px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &:first-of-type {
+    margin-right: $px;
+  }
+}

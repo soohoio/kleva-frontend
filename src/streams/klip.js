@@ -14,6 +14,22 @@ export const requestStatus$ = new BehaviorSubject({})
 
 const BAPP_NAME = "KLEVA PROTOCOL"
 
+let isIOS = /iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+export const getDeeplink = (request_key, userAgent = navigator.userAgent) => {
+  let deeplink = ''
+  if (request_key) {
+    deeplink = `intent://klipwallet/open?url=${encodeURIComponent(`${'https://klipwallet.com'}/?target=/a2a?request_key=${request_key}`)}#Intent;scheme=kakaotalk;package=${'com.kakao.talk'};end`
+    if (isIOS) {
+      deeplink = `${'kakaotalk'}://klipwallet/open?url=${encodeURIComponent(`${'https://klipwallet.com'}/?target=/a2a?request_key=${request_key}`)}`
+    }
+    if (!isMobile) {
+      deeplink = `${'https://klipwallet.com'}/?target=/a2a?request_key=${request_key}`
+    }
+  }
+  return deeplink
+}
+
 const _auth$ = () => {
   console.log('auth!')
   return defer(() => from(prepare.auth({ bappName: BAPP_NAME })))
@@ -40,6 +56,25 @@ export const request$ = (requestKey) => {
   )
 }
 
+// const _request$ = (requestKey) => new Observable((observer) => {
+//   const qrCodeMode = !isMobile
+//   if (qrCodeMode) {
+//     openModal$.next({
+//       component: <KlipQRCode observer={observer} request_key={requestKey} />
+//     })
+//     return
+//   }
+
+//   request(requestKey, () => {
+//     alert('not supported.')
+//     observer.next("not supported")
+//     observer.complete()
+//   })
+
+//   observer.next(true)
+//   observer.complete()
+// })
+
 const _request$ = (requestKey) => new Observable((observer) => {
   const qrCodeMode = !isMobile
   if (qrCodeMode) {
@@ -49,14 +84,19 @@ const _request$ = (requestKey) => new Observable((observer) => {
     return
   }
 
-  request(requestKey, () => {
-    alert('not supported.')
-    observer.next("not supported")
-    observer.complete()
-  })
-
+  // window.location.href = getDeeplink(requestKey)
+  top.window.location.href = getDeeplink(requestKey)
   observer.next(true)
   observer.complete()
+
+  // request(requestKey, () => {
+  //   alert('not supported.')
+  //   observer.next("not supported")
+  //   observer.complete()
+  // })
+
+  // observer.next(true)
+  // observer.complete()
 })
 
 const _requestKeyResultPoll$ = (requestKey) => {

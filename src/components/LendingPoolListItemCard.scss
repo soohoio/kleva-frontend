@@ -54,7 +54,6 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  gap: 16px;
   padding-bottom: 25px;
 
   .LendingPoolListItemCard__depositButton {
@@ -62,6 +61,7 @@
   }
   
   .LendingPoolListItemCard__withdrawButton {
+    @include gap-like(16px);
     width: 50%;
   }
 }

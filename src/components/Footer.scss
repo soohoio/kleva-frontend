@@ -31,14 +31,12 @@
 
 .Footer__left {
   width: 100%;
-  gap: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @include desktop {
     width: auto;
-    gap: 16px;
     justify-content: unset;
   }
 }
@@ -99,6 +97,11 @@
 }
 
 .Footer__socialLink {
+  @include gap-like(36px);
+
+  @include desktop {
+    @include gap-like(16px);
+  }
   width: 24px;
   height: 24px;
   cursor: pointer;

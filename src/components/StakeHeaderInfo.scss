@@ -6,7 +6,7 @@
   margin-bottom: 36px;
   box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
   border-radius: 8px;
-  gap: 20px;
+
   background-color: #ffffff;
   
   @include desktop {
@@ -15,7 +15,10 @@
     margin-bottom: 48px;
     box-shadow: unset;
     border-radius: 0;
-    gap: 16px;
     background-color: unset;
+    
+    .GTEarned {
+      @include gap-like(16px);
+    }
   }
 }
