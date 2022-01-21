@@ -23,7 +23,8 @@ import {
   getKlevaAnnualReward$, 
   getWorkerInfo$, 
   getFarmDeposited$, 
-  calcUnlockableAmount$
+  calcUnlockableAmount$,
+  lockOf$
 } from './streams/contract'
 
 import CoverLayer from 'components/CoverLayer'
@@ -35,7 +36,7 @@ import { debtTokens, ibTokens, singleTokens, singleTokensByAddress, tokenList } 
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
-import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$ } from './streams/wallet'
+import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { GRAPH_NODE_URL } from 'streams/graphql'
 import LZUTF8 from 'lzutf8'
@@ -167,31 +168,35 @@ class App extends Component<Props> {
     selectedAddress$.pipe(
       filter((a) => !!a),
       switchMap((account) => {
-        if (!account) {
-          this.notifiedAlready = false
-          lockedKlevaAmount$.next(0)
-          return of(false)
-        }
+        // if (!account) {
+          // this.notifiedAlready = false
+          // lockedKlevaAmount$.next(0)
+          // return of(false)
+        // }
 
         return merge(
           fetchUnlockAmount$,
-          interval(1000 * 60),
+          interval(1000 * 5),
         ).pipe(
           startWith(0),
-          switchMap(() => calcUnlockableAmount$(account)),
-          tap((lockedAmount) => {
-            if (!this.notifiedAlready && !isDesktop$.value && lockedAmount != 0) {
-              this.notifiedAlready = true
-              openModal$.next({
-                component: <LockedKLEVAPopup />
-              })
-            }
-
+          switchMap(() => forkJoin(calcUnlockableAmount$(account), lockOf$(account))),
+          tap(([unlockableLockedAmount, lockedAmount]) => {
+            // if (!this.notifiedAlready && !isDesktop$.value && (unlockableLockedAmount != 0 || lockedAmount != 0)) {
+            //   this.notifiedAlready = true
+            //   openModal$.next({
+            //     component: <LockedKLEVAPopup />
+            //   })
+            // }
 
             const lockedAmountParsed = new BigNumber(lockedAmount)
               .div(10 ** tokenList.KLEVA.decimals)
               .toNumber()
 
+            const unlockableLockedAmountParsed = new BigNumber(unlockableLockedAmount)
+              .div(10 ** tokenList.KLEVA.decimals)
+              .toNumber()
+
+            unlockableKlevaAmount$.next(unlockableLockedAmountParsed)
             lockedKlevaAmount$.next(lockedAmountParsed)
           })
         )

@@ -7,6 +7,7 @@ import Opener from 'components/common/Opener'
 
 import './InputWithPercentage.scss'
 import { toFixed } from '../../utils/calc'
+import { tokenList } from '../../constants/tokens'
 
 const percentItems = [
   { title: "0%", value: 0, key: "0%" },
@@ -89,11 +90,19 @@ class InputWithPercentage extends Component {
   }
 
   getNewValue = (value, valueLimit) => {
-    const { decimalLimit = 18 } = this.props
+    const { targetToken, decimalLimit = 18 } = this.props
 
     if (!valueLimit) return 0
 
     if (value === 100) {
+
+      // @corner-case: When max button clicked with KLAY token, subtract KLAY of gas fee.
+      const isTargetTokenKLAY = targetToken?.address?.toLowerCase() == tokenList.KLAY.address?.toLowerCase()
+      
+      if (isTargetTokenKLAY && valueLimit > 1) {
+        return new BigNumber(valueLimit).minus(1).toNumber()
+      }
+
       return valueLimit
     }
 

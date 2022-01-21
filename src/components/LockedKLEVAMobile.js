@@ -4,13 +4,13 @@ import cx from 'classnames'
 import { Subject, merge, interval, of, BehaviorSubject } from 'rxjs'
 import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
 
-import './LockedKLEVA.scss'
+import './LockedKlevaMobile.scss'
 import { fetchUnlockAmount$, lockedKlevaAmount$, selectedAddress$, unlockableKlevaAmount$ } from '../streams/wallet'
 import { calcUnlockableAmount$, getTransactionReceipt$, unlock$ } from '../streams/contract'
 import { tokenList } from '../constants/tokens'
 import { isDesktop$ } from '../streams/ui'
 
-class LockedKLEVA extends Component {
+class LockedKlevaMobile extends Component {
   destroy$ = new Subject()
   isLoading$ = new BehaviorSubject(false)
 
@@ -35,29 +35,32 @@ class LockedKLEVA extends Component {
   render() {
     const { contentOnly } = this.props
     
+    // console.log(lockedKlevaAmount$.value, 'lockedKlevaAmount$.value')
+    // console.log(unlockableKlevaAmount$.value, "unlockableKlevaAmount$.value")
     const isDisabled = unlockableKlevaAmount$.value == 0
+    // const isDisabled = false
 
     return !!selectedAddress$.value && (
       <div 
-        className={cx("LockedKLEVA", {
-          "LockedKLEVA--contentOnly": contentOnly,
+        className={cx("LockedKlevaMobile", {
+          "LockedKlevaMobile--contentOnly": contentOnly,
         })}
       >
         {!contentOnly && (
-          <div className="LockedKLEVA__header">
-            <div className="LockedKLEVA__headerLeft">
+          <div className="LockedKlevaMobile__header">
+            <div className="LockedKlevaMobile__headerLeft">
               Locked KLEVA
-              {/* <span className="LockedKLEVA__airdrop">Airdrop</span> */}
+              {/* <span className="LockedKlevaMobile__airdrop">Airdrop</span> */}
             </div>
-            {/* <img className="LockedKLEVA__close" src="/static/images/close-black.svg" /> */}
+            {/* <img className="LockedKlevaMobile__close" src="/static/images/close-black.svg" /> */}
           </div>
         )}
-        <div className="LockedKLEVA__content">
-          {/* <p className="LockedKLEVA__pendingAmount">
+        <div className="LockedKlevaMobile__content">
+          {/* <p className="LockedKlevaMobile__pendingAmount">
             {Number(unlockableKlevaAmount$.value)
               .toLocaleString('en-us', { maximumFractionDigits: 8 })}
           </p> */}
-          <p className="LockedKLEVA__pendingAmount">
+          <p className="LockedKlevaMobile__pendingAmount">
             {Number(lockedKlevaAmount$.value)
               .toLocaleString('en-us', { maximumFractionDigits: 8 })}
           </p>
@@ -74,8 +77,8 @@ class LockedKLEVA extends Component {
                 fetchUnlockAmount$.next(true)
               })
             }}
-            className={cx("LockedKLEVA__unlockButton", {
-              "LockedKLEVA__unlockButton--disabled": isDisabled,
+            className={cx("LockedKlevaMobile__unlockButton", {
+              "LockedKlevaMobile__unlockButton--disabled": isDisabled,
             })}
           >
             {this.isLoading$.value 
@@ -89,4 +92,4 @@ class LockedKLEVA extends Component {
   }
 }
 
-export default LockedKLEVA
+export default LockedKlevaMobile

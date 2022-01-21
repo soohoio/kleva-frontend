@@ -70,6 +70,7 @@ class WithdrawModal extends Component {
           value$={this.bloc.withdrawAmount$}
           valueLimit={availableBalance}
           label={stakingToken.title}
+          targetToken={stakingToken}
         />
         <p className="WithdrawModal__youWillReceive">You will receive</p>
         <div className="WithdrawModal__bottom">

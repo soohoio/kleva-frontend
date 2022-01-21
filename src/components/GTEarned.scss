@@ -59,3 +59,36 @@
   width: 64px;
   height: 64px;
 }
+
+.GTEarned__modeMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.GTEarned__mode {
+  @include font-style('font-1', 'sb', 12px);
+
+  border-bottom: 3px solid transparent;
+  color: rgba(#303133, .5);
+  padding-bottom: 2px;
+  cursor: pointer;
+
+  &--active {
+    color: #3369ff;
+    border-bottom: 3px solid #3369ff;
+  }
+}
+
+.GTEarned__unlockButton {
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 88px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}

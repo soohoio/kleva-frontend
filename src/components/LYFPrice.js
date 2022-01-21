@@ -25,7 +25,7 @@ class LYFPrice extends Component {
   }
     
   render() {
-    const _price = Number(tokenPrices$.value && tokenPrices$.value[tokenList.KLEVA.address] || 0)
+    const _price = Number(tokenPrices$.value && tokenPrices$.value[tokenList.KLEVA.address.toLocaleLowerCase()] || 0)
 
     return (
       <div className="LYFPrice">

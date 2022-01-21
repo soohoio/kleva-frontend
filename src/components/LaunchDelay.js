@@ -24,13 +24,17 @@ class LaunchDelay extends Component {
     return (
       <Modal className="LaunchDelay">
         <p className="LaunchDelay__description">
-          Hello KLEVARs <br />
-          KLEVA Team has announced earlier that KLEVA Protocol will launch on 18:00 SGT. The time was announced for your convenience - The Launch time is actually based on block number. <br /><br />
-          In the past two days, the Cypress mainnet has been delayed by approximately 15 minutes; thus impacting the block number to be delayed by the equal duration. <br /><br />
-          Therefore, although the pre-announced launch time of KLEVA Protocol is 18:00 SGT, the actual launch may be delayed approximately 15 to 20 minutes, based on Cypress network environment. <br /><br />
-          KLEVA Team appreciates your kind understanding for this deferment, and would like to emphasize that the deferment does not rely upon internal issues of KLEVA Protocol, but rather issues related to Cypress Network. <br /><br />
-          Sincerely, <br />
-          KLEVA Team <br />
+          Hello KLEVARs, <br /><br />
+          KLEVA Team has announced earlier that KLEVA Protocol is to launch today at 18:00 SGT.<br />
+          In actuality, Launch is based on block number, and may differ from actual time. <br /><br />
+          Klaytn mainnet has experienced a short delay in block generation in the past two days,<br />
+          and thus block number has also been delayed, respectively. <br /><br />
+          Due to the delay, we regret to announce that the launch of KLEVA Protocol will have to be postponed by approximately 20 minutes.<br />
+          KLEVA Team appreciates all KLEVARs’ kind understanding for this deferment. <br /><br />
+          Additionally, KLEVA Protocol Launch Count Down on https://kleva.io has been altered to be based on block number.<br />
+          Please refer to the block number countdown for actual KLEVA Protocol Launch. <br /><br />
+          Sincerely yours,<br />
+          KLEVA Team
         </p>
         <button onClick={() => closeModal$.next(true)} className="LaunchDelay__okButton">OK</button>
       </Modal>

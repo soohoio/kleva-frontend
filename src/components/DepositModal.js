@@ -117,6 +117,7 @@ class DepositModal extends Component {
             value$={this.bloc.depositAmount$}
             valueLimit={availableBalance}
             label={stakingToken.title}
+            targetToken={stakingToken}
           />
           <p className="DepositModal__youWillReceive">You will receive:</p>
           <div className="DepositModal__bottom">

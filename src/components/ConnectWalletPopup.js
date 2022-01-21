@@ -90,7 +90,7 @@ class ConnectWalletPopup extends Component {
                 className="WalletConnectOption--klip"
                 imgSrc="/static/images/wallet-option-klip.svg"
                 onClick={() => {
-                  accessKlip$.subscribe((result) => {
+                  accessKlip$().subscribe((result) => {
                     walletType$.next("klip")
                     selectedAddress$.next(result && result.klaytn_address)
 

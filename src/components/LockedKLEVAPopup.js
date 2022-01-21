@@ -26,7 +26,7 @@ class LockedKLEVAPopup extends Component {
         title={(
           <>
             Locked KLEVA
-            <span className="LockedKLEVA__airdrop">Airdrop</span>
+            {/* <span className="LockedKLEVA__airdrop">Airdrop</span> */}
           </>
         )}
       >

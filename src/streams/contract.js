@@ -4,7 +4,7 @@ import { forkJoin, from, interval, Observable, of, Subject } from 'rxjs'
 import { tap, catchError, map, switchMap, startWith, filter, takeUntil } from 'rxjs/operators'
 import { Interface } from '@ethersproject/abi'
 import BigNumber from 'bignumber.js'
-import { flatten, pick } from 'lodash'
+import { sample, flatten, pick } from 'lodash'
 
 import { MULTICALL, FAIRLAUNCH } from 'constants/address'
 import { selectedAddress$ } from 'streams/wallet'
@@ -35,19 +35,90 @@ import { showParamsOnCall } from '../utils/callHelper'
 import { lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
 import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
+import { currentBlockNumber$ } from 'streams/block'
+
+const kasOption = {
+  headers: [
+    { name: 'Authorization', value: "Basic S0FTS1RIQVhOSlBGWjRQUklURkZHNUozOjl4T19JMjRPMm5TU053NTF2RnZSTnVKRkVsQ3hYMXZQeHpPc1MteGo=" },
+    { name: 'x-chain-id', value: '8217' },
+  ]
+}
 
 const NODE_URL = 'https://klaytn-secure.staging.sooho.io/'
-export const caver = new Caver(NODE_URL)
+const NODE_2_URL = "https://node-api.klaytnapi.com/v1/klaytn"
+const NODE_3_URL = "https://en5.klayfi.finance"
+const NODE_4_URL = "https://en6.klayfi.finance"
+const NODE_5_URL = "https://nodepelican.com/"
 
-window.BigNumber = BigNumber
+export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
+export const caver_2 = new Caver(new Caver.providers.HttpProvider(NODE_2_URL, kasOption))
+export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
+export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
+export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
+
+export let caver = sample([
+  // caver_1,
+  caver_2,
+  caver_3,
+  caver_4,
+  caver_5,
+])
 
 const getBlockNumber$ = (web3Instance) => from(
-  caver.klay.getBlockNumber()
+  web3Instance.klay.getBlockNumber()
 ).pipe(
   catchError((err) => {
     return of(0)
   })
 )
+
+// Node change strategy
+interval(3000).pipe(
+  startWith(0),
+  filter(() => {
+    return isFocused$.value
+  }),
+  switchMap(() => forkJoin(
+    from(getBlockNumber$(caver_1).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_URL })),
+      catchError(() => of({ blockNumber: 0, url: "" }))
+    )),
+    from(getBlockNumber$(caver_2).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_3).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_4).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_5).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+  )),
+).subscribe((nodes) => {
+  const bestNode = nodes.reduce((acc, cur) => {
+    if (acc.blockNumber < cur.blockNumber) {
+      acc.blockNumber = cur.blockNumber
+      acc.url = cur.url
+    }
+    return acc
+  })
+
+
+  // const alreadySet = caver.klay.currentProvider.host === bestNode.url
+
+  if (bestNode && bestNode.url) {
+    currentBlockNumber$.next(bestNode.blockNumber)
+    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url, kasOption))
+  }
+})
+
+window.BigNumber = BigNumber
 
 getBlockNumber$(caver).subscribe(console.log)
 
@@ -72,6 +143,9 @@ export const willRevert$ = (method, txObject) => {
 
 const sendAsync$ = (method, txObject) => {
 
+  const pureValue = new BigNumber(txObject.value).toString()
+  console.log(pureValue, '@pureValue')
+
   txObject.value = '0x' + new BigNumber(txObject.value || 0).toString(16)
 
   return new Observable((observer) => {
@@ -93,10 +167,14 @@ const sendAsync$ = (method, txObject) => {
 
       // Klip
 
+      // console.log(txObject.value, "txObject.value")
+      // console.log(new BigNumber(txObject.value).toString(), "new BigNumber(txObject.value).toString()")
+
       if (walletType$.value === "klip") {
         executeContractKlip$({
+          from: txObject.from,
           to: txObject.to,
-          value: new BigNumber(txObject.value).toString(),
+          value: new BigNumber(txObject.value || 0).toString() || "0",
           abi: _method._method,
           params: method.arguments,
         }).pipe(
@@ -1223,9 +1301,16 @@ export const calcUnlockableAmount$ = (account) => call$({
   params: [account],
 })
 
-export const unlock$ = (account) => makeTransaction({
+export const lockOf$ = (account) => call$({
   abi: KLEVATokenABI,
-  address: account,
+  methodName: 'lockOf',
+  address: tokenList.KLEVA.address,
+  params: [account],
+})
+
+export const unlock$ = () => makeTransaction({
+  abi: KLEVATokenABI,
+  address: tokenList.KLEVA.address,
   methodName: "unlock",
   params: []
 })

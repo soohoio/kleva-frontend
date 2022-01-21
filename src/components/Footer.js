@@ -66,7 +66,7 @@ class Footer extends Component {
           <span className="Footer__itemCategory">Partners</span>
           <img onClick={() => window.open('https://klayfi.finance')} className="Footer__logoImage Footer__logoImage--klayfi" src="/static/images/logo-klayfi.svg" />
           <span className="Footer__itemCategory">Audit</span>
-          <img onClick={() => window.open('https://sooho.io')} className="Footer__logoImage Footer__logoImage--sooho" src="/static/images/logo-sooho@3x.png" />
+          <img onClick={() => window.open('https://audit.sooho.io')} className="Footer__logoImage Footer__logoImage--sooho" src="/static/images/logo-sooho@3x.png" />
           <img onClick={() => window.open('https://scvsoft.net/')} className="Footer__logoImage Footer__logoImage--scvsoft" src="/static/images/logo-scvsoft@3x.png" />
         </div>
       </div>

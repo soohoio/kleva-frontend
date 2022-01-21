@@ -81,7 +81,7 @@ class Sidebar extends Component {
           active={path$.value === "/farm"}
           title="Farm"
         />
-        <LockedKLEVA />
+        {/* <LockedKLEVA /> */}
       </div>
     )
   }

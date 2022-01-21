@@ -17,15 +17,6 @@ export const lendingPools = [
     vaultConfigAddress: "0xa27A73223A3f99b25D5366eCDFbc961728f82801",
   },
   {
-    title: "KUSDT",
-    
-    vaultAddress: tokenList["ibKUSDT"].address,
-    ibToken: tokenList["ibKUSDT"],
-
-    stakingToken: tokenList["KUSDT"],
-    vaultConfigAddress: "0x24Ae164a3D5E80f8584b412312131EC027b606A9",
-  },
-  {
     title: "WEMIX",
 
     vaultAddress: tokenList["ibWEMIX"].address,
@@ -33,6 +24,15 @@ export const lendingPools = [
 
     stakingToken: tokenList["WEMIX"],
     vaultConfigAddress: "0x9a5Db51B43732bceE2a05B196f93C3d512E132CD",
+  },
+  {
+    title: "KUSDT",
+
+    vaultAddress: tokenList["ibKUSDT"].address,
+    ibToken: tokenList["ibKUSDT"],
+
+    stakingToken: tokenList["KUSDT"],
+    vaultConfigAddress: "0x24Ae164a3D5E80f8584b412312131EC027b606A9",
   },
   {
     title: "KDAI",

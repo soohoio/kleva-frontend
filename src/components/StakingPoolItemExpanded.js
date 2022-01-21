@@ -12,6 +12,7 @@ import Bloc from './StakingPoolItemExpanded.bloc'
 
 import './StakingPoolItemExpanded.scss'
 import { selectedAddress$ } from '../streams/wallet'
+import { currentBlockNumber$ } from 'streams/block'
 import { isValidDecimal } from '../utils/calc'
 
 class StakingPoolItemExpanded extends Component {
@@ -28,6 +29,7 @@ class StakingPoolItemExpanded extends Component {
       this.bloc.stakeAmount$,
       this.bloc.unstakeAmount$,
       this.bloc.isLoading$,
+      currentBlockNumber$,
       selectedAddress$,
     ).pipe(
       takeUntil(this.destroy$)
@@ -150,6 +152,8 @@ class StakingPoolItemExpanded extends Component {
       selectedAddress,
     } = this.props
 
+    const isClaimDisabled = !selectedAddress || (currentBlockNumber$.value < 80865474)
+
     return (
       <div 
         className={cx("StakingPoolItemExpanded", {
@@ -167,6 +171,7 @@ class StakingPoolItemExpanded extends Component {
             value$={this.bloc.stakeAmount$}
             valueLimit={balanceInWallet}
             label={stakingToken.title}
+            targetToken={stakingToken}
           />
           {this.renderStakeButton()}
         </div>
@@ -181,6 +186,7 @@ class StakingPoolItemExpanded extends Component {
             value$={this.bloc.unstakeAmount$}
             valueLimit={depositedAmount && depositedAmount.balanceParsed || 0}
             label={stakingToken.title}
+            targetToken={stakingToken}
           />
           {this.renderUnstakeButton()}
         </div>
@@ -198,14 +204,11 @@ class StakingPoolItemExpanded extends Component {
           </div>
           <button 
             className={cx("StakingPoolItemExpanded__claimButton", {
-              // "StakingPoolItemExpanded__claimButton--disabled": !selectedAddress,
-              "StakingPoolItemExpanded__claimButton--disabled": true,
+              "StakingPoolItemExpanded__claimButton--disabled": isClaimDisabled,
             })}
             onClick={() => {
-              
-              // @TODO
-
-              // this.bloc.harvest()
+              if (isClaimDisabled) return
+              this.bloc.harvest()
             }}
           >
             {this.bloc.isLoading$.value ? "..." : "Claim"}

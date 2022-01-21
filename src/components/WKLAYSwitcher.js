@@ -59,6 +59,7 @@ class WKLAYSwitcher extends Component {
           value$={this.bloc.klayAmountToWrap$}
           label=""
           valueLimit={valueLimit}
+          targetToken={selectedToken}
         />
       )
     }
@@ -72,6 +73,7 @@ class WKLAYSwitcher extends Component {
         value$={value$}
         label=""
         valueLimit={WKLAYBalance}
+        targetToken={selectedToken}
       />
     )
   }

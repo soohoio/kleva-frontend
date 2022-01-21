@@ -19,7 +19,8 @@ const SupplyInput = ({
   inputLabel,
   priceRatio,
   valueLimit,
-  decimalLimit
+  decimalLimit,
+  targetToken
 }) => {
 
   return (
@@ -34,6 +35,7 @@ const SupplyInput = ({
         value$={value$}
         label={inputLabel}
         valueLimit={valueLimit}
+        targetToken={targetToken}
       />
     </div>
   )
@@ -93,6 +95,7 @@ class SupplyingAssets extends Component {
               imgSrc={farmingToken.iconSrc}
               labelTitle={`Available ${farmingToken.title}`}
               inputLabel={farmingToken.title}
+              targetToken={farmingToken}
             />
           )
         }
@@ -104,6 +107,7 @@ class SupplyingAssets extends Component {
           imgSrc={baseToken.iconSrc}
           labelTitle={`Available ${baseToken.title}`}
           inputLabel={baseToken.title}
+          targetToken={baseToken}
         />
       </div>
     )
