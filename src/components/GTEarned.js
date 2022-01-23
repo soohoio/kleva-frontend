@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
 import { Subject, merge, interval } from 'rxjs'
-import { takeUntil, tap, filter, switchMap, startWith } from 'rxjs/operators'
+import { takeUntil, tap, filter, switchMap, startWith, debounceTime } from 'rxjs/operators'
 
 import './GTEarned.scss'
 import { getPendingGTInFairlaunchPool$, getTransactionReceipt$, unlock$ } from '../streams/contract'
@@ -36,6 +36,7 @@ class GTEarned extends Component {
       lockedKlevaAmount$,
       unlockableKlevaAmount$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -117,6 +118,7 @@ class GTEarned extends Component {
               const isActive = _mode === mode
               return (
                 <div 
+                  key={_mode}
                   className={cx("GTEarned__mode", {
                     "GTEarned__mode--active": isActive,
                   })}

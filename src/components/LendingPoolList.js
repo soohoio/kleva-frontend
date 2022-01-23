@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge, interval, forkJoin } from 'rxjs'
-import { takeUntil, tap, switchMap, startWith } from 'rxjs/operators'
+import { takeUntil, tap, switchMap, startWith, debounceTime } from 'rxjs/operators'
 import './LendingPoolList.scss'
 import { lendingPools, PROTOCOL_FEE } from '../constants/lendingpool'
 import LendingPoolListItem from './LendingPoolListItem'
@@ -47,6 +47,7 @@ class LendingPoolList extends Component {
       tokenPrices$,
       selectedAddress$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -112,6 +113,8 @@ class LendingPoolList extends Component {
                     .multipliedBy(1 - PROTOCOL_FEE)
                     .multipliedBy(100)
                     .toNumber()
+
+                  console.log(lendingAPR, 'lendingAPR')
 
                   return (
                     <LendingPoolListItem

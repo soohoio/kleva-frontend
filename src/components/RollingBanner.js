@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, BehaviorSubject, interval } from 'rxjs'
-import { skip, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, skip, takeUntil, tap } from 'rxjs/operators'
 
 import './RollingBanner.scss'
 import { Tween } from '@tweenjs/tween.js'
@@ -49,6 +49,7 @@ class RollingBanner extends Component {
         })
       ),
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

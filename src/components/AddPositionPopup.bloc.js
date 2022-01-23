@@ -9,6 +9,10 @@ import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import { tokenList } from '../constants/tokens'
 import { closeModal$ } from '../streams/ui'
+import { showDetailDefault$, showSummaryDefault$ } from '../streams/setting'
+import { fetchPositions$, klayswapPoolInfo$ } from '../streams/farming'
+import { getLPAmountBasedOnIngredientsToken } from '../utils/calc'
+import { addressKeyFind } from '../utils/misc'
 
 export default class {
   constructor({ token1, token2, lpToken, workerList, borrowingAvailableAssets }) {
@@ -19,6 +23,7 @@ export default class {
     this.lpToken = lpToken
     this.workerList = workerList
 
+    this.isLoading$ = new BehaviorSubject()
     this.borrowingAsset$ = new BehaviorSubject(borrowingAvailableAssets[0])
 
     // this.worker$
@@ -33,9 +38,12 @@ export default class {
     this.farmingTokenAmount$ = new BehaviorSubject('')
     this.baseTokenAmount$ = new BehaviorSubject('')
     this.priceImpact$ = new BehaviorSubject('')
+    this.outputAmount$ = new BehaviorSubject()
+    this.expectedLpAmount$ = new BehaviorSubject()
     this.allowances$ = new BehaviorSubject({})
     this.leverage$ = new BehaviorSubject(1)
     this.borrowMoreAvailable$ = new BehaviorSubject(true)
+    this.isDebtSizeValid$ = new BehaviorSubject(true)
 
     // ex) Farming Token: 10 KSP, Base Token: 100 KLEVA
     // Convert 10 KSP to [farmingTokenAmountInBaseToken] KLEVA.
@@ -45,8 +53,10 @@ export default class {
     this.fetchAllowances$ = new Subject()
 
     // UI
-    this.showAPRDetail$ = new BehaviorSubject(false)
-    this.showSummary$ = new BehaviorSubject(false)
+    // this.showAPRDetail$ = new BehaviorSubject(false)
+    // this.showSummary$ = new BehaviorSubject(false)
+    this.showAPRDetail$ = showDetailDefault$
+    this.showSummary$ = showSummaryDefault$
   }
 
   selectWorker = (borrowingAsset) => {
@@ -96,12 +106,37 @@ export default class {
     )
   }
 
+  getExpectedLPAmount = () => {
+    const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.lpToken?.address)
+    return getLPAmountBasedOnIngredientsToken({
+      poolInfo,
+      token1: {
+        ...this.baseToken$.value,
+        amount: new BigNumber(this.baseTokenAmount$.value || 0)
+          .multipliedBy(10 ** this.baseToken$.value?.decimals)
+          .toString()
+      },
+      token2: {
+        ...this.farmingToken$.value,
+        amount: new BigNumber(this.farmingTokenAmount$.value || 0)
+          .multipliedBy(10 ** this.farmingToken$.value?.decimals)
+          .toString()
+      }
+    })
+  }
+
   getPriceImpact = (_poolReserves) => {
 
     let swapFromToken
     let swapToToken
     
     let swapFromTokenAmount
+
+    const poolReserves = _poolReserves[this.lpToken.address.toLowerCase()]
+    const baseTokenReserve = poolReserves[this.baseToken$.value.address.toLowerCase()]
+    const farmingTokenReserve = poolReserves[this.farmingToken$.value.address.toLowerCase()]
+
+    const expectedLpAmount = this.getExpectedLPAmount()
 
     // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
     if (this.farmingTokenAmount$.value == 0) {
@@ -116,6 +151,9 @@ export default class {
           .multipliedBy(10 ** swapFromToken.decimals)
           .toString(),
       ).subscribe(({ outputAmount, priceImpact }) => {
+
+        this.expectedLpAmount$.next(expectedLpAmount)
+        this.outputAmount$.next(outputAmount)
         this.priceImpact$.next(priceImpact)
       })
 
@@ -123,16 +161,11 @@ export default class {
     }
 
     // AddTwoSidesOptimal
-
-    const poolReserves = _poolReserves[this.lpToken.address.toLowerCase()]
-
-    const baseTokenReserve = poolReserves[this.baseToken$.value.address.toLowerCase()]
-    const farmingTokenReserve = poolReserves[this.farmingToken$.value.address.toLowerCase()]
     
-    const baseAmountWithFarmReserve = new BigNumber(this.baseTokenAmount$.value)
+    const baseAmountWithFarmReserve = new BigNumber(this.baseTokenAmount$.value || 0)
       .multipliedBy(farmingTokenReserve)
       .toNumber()
-    const farmAmountWithBaseReserve = new BigNumber(this.farmingTokenAmount$.value)
+    const farmAmountWithBaseReserve = new BigNumber(this.farmingTokenAmount$.value || 0)
       .multipliedBy(baseTokenReserve)
       .toNumber()
 
@@ -148,12 +181,6 @@ export default class {
       ? this.baseTokenAmount$.value
       : this.farmingTokenAmount$.value
 
-    console.log(baseAmountWithFarmReserve, "baseAmountWithFarmReserve")
-    console.log(farmAmountWithBaseReserve, "farmAmountWithBaseReserve")
-    console.log(swapFromToken, 'swapFromToken')
-    console.log(swapToToken, 'swapToToken')
-    console.log(swapFromTokenAmount, 'swapFromTokenAmount')
-
     getOutputTokenAmount$(
       swapFromToken,
       swapToToken,
@@ -161,6 +188,8 @@ export default class {
         .multipliedBy(10 ** swapFromToken.decimals)
         .toString(),
     ).subscribe(({ outputAmount, priceImpact }) => {
+      this.expectedLpAmount$.next(expectedLpAmount)
+      this.outputAmount$.next(outputAmount)
       this.priceImpact$.next(priceImpact)
     })
   }
@@ -250,8 +279,7 @@ export default class {
   
     const borrowAmount = this.getAmountToBorrow()
 
-    // @TODO
-    const MIN_LP_AMOUNT = 0
+    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
 
     const ext = strategyType === "ADD_BASE_TOKEN_ONLY" 
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
@@ -283,9 +311,12 @@ export default class {
       data,
       value: _value,
     }).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
+      fetchPositions$.next(true)
 
       closeModal$.next(true)
     })

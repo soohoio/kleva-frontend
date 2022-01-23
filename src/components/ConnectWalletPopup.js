@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import './ConnectWalletPopup.scss'
 import Modal from './common/Modal'
@@ -25,6 +25,7 @@ class ConnectWalletPopup extends Component {
     merge(
       selectedAddress$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -100,7 +101,7 @@ class ConnectWalletPopup extends Component {
                   })
                 }}
               />
-              {/* <WalletConnectOption
+              <WalletConnectOption
                 title="Metamask"
                 className="WalletConnectOption--metamask"
                 imgSrc="/static/images/wallet-option-metamask.png"
@@ -108,7 +109,7 @@ class ConnectWalletPopup extends Component {
                   connectInjected('metamask')
                   closeModal$.next(true)
                 }}
-              /> */}
+              />
             </div>
           )
         }

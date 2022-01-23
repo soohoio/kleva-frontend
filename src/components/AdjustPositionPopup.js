@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge, forkJoin, of } from 'rxjs'
-import { takeUntil, tap, switchMap, filter, distinctUntilChanged } from 'rxjs/operators'
+import { takeUntil, tap, switchMap, filter, distinctUntilChanged, debounceTime } from 'rxjs/operators'
 
 import SupplyingAssets from './SupplyingAssets'
 import LeverageGauge from './LeverageGauge'
@@ -25,6 +25,8 @@ import { getEachTokenBasedOnLPShare } from '../utils/calc'
 
 import './AdjustPositionPopup.scss'
 import AdjustPositionPopupOptionSwitcher from './AdjustPositionPopupOptionSwitcher'
+import { tokenPrices$ } from '../streams/tokenPrice'
+import { addressKeyFind } from '../utils/misc'
 
 class AdjustPositionPopup extends Component {
   destroy$ = new Subject()
@@ -42,12 +44,16 @@ class AdjustPositionPopup extends Component {
       lendingTokenSupplyInfo$,
       klevaAnnualRewards$,
       klayswapPoolInfo$,
+      tokenPrices$,
 
       this.bloc.farmingTokenAmount$.pipe(
         tap(() => {
           this.bloc.calcFarmingTokenAmountInBaseToken()
         })
       ),
+
+      this.bloc.isLoading$,
+
       this.bloc.baseTokenAmount$,
       this.bloc.farmingTokenAmountInBaseToken$,
       this.bloc.leverage$, // for borrowMore
@@ -55,6 +61,7 @@ class AdjustPositionPopup extends Component {
       this.bloc.fetchAllowances$,
       this.bloc.addCollateralAvailable$,
       this.bloc.borrowMoreAvailable$,
+      this.bloc.isDebtSizeValid$,
       
       this.bloc.equityValue$,
       this.bloc.debtValue$,
@@ -107,6 +114,7 @@ class AdjustPositionPopup extends Component {
         this.bloc.leverage$,
         positions$
       ).pipe(
+        debounceTime(100),
         tap(() => {
           const positions = positions$.value
           const positionInfo = positions && positions.find(({ positionId }) => positionId == this.props.positionId)
@@ -187,6 +195,9 @@ class AdjustPositionPopup extends Component {
           const finalCalculatedLeverage = new BigNumber(newPositionValue).div(newEquityValue).toNumber()
           this.bloc.finalCalculatedLeverage$.next(finalCalculatedLeverage)
 
+          const ibToken = getIbTokenFromOriginalToken(this.props.baseToken)
+          const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
@@ -218,7 +229,9 @@ class AdjustPositionPopup extends Component {
           
           this.bloc.amountToBeBorrowed$.next(Math.max(0, amountToBeBorrowed))
           this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
-          this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)
+
+          this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
+          this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
 
           // Calculate Price Impact
 
@@ -263,7 +276,9 @@ class AdjustPositionPopup extends Component {
             getOutputTokenAmount$(
               this.props.baseToken, 
               this.props.farmingToken, 
-              Math.max(0, new BigNumber(amountToBeBorrowed).div(2).toFixed(0))
+              new BigNumber(amountToBeBorrowed).gte(0)
+                ? new BigNumber(amountToBeBorrowed).div(2).toFixed(0)
+                : 0
             ).subscribe(({ priceImpact }) => {
               this.bloc.priceImpact$.next(priceImpact)
             })
@@ -325,6 +340,7 @@ class AdjustPositionPopup extends Component {
         })
       ),
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -356,6 +372,16 @@ class AdjustPositionPopup extends Component {
 
   renderButton = () => {
     const { baseToken, farmingToken: _farmingToken, vaultAddress } = this.props
+
+    if (this.bloc.isLoading$.value) {
+      return (
+        <button
+          className="AddPositionPopup__farmButton"
+        >
+          ...
+        </button>
+      )
+    }
 
     // KLAY -> WKLAY
     const isFarmingTokenKLAY = this.bloc.isKLAY(_farmingToken && _farmingToken.address)
@@ -448,7 +474,7 @@ class AdjustPositionPopup extends Component {
     const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
 
     const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address])
+      .multipliedBy(addressKeyFind(tokenPrices$.value, tokenList.KLEVA.address))
       .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
       .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
       .multipliedBy(leverage - 1)
@@ -472,7 +498,11 @@ class AdjustPositionPopup extends Component {
       tradingFeeAPRBefore,
       klevaRewardsAPRBefore,
       borrowingInterestAPRBefore,
+
+      baseBorrowingInterestAPR,
     } = this.props
+
+    const ibToken = getIbTokenFromOriginalToken(baseToken)
 
     // Final Caluclated Leverage Value
     const finalLeverageValue = this.bloc.finalCalculatedLeverage$.value
@@ -513,9 +543,8 @@ class AdjustPositionPopup extends Component {
 
     const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(finalLeverageValue)
 
-    const after_borrowingInterestAPR = new BigNumber(borrowingInterestAPRBefore)
+    const after_borrowingInterestAPR = new BigNumber(baseBorrowingInterestAPR)
       .multipliedBy(finalLeverageValue - 1)
-      .div(this.bloc.currentPositionLeverage$.value - 1)
       .toNumber()
 
     const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
@@ -551,6 +580,19 @@ class AdjustPositionPopup extends Component {
             <APRAPYBrief
               totalAPRBefore={before_totalAPR}
               totalAPRAfter={after_totalAPR}
+
+              yieldFarmingBefore={yieldFarmingAPRBefore}
+              yieldFarmingAfter={after_yieldFarmingAPR}
+
+              tradingFeeBefore={tradingFeeAPRBefore}
+              tradingFeeAfter={after_tradingFeeAPR}
+
+              klevaRewardsAPRBefore={klevaRewardsAPRBefore}
+              klevaRewardsAPRAfter={after_klevaRewardsAPR}
+
+              borrowingInterestAPRBefore={borrowingInterestAPRBefore}
+              borrowingInterestAPRAfter={after_borrowingInterestAPR}
+              
               showDetail$={this.bloc.showAPRDetail$}
             />
             <AdjustPositionPopupOptionSwitcher
@@ -584,12 +626,6 @@ class AdjustPositionPopup extends Component {
               </div>
             </AdjustPositionPopupOptionSwitcher>
           </div>
-          <Checkbox
-            className="AdjustPositionPopup__summaryCheckbox"
-            label="Summary"
-            checked$={this.bloc.showSummary$}
-          />
-          {this.renderButton()}
         </div>
         {this.bloc.showSummary$.value && (
           <AdjustPositionPopupSummary
@@ -620,6 +656,17 @@ class AdjustPositionPopup extends Component {
             finalPositionIngredientBaseTokenAmount={this.bloc.finalPositionIngredientBaseTokenAmount$.value}
             finalPositionIngredientFarmingTokenAmount={this.bloc.finalPositionIngredientFarmingTokenAmount$.value}
           />
+        )}
+        <Checkbox
+          className="AdjustPositionPopup__summaryCheckbox"
+          label="Summary"
+          checked$={this.bloc.showSummary$}
+        />
+        {this.renderButton()}
+        {!!this.bloc.borrowMore$.value && !this.bloc.isDebtSizeValid$.value && (
+          <p className="AddPositionPopup__minDebtSize">
+            Minimum Debt Size: {nFormatter(new BigNumber(ibToken.minDebtSize).div(10 ** ibToken.decimals).toNumber(), 2)} {baseToken?.title}
+          </p>
         )}
       </Modal>
     )

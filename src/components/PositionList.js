@@ -1,29 +1,37 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import './PositionList.scss'
-import { openModal$ } from '../streams/ui'
+import { isDesktop$, openModal$ } from '../streams/ui'
 import PositionItem from './PositionItem'
 import ClosePositionPopup from './ClosePositionPopup'
 import { aprInfo$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
 import KilledPositionItem from './KilledPositionItem'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { tokenPrices$ } from '../streams/tokenPrice'
+import PositionItemCard from './PositionItemCard'
+import KilledPositionItemCard from './KilledPositionItemCard'
 
 class PositionList extends Component {
   destroy$ = new Subject()
   
+  state = {
+    activeId: 0,
+  }
+
   componentDidMount() {
     merge(
+      isDesktop$,
       aprInfo$,
       workerInfo$,
       lendingTokenSupplyInfo$,
       tokenPrices$,
       klevaAnnualRewards$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -32,6 +40,74 @@ class PositionList extends Component {
   
   componentWillUnmount() {
     this.destroy$.next(true)
+  }
+
+  // Mobile Only
+  expandCard = (id) => {
+    this.setState({ activeId: id })
+  }
+
+  renderPositionItem = ({
+    positionInfo,
+    lendingTokenSupplyInfo,
+    tokenPrices,
+    klevaAnnualRewards,
+    aprInfo,
+    workerInfo,
+    idx,
+  }) => {
+    const { activeId } = this.state
+    if (!isDesktop$.value) {
+
+      return (
+        <PositionItemCard 
+          key={positionInfo && positionInfo.id}
+          lendingTokenSupplyInfo={lendingTokenSupplyInfo$.value}
+          tokenPrices={tokenPrices$.value}
+          klevaAnnualRewards={klevaAnnualRewards$.value}
+          aprInfo={aprInfo}
+          workerInfo={workerInfo}
+          isExpand={activeId === positionInfo?.id}
+          onClick={() => {
+            this.expandCard(activeId === positionInfo?.id 
+              ? null
+              : positionInfo?.id
+            )
+          }}
+          {...positionInfo}
+        />
+      )
+    }
+
+    return (
+      <PositionItem
+        key={positionInfo && positionInfo.id}
+        lendingTokenSupplyInfo={lendingTokenSupplyInfo$.value}
+        tokenPrices={tokenPrices$.value}
+        klevaAnnualRewards={klevaAnnualRewards$.value}
+        aprInfo={aprInfo}
+        workerInfo={workerInfo}
+        {...positionInfo}
+      />
+    )
+  }
+
+  renderKilledPositionItem = ({ positionInfo }) => {
+    if (!isDesktop$.value) {
+      return (
+        <KilledPositionItemCard 
+          key={positionInfo && positionInfo.id}
+          {...positionInfo}
+        />
+      )
+    }
+
+    return (
+      <KilledPositionItem
+        key={positionInfo && positionInfo.id}
+        {...positionInfo}
+      />
+    )
   }
     
   render() {
@@ -70,29 +146,25 @@ class PositionList extends Component {
         }
         <div className="PositionList__content">
           {/* Content */}
-          {list.map((positionInfo) => {
-            const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
-            const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+          {list
+            .filter((positionInfo) => positionInfo?.positionValue != 0)
+            .map((positionInfo, idx) => {
 
-            return view === "active" 
-              ? (
-                  <PositionItem 
-                    key={positionInfo && positionInfo.id}
-                    lendingTokenSupplyInfo={lendingTokenSupplyInfo$.value}
-                    tokenPrices={tokenPrices$.value}
-                    klevaAnnualRewards={klevaAnnualRewards$.value}
-                    aprInfo={aprInfo}
-                    workerInfo={workerInfo}
-                    {...positionInfo}
-                  />
-              )
-              : (
-                <KilledPositionItem 
-                  key={positionInfo && positionInfo.id}
-                  {...positionInfo}
-                />
-              )
-          })}
+              const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
+              const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+
+              return view === "active" 
+                ? this.renderPositionItem({
+                    positionInfo,
+                    lendingTokenSupplyInfo: lendingTokenSupplyInfo$.value,
+                    tokenPrices: tokenPrices$.value,
+                    klevaAnnualRewards: klevaAnnualRewards$.value,
+                    aprInfo,
+                    workerInfo,
+                    idx,
+                  })
+                : this.renderKilledPositionItem({ positionInfo })
+            })}
         </div>
       </div>
     )

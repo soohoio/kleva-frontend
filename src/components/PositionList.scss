@@ -9,7 +9,7 @@
 }
 
 .PositionList__header {
-  display: grid;
+  display: none;
   @include grid-column;
   @include font-style('font-1', 'm', 11px);
   color: #797b80;
@@ -21,6 +21,10 @@
   border-radius: 8px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+
+  @include desktop {
+    display: grid;
+  }
 }
 
 .PositionList__headerNumber {

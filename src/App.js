@@ -158,6 +158,7 @@ class App extends Component<Props> {
         }),
       ),
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

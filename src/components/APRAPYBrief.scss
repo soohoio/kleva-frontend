@@ -27,3 +27,14 @@
     color: #3369ff;
   }
 }
+
+.APRAPYBrief__aprDetail {
+  border-left: 4px solid #f5f5f5;
+  padding-left: 12px;
+  margin-bottom: 13px;
+  margin-top: 8px;
+
+  @include desktop {
+    display: none;
+  }
+}

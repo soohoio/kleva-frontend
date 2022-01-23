@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { GT_TOKEN } from 'constants/setting'
 
@@ -32,6 +32,7 @@ class StakingPoolItemExpanded extends Component {
       currentBlockNumber$,
       selectedAddress$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

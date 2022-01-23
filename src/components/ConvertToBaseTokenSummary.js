@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, interval, of } from 'rxjs'
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import FarmSummaryItem from 'components/FarmSummaryItem'
 
@@ -18,11 +18,13 @@ class ConvertToBaseTokenSummary extends Component {
   priceImpact$ = new BehaviorSubject()
   
   componentDidMount() {
+    const { listenedOutputAmount$ } = this.props
 
     merge(
       this.outputAmount$,
       this.priceImpact$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -47,6 +49,10 @@ class ConvertToBaseTokenSummary extends Component {
           .toNumber(), 
           4
         ))
+
+        // Send to ClosePositionPopup component
+        listenedOutputAmount$.next(new BigNumber(outputAmount.outputAmount))
+
         this.priceImpact$.next(outputAmount && nFormatter(outputAmount.priceImpact, 2))
       }),
       takeUntil(this.destroy$)

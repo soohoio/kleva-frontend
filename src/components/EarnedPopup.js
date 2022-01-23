@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { BehaviorSubject, Subject, merge } from 'rxjs'
-import { switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import './EarnedPopup.scss'
 import Modal from './common/Modal'
@@ -33,6 +33,7 @@ class EarnedPopup extends Component {
     merge(
       pendingGT$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

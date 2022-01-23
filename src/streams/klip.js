@@ -12,9 +12,9 @@ import { toFixed } from '../utils/calc'
 
 export const requestStatus$ = new BehaviorSubject({})
 
-const BAPP_NAME = "KLEVA PROTOCOL"
-
 let isIOS = /iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+const BAPP_NAME = "KLEVA PROTOCOL"
 
 export const getDeeplink = (request_key, userAgent = navigator.userAgent) => {
   let deeplink = ''
@@ -56,25 +56,6 @@ export const request$ = (requestKey) => {
   )
 }
 
-// const _request$ = (requestKey) => new Observable((observer) => {
-//   const qrCodeMode = !isMobile
-//   if (qrCodeMode) {
-//     openModal$.next({
-//       component: <KlipQRCode observer={observer} request_key={requestKey} />
-//     })
-//     return
-//   }
-
-//   request(requestKey, () => {
-//     alert('not supported.')
-//     observer.next("not supported")
-//     observer.complete()
-//   })
-
-//   observer.next(true)
-//   observer.complete()
-// })
-
 const _request$ = (requestKey) => new Observable((observer) => {
   const qrCodeMode = !isMobile
   if (qrCodeMode) {
@@ -84,7 +65,6 @@ const _request$ = (requestKey) => new Observable((observer) => {
     return
   }
 
-  // window.location.href = getDeeplink(requestKey)
   top.window.location.href = getDeeplink(requestKey)
   observer.next(true)
   observer.complete()

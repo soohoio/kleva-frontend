@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge, interval, of, BehaviorSubject } from 'rxjs'
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import './LockedKlevaMobile.scss'
 import { fetchUnlockAmount$, lockedKlevaAmount$, selectedAddress$, unlockableKlevaAmount$ } from '../streams/wallet'
@@ -22,6 +22,7 @@ class LockedKlevaMobile extends Component {
       selectedAddress$,
       this.isLoading$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

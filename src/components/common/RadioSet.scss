@@ -1,15 +1,14 @@
 .RadioSet {
   display: flex;
   align-items: center;
+  gap: 36px;
+  
+  @include desktop {
+    gap: 56px;
+  }
 }
 
 .RadioSet__item {
-
-  margin-right: 56px;
-  &:last-of-type {
-    margin-right: 0;
-  }
-
   cursor: pointer;
   @include font-style('font-1', 'm', 13px);
   color: rgba(73, 74, 77, 0.7);

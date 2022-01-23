@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, fromEvent, of } from 'rxjs'
-import { switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import { range } from 'lodash'
 
@@ -17,6 +17,7 @@ class CommonGauge extends Component {
     merge(
       percentage$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -84,7 +85,7 @@ class CommonGauge extends Component {
     const indexLike = (percentage$.value) / offset
     const barWidth = (indexLike / (barItemCount - 1)) * 100
 
-    const barHeadLeftMargin = 2
+    const barHeadLeftMargin = 0
     const barHeadLeft = `calc(${barWidth}% - ${barHeadLeftMargin}px)`
 
     return (

@@ -19,6 +19,8 @@ export const klayswapPoolInfo$ = new BehaviorSubject({})
 export const positions$ = new BehaviorSubject([])
 export const userPositionSummary$ = new BehaviorSubject({})
 
+export const fetchPositions$ = new Subject()
+
 window.positions$ = positions$
 
 // Pagination

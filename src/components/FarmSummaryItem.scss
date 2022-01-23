@@ -31,6 +31,12 @@
 }
 
 .FarmSummaryItem__left {
+  width: 185px;
+  
+  @include desktop {
+    width: auto;
+  }
+
   @include font-style('font-1', 'm', 13px);
   color: #494a4d;
 }

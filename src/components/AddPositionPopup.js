@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, of } from 'rxjs'
-import { takeUntil, tap, switchMap } from 'rxjs/operators'
+import { takeUntil, tap, switchMap, debounceTime } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import Modal from 'components/common/Modal'
@@ -20,7 +20,7 @@ import './AddPositionPopup.scss'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { allowancesInLendingPool$, selectedAddress$ } from '../streams/wallet'
 import { toNumber } from 'lodash'
-import { toAPY } from '../utils/calc'
+import { getBufferedLeverage, toAPY } from '../utils/calc'
 import { lendingPools, lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import { checkAllowances$ } from '../streams/contract'
 import { klevaAnnualRewards$, poolReserves$ } from '../streams/farming'
@@ -30,6 +30,7 @@ import APRAPYBrief from './APRAPYBrief'
 import APRAPYDetailed from './APRAPYDetailed'
 import Checkbox from './common/Checkbox'
 import AddPositionPopupSummary from './AddPositionPopupSummary'
+import { addressKeyFind, isSameAddress, nFormatter } from '../utils/misc'
 
 class AddPositionPopup extends Component {
   destroy$ = new Subject()
@@ -37,11 +38,19 @@ class AddPositionPopup extends Component {
   constructor(props) {
     super(props)
     this.bloc = new Bloc(props)
+
+    // Set default leverage first
+    const { workerInfo } = this.props
+    const workerConfig = addressKeyFind(workerInfo, this.bloc.worker$?.value?.workerAddress)
+    const leverageCap = getBufferedLeverage(workerConfig?.workFactorBps)
+    
+    this.bloc.leverage$.next(Math.min(props.defaultLeverage, leverageCap))
   }
   
   componentDidMount() {
     merge(
       selectedAddress$,
+      this.bloc.isLoading$,
       this.bloc.allowances$,
       this.bloc.borrowingAsset$,
       this.bloc.priceImpact$,
@@ -57,15 +66,19 @@ class AddPositionPopup extends Component {
       klevaAnnualRewards$,
       balancesInWallet$,
       poolReserves$,
+      this.bloc.borrowMoreAvailable$,
+      this.bloc.isDebtSizeValid$,
       merge(
         this.bloc.farmingTokenAmount$.pipe(
-          tap(() => {
-            this.bloc.calcFarmingTokenAmountInBaseToken$().subscribe()
+          debounceTime(100),
+          switchMap(() => {
+            return this.bloc.calcFarmingTokenAmountInBaseToken$()
           })
         ),
         this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
       ).pipe(
+        debounceTime(100),
         tap(() => {
           this.bloc.getAfterPositionValue()
           this.bloc.getPriceImpact(poolReserves$.value)
@@ -82,14 +95,20 @@ class AddPositionPopup extends Component {
           const workerConfig = workerInfo && workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
           const workFactorBps = workerConfig && workerConfig.workFactorBps
 
+          // Min Debt Size Check
+          const ibToken = getIbTokenFromOriginalToken(this.bloc.borrowingAsset$.value)
+          const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
           const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
-          this.bloc.borrowMoreAvailable$.next(_borrowMoreAvailable)
+          this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
+          this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
         })
       ),
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -121,6 +140,16 @@ class AddPositionPopup extends Component {
 
   renderButton = () => {
     const { title, leverage, onSelect } = this.props
+
+    if (this.bloc.isLoading$.value) {
+      return (
+        <button
+          className="AddPositionPopup__farmButton"
+        >
+          ...
+        </button>
+      )
+    }
 
     const baseToken = this.bloc.baseToken$.value
     
@@ -166,8 +195,7 @@ class AddPositionPopup extends Component {
       )
     }
 
-    const isDisabled = this.bloc.baseTokenAmount$.value == 0 
-      && this.bloc.farmingTokenAmount$.value == 0
+    const isDisabled = (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
       || this.bloc.borrowMoreAvailable$.value == false
 
     return (
@@ -224,18 +252,20 @@ class AddPositionPopup extends Component {
       workerInfo,
     } = this.props  
 
-    const farmingToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
+    const ibToken = getIbTokenFromOriginalToken(this.bloc.borrowingAsset$.value)
+
+    const farmingToken = isSameAddress(this.bloc.borrowingAsset$.value?.address, token1?.address) 
       ? token2
       : token1
 
-    const baseToken = (this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()) === token1.address.toLowerCase()
+    const baseToken = isSameAddress(this.bloc.borrowingAsset$.value?.address, token1?.address)
       ? token1
       : token2
 
     const workerConfig = workerInfo &&
       workerInfo[this.bloc.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.bloc.worker$.value.workerAddress]
 
-    const leverageCap = 10000 / (10000 - workerConfig.workFactorBps)
+    const leverageCap = getBufferedLeverage(workerConfig.workFactorBps)
 
     // APR Before
     const before_yieldFarmingAPR = yieldFarmingAPR
@@ -279,7 +309,7 @@ class AddPositionPopup extends Component {
     const farmingTokenAmountInBaseToken = this.bloc.farmingTokenAmountInBaseToken$.value
 
     return (
-      <Modal className="AddPositionPopup__modal" title={title}>
+      <Modal ref={this.$baseElem} className="AddPositionPopup__modal" title={title}>
         {this.bloc.showAPRDetail$.value && (
           <APRAPYDetailed 
             showDetail$={this.bloc.showAPRDetail$}
@@ -304,6 +334,18 @@ class AddPositionPopup extends Component {
             <APRAPYBrief 
               totalAPRBefore={before_totalAPR}
               totalAPRAfter={after_totalAPR}
+
+              yieldFarmingBefore={before_yieldFarmingAPR}
+              yieldFarmingAfter={after_yieldFarmingAPR}
+              tradingFeeBefore={before_tradingFeeAPR}
+              tradingFeeAfter={after_tradingFeeAPR}
+
+              klevaRewardsAPRBefore={before_klevaRewardsAPR}
+              klevaRewardsAPRAfter={after_klevaRewardsAPR}
+
+              borrowingInterestAPRBefore={before_borrowingInterestAPR}
+              borrowingInterestAPRAfter={after_borrowingInterestAPR}
+            
               showDetail$={this.bloc.showAPRDetail$}
             />
             <div className="AddPositionPopup__controller">
@@ -327,12 +369,6 @@ class AddPositionPopup extends Component {
               />
             </div>
           </div>
-          <Checkbox
-            className="AddPositionPopup__summaryCheckbox"
-            label="Summary"
-            checked$={this.bloc.showSummary$}
-          />
-          {this.renderButton()}
         </div>
         {this.bloc.showSummary$.value && (
           <AddPositionPopupSummary
@@ -345,6 +381,17 @@ class AddPositionPopup extends Component {
             priceImpact={this.bloc.priceImpact$.value}
             afterPositionValue={this.bloc.afterPositionValue$.value}
           />
+        )}
+        <Checkbox
+          className="AddPositionPopup__summaryCheckbox"
+          label="Summary"
+          checked$={this.bloc.showSummary$}
+        />
+        {this.renderButton()}
+        {!this.bloc.isDebtSizeValid$.value && (
+          <p className="AddPositionPopup__minDebtSize">
+            Minimum Debt Size: {nFormatter(new BigNumber(ibToken.minDebtSize).div(10 ** ibToken.decimals).toNumber(), 2)} {this.bloc.borrowingAsset$.value?.title}
+          </p>
         )}
       </Modal>
     )

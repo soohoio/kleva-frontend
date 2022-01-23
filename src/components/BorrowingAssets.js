@@ -25,6 +25,7 @@ class BorrowingAssets extends Component {
       <div className="BorrowingAssets">
         <p className="BorrowingAssets__title">Borrowing Assets</p>
         <Opener
+          openMethod="top"
           items={items}
           selectedItem={selectedItem}
           onSelect={onSelect}

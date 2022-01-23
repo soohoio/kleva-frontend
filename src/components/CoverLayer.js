@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react'
 import cx from 'classnames'
 import { Subject } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { modalContentComponent$, overlayBackgroundColor$, openModal$, closeModal$ } from 'streams/ui'
 
@@ -16,6 +16,7 @@ class CoverLayer extends Component<Props> {
 
   componentDidMount() {
     modalContentComponent$.pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

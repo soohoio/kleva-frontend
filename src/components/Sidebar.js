@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import { browserHistory } from 'react-router'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { path$ } from 'streams/location'
 
@@ -48,6 +48,7 @@ class Sidebar extends Component {
 
   componentDidMount() {
     merge(path$).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -72,16 +73,10 @@ class Sidebar extends Component {
           title="Stake"
         />
         <SidebarItem
-          onClickOverwrite={() => {
-            openModal$.next({
-              component: <OpenSoon />
-            })
-          }}
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"
         />
-        {/* <LockedKLEVA /> */}
       </div>
     )
   }

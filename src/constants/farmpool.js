@@ -1,50 +1,26 @@
 import { keyBy } from "lodash"
-import { tokenList } from "./tokens"
+import { lpTokenByIngredients, tokenList } from "./tokens"
 import { workersBy } from "./workers"
 
+const makeFarm = (token1, token2) => {
+  return {
+    token1,
+    token2,
+    lpToken: lpTokenByIngredients(token1, token2),
+    workerList: workersBy(token1, token2),
+    exchange: 'klayswap',
+  }
+}
+
 export const farmPool = [
-  {
-    token1: tokenList.KLAY,
-    token2: tokenList.KUSDT,
-    lpToken: tokenList["KLAY-KUSDT LP"],
-    workerList: workersBy(tokenList.KLAY, tokenList.KUSDT),
-    exchange: 'klayswap',
-  },
-  {
-    token1: tokenList.KLAY,
-    token2: tokenList.KSP,
-    lpToken: tokenList["KLAY-KSP LP"],
-    workerList: workersBy(tokenList.KSP, tokenList.KLAY),
-    exchange: 'klayswap',
-  },
-  {
-    token1: tokenList.KLAY,
-    token2: tokenList.KETH,
-    lpToken: tokenList["KLAY-KETH LP"],
-    workerList: workersBy(tokenList.KLAY, tokenList.KETH),
-    exchange: 'klayswap',
-  },
-  {
-    token1: tokenList.KLAY,
-    token2: tokenList.KXRP,
-    lpToken: tokenList["KLAY-KXRP LP"],
-    workerList: workersBy(tokenList.KLAY, tokenList.KXRP),
-    exchange: 'klayswap',
-  },
-  {
-    token1: tokenList.KLAY,
-    token2: tokenList.WEMIX,
-    lpToken: tokenList["KLAY-WEMIX LP"],
-    workerList: workersBy(tokenList.KLAY, tokenList.WEMIX),
-    exchange: 'klayswap',
-  },
-  {
-    token1: tokenList.KUSDT,
-    token2: tokenList.KLEVA,
-    lpToken: tokenList["KLEVA-KUSDT LP"],
-    workerList: workersBy(tokenList.KUSDT, tokenList.KLEVA),
-    exchange: 'klayswap',
-  },
+  makeFarm(tokenList.KLAY, tokenList.WEMIX),
+  makeFarm(tokenList.KLAY, tokenList.KUSDT),
+  makeFarm(tokenList.KLAY, tokenList.KSP),
+  makeFarm(tokenList.KLAY, tokenList.KETH),
+  makeFarm(tokenList.KLAY, tokenList.KXRP),
+  makeFarm(tokenList.KUSDT, tokenList.KUSDC),
+  makeFarm(tokenList.KUSDT, tokenList.KDAI),
+  makeFarm(tokenList.KETH, tokenList.KUSDT),
 ]
 
 export const farmPoolByWorker = farmPool.reduce((acc, cur) => {

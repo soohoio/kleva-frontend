@@ -1,0 +1,166 @@
+.KilledPositionItemCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  background-color: #fff;
+  margin-bottom: 16px;
+
+  position: relative;
+
+  .LabelAndValue {
+    align-items: center;
+
+    &:last-of-type {
+      margin-top: 20px;
+    }
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'sb', 13px);
+    width: 151px;
+    color: #797b80;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #131414;
+  }
+}
+
+.KilledPositionItemCard__header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.KilledPositionItemCard__headerLeft {
+  display: flex;
+  gap: 16px;
+}
+
+.KilledPositionItemCard__poolInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.KilledPositionItemCard__pollInfoTitle {
+  @include font-style('font-1', 'b', 16px);
+  color: #131414;
+  margin-bottom: 1px;
+}
+
+.KilledPositionItemCard__poolInfoExchange {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.KilledPositionItemCard__infoIconList {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.KilledPositionItemCard__infoIcon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  border-radius: 50%;
+
+  &:last-of-type {
+    top: -6px;
+    z-index: 9;
+  }
+}
+
+.KilledPositionItemCard__infoTitleList {
+  display: flex; 
+  flex-direction: column;
+}
+
+.KilledPositionItemCard__infoTitle {
+  @include font-style('font-1', 'b', 16px);
+  color: #131414;
+}
+
+.KilledPositionItemCard__infoExchangeTitle {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.KilledPositionItemCard__apy {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 16px);
+    color: #131414;
+    margin-bottom: 4px;
+  }
+}
+
+.KilledPositionItemCard__apyLabel {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.KilledPositionItemCard__opener {
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  cursor: pointer;
+}
+
+.KilledPositionItemCard__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  margin-top: 36px;
+  margin-bottom: 16px;
+}
+
+.KilledPositionItemCard__adjustButton {
+  @include button-2(44px);
+  @include font-style('font-1', 'sb', 15px);
+  background-color: #ebf0ff;
+  color: #3369ff;
+  flex: 1;
+  margin-bottom: 4px;
+}
+
+.KilledPositionItemCard__closeButton {
+  @include button-2(44px);
+  @include font-style('font-1', 'sb', 15px);
+  background-color: #ffeae8;
+  color: #f25a49;
+  flex: 1;
+}
+
+.KilledPositionItemCard__content {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.KilledPositionItemCard__txHashViewButton {
+  @include button-2(28px);
+  @include font-style('font-1', 'sb', 12px);
+  background-color: #ebf0ff;
+  color: #3369ff;
+  width: 92px;
+  margin-bottom: 4px;
+}

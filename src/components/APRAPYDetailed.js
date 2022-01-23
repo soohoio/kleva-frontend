@@ -56,7 +56,7 @@ class APRAPYDetailed extends Component {
         />
         <FarmSummaryItem
           className="APRAPYDetailed__apy"
-          left="Total APY"
+          left="Total APR"
           right={(
             <BeforeAfter
               before={`${nFormatter(totalAPRBefore, 2)}%`}

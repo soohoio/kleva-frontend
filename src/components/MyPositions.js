@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, of, interval, BehaviorSubject } from 'rxjs'
-import { filter, switchMap, distinctUntilChanged, takeUntil, tap, startWith } from 'rxjs/operators'
+import { filter, switchMap, distinctUntilChanged, takeUntil, tap, startWith, delay, debounceTime } from 'rxjs/operators'
 
 import PositionList from 'components/PositionList'
 import FarmList from './FarmList'
@@ -10,7 +10,7 @@ import './MyPositions.scss'
 import { logout$, pendingGT$, selectedAddress$ } from '../streams/wallet'
 import { getKilledPositions$, getPositions$, getUserPositionSummary$, ITEM_PER_PAGE } from '../streams/graphql'
 import { getPositionInfo$ } from '../streams/contract'
-import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$, userPositionSummary$ } from '../streams/farming'
+import { aprInfo$, workerInfo$, positions$, viewingPositionLatestBlockTime$, userPositionSummary$, fetchPositions$ } from '../streams/farming'
 import Pagination from './Pagination'
 import { debtTokens, tokenList } from '../constants/tokens'
 import { openModal$ } from '../streams/ui'
@@ -32,7 +32,10 @@ class MyPositions extends Component {
           return merge(
             this.page$,
             this.view$,
-            interval(5000)
+            fetchPositions$.pipe(
+              delay(1000)
+            ),
+            interval(1000 * 10)
           ).pipe(
             startWith(0),
             switchMap(() => {
@@ -40,12 +43,16 @@ class MyPositions extends Component {
                 ? getPositions$(selectedAddress$.value, this.page$.value)
                 : getKilledPositions$(selectedAddress$.value, this.page$.value)
             }),
-            switchMap((positions) => { return getPositionInfo$(positions) }),
+            switchMap((positions) => { 
+              return getPositionInfo$(positions) 
+            }),
             tap((positions) => {
+
               const positionsAttachedWorkerInfo = positions.map((p) => {
                 const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
                 return { ...p, ..._workerInfo }
               },)
+
               positions$.next(positionsAttachedWorkerInfo)
             }),
             switchMap(() => getUserPositionSummary$(selectedAddress$.value)),
@@ -67,6 +74,7 @@ class MyPositions extends Component {
       positions$,
       userPositionSummary$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -97,9 +105,13 @@ class MyPositions extends Component {
       ? userPositionSummary$.value && userPositionSummary$.value.livePositionCount
       : userPositionSummary$.value && userPositionSummary$.value.killedPositionCount
 
+    const hasItem = new BigNumber(userPositionSummary$.value?.livePositionCount)
+      .plus(userPositionSummary$.value?.killedPositionCount)
+      .gt(0)
+
     const lastPage = Math.ceil(totalItemCount / ITEM_PER_PAGE)
 
-    return !!selectedAddress$.value && (
+    return !!selectedAddress$.value && hasItem && (
       <div className="MyPositions">
         <div className="MyPositions__header">
           <div className="MyPositions__headerLeft">
@@ -132,7 +144,7 @@ class MyPositions extends Component {
           <div className="MyPositions__headerRight">
             <div className="MyPositions__KlevaEarned">
               <div className="MyPositions__KlevaEarnedInfo">
-                <span className="MyPositions__KlevaEarnedValue">{Number(earned).toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>
+                <span className="MyPositions__KlevaEarnedValue">{Number(earned).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
                 <span className="MyPositions__KlevaEarnedLabel">KLEVA Earned</span>
               </div>
               <button onClick={() => openModal$.next({ component: <EarnedPopup />})} className="MyPositions__KleaveEarnedEarnButton">

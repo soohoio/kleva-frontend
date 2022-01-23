@@ -30,7 +30,9 @@ class BorrowingAssetSelector extends Component {
     })
 
     return (
-      <div className="BorrowingAssetSelector">
+      <div 
+        className={cx("BorrowingAssetSelector")}
+      >
         <Opener
           selectedItem={selected}
           items={listAttachedBorrowingInterestAPR}

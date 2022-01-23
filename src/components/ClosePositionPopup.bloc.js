@@ -1,11 +1,12 @@
 import { BehaviorSubject } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from '../constants/address'
 import { caver, convertToBaseToken$, getTransactionReceipt$, minimizeTrading$, partialCloseLiquidate$, partialMinimizeTrading$ } from '../streams/contract'
 import { fetchWalletInfo$ } from '../streams/wallet'
 import { closeModal$ } from '../streams/ui'
+import { fetchPositions$ } from '../streams/farming'
 
 export default class {
   constructor({ 
@@ -22,6 +23,8 @@ export default class {
     this.baseToken = baseToken
 
     this.workerInfo = workerInfo
+
+    this.isLoading$ = new BehaviorSubject()
 
     this.farmingTokenAmount$ = new BehaviorSubject('')
     this.baseTokenAmount$ = new BehaviorSubject('')
@@ -59,6 +62,10 @@ export default class {
 
     this.priceImpact$ = new BehaviorSubject()
     this.amountToTrade$ = new BehaviorSubject()
+
+    // Listen from summary components
+    this.listenedOutputAmount$ = new BehaviorSubject()
+    this.listenedAmountToTrade$ = new BehaviorSubject()
   }
 
   closePosition = () => {
@@ -92,8 +99,18 @@ export default class {
 
   convertToBaseToken = () => {
     const strategyAddress = STRATEGIES["LIQUIDATE_STRATEGY"]
-    // @TODO
-    const MIN_BASE_TOKEN_AMOUNT = 0
+
+    const convertedPositionValue = new BigNumber(this.userBaseTokenAmount$.value)
+      .multipliedBy(10 ** this.baseToken.decimals)
+      .plus(new BigNumber(this.listenedOutputAmount$.value))
+      .toNumber()
+
+    const youWillReceiveBaseTokenAmount = new BigNumber(convertedPositionValue)
+      .minus(new BigNumber(this.debtValue$.value).multipliedBy(10 ** this.baseToken.decimals))
+      .toFixed(0)
+
+    const MIN_BASE_TOKEN_AMOUNT = new BigNumber(youWillReceiveBaseTokenAmount).multipliedBy(0.9).toFixed(0)
+
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_BASE_TOKEN_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
@@ -101,17 +118,25 @@ export default class {
       positionId: this.positionId,
       data,
     }).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
+      this.isLoading$.next(false)
+      fetchPositions$.next(true)
+      closeModal$.next(true)
     })
   }
 
   minimizeTrading = () => {
     const strategyAddress = STRATEGIES["MINIMIZE_TRADING_STRATEGY"]
-    
-    // @TODO
-    const MIN_FARMING_TOKEN_AMOUNT = 0
+
+    const youWillReceiveFarmingTokenAmount = new BigNumber(this.userFarmingTokenAmount$.value)
+      .multipliedBy(10 ** this.farmingToken.decimals)
+      .minus(this.listenedAmountToTrade$.value)
+      .toNumber()
+
+    const MIN_FARMING_TOKEN_AMOUNT = new BigNumber(youWillReceiveFarmingTokenAmount).multipliedBy(0.9).toFixed(0)
 
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_FARMING_TOKEN_AMOUNT])
     const data = caver.klay.abi.encodeParameters(
@@ -123,9 +148,13 @@ export default class {
       positionId: this.positionId,
       data,
     }).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
       fetchWalletInfo$.next(true)
+      fetchPositions$.next(true)
+      this.isLoading$.next(false)
+      closeModal$.next(true)
     })
   }
 
@@ -188,8 +217,10 @@ export default class {
     }).pipe(
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
       closeModal$.next(true)
+      fetchPositions$.next(true)
     })
   }
 }

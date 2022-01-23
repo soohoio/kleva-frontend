@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import './LYFPrice.scss'
 import { tokenPrices$ } from '../streams/tokenPrice'
@@ -14,6 +14,7 @@ class LYFPrice extends Component {
     merge(
       tokenPrices$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

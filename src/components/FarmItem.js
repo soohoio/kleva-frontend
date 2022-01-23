@@ -10,7 +10,7 @@ import AddPositionPopup from './AddPositionPopup'
 
 
 import './FarmItem.scss'
-import { toAPY } from '../utils/calc'
+import { getBufferedLeverage, toAPY } from '../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import BorrowingAssetSelector from './BorrowingAssetSelector'
 import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
@@ -85,7 +85,7 @@ class FarmItem extends Component {
     const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
 
     const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices[tokenList.KLEVA.address])
+      .multipliedBy(tokenPrices[tokenList.KLEVA.address.toLowerCase()])
       .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
       .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
       .multipliedBy(leverageValue - 1)
@@ -117,6 +117,11 @@ class FarmItem extends Component {
       tokenPrices,
 
       selectedAddress,
+
+      activeLpTokenAddress,
+      shouldShowOpener,
+      onExpand,
+      isExpand,
     } = this.props
     
     const yieldFarmingAPR = aprInfo && 
@@ -161,84 +166,101 @@ class FarmItem extends Component {
     const workerConfig = workerInfo &&
       workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
 
-    const leverageCap = workerConfig && (10000 / (10000 - workerConfig.workFactorBps))
+
+    const leverageCapRaw = workerConfig && 10000 / (10000 - workerConfig.workFactorBps)
+    const leverageCap = workerConfig && getBufferedLeverage(workerConfig.workFactorBps)
 
     return (
       <div className="FarmItem">
-        <div className="FarmItem__header">
-          <div className="FarmItem__tokenImages">
-            <img className="FarmItem__tokenIcon" src={token1.iconSrc} />
-            <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token2.iconSrc} />
-          </div>
-          <div className="FarmItem__mainInfo">
-            <p className="FarmItem__title">{token1.title}-{token2.title}</p>
-            <p className="FarmItem__tvl">TVL ${farmDeposited && nFormatter(farmDeposited.deposited, 2)}</p>
+        <div onClick={onExpand} className="FarmItem__header">
+          <div className="FarmItem__headerLeft">
+            <div className="FarmItem__tokenImages">
+              <img className="FarmItem__tokenIcon" src={token1.iconSrc} />
+              <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token2.iconSrc} />
+            </div>
+            <div className="FarmItem__mainInfo">
+              <p className="FarmItem__title">{token1.title}-{token2.title}</p>
+              <p className="FarmItem__tvl">TVL ${farmDeposited && nFormatter(farmDeposited.deposited, 2)}</p>
+            </div>
           </div>
           <div className="FarmItem__subInfo">
-            <p className="FarmItem__apy">{Number(APY).toLocaleString('en-us', {maximumFractionDigits: 2 })}%</p>
+            <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
             <p className="FarmItem__exchange">{exchange}</p>
           </div>
         </div>
-        <div className="FarmItem__content">
-          <FarmProperty label="Yield Farming" value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
-          <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />
-          <FarmProperty label="KLEVA Rewards" value={`${nFormatter(debtTokenKlevaRewardsAPR, 2)}%`} />
-          <FarmProperty 
-            label="Borrowing Interest" 
-            value={(
-              <BorrowingAssetSelector
-                list={borrowingInterestAttachedAssets}
-                selected={selectedBorrowingAssetWithInterest}
-                onSelect={(item) => {
-                  this.setState({ borrowingAsset: item })
+        {isExpand && (
+          <>
+            <div className="FarmItem__content">
+              <FarmProperty label="Yield Farming" value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
+              <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />
+              <FarmProperty label="KLEVA Rewards" value={`${nFormatter(debtTokenKlevaRewardsAPR, 2)}%`} />
+              <FarmProperty
+                label="Borrowing Interest"
+                value={(
+                  <BorrowingAssetSelector
+                    list={borrowingInterestAttachedAssets}
+                    selected={selectedBorrowingAssetWithInterest}
+                    onSelect={(item) => {
+                      this.setState({ borrowingAsset: item })
+                    }}
+                  />
+                )}
+              />
+              <FarmProperty className="FarmItem__totalAPR" label="Total APR" value={`${nFormatter(totalAPR, 2)}%`} />
+            </div>
+            <div className="FarmItem__footer">
+              <LeverageController
+                offset={0.5}
+                currentLeverage={leverageValue}
+                leverageCap={leverageCap}
+                setLeverage={(v) => {
+                  if (v < 1) return
+                  if (v > leverageCapRaw) return
+                  this.setState({ leverageValue: v })
                 }}
               />
-            )} 
-          />
-          <FarmProperty className="FarmItem__totalAPR" label="Total APR" value={`${nFormatter(totalAPR, 2)}%`} />
-        </div>
-        <div className="FarmItem__footer">
-          <LeverageController
-            offset={0.5}
-            currentLeverage={leverageValue}
-            leverageCap={leverageCap}
-            setLeverage={(v) => {
-              if (v < 1) return
-              if (v > leverageCap) return
-              this.setState({ leverageValue: v })
-            }} 
-          />
-          <button 
-            className={cx("FarmItem__button", {
-              "FarmItem__button--disabled": !selectedAddress,
-            })}
-            onClick={() => {
+              <button
+                className={cx("FarmItem__button", {
+                  "FarmItem__button--disabled": !selectedAddress,
+                })}
+                onClick={() => {
 
-              if (!selectedAddress) return
+                  if (!selectedAddress) return
 
-              openModal$.next({
-                component: (
-                <AddPositionPopup 
-                  title="Add Position" 
-                  yieldFarmingAPR={yieldFarmingAPR}
-                  tradingFeeAPR={tradingFeeAPR}
-                  
-                  workerList={workerList}
-                  workerInfo={workerInfo}
+                  openModal$.next({
+                    component: (
+                      <AddPositionPopup
+                        title="Add Position"
+                        defaultLeverage={leverageValue}
+                        yieldFarmingAPR={yieldFarmingAPR}
+                        tradingFeeAPR={tradingFeeAPR}
 
-                  token1={token1}
-                  token2={token2}
+                        workerList={workerList}
+                        workerInfo={workerInfo}
 
-                  lpToken={lpToken}
-                  borrowingAvailableAssets={this.borrowingAvailableAssets}
-                  leverage={1}
-                />)
-              })
-            }}
-          >
-            Farm {leverageValue}x
-          </button>
-        </div>
+                        token1={token1}
+                        token2={token2}
+
+                        lpToken={lpToken}
+                        borrowingAvailableAssets={this.borrowingAvailableAssets}
+                        leverage={1}
+                      />)
+                  })
+                }}
+              >
+                Farm {leverageValue}x
+              </button>
+            </div>
+          </>
+        )}
+        {shouldShowOpener && (
+          <div onClick={onExpand} className="FarmItem__opener">
+            {isExpand
+              ? <img className="FarmItem__expandIcon" src="/static/images/icon-unexpand.svg" />
+              : <img className="FarmItem__expandIcon" src="/static/images/icon-expand.svg" />
+            }
+          </div>
+        )}
       </div>
     )
   }

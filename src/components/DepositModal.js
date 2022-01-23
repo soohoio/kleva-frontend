@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
 import { Subject, merge } from 'rxjs'
-import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
 
 import { balancesInWallet$, allowancesInLendingPool$ } from 'streams/wallet'
 
@@ -33,6 +33,7 @@ class DepositModal extends Component {
       ),
       allowancesInLendingPool$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

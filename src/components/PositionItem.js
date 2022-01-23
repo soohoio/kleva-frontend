@@ -12,6 +12,7 @@ import AdjustPositionPopup from './AdjustPositionPopup'
 
 import './PositionItem.scss'
 import { nFormatter } from '../utils/misc'
+import { getBufferedLeverage, toAPY } from '../utils/calc'
 
 class PositionItem extends Component {
   destroy$ = new Subject()
@@ -56,7 +57,7 @@ class PositionItem extends Component {
     const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
 
     const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices[tokenList.KLEVA.address])
+      .multipliedBy(tokenPrices[tokenList.KLEVA.address.toLowerCase()])
       .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
       .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
       .multipliedBy(leverageValue - 1)
@@ -97,8 +98,13 @@ class PositionItem extends Component {
 
         tokenPrices,
     } = this.props
-    
+
     const lpToken = lpTokenByIngredients(farmingToken, baseToken)
+
+    const positionValueParsed = new BigNumber(positionValue)
+      .div(10 ** this.props.baseToken.decimals)
+      .toNumber()
+      .toLocaleString('en-us', { maximumFractionDigits: 6 })
 
     const debtRatio = new BigNumber(debtValue || 0)
       .div(positionValue || 1)
@@ -123,7 +129,7 @@ class PositionItem extends Component {
         .toNumber()
         .toLocaleString('en-us', { maximumFractionDigits: 2 })
 
-    const leverageCap = 10000 / (10000 - Number(workFactorBps))
+    const leverageCap = getBufferedLeverage(workFactorBps)
 
     // APR
     const currentPositionLeverage = this.getCurrentLeverageValue()
@@ -148,11 +154,13 @@ class PositionItem extends Component {
       .multipliedBy(currentPositionLeverage - 1)
       .toNumber()
 
-    const before_apy = new BigNumber(before_yieldFarmingAPR)
+    const before_apr = new BigNumber(before_yieldFarmingAPR)
       .plus(before_tradingFeeAPR)
       .plus(before_klevaRewardsAPR)
       .minus(before_borrowingInterestAPR)
       .toNumber()
+
+    const before_apy = toAPY(before_apr)
 
     return (
       <div className="PositionItem">
@@ -219,12 +227,15 @@ class PositionItem extends Component {
                 tradingFeeAPRBefore={before_tradingFeeAPR}
                 klevaRewardsAPRBefore={before_klevaRewardsAPR}
                 borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                
+                baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
               />
             })
 
 
           }} className="PositionItem__adjustButton">Adjust</button>
           <button className="PositionItem__closeButton" onClick={() => {
+
             openModal$.next({
               component: (
                 <ClosePositionPopup
@@ -241,6 +252,8 @@ class PositionItem extends Component {
                   tradingFeeAPRBefore={before_tradingFeeAPR}
                   klevaRewardsAPRBefore={before_klevaRewardsAPR}
                   borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                  
+                  baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
                 />
               )
             })

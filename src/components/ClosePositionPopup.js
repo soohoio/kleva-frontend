@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, interval, forkJoin } from 'rxjs'
-import { switchMap, distinctUntilChanged, startWith, takeUntil, tap, map } from 'rxjs/operators'
+import { switchMap, distinctUntilChanged, startWith, takeUntil, tap, map, debounceTime } from 'rxjs/operators'
 
 import Modal from 'components/common/Modal'
 
@@ -40,6 +40,7 @@ class ClosePositionPopup extends Component {
       klevaAnnualRewards$,
       klayswapPoolInfo$,
 
+      this.bloc.isLoading$,
       this.bloc.positionValue$,
       this.bloc.equityValue$,
       this.bloc.debtValue$,
@@ -70,6 +71,7 @@ class ClosePositionPopup extends Component {
 
       klayswapPoolInfo$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -193,6 +195,7 @@ class ClosePositionPopup extends Component {
         this.bloc.partialCloseAvailable$.next(_partialClosePositionAvailable)
       })
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -212,6 +215,9 @@ class ClosePositionPopup extends Component {
       case 'minimizeTrading':
         return (
           <MinimizeTradingSummary
+
+            listenedAmountToTrade$={this.bloc.listenedAmountToTrade$}
+
             poolInfo={poolInfo}
             tokenPrices={tokenPrices}
             farmingToken={farmingToken}
@@ -226,6 +232,9 @@ class ClosePositionPopup extends Component {
       case 'convertToBaseToken':
         return !!this.bloc.positionValue$.value && (
           <ConvertToBaseTokenSummary
+
+            listenedOutputAmount$={this.bloc.listenedOutputAmount$}
+
             poolInfo={poolInfo}
             tokenPrices={tokenPrices}
             farmingToken={farmingToken}
@@ -368,7 +377,10 @@ class ClosePositionPopup extends Component {
               "ClosePositionPopup__closePositionButton--disabled": !this.bloc.entirelyClose$.value && !this.bloc.partialCloseAvailable$.value,
             })}
           >
-            Close Position
+            {this.bloc.isLoading$.value 
+              ? "..."
+              : "Close Position"
+            }
           </button>
           {/* {!this.bloc.entirelyClose$.value && (
             <PartialClosePositionPopupSummary

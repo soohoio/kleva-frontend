@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { tokenPrices$ } from '../streams/tokenPrice'
 import { lendingPools } from '../constants/lendingpool'
@@ -19,6 +19,7 @@ class TVL extends Component {
       lendingTokenSupplyInfo$,
       farmPoolDeposited$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

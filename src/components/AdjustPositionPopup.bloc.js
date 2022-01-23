@@ -1,5 +1,5 @@
 import { BehaviorSubject, forkJoin, Subject } from "rxjs"
-import { switchMap } from "rxjs/operators"
+import { switchMap, tap } from "rxjs/operators"
 import BigNumber from 'bignumber.js'
 
 import { tokenList } from '../constants/tokens'
@@ -16,6 +16,10 @@ import {
 } from '../streams/contract'
 import { closeModal$ } from "../streams/ui"
 import { fetchWalletInfo$ } from "../streams/wallet"
+import { showDetailDefault$, showSummaryDefault$ } from "../streams/setting"
+import { fetchPositions$, klayswapPoolInfo$ } from "../streams/farming"
+import { addressKeyFind } from "../utils/misc"
+import { getLPAmountBasedOnIngredientsToken } from "../utils/calc"
 
 export default class {
   constructor({ 
@@ -30,6 +34,8 @@ export default class {
     this.farmingToken = farmingToken
     this.baseToken = baseToken
     this.workerInfo = workerInfo
+
+    this.isLoading$ = new BehaviorSubject()
     
     this.farmingTokenAmount$ = new BehaviorSubject('')
     this.baseTokenAmount$ = new BehaviorSubject('')
@@ -66,14 +72,17 @@ export default class {
 
     this.addCollateralAvailable$ = new BehaviorSubject()
     this.borrowMoreAvailable$ = new BehaviorSubject()
+    this.isDebtSizeValid$ = new BehaviorSubject()
     this.amountToBeBorrowed$ = new BehaviorSubject()
 
     this.priceImpact$ = new BehaviorSubject()
 
     // UI
     this.afterPositionValue$ = new BehaviorSubject()
-    this.showAPRDetail$ = new BehaviorSubject()
-    this.showSummary$ = new BehaviorSubject()
+    // this.showAPRDetail$ = new BehaviorSubject()
+    // this.showSummary$ = new BehaviorSubject()
+    this.showAPRDetail$ = showDetailDefault$
+    this.showSummary$ = showSummaryDefault$
     // 'addCollateral', 'borrowMore'
     this.selectedOption$ = new BehaviorSubject('addCollateral')
   }
@@ -97,6 +106,26 @@ export default class {
         .toFixed(0),
     ).subscribe(({ outputAmount }) => {
       this.farmingTokenAmountInBaseToken$.next(outputAmount)
+    })
+  }
+
+  getExpectedLPAmount = () => {
+    const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.lpToken$.value?.address)
+
+    return getLPAmountBasedOnIngredientsToken({
+      poolInfo,
+      token1: {
+        ...this.baseToken,
+        amount: new BigNumber(this.finalPositionIngredientBaseTokenAmount$.value || 0)
+          .multipliedBy(10 ** this.baseToken?.decimals)
+          .toString()
+      },
+      token2: {
+        ...this.farmingToken,
+        amount: new BigNumber(this.finalPositionIngredientFarmingTokenAmount$.value || 0)
+          .multipliedBy(10 ** this.farmingToken?.decimals)
+          .toString()
+      }
     })
   }
 
@@ -124,8 +153,7 @@ export default class {
     //   .plus(farmingTokenAmountConvertedInBaseToken)
     //   .toString()
 
-    // @TODO
-    const MIN_LP_AMOUNT = 0
+    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
 
     const ext = strategyType === "ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
@@ -155,9 +183,12 @@ export default class {
       data,
       value: _value,
     }).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe(() => {
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
+      fetchPositions$.next(true)
       closeModal$.next(true)
     })
   }
@@ -173,8 +204,7 @@ export default class {
 
     const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
     
-    // @TODO
-    const MIN_LP_AMOUNT = 0
+    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
@@ -183,9 +213,12 @@ export default class {
       debtAmount: amountToBeBorrowed,
       data,
     }).pipe(
+      tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe(() => {
+      this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
+      fetchPositions$.next(true)
       closeModal$.next(true)
     })
   }

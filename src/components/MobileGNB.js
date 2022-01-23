@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import { browserHistory } from 'react-router'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { path$ } from 'streams/location'
 import { closeModal$ } from 'streams/ui'
@@ -47,6 +47,7 @@ class MobileGNB extends Component {
     merge(
       path$
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -84,11 +85,6 @@ class MobileGNB extends Component {
           active={path$.value === '/farm'}
         /> */}
         <SidebarItem
-          onClickOverwrite={() => {
-            openModal$.next({
-              component: <OpenSoon />
-            })
-          }}
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}

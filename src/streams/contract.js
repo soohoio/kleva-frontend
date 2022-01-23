@@ -37,18 +37,26 @@ import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
 
+const kasOption = {
+  headers: [
+    { name: 'Authorization', value: "Basic S0FTS1RIQVhOSlBGWjRQUklURkZHNUozOjl4T19JMjRPMm5TU053NTF2RnZSTnVKRkVsQ3hYMXZQeHpPc1MteGo=" },
+    { name: 'x-chain-id', value: '8217' },
+  ]
+}
+
 const NODE_URL = 'https://klaytn-secure.staging.sooho.io/'
 const NODE_3_URL = "https://en5.klayfi.finance"
 const NODE_4_URL = "https://en6.klayfi.finance"
 const NODE_5_URL = "https://nodepelican.com/"
 
-export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL))
-export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL))
-export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL))
-export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL))
+export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
+export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
+export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
+export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
 
 export let caver = sample([
   caver_1,
+  // caver_2,
   caver_3,
   caver_4,
   caver_5,
@@ -73,6 +81,10 @@ interval(3000).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_URL })),
       catchError(() => of({ blockNumber: 0, url: "" }))
     )),
+    // from(getBlockNumber$(caver_2).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: ""}))
+    // )),
     from(getBlockNumber$(caver_3).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
       catchError(() => of({ blockNumber: 0, url: ""}))
@@ -100,7 +112,7 @@ interval(3000).pipe(
 
   if (bestNode && bestNode.url) {
     currentBlockNumber$.next(bestNode.blockNumber)
-    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url))
+    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url, kasOption))
   }
 })
 
@@ -447,7 +459,6 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
         })
       )
 
-
       // debt token supplies calc
       const _debtTokens = Object.values(debtTokens)
 
@@ -465,7 +476,7 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
           from(m_borrowingIntrests),
           from(m_debtTokenTotalSupplies),
         ).pipe(
-          map(([_borrowingInterests, _debtTokenTotalSupplies]) => {
+          map(([_borrowingInterests, _debtTokenTotalSupplies, _prevUtilizationRates]) => {
             const borrowingInterests = flatten(_borrowingInterests).reduce((acc, cur) => {
               acc.push(new BigNumber(cur._hex).toString())
               return acc
@@ -808,8 +819,8 @@ export const getPositionInfo$ = (positionList) => {
 
         const _position = positionList[parseInt(idx / 2)]
 
-        acc[_position.positionId] = acc[_position.positionId] || { ..._position }
-        acc[_position.positionId][idx % 2 === 0 ? 'positionValue' : 'debtValue'] = new BigNumber(cur._hex).toString()
+        acc[_position.id] = acc[_position.id] || { ..._position }
+        acc[_position.id][idx % 2 === 0 ? 'positionValue' : 'debtValue'] = new BigNumber(cur._hex).toString()
         
         return acc
       }, {})
@@ -916,12 +927,8 @@ export const getOutputTokenAmount$ = (inputToken, outputToken, inputTokenAmount)
     map(([currentPool, outputAmount]) => {
 
       const reserveA = new BigNumber(currentPool.outputAmountA)
-        // .div(10 ** tokenA.decimals)
-        .toNumber()
       
       const reserveB = new BigNumber(currentPool.outputAmountB)
-        // .div(10 ** tokenB.decimals)
-        .toNumber()
 
       const priceImpact = inputToken.address.toLowerCase() == tokenA.address.toLowerCase()
         ? new BigNumber(inputTokenAmount)
@@ -974,29 +981,53 @@ export const getPoolReserves$ = (lpTokenList) => {
       return { address, name: 'getCurrentPool', params: [] }
     })
   )
+  
+  const p2 = multicall(
+    KlayswapExchangeABI,
+    lpTokenList.map(({ address }) => {
+      return { address, name: 'totalSupply', params: [] }
+    })
+  )
 
-  return from(p1).pipe(
-    map((reserves) => {
-      return flatten(reserves).reduce((acc, cur, idx) => {
-        const lpToken = lpTokenList[parseInt(idx / 2)]
-        const tokenA = lpToken && lpToken.ingredients[0]
-        const tokenB = lpToken && lpToken.ingredients[1]
+  return forkJoin(
+    from(p1),
+    from(p2),
+  ).pipe(
+    map(([_reserves, _lpTotalSupplies]) => {
+
+      const lpTotalSupplies = showParamsOnCall(_lpTotalSupplies, ['totalSupply'])
+      const reserves = showParamsOnCall(_reserves, ['reserveA', 'reserveB'])
+
+      return reserves.reduce((acc, cur, idx) => {
+        // const lpToken = lpTokenList[parseInt(idx / 2)]
+        const lpToken = lpTokenList[idx]
+        const tokenA = lpToken?.ingredients[0]
+        const tokenB = lpToken?.ingredients[1]
 
         acc[lpToken.address] = acc[lpToken.address] || {}
 
-        if (idx % 2 === 0) {
-          acc[lpToken.address] = {
-            title: lpToken.title,
-            ...acc[lpToken.address],
-            [tokenA.address]: new BigNumber(cur._hex).toString()
-          }
-        } else {
-          acc[lpToken.address] = {
-            title: lpToken.title,
-            ...acc[lpToken.address],
-            [tokenB.address]: new BigNumber(cur._hex).toString()
-          }
+        acc[lpToken.address] = {
+          title: lpToken?.title,
+          ...acc[lpToken.address],
+          [tokenA.address]: new BigNumber(cur.reserveA).toString(),
+          [tokenB.address]: new BigNumber(cur.reserveB).toString(),
+          totalSupply: lpTotalSupplies[idx]?.totalSupply,
+          decimals: lpToken?.decimals
         }
+
+        // if (idx % 2 === 0) {
+        //   acc[lpToken.address] = {
+        //     title: lpToken.title,
+        //     ...acc[lpToken.address],
+        //     [tokenA.address]: new BigNumber(cur.reserveA).toString()
+        //   }
+        // } else {
+        //   acc[lpToken.address] = {
+        //     title: lpToken.title,
+        //     ...acc[lpToken.address],
+        //     [tokenB.address]: new BigNumber(cur.reserveB).toString()
+        //   }
+        // }
 
         // Cover lowercase key
         acc[lpToken.address.toLowerCase()] = acc[lpToken.address]
@@ -1009,6 +1040,9 @@ export const getPoolReserves$ = (lpTokenList) => {
 
 // alloc point
 export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
+
+  const stakingPoolOnly = fairLaunchPoolList.filter(({ vaultAddress }) => !!vaultAddress)
+
   const p1 = multicall(
     FairLaunchABI,
     fairLaunchPoolList.map(({ pid }) => {
@@ -1019,26 +1053,46 @@ export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
   const p2 = call$({ abi: FairLaunchABI, address: FAIRLAUNCH, methodName: 'getRewardPerBlock', params: [] })
   const p3 = call$({ abi: FairLaunchABI, address: FAIRLAUNCH, methodName: 'getTotalAllocPoint', params: [] })
 
+  // prevUtlizationRates
+
+  const p4 = multicall(
+    VaultABI,
+    stakingPoolOnly.map(({ vaultAddress }) => {
+      return { address: vaultAddress, name: 'getPrevUtilizationRates', params: [] }
+    })
+  )
+
   return forkJoin(
     from(p1),
     from(p2),
     from(p3),
+    from(p4),
   ).pipe(
-    map(([poolInfos, rewardPerBlock, totalAllocPoint]) => {
+    map(([_poolInfos, rewardPerBlock, totalAllocPoint, _prevUtilizationRates]) => {
+      const poolInfos = showParamsOnCall(_poolInfos, ['vaultToken', 'allocPoint', 'lastRewardBlockNumber', 'accRewardPerShare', 'isRealVault'])
+      
+      // Utilization Rates (Conditional Release)
+      const utilizationRatesInfoList = showParamsOnCall(_prevUtilizationRates, ['crLowerLimitBps', 'ur0', 'ur1', 'ur2'])
+      const utilizationRatesMap = stakingPoolOnly.reduce((acc, { pid }, idx) => {
+        acc[pid] = utilizationRatesInfoList[idx]
+        return acc
+      }, {})
 
-      return showParamsOnCall(poolInfos, [
-        'vaultToken',
-        'allocPoint',
-        'lastRewardBlockNumber',
-        'accRewardPerShare',
-      ]).reduce((acc, cur, idx) => {
+      return poolInfos.reduce((acc, cur, idx) => {
         const pool = fairLaunchPoolList[idx]
+        
+        const utilizationRateInfo = utilizationRatesMap[pool.pid]
+        
+        const utilizationMultiplyFactor = utilizationRateInfo?.ur1 < utilizationRateInfo?.ur2
+          ? Math.min(utilizationRateInfo?.ur1 / utilizationRateInfo?.ur2, 0.7)
+          : 1
 
         acc[pool.pid] = new BigNumber(rewardPerBlock)
           .multipliedBy(86400 * 365) // 1 year
           .div(10 ** tokenList.KLEVA.decimals)
           .multipliedBy(cur.allocPoint)
           .div(totalAllocPoint)
+          .multipliedBy(utilizationMultiplyFactor)
           .toString()
 
         return acc
@@ -1298,3 +1352,9 @@ export const unlock$ = () => makeTransaction({
   methodName: "unlock",
   params: []
 })
+
+// Utilization
+
+export const getPrevUtilizationRatio$ = () => {
+  
+}

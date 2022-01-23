@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { BehaviorSubject, Subject, merge, interval, of } from 'rxjs'
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import FarmSummaryItem from 'components/FarmSummaryItem'
 
@@ -18,11 +18,15 @@ class MinimizeTradingSummary extends Component {
   amountToTrade$ = new BehaviorSubject()
   
   componentDidMount() {
+
+    const { listenedAmountToTrade$ } = this.props
+
     merge(
       this.outputAmount$,
       this.priceImpact$,
       this.amountToTrade$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -33,12 +37,13 @@ class MinimizeTradingSummary extends Component {
       switchMap(() => {
         const { debtValue, userFarmingTokenAmount, userBaseTokenAmount } = this.props
 
-        const baseTokenMinusDebt = new BigNumber(userBaseTokenAmount)
-          .minus(debtValue)
+        const debtMinusBaseToken = new BigNumber(debtValue)
+          .minus(userBaseTokenAmount)
           .toNumber()
 
-        if (baseTokenMinusDebt > 0) {
+        if (debtMinusBaseToken < 0) {
           this.amountToTrade$.next(0)
+          listenedAmountToTrade$.next(0)
           this.priceImpact$.next(0)
           return of(false)
         }
@@ -47,7 +52,7 @@ class MinimizeTradingSummary extends Component {
         return getOutputTokenAmount$(
           this.props.baseToken,
           this.props.farmingToken,
-          new BigNumber(baseTokenMinusDebt)
+          new BigNumber(debtMinusBaseToken)
             .multipliedBy(10 ** this.props.baseToken.decimals)
             .toFixed(0),
         )
@@ -61,6 +66,8 @@ class MinimizeTradingSummary extends Component {
             .toNumber(),
           4
         ))
+
+        listenedAmountToTrade$.next(new BigNumber(outputAmount.outputAmount).toFixed())
 
         this.priceImpact$.next(outputAmount && nFormatter(outputAmount.priceImpact, 2))
       }),
@@ -94,9 +101,9 @@ class MinimizeTradingSummary extends Component {
       .minus(amountToTrade)
       .toNumber()
     
-    const youWillReceiveBaseTokenAmount = new BigNumber(userBaseTokenAmount)
-      .minus(debtValue)
-      .toNumber()
+    const youWillReceiveBaseTokenAmount = new BigNumber(debtValue).gte(userBaseTokenAmount) 
+      ? 0 
+      : new BigNumber(userBaseTokenAmount).minus(debtValue).toNumber()
     
     return (
       <div className="MinimizeTradingSummary">

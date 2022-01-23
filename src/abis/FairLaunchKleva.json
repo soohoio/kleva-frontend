@@ -606,6 +606,11 @@
         "internalType": "uint256",
         "name": "accRewardPerShare",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isRealVault",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

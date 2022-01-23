@@ -30,6 +30,8 @@ const OpenerItem = ({ isOpen, selectedRoot, selected, title, iconSrc, iconSrcLis
 }
 
 class Opener extends Component {
+  $container = createRef()
+
   destroy$ = new Subject()
 
   state = {
@@ -52,7 +54,9 @@ class Opener extends Component {
   }
 
   isClickOuterArea = (e) => {
-    return e.target.className.indexOf("Opener__") === -1
+
+    return !this.$container.current.contains(e.target)
+    // return e.target.className.indexOf("Opener__") === -1
   }
 
   filterSearch = (item, searchKey) => {
@@ -61,12 +65,16 @@ class Opener extends Component {
 
   render() {
     const { isOpen, searchKey } = this.state
-    const { items = [], selectedItem, onSelect, noSearch } = this.props
+    const { items = [], selectedItem, onSelect, noSearch, openMethod } = this.props
 
     return (
-      <div className={cx("Opener", {
-        "Opener--open": isOpen
-      })}>
+      <div 
+        ref={this.$container} 
+        className={cx("Opener", {
+          "Opener--open": isOpen,
+          [`Opener--${openMethod}`]: openMethod,
+        })}
+      >
         <OpenerItem
           key="selectedItem"
           isOpen={isOpen}

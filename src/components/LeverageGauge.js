@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge, fromEvent, of } from 'rxjs'
-import { switchMap, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import { range } from 'lodash'
 
@@ -19,6 +19,7 @@ class LeverageGauge extends Component {
     merge(
       leverage$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -85,14 +86,15 @@ class LeverageGauge extends Component {
     } = this.props
 
     const leverage = leverage$.value
-    const barItemCount = parseInt(leverageCap / BAR_OFFSET) - 1
+    const barItemCount = parseInt((leverageCap - 0.1) / BAR_OFFSET)
 
     const indexLike = (leverage - 1) / BAR_OFFSET
     const barWidth = (indexLike / (barItemCount - 1)) * 100
 
 
     // const barHeadLeftMargin = (leverage === 1 || leverage == leverageCap) ? 0 : 2
-    const barHeadLeftMargin = 2
+    // const barHeadLeftMargin = 2
+    const barHeadLeftMargin = 0
     const barHeadLeft = `calc(${barWidth}% - ${barHeadLeftMargin}px)`
     
     return (
@@ -128,7 +130,20 @@ class LeverageGauge extends Component {
                   [`GaugeBar__barItem--active`]: barValue <= leverage,
                 })}
               >
-                <p onClick={() => leverage$.next(barValue)} className="GaugeBar__barItemLabel">{barValue}x</p>
+                <p 
+                  onClick={() => {
+                    
+                    if (barValue > leverageCap) {
+                      leverage$.next(leverageCap)
+                      return
+                    }
+
+                    leverage$.next(barValue)
+                  }} 
+                  className="GaugeBar__barItemLabel"
+                >
+                  {barValue}x
+                </p>
               </div>
             )
           })}

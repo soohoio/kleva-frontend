@@ -1,3 +1,11 @@
+export const addressKeyFind = (item, address) => {
+  return item?.[address] || item?.[address.toLowerCase()]
+}
+
+export const isSameAddress = (address1, address2) => {
+  return address1.toLowerCase() === address2.toLowerCase()
+}
+
 export const getFirstBrowserLanguage = function () {
   var nav = window.navigator,
     browserLanguagePropertyKeys = ['language', 'browserLanguage', 'systemLanguage', 'userLanguage'],
@@ -108,10 +116,8 @@ export const nFormatter = (num, digits) => {
   return item 
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol 
     : Number(num) < 1
-      ? Number(num).toLocaleString('en-us', { maximumFrationDigits: LESS_THAN_1_DECIMAL_MAX_DIGITS })
-      : Number(num).toLocaleString('en-us', { maximumFrationDigits: digits })
-
-  // return Number(num).toLocaleString('en-us', { maximumFractionDigits: digits })
+      ? Number(num).toLocaleString('en-us', { maximumFractionDigits: LESS_THAN_1_DECIMAL_MAX_DIGITS })
+      : Number(num).toLocaleString('en-us', { maximumFractionDigits: digits })
 }
 
 window.nFormatter = nFormatter

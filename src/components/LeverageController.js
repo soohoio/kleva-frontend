@@ -21,7 +21,7 @@ class LeverageController extends Component {
   }
     
   render() {
-    const { currentLeverage, setLeverage, offset, leverageCap } = this.props
+    const { currentLeverage, setLeverage, offset, leverageCap, leverageCapRaw } = this.props
     
     return (
       <div className="LeverageController">

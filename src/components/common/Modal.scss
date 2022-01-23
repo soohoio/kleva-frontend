@@ -14,6 +14,7 @@
 
   @include desktop {
     padding: 28px 24px 32px 24px;
+    height: auto;
     width: 580px;
     bottom: 50%;
     left: 50%;
@@ -45,4 +46,7 @@
 
 .Modal__content {
   padding-top: 24px;
+  overflow: scroll;
+
+  max-height: calc(90vh - 80px);
 }

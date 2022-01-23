@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { from, Subject, merge, fromEvent } from 'rxjs'
-import { take, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, take, takeUntil, tap } from 'rxjs/operators'
 
 import { selectedAddress$, connectInjected } from 'streams/wallet'
 import { accessKlip$ } from 'streams/klip'
@@ -21,6 +21,7 @@ class ConnectWallet extends Component {
     merge(
       selectedAddress$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import { browserHistory } from 'react-router'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import ConnectWallet from 'components/ConnectWallet'
 import ConnectWalletMobile from 'components/ConnectWalletMobile'
@@ -21,6 +21,7 @@ class Header extends Component {
     merge(
       isDesktop$
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

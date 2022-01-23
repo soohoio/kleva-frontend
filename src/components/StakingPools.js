@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import { groupBy } from 'lodash'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { stakingPools } from 'constants/stakingpool'
 
@@ -36,6 +36,7 @@ class StakingPools extends Component {
       poolAmountInStakingPool$,
       selectedAddress$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()

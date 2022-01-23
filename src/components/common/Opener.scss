@@ -8,6 +8,26 @@
   &--open {
     z-index: 9999;
   }
+
+  &--top {
+    .Opener__list {
+      top: unset !important;
+      bottom: 100%;
+    }
+
+    // .Opener__list {
+    //   min-width: 140px;
+    //   top: 120%;
+    //   left: unset;
+    //   transform: unset;
+    //   right: -12px;
+
+    //   .Opener__item {
+    //     height: 28px;
+    //     margin: 0 6px;
+    //   }
+    // }
+  }
 }
 
 .Opener__list {

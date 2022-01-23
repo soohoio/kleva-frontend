@@ -1,13 +1,14 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import Bloc from './WKLAYSwitcher.bloc'
 
 import './WKLAYSwitcher.scss'
 import { tokenList } from '../constants/tokens'
 import InputWithPercentage from './common/InputWithPercentage'
+import { nFormatter } from '../utils/misc'
 
 class WKLAYSwitcher extends Component {
   bloc = new Bloc()
@@ -23,6 +24,7 @@ class WKLAYSwitcher extends Component {
     merge(
       this.bloc.klayAmountToWrap$,
     ).pipe(
+      debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
@@ -104,7 +106,7 @@ class WKLAYSwitcher extends Component {
             onClick={() => this.selectToken(tokenList.KLAY)} 
           >
             <p className="WKLAYSwitcher__tabTitle">Available KLAY</p>
-            <p className="WKLAYSwitcher__tabValue">{balancesInWallet[tokenList.KLAY.address] && balancesInWallet[tokenList.KLAY.address].balanceParsed}</p>
+            <p className="WKLAYSwitcher__tabValue">{nFormatter(balancesInWallet[tokenList.KLAY.address]?.balanceParsed, 6)}</p>
           </div>
           <div 
             onClick={() => this.selectToken(tokenList.WKLAY)} 
@@ -113,7 +115,7 @@ class WKLAYSwitcher extends Component {
             })}
           >
             <p className="WKLAYSwitcher__tabTitle">Available WKLAY</p>
-            <p className="WKLAYSwitcher__tabValue">{balancesInWallet[tokenList.WKLAY.address] && balancesInWallet[tokenList.WKLAY.address].balanceParsed}</p>
+            <p className="WKLAYSwitcher__tabValue">{nFormatter(balancesInWallet[tokenList.WKLAY.address]?.balanceParsed, 6)}</p>
           </div>
         </div>
         <div className="WKLAYSwitcher__content">
