@@ -130,7 +130,6 @@ export const willRevert$ = (method, txObject) => {
 const sendAsync$ = (method, txObject) => {
 
   const pureValue = new BigNumber(txObject.value).toString()
-  console.log(pureValue, '@pureValue')
 
   txObject.value = '0x' + new BigNumber(txObject.value || 0).toString(16)
 
@@ -637,8 +636,7 @@ export const balanceOfMultiInStakingPool$ = (account, stakingPoolList) => {
 export const depositForLending$ = (vaultAddress, tokenAmount, nativeCoinAmount = 0) => {
   
   if (walletType$.value === 'klip' && (nativeCoinAmount === tokenAmount)) {
-    const valueSplitted = Number(nativeCoinAmount / 10 ** 18)
-      .toLocaleString('en-us', { maximumFractionDigits: 18 }).split('.')
+    const valueSplitted = String(nativeCoinAmount / 10 ** 18).split('.')
 
     let valueDecimalPoint = valueSplitted && valueSplitted[1]
 
@@ -647,7 +645,7 @@ export const depositForLending$ = (vaultAddress, tokenAmount, nativeCoinAmount =
       nativeCoinAmount = new BigNumber(`${valueSplitted[0]}.${valueDecimalPoint.slice(0, 6)}`)
         .multipliedBy(10 ** 18)
         .toString()
-      
+
       tokenAmount = new BigNumber(`${valueSplitted[0]}.${valueDecimalPoint.slice(0, 6)}`)
         .multipliedBy(10 ** 18)
         .toString()
