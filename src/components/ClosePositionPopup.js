@@ -21,7 +21,7 @@ import { klayswapPoolInfo$, klevaAnnualRewards$, positions$ } from '../streams/f
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { balancesInWallet$, selectedAddress$ } from '../streams/wallet'
 import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
-import { getEachTokenBasedOnLPShare } from '../utils/calc'
+import { calcKlevaRewardsAPR, getEachTokenBasedOnLPShare } from '../utils/calc'
 
 class ClosePositionPopup extends Component {
   destroy$ = new Subject()
@@ -249,28 +249,41 @@ class ClosePositionPopup extends Component {
     }
   }
 
+  getCloseMethodList = () => {
+    const { baseToken, farmingToken } = this.props
+    // When Minimize Trading Disabled:
+    // Debt Token - user base token amount > 0
+    // (user farming base token amount < Debt Token)
+
+    const debtMinusBaseToken = new BigNumber(this.bloc.debtValue$.value)
+      .minus(new BigNumber(this.bloc.userBaseTokenAmount$.value).multipliedBy(0.95))
+      .toNumber()
+
+    if (debtMinusBaseToken > 0) {
+      return [
+        { title: `Convert to ${baseToken.title}`, value: "convertToBaseToken" },
+      ]
+    }
+
+    return [
+      { title: "Minimize Trading", value: "minimizeTrading" },
+      { title: `Convert to ${baseToken.title}`, value: "convertToBaseToken" },
+    ]
+  }
+
   getDebtTokenKlevaRewardsAPR = (leverage) => {
     const { baseToken } = this.props
     const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
     const borrowingAsset = baseToken
 
-    const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
-    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
-    const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualRewardForDebtToken = klevaAnnualRewards$.value[debtTokenPid]
-
-    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
-    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
-
-    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address])
-      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(leverage - 1)
-      .multipliedBy(100)
-      .toNumber()
-
-    return klevaRewardsAPR || 0
+    return calcKlevaRewardsAPR({
+      lendingTokenSupplyInfo,
+      borrowingAsset,
+      debtTokens,
+      klevaAnnualRewards: klevaAnnualRewards$.value,
+      klevaTokenPrice: tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()],
+      leverage,
+    })
   }
     
   render() {
@@ -342,10 +355,7 @@ class ClosePositionPopup extends Component {
             <RadioSet
               className="ClosePositionPopup__radioSet"
               selectedValue={this.bloc.closingMethod$.value}
-              list={[
-                { title: "Minimize Trading", value: "minimizeTrading" }, 
-                { title: `Convert to ${baseToken.title}`, value: "convertToBaseToken" },
-              ]}
+              list={this.getCloseMethodList()}
               setChange={(v) => this.bloc.closingMethod$.next(v)}
             />
             {this.renderEntireSummary()}

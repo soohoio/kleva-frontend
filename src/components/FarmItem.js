@@ -10,7 +10,7 @@ import AddPositionPopup from './AddPositionPopup'
 
 
 import './FarmItem.scss'
-import { getBufferedLeverage, toAPY } from '../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import BorrowingAssetSelector from './BorrowingAssetSelector'
 import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
@@ -73,26 +73,26 @@ class FarmItem extends Component {
     const { borrowingAsset, leverageValue } = this.state
     const { klevaAnnualRewards, farmDeposited, tokenPrices, lendingTokenSupplyInfo } = this.props
 
-    const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
-    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
-    const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualRewardForDebtToken = klevaAnnualRewards[debtTokenPid]
+    return calcKlevaRewardsAPR({
+      lendingTokenSupplyInfo,
+      borrowingAsset,
+      debtTokens,
+      klevaAnnualRewards: klevaAnnualRewards,
+      klevaTokenPrice: tokenPrices[tokenList.KLEVA.address.toLowerCase()],
+      leverage: leverageValue,
+    })
+  }
 
-    // const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
-    //   .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
+  getYieldFarmingAPR = (leverageValue) => {
+    const { aprInfo } = this.props
 
-    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
-    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
+    const yieldFarmingAPR = aprInfo &&
+      new BigNumber(aprInfo.kspMiningAPR || 0)
+        .plus(aprInfo.airdropAPR || 0)
+        .multipliedBy(leverageValue)
+        .toNumber()
 
-    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices[tokenList.KLEVA.address.toLowerCase()])
-      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(leverageValue - 1)
-      .multipliedBy(100)
-      .toNumber()
-
-    return klevaRewardsAPR || 0
+    return yieldFarmingAPR
   }
     
   render() {
@@ -123,12 +123,9 @@ class FarmItem extends Component {
       onExpand,
       isExpand,
     } = this.props
-    
-    const yieldFarmingAPR = aprInfo && 
-      new BigNumber(aprInfo.kspMiningAPR || 0)
-      .plus(aprInfo.airdropAPR || 0)
-      .multipliedBy(leverageValue)
-      .toNumber()
+
+    const yieldFarmingAPRWithoutLeverage = this.getYieldFarmingAPR(1)
+    const yieldFarmingAPR = this.getYieldFarmingAPR(leverageValue)
       
     const tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0).toNumber()
 
@@ -146,7 +143,7 @@ class FarmItem extends Component {
 
         return {
           ...item,
-          rightContent: `-${Number(interest).toLocaleString('en-us', {maximumFractionDigits: 2 })}%`,
+          rightContent: `-${Number(interest).toLocaleString('en-us', { maximumFractionDigits: 6 })}%`,
         }
       })
 
@@ -232,7 +229,7 @@ class FarmItem extends Component {
                       <AddPositionPopup
                         title="Add Position"
                         defaultLeverage={leverageValue}
-                        yieldFarmingAPR={yieldFarmingAPR}
+                        yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                         tradingFeeAPR={tradingFeeAPR}
 
                         workerList={workerList}

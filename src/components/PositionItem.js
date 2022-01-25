@@ -12,7 +12,7 @@ import AdjustPositionPopup from './AdjustPositionPopup'
 
 import './PositionItem.scss'
 import { nFormatter } from '../utils/misc'
-import { getBufferedLeverage, toAPY } from '../utils/calc'
+import { getBufferedLeverage, calcKlevaRewardsAPR, toAPY } from '../utils/calc'
 
 class PositionItem extends Component {
   destroy$ = new Subject()
@@ -47,24 +47,15 @@ class PositionItem extends Component {
 
   getDebtTokenKlevaRewardsAPR = (leverageValue) => {
     const { baseToken, klevaAnnualRewards, tokenPrices, lendingTokenSupplyInfo } = this.props
-
-    const ibToken = getIbTokenFromOriginalToken(baseToken)
-    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
-    const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualRewardForDebtToken = klevaAnnualRewards[debtTokenPid]
-
-    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[baseToken.address.toLowerCase()]
-    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
-
-    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices[tokenList.KLEVA.address.toLowerCase()])
-      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(leverageValue - 1)
-      .multipliedBy(100)
-      .toNumber()
-
-    return klevaRewardsAPR || 0
+    
+    return calcKlevaRewardsAPR({
+      lendingTokenSupplyInfo,
+      borrowingAsset: baseToken,
+      debtTokens,
+      klevaAnnualRewards,
+      klevaTokenPrice: tokenPrices[tokenList.KLEVA.address.toLowerCase()],
+      leverage: leverageValue,
+    })
   }
 
   getBorrowingInterestAPR = () => {
@@ -127,7 +118,8 @@ class PositionItem extends Component {
       : new BigNumber(liquidationThreshold)
         .minus(debtRatio)
         .toNumber()
-        .toLocaleString('en-us', { maximumFractionDigits: 2 })
+
+    const closePositionDisabled = safetyBuffer < 0
 
     const leverageCap = getBufferedLeverage(workFactorBps)
 
@@ -208,7 +200,7 @@ class PositionItem extends Component {
           <strong>{liquidationThreshold || 'No Debt'}</strong>{!!liquidationThreshold && '%'}
         </div>
         <div className="PositionItem__safetyBuffer">
-          <strong>{safetyBuffer || 'No Debt'}</strong>{!!safetyBuffer && '%'}
+          <strong>{nFormatter(safetyBuffer, 2) || 'No Debt'}</strong>{!!safetyBuffer && '%'}
         </div>
         <div className="PositionItem__blank">
           <button onClick={() => {
@@ -234,30 +226,41 @@ class PositionItem extends Component {
 
 
           }} className="PositionItem__adjustButton">Adjust</button>
-          <button className="PositionItem__closeButton" onClick={() => {
+          <button 
+            className={cx("PositionItem__closeButton", {
+              "PositionItem__closeButton--disabled": closePositionDisabled,
+            })}
+            onClick={() => {
 
-            openModal$.next({
-              component: (
-                <ClosePositionPopup
-                  title="Close Position"
-                  id={id}
-                  tokenPrices={tokenPrices}
-                  positionId={positionId}
-                  vaultAddress={vaultAddress}
-                  farmingToken={farmingToken}
-                  baseToken={baseToken}
-                  workerInfo={workerInfo}
+              if (closePositionDisabled) {
+                return
+              }
 
-                  yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                  tradingFeeAPRBefore={before_tradingFeeAPR}
-                  klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                  borrowingInterestAPRBefore={before_borrowingInterestAPR}
-                  
-                  baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
-                />
-              )
-            })
-          }}>Close</button>
+              openModal$.next({
+                component: (
+                  <ClosePositionPopup
+                    title="Close Position"
+                    id={id}
+                    tokenPrices={tokenPrices}
+                    positionId={positionId}
+                    vaultAddress={vaultAddress}
+                    farmingToken={farmingToken}
+                    baseToken={baseToken}
+                    workerInfo={workerInfo}
+
+                    yieldFarmingAPRBefore={before_yieldFarmingAPR}
+                    tradingFeeAPRBefore={before_tradingFeeAPR}
+                    klevaRewardsAPRBefore={before_klevaRewardsAPR}
+                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                    
+                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+                  />
+                )
+              })
+            }}
+          >
+            Close
+          </button>
         </div>
       </div>
     )

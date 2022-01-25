@@ -13,7 +13,7 @@ import AdjustPositionPopup from './AdjustPositionPopup'
 import './PositionItemCard.scss'
 import { nFormatter } from '../utils/misc'
 import LabelAndValue from './LabelAndValue'
-import { getBufferedLeverage, toAPY } from '../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../utils/calc'
 
 class PositionItemCard extends Component {
   destroy$ = new Subject()
@@ -49,23 +49,14 @@ class PositionItemCard extends Component {
   getDebtTokenKlevaRewardsAPR = (leverageValue) => {
     const { baseToken, klevaAnnualRewards, tokenPrices, lendingTokenSupplyInfo } = this.props
 
-    const ibToken = getIbTokenFromOriginalToken(baseToken)
-    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
-    const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualRewardForDebtToken = klevaAnnualRewards[debtTokenPid]
-
-    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[baseToken.address.toLowerCase()]
-    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
-
-    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices[tokenList.KLEVA.address.toLowerCase()])
-      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(leverageValue - 1)
-      .multipliedBy(100)
-      .toNumber()
-
-    return klevaRewardsAPR || 0
+    return calcKlevaRewardsAPR({
+      lendingTokenSupplyInfo,
+      borrowingAsset: baseToken,
+      debtTokens,
+      klevaAnnualRewards,
+      klevaTokenPrice: tokenPrices[tokenList.KLEVA.address.toLowerCase()],
+      leverage: leverageValue,
+    })
   }
 
   getBorrowingInterestAPR = () => {
@@ -118,7 +109,8 @@ class PositionItemCard extends Component {
       : new BigNumber(liquidationThreshold)
         .minus(debtRatio)
         .toNumber()
-        .toLocaleString('en-us', { maximumFractionDigits: 2 })
+
+    const closePositionDisabled = safetyBuffer < 0
 
     const leverageCap = getBufferedLeverage(workFactorBps)
 
@@ -201,8 +193,12 @@ class PositionItemCard extends Component {
             
             <div className="PositionItemCard__buttons">
               <button
-                className="PositionItemCard__closeButton"
+                className={cx("PositionItemCard__closeButton", {
+                  "PositionItemCard__closeButton--disabled": closePositionDisabled,
+                })}
                 onClick={() => {
+                  if (closePositionDisabled) return
+
                   openModal$.next({
                     component: (
                       <ClosePositionPopup

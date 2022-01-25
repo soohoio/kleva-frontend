@@ -15,14 +15,11 @@ class WKLAYSwitcher extends Component {
 
   destroy$ = new Subject()
 
-  state = {
-    // tokenList.WKLAY
-    selectedToken: tokenList.KLAY,
-  }
-
   componentDidMount() {
     merge(
+      this.bloc.isLoading$,
       this.bloc.klayAmountToWrap$,
+      this.bloc.selectedToken$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -36,13 +33,10 @@ class WKLAYSwitcher extends Component {
   }
 
   selectToken = (token) => {
-    this.setState({
-      selectedToken: token,
-    })
+    this.bloc.selectedToken$.next(token)
   }
 
   renderInput = () => {
-    const { selectedToken } = this.state
     const { 
       value$,
       valueLimit,
@@ -52,6 +46,8 @@ class WKLAYSwitcher extends Component {
       inputLabel,
       balancesInWallet,
     } = this.props
+
+    const selectedToken = this.bloc.selectedToken$.value
 
     if (selectedToken.address === tokenList.KLAY.address) {
       return (
@@ -81,11 +77,16 @@ class WKLAYSwitcher extends Component {
   }
 
   renderButton = () => {
-    const { selectedToken } = this.state
+    const selectedToken = this.bloc.selectedToken$.value
     
     if (selectedToken.address === tokenList.KLAY.address) {
       return (
-        <button className="WKLAYSwitcher__wrapButton" onClick={this.bloc.wrapKLAY}>Wrap KLAY</button>
+        <button className="WKLAYSwitcher__wrapButton" onClick={this.bloc.wrapKLAY}>
+          {this.bloc.isLoading$.value 
+            ? "..."
+            : "Wrap KLAY"
+          }
+        </button>
       )
     }
 
@@ -93,8 +94,8 @@ class WKLAYSwitcher extends Component {
   }
     
   render() {
-    const { selectedToken } = this.state
     const { balancesInWallet } = this.props
+    const selectedToken = this.bloc.selectedToken$.value
 
     return (
       <div className="WKLAYSwitcher">

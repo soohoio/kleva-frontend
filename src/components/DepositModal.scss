@@ -26,6 +26,9 @@
 
 .DepositModal__depositInput {
   margin-bottom: 28px;
+  @include desktop {
+    margin-bottom: 100px;
+  }
 }
 
 .DepositModal__youWillReceive {

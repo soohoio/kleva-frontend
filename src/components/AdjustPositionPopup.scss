@@ -40,3 +40,10 @@
   justify-content: flex-end;
   margin-right: 0;
 }
+
+.AdjustPositionPopup__minDebtSize {
+  @include font-style('font-1', 'sb', 13px);
+  color: #f25a49;
+  margin-bottom: 4px;
+  text-align: right;
+}

@@ -114,8 +114,6 @@ class LendingPoolList extends Component {
                     .multipliedBy(100)
                     .toNumber()
 
-                  console.log(lendingAPR, 'lendingAPR')
-
                   return (
                     <LendingPoolListItem
                       selectedAddress={selectedAddress$.value}

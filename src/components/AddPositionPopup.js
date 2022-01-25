@@ -20,7 +20,7 @@ import './AddPositionPopup.scss'
 import { lendingTokenSupplyInfo$ } from '../streams/vault'
 import { allowancesInLendingPool$, selectedAddress$ } from '../streams/wallet'
 import { toNumber } from 'lodash'
-import { getBufferedLeverage, toAPY } from '../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../utils/calc'
 import { lendingPools, lendingPoolsByStakingTokenAddress } from '../constants/lendingpool'
 import { checkAllowances$ } from '../streams/contract'
 import { klevaAnnualRewards$, poolReserves$ } from '../streams/farming'
@@ -218,26 +218,14 @@ class AddPositionPopup extends Component {
     const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
     const borrowingAsset = this.bloc.borrowingAsset$.value
 
-    const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
-    const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
-    const debtTokenPid = debtToken && debtToken.pid
-    const klevaAnnualRewardForDebtToken = klevaAnnualRewards$.value[debtTokenPid]
-
-    // const farmTVL = new BigNumber(farmDeposited && farmDeposited.deposited)
-    //   .multipliedBy(tokenPrices[farmDeposited && farmDeposited.lpToken && farmDeposited.lpToken.address.toLowerCase()])
-
-    const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
-    const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
-
-    const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
-      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address])
-      .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-      .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals))
-      .multipliedBy(this.bloc.leverage$.value - 1)
-      .multipliedBy(100)
-      .toNumber()
-
-    return klevaRewardsAPR || 0
+    return calcKlevaRewardsAPR({
+      lendingTokenSupplyInfo,
+      borrowingAsset,
+      debtTokens,
+      klevaAnnualRewards: klevaAnnualRewards$.value,
+      klevaTokenPrice: tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()],
+      leverage: this.bloc.leverage$.value,
+    })
   }
     
   render() {
@@ -387,12 +375,12 @@ class AddPositionPopup extends Component {
           label="Summary"
           checked$={this.bloc.showSummary$}
         />
-        {this.renderButton()}
         {!this.bloc.isDebtSizeValid$.value && (
           <p className="AddPositionPopup__minDebtSize">
             Minimum Debt Size: {nFormatter(new BigNumber(ibToken.minDebtSize).div(10 ** ibToken.decimals).toNumber(), 2)} {this.bloc.borrowingAsset$.value?.title}
           </p>
         )}
+        {this.renderButton()}
       </Modal>
     )
   }

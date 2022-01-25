@@ -24,8 +24,11 @@
   color: #494a4d
 }
 
-.DepositModal__withdrawInput {
+.WithdrawModal__withdrawInput {
   margin-bottom: 28px;
+  @include desktop {
+    margin-bottom: 100px;
+  }
 }
 
 .WithdrawModal__youWillReceive {

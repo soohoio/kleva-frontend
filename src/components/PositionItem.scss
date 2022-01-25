@@ -143,4 +143,8 @@
   background-color: #ffeae8;
   color: #f25a49;
   width: 92px;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }

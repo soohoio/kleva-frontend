@@ -79,11 +79,6 @@ class MobileGNB extends Component {
           title="Stake"
           active={path$.value === '/stake'}
         />
-        {/* <SidebarItem
-          clientSideHref="/farm"
-          title="Farm"
-          active={path$.value === '/farm'}
-        /> */}
         <SidebarItem
           clientSideHref="/farm"
           title="Farm"

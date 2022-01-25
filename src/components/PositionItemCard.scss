@@ -150,4 +150,8 @@
   background-color: #ffeae8;
   color: #f25a49;
   flex: 1;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }

@@ -14,6 +14,7 @@ import AssetInfo from './AssetInfo'
 import LabelAndValue from './LabelAndValue'
 import { toAPY } from '../utils/calc'
 import ConnectWalletPopup from './ConnectWalletPopup'
+import { getIbTokenFromOriginalToken } from '../constants/tokens'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -49,6 +50,8 @@ class LendingPoolListItem extends Component {
       .toNumber()
 
     const totalAPY = toAPY(totalAPR)
+
+    const ibToken = getIbTokenFromOriginalToken(stakingToken)
 
     return (
       <>
@@ -137,7 +140,7 @@ class LendingPoolListItem extends Component {
                   component: (
                     <WithdrawModal
                       ibTokenPrice={ibTokenPrice}
-                      stakingToken={stakingToken}
+                      stakingToken={ibToken}
                       vaultAddress={vaultAddress}
                     />
                   )
