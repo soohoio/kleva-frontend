@@ -74,6 +74,7 @@ class FarmItem extends Component {
     const { klevaAnnualRewards, farmDeposited, tokenPrices, lendingTokenSupplyInfo } = this.props
 
     return calcKlevaRewardsAPR({
+      tokenPrices,
       lendingTokenSupplyInfo,
       borrowingAsset,
       debtTokens,

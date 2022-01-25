@@ -1,6 +1,6 @@
 import PriorityQueue from 'javascript-priority-queue'
 import { getIbTokenFromOriginalToken } from '../constants/tokens'
-import { isSameAddress } from './misc'
+import { addressKeyFind, isSameAddress } from './misc'
 
 export const getBufferedLeverage = (workFactorBps) => {
   // const buffered = (workFactorBps - 100) / 0.99
@@ -16,19 +16,30 @@ export const calcKlevaRewardsAPR = ({
   klevaAnnualRewards,
   klevaTokenPrice,
   leverage,
+  tokenPrices,
 }) => {
   const ibToken = getIbTokenFromOriginalToken(borrowingAsset)
   const debtToken = debtTokens[ibToken.address] || debtTokens[ibToken.address.toLowerCase()]
   const debtTokenPid = debtToken && debtToken.pid
   const klevaAnnualRewardForDebtToken = klevaAnnualRewards[debtTokenPid]
 
-  const _tokenInfo = lendingTokenSupplyInfo && lendingTokenSupplyInfo[borrowingAsset.address.toLowerCase()]
+  const _tokenInfo = lendingTokenSupplyInfo?.[borrowingAsset.address.toLowerCase()]
+  const originalToken = _tokenInfo?.originalToken
+  const ibTokenPrice = _tokenInfo?.ibTokenPrice
+
+  const debtTokenPriceInUSD = new BigNumber(ibTokenPrice)
+    .multipliedBy(tokenPrices && tokenPrices[originalToken?.address])
+    .toNumber()
+
   const _debtTokenInfo = _tokenInfo && _tokenInfo.debtTokenInfo
 
   const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
     .multipliedBy(klevaTokenPrice)
-    .div(_tokenInfo && _tokenInfo.debtTokenTotalSupply)
-    .multipliedBy(10 ** (_debtTokenInfo && _debtTokenInfo.decimals) / 10 ** borrowingAsset.decimals)
+    .div(
+      new BigNumber(_tokenInfo?.debtTokenTotalSupply)
+        .multipliedBy(debtTokenPriceInUSD)
+        .div(10 ** borrowingAsset.decimals)
+    )
     .multipliedBy(leverage - 1)
     .multipliedBy(100)
     .toNumber()

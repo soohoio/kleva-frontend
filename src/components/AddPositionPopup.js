@@ -219,6 +219,7 @@ class AddPositionPopup extends Component {
     const borrowingAsset = this.bloc.borrowingAsset$.value
 
     return calcKlevaRewardsAPR({
+      tokenPrices: tokenPrices$.value,
       lendingTokenSupplyInfo,
       borrowingAsset,
       debtTokens,

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { isSameAddress } from '../utils/misc'
 
 export const singleTokens = {
   "KLAY": {
@@ -258,9 +259,20 @@ export const ibTokens = {
 //   },
 // }
 
+export const ibTokenByAddress = Object.values(ibTokens).reduce((acc, cur) => {
+  acc[cur.address.toLowerCase()] = cur
+  return acc
+}, {})
+
 export const getIbTokenFromOriginalToken = (origialToken) => {
   return Object.values(ibTokens).find((ib) => {
     return ib.originalToken.address.toLowerCase() === origialToken.address.toLowerCase()
+  })
+}
+
+export const getOriginalTokenFromIbToken = (ibToken) => {
+  return Object.values(singleTokens).find((token) => {
+    return isSameAddress(ibToken.originalToken.address, token.address)
   })
 }
 

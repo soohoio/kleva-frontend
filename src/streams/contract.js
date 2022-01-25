@@ -27,12 +27,12 @@ import KlayswapExchangeABI from 'abis/KlayswapExchange.json'
 import WKLAYABI from 'abis/WKLAY.json'
 
 import { closeModal$, isFocused$ } from './ui'
-import { coupleArray } from '../utils/misc'
+import { addressKeyFind, coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
 
 import { MAX_UINT } from 'constants/setting'
 import { showParamsOnCall } from '../utils/callHelper'
-import { lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
+import { getOriginalTokenFromIbToken, ibTokenByAddress, lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
 import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
@@ -427,11 +427,6 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
           totalUnborrowed: new BigNumber(cur.balance._hex)
             .div(10 ** stakingTokenDecimals)
             .toString(),
-          tvl: new BigNumber(cur.totalToken._hex)
-            .div(10 ** stakingTokenDecimals)
-            .multipliedBy()
-            .toString(),
-
           ibToken: ibToken,
           ibTokenPrice: ibTokenPrice === "NaN" 
             ? 1
@@ -442,6 +437,7 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
       }, {})
     }),
     switchMap((totalInfo) => {
+
       const m_borrowingIntrests = multicall(
         VaultConfigABI,
         lendingPools.map(({ vaultAddress, vaultConfigAddress }) => {
@@ -460,7 +456,12 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
       )
 
       // debt token supplies calc
-      const _debtTokens = Object.values(debtTokens)
+      const _debtTokens = Object.entries(debtTokens).map(([ibTokenAddress, val]) => {
+        return {
+          ibTokenAddress,
+          ...val,
+        }
+      })
 
       const m_debtTokenTotalSupplies = multicall(
         IERC20ABI,
@@ -500,6 +501,10 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
               }
 
               const debtTokenInfo = _debtTokens[idx]
+
+              const ibToken = addressKeyFind(ibTokenByAddress, vaultAddress)
+              const originalToken = getOriginalTokenFromIbToken(ibToken)
+
               const _debtTokenTotalSupply = new BigNumber(debtTokenTotalSupplies[idx])
                 .toString()
 
@@ -507,11 +512,19 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
                 borrowingInterest: _borrowingInterest, 
                 debtTokenTotalSupply: _debtTokenTotalSupply,
                 debtTokenInfo,
+
+                ibTokenPrice: item.ibTokenPrice,
+                ibToken,
+                originalToken,
               }
               acc[item.ibToken.originalToken.address.toLowerCase()] = { 
                 borrowingInterest: _borrowingInterest,
                 debtTokenTotalSupply: _debtTokenTotalSupply,
                 debtTokenInfo,
+
+                ibTokenPrice: item.ibTokenPrice,
+                ibToken,
+                originalToken,
               }
 
               return acc

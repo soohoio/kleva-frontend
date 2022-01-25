@@ -49,6 +49,7 @@ class PositionItem extends Component {
     const { baseToken, klevaAnnualRewards, tokenPrices, lendingTokenSupplyInfo } = this.props
     
     return calcKlevaRewardsAPR({
+      tokenPrices,
       lendingTokenSupplyInfo,
       borrowingAsset: baseToken,
       debtTokens,

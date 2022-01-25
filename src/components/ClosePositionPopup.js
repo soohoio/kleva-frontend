@@ -277,6 +277,7 @@ class ClosePositionPopup extends Component {
     const borrowingAsset = baseToken
 
     return calcKlevaRewardsAPR({
+      tokenPrices: tokenPrices$.value,
       lendingTokenSupplyInfo,
       borrowingAsset,
       debtTokens,

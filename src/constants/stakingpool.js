@@ -2,6 +2,12 @@ import { tokenList } from "./tokens"
 
 export const stakingPools = [
   {
+    title: "ibWEMIX",
+    vaultAddress: tokenList.ibWEMIX.address,
+    pid: 4,
+    stakingToken: tokenList.ibWEMIX,
+  },
+  {
     title: "ibKLAY",
     vaultAddress: tokenList.ibKLAY.address,
     pid: 0,
@@ -13,12 +19,6 @@ export const stakingPools = [
     vaultAddress: tokenList.ibKUSDT.address,
     pid: 2,
     stakingToken: tokenList.ibKUSDT,
-  },
-  {
-    title: "ibWEMIX",
-    vaultAddress: tokenList.ibWEMIX.address,
-    pid: 4,
-    stakingToken: tokenList.ibWEMIX,
   },
   {
     title: "ibKDAI",
