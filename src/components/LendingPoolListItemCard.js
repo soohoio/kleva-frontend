@@ -14,6 +14,8 @@ import WithdrawModal from './WithdrawModal'
 
 import './LendingPoolListItemCard.scss'
 import { toAPY } from '../utils/calc'
+import { tokenList } from '../constants/tokens'
+import { protocolAPR$ } from '../streams/farming'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -42,11 +44,13 @@ class LendingPoolListItemCard extends Component {
       utilization,
       lendingAPR,
       stakingAPR,
+      protocolAPR,
       selectedAddress,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
       .plus(stakingAPR)
+      .plus(protocolAPR)
       .toNumber()
 
     const totalAPY = toAPY(totalAPR)
@@ -75,6 +79,12 @@ class LendingPoolListItemCard extends Component {
           {isExpand && (
             <>
               <div className="LendingPoolListItemCard__aprDetail">
+                {protocolAPR != 0 && (
+                  <LabelAndValue
+                    label="Protocol APR"
+                    value={`${Number(protocolAPR || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                  />
+                )}
                 <LabelAndValue 
                   className="LendingPoolListItemCard__aprDetailItem" 
                   label="Lending APR" 

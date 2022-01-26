@@ -12,9 +12,10 @@ import { balancesInWallet$, selectedAddress$ } from '../streams/wallet'
 import { isDesktop$ } from '../streams/ui'
 import LendingPoolListItemCard from './LendingPoolListItemCard'
 import { stakingPoolsByToken } from '../constants/stakingpool'
-import { klevaAnnualRewards$ } from '../streams/farming'
+import { klevaAnnualRewards$, protocolAPR$ } from '../streams/farming'
 import { tokenPrices$ } from '../streams/tokenPrice'
 import { tokenList } from '../constants/tokens'
+import { isSameAddress } from '../utils/misc'
 
 const LendingPoolListTableHeader = () => {
   return (
@@ -46,6 +47,7 @@ class LendingPoolList extends Component {
       klevaAnnualRewards$,
       tokenPrices$,
       selectedAddress$,
+      protocolAPR$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -93,6 +95,12 @@ class LendingPoolList extends Component {
                     .multipliedBy(tokenPrices$.value[stakingToken.address.toLowerCase()])
                     .toNumber()
 
+                  const isKlevaLendingPool = isSameAddress(stakingToken?.address, tokenList.KLEVA.address)
+
+                  const protocolAPR = isKlevaLendingPool 
+                    ? protocolAPR$.value
+                    : 0
+
                   const stakingAPR = new BigNumber(klevaAnnualReward)
                     .multipliedBy(klevaPrice)
                     .div(poolDepositedAmount * ibTokenPriceInUSD)
@@ -121,6 +129,7 @@ class LendingPoolList extends Component {
                       balanceInWallet={balancesInWallet$.value[stakingToken.address]}
                       ibTokenBalanceInWallet={balancesInWallet$.value[ibTokenAddress]}
                       lendingAPR={lendingAPR}
+                      protocolAPR={protocolAPR}
                       title={title}
                       utilization={utilization}
                       stakingToken={stakingToken}
@@ -161,6 +170,12 @@ class LendingPoolList extends Component {
                   .multipliedBy(tokenPrices$.value[stakingToken.address.toLowerCase()])
                   .toNumber()
 
+                const isKlevaLendingPool = isSameAddress(stakingToken?.address, tokenList.KLEVA.address)
+
+                const protocolAPR = isKlevaLendingPool
+                  ? protocolAPR$.value
+                  : 0
+
                 const stakingAPR = new BigNumber(klevaAnnualReward)
                   .multipliedBy(klevaPrice)
                   .div(poolDepositedAmount * ibTokenPriceInUSD)
@@ -193,6 +208,7 @@ class LendingPoolList extends Component {
                     title={title}
                     stakingToken={stakingToken}
                     vaultAddress={vaultAddress}
+                    protocolAPR={protocolAPR}
                     totalSupply={totalSupply}
                     totalBorrowed={totalBorrowed}
                     ibTokenPrice={ibTokenPrice}

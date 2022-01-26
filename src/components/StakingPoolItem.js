@@ -81,6 +81,7 @@ class StakingPoolItem extends Component {
     
   render() {
     const { 
+      protocolAPR,
       stakingAPR, 
       isApproved, 
       vaultAddress, 
@@ -96,7 +97,7 @@ class StakingPoolItem extends Component {
       selectedAddress,
     } = this.props
 
-    const apr = stakingAPR
+    const apr = new BigNumber(stakingAPR).plus(protocolAPR || 0).toNumber()
     const apy = toAPY(apr)
 
     const pendingGTPure = Number(pendingGT / 10 ** 18)

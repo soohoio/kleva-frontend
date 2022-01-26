@@ -14,7 +14,9 @@ import AssetInfo from './AssetInfo'
 import LabelAndValue from './LabelAndValue'
 import { toAPY } from '../utils/calc'
 import ConnectWalletPopup from './ConnectWalletPopup'
-import { getIbTokenFromOriginalToken } from '../constants/tokens'
+import { getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
+import { isSameAddress } from '../utils/misc'
+import { protocolAPR$ } from '../streams/farming'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -41,12 +43,14 @@ class LendingPoolListItem extends Component {
       ibTokenBalanceInWallet,
       utilization,
       stakingAPR,
+      protocolAPR,
       tvl,
       selectedAddress,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
       .plus(stakingAPR)
+      .plus(protocolAPR)
       .toNumber()
 
     const totalAPY = toAPY(totalAPR)
@@ -63,6 +67,12 @@ class LendingPoolListItem extends Component {
           />
         </div>
         <div className="LendingPoolListItem">
+          {protocolAPR != 0 && (
+            <LabelAndValue
+              label="Protocol APR"
+              value={`${Number(protocolAPR || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+            />
+          )}
           <LabelAndValue 
             label="Lending APR" 
             value={`${nFormatter(lendingAPR, 0)}%`} 

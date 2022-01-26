@@ -12,9 +12,10 @@ import StakingPoolItemCard from './StakingPoolItemCard'
 import { allowancesInStakingPool$, pendingGT$, balancesInStakingPool$, balancesInWallet$, selectedAddress$ } from '../streams/wallet'
 import { lendingTokenSupplyInfo$, poolAmountInStakingPool$ } from '../streams/vault'
 import { isDesktop$ } from '../streams/ui'
-import { klevaAnnualRewards$ } from '../streams/farming'
+import { klevaAnnualRewards$, protocolAPR$ } from '../streams/farming'
 import { tokenPrices$ } from '../streams/tokenPrice'
 import { tokenList } from '../constants/tokens'
+import { isSameAddress } from '../utils/misc'
 
 class StakingPools extends Component {
   destroy$ = new Subject()
@@ -35,6 +36,7 @@ class StakingPools extends Component {
       tokenPrices$,
       poolAmountInStakingPool$,
       selectedAddress$,
+      protocolAPR$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -63,6 +65,12 @@ class StakingPools extends Component {
     const ibTokenPriceRatio = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
     const ibTokenPriceInUSD = originalTokenPrice * ibTokenPriceRatio
 
+    const isIBKlevaStakingPool = isSameAddress(stakingToken?.address, tokenList.ibKLEVA.address)
+
+    const protocolAPR = isIBKlevaStakingPool
+      ? protocolAPR$.value
+      : 0
+
     const stakingAPR = new BigNumber(klevaAnnualReward)
       .multipliedBy(klevaPrice)
       .div(poolDepositedAmount * ibTokenPriceInUSD)
@@ -86,6 +94,7 @@ class StakingPools extends Component {
           balanceInWallet={balancesInWallet$.value[stakingToken.address]}
           depositedAmount={balancesInStakingPool$.value[stakingToken.address]}
           isApproved={isApproved}
+          protocolAPR={protocolAPR}
           stakingAPR={stakingAPR}
           klevaPrice={klevaPrice}
           vaultAddress={vaultAddress}
@@ -108,6 +117,7 @@ class StakingPools extends Component {
           balanceInWallet={balancesInWallet$.value[stakingToken.address]}
           depositedAmount={balancesInStakingPool$.value[stakingToken.address]}
           isApproved={isApproved}
+          protocolAPR={protocolAPR}
           stakingAPR={stakingAPR}
           klevaPrice={klevaPrice}
           vaultAddress={vaultAddress}

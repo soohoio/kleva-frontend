@@ -132,6 +132,10 @@ class InputWithPercentage extends Component {
           value={value$.value}
           placeholder="0"
           onChange={(e) => {
+
+            
+            if (isNaN(Number(e.target.value))) return
+
             value$.next(e.target.value)
           }}
         />

@@ -37,3 +37,7 @@ positions$.pipe(
 ;
   viewingPositionLatestBlockTime$.next(latestViewingPosition && latestViewingPosition.latestBlockTime)
 })
+
+
+// Protocol APR
+export const protocolAPR$ = new BehaviorSubject(0)

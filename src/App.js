@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { browserHistory } from 'react-router'
-import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of } from 'rxjs'
+import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of, combineLatest } from 'rxjs'
 import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime } from 'rxjs/operators'
 import cx from 'classnames'
 import 'utils/tweening'
@@ -40,13 +40,14 @@ import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$, unlockableKle
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { GRAPH_NODE_URL } from 'streams/graphql'
 import LZUTF8 from 'lzutf8'
-import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$ } from './streams/farming'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$ } from './streams/farming'
 import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
-import { getAmountOut, calcBestPathToKLAY } from './utils/calc'
+import { getAmountOut, calcBestPathToKLAY, calcProtocolAPR } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
 import LockedKLEVAPopup from './components/LockedKLEVAPopup'
 import LaunchDelay from './components/LaunchDelay'
+import { addressKeyFind } from './utils/misc'
 
 type Props = {
   isLoading: boolean,
@@ -115,6 +116,33 @@ class App extends Component<Props> {
       aprInfo$.next(aprInfo)
 
       klayswapPoolInfo$.next(klayswapInfo && klayswapInfo.recentPoolInfo)
+    })
+
+    combineLatest([
+      lendingTokenSupplyInfo$,
+      tokenPrices$,
+      farmPoolDeposited$,
+      aprInfo$,
+    ]).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(([lendingTokenSupplyInfo, tokenPrices, farmPoolDeposited, aprInfo]) => {
+
+      const ibKlevaLendingPool = addressKeyFind(lendingTokenSupplyInfo, tokenList.ibKLEVA.address)
+      const klevaTokenPrice = addressKeyFind(tokenPrices, tokenList.KLEVA.address)
+      const ibTokenPrice = ibKlevaLendingPool?.ibTokenPrice
+
+      const ibKlevaTotalSupplyTVL = new BigNumber(ibKlevaLendingPool?.depositedTokenBalance)
+        .multipliedBy(klevaTokenPrice)
+        .multipliedBy(ibTokenPrice)
+        .toNumber()
+
+      const protocolAPR = calcProtocolAPR({
+        ibKlevaTotalSupplyTVL,
+        aprInfo,
+        farmPoolDeposited: Object.values(farmPoolDeposited),
+      })
+
+      protocolAPR$.next(protocolAPR)
     })
 
     // Fetch annual kleva rewards

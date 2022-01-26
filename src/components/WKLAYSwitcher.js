@@ -17,6 +17,7 @@ class WKLAYSwitcher extends Component {
 
   componentDidMount() {
     merge(
+      this.props.value$,
       this.bloc.isLoading$,
       this.bloc.klayAmountToWrap$,
       this.bloc.selectedToken$,
