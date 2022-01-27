@@ -6,6 +6,7 @@ import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 import { range } from 'lodash'
 
 import './LeverageGauge.scss'
+import { freezeModalScroll$, unfreezeModalScroll$ } from '../streams/ui'
 
 const BAR_OFFSET = 0.5
 
@@ -25,9 +26,13 @@ class LeverageGauge extends Component {
       this.forceUpdate()
     })
 
-    const mouseUp$ = fromEvent(window, 'mouseup').pipe(
+    const mouseUp$ = merge(
+      fromEvent(window, 'mouseup'),
+      fromEvent(window, 'touchend')
+    ).pipe(
       tap(() => {
         console.log("global mouse up!")
+        unfreezeModalScroll$.next()
       })
     )
 
@@ -44,10 +49,12 @@ class LeverageGauge extends Component {
         this.setLeverage(e)
 
         return merge(
-          fromEvent(window, 'mousemove'),
-          fromEvent(window, 'touchmove'),
+          fromEvent(this.$gaugeBar.current, 'mousemove'),
+          fromEvent(this.$gaugeBar.current, 'touchmove'),
         ).pipe(
           tap((e) => {
+            freezeModalScroll$.next(true)
+
             this.setLeverage(e)
           }),
           takeUntil(mouseUp$)

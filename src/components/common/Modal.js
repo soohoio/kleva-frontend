@@ -4,13 +4,32 @@ import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
-import { closeModal$ } from '../../streams/ui'
+import { closeModal$, freezeModalScroll$, unfreezeModalScroll$ } from '../../streams/ui'
+
+function preventDefault(e) {
+  e.preventDefault()
+}
 
 class Modal extends Component {
+  $modalContent = createRef()
+
   destroy$ = new Subject()
 
   componentDidMount() {
-
+  
+    freezeModalScroll$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      if (!this.$modalContent.current) return
+      this.$modalContent.current.addEventListener('touchmove', preventDefault, { passive: false }) // mobile
+    })
+    
+    unfreezeModalScroll$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      if (!this.$modalContent.current) return
+      this.$modalContent.current.removeEventListener('touchmove', preventDefault, { passive: false })
+    })
   }
 
   componentWillUnmount() {
@@ -26,7 +45,7 @@ class Modal extends Component {
           <span className="Modal__title">{title}</span>
           <img onClick={() => closeModal$.next(true)} className="Modal__close" src="/static/images/close-black.svg" />
         </div>
-        <div className="Modal__content">
+        <div ref={this.$modalContent} className="Modal__content">
           {children}
         </div>
       </div>

@@ -91,8 +91,9 @@
 
 .PositionItemCard__apy {
   @include font-style('font-1', 'm', 12px);
-  color: #494a4d;
+  // color: #3369ff;
   strong {
+    // color: #3369ff;
     @include font-style('font-1', 'sb', 16px);
     color: #131414;
     margin-bottom: 4px;
@@ -153,5 +154,30 @@
 
   &--disabled {
     @include disabled-button;
+  }
+}
+
+.PositionItemCard__apy {
+  .LabelAndValue__value {
+    color: #3369ff !important;
+  }
+}
+
+.PositionItemCard__safetyBuffer {
+
+  .LabelAndValue__value {
+    color: #00b470;
+  } 
+
+  &--yellow {
+    .LabelAndValue__value {
+      color: #f5b400 !important;
+    }
+  }
+
+  &--red {
+    .LabelAndValue__value {
+      color: #f25a49 !important;
+    }
   }
 }

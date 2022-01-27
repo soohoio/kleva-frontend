@@ -14,6 +14,11 @@ export const isFocused$ = new BehaviorSubject(true)
 export const focusChanged$ = new Subject()
 export const showFooter$ = new BehaviorSubject(false)
 
+// While touching gauge bar, freeze modal content scroll
+export const freezeModalScroll$ = new Subject()
+export const unfreezeModalScroll$ = new Subject()
+
+
 fromEvent(window, 'blur').subscribe(() => {
   isFocused$.next(false)
 })

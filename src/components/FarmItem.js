@@ -190,7 +190,7 @@ class FarmItem extends Component {
           <>
             <div className="FarmItem__content">
               <FarmProperty label="Yield Farming" value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
-              <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />
+              {tradingFeeAPR != 0 && <FarmProperty label="Trading Fees" value={`${nFormatter(tradingFeeAPR, 2)}%`} />}
               <FarmProperty label="KLEVA Rewards" value={`${nFormatter(debtTokenKlevaRewardsAPR, 2)}%`} />
               <FarmProperty
                 label="Borrowing Interest"

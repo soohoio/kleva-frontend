@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 28px;
+  // margin-bottom: 28px;
 }
 
 .LeverageGauge__title {
@@ -50,8 +50,10 @@
 // Gauge Bar
 .GaugeBar {
   position: relative;
-  width: 95%;
+  width: 90%;
   height: 4px;
+
+  padding: 20px 0;
 }
 
 .GaugeBar__bar {

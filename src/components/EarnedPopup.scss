@@ -1,5 +1,8 @@
 .EarnedPopup {
-  width: 700px !important;
+
+  @include desktop {
+    width: 700px !important;
+  }
 }
 
 .EarnedItem {
@@ -27,6 +30,11 @@
   color: #131414;
   display: flex;
   align-items: center;
+  width: 205px;
+
+  @include desktop {
+    width: auto;
+  }
 }
 
 .EarnedItem__right {

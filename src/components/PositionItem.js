@@ -198,10 +198,13 @@ class PositionItem extends Component {
           <strong>{debtRatio}</strong>%
       </div>
         <div className="PositionItem__liquidationThreshold">
-          <strong>{liquidationThreshold || 'No Debt'}</strong>{!!liquidationThreshold && '%'}
+          <strong>{liquidationThreshold || '-'}</strong>{!!liquidationThreshold && '%'}
         </div>
-        <div className="PositionItem__safetyBuffer">
-          <strong>{nFormatter(safetyBuffer, 2) || 'No Debt'}</strong>{!!safetyBuffer && '%'}
+        <div className={cx("PositionItem__safetyBuffer", {
+          "PositionItem__safetyBuffer--red": safetyBuffer !== 0 && safetyBuffer < 10,
+          "PositionItem__safetyBuffer--yellow": safetyBuffer !== 0 && safetyBuffer > 10 && safetyBuffer < 20,
+        })}>
+          <strong>{nFormatter(safetyBuffer, 2) || '-'}</strong>{!!safetyBuffer && '%'}
         </div>
         <div className="PositionItem__blank">
           <button onClick={() => {

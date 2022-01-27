@@ -15,6 +15,7 @@ import Pagination from './Pagination'
 import { debtTokens, tokenList } from '../constants/tokens'
 import { openModal$ } from '../streams/ui'
 import EarnedPopup from './EarnedPopup'
+import KlevaEarned from './KlevaEarned'
 
 class MyPositions extends Component {
   destroy$ = new Subject()
@@ -113,6 +114,7 @@ class MyPositions extends Component {
 
     return !!selectedAddress$.value && hasItem && (
       <div className="MyPositions">
+        <KlevaEarned className="KlevaEarned__KlevaEarned--mobileOnly" earned={earned} />
         <div className="MyPositions__header">
           <div className="MyPositions__headerLeft">
             <p className="MyPositions__title">My Positions</p>
@@ -142,15 +144,7 @@ class MyPositions extends Component {
             </div>
           </div>
           <div className="MyPositions__headerRight">
-            <div className="MyPositions__KlevaEarned">
-              <div className="MyPositions__KlevaEarnedInfo">
-                <span className="MyPositions__KlevaEarnedValue">{Number(earned).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
-                <span className="MyPositions__KlevaEarnedLabel">KLEVA Earned</span>
-              </div>
-              <button onClick={() => openModal$.next({ component: <EarnedPopup />})} className="MyPositions__KleaveEarnedEarnButton">
-                Claim
-              </button>
-            </div>
+            <KlevaEarned earned={earned} />
           </div>
         </div>
         {positions$.value.length !== 0 && (

@@ -63,7 +63,7 @@ class WithdrawModal extends Component {
       <Modal title="Withdraw">
         <div className="WithdrawModal__available">
           <span className="WithdrawModal__availableLabel">Available Balance: </span>
-          <span className="WithdrawModal__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })} ib{stakingToken.title}</span>
+          <span className="WithdrawModal__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })} {stakingToken.title}</span>
         </div>
         <InputWithPercentage
           decimalLimit={stakingToken.decimals}

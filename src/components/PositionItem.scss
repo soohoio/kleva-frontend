@@ -93,7 +93,7 @@
 
 .PositionItem__apy {
   @include font-style('font-1', 'm', 12px);
-  color: #494a4d;
+  color: #3369ff;
   strong {
     @include font-style('font-1', 'sb', 12px);
     margin-right: 2px;
@@ -124,6 +124,14 @@
   strong {
     @include font-style('font-1', 'sb', 12px);
     margin-right: 2px;
+  }
+
+  &--red {
+    color: #f25a49 !important; 
+  }
+  
+  &--yellow {
+    color: #f5b400 !important; 
   }
 }
 

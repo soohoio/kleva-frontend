@@ -75,16 +75,18 @@ class APRAPYBrief extends Component {
                   />
                 )}
               />
-              <FarmSummaryItem
-                className="FarmSummaryItem--tradingFeeAPR"
-                left="Trading Fees APR"
-                right={(
-                  <BeforeAfter
-                    before={`${nFormatter(tradingFeeBefore, 2)}%`}
-                    after={`${nFormatter(tradingFeeAfter, 2)}%`}
-                  />
-                )}
-              />
+              {tradingFeeBefore != 0 && (
+                <FarmSummaryItem
+                  className="FarmSummaryItem--tradingFeeAPR"
+                  left="Trading Fees APR"
+                  right={(
+                    <BeforeAfter
+                      before={`${nFormatter(tradingFeeBefore, 2)}%`}
+                      after={`${nFormatter(tradingFeeAfter, 2)}%`}
+                    />
+                  )}
+                />
+              )}
               <FarmSummaryItem
                 className="FarmSummaryItem--klevaRewardsAPR"
                 left="KLEVA Rewards APR"

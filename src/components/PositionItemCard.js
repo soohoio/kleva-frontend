@@ -183,13 +183,19 @@ class PositionItemCard extends Component {
                 .toLocaleString('en-us', { maximumFractionDigits: 6 })} ${baseToken.title}`}
             />
             <LabelAndValue label="Equity Value" value={`${equityValueParsed} ${baseToken.title}`} />
-            <LabelAndValue label="Current APY" value={`${nFormatter(before_apy, 2)}%`} />
+            <LabelAndValue className="PositionItemCard__apy" label="Current APY" value={`${nFormatter(before_apy, 2)}%`} />
             <LabelAndValue label="Debt Ratio" value={`${nFormatter(debtRatio, 2)}%`} />
             <LabelAndValue
               label="Liquidation Threshold"
-              value={`${liquidationThreshold || 'No Debt'} ${liquidationThreshold ? "%" : ""}`}
+              value={`${liquidationThreshold || '-'} ${liquidationThreshold ? "%" : ""}`}
             />
-            <LabelAndValue label="Safety Buffer" value={`${nFormatter(safetyBuffer, 2)} ${safetyBuffer ? "%" : ""}`}
+            <LabelAndValue 
+              className={cx("PositionItemCard__safetyBuffer", {
+                "PositionItemCard__safetyBuffer--yellow": safetyBuffer !== 0 && safetyBuffer > 10 && safetyBuffer < 20,
+                "PositionItemCard__safetyBuffer--red": safetyBuffer !== 0 && safetyBuffer < 10,
+              })}
+              label="Safety Buffer" 
+              value={`${nFormatter(safetyBuffer, 2) || '-'} ${safetyBuffer ? "%" : ""}`}
             />
             
             <div className="PositionItemCard__buttons">
