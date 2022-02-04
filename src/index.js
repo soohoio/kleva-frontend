@@ -31,7 +31,7 @@ export const renderRoutes = (rootComponent) => (
       <IndexRoute component={LendPage} />
       <Route path="/lend" component={LendPage} />
       <Route path="/stake" component={StakePage} />
-      <Route path="/farm" component={FarmPage} />
+      {/* <Route path="/farm" component={FarmPage} /> */}
     </Route>
   </Router>
 )

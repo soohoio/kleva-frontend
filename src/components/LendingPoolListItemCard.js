@@ -8,7 +8,7 @@ import AssetInfo from './AssetInfo'
 import LabelAndValue from './LabelAndValue'
 import { openModal$ } from 'streams/ui'
 
-import { nFormatter } from '../utils/misc'
+import { isSameAddress, nFormatter } from '../utils/misc'
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 
@@ -54,6 +54,8 @@ class LendingPoolListItemCard extends Component {
       .toNumber()
 
     const totalAPY = toAPY(totalAPR)
+
+    const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
 
     return (
       <div className="LendingPoolListItemCard">
@@ -121,11 +123,11 @@ class LendingPoolListItemCard extends Component {
               <div className="LendingPoolListItemCard__buttons">
                 <button
                   className={cx("LendingPoolListItemCard__withdrawButton", {
-                    "LendingPoolListItemCard__withdrawButton--disabled": !selectedAddress
+                    "LendingPoolListItemCard__withdrawButton--disabled": !selectedAddress || isDisabled
                   })}
                   onClick={() => {
 
-                    if (!selectedAddress) {
+                    if (!selectedAddress || isDisabled) {
                       return
                     }
 
@@ -144,10 +146,10 @@ class LendingPoolListItemCard extends Component {
                 </button>
                 <button
                   className={cx("LendingPoolListItemCard__depositButton", {
-                    "LendingPoolListItemCard__depositButton--disabled": !selectedAddress
+                    "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDisabled
                   })}
                   onClick={() => {
-                    if (!selectedAddress) {
+                    if (!selectedAddress || isDisabled) {
                       return
                     }
 

@@ -12,6 +12,8 @@ import Bloc from './WithdrawModal.bloc'
 
 import './WithdrawModal.scss'
 import { isValidDecimal } from '../utils/calc'
+import { isSameAddress } from '../utils/misc'
+import { tokenList } from '../constants/tokens'
 
 class WithdrawModal extends Component {
   destroy$ = new Subject()
@@ -58,6 +60,7 @@ class WithdrawModal extends Component {
       || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
       || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.withdrawAmount$.value, stakingToken.decimals)
+      || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
 
     return (
       <Modal title="Withdraw">

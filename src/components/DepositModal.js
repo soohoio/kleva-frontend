@@ -13,6 +13,8 @@ import Bloc from './DepositModal.bloc'
 
 import './DepositModal.scss'
 import { isValidDecimal } from '../utils/calc'
+import { tokenList } from '../constants/tokens'
+import { isSameAddress } from '../utils/misc'
 
 class DepositModal extends Component {
   destroy$ = new Subject()
@@ -69,6 +71,7 @@ class DepositModal extends Component {
         || new BigNumber(this.bloc.depositAmount$.value).lte(0)
         || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
         || !isValidDecimal(this.bloc.depositAmount$.value, stakingToken.decimals)
+        || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
 
       return (
         <button

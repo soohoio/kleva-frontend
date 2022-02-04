@@ -73,6 +73,7 @@ class LendingPoolList extends Component {
               <LendingPoolListTableHeader />
               <div className="LendingPoolList__tableContents">
                 {lendingPools.map(({ title, stakingToken, vaultAddress }) => {
+                  
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   
                   const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply

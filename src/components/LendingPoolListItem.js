@@ -57,6 +57,8 @@ class LendingPoolListItem extends Component {
 
     const ibToken = getIbTokenFromOriginalToken(stakingToken)
 
+    const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+
     return (
       <>
         <div className="LendingPoolListItem">
@@ -116,11 +118,15 @@ class LendingPoolListItem extends Component {
           <div className="LendingDepositWithdraw">
             <div
               className={cx("LendingDepositWithdraw__depositButton", {
-                "LendingDepositWithdraw__depositButton--disabled": !selectedAddress
+                "LendingDepositWithdraw__depositButton--disabled": !selectedAddress || isDisabled
               })}
               onClick={() => {
 
                 if (!selectedAddress) {
+                  return
+                }
+
+                if (isDisabled) {
                   return
                 }
 
@@ -139,10 +145,14 @@ class LendingPoolListItem extends Component {
             </div>
             <div
               className={cx("LendingDepositWithdraw__withdrawButton", {
-                "LendingDepositWithdraw__withdrawButton--disabled": !selectedAddress
+                "LendingDepositWithdraw__withdrawButton--disabled": !selectedAddress || isDisabled
               })}
               onClick={() => {
                 if (!selectedAddress) {
+                  return
+                }
+
+                if (isDisabled) {
                   return
                 }
 

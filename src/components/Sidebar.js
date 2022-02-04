@@ -73,6 +73,7 @@ class Sidebar extends Component {
           title="Stake"
         />
         <SidebarItem
+          onClickOverwrite={() => openModal$.next({ component: <OpenSoon /> })}
           clientSideHref="/farm"
           active={path$.value === "/farm"}
           title="Farm"

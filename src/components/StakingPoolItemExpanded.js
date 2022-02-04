@@ -14,6 +14,8 @@ import './StakingPoolItemExpanded.scss'
 import { selectedAddress$ } from '../streams/wallet'
 import { currentBlockNumber$ } from 'streams/block'
 import { isValidDecimal } from '../utils/calc'
+import { isSameAddress } from '../utils/misc'
+import { tokenList } from '../constants/tokens'
 
 class StakingPoolItemExpanded extends Component {
   destroy$ = new Subject()
@@ -63,6 +65,7 @@ class StakingPoolItemExpanded extends Component {
         || new BigNumber(this.bloc.stakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.stakeAmount$.value).gt(balanceInWallet)
         || !isValidDecimal(this.bloc.stakeAmount$.value, stakingToken.decimals)
+        || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
 
       return (
         <button
@@ -109,6 +112,7 @@ class StakingPoolItemExpanded extends Component {
         || new BigNumber(this.bloc.unstakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.unstakeAmount$.value).gt(depositedAmount)
         || !isValidDecimal(this.bloc.unstakeAmount$.value, stakingToken.decimals)
+        || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
 
       return (
         <button
