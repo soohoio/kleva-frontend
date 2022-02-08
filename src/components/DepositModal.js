@@ -67,10 +67,12 @@ class DepositModal extends Component {
       const availableBalance = balancesInWallet$.value[stakingToken.address] &&
         balancesInWallet$.value[stakingToken.address].balanceParsed
 
-      const isDisabled = !this.bloc.depositAmount$.value
-        || new BigNumber(this.bloc.depositAmount$.value).lte(0)
-        || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
-        || !isValidDecimal(this.bloc.depositAmount$.value, stakingToken.decimals)
+      // const isDisabled = !this.bloc.depositAmount$.value
+      //   || new BigNumber(this.bloc.depositAmount$.value).lte(0)
+      //   || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
+      //   || !isValidDecimal(this.bloc.depositAmount$.value, stakingToken.decimals)
+      
+      const isDisabled = false
 
       return (
         <button

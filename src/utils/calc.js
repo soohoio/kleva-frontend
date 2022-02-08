@@ -73,12 +73,14 @@ export const toFixed = (num, fixed) => {
 }
 
 export const isValidDecimal = (num, decimalLimit) => {
-  const splitted = String(num).split('.')
+  // const splitted = String(num).split('.')
 
-  const decimalPoints = splitted[1]
-  if (!decimalPoints) return num
+  // const decimalPoints = splitted[1]
+  // if (!decimalPoints) return num
 
-  return decimalPoints.length <= decimalLimit
+  // return decimalPoints.length <= decimalLimit
+
+  return true
 }
 
 export const getEachTokenBasedOnLPShare = ({ 
