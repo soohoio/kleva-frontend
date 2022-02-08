@@ -279,7 +279,8 @@ export default class {
   
     const borrowAmount = this.getAmountToBorrow()
 
-    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    // const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    const MIN_LP_AMOUNT = 0
 
     const ext = strategyType === "ADD_BASE_TOKEN_ONLY" 
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])

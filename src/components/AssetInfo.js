@@ -20,6 +20,8 @@ class AssetInfo extends Component {
   render() {
     const { iconSrc, title, ibTokenPrice, onClick } = this.props
 
+    console.log(ibTokenPrice, 'ibTokenPrice')
+
     return (
       <div onClick={onClick} className="AssetInfo">
         <img className="AssetInfo__icon" src={iconSrc} />
@@ -27,7 +29,8 @@ class AssetInfo extends Component {
           <p className="AssetInfo__title">{title}</p>
           <p className="AssetInfo__priceInfo">
             1 ib{title}
-            = {Number(ibTokenPrice).toLocaleString('en-us', { maximumFractionDigits: 4 })} {title}
+            {/* = {Number(ibTokenPrice).toLocaleString('en-us', { maximumFractionDigits: 18 })} {title} */}
+            = {ibTokenPrice} {title}
           </p>
         </div>
       </div>

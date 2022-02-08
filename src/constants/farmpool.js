@@ -13,14 +13,7 @@ const makeFarm = (token1, token2) => {
 }
 
 export const farmPool = [
-  makeFarm(tokenList.KLAY, tokenList.WEMIX),
-  makeFarm(tokenList.KLAY, tokenList.KUSDT),
-  makeFarm(tokenList.KLAY, tokenList.KSP),
-  makeFarm(tokenList.KLAY, tokenList.KETH),
-  makeFarm(tokenList.KLAY, tokenList.KXRP),
-  makeFarm(tokenList.KUSDT, tokenList.KUSDC),
   makeFarm(tokenList.KUSDT, tokenList.KDAI),
-  makeFarm(tokenList.KETH, tokenList.KUSDT),
 ]
 
 export const farmPoolByWorker = farmPool.reduce((acc, cur) => {

@@ -55,7 +55,7 @@ class LendingPoolListItemCard extends Component {
 
     const totalAPY = toAPY(totalAPR)
 
-    const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+    const isDisabled = false
 
     return (
       <div className="LendingPoolListItemCard">

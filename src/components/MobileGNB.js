@@ -80,7 +80,6 @@ class MobileGNB extends Component {
           active={path$.value === '/stake'}
         />
         <SidebarItem
-          onClickOverwrite={() => openModal$.next({ component: <OpenSoon /> })}
           clientSideHref="/farm"
           title="Farm"
           active={path$.value === '/farm'}

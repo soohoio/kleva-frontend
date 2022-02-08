@@ -71,7 +71,6 @@ class DepositModal extends Component {
         || new BigNumber(this.bloc.depositAmount$.value).lte(0)
         || new BigNumber(this.bloc.depositAmount$.value).gt(availableBalance)
         || !isValidDecimal(this.bloc.depositAmount$.value, stakingToken.decimals)
-        || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
 
       return (
         <button

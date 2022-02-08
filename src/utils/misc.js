@@ -115,9 +115,7 @@ export const nFormatter = (num, digits) => {
 
   return item 
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol 
-    : Number(num) < 1
-      ? Number(num).toLocaleString('en-us', { maximumFractionDigits: LESS_THAN_1_DECIMAL_MAX_DIGITS })
-      : Number(num).toLocaleString('en-us', { maximumFractionDigits: digits })
+    : num
 }
 
 window.nFormatter = nFormatter

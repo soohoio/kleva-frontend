@@ -60,7 +60,6 @@ class WithdrawModal extends Component {
       || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
       || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.withdrawAmount$.value, stakingToken.decimals)
-      || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
 
     return (
       <Modal title="Withdraw">

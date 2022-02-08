@@ -115,7 +115,30 @@ class App extends Component<Props> {
 
       aprInfo$.next(aprInfo)
 
-      klayswapPoolInfo$.next(klayswapInfo && klayswapInfo.recentPoolInfo)
+      // klayswapPoolInfo$.next(klayswapInfo && klayswapInfo.recentPoolInfo)
+      klayswapPoolInfo$.next({
+        "0x1bA4c3B33464481bDf0f3cA1768B19507622E118": {
+          "exchange_address": "0x1bA4c3B33464481bDf0f3cA1768B19507622E118",
+          "tokenA": "0x1d6562A193Cd98D15E219Da9cAA2683678Eb4B25",
+          "tokenB": "0xBABf9474A36cCAA5905bf178D25aCC2dA551cC2a",
+          "amountA": "2021334015444359027117743",
+          "amountB": "2426972625306503309409150",
+          "supply": "3081552023353182292494523",
+          "poolVolume": "4883542.9812",
+          "decimals": "18"
+        },
+        ["0x1bA4c3B33464481bDf0f3cA1768B19507622E118".toLowerCase()]: {
+          "exchange_address": "0x1bA4c3B33464481bDf0f3cA1768B19507622E118".toLowerCase(),
+          "tokenA": "0x1d6562A193Cd98D15E219Da9cAA2683678Eb4B25".toLowerCase(),
+          "tokenB": "0xBABf9474A36cCAA5905bf178D25aCC2dA551cC2a".toLowerCase(),
+          "amountA": "2021334015444359027117743",
+          "amountB": "2426972625306503309409150",
+          "supply": "3081552023353182292494523",
+          "poolVolume": "4883542.9812",
+          "decimals": "18"
+        },
+      })
+      
     })
 
     combineLatest([
@@ -127,7 +150,7 @@ class App extends Component<Props> {
       takeUntil(this.destroy$)
     ).subscribe(([lendingTokenSupplyInfo, tokenPrices, farmPoolDeposited, aprInfo]) => {
 
-      const ibKlevaLendingPool = addressKeyFind(lendingTokenSupplyInfo, tokenList.ibKLEVA.address)
+      const ibKlevaLendingPool = false
       const klevaTokenPrice = addressKeyFind(tokenPrices, tokenList.KLEVA.address)
       const ibTokenPrice = ibKlevaLendingPool?.ibTokenPrice
 

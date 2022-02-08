@@ -65,7 +65,7 @@ class StakingPools extends Component {
     const ibTokenPriceRatio = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
     const ibTokenPriceInUSD = originalTokenPrice * ibTokenPriceRatio
 
-    const isIBKlevaStakingPool = isSameAddress(stakingToken?.address, tokenList.ibKLEVA.address)
+    const isIBKlevaStakingPool = false
 
     const protocolAPR = isIBKlevaStakingPool
       ? protocolAPR$.value

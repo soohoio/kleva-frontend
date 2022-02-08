@@ -54,13 +54,14 @@ export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, ka
 export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
 export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
 
-export let caver = sample([
-  caver_1,
-  // caver_2,
-  caver_3,
-  caver_4,
-  caver_5,
-])
+// export let caver = sample([
+//   caver_1,
+//   // caver_2,
+//   caver_3,
+//   caver_4,
+//   caver_5,
+// ])
+export let caver = new Caver("https://api.baobab.klaytn.net:8651")
 
 const getBlockNumber$ = (web3Instance) => from(
   web3Instance.klay.getBlockNumber()
@@ -71,50 +72,50 @@ const getBlockNumber$ = (web3Instance) => from(
 )
 
 // Node change strategy
-interval(3000).pipe(
-  startWith(0),
-  filter(() => {
-    return isFocused$.value
-  }),
-  switchMap(() => forkJoin(
-    from(getBlockNumber$(caver_1).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_URL })),
-      catchError(() => of({ blockNumber: 0, url: "" }))
-    )),
-    // from(getBlockNumber$(caver_2).pipe(
-    //   map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
-    //   catchError(() => of({ blockNumber: 0, url: ""}))
-    // )),
-    from(getBlockNumber$(caver_3).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
-    from(getBlockNumber$(caver_4).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
-    from(getBlockNumber$(caver_5).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
-  )),
-).subscribe((nodes) => {
-  const bestNode = nodes.reduce((acc, cur) => {
-    if (acc.blockNumber < cur.blockNumber) {
-      acc.blockNumber = cur.blockNumber
-      acc.url = cur.url
-    }
-    return acc
-  })
+// interval(3000).pipe(
+//   startWith(0),
+//   filter(() => {
+//     return isFocused$.value
+//   }),
+//   switchMap(() => forkJoin(
+//     from(getBlockNumber$(caver_1).pipe(
+//       map((blockNumber) => ({ blockNumber, url: NODE_URL })),
+//       catchError(() => of({ blockNumber: 0, url: "" }))
+//     )),
+//     // from(getBlockNumber$(caver_2).pipe(
+//     //   map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
+//     //   catchError(() => of({ blockNumber: 0, url: ""}))
+//     // )),
+//     from(getBlockNumber$(caver_3).pipe(
+//       map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
+//       catchError(() => of({ blockNumber: 0, url: ""}))
+//     )),
+//     from(getBlockNumber$(caver_4).pipe(
+//       map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
+//       catchError(() => of({ blockNumber: 0, url: ""}))
+//     )),
+//     from(getBlockNumber$(caver_5).pipe(
+//       map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
+//       catchError(() => of({ blockNumber: 0, url: ""}))
+//     )),
+//   )),
+// ).subscribe((nodes) => {
+//   const bestNode = nodes.reduce((acc, cur) => {
+//     if (acc.blockNumber < cur.blockNumber) {
+//       acc.blockNumber = cur.blockNumber
+//       acc.url = cur.url
+//     }
+//     return acc
+//   })
 
 
-  // const alreadySet = caver.klay.currentProvider.host === bestNode.url
+//   // const alreadySet = caver.klay.currentProvider.host === bestNode.url
 
-  if (bestNode && bestNode.url) {
-    currentBlockNumber$.next(bestNode.blockNumber)
-    caver.setProvider(new Caver.providers.HttpProvider(bestNode.url, kasOption))
-  }
-})
+//   if (bestNode && bestNode.url) {
+//     currentBlockNumber$.next(bestNode.blockNumber)
+//     caver.setProvider(new Caver.providers.HttpProvider(bestNode.url, kasOption))
+//   }
+// })
 
 window.BigNumber = BigNumber
 

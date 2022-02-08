@@ -153,7 +153,8 @@ export default class {
     //   .plus(farmingTokenAmountConvertedInBaseToken)
     //   .toString()
 
-    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    // const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    const MIN_LP_AMOUNT = 0
 
     const ext = strategyType === "ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
@@ -204,7 +205,8 @@ export default class {
 
     const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
     
-    const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    // const MIN_LP_AMOUNT = new BigNumber(this.getExpectedLPAmount()).multipliedBy(0.9).toFixed(0)
+    const MIN_LP_AMOUNT = 0
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
