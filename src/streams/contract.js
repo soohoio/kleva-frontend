@@ -1,5 +1,4 @@
 import Caver from 'caver-js'
-import Web3 from 'web3'
 import { forkJoin, from, interval, Observable, of, Subject } from 'rxjs'
 import { tap, catchError, map, switchMap, startWith, filter, takeUntil } from 'rxjs/operators'
 import { Interface } from '@ethersproject/abi'
