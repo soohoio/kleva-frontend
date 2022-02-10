@@ -29,8 +29,7 @@ class AssetInfo extends Component {
           <p className="AssetInfo__title">{title}</p>
           <p className="AssetInfo__priceInfo">
             1 ib{title}
-            {/* = {Number(ibTokenPrice).toLocaleString('en-us', { maximumFractionDigits: 18 })} {title} */}
-            = {ibTokenPrice} {title}
+            = {Number(ibTokenPrice).toLocaleString('en-us', { maximumFractionDigits: 4 })} {title}
           </p>
         </div>
       </div>

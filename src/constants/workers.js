@@ -6,7 +6,7 @@ export const workers = [
     farmingToken: tokenList.KDAI,
     baseToken: tokenList.KUSDT,
     vaultAddress: tokenList.ibKUSDT.address,
-    workerAddress: "0xC3E0D35a18de689691ccD8ccB0a6e2839cA24A89",
+    workerAddress: "0x3A638E5cb20a72Dd5c76b33A165E622d608Dd1e3",
   }
 ]
 

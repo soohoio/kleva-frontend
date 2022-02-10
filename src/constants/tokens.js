@@ -11,31 +11,31 @@ export const singleTokens = {
   },
   "WKLAY": {
     title: "WKLAY",
-    address: "0xE5DD2e6A0F68f061448d8175c6d81673B8e33709",
+    address: "0xd5Cb7B8Ee3b6Cecb9b175EF59A1006644CaDc037",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: 18,
   },
   "KLEVA": {
     title: "KLEVA",
-    address: "0x15674d88DC68C6c1207D8204cf2292f9686e7492",
+    address: "0x091E05B1394828F5f0b6893705C1CeD042eCC2DE",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: 18,
   },
   "KUSDT": {
     title: "KUSDT",
-    address: "0x2eCe63b50C802eaF6D8c75C2a7f112a7f3473614",
+    address: "0x9ED0B4AB1549309a1a805Cd172D0A7d1C4D2935C",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: 6,
   },
   "KSP": {
     title: "KSP",
-    address: "0x8Fa310F0541C71eDd7f6591C51900a9bFbF02F85",
+    address: "0x47Eb738486D6815c51aEDe167087FCA763C3f23e",
     iconSrc: "/static/images/tokens/token-KSP.svg",
     decimals: 18,
   }, 
   "KDAI": {
     title: "KDAI",
-    address: "0xEBF5F46565B78994bA0C135B67a201F56911fc42",
+    address: "0xdFE17a090Ce56D689139C7C5Ea6F46C00497b7de",
     iconSrc: "/static/images/tokens/token-KDAI.png",
     decimals: 18,
   }, 
@@ -54,7 +54,7 @@ export const lpTokens = {
     KSLP: true,
     ingredients: [singleTokens.KUSDT, singleTokens.KDAI],
     title: "KUSDT-KDAI LP",
-    address: "0xEa758E9d5E504e241d469a77AEAdA07Ef406d1e2",
+    address: "0x453fC6C6EB76e0605E38c7768D7a918bd8C0299B",
     decimals: 6,
   }
 }
@@ -73,7 +73,7 @@ export const lpTokenByIngredients = (tokenA, tokenB) => {
 export const ibTokens = {
   "ibKUSDT": {
     title: "ibKUSDT",
-    address: "0x7E1e09A8617B70367db637891242e151b2e2dc90",
+    address: "0xE08Fe21332Ba5f1D085d53C7DaF2B627a05A9b7D",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: singleTokens["KUSDT"].decimals,
     minDebtSize: "100000000",
@@ -106,7 +106,7 @@ export const debtTokens = {
   [ibTokens.ibKUSDT.address]: {
     pid: 1,
     title: "KUSDT",
-    address: "0x6265048dAfDc2eEfE8Cd627f44612934CD9f7611",
+    address: "0x8751281Cd9C71B60c407668f68E79fCCAdA31A87",
     decimals: 18,
   }
 }

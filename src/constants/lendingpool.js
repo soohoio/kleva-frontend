@@ -13,7 +13,7 @@ export const lendingPools = [
     ibToken: tokenList["ibKUSDT"],
 
     stakingToken: tokenList["KUSDT"],
-    vaultConfigAddress: "0xeef4D766595a10a36b28cbBee64B1451a795fC3a",
+    vaultConfigAddress: "0x0BB17Accc37B8229Ef02288877e17Ba5987b2033",
   }
 ]
 
