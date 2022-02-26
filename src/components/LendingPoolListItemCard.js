@@ -14,7 +14,7 @@ import WithdrawModal from './WithdrawModal'
 
 import './LendingPoolListItemCard.scss'
 import { toAPY } from '../utils/calc'
-import { tokenList } from '../constants/tokens'
+import { getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
 import { protocolAPR$ } from '../streams/farming'
 
 class LendingPoolListItemCard extends Component {
@@ -55,7 +55,10 @@ class LendingPoolListItemCard extends Component {
 
     const totalAPY = toAPY(totalAPR)
 
-    const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+    const ibToken = getIbTokenFromOriginalToken(stakingToken)
+
+    // const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+    const isDisabled = false
 
     return (
       <div className="LendingPoolListItemCard">
@@ -135,7 +138,7 @@ class LendingPoolListItemCard extends Component {
                       component: (
                         <WithdrawModal
                           ibTokenPrice={ibTokenPrice}
-                          stakingToken={stakingToken}
+                          stakingToken={ibToken}
                           vaultAddress={vaultAddress}
                         />
                       )

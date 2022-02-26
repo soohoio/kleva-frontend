@@ -65,7 +65,7 @@ class StakingPoolItemExpanded extends Component {
         || new BigNumber(this.bloc.stakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.stakeAmount$.value).gt(balanceInWallet)
         || !isValidDecimal(this.bloc.stakeAmount$.value, stakingToken.decimals)
-        || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
+        // || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
 
       return (
         <button
@@ -112,7 +112,7 @@ class StakingPoolItemExpanded extends Component {
         || new BigNumber(this.bloc.unstakeAmount$.value).lte(0)
         || new BigNumber(this.bloc.unstakeAmount$.value).gt(depositedAmount)
         || !isValidDecimal(this.bloc.unstakeAmount$.value, stakingToken.decimals)
-        || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
+        // || isSameAddress(stakingToken.address, tokenList.ibKUSDT.address)
 
       return (
         <button

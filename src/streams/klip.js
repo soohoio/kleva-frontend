@@ -104,6 +104,7 @@ const _requestKeyResultPoll$ = (requestKey) => {
 }
 
 export const executeContractKlip$ = ({ bappName = BAPP_NAME, from, to, value, abi, params }) => {
+
   return _execute$({ account: from, bappName, to, value, abi: JSON.stringify(abi), params: JSON.stringify(params) }).pipe(
     switchMap((res) => {
       if (res && res.err) return of(false)

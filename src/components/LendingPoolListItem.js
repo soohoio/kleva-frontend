@@ -57,7 +57,8 @@ class LendingPoolListItem extends Component {
 
     const ibToken = getIbTokenFromOriginalToken(stakingToken)
 
-    const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+    // const isDisabled = isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+    const isDisabled = false
 
     return (
       <>

@@ -13,7 +13,7 @@ import Bloc from './WithdrawModal.bloc'
 import './WithdrawModal.scss'
 import { isValidDecimal } from '../utils/calc'
 import { isSameAddress } from '../utils/misc'
-import { tokenList } from '../constants/tokens'
+import { getOriginalTokenFromIbToken, tokenList } from '../constants/tokens'
 
 class WithdrawModal extends Component {
   destroy$ = new Subject()
@@ -60,7 +60,10 @@ class WithdrawModal extends Component {
       || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
       || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.withdrawAmount$.value, stakingToken.decimals)
-      || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+      // || isSameAddress(stakingToken.address, tokenList.KUSDT.address)
+
+      
+    const originalToken = getOriginalTokenFromIbToken(stakingToken)
 
     return (
       <Modal title="Withdraw">
@@ -80,7 +83,7 @@ class WithdrawModal extends Component {
         <div className="WithdrawModal__bottom">
           <div className="WithdrawModal__receive">
             <span className="WithdrawModal__receiveAmount">~{willReceiveAmount}</span>
-            <span className="WithdrawModal__receiveToken">{stakingToken.title}</span>
+            <span className="WithdrawModal__receiveToken">{originalToken.title}</span>
           </div>
           <button
             onClick={() => {
