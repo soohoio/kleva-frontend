@@ -162,6 +162,7 @@ class FarmItem extends Component {
     const APY = toAPY(totalAPR)
 
     const workerConfig = workerInfo &&
+      worker &&
       workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
 
 

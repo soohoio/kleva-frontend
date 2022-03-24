@@ -80,6 +80,12 @@ export const singleTokens = {
     iconSrc: "/static/images/tokens/token-KXRP.svg",
     decimals: 6,
   }, 
+  "BORA": {
+    title: "BORA",
+    address: "0x02cbe46fb8a1f579254a9b485788f2d86cad51aa",
+    iconSrc: "/static/images/tokens/token-BORA.png",
+    decimals: 18,
+  },
 }
 
 export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cur) => {
@@ -153,6 +159,37 @@ export const lpTokens = {
     title: "KETH-KUSDT LP",
     address: "0x029e2a1b2bb91b66bd25027e1c211e5628dbcb93",
     decimals: 18,
+  },
+
+  "KUSDT-WEMIX LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KUSDT, singleTokens.WEMIX],
+    title: "KUSDT-WEMIX LP",
+    address: "0x2D803838Cb2D40EaCB0207ec4E567e2a8886b47F",
+    decimals: 6,
+  },
+  "KLAY-BORA LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.BORA],
+    title: "KLAY-BORA LP",
+    address: "0xbbcA9B2D17987aCE3E98E376931c540270CE71bB",
+    decimals: 18,
+  },
+
+  "KETH-KXRP LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KETH, singleTokens.KXRP],
+    title: "KETH-KXRP LP",
+    address: "0x85eF87815bD7BE28BEe038Ff201dB78c7E0eD2B9",
+    decimals: 18,
+  },
+
+  "KXRP-KDAI LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KXRP, singleTokens.KDAI],
+    title: "KXRP-KDAI LP",
+    address: "0x4B50d0e4F29bF5B39a6234B11753fDB3b28E76Fc",
+    decimals: 6,
   },
 }
 

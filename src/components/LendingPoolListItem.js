@@ -107,11 +107,11 @@ class LendingPoolListItem extends Component {
         </div>
         <div className="LendingPoolListItem">
           <div className="LendingPoolListItem__tokenBalance">
-            <span className="LendingPoolListItem__tokenValue">{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}</span>            
+            <span className="LendingPoolListItem__tokenValue">{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })}</span>            
             <span className="LendingPoolListItem__tokenSymbol">ib{stakingToken.title}</span>
           </div>
           <div className="LendingPoolListItem__tokenBalance">
-            <span className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} </span>
+            <span className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </span>
             <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
           </div>
         </div>
