@@ -11,7 +11,7 @@ export const singleTokens = {
   },
   "WKLAY": {
     title: "WKLAY",
-    address: "0xF6F6b8Bd0aC500639148f8ca5a590341A97De0DE",
+    address: "0xd2F5648a9fCADc8F4Aab744bd8b20D1973DCf1dB",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: 18,
   },
@@ -19,7 +19,7 @@ export const singleTokens = {
   
   "KLEVA": {
     title: "KLEVA",
-    address: "0x5fFF3a6C16C2208103F318F4713D4D90601A7313",
+    address: "0x14F4167f10468e8ef7099297fB6943405992fAA5",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: 18,
   },
@@ -207,7 +207,7 @@ export const lpTokenByIngredients = (tokenA, tokenB) => {
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
-    address: "0xa691c5891D8a98109663d07Bcf3ED8d3edef820A",
+    address: "0xE1BaF917449406bAbd42E75EE578400f5F45A372",
     iconSrc: "/static/images/tokens/token-KLAY.svg",
     decimals: singleTokens["WKLAY"].decimals,
     minDebtSize: new BigNumber("0x02b5e3af16b1880000").toString(),
@@ -216,7 +216,7 @@ export const ibTokens = {
   },
   "ibKUSDT": {
     title: "ibKUSDT",
-    address: "0xfAeeC9B2623b66BBB3545cA24cFc32A8504fcF1B",
+    address: "0x438cc574FCc3905a93B26b4aCFC71E9d7321ae66",
     iconSrc: "/static/images/tokens/token-KUSDT.svg",
     decimals: singleTokens["KUSDT"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 6).toString(),
@@ -225,7 +225,7 @@ export const ibTokens = {
   },
   "ibWEMIX": {
     title: "ibWEMIX",
-    address: "0xD429914222b7474Ea2C288Ec581D303599EeD137",
+    address: "0xd4144E86665757C80f3C684063cB7D645F017C72",
     iconSrc: "/static/images/tokens/token-WEMIX.png",
     decimals: singleTokens["WEMIX"].decimals,
     minDebtSize: new BigNumber("0x8ac7230489e80000").toString(),
@@ -234,7 +234,7 @@ export const ibTokens = {
   },
   "ibKDAI": {
     title: "ibKDAI",
-    address: "0x58770d59238B99Bd75c4298E33c6493eC4F17E2C",
+    address: "0xB03D2ab76A84fa753448eb5B165A781320900375",
     iconSrc: "/static/images/tokens/token-KDAI.png",
     decimals: singleTokens["KDAI"].decimals,
     minDebtSize: new BigNumber("0x056bc75e2d63100000").toString(),
@@ -243,12 +243,21 @@ export const ibTokens = {
   },
   "ibKLEVA": {
     title: "ibKLEVA",
-    address: "0x7fFc4146B43cD099928a813b2c219Af2e49611E0",
+    address: "0xbd0A90f121fdAB2c8C88e4240C9a179C19cB2184",
     iconSrc: "/static/images/tokens/token-KLEVA.svg",
     decimals: singleTokens["KLEVA"].decimals,
     minDebtSize: new BigNumber("0x02b5e3af16b1880000").toString(),
 
     originalToken: singleTokens.KLEVA,
+  },
+  "ibKETH": {
+    title: "ibKETH",
+    address: "0xade6138b7A3b4D2bBa0C9Fc5AA8bD4be19F32Be8",
+    iconSrc: "/static/images/tokens/token-KETH.svg",
+    decimals: singleTokens["KETH"].decimals,
+    minDebtSize: new BigNumber("0x02b5e3af16b1880000").toString(),
+
+    originalToken: singleTokens.KETH,
   },
 }
 
@@ -320,31 +329,37 @@ export const debtTokens = {
   [ibTokens.ibWEMIX.address]: {
     pid: 5,
     title: "WEMIX",
-    address: "0xD9757c73997b4587eaBCFaF7FF3449d2568124Af",
+    address: "0x3Dd015D2f6Ee247b97303Ca923bB2d827b8Bcfb3",
     decimals: 18,
   },
   [ibTokens.ibKLAY.address]: {
     pid: 1,
     title: "KLAY",
-    address: "0xf009bcB2F955B23c846dD0385352085988677DbC",
+    address: "0x20ea81a61F3585C813afADF1d9ac9DA94cbedAB3",
     decimals: 18,
   },
   [ibTokens.ibKUSDT.address]: {
     pid: 3,
     title: "KUSDT",
-    address: "0x5b23006A210410157783b25d6C029FBceD2a9d45",
+    address: "0xd1BD66D36f7a5C1f91e6458a052fA125063A17Ee",
     decimals: 18,
   },
   [ibTokens.ibKDAI.address]: {
     pid: 7,
     title: "KDAI",
-    address: "0xBc0a901DB4e73C79A5d548672ed8F49132a4595D",
+    address: "0x59340A08870344B85FeC2e429869d059cD2236ec",
     decimals: 18,
   },
   [ibTokens.ibKLEVA.address]: {
     pid: 9,
     title: "KLEVA",
-    address: "0xD04895719347Dd120EDce247504f6B9c6262b3fb",
+    address: "0x576c54661f24935EE6Dc1e6CBd2b212E3daC8F84",
+    decimals: 18,
+  },
+  [ibTokens.ibKETH.address]: {
+    pid: 11,
+    title: "KETH",
+    address: "0x3253446c35aDcf3C746e2C984FE9558d56EACb8c",
     decimals: 18,
   },
 }

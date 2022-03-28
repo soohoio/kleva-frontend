@@ -94,7 +94,7 @@ class WithdrawModal extends Component {
         <div className="WithdrawModal__bottom">
           <div className="WithdrawModal__receive">
             <span className="WithdrawModal__receiveAmount">~{willReceiveAmount}</span>
-            <span className="WithdrawModal__receiveToken">{originalToken.title}</span>
+            <span className="WithdrawModal__receiveToken">WKLAY</span>
           </div>
           <button
             onClick={() => {
