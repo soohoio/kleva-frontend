@@ -25,10 +25,11 @@
 }
 
 .WithdrawModal__withdrawInput {
-  margin-bottom: 28px;
-  @include desktop {
-    margin-bottom: 100px;
-  }
+  margin-bottom: 20px;
+  // margin-bottom: 28px;
+  // @include desktop {
+  //   margin-bottom: 100px;
+  // }
 }
 
 .WithdrawModal__youWillReceive {

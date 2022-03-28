@@ -25,9 +25,9 @@
 }
 
 .DepositModal__depositInput {
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   @include desktop {
-    margin-bottom: 100px;
+    margin-bottom: 20px;
   }
 }
 
@@ -92,4 +92,31 @@
   @include desktop {
     width: 180px;
   }
+}
+
+.DepositModal__wrapButton {
+  width: 100%;
+  
+  @include button-2(54px);
+  @include font-style('font-1', 'sb', 18px);
+
+  &--disabled {
+    @include disabled-button;
+  }
+  
+  @include desktop {
+    width: 180px;
+  }
+}
+
+.DepositModal__hr {
+  margin: 28px 0;
+  border: 0;
+  border-top: solid 1px #f2f2f2;
+}
+
+.DepositModal__stepTitle {
+  @include font-style('font-1', 'm', 18px);
+  color: #3369ff;
+  margin-bottom: 24px;
 }

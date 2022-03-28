@@ -70,11 +70,12 @@ class SupplyingAssets extends Component {
     } = this.props
 
     const isFarmingTokenKLAY = farmingToken && farmingToken.address === tokenList.KLAY.address
+    const isBaseTokenKLAY = baseToken && baseToken.address === tokenList.KLAY.address
 
     return (
       <div className="SupplyingAssets">
         <p className="SupplyingAssets__title">{title || "Supplying Assets"}</p>
-        {isFarmingTokenKLAY 
+        {isFarmingTokenKLAY
           ? (
             <WKLAYSwitcher
               balancesInWallet={balancesInWallet$.value}
@@ -100,16 +101,32 @@ class SupplyingAssets extends Component {
             />
           )
         }
-        <SupplyInput 
-          decimalLimit={baseToken.decimals}
-          value$={baseTokenAmount$}
-          valueLimit={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
-          labelValue={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
-          imgSrc={baseToken.iconSrc}
-          labelTitle={`Available ${baseToken.title}`}
-          inputLabel={baseToken.title}
-          targetToken={baseToken}
-        />
+        {isBaseTokenKLAY 
+          ? (
+            <WKLAYSwitcher
+              balancesInWallet={balancesInWallet$.value}
+
+              value$={baseTokenAmount$}
+              valueLimit={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
+              labelValue={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
+              imgSrc={baseToken.iconSrc}
+              labelTitle={`Available ${baseToken.title}`}
+              inputLabel={baseToken.title}
+            />
+          )
+          : (
+              <SupplyInput 
+                decimalLimit={baseToken.decimals}
+                value$={baseTokenAmount$}
+                valueLimit={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
+                labelValue={balances[baseToken.address] && balances[baseToken.address].balanceParsed}
+                imgSrc={baseToken.iconSrc}
+                labelTitle={`Available ${baseToken.title}`}
+                inputLabel={baseToken.title}
+                targetToken={baseToken}
+              />
+          )
+        }
       </div>
     )
   }

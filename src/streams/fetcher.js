@@ -27,11 +27,10 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
 ).pipe(
   startWith(0),
   switchMap(() => {
-
     return forkJoin(
       balanceOfMultiInWallet$(selectedAddress, tokenAddressList),
       balanceOfMultiInStakingPool$(selectedAddress, stakingPools),
-      allowancesMultiInLendingPool$(selectedAddress, lendingPools.filter(({ stakingToken }) => !stakingToken.nativeCoin)),
+      allowancesMultiInLendingPool$(selectedAddress, lendingPools),
       allowancesMultiInStakingPool$(selectedAddress, stakingPools),
       getPendingGTInFairlaunchPool$([...stakingPools, ...Object.values(debtTokens)], selectedAddress),
       // earnedMulti$(address, vaultList),

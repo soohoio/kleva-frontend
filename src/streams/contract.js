@@ -564,10 +564,6 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
 // }
 
 export const balanceOfMultiInWallet$ = (account, tokenAddresses) => {
-
-  // Klay Balance
-  // const p0 = caver.klay.getBalance(account)
-  // BNB Balance
   const p0 = caver.klay.getBalance(account)
 
   // Balances in Wallet
@@ -785,8 +781,8 @@ export const allowancesMultiInLendingPool$ = (account, lendingPools) => {
 
   const p1 = multicall(
     IERC20ABI,
-    lendingPools.map(({ stakingToken, vaultAddress }, idx) => {
-      return { address: stakingToken && stakingToken.address, name: 'allowance', params: [account, vaultAddress] }
+    lendingPools.map(({ stakingToken, stakingTokenInternal, vaultAddress }, idx) => {
+      return { address: (stakingTokenInternal?.address || stakingToken?.address), name: 'allowance', params: [account, vaultAddress] }
     })
   )
 
