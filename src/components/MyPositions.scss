@@ -1,0 +1,76 @@
+.MyPositions {
+  margin-bottom: 68px;
+}
+
+.MyPositions__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+
+.MyPositions__headerLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  @include desktop {
+    width: auto;
+    flex-direction: column;
+    align-items: unset;
+    justify-content: unset;
+  }
+}
+
+.MyPositions__headerRight {
+  display: none;
+  @include desktop {
+    display: flex;
+  }
+}
+
+.MyPositions__title {
+  @include font-style('font-1', 'b', 18px);
+  color: #131414;
+  
+  @include desktop {
+    @include font-style('font-1', 'b', 20px);
+    color: #ffffff;
+    margin-bottom: 24px;
+  }
+}
+
+.MyPositions__positionToggle {
+  display: flex;
+  // justify-content: space-around;
+  gap: 16px;
+}
+
+.MyPositions__positionItem {
+  @include font-style('font-1', 'm' ,14px);
+  color: #797b80;
+  border-bottom: 3px solid transparent;
+
+  &--active {
+    @include font-style('font-1', 'sb' ,14px);
+    color: #3369ff;
+    border-bottom: 3px solid #3369ff;
+  }
+
+  @include desktop {
+    @include font-style('font-1', 'm', 16px);
+    color: rgba(255, 255, 255, 0.7);
+    padding-bottom: 8px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+
+    &--active {
+      @include font-style('font-1', 'sb', 16px);
+      color: #ffffff;
+      border-bottom: 3px solid #ffffff;
+    }
+  }
+}

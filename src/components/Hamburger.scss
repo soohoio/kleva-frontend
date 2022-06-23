@@ -1,0 +1,11 @@
+.Hamburger {
+  width: 24px;
+  height: 24px;
+
+  cursor: pointer;
+  margin-left: 20px;
+  
+  @include desktop {
+    display: none;
+  }
+}

@@ -1,0 +1,43 @@
+.Sidebar {
+  display: none;
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+    width: 185px;
+  }
+}
+
+.SidebarItem {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  margin-bottom: 26px;
+  cursor: pointer;
+
+  &--active {
+    .SidebarItem__title {
+      @include font-style('font-1', 'b', 18px);
+      color: #ffffff;
+    }
+  }
+
+  &--disabled {
+    opacity: .7;
+    cursor: not-allowed;
+  }
+}
+
+.SidebarItem__icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.SidebarItem__title {
+  @include font-style('font-1', 'r', 18px);
+  color: #ffffff;
+}
+
+.Sidebar__hr {
+  margin: 24px 0;
+}

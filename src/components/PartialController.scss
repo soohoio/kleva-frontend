@@ -1,0 +1,25 @@
+.PartialController {
+  padding: 0 8px;
+}
+
+.PartialController__gaugeSummary {
+  @include font-style('font-1', 'sb', 16px);
+  color: #494a4d;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  text-align: center;
+  margin-bottom: 48px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  strong {
+    color: #3369ff;
+    margin-right: 18px;
+  }
+}
+
+.PartialController__plus {
+  margin: 0 8px;
+}

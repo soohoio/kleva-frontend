@@ -1,0 +1,52 @@
+.SupplyingAssets {
+  margin-bottom: 52px;
+}
+
+.SupplyingAssets__title {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+  margin-bottom: 28px;
+}
+
+.SupplyInput {
+  margin-bottom: 24px;
+  padding: 0 12px;
+}
+
+.SuppyInput__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.SupplyInput__labelTitle {
+  @include font-style('font-1', 'm', 13px);
+  color: #797b80;
+}
+
+.SupplyInput__labelValue {
+  @include font-style('font-1', 'm', 13px);
+  color: #616666;
+}
+
+
+.SupplyInput__priceRatioWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.SupplyInput__priceRatio {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+  
+  display: flex;
+
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  height: 21px;
+  padding: 0 10px;
+  margin-top: 8px;
+  align-items: center;
+}

@@ -1,0 +1,2429 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.1/build/styles/atom-one-dark.min.css">
+
+    <title>NPM Audit Report</title>
+    <meta name="description" content="73 known vulnerabilities found.">
+
+    <style>
+        pre {
+            background-color: #333333;
+            padding: 15px;
+        }
+
+        pre code {
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body class="mb-3">
+    <div class="container">
+        <h1 class="mt-5 text-center">NPM Audit Report</h1>
+
+        <div class="text-center">
+            <div class="card-deck my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            73
+                        </h5>
+                        <p class="card-text">Known vulnerabilities</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            2,048
+                        </h5>
+                        <p class="card-text">Dependencies</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            February 9th 2022, 12:29:21 am
+                        </h5>
+                        <p class="card-text">Last updated</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            0
+                        </h5>
+                        <p class="card-text">
+                            <span class="badge badge-danger">critical</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            18
+                        </h5>
+                        <p class="card-text">
+                            <span class="badge badge-warning">high</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            53
+                        </h5>
+                        <p class="card-text">
+                            <span class="badge badge-secondary">moderate</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            2
+                        </h5>
+                        <p class="card-text">
+                            <span class="badge badge-primary">low</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            0
+                        </h5>
+                        <p class="card-text">
+                            <span class="badge badge-info">info</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <table id="advisories" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Module</th>
+                            <th scope="col">Severity</th>
+                            <th scope="col">CVEs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-fj58-h2fr-3pp2" data-toggle="modal" data-target="#advisory-modal-1004897">SQL Injection and Cross-site Scripting in class-validator</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/class-validator" target="_blank"
+                                    rel="noopener">class-validator</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-79
+                                , CVE-2019-18413
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-93q8-gq69-wqmw" data-toggle="modal" data-target="#advisory-modal-1004946"> Inefficient Regular Expression Complexity in chalk/ansi-regex</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/ansi-regex" target="_blank"
+                                    rel="noopener">ansi-regex</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-918
+                                , CVE-2021-3807
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-5955-9wpr-37jh" data-toggle="modal" data-target="#advisory-modal-1005040">Arbitrary File Creation/Overwrite on Windows via insufficient relative path sanitization</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/tar" target="_blank"
+                                    rel="noopener">tar</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-22
+                                , CVE-2021-37713
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-qq89-hq3f-393p" data-toggle="modal" data-target="#advisory-modal-1005043">Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning using symbolic links</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/tar" target="_blank"
+                                    rel="noopener">tar</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-22
+                                , CVE-2021-37712
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-9r2w-394v-53qc" data-toggle="modal" data-target="#advisory-modal-1005046">Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning using symbolic links</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/tar" target="_blank"
+                                    rel="noopener">tar</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-22
+                                , CVE-2021-37701
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-whgm-jr23-g3j9" data-toggle="modal" data-target="#advisory-modal-1005059">Uncontrolled Resource Consumption in ansi-html</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/ansi-html" target="_blank"
+                                    rel="noopener">ansi-html</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2021-23424
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-3jfq-g458-7qm9" data-toggle="modal" data-target="#advisory-modal-1005078">Arbitrary File Creation/Overwrite due to insufficient absolute path sanitization</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/tar" target="_blank"
+                                    rel="noopener">tar</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-22
+                                , CVE-2021-32804
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-r628-mhmh-qjhw" data-toggle="modal" data-target="#advisory-modal-1005082">Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/tar" target="_blank"
+                                    rel="noopener">tar</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-22
+                                , CVE-2021-32803
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-257v-vj4p-3w2h" data-toggle="modal" data-target="#advisory-modal-1005112">Regular Expression Denial of Service (ReDOS)</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/color-string" target="_blank"
+                                    rel="noopener">color-string</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-770
+                                , CVE-2021-29060
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-vx3p-948g-6vhq" data-toggle="modal" data-target="#advisory-modal-1005323">Regular Expression Denial of Service (ReDoS)</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/ssri" target="_blank"
+                                    rel="noopener">ssri</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2021-27290
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-7r28-3m3f-r2pr" data-toggle="modal" data-target="#advisory-modal-1005427">Regular Expression Denial of Service (ReDoS)</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/is-svg" target="_blank"
+                                    rel="noopener">is-svg</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2021-28092
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-hxcc-f52p-wc94" data-toggle="modal" data-target="#advisory-modal-1006073">Insecure serialization leading to RCE in serialize-javascript</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/serialize-javascript" target="_blank"
+                                    rel="noopener">serialize-javascript</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-502
+                                , CVE-2020-7660
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-h9rv-jmmf-4pgx" data-toggle="modal" data-target="#advisory-modal-1006230">Cross-Site Scripting in serialize-javascript</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/serialize-javascript" target="_blank"
+                                    rel="noopener">serialize-javascript</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-79
+                                , CVE-2019-16769
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-2pr6-76vf-7546" data-toggle="modal" data-target="#advisory-modal-1006351">Denial of Service in js-yaml</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/js-yaml" target="_blank"
+                                    rel="noopener">js-yaml</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-400
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-8j8c-7jfh-h6hx" data-toggle="modal" data-target="#advisory-modal-1006356">Code Injection in js-yaml</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/js-yaml" target="_blank"
+                                    rel="noopener">js-yaml</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-94
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-7p7h-4mm5-852v" data-toggle="modal" data-target="#advisory-modal-1006754">Regular Expression Denial of Service in trim-newlines</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/trim-newlines" target="_blank"
+                                    rel="noopener">trim-newlines</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2021-33623
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-r8j5-h5cx-65gg" data-toggle="modal" data-target="#advisory-modal-1006791">ReDOS in IS-SVG</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/is-svg" target="_blank"
+                                    rel="noopener">is-svg</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-770
+                                , CVE-2021-29059
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-566m-qj78-rww5" data-toggle="modal" data-target="#advisory-modal-1006846">Regular Expression Denial of Service in postcss</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/postcss" target="_blank"
+                                    rel="noopener">postcss</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2021-23382
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-5rrq-pxf6-6jx5" data-toggle="modal" data-target="#advisory-modal-1006852">Prototype Pollution in node-forge debug API.</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                    rel="noopener">node-forge</a>
+                            </td>
+                            <td data-order="4"><span
+                                    class="badge badge-primary">low</span></td>
+                            <td>
+                                CWE-1321
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-gf8q-jrpm-jvxq" data-toggle="modal" data-target="#advisory-modal-1006854">URL parsing in node-forge could lead to undesired behavior.</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                    rel="noopener">node-forge</a>
+                            </td>
+                            <td data-order="4"><span
+                                    class="badge badge-primary">low</span></td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-qrpm-p2h7-hrv2" data-toggle="modal" data-target="#advisory-modal-1006897">Exposure of Sensitive Information to an Unauthorized Actor in nanoid</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/nanoid" target="_blank"
+                                    rel="noopener">nanoid</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-200
+                                , CVE-2021-23566
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-8fr3-hfg3-gpgp" data-toggle="modal" data-target="#advisory-modal-1006898">Open Redirect in node-forge</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                    rel="noopener">node-forge</a>
+                            </td>
+                            <td data-order="3"><span
+                                    class="badge badge-secondary">moderate</span></td>
+                            <td>
+                                CWE-601
+                                , CVE-2022-0122
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-r683-j2x4-v87g" data-toggle="modal" data-target="#advisory-modal-1006899">node-fetch is vulnerable to Exposure of Sensitive Information to an Unauthorized Actor</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/node-fetch" target="_blank"
+                                    rel="noopener">node-fetch</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-173
+                                , CVE-2022-0235
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <a href="https://github.com/advisories/GHSA-ww39-953v-wcq6" data-toggle="modal" data-target="#advisory-modal-1006947">Regular expression denial of service</a>
+                            </th>
+                            <td>
+                                <a href="https://npmjs.com/package/glob-parent" target="_blank"
+                                    rel="noopener">glob-parent</a>
+                            </td>
+                            <td data-order="2"><span
+                                    class="badge badge-warning">high</span></td>
+                            <td>
+                                CWE-400
+                                , CVE-2020-28469
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1004897">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        SQL Injection and Cross-site Scripting in class-validator
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/class-validator" target="_blank"
+                                        rel="noopener">class-validator</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-79</li>
+                                <li>CVE-2019-18413</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;&#x3D;0.13.1</li>
+                                <li>Patched: &lt;0.0.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>In TypeStack class-validator 0.10.2, validate() input validation can be bypassed because certain internal attributes can be overwritten via a conflicting name. Even though there is an optional forbidUnknownValues parameter that can be used to reduce the risk of this bypass, this option is not documented and thus most developers configure input validation in the vulnerable default manner. With this vulnerability, attackers can launch SQL Injection or XSS attacks by injecting arbitrary malicious input. NOTE: a software maintainer agrees with the &quot;is not documented&quot; finding but suggests that much of the responsibility for the risk lies in a different product.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>javascript-obfuscator&gt;class-validator </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>None</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2019-18413">https://nvd.nist.gov/vuln/detail/CVE-2019-18413</a></li>
+<li><a href="https://github.com/typestack/class-validator/issues/438">https://github.com/typestack/class-validator/issues/438</a></li>
+<li><a href="https://github.com/typestack/class-validator#passing-options">https://github.com/typestack/class-validator#passing-options</a></li>
+<li><a href="https://github.com/typestack/class-validator/issues/438#issuecomment-964728471">https://github.com/typestack/class-validator/issues/438#issuecomment-964728471</a></li>
+<li><a href="https://github.com/advisories/GHSA-fj58-h2fr-3pp2">https://github.com/advisories/GHSA-fj58-h2fr-3pp2</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-fj58-h2fr-3pp2" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1004946">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                         Inefficient Regular Expression Complexity in chalk/ansi-regex
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/ansi-regex" target="_blank"
+                                        rel="noopener">ansi-regex</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-918</li>
+                                <li>CVE-2021-3807</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &gt;2.1.1 &lt;5.0.1</li>
+                                <li>Patched: &gt;&#x3D;5.0.1</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>ansi-regex is vulnerable to Inefficient Regular Expression Complexity</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>caver-js&gt;mocha&gt;wide-align&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+                    <ul>
+                        <li>node-sass&gt;sass-graph&gt;yargs&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>node-sass&gt;sass-graph&gt;yargs&gt;cliui&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>node-sass&gt;sass-graph&gt;yargs&gt;cliui&gt;wrap-ansi&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+                    <ul>
+                        <li>webpack-cli&gt;yargs&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>webpack-cli&gt;yargs&gt;cliui&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>webpack-cli&gt;yargs&gt;cliui&gt;wrap-ansi&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+                    <ul>
+                        <li>webpack-dev-server&gt;yargs&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>webpack-dev-server&gt;yargs&gt;cliui&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                        <li>webpack-dev-server&gt;yargs&gt;cliui&gt;wrap-ansi&gt;string-width&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+                    <ul>
+                        <li>webpack-dev-server&gt;yargs&gt;cliui&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+                    <ul>
+                        <li>webpack-dev-server&gt;yargs&gt;cliui&gt;wrap-ansi&gt;strip-ansi&gt;ansi-regex </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 5.0.1 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3807">https://nvd.nist.gov/vuln/detail/CVE-2021-3807</a></li>
+<li><a href="https://github.com/chalk/ansi-regex/commit/8d1d7cdb586269882c4bdc1b7325d0c58c8f76f9">https://github.com/chalk/ansi-regex/commit/8d1d7cdb586269882c4bdc1b7325d0c58c8f76f9</a></li>
+<li><a href="https://huntr.dev/bounties/5b3cf33b-ede0-4398-9974-800876dfd994">https://huntr.dev/bounties/5b3cf33b-ede0-4398-9974-800876dfd994</a></li>
+<li><a href="https://github.com/chalk/ansi-regex/issues/38#issuecomment-924086311">https://github.com/chalk/ansi-regex/issues/38#issuecomment-924086311</a></li>
+<li><a href="https://app.snyk.io/vuln/SNYK-JS-ANSIREGEX-1583908">https://app.snyk.io/vuln/SNYK-JS-ANSIREGEX-1583908</a></li>
+<li><a href="https://github.com/chalk/ansi-regex/issues/38#issuecomment-925924774">https://github.com/chalk/ansi-regex/issues/38#issuecomment-925924774</a></li>
+<li><a href="https://github.com/advisories/GHSA-93q8-gq69-wqmw">https://github.com/advisories/GHSA-93q8-gq69-wqmw</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-93q8-gq69-wqmw" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005040">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Arbitrary File Creation/Overwrite on Windows via insufficient relative path sanitization
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/tar" target="_blank"
+                                        rel="noopener">tar</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-22</li>
+                                <li>CVE-2021-37713</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;4.4.18</li>
+                                <li>Patched: &gt;&#x3D;4.4.18</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>Arbitrary File Creation, Arbitrary File Overwrite, Arbitrary Code Execution</p>
+<p>node-tar aims to guarantee that any file whose location would be outside of the extraction target directory is not extracted. This is, in part, accomplished by sanitizing absolute paths of entries within the archive, skipping archive entries that contain <code>..</code> path portions, and resolving the sanitized paths against the extraction target directory.</p>
+<p>This logic was insufficient on Windows systems when extracting tar files that contained a path that was not an absolute path, but specified a drive letter different from the extraction target, such as <code>C:some\path</code>.  If the drive letter does not match the extraction target, for example <code>D:\extraction\dir</code>, then the result of <code>path.resolve(extractionDirectory, entryPath)</code> would resolve against the current working directory on the <code>C:</code> drive, rather than the extraction target directory.</p>
+<p>Additionally, a <code>..</code> portion of the path could occur immediately after the drive letter, such as <code>C:../foo</code>, and was not properly sanitized by the logic that checked for <code>..</code> within the normalized and split portions of the path.</p>
+<p>This only affects users of <code>node-tar</code> on Windows systems.</p>
+<h3 id="patches">Patches</h3>
+<p>4.4.18 || 5.0.10 || 6.1.9</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>There is no reasonable way to work around this issue without performing the same path normalization procedures that node-tar now does.</p>
+<p>Users are encouraged to upgrade to the latest patched versions of node-tar, rather than attempt to sanitize paths themselves.</p>
+<h3 id="fix">Fix</h3>
+<p>The fixed versions strip path roots from all paths prior to being resolved against the extraction target folder, even if such paths are not &quot;absolute&quot;.</p>
+<p>Additionally, a path starting with a drive letter and then two dots, like <code>c:../</code>, would bypass the check for <code>..</code> path portions.  This is checked properly in the patched versions.</p>
+<p>Finally, a defense in depth check is added, such that if the <code>entry.absolute</code> is outside of the extraction taret, and we are not in preservePaths:true mode, a warning is raised on that entry, and it is skipped.  Currently, it is believed that this check is redundant, but it did catch some oversights in development.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;node-gyp&gt;tar </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 4.4.18 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/npm/node-tar/security/advisories/GHSA-5955-9wpr-37jh">https://github.com/npm/node-tar/security/advisories/GHSA-5955-9wpr-37jh</a></li>
+<li><a href="https://www.npmjs.com/package/tar">https://www.npmjs.com/package/tar</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-37713">https://nvd.nist.gov/vuln/detail/CVE-2021-37713</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://github.com/advisories/GHSA-5955-9wpr-37jh">https://github.com/advisories/GHSA-5955-9wpr-37jh</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-5955-9wpr-37jh" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005043">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning using symbolic links
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/tar" target="_blank"
+                                        rel="noopener">tar</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-22</li>
+                                <li>CVE-2021-37712</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;4.4.18</li>
+                                <li>Patched: &gt;&#x3D;4.4.18</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>Arbitrary File Creation, Arbitrary File Overwrite, Arbitrary Code Execution</p>
+<p>node-tar aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created.</p>
+<p>This logic was insufficient when extracting tar files that contained two directories and a symlink with names containing unicode values that normalized to the same value. Additionally, on Windows systems, long path portions would resolve to the same file system entities as their 8.3 &quot;short path&quot; counterparts. A specially crafted tar archive could thus include directories with two forms of the path that resolve to the same file system entity, followed by a symbolic link with a name in the first form, lastly followed by a file using the second form. It led to bypassing node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite.</p>
+<p>The v3 branch of <code>node-tar</code> has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of <code>node-tar</code>. If this is not possible, a workaround is available below.</p>
+<h3 id="patches">Patches</h3>
+<p>6.1.9 || 5.0.10 || 4.4.18</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Users may work around this vulnerability without upgrading by creating a custom filter method which prevents the extraction of symbolic links.</p>
+<pre><code class="language-js">const tar = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;tar&#x27;</span>)
+
+tar.x({
+  <span class="hljs-name">file</span>: <span class="hljs-string">&#x27;archive.tgz&#x27;</span>,
+  <span class="hljs-name">filter</span>: <span class="hljs-function"><span class="hljs-params">(file, entry)</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (entry.<span class="hljs-built_in">type</span> === <span class="hljs-string">&#x27;SymbolicLink&#x27;</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+  }
+})
+</code></pre>
+<p>Users are encouraged to upgrade to the latest patched versions, rather than attempt to sanitize tar input themselves.</p>
+<h4 id="fix">Fix</h4>
+<p>The problem is addressed in the following ways, when comparing paths in the directory cache and path reservation systems:</p>
+<ol>
+<li>The <code>String.normalize(&#39;NFKD&#39;)</code> method is used to first normalize all unicode to its maximally compatible and multi-code-point form.</li>
+<li>All slashes are normalized to <code>/</code> on Windows systems (on posix systems, <code>\</code> is a valid filename character, and thus left intact).</li>
+<li>When a symbolic link is encountered on Windows systems, the entire directory cache is cleared.  Collisions related to use of 8.3 short names to replace directories with other (non-symlink) types of entries may make archives fail to extract properly, but will not result in arbitrary file writes.</li>
+</ol>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;node-gyp&gt;tar </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 4.4.18 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/npm/node-tar/security/advisories/GHSA-qq89-hq3f-393p">https://github.com/npm/node-tar/security/advisories/GHSA-qq89-hq3f-393p</a></li>
+<li><a href="https://www.npmjs.com/package/tar">https://www.npmjs.com/package/tar</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-37712">https://nvd.nist.gov/vuln/detail/CVE-2021-37712</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://www.debian.org/security/2021/dsa-5008">https://www.debian.org/security/2021/dsa-5008</a></li>
+<li><a href="https://github.com/advisories/GHSA-qq89-hq3f-393p">https://github.com/advisories/GHSA-qq89-hq3f-393p</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-qq89-hq3f-393p" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005046">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning using symbolic links
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/tar" target="_blank"
+                                        rel="noopener">tar</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-22</li>
+                                <li>CVE-2021-37701</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;4.4.16</li>
+                                <li>Patched: &gt;&#x3D;4.4.16</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>Arbitrary File Creation, Arbitrary File Overwrite, Arbitrary Code Execution</p>
+<p><code>node-tar</code> aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created.</p>
+<p>This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory, where the symlink and directory names in the archive entry used backslashes as a path separator on posix systems. The cache checking logic used both <code>\</code> and <code>/</code> characters as path separators, however <code>\</code> is a valid filename character on posix systems.</p>
+<p>By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite.</p>
+<p>Additionally, a similar confusion could arise on case-insensitive filesystems.  If a tar archive contained a directory at <code>FOO</code>, followed by a symbolic link named <code>foo</code>, then on case-insensitive file systems, the creation of the symbolic link would remove the directory from the filesystem, but <em>not</em> from the internal directory cache, as it would not be treated as a cache hit.  A subsequent file entry within the <code>FOO</code> directory would then be placed in the target of the symbolic link, thinking that the directory had already been created. </p>
+<p>These issues were addressed in releases 4.4.16, 5.0.8 and 6.1.7.</p>
+<p>The v3 branch of <code>node-tar</code> has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of <code>node-tar</code>. If this is not possible, a workaround is available below.</p>
+<h3 id="patches">Patches</h3>
+<p>4.4.16 || 5.0.8 || 6.1.7</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Users may work around this vulnerability without upgrading by creating a custom filter method which prevents the extraction of symbolic links.</p>
+<pre><code class="language-js">const tar = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;tar&#x27;</span>)
+
+tar.x({
+  <span class="hljs-name">file</span>: <span class="hljs-string">&#x27;archive.tgz&#x27;</span>,
+  <span class="hljs-name">filter</span>: <span class="hljs-function"><span class="hljs-params">(file, entry)</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (entry.<span class="hljs-built_in">type</span> === <span class="hljs-string">&#x27;SymbolicLink&#x27;</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+  }
+})
+</code></pre>
+<p>Users are encouraged to upgrade to the latest patched versions, rather than attempt to sanitize tar input themselves.</p>
+<h3 id="fix">Fix</h3>
+<p>The problem is addressed in the following ways:</p>
+<ol>
+<li>All paths are normalized to use <code>/</code> as a path separator, replacing <code>\</code> with <code>/</code> on Windows systems, and leaving <code>\</code> intact in the path on posix systems.  This is performed in depth, at every level of the program where paths are consumed.</li>
+<li>Directory cache pruning is performed case-insensitively.  This <em>may</em> result in undue cache misses on case-sensitive file systems, but the performance impact is negligible.</li>
+</ol>
+<h4 id="caveat">Caveat</h4>
+<p>Note that this means that the <code>entry</code> objects exposed in various parts of tar&#39;s API will now always use <code>/</code> as a path separator, even on Windows systems.  This is not expected to cause problems, as <code>/</code> is a valid path separator on Windows systems, but <em>may</em> result in issues if <code>entry.path</code> is compared against a path string coming from some other API such as <code>fs.realpath()</code> or <code>path.resolve()</code>.</p>
+<p>Users are encouraged to always normalize paths using a well-tested method such as <code>path.resolve()</code> before comparing paths to one another.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;node-gyp&gt;tar </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 4.4.16 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/npm/node-tar/security/advisories/GHSA-9r2w-394v-53qc">https://github.com/npm/node-tar/security/advisories/GHSA-9r2w-394v-53qc</a></li>
+<li><a href="https://www.npmjs.com/package/tar">https://www.npmjs.com/package/tar</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-37701">https://nvd.nist.gov/vuln/detail/CVE-2021-37701</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://www.debian.org/security/2021/dsa-5008">https://www.debian.org/security/2021/dsa-5008</a></li>
+<li><a href="https://github.com/advisories/GHSA-9r2w-394v-53qc">https://github.com/advisories/GHSA-9r2w-394v-53qc</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-9r2w-394v-53qc" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005059">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Uncontrolled Resource Consumption in ansi-html
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/ansi-html" target="_blank"
+                                        rel="noopener">ansi-html</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2021-23424</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;&#x3D;0.0.7</li>
+                                <li>Patched: &lt;0.0.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>This affects all versions of package ansi-html. If an attacker provides a malicious string, it will get stuck processing the input for an extremely long time.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>webpack-dev-server&gt;ansi-html </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>None</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23424">https://nvd.nist.gov/vuln/detail/CVE-2021-23424</a></li>
+<li><a href="https://github.com/Tjatse/ansi-html/issues/19">https://github.com/Tjatse/ansi-html/issues/19</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1567198">https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1567198</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JS-ANSIHTML-1296849">https://snyk.io/vuln/SNYK-JS-ANSIHTML-1296849</a></li>
+<li><a href="https://github.com/ioet/time-tracker-ui/security/advisories/GHSA-4fjc-8q3h-8r69">https://github.com/ioet/time-tracker-ui/security/advisories/GHSA-4fjc-8q3h-8r69</a></li>
+<li><a href="https://github.com/advisories/GHSA-whgm-jr23-g3j9">https://github.com/advisories/GHSA-whgm-jr23-g3j9</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-whgm-jr23-g3j9" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005078">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Arbitrary File Creation/Overwrite due to insufficient absolute path sanitization
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/tar" target="_blank"
+                                        rel="noopener">tar</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-22</li>
+                                <li>CVE-2021-32804</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.2.2</li>
+                                <li>Patched: &gt;&#x3D;3.2.2</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>Arbitrary File Creation, Arbitrary File Overwrite, Arbitrary Code Execution</p>
+<p><code>node-tar</code> aims to prevent extraction of absolute file paths by turning absolute paths into relative paths when the <code>preservePaths</code> flag is not set to <code>true</code>. This is achieved by stripping the absolute path root from any absolute file paths contained in a tar file. For example <code>/home/user/.bashrc</code> would turn into <code>home/user/.bashrc</code>. </p>
+<p>This logic was insufficient when file paths contained repeated path roots such as <code>////home/user/.bashrc</code>. <code>node-tar</code> would only strip a single path root from such paths. When given an absolute file path with repeating path roots, the resulting path (e.g. <code>///home/user/.bashrc</code>) would still resolve to an absolute path, thus allowing arbitrary file creation and overwrite. </p>
+<h3 id="patches">Patches</h3>
+<p>3.2.2 || 4.4.14 || 5.0.6 || 6.1.1</p>
+<p>NOTE: an adjacent issue <a href="https://github.com/npm/node-tar/security/advisories/GHSA-r628-mhmh-qjhw">CVE-2021-32803</a> affects this release level. Please ensure you update to the latest patch levels that address CVE-2021-32803 as well if this adjacent issue affects your <code>node-tar</code> use case.</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Users may work around this vulnerability without upgrading by creating a custom <code>onentry</code> method which sanitizes the <code>entry.path</code> or a <code>filter</code> method which removes entries with absolute paths.</p>
+<pre><code class="language-js">const <span class="hljs-built_in">path</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>)
+const tar = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;tar&#x27;</span>)
+
+tar.x({
+  file: <span class="hljs-string">&#x27;archive.tgz&#x27;</span>,
+  // either add this function...
+  onentry: (entry) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">path</span>.isAbsolute(entry.<span class="hljs-built_in">path</span>)) {
+      entry.<span class="hljs-built_in">path</span> = sanitizeAbsolutePathSomehow(entry.<span class="hljs-built_in">path</span>)
+      entry.absolute = <span class="hljs-built_in">path</span>.resolve(entry.<span class="hljs-built_in">path</span>)
+    }
+  },
+
+  // <span class="hljs-keyword">or</span> this one
+  filter: (file, entry) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">path</span>.isAbsolute(entry.<span class="hljs-built_in">path</span>)) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+  }
+})
+</code></pre>
+<p>Users are encouraged to upgrade to the latest patch versions, rather than attempt to sanitize tar input themselves.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;node-gyp&gt;tar </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.2.2 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/npm/node-tar/security/advisories/GHSA-3jfq-g458-7qm9">https://github.com/npm/node-tar/security/advisories/GHSA-3jfq-g458-7qm9</a></li>
+<li><a href="https://github.com/npm/node-tar/commit/1f036ca23f64a547bdd6c79c1a44bc62e8115da4">https://github.com/npm/node-tar/commit/1f036ca23f64a547bdd6c79c1a44bc62e8115da4</a></li>
+<li><a href="https://www.npmjs.com/advisories/1770">https://www.npmjs.com/advisories/1770</a></li>
+<li><a href="https://www.npmjs.com/package/tar">https://www.npmjs.com/package/tar</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-32804">https://nvd.nist.gov/vuln/detail/CVE-2021-32804</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://github.com/advisories/GHSA-3jfq-g458-7qm9">https://github.com/advisories/GHSA-3jfq-g458-7qm9</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-3jfq-g458-7qm9" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005082">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Arbitrary File Creation/Overwrite via insufficient symlink protection due to directory cache poisoning
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/tar" target="_blank"
+                                        rel="noopener">tar</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-22</li>
+                                <li>CVE-2021-32803</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.2.3</li>
+                                <li>Patched: &gt;&#x3D;3.2.3</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>Arbitrary File Creation, Arbitrary File Overwrite, Arbitrary Code Execution</p>
+<p><code>node-tar</code> aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks.  Additionally, in order to prevent unnecessary <code>stat</code> calls to determine whether a given path is a directory, paths are cached when directories are created.</p>
+<p>This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory. This order of operations resulted in the directory being created and added to the <code>node-tar</code> directory cache. When a directory is present in the directory cache, subsequent calls to mkdir for that directory are skipped. However, this is also where <code>node-tar</code> checks for symlinks occur.</p>
+<p>By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass <code>node-tar</code> symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite.</p>
+<p>This issue was addressed in releases 3.2.3, 4.4.15, 5.0.7 and 6.1.2.</p>
+<h3 id="patches">Patches</h3>
+<p>3.2.3 || 4.4.15 || 5.0.7 || 6.1.2</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Users may work around this vulnerability without upgrading by creating a custom <code>filter</code> method which prevents the extraction of symbolic links.</p>
+<pre><code class="language-js">const tar = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;tar&#x27;</span>)
+
+tar.x({
+  <span class="hljs-name">file</span>: <span class="hljs-string">&#x27;archive.tgz&#x27;</span>,
+  <span class="hljs-name">filter</span>: <span class="hljs-function"><span class="hljs-params">(file, entry)</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (entry.<span class="hljs-built_in">type</span> === <span class="hljs-string">&#x27;SymbolicLink&#x27;</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+  }
+})
+</code></pre>
+<p>Users are encouraged to upgrade to the latest patch versions, rather than attempt to sanitize tar input themselves.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;node-gyp&gt;tar </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.2.3 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/npm/node-tar/security/advisories/GHSA-r628-mhmh-qjhw">https://github.com/npm/node-tar/security/advisories/GHSA-r628-mhmh-qjhw</a></li>
+<li><a href="https://github.com/npm/node-tar/commit/9dbdeb6df8e9dbd96fa9e84341b9d74734be6c20">https://github.com/npm/node-tar/commit/9dbdeb6df8e9dbd96fa9e84341b9d74734be6c20</a></li>
+<li><a href="https://www.npmjs.com/advisories/1771">https://www.npmjs.com/advisories/1771</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-32803">https://nvd.nist.gov/vuln/detail/CVE-2021-32803</a></li>
+<li><a href="https://www.npmjs.com/package/tar">https://www.npmjs.com/package/tar</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://github.com/advisories/GHSA-r628-mhmh-qjhw">https://github.com/advisories/GHSA-r628-mhmh-qjhw</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-r628-mhmh-qjhw" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005112">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Regular Expression Denial of Service (ReDOS)
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/color-string" target="_blank"
+                                        rel="noopener">color-string</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-770</li>
+                                <li>CVE-2021-29060</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;1.5.5</li>
+                                <li>Patched: &gt;&#x3D;1.5.5</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>In the npm package <code>color-string</code>, there is a  ReDos (Regular Expression Denial of Service) vulnerability regarding an exponential time complexity for
+linearly increasing input lengths for <code>hwb()</code> color strings.</p>
+<p>Strings reaching more than 5000 characters would see several
+milliseconds of processing time; strings reaching more than
+50,000 characters began seeing 1500ms (1.5s) of processing time.</p>
+<p>The cause was due to a the regular expression that parses
+hwb() strings - specifically, the hue value - where
+the integer portion of the hue value used a 0-or-more quantifier
+shortly thereafter followed by a 1-or-more quantifier.</p>
+<p>This caused excessive backtracking and a cartesian scan,
+resulting in exponential time complexity given a linear
+increase in input length.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-colormin&gt;colormin&gt;color&gt;color-string </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 1.5.5 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-29060">https://nvd.nist.gov/vuln/detail/CVE-2021-29060</a></li>
+<li><a href="https://github.com/Qix-/color-string/commit/0789e21284c33d89ebc4ab4ca6f759b9375ac9d3">https://github.com/Qix-/color-string/commit/0789e21284c33d89ebc4ab4ca6f759b9375ac9d3</a></li>
+<li><a href="https://github.com/Qix-/color-string/releases/tag/1.5.5">https://github.com/Qix-/color-string/releases/tag/1.5.5</a></li>
+<li><a href="https://github.com/yetingli/PoCs/blob/main/CVE-2021-29060/Color-String.md">https://github.com/yetingli/PoCs/blob/main/CVE-2021-29060/Color-String.md</a></li>
+<li><a href="https://github.com/yetingli/SaveResults/blob/main/js/color-string.js">https://github.com/yetingli/SaveResults/blob/main/js/color-string.js</a></li>
+<li><a href="https://www.npmjs.com/package/color-string">https://www.npmjs.com/package/color-string</a></li>
+<li><a href="https://github.com/advisories/GHSA-257v-vj4p-3w2h">https://github.com/advisories/GHSA-257v-vj4p-3w2h</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-257v-vj4p-3w2h" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005323">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Regular Expression Denial of Service (ReDoS)
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/ssri" target="_blank"
+                                        rel="noopener">ssri</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2021-27290</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &gt;&#x3D;5.2.2 &lt;6.0.2</li>
+                                <li>Patched: &gt;&#x3D;6.0.2</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>npm <code>ssri</code> 5.2.2-6.0.1 and 7.0.0-8.0.0, processes SRIs using a regular expression which is vulnerable to a denial of service. Malicious SRIs could take an extremely long time to process, leading to denial of service. This issue only affects consumers using the strict option.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>copy-webpack-plugin&gt;cacache&gt;ssri </li>
+                    </ul>
+                    <ul>
+                        <li>uglifyjs-webpack-plugin&gt;cacache&gt;ssri </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 6.0.2 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-27290">https://nvd.nist.gov/vuln/detail/CVE-2021-27290</a></li>
+<li><a href="https://github.com/npm/ssri/commit/76e223317d971f19e4db8191865bdad5edee40d2">https://github.com/npm/ssri/commit/76e223317d971f19e4db8191865bdad5edee40d2</a></li>
+<li><a href="https://doyensec.com/resources/Doyensec_Advisory_ssri_redos.pdf">https://doyensec.com/resources/Doyensec_Advisory_ssri_redos.pdf</a></li>
+<li><a href="https://github.com/yetingli/SaveResults/blob/main/pdf/ssri-redos.pdf">https://github.com/yetingli/SaveResults/blob/main/pdf/ssri-redos.pdf</a></li>
+<li><a href="https://github.com/npm/ssri/commit/b30dfdb00bb94ddc49a25a85a18fb27afafdfbb1">https://github.com/npm/ssri/commit/b30dfdb00bb94ddc49a25a85a18fb27afafdfbb1</a></li>
+<li><a href="https://www.npmjs.com/package/ssri">https://www.npmjs.com/package/ssri</a></li>
+<li><a href="https://github.com/npm/ssri/pull/20#issuecomment-842677644">https://github.com/npm/ssri/pull/20#issuecomment-842677644</a></li>
+<li><a href="https://npmjs.com">https://npmjs.com</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpuoct2021.html">https://www.oracle.com/security-alerts/cpuoct2021.html</a></li>
+<li><a href="https://github.com/advisories/GHSA-vx3p-948g-6vhq">https://github.com/advisories/GHSA-vx3p-948g-6vhq</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-vx3p-948g-6vhq" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1005427">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Regular Expression Denial of Service (ReDoS)
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/is-svg" target="_blank"
+                                        rel="noopener">is-svg</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2021-28092</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &gt;&#x3D;2.1.0 &lt;4.2.2</li>
+                                <li>Patched: &gt;&#x3D;4.2.2</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>The is-svg package 2.1.0 through 4.2.1 for Node.js uses a regular expression that is vulnerable to Regular Expression Denial of Service (ReDoS). If an attacker provides a malicious string, is-svg will get stuck processing the input for a very long time.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-svgo&gt;is-svg </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 4.2.2 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-28092">https://nvd.nist.gov/vuln/detail/CVE-2021-28092</a></li>
+<li><a href="https://github.com/sindresorhus/is-svg/commit/01f8a087fab8a69c3ac9085fbb16035907ab6a5b">https://github.com/sindresorhus/is-svg/commit/01f8a087fab8a69c3ac9085fbb16035907ab6a5b</a></li>
+<li><a href="https://github.com/sindresorhus/is-svg/releases">https://github.com/sindresorhus/is-svg/releases</a></li>
+<li><a href="https://github.com/sindresorhus/is-svg/releases/tag/v4.2.2">https://github.com/sindresorhus/is-svg/releases/tag/v4.2.2</a></li>
+<li><a href="https://www.npmjs.com/package/is-svg">https://www.npmjs.com/package/is-svg</a></li>
+<li><a href="https://security.netapp.com/advisory/ntap-20210513-0008/">https://security.netapp.com/advisory/ntap-20210513-0008/</a></li>
+<li><a href="https://github.com/advisories/GHSA-7r28-3m3f-r2pr">https://github.com/advisories/GHSA-7r28-3m3f-r2pr</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-7r28-3m3f-r2pr" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006073">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Insecure serialization leading to RCE in serialize-javascript
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/serialize-javascript" target="_blank"
+                                        rel="noopener">serialize-javascript</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-502</li>
+                                <li>CVE-2020-7660</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.1.0</li>
+                                <li>Patched: &gt;&#x3D;3.1.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>serialize-javascript prior to 3.1.0 allows remote attackers to inject arbitrary code via the function &quot;deleteFunctions&quot; within &quot;index.js&quot;. </p>
+<p>An object such as <code>{&quot;foo&quot;: /1&quot;/, &quot;bar&quot;: &quot;a\&quot;@__R-&lt;UID&gt;-0__@&quot;}</code> was serialized as <code>{&quot;foo&quot;: /1&quot;/, &quot;bar&quot;: &quot;a\/1&quot;/}</code>, which allows an attacker to escape the <code>bar</code> key. This requires the attacker to control the values of both <code>foo</code> and <code>bar</code> and guess the value of <code>&lt;UID&gt;</code>. The UID has a keyspace of approximately 4 billion making it a realistic network attack.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>compression-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+                    <ul>
+                        <li>copy-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+                    <ul>
+                        <li>uglifyjs-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.1.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2020-7660">https://nvd.nist.gov/vuln/detail/CVE-2020-7660</a></li>
+<li><a href="https://github.com/yahoo/serialize-javascript/commit/f21a6fb3ace2353413761e79717b2d210ba6ccbd">https://github.com/yahoo/serialize-javascript/commit/f21a6fb3ace2353413761e79717b2d210ba6ccbd</a></li>
+<li><a href="https://github.com/advisories/GHSA-hxcc-f52p-wc94">https://github.com/advisories/GHSA-hxcc-f52p-wc94</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-hxcc-f52p-wc94" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006230">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Cross-Site Scripting in serialize-javascript
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/serialize-javascript" target="_blank"
+                                        rel="noopener">serialize-javascript</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-79</li>
+                                <li>CVE-2019-16769</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;2.1.1</li>
+                                <li>Patched: &gt;&#x3D;2.1.1</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>Versions of <code>serialize-javascript</code> prior to 2.1.1 are vulnerable to Cross-Site Scripting (XSS). The package fails to sanitize serialized regular expressions. This vulnerability does not affect Node.js applications.</p>
+<h2 id="recommendation">Recommendation</h2>
+<p>Upgrade to version 2.1.1 or later.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>compression-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+                    <ul>
+                        <li>copy-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+                    <ul>
+                        <li>uglifyjs-webpack-plugin&gt;serialize-javascript </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 2.1.1 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/yahoo/serialize-javascript/security/advisories/GHSA-h9rv-jmmf-4pgx">https://github.com/yahoo/serialize-javascript/security/advisories/GHSA-h9rv-jmmf-4pgx</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2019-16769">https://nvd.nist.gov/vuln/detail/CVE-2019-16769</a></li>
+<li><a href="https://github.com/advisories/GHSA-h9rv-jmmf-4pgx">https://github.com/advisories/GHSA-h9rv-jmmf-4pgx</a></li>
+<li><a href="https://www.npmjs.com/advisories/1426">https://www.npmjs.com/advisories/1426</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-h9rv-jmmf-4pgx" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006351">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Denial of Service in js-yaml
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/js-yaml" target="_blank"
+                                        rel="noopener">js-yaml</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.13.0</li>
+                                <li>Patched: &gt;&#x3D;3.13.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>Versions of <code>js-yaml</code> prior to 3.13.0 are vulnerable to Denial of Service. By parsing a carefully-crafted YAML file, the node process stalls and may exhaust system resources leading to a Denial of Service.</p>
+<h2 id="recommendation">Recommendation</h2>
+<p>Upgrade to version 3.13.0.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-svgo&gt;svgo&gt;js-yaml </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.13.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/nodeca/js-yaml/issues/475">https://github.com/nodeca/js-yaml/issues/475</a></li>
+<li><a href="https://github.com/nodeca/js-yaml/commit/a567ef3c6e61eb319f0bfc2671d91061afb01235">https://github.com/nodeca/js-yaml/commit/a567ef3c6e61eb319f0bfc2671d91061afb01235</a></li>
+<li><a href="https://www.npmjs.com/advisories/788">https://www.npmjs.com/advisories/788</a></li>
+<li><a href="https://www.npmjs.com/advisories/788/versions">https://www.npmjs.com/advisories/788/versions</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JS-JSYAML-173999">https://snyk.io/vuln/SNYK-JS-JSYAML-173999</a></li>
+<li><a href="https://github.com/advisories/GHSA-2pr6-76vf-7546">https://github.com/advisories/GHSA-2pr6-76vf-7546</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-2pr6-76vf-7546" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006356">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Code Injection in js-yaml
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/js-yaml" target="_blank"
+                                        rel="noopener">js-yaml</a>
+                                </li>
+                                <li>Published: November 18th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-94</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.13.1</li>
+                                <li>Patched: &gt;&#x3D;3.13.1</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>Versions of <code>js-yaml</code> prior to 3.13.1 are vulnerable to Code Injection. The <code>load()</code> function may execute arbitrary code injected through a malicious YAML file. Objects that have <code>toString</code> as key, JavaScript code as value and are used as explicit mapping keys allow attackers to execute the supplied code through the <code>load()</code> function. The <code>safeLoad()</code> function is unaffected.</p>
+<p>An example payload is 
+<code>{ toString: !&lt;tag:yaml.org,2002:js/function&gt; &#39;function (){return Date.now()}&#39; } : 1</code> 
+which returns the object 
+{
+  &quot;1553107949161&quot;: 1
+}</p>
+<h2 id="recommendation">Recommendation</h2>
+<p>Upgrade to version 3.13.1.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-svgo&gt;svgo&gt;js-yaml </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.13.1 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/nodeca/js-yaml/pull/480">https://github.com/nodeca/js-yaml/pull/480</a></li>
+<li><a href="https://www.npmjs.com/advisories/813">https://www.npmjs.com/advisories/813</a></li>
+<li><a href="https://github.com/advisories/GHSA-8j8c-7jfh-h6hx">https://github.com/advisories/GHSA-8j8c-7jfh-h6hx</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-8j8c-7jfh-h6hx" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006754">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Regular Expression Denial of Service in trim-newlines
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/trim-newlines" target="_blank"
+                                        rel="noopener">trim-newlines</a>
+                                </li>
+                                <li>Published: December 2nd 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2021-33623</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.0.1</li>
+                                <li>Patched: &gt;&#x3D;3.0.1</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>The trim-newlines package before 3.0.1 and 4.x before 4.0.1 for Node.js has an issue related to regular expression denial-of-service (ReDoS) for the .end() method.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>node-sass&gt;meow&gt;trim-newlines </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.0.1 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-33623">https://nvd.nist.gov/vuln/detail/CVE-2021-33623</a></li>
+<li><a href="https://github.com/sindresorhus/trim-newlines/commit/25246c6ce5eea1c82d448998733a6302a4350d91">https://github.com/sindresorhus/trim-newlines/commit/25246c6ce5eea1c82d448998733a6302a4350d91</a></li>
+<li><a href="https://github.com/sindresorhus/trim-newlines/releases/tag/v4.0.1">https://github.com/sindresorhus/trim-newlines/releases/tag/v4.0.1</a></li>
+<li><a href="https://www.npmjs.com/package/trim-newlines">https://www.npmjs.com/package/trim-newlines</a></li>
+<li><a href="https://security.netapp.com/advisory/ntap-20210702-0007/">https://security.netapp.com/advisory/ntap-20210702-0007/</a></li>
+<li><a href="https://github.com/advisories/GHSA-7p7h-4mm5-852v">https://github.com/advisories/GHSA-7p7h-4mm5-852v</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-7p7h-4mm5-852v" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006791">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        ReDOS in IS-SVG
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/is-svg" target="_blank"
+                                        rel="noopener">is-svg</a>
+                                </li>
+                                <li>Published: December 10th 2021 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-770</li>
+                                <li>CVE-2021-29059</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &gt;&#x3D;2.1.0 &lt;4.3.0</li>
+                                <li>Patched: &gt;&#x3D;4.3.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>A vulnerability was discovered in IS-SVG version 4.3.1 and below where a Regular Expression Denial of Service (ReDOS) occurs if the application is provided and checks a crafted invalid SVG string.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-svgo&gt;is-svg </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 4.3.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-29059">https://nvd.nist.gov/vuln/detail/CVE-2021-29059</a></li>
+<li><a href="https://github.com/sindresorhus/is-svg/releases/tag/v4.3.0">https://github.com/sindresorhus/is-svg/releases/tag/v4.3.0</a></li>
+<li><a href="https://github.com/yetingli/PoCs/blob/main/CVE-2021-29059/IS-SVG.md">https://github.com/yetingli/PoCs/blob/main/CVE-2021-29059/IS-SVG.md</a></li>
+<li><a href="https://github.com/yetingli/SaveResults/blob/main/js/is-svg.js">https://github.com/yetingli/SaveResults/blob/main/js/is-svg.js</a></li>
+<li><a href="https://www.npmjs.com/package/is-svg">https://www.npmjs.com/package/is-svg</a></li>
+<li><a href="https://github.com/sindresorhus/is-svg/commit/732fc72779840c45a30817d3fe28e12058592b02">https://github.com/sindresorhus/is-svg/commit/732fc72779840c45a30817d3fe28e12058592b02</a></li>
+<li><a href="https://github.com/advisories/GHSA-r8j5-h5cx-65gg">https://github.com/advisories/GHSA-r8j5-h5cx-65gg</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-r8j5-h5cx-65gg" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006846">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Regular Expression Denial of Service in postcss
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/postcss" target="_blank"
+                                        rel="noopener">postcss</a>
+                                </li>
+                                <li>Published: January 7th 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2021-23382</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;8.2.13</li>
+                                <li>Patched: &gt;&#x3D;8.2.13</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>The package postcss before 8.2.13 are vulnerable to Regular Expression Denial of Service (ReDoS) via getAnnotationURL() and loadAnnotation() in lib/previous-map.js. The vulnerable regexes are caused mainly by the sub-pattern /*\s* sourceMappingURL=(.*).</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;autoprefixer&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-calc&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-colormin&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-convert-values&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-discard-comments&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-discard-duplicates&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-discard-empty&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-discard-overridden&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-discard-unused&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-filter-plugins&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-merge-idents&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-merge-longhand&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-merge-rules&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-minify-font-values&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-minify-gradients&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-minify-params&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-minify-selectors&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-normalize-charset&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-normalize-url&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-ordered-values&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-reduce-idents&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-reduce-initial&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-reduce-transforms&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-svgo&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-unique-selectors&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;cssnano&gt;postcss-zindex&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;icss-utils&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;postcss-modules-extract-imports&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;postcss-modules-local-by-default&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;postcss-modules-scope&gt;postcss </li>
+                    </ul>
+                    <ul>
+                        <li>css-loader&gt;postcss-modules-values&gt;postcss </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 8.2.13 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23382">https://nvd.nist.gov/vuln/detail/CVE-2021-23382</a></li>
+<li><a href="https://github.com/postcss/postcss/commit/2b1d04c867995e55124e0a165b7c6622c1735956">https://github.com/postcss/postcss/commit/2b1d04c867995e55124e0a165b7c6622c1735956</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1255641">https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1255641</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JS-POSTCSS-1255640">https://snyk.io/vuln/SNYK-JS-POSTCSS-1255640</a></li>
+<li><a href="https://github.com/advisories/GHSA-566m-qj78-rww5">https://github.com/advisories/GHSA-566m-qj78-rww5</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-566m-qj78-rww5" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006852">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-primary">low</span>
+                        Prototype Pollution in node-forge debug API.
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                        rel="noopener">node-forge</a>
+                                </li>
+                                <li>Published: January 8th 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-1321</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;1.0.0</li>
+                                <li>Patched: &gt;&#x3D;1.0.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>The <code>forge.debug</code> API had a potential prototype pollution issue if called with untrusted input. The API was only used for internal debug purposes in a safe way and never documented or advertised.  It is suspected that uses of this API, if any exist, would likely not have used untrusted inputs in a vulnerable way.</p>
+<h3 id="patches">Patches</h3>
+<p>The <code>forge.debug</code> API and related functions were removed in 1.0.0.</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Don&#39;t use the <code>forge.debug</code> API directly or indirectly with untrusted input.</p>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://www.huntr.dev/bounties/1-npm-node-forge/">https://www.huntr.dev/bounties/1-npm-node-forge/</a></li>
+</ul>
+<h3 id="for-more-information">For more information</h3>
+<p>If you have any questions or comments about this advisory:</p>
+<ul>
+<li>Open an issue in <a href="https://github.com/digitalbazaar/forge">forge</a>.</li>
+<li>Email us at <a href="mailto:&#x73;&#117;&#x70;&#x70;&#x6f;&#x72;&#116;&#64;&#x64;&#105;&#x67;&#105;&#x74;&#x61;&#x6c;&#98;&#97;&#122;&#97;&#97;&#x72;&#46;&#99;&#111;&#x6d;">&#x73;&#117;&#x70;&#x70;&#x6f;&#x72;&#116;&#64;&#x64;&#105;&#x67;&#105;&#x74;&#x61;&#x6c;&#98;&#97;&#122;&#97;&#97;&#x72;&#46;&#99;&#111;&#x6d;</a>.</li>
+</ul>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>webpack-dev-server&gt;selfsigned&gt;node-forge </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 1.0.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/digitalbazaar/forge/security/advisories/GHSA-5rrq-pxf6-6jx5">https://github.com/digitalbazaar/forge/security/advisories/GHSA-5rrq-pxf6-6jx5</a></li>
+<li><a href="https://github.com/advisories/GHSA-5rrq-pxf6-6jx5">https://github.com/advisories/GHSA-5rrq-pxf6-6jx5</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-5rrq-pxf6-6jx5" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006854">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-primary">low</span>
+                        URL parsing in node-forge could lead to undesired behavior.
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                        rel="noopener">node-forge</a>
+                                </li>
+                                <li>Published: January 8th 2022 </li>
+                                <li>Reported by: </li>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;1.0.0</li>
+                                <li>Patched: &gt;&#x3D;1.0.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><h3 id="impact">Impact</h3>
+<p>The regex used for the <code>forge.util.parseUrl</code> API would not properly parse certain inputs resulting in a parsed data structure that could lead to undesired behavior.</p>
+<h3 id="patches">Patches</h3>
+<p><code>forge.util.parseUrl</code> and other very old related URL APIs were removed in 1.0.0 in favor of letting applications use the more modern WHATWG URL Standard API.</p>
+<h3 id="workarounds">Workarounds</h3>
+<p>Ensure code does not directly or indirectly call <code>forge.util.parseUrl</code> with untrusted input.</p>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://www.huntr.dev/bounties/41852c50-3c6d-4703-8c55-4db27164a4ae/">https://www.huntr.dev/bounties/41852c50-3c6d-4703-8c55-4db27164a4ae/</a></li>
+</ul>
+<h3 id="for-more-information">For more information</h3>
+<p>If you have any questions or comments about this advisory:</p>
+<ul>
+<li>Open an issue in <a href="https://github.com/digitalbazaar/forge">forge</a></li>
+<li>Email us at <a href="mailto:&#115;&#x75;&#x70;&#x70;&#x6f;&#114;&#x74;&#64;&#100;&#x69;&#103;&#x69;&#116;&#x61;&#x6c;&#x62;&#x61;&#x7a;&#x61;&#x61;&#114;&#x2e;&#99;&#x6f;&#x6d;">&#115;&#x75;&#x70;&#x70;&#x6f;&#114;&#x74;&#64;&#100;&#x69;&#103;&#x69;&#116;&#x61;&#x6c;&#x62;&#x61;&#x7a;&#x61;&#x61;&#114;&#x2e;&#99;&#x6f;&#x6d;</a></li>
+</ul>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>webpack-dev-server&gt;selfsigned&gt;node-forge </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 1.0.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://github.com/digitalbazaar/forge/security/advisories/GHSA-gf8q-jrpm-jvxq">https://github.com/digitalbazaar/forge/security/advisories/GHSA-gf8q-jrpm-jvxq</a></li>
+<li><a href="https://github.com/advisories/GHSA-gf8q-jrpm-jvxq">https://github.com/advisories/GHSA-gf8q-jrpm-jvxq</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-gf8q-jrpm-jvxq" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006897">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Exposure of Sensitive Information to an Unauthorized Actor in nanoid
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/nanoid" target="_blank"
+                                        rel="noopener">nanoid</a>
+                                </li>
+                                <li>Published: January 22nd 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-200</li>
+                                <li>CVE-2021-23566</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;3.1.31</li>
+                                <li>Patched: &gt;&#x3D;3.1.31</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>The package nanoid before 3.1.31 are vulnerable to Information Exposure via the valueOf() function which allows to reproduce the last id generated.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>caver-js&gt;mocha&gt;nanoid </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 3.1.31 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23566">https://nvd.nist.gov/vuln/detail/CVE-2021-23566</a></li>
+<li><a href="https://github.com/ai/nanoid/pull/328">https://github.com/ai/nanoid/pull/328</a></li>
+<li><a href="https://github.com/ai/nanoid/commit/2b7bd9332bc49b6330c7ddb08e5c661833db2575">https://github.com/ai/nanoid/commit/2b7bd9332bc49b6330c7ddb08e5c661833db2575</a></li>
+<li><a href="https://gist.github.com/artalar/bc6d1eb9a3477d15d2772e876169a444">https://gist.github.com/artalar/bc6d1eb9a3477d15d2772e876169a444</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-2332550">https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-2332550</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JS-NANOID-2332193">https://snyk.io/vuln/SNYK-JS-NANOID-2332193</a></li>
+<li><a href="https://github.com/advisories/GHSA-qrpm-p2h7-hrv2">https://github.com/advisories/GHSA-qrpm-p2h7-hrv2</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-qrpm-p2h7-hrv2" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006898">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-secondary">moderate</span>
+                        Open Redirect in node-forge
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/node-forge" target="_blank"
+                                        rel="noopener">node-forge</a>
+                                </li>
+                                <li>Published: January 22nd 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-601</li>
+                                <li>CVE-2022-0122</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;1.0.0</li>
+                                <li>Patched: &gt;&#x3D;1.0.0</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>parseUrl functionality in node-forge mishandles certain uses of backslash such as https:///\ and interprets the URI as a relative path. </p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>webpack-dev-server&gt;selfsigned&gt;node-forge </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 1.0.0 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-0122">https://nvd.nist.gov/vuln/detail/CVE-2022-0122</a></li>
+<li><a href="https://github.com/digitalbazaar/forge/commit/db8016c805371e72b06d8e2edfe0ace0df934a5e">https://github.com/digitalbazaar/forge/commit/db8016c805371e72b06d8e2edfe0ace0df934a5e</a></li>
+<li><a href="https://huntr.dev/bounties/41852c50-3c6d-4703-8c55-4db27164a4ae">https://huntr.dev/bounties/41852c50-3c6d-4703-8c55-4db27164a4ae</a></li>
+<li><a href="https://github.com/advisories/GHSA-8fr3-hfg3-gpgp">https://github.com/advisories/GHSA-8fr3-hfg3-gpgp</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-8fr3-hfg3-gpgp" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006899">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        node-fetch is vulnerable to Exposure of Sensitive Information to an Unauthorized Actor
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/node-fetch" target="_blank"
+                                        rel="noopener">node-fetch</a>
+                                </li>
+                                <li>Published: January 23rd 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-173</li>
+                                <li>CVE-2022-0235</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;2.6.7</li>
+                                <li>Patched: &gt;&#x3D;2.6.7</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>node-fetch is vulnerable to Exposure of Sensitive Information to an Unauthorized Actor</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>caver-js&gt;node-fetch </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 2.6.7 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-0235">https://nvd.nist.gov/vuln/detail/CVE-2022-0235</a></li>
+<li><a href="https://github.com/node-fetch/node-fetch/commit/36e47e8a6406185921e4985dcbeff140d73eaa10">https://github.com/node-fetch/node-fetch/commit/36e47e8a6406185921e4985dcbeff140d73eaa10</a></li>
+<li><a href="https://huntr.dev/bounties/d26ab655-38d6-48b3-be15-f9ad6b6ae6f7">https://huntr.dev/bounties/d26ab655-38d6-48b3-be15-f9ad6b6ae6f7</a></li>
+<li><a href="https://github.com/node-fetch/node-fetch/pull/1453">https://github.com/node-fetch/node-fetch/pull/1453</a></li>
+<li><a href="https://github.com/advisories/GHSA-r683-j2x4-v87g">https://github.com/advisories/GHSA-r683-j2x4-v87g</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-r683-j2x4-v87g" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="advisory-modal-1006947">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge badge-warning">high</span>
+                        Regular expression denial of service
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Module:
+                                    <a href="https://npmjs.com/package/glob-parent" target="_blank"
+                                        rel="noopener">glob-parent</a>
+                                </li>
+                                <li>Published: February 8th 2022 </li>
+                                <li>Reported by: </li>
+                                <li>CWE-400</li>
+                                <li>CVE-2020-28469</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Vulnerable: &lt;5.1.2</li>
+                                <li>Patched: &gt;&#x3D;5.1.2</li>
+                                <li>Exploitability: </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Overview</h3>
+                    <p class="card-text"><p>This affects the package glob-parent before 5.1.2. The enclosure regex used to check for strings ending in enclosure containing path separator.</p>
+</p>
+
+                    <h3>Findings</h3>
+                    <ul>
+                        <li>webpack&gt;watchpack&gt;watchpack-chokidar2&gt;chokidar&gt;glob-parent </li>
+                    </ul>
+                    <ul>
+                        <li>webpack-dev-server&gt;chokidar&gt;glob-parent </li>
+                    </ul>
+
+                    <h3>Remediation</h3>
+                    <p class="card-text"><p>Upgrade to version 5.1.2 or later</p>
+</p>
+                     
+                    <h3>References</h3>
+                    <p class="card-text"><ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2020-28469">https://nvd.nist.gov/vuln/detail/CVE-2020-28469</a></li>
+<li><a href="https://github.com/gulpjs/glob-parent/pull/36">https://github.com/gulpjs/glob-parent/pull/36</a></li>
+<li><a href="https://github.com/gulpjs/glob-parent/blob/6ce8d11f2f1ed8e80a9526b1dc8cf3aa71f43474/index.js%23L9">https://github.com/gulpjs/glob-parent/blob/6ce8d11f2f1ed8e80a9526b1dc8cf3aa71f43474/index.js%23L9</a></li>
+<li><a href="https://github.com/gulpjs/glob-parent/releases/tag/v5.1.2">https://github.com/gulpjs/glob-parent/releases/tag/v5.1.2</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBES128-1059093">https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBES128-1059093</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1059092">https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1059092</a></li>
+<li><a href="https://snyk.io/vuln/SNYK-JS-GLOBPARENT-1016905">https://snyk.io/vuln/SNYK-JS-GLOBPARENT-1016905</a></li>
+<li><a href="https://www.oracle.com/security-alerts/cpujan2022.html">https://www.oracle.com/security-alerts/cpujan2022.html</a></li>
+<li><a href="https://github.com/advisories/GHSA-ww39-953v-wcq6">https://github.com/advisories/GHSA-ww39-953v-wcq6</a></li>
+</ul>
+</p>
+                     
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-raised mr-2 btn-primary" href="https://github.com/advisories/GHSA-ww39-953v-wcq6" target="_blank" rel="noopener">More about
+                        this vulnerability</a>
+                    <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#advisories').DataTable({
+                order: [[2, 'asc']]
+            });
+        });
+    </script>
+</body>
+
+</html>

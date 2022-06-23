@@ -1,0 +1,124 @@
+/*
+Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.
+https://github.com/orioncactus/pretendard
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+*/
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 900;
+	font-display: swap;
+	src: local('Pretendard Black'), url('/static/fonts/woff2/Pretendard-Black.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Black.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 800;
+	font-display: swap;
+	src: local('Pretendard ExtraBold'), url('/static/fonts/woff2/Pretendard-ExtraBold.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 700;
+	font-display: swap;
+	src: local('Pretendard Bold'), url('/static/fonts/woff2/Pretendard-Bold.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Bold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 600;
+	font-display: swap;
+	src: local('Pretendard SemiBold'), url('/static/fonts/woff2/Pretendard-SemiBold.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-SemiBold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-display: swap;
+	src: local('Pretendard Medium'), url('/static/fonts/woff2/Pretendard-Medium.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Medium.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 400;
+	font-display: swap;
+	src: local('Pretendard Regular'), url('/static/fonts/woff2/Pretendard-Regular.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 300;
+	font-display: swap;
+	src: local('Pretendard Light'), url('/static/fonts/woff2/Pretendard-Light.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Light.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 200;
+	font-display: swap;
+	src: local('Pretendard ExtraLight'), url('/static/fonts/woff2/Pretendard-ExtraLight.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 100;
+	font-display: swap;
+	src: local('Pretendard Thin'), url('/static/fonts/woff2/Pretendard-Thin.woff2') format('woff2'), url('/static/fonts/woff/Pretendard-Thin.woff') format('woff');
+}
+
+
+html {
+  scroll-behavior: smooth;
+  font-size: 10px;
+  overflow: auto;
+  overflow-y: scroll;
+  z-index: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &.locked {
+    overflow: hidden;
+  }
+}
+
+body {
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+  background-color: #F7F7F7;
+
+  * {
+    font-family: 'Pretendard';
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+
+     &::-webkit-scrollbar {
+       display: none;
+     }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    -webkit-user-select: none !important;
+  }
+
+  p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.grecaptcha-badge {
+  display: none;
+}

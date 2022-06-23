@@ -1,0 +1,94 @@
+.KilledPositionItem {
+  display: grid;
+  @include killed-grid-column;
+  background-color: #fff;
+  align-items: center;
+  height: 75px;
+  padding: 0 24px;
+  border-bottom: solid 1px #f5f5f5;
+  border-radius: 0;
+
+  &:last-of-type {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
+.KilledPositionItem__id {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+}
+
+.KilledPositionItem__info {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.KilledPositionItem__infoIconList {
+  display: flex;
+  flex-direction: column;
+}
+
+.KilledPositionItem__infoIcon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+
+  &:last-of-type {
+    top: -6px;
+    z-index: 9;
+  }
+}
+
+.KilledPositionItem__infoTitleList {
+  display: flex; 
+  flex-direction: column;
+}
+
+.KilledPositionItem__infoTitle {
+  @include font-style('font-1', 'b', 14px);
+  color: #131414;
+}
+
+.KilledPositionItem__infoExchangeTitle {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.KilledPositionItem__positionValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.KilledPositionItem__debtValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.KilledPositionItem__restValue {
+  @include font-style('font-1', 'm', 12px);
+  color: #494a4d;
+  strong {
+    @include font-style('font-1', 'sb', 12px);
+    margin-right: 2px;
+  }
+}
+
+.KilledPositionItem__txHashViewButton {
+  @include button-2(28px);
+  @include font-style('font-1', 'sb', 12px);
+  background-color: #ebf0ff;
+  color: #3369ff;
+  width: 92px;
+  margin-bottom: 4px;
+}

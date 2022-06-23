@@ -1,0 +1,16 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a">
+            <stop stop-color="#0050FF" offset="0%"/>
+            <stop stop-color="#0050FF" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <circle fill="url(#a)" cx="32" cy="32" r="32"/>
+        <g transform="translate(16 14)">
+            <ellipse fill="#6695FD" transform="rotate(10 16.2 26.554)" cx="16.2" cy="26.554" rx="14.4" ry="6.75"/>
+            <ellipse fill="#B5CAFF" transform="rotate(-3 16.2 17.997)" cx="16.2" cy="17.997" rx="14.4" ry="6.75"/>
+            <ellipse fill="#FFF" transform="rotate(10 16.2 9.45)" cx="16.2" cy="9.45" rx="14.4" ry="6.75"/>
+        </g>
+    </g>
+</svg>

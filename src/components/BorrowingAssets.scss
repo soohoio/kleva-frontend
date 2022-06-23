@@ -1,0 +1,41 @@
+.BorrowingAssets {
+
+  .Opener {
+    @include not-draggable;
+    margin-bottom: 0;
+  }
+  
+  .Opener__item {
+    height: 44px;
+    margin-left: 0;
+
+    &--selected, &--selectedAndOpen {
+      background-color: #f5f5f5 !important;
+      padding: 0 12px;
+      position: relative;
+      right: 0;
+    }
+  }
+
+  .Opener__searchContainer {
+    display: none;
+  }
+
+  .Opener__list {
+    top: 120%;
+    left: unset;
+    transform: unset;
+    right: 0;
+
+    .Opener__item {
+      margin: 0;
+      background-color: #ffffff !important;
+    }
+  }
+}
+
+.BorrowingAssets__title {
+  @include font-style('font-1', 'm', 18px);
+  color: #131414;
+  margin-bottom: 28px;
+}

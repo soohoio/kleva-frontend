@@ -1,0 +1,13 @@
+.FarmPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: left; 
+  width: 100%;
+  padding: 0 8px;
+  padding-top: 24px;
+
+  @include desktop {
+    padding: 0;
+    padding-top: 0;
+  }  
+}

@@ -1,0 +1,64 @@
+.AdjustPositionPopupOptionSwitcher {
+  margin-bottom: 12px;
+
+  @include desktop {
+    min-width: 480px;
+  }
+}
+
+.AdjustPositionPopupOptionSwitcher__tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.AdjustPositionPopupOptionSwitcher__AddCollateralTab, 
+.AdjustPositionPopupOptionSwitcher__BorrowMoreTab {
+  flex: 1;
+  height: 48px;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &--active {
+    border-radius: 7px;
+    background-color: #fafafa;
+  }
+
+  transition: background-color 100ms;
+
+  &:hover {
+    background-color: rgba(#fafafa, .8);
+  }
+}
+
+.AdjustPositionPopupOptionSwitcher__tabTitle {
+  @include font-style('font-1', 'sb', 13px);
+  color: #797b80;
+}
+
+.AdjustPositionPopupOptionSwitcher__tabValue {
+  @include font-style('font-1', 'm', 11px);
+  color: #616666;
+}
+
+.AdjustPositionPopupOptionSwitcher__content {
+  border-radius: 7px;
+  box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.05);
+  background-color: #fafafa;
+  padding: 16px 12px;
+}
+
+.AdjustPositionPopupOptionSwitcher__wrapButton {
+  @include button-1(40px);
+  background-color: #ebf0ff;
+  color: #3369ff;
+  width: 100%;
+  margin-top: 16px;
+}

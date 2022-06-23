@@ -1,0 +1,37 @@
+.AreYouSureFarming {
+
+}
+
+.AreYouSureFarming__message {
+  @include font-style('font-1', 'm', 15px);
+  margin-bottom: 48px;
+}
+
+.AreYouSureFarming__buttons {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.AreYouSureFarming__cancel {
+  flex: 1;
+  @include button-2(54px);
+  
+  margin-right: 8px;
+
+  @include desktop {
+    margin-right: 16px;
+  }
+}
+
+.AreYouSureFarming__proceed {
+  flex: 1;
+  @include button-1(54px);
+
+  &--warn {
+    @include button-2(54px);
+    background-color: #ffeae8;
+    color: #f25a49;
+    width: 100%;
+  }
+}

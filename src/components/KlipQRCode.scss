@@ -1,0 +1,21 @@
+.KlipQRCode {
+  width: 376px !important;
+
+  .Modal__content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 32px;
+  }
+}
+
+.KlipQRCode__QR {
+  width: 128px !important;
+  height: 128px !important;
+  margin-bottom: 18px;
+}
+
+.KlipQRCode__QRDescription {
+  @include font-style('font-1', 'm', 13px);
+  color: #797b80;
+}

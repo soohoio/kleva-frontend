@@ -1,0 +1,77 @@
+.Pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: space-between;
+  width: 100%;
+  
+  @include desktop {
+    justify-content: center;
+  }
+}
+
+.Pagination__page {
+  @include font-style('font-1', 'm', 12px);
+  color: #797a80;
+  text-align: center;
+  flex: 1;
+
+  @include desktop {
+    flex: unset;
+  }
+}
+
+.Pagination__prev {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+  border-radius: 8px;
+  background-color: #ebf0ff;
+  cursor: pointer;
+  flex: 1;
+
+  @include desktop {
+    flex: unset;
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
+}
+
+.Pagination__next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+  border-radius: 8px;
+  background-color: #ebf0ff;
+  cursor: pointer;
+  flex: 1;
+
+  @include desktop {
+    flex: unset;
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.Pagination__currentPage {
+  padding: 4px 16px;
+  border-radius: 8px;
+  border: solid 1px #f2f2f2;
+  background-color: #fcfcfc;
+  margin-right: 6px;
+}

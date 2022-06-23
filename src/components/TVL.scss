@@ -1,0 +1,17 @@
+.TVL {
+  display: flex;
+  align-items: center;
+
+  margin-right: 11px;
+}
+
+.TVL__label {
+  @include font-style('font-1', 'm', 15px);
+  color: #9297A6;
+  margin-right: 4px;
+}
+
+.TVL__value {
+  @include font-style('font-1', 'sb', 16px);
+  color: #333333;
+}

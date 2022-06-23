@@ -1,0 +1,179 @@
+.StakingPoolItemCard {
+  margin-bottom: 24px;
+
+  &--expand {
+    .StakingPoolItemCard__opener {
+      background-color: white;
+    }
+  }
+}
+
+.StakingPoolItemCard__title {
+  @include font-style('font-1', 'm', 14px);
+  color: #131414;
+  padding-left: 16px;
+  margin-bottom: 12px;
+}
+
+.StakingPoolItemCard__contentWrapper {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  background-color: #fff;
+  position: relative;
+}
+
+.StakingPoolItemCard__content {
+  cursor: pointer;
+  padding: 20px 0;
+}
+
+.StakingPoolItemCard__contentHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 24px;
+}
+
+.StakingPoolItemCard__contentBody {
+  margin-top: 24px;
+  padding: 0 24px;
+}
+
+.StakingPoolItemCard__StakingAssetInfo {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    @include font-style('font-1', 'b', 10px);
+    color: $white;
+    content: "ib";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: #3369ff;
+  }
+}
+
+.StakingPoolItemCard__StakingAssetInfoIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 16px;
+
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+
+  border: double 1px transparent;
+  border-radius: 50%;
+  background-image: linear-gradient(#fff,#fff ), radial-gradient(circle at top left, #2a51bd,#668fff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.StakingPoolItemCard__StakingAssetInfoInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.StakingPoolItemCard__StakingAssetInfoTitle {
+  @include font-style('font-1', 'b', 18px);
+  color: #131414;
+  margin-bottom: 4px;
+}
+
+.StakingPoolItemCard__APRAPY {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+}
+
+.StakingPoolItemCard__APRAPYapy {
+  @include font-style('font-1', 'b', 20px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #3369ff;
+}
+
+.StakingPoolItemCard__APRAPYapr {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
+}
+
+.StakingPoolItemCard__Staked {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.StakingPoolItemCard__StakedTitle {
+  @include font-style('font-1', 'm', 12px);
+  color: #131414;
+}
+
+.StakingPoolItemCard__StakedIBTokenAmount {
+  @include font-style('font-1', 'sb', 16px);
+  color: #131414;
+}
+
+.StakingPoolItemCard__StakedRawTokenAmount {
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+}
+
+.StakingPoolItemCard__Earned {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.StakingPoolItemCard__EarnedTitle {
+  @include font-style('font-1', 'm', 12px);
+  color: #131414;
+}
+
+.StakingPoolItemCard__EarnedAmount {
+  @include font-style('font-1', 'sb', 16px);
+  color: #3369ff;
+  position: relative;
+  top: -6px;
+}
+
+.StakingPoolItemCard__amountContainer {
+  text-align: right;
+  position: relative;
+  top: -8px;
+}
+
+.StakingPoolItemCard__opener {
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  cursor: pointer;
+}
+
+.StakingPoolItemCard__EarnedAmountInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
+}

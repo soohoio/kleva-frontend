@@ -1,0 +1,73 @@
+.MobileGNB {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: scroll;
+  padding: 28px 24px;
+  border-radius: 8px;
+  background-color: #fff;
+  z-index: 9999;
+
+  .SidebarItem {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    cursor: pointer;
+    padding-left: 16px;
+    margin-bottom: 0;
+
+    &:active {
+      .SidebarItem__title {
+        color: rgba(#272729, .5) !important;
+      }
+      background-color: #fafafa;
+      border-radius: 8px;
+    }
+
+    &--active {
+      .SidebarItem__title {
+        @include font-style('font-1', 'b', 20px);
+        color: #3369ff !important;
+      }
+    }
+  }
+
+  .SidebarItem__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+
+  .SidebarItem__title {
+    @include font-style('font-1', 'm', 20px);
+    color: #272729;
+
+    // &:hover {
+    //   color: rgba(#272729, .5);
+    // }
+  }
+
+  .Sidebar__hr {
+    margin: 27px 0;
+  }
+}
+
+.MobileGNB__header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 36px;
+}
+
+.MobileGNB__headerLogo {
+  width: 105px;
+  height: 32px;
+}
+
+.MobileGNB__close {
+  width: 24px;
+  height: 24px;
+}

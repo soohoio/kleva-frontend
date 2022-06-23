@@ -1,0 +1,53 @@
+.StakingPools {
+
+}
+
+.StakingPools__title {
+  @include font-style('font-1', 'b', 18px);
+  color: #131414;
+
+  padding-left: 8px;
+  margin-bottom: 16px;
+  
+  @include desktop {
+    @include font-style('font-1', 'b', 20px);
+    margin-bottom: 20px;
+    padding-left: 0;
+    color: #ffffff;
+  }
+}
+
+.StakingPools__poolCategory {
+  @include font-style('font-1', 'm', 14px);
+  color: #131414;
+  margin-bottom: 12px;
+  padding-left: 8px;
+
+  
+  &--available {
+    color: #131414;
+    margin-top: 12px;
+  }
+  
+  &--availableOnly {
+    color: #131414;
+    margin-top: 0;
+  }
+
+  @include desktop {
+    @include font-style('font-1', 'm', 18px);
+    color: #ffffff;
+    padding-left: 0;
+    margin-bottom: 20px;
+
+    &--available {
+      color: #131414;
+      margin-top: 12px;
+    }
+  
+    &--availableOnly {
+      color: #ffffff;
+      margin-top: 0;
+    }
+  }
+}

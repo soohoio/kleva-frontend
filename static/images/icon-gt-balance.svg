@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>4F522DBA-BF3C-4975-9B0B-4C4968F71FA9</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#AAF2D7" offset="0%"></stop>
+            <stop stop-color="#AFE6D1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="129.007721%" y1="54.8316447%" x2="33.3854675%" y2="54.8316447%" id="linearGradient-2">
+            <stop stop-color="#00995F" offset="0%"></stop>
+            <stop stop-color="#00B470" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Stake" transform="translate(-1164.000000, -163.000000)">
+            <g id="Group" transform="translate(1164.000000, 163.000000)">
+                <circle id="Oval-Copy-6" fill="url(#linearGradient-1)" cx="32" cy="32" r="32"></circle>
+                <g id="Group-3" transform="translate(31.500000, 31.000000) rotate(-12.000000) translate(-31.500000, -31.000000) translate(14.000000, 15.000000)">
+                    <path d="M5.80558815,4.24255327 L26.9564926,0.812676876 C29.3115981,0.430767882 31.5303867,2.03035967 31.9122957,4.38546514 C31.9493718,4.61410154 31.968,4.84534947 31.968,5.07697254 L31.968,21.5089302 C31.968,24.0516735 30.1237647,26.2190652 27.6138089,26.626085 L6.01380889,30.1287877 C3.18768233,30.5870785 0.525135996,28.6675684 0.0668452034,25.8414418 C0.022353795,25.5670782 1.16908433e-15,25.2895806 0,25.011633 L0,11.0654263 C-1.30337341e-15,7.67510199 2.45898042,4.78524642 5.80558815,4.24255327 Z" id="Rectangle" fill="#00995F"></path>
+                    <rect id="Rectangle" fill="url(#linearGradient-2)" x="0" y="6.048" width="34.56" height="25.92" rx="5.184"></rect>
+                    <path d="M21.6,13.824 L34.56,13.824 L34.56,13.824 L34.56,24.192 L21.6,24.192 C20.1684779,24.192 19.008,23.0315221 19.008,21.6 L19.008,16.416 C19.008,14.9844779 20.1684779,13.824 21.6,13.824 Z" id="Rectangle" fill="#1AC985"></path>
+                    <circle id="Oval" fill="#FFFFFF" cx="23.76" cy="19.008" r="2.16"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

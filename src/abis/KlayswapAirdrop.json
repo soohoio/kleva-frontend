@@ -1,0 +1,254 @@
+[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "getPoolData",
+    "outputs": [
+      {
+        "name": "mined",
+        "type": "uint256"
+      },
+      {
+        "name": "maxMiningRate",
+        "type": "uint256"
+      },
+      {
+        "name": "poolTotalSupply",
+        "type": "uint256"
+      },
+      {
+        "name": "poolDecimal",
+        "type": "uint256"
+      },
+      {
+        "name": "fee",
+        "type": "uint256"
+      },
+      {
+        "name": "lastMined",
+        "type": "uint256"
+      },
+      {
+        "name": "miningIndex",
+        "type": "uint256"
+      },
+      {
+        "name": "miningRate",
+        "type": "uint256"
+      },
+      {
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "name": "tokenASupply",
+        "type": "uint256"
+      },
+      {
+        "name": "tokenB",
+        "type": "address"
+      },
+      {
+        "name": "tokenBSupply",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "version",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "governance",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getPoolCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getFullData",
+    "outputs": [
+      {
+        "name": "totalSupply",
+        "type": "uint256"
+      },
+      {
+        "name": "poolCount",
+        "type": "uint256"
+      },
+      {
+        "name": "mined",
+        "type": "uint256"
+      },
+      {
+        "name": "maxMiningRate",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "name": "si",
+        "type": "uint256"
+      },
+      {
+        "name": "ei",
+        "type": "uint256"
+      }
+    ],
+    "name": "getUserData",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "factory",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "si",
+        "type": "uint256"
+      },
+      {
+        "name": "ei",
+        "type": "uint256"
+      }
+    ],
+    "name": "getFixedData",
+    "outputs": [
+      {
+        "name": "mined",
+        "type": "uint256"
+      },
+      {
+        "name": "length",
+        "type": "uint256"
+      },
+      {
+        "name": "fixedDatas",
+        "type": "address[]"
+      },
+      {
+        "name": "fees",
+        "type": "uint256[]"
+      },
+      {
+        "name": "amountDatas",
+        "type": "uint256[]"
+      },
+      {
+        "name": "miningDatas",
+        "type": "uint256[]"
+      },
+      {
+        "name": "decimalDatas",
+        "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "_governance",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  }
+]

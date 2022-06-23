@@ -1,0 +1,72 @@
+.PositionList {
+  margin-top: 24px;
+  
+  &--killed {
+    .PositionList__header {
+      @include killed-grid-column;
+    }
+  }
+}
+
+.PositionList__header {
+  display: none;
+  @include grid-column;
+  @include font-style('font-1', 'm', 11px);
+  color: #797b80;
+  background-color: #fff;
+  height: 52px;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: solid 2px #f2f2f2;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  @include desktop {
+    display: grid;
+  }
+}
+
+.PositionList__headerNumber {
+  padding-right: 24px;
+}
+
+.PositionList__headerPool {
+  padding-right: 32px;
+}
+
+.PositionList__headerPositionValue {
+  padding-right: 24px;
+}
+
+.PositionList__headerDebtValue {
+  padding-right: 24px;
+}
+
+.PositionList__headerEquityValue {
+  padding-right: 24px;
+}
+
+.PositionList__headerCurrentAPY {
+  padding-right: 24px;
+}
+
+.PositionList__headerDebtRatio {
+  padding-right: 24px;
+}
+
+.PositionList__headerLiquidationThreshold {
+  padding-right: 24px;
+}
+
+.PositionList__headerSafetyBuffer {
+  padding-right: 24px;
+}
+
+.PositionList__headerReturnedAmount {
+  padding-right: 24px;
+}
+
+.PositionList__headerBlank, .PositionList__headerTxRecord {
+
+}

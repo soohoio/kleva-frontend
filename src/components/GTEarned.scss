@@ -1,0 +1,99 @@
+.GTEarned {
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 28px;
+  padding-right: 28px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-top: 24px;
+  padding-bottom: 0;
+  
+  @include desktop {
+    box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+    padding-left: 32px;
+    padding-bottom: 25px;
+    padding-right: 36px;
+    flex: 1;
+    // height: 120px;
+    height: 134px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
+.GTEarned__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.GTEarned__label {
+  @include font-style('font-1', 'm', 15px);
+  color: #131414;
+  margin-bottom: 2px;
+}
+
+.GTEarned__value {
+  @include font-style('font-1', 'b', 24px);
+
+  @include desktop {
+    @include font-style('font-1', 'sb', 30px);
+    line-height: 30px;
+  }
+
+  color: #131414;
+}
+
+.GTEarned__valueInUSD {
+  @include font-style('font-1', 'm', 12px);
+  color: #797b80;
+}
+
+.GTEarned__right {
+
+}
+
+.GTEarned__image {
+  width: 64px;
+  height: 64px;
+}
+
+.GTEarned__modeMenu {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.GTEarned__mode {
+  @include font-style('font-1', 'sb', 12px);
+
+  border-bottom: 3px solid transparent;
+  color: rgba(#303133, .5);
+  padding-bottom: 2px;
+  cursor: pointer;
+  
+  margin-right: 8px;
+  
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &--active {
+    color: #3369ff;
+    border-bottom: 3px solid #3369ff;
+  }
+}
+
+.GTEarned__unlockButton {
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 88px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}

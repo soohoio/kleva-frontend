@@ -1,0 +1,81 @@
+.LendingPoolListItem {
+  @include font-style('font-1', 'm', 14px);
+  display: flex;
+  flex-direction: column;
+  color: #131414;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f5f5f5;
+  word-break: break-all;
+
+  &:nth-child(7n+1) { padding-right: 32px; }
+  // &:nth-child(7n+2) { padding-right: 20px; }
+  &:nth-child(7n+2) { padding-right: 42px; }
+  &:nth-child(7n+3) { padding-right: 16px; }
+  &:nth-child(7n+4) { padding-right: 16px; }
+  &:nth-child(7n+5) { padding-right: 16px; }
+  &:nth-child(7n+6) { padding-right: 16px; }
+  &:nth-child(7n) { padding-right: 0; }
+
+  .LabelAndValue {
+    width: 100%;
+  }
+
+  &--totalSupply, &--totalBorrowed {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+  }
+}
+
+.LendingPoolListItem__tokenBalance {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+}
+
+.LendingDepositWithdraw {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  align-items: flex-end;
+}
+
+.LendingDepositWithdraw__depositButton {
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 84px;
+  margin-bottom: 8px;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
+
+.LendingDepositWithdraw__withdrawButton {
+  @include button-1(32px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 84px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
+
+.LendingPoolListItem__tokenValue {
+  margin-right: 4px;
+}
+
+.LendingPoolListItem__tokenSymbol {
+  @include font-style('font-1', 'm', 12px);
+  color: #131414;
+}

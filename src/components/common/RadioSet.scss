@@ -1,0 +1,42 @@
+.RadioSet {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  
+  @include desktop {
+    gap: 56px;
+  }
+}
+
+.RadioSet__item {
+  cursor: pointer;
+  @include font-style('font-1', 'm', 13px);
+  color: rgba(73, 74, 77, 0.7);
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: "";
+    border-radius: 50%;
+    border: solid 2px #aeb0b3;
+    background-color: #fff;
+    width: 12px;
+    height: 12px;
+    margin-right: 12px;
+  }
+
+  &--selected {
+    @include font-style('font-1', 'sb', 13px);
+    color: #494a4d;
+
+    &::before {
+      content: "";
+      border-radius: 50%;
+      border: solid 2px #3369ff;
+      background-color: #3369ff;
+      width: 12px;
+      height: 12px;
+      margin-right: 12px;
+    }   
+  }
+}

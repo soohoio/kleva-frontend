@@ -1,0 +1,24 @@
+$font-weights: (
+  "light": 300,
+  "l": 300,
+  "Regular": 400,
+  "r": 400,
+  "Medium": 500,
+  "m": 500,
+  "sb": 600,
+  "Bold": 700,
+  "b": 700,
+);
+
+@mixin font-style($type, $weight, $size) {
+  font-size: $size;
+
+  @if $type == 'font-1' {
+    font-weight: map-get($font-weights, $weight);
+  }
+
+  @else {
+
+  }
+
+}

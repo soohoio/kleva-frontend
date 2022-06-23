@@ -1,0 +1,23 @@
+.LYFPrice {
+  display: flex;
+  align-items: center;
+}
+
+.LYFPrice__value {
+  @include font-style('font-1', 'sb', 16px);
+  color: #333333;
+}
+
+.LYFPrice__image {
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 50%;
+
+  background-image: url(/static/images/logo-kleva-mini.svg);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: center;
+
+  margin-right: 3px;
+}

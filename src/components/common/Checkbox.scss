@@ -1,0 +1,41 @@
+.Checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.Checkbox__image {
+  width: 12px;
+  height: 12px;
+
+  background-image: url(/static/images/checkbox-unchecked.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &:hover {
+    background-image: url(/static/images/checkbox-unchecked-hover.svg);
+  }
+
+  &:active {
+    background-image: url(/static/images/checkbox-unchecked-active.svg);
+  }
+
+  &--checked {
+    background-image: url(/static/images/checkbox-checked.svg);
+
+    &:hover {
+      background-image: url(/static/images/checkbox-checked-hover.svg);
+    }
+
+    &:active {
+      background-image: url(/static/images/checkbox-checked-active.svg);
+    }
+  }
+}
+
+.Checkbox__label {
+  @include font-style('font-1', 'sb', 13px);
+  color: #494a4d;
+  margin-left: 12px;
+}

@@ -1,0 +1,92 @@
+[
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "inputTokenAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "inputTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimatePos",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "outputAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "inputTokenAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "inputTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimateNeg",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "outputAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentPool",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "outputAmountA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "outputAmountB",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "name": "totalSupply",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tokenA",
+      "outputs": [
+        {
+          "name": "tokenA",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+]

@@ -1,0 +1,384 @@
+[
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "leveragedBaseTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "farmTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getOpenPositionResult",
+      "outputs": [
+        {
+          "name": "swapedBaseTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "swapedFarmTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "resultBaseTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "resultFarmTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "priceImpactBps",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMinimizeResult",
+      "outputs": [
+        {
+          "name": "baseLeft",
+          "type": "uint256"
+        },
+        {
+          "name": "farmLeft",
+          "type": "uint256"
+        },
+        {
+          "name": "amountToTrade",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAmountToRepay",
+      "outputs": [
+        {
+          "name": "farmToTrade",
+          "type": "uint256"
+        },
+        {
+          "name": "baseToTrade",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getEquityValue",
+      "outputs": [
+        {
+          "name": "baseAmt",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getLpIngridients",
+      "outputs": [
+        {
+          "name": "baseAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "farmAmt",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getLpAmounts",
+      "outputs": [
+        {
+          "name": "share",
+          "type": "uint256"
+        },
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "name": "closedLpAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "debtToRepay",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPartialCloseBaseOnlyResult",
+      "outputs": [
+        {
+          "name": "updatedPositionValue",
+          "type": "uint256"
+        },
+        {
+          "name": "updatedHealth",
+          "type": "uint256"
+        },
+        {
+          "name": "updatedDebtAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "receiveBaseTokenAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "amountToTrade",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "name": "closedLpAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "debtToRepay",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPartialCloseMinimizeResult",
+      "outputs": [
+        {
+          "name": "updatedPositionValue",
+          "type": "uint256"
+        },
+        {
+          "name": "updatedHealth",
+          "type": "uint256"
+        },
+        {
+          "name": "updatedDebtAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "receiveBaseTokenAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "receiveFarmTokenAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "amountToTrade",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "name": "closedLpAmt",
+          "type": "uint256"
+        },
+        {
+          "name": "debtToRepay",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAmountToTrade",
+      "outputs": [
+        {
+          "name": "amountToTrade",
+          "type": "uint256"
+        },
+        {
+          "name": "remainingBaseTokenAmt",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "tokenIn",
+          "type": "address"
+        },
+        {
+          "name": "tokenInAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "tokenOut",
+          "type": "address"
+        }
+      ],
+      "name": "getDexSelling",
+      "outputs": [
+        {
+          "name": "tokenOutAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "priceImpactBps",
+          "type": "uint256"
+        },
+        {
+          "name": "priceImpactBpsWithoutFee",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPositionInfo",
+      "outputs": [
+        {
+          "name": "positionValue",
+          "type": "uint256"
+        },
+        {
+          "name": "health",
+          "type": "uint256"
+        },
+        {
+          "name": "debtAmt",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+]

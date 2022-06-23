@@ -1,0 +1,22 @@
+.FarmList {
+  margin-bottom: 80px;
+}
+
+.FarmList__header {
+  display: flex;
+  margin-bottom: 36px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.FarmList__title {
+  @include font-style('font-1', 'b', 20px);
+  color: #ffffff;
+}
+
+.FarmList__content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+}
