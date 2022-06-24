@@ -5,6 +5,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
 import './MainPage.scss'
 import Header2 from '../components/Header2'
+import TabNavigation from '../components/TabNavigation'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -28,14 +29,14 @@ class MainPage extends Component {
   }
 
   renderTab = () => {
-
+    
   }
     
   render() {
     return (
       <div className="MainPage">
         <Header2 />
-        {this.renderTab()}
+        <TabNavigation />
       </div>
     )
   }

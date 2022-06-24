@@ -1,7 +1,60 @@
 .TabNavigation {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
 
+  border-bottom: 1px solid #D1D5E0;
+  justify-content: center;
+}
+
+.TabNavigation__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  
+  @include desktop {
+    width: 980px;
+  }
+}
+
+.TabNavigation__tabs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  @include desktop {
+    width: 230px;
+    position: relative;
+    left: -10px;
+  }
 }
 
 .TabNavigationItem {
-  
+  position: relative;
+  cursor: pointer;
+  top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 58px;
+  flex: 1;
+  color: #727D99;
+  @include font-style('font-1', 'sb', 18px);
+  border-bottom: 2px solid transparent;
+
+  &--active {
+    color: #222222;
+    border-bottom: 2px solid #333333;
+  }
+}
+
+.TabNavigation__right {
+  display: none;
+
+  @include desktop {
+    display: flex;
+    align-items: center;
+  }
 }

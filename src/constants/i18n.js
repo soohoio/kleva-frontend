@@ -4,6 +4,8 @@ export const en = {
   'lendnstake': '예치',
   'farming': '이자농사',
   'connectWallet': '지갑 연결하기',
+  'wklaySwitch': 'KLAY/WKLAY 전환',
+  'useGuide': '이용 가이드',
 }
 
 export const ko = {
@@ -12,6 +14,8 @@ export const ko = {
   'lendnstake': '예치',
   'farming': '이자농사',
   'connectWallet': '지갑 연결하기',
+  'wklaySwitch': 'KLAY/WKLAY 전환',
+  'useGuide': '이용 가이드',
 }
 
 export const zh = {

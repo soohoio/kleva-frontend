@@ -6,10 +6,12 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './TabNavigation.scss'
 import { I18n } from './common/I18n'
 import { currentTab$ } from '../streams/view'
+import SubMenu from './Submenu'
 
-const TabNavigationItem = ({ isActive, title }) => {
+const TabNavigationItem = ({ onClick, isActive, title }) => {
   return (
     <div 
+      onClick={onClick}
       className={cx("TabNavigationItem", {
         "TabNavigationItem--active": isActive,
       })}
@@ -39,9 +41,16 @@ class TabNavigation extends Component {
   render() {
     return (
       <div className="TabNavigation">
-        <TabNavigationItem isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
-        <TabNavigationItem isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
-        <TabNavigationItem isActive={currentTab$.value === 'farming'} title={I18n.t('farming')} />
+        <div className="TabNavigation__content">
+          <div className="TabNavigation__tabs">
+            <TabNavigationItem onClick={() => currentTab$.next('myasset')} isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
+            <TabNavigationItem onClick={() => currentTab$.next('lendnstake')} isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
+            <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming')} />
+          </div>
+          <div className="TabNavigation__right">
+            <SubMenu />
+          </div>
+        </div>
       </div>
     )
   }
