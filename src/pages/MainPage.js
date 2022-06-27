@@ -6,6 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './MainPage.scss'
 import Header2 from '../components/Header2'
 import TabNavigation from '../components/TabNavigation'
+import NotificationBanner from '../components/NotificationBanner'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -37,6 +38,7 @@ class MainPage extends Component {
       <div className="MainPage">
         <Header2 />
         <TabNavigation />
+        <NotificationBanner />
       </div>
     )
   }

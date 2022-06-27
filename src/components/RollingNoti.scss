@@ -1,0 +1,38 @@
+.RollingNoti {
+  width: 100%;
+  overflow: scroll;
+  z-index: 9;
+  border-radius: 8px;
+  height: 100%;
+
+  @include desktop {
+    margin-top: 0;
+  }
+}
+
+.RollingNoti__item {
+  @include gap-like(20px);
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.RollingNoti__itemCategory {
+  @include font-style('font-1', 'sb', 11px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6188FF;
+  color: $white;
+  height: 18px;
+  margin-right: 10px;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.RollingNoti__itemContent {
+  @include font-style('font-1', 'm', 15px);
+  color: #636D8B;
+  cursor: pointer;
+}

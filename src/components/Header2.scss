@@ -16,7 +16,7 @@
   width: 100%;
 
   @include desktop {
-    width: 980px;
+    width: $CONTENT_WIDTH;
   }
 }
 

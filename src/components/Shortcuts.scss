@@ -1,0 +1,11 @@
+.Shortcuts {
+  display: flex;
+  align-items: center;
+}
+
+.Shortcuts__item {
+  @include font-style('font-1', 'm', 15px);
+  cursor: pointer;
+  color: #93A0C4;
+  margin-right: 20px;
+}
