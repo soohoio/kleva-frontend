@@ -21,9 +21,33 @@ export const I18n = {
         }
       }
 
-      return translatedRawValue
+      // html tag
+      let translatedArrayValue = takeApartHTMLTag(translatedRawValue, [])
+
+      return translatedArrayValue.length == 0 
+        ? translatedRawValue
+        : translatedArrayValue
+
     } catch (e) {
       return translatedRawValue
     }
   }
 }
+
+const takeApartHTMLTag = (str, arr = []) => {
+  const matched = str.match(new RegExp(/<.+?<\/.+?>/))
+
+  if (!matched) {
+    if (arr.length != 0) {
+      arr.push(str)
+    }
+    return arr
+  }
+
+  arr.push(str.slice(0, matched.index))
+  arr.push(<span dangerouslySetInnerHTML={{ __html: matched[0] }}></span>)
+  
+  return takeApartHTMLTag(str.slice(matched.index + matched[0].length), arr)
+}
+
+window.takeApartHTMLTag = takeApartHTMLTag
