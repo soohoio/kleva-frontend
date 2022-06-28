@@ -15,8 +15,9 @@ import LabelAndValue from './LabelAndValue'
 import { toAPY } from '../utils/calc'
 import ConnectWalletPopup from './ConnectWalletPopup'
 import { getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
-import { isSameAddress } from '../utils/misc'
+import { isSameAddress, noRounding } from '../utils/misc'
 import { protocolAPR$ } from '../streams/farming'
+import { I18n } from './common/I18n'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -73,43 +74,43 @@ class LendingPoolListItem extends Component {
           />
         </div>
         <div className="LendingPoolListItem">
+          <LabelAndValue
+            className="LendingPoolListItem__apy"
+            label=""
+            value={`${nFormatter(totalAPY, 2)}%`}
+          />
+          <LabelAndValue 
+            className="LendingPoolListItem__apr"
+            label="" 
+            value={`${nFormatter(totalAPR, 2)}%`} 
+          />
+        </div>
+        <div className="LendingPoolListItem__aprDetail">
           {protocolAPR != 0 && (
             <LabelAndValue
-              label="Protocol APR"
+              label={I18n.t('protocolAPR')}
               value={`${Number(protocolAPR || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
             />
           )}
-          <LabelAndValue 
-            label="Lending APR" 
-            value={`${nFormatter(lendingAPR, 0)}%`} 
+          <LabelAndValue
+            label={I18n.t('lendingAPR')}
+            value={`${nFormatter(lendingAPR, 2)}%`}
           />
-          <LabelAndValue 
-            label="Staking APR" 
-            value={`${nFormatter(stakingAPR, 0)}%`}
-          />
-          <LabelAndValue 
-            label="Total APR" 
-            value={`${nFormatter(totalAPR, 0)}%`} 
-          />
-          <LabelAndValue 
-            color="#3369ff" 
-            label="Total APY" 
-            value={`${nFormatter(totalAPY, 0)}%`}
+          <LabelAndValue
+            label={I18n.t('stakingAPR')}
+            value={`${nFormatter(stakingAPR, 2)}%`}
           />
         </div>
+        
         <div className="LendingPoolListItem LendingPoolListItem--totalSupply">
-          <span className="LendingPoolListItem__tokenValue">{nFormatter(totalSupply, 2)} </span>
-          <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
+          <p className="LendingPoolListItem__tokenValue">{noRounding(totalSupply, 0)}</p>
+          <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
         </div>
-        <div className="LendingPoolListItem LendingPoolListItem--totalBorrowed">
-          <span className="LendingPoolListItem__tokenValue">{nFormatter(totalBorrowed, 2)}</span>
-          <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
-        </div>
-        <div className="LendingPoolListItem">
+        <div className="LendingPoolListItem LendingPoolListItem--utilizationRatio">
           {nFormatter(utilization, 2)}%
         </div>
         <div className="LendingPoolListItem">
-          <div className="LendingPoolListItem__tokenBalance">
+          {/* <div className="LendingPoolListItem__tokenBalance">
             <span className="LendingPoolListItem__tokenValue">{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })}</span>            
             <span className="LendingPoolListItem__tokenSymbol">ib{stakingToken.title}</span>
           </div>
@@ -118,10 +119,10 @@ class LendingPoolListItem extends Component {
               <span className="LendingPoolListItem__tokenValue">{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </span>
               <span className="LendingPoolListItem__tokenSymbol">WKLAY</span>
             </div>
-          )}
+          )} */}
           <div className="LendingPoolListItem__tokenBalance">
-            <span className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </span>
-            <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
+            <p className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </p>
+            <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
           </div>
         </div>
         <div className="LendingPoolListItem">

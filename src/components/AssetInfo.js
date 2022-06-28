@@ -25,10 +25,10 @@ class AssetInfo extends Component {
         <img className="AssetInfo__icon" src={iconSrc} />
         <div className="AssetInfo__info">
           <p className="AssetInfo__title">{title}</p>
-          <p className="AssetInfo__priceInfo">
+          {/* <p className="AssetInfo__priceInfo">
             1 ib{title}
             = {Number(ibTokenPrice).toLocaleString('en-us', { maximumFractionDigits: 4 })} {title}
-          </p>
+          </p> */}
         </div>
       </div>
     )

@@ -2,42 +2,76 @@
   @include font-style('font-1', 'm', 14px);
   display: flex;
   flex-direction: column;
-  color: #131414;
+  color: #333333;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 24px;
+  // padding-top: 20px;
+  // padding-bottom: 24px;
   border-bottom: 1px solid #f5f5f5;
   word-break: break-all;
 
-  &:nth-child(7n+1) { padding-right: 32px; }
+  height: 120px;
+
+  &:nth-child(7n+1) { padding-right: 20px; }
   // &:nth-child(7n+2) { padding-right: 20px; }
   &:nth-child(7n+2) { padding-right: 42px; }
   &:nth-child(7n+3) { padding-right: 16px; }
-  &:nth-child(7n+4) { padding-right: 16px; }
-  &:nth-child(7n+5) { padding-right: 16px; }
+  &:nth-child(7n+4) { 
+    // padding-right: 16px; 
+    justify-content: center;
+  }
+  &:nth-child(7n+5) { 
+    // padding-right: 16px; 
+  }
   &:nth-child(7n+6) { padding-right: 16px; }
   &:nth-child(7n) { padding-right: 0; }
 
   .LabelAndValue {
     width: 100%;
+    justify-content: center;
   }
 
-  &--totalSupply, &--totalBorrowed {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: center;
-    justify-content: flex-start;
+  &--totalSupply {
+    flex-direction: column;
+    // flex-wrap: wrap;
+    // align-items: center;
+    // align-content: center;
+    // justify-content: flex-start;
+
+    .LendingPoolListItem__tokenSymbol {
+      text-align: center;
+      color: #333333;
+    }
   }
+
+  &--utilizationRatio {
+    @include font-style('font-1', 'b', 14px);
+    color: #333333;
+    text-align: center;
+  }
+}
+
+.LendingPoolListItem__tokenValue {
+  text-align: center;
+  margin-bottom: 6px;
 }
 
 .LendingPoolListItem__tokenBalance {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
   justify-content: flex-start;
+
+  @include font-style('font-1', 'm', 14px);
+  color: #777d8f;
+}
+
+.LendingPoolListItem__aprDetail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .LendingDepositWithdraw {
@@ -76,6 +110,45 @@
 }
 
 .LendingPoolListItem__tokenSymbol {
-  @include font-style('font-1', 'm', 12px);
-  color: #131414;
+  @include font-style('font-1', 'm', 14px);
+  color: #777d8f;
+}
+
+.LendingPoolListItem__apy {
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #3c6bfa;
+    margin-bottom: 2px;
+  }
+}
+
+.LendingPoolListItem__apr {
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 15px);
+    color: #777d8f;
+  }
+}
+
+.LendingPoolListItem__aprDetail {
+  
+  .LabelAndValue {
+    width: 100%;
+    margin-bottom: 6px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .LabelAndValue__label {
+    flex: 1;
+    text-align: right;
+    margin-right: 8px;
+  }
+  
+  .LabelAndValue__value {
+    flex: 1;
+    text-align: right;
+    @include font-style('font-1', 'sb', 14px);
+  }
 }

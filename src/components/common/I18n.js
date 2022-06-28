@@ -38,6 +38,8 @@ const takeApartHTMLTag = (str, arr = []) => {
   const matched = str.match(new RegExp(/<.+?<\/.+?>/))
 
   if (!matched) {
+    // arr.length == 0 means there's no html tag in the string, 
+    // In that case, just return empty array []
     if (arr.length != 0) {
       arr.push(str)
     }

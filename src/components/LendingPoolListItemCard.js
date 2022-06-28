@@ -110,11 +110,6 @@ class LendingPoolListItemCard extends Component {
                   {nFormatter(totalSupply, 2)} {stakingToken.title}
                 </>
               )} />
-              <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--borrowed" label="Total Borrowed" value={(
-                <>
-                  {nFormatter(totalBorrowed, 2)} {stakingToken.title}
-                </>
-              )} />
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--utilization" label="Utilization" value={(
                 <>
                   {utilization.toLocaleString('en-us', { maximumFractionDigits: 2 })}%

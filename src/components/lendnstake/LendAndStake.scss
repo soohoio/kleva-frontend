@@ -1,0 +1,25 @@
+.LendAndStake {
+
+}
+
+.LendAndStake__introTitle {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.LendAndStake__introDescription {
+  @include font-style('font-1', 'm', 15px);
+  color: #616674;
+  margin-bottom: 12px;
+}
+
+.LendAndStake__introMisc {
+  @include font-style('font-1', 'b', 16px);
+  color: #3C6BFA;
+}
+
+
+.LendAndStake__list {
+  margin-top: 36px;
+}

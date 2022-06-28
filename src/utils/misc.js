@@ -162,6 +162,10 @@ export const noRounding = (num, digits) => {
 
   const integerWithCommas = numberWithCommas(integerPoints)
 
+  if (digits == 0) {
+    return integerWithCommas
+  }
+
   return integerWithCommas + "." + String(decimalPoints.slice(0, digits))
 }
 

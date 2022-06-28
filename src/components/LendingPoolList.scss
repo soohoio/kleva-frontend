@@ -1,9 +1,11 @@
 @mixin grid-column {
   // grid-template-columns: 220px 190px repeat(auto-fit, minmax(100px, 1fr));
   // grid-template-columns: 20fr 20fr 12.5fr 12.5fr 12.5fr 12.5fr 128px;
-  grid-template-columns: 24fr 24fr minmax(120px, 14fr) minmax(120px, 14fr) 86px 24fr 84px;
+  // grid-template-columns: 24fr 24fr minmax(120px, 14fr) minmax(120px, 14fr) 86px 24fr 84px;
+  grid-template-columns: 8fr 8fr 8fr 8fr 5fr 6fr 6fr;
   
-  max-width: calc(1920px - 240px);
+  // max-width: calc(1920px - 240px);
+  max-width: 980px;
 }
 
 .LendingPoolList {
@@ -40,10 +42,11 @@
   width: calc(100vw - 240px);
   display: grid;
   border-radius: 8px;
-  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
-  background-color: #fff;
+  // box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
+  // background-color: #fff;
   border-bottom: 1px solid #f5f5f5;
-  padding: 0 24px;
+  // padding: 0 24px;
+  padding: 0;
   padding-right: 20px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -52,28 +55,43 @@
 .LendingPoolListTableHeader {
   @include grid-column;
   display: grid;
-  background-color: #fff;
-  border-bottom: 2px solid #f2f2f2;
+  // background-color: #fff;
+  border: 1px solid #f2f2f2;
+  border-left: 0;
+  border-right: 0;
   padding: 16px 24px;
   width: calc(100vw - 240px);
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
 
   div {
-    @include font-style('font-1', 'sb', 13px);
+    @include font-style('font-1', 'm', 14px);
     color: #797b80;
     
     line-height: 14px;
     display: flex;
     align-items: center;
 
-    &:nth-child(7n+1) { padding-right: 32px; }
-    // &:nth-child(7n+2) { padding-right: 18px; }
-    &:nth-child(7n+2) { padding-right: 42px; }
-    &:nth-child(7n+3) { padding-right: 16px; }
-    &:nth-child(7n+4) { padding-right: 16px; }
-    &:nth-child(7n+5) { padding-right: 16px; }
-    &:nth-child(7n+6) { padding-right: 16px; }
+    &:nth-child(7n+1) { 
+      padding-right: 28px; 
+    }
+    &:nth-child(7n+2) { padding-right: 0; }
+    &:nth-child(7n+3) { 
+      // padding-right: 16px; 
+      padding-right: 0;
+      justify-content: flex-end;
+    }
+    &:nth-child(7n+4) { 
+      // padding-right: 16px; 
+      justify-content: center;
+    }
+    &:nth-child(7n+5) { 
+      justify-content: center;
+      // padding-right: 16px; 
+    }
+    &:nth-child(7n+6) { 
+      // padding-right: 16px; 
+      padding-right: 0;
+      justify-content: center;
+    }
     &:nth-child(7n) { padding-right: 0; }
   }
 }

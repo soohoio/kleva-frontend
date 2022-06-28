@@ -16,16 +16,17 @@ import { klevaAnnualRewards$, protocolAPR$ } from '../streams/farming'
 import { tokenPrices$ } from '../streams/tokenPrice'
 import { tokenList } from '../constants/tokens'
 import { isSameAddress } from '../utils/misc'
+import { I18n } from './common/I18n'
 
 const LendingPoolListTableHeader = () => {
   return (
     <div className="LendingPoolListTableHeader">
-      <div>Asset</div>
-      <div>APR/APY</div>
-      <div>Total Supply</div>
-      <div>Total Borrowed</div>
-      <div>Utilization</div>
-      <div>My Balance</div>
+      <div>{I18n.t('token')}</div>
+      <div>{I18n.t('aprapy')}</div>
+      <div>{I18n.t('aprDetail')}</div>
+      <div>{I18n.t('totalDeposited')}</div>
+      <div>{I18n.t('utilizationRatio')}</div>
+      <div>{I18n.t('depositAvailable')}</div>
       <div>&nbsp;</div>
     </div>
   )
@@ -65,8 +66,6 @@ class LendingPoolList extends Component {
 
     return (
       <div className="LendingPoolList">
-        <p className="LendingPoolList__title">Lending Pools</p>
-
         {isDesktop$.value 
           ? (
             <>

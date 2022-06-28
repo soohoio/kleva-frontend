@@ -11,8 +11,8 @@
   background-color: #fff;
 
   @include desktop {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 
   border-radius: 50%;
@@ -25,7 +25,7 @@
 }
 
 .AssetInfo__title {
-  @include font-style('font-1', 'b', 18px);
+  @include font-style('font-1', 'b', 17px);
   color: #131414;
   margin-bottom: 4px;
 }
