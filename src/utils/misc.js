@@ -95,7 +95,7 @@ export const coupleArray = ({
   return result
 }
 
-const LESS_THAN_1_DECIMAL_MAX_DIGITS = 4
+const LESS_THAN_1_DECIMAL_MAX_DIGITS = 2
 
 export const nFormatter = (num, digits, locale) => {
 

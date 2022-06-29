@@ -16,6 +16,7 @@ import './LendingPoolListItemCard.scss'
 import { toAPY } from '../utils/calc'
 import { getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
 import { protocolAPR$ } from '../streams/farming'
+import QuestionMark from './common/QuestionMark'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -65,13 +66,36 @@ class LendingPoolListItemCard extends Component {
 
     return (
       <div className="LendingPoolListItemCard">
-        <AssetInfo
-          onClick={onClick}
-          iconSrc={stakingToken && stakingToken.iconSrc}
-          title={title}
-          ibTokenPrice={ibTokenPrice}
-        />
-        <div className="LendingPoolListItemCard__contentWrapper">
+
+        <div className="LendingPoolListItemCard__header">
+          <AssetInfo
+            onClick={onClick}
+            iconSrc={stakingToken && stakingToken.iconSrc}
+            title={title}
+            ibTokenPrice={ibTokenPrice}
+          />
+          <span className="LendingPoolListItemCard__apy">
+            {nFormatter(totalAPY, 2)}%
+            <QuestionMark 
+              info
+              color="#265FFC" 
+              onClick={() => {
+                // openModal$.next({
+                //   component: (
+                //     <Modal title={I18n.t('utilizationRatio')}>
+                //       {I18n.t('utilizationRatio.description')}
+                //     </Modal>
+                //   )
+                // })
+              }}
+            />
+          </span>
+        </div>
+
+        <div className="LendingPoolListItemCard__content">
+
+        </div>
+        {/* <div className="LendingPoolListItemCard__contentWrapper">
           <div onClick={onClick} className="LendingPoolListItemCard__content">
             <LabelAndValue
               className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--apy"
@@ -84,7 +108,7 @@ class LendingPoolListItemCard extends Component {
               value={`${nFormatter(totalAPR, 2)}%`}
             />
           </div>
-          {isExpand && (
+          {true && (
             <>
               <div className="LendingPoolListItemCard__aprDetail">
                 {protocolAPR != 0 && (
@@ -103,7 +127,6 @@ class LendingPoolListItemCard extends Component {
                   label="Staking APR" 
                   value={`${nFormatter(stakingAPR, 2)}%`}
                 />
-                {/* <LabelAndValue className="LendingPoolListItemCard__aprDetailItem" label="Protocol APR" value="0.0518%" /> */}
               </div>
               <LabelAndValue className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--supply" label="Total Supply" value={(
                 <>
@@ -171,13 +194,7 @@ class LendingPoolListItemCard extends Component {
               </div>
             </>
           )}
-          <div onClick={onClick} className="StakingPoolItemCard__opener">
-            {isExpand
-              ? <img className="StakingPoolItemCard__expandIcon" src="/static/images/icon-unexpand.svg" />
-              : <img className="StakingPoolItemCard__expandIcon" src="/static/images/icon-expand.svg" />
-            }
-          </div>
-        </div>
+        </div> */}
       </div>
     )
   }

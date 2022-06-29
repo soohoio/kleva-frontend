@@ -18,13 +18,17 @@ class QuestionMark extends Component {
   }
     
   render() {
-    const { onClick } = this.props
+    const { info, color, onClick } = this.props
     return (
       <div
+        style={{
+          color,
+          borderColor: color,
+        }}
         onClick={onClick}
         className="QuestionMark"
       >
-        ?
+        {info ? 'i' : '?'}
       </div>
     )
   }

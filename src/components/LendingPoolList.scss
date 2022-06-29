@@ -10,7 +10,6 @@
 
 .LendingPoolList {
   padding: 0 8px;
-  padding-top: 40px;
   width: 100%;
   padding-bottom: 32px;
   
@@ -60,6 +59,7 @@
   border-left: 0;
   border-right: 0;
   padding: 16px 24px;
+  padding-left: 0;
   width: calc(100vw - 240px);
 
   div {
@@ -99,4 +99,20 @@
 // Card View
 .LendingPoolList__cardContents {
 
+}
+
+.LendingPoolList__cardContentsHeader {
+  border-top: 1px solid rgba(#e6e9f2, .8);
+  padding-top: 26px;
+  margin-bottom: 24px !important;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 15px);
+    color: #9299AA;
+  }
 }

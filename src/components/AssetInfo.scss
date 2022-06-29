@@ -4,10 +4,8 @@
 }
 
 .AssetInfo__icon {
-  width: 48px;
-  height: 48px;
-
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.06);
+  width: 32px;
+  height: 32px;
   background-color: #fff;
 
   @include desktop {
@@ -25,9 +23,14 @@
 }
 
 .AssetInfo__title {
-  @include font-style('font-1', 'b', 17px);
+  @include font-style('font-1', 'b', 18px);
   color: #131414;
-  margin-bottom: 4px;
+
+  @include desktop {
+    @include font-style('font-1', 'b', 17px);
+    margin-bottom: 4px;
+  }
+
 }
 
 .AssetInfo__priceInfo {

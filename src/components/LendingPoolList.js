@@ -9,7 +9,7 @@ import LendingPoolListItem from './LendingPoolListItem'
 import { listTokenSupplyInfo$ } from '../streams/contract'
 import { lendingTokenSupplyInfo$, poolAmountInStakingPool$ } from '../streams/vault'
 import { balancesInWallet$, selectedAddress$ } from '../streams/wallet'
-import { isDesktop$ } from '../streams/ui'
+import { isDesktop$, openModal$ } from '../streams/ui'
 import LendingPoolListItemCard from './LendingPoolListItemCard'
 import { stakingPoolsByToken } from '../constants/stakingpool'
 import { klevaAnnualRewards$, protocolAPR$ } from '../streams/farming'
@@ -17,6 +17,9 @@ import { tokenPrices$ } from '../streams/tokenPrice'
 import { tokenList } from '../constants/tokens'
 import { isSameAddress } from '../utils/misc'
 import { I18n } from './common/I18n'
+import QuestionMark from './common/QuestionMark'
+import Modal from './common/Modal'
+import LabelAndValue from './LabelAndValue'
 
 const LendingPoolListTableHeader = () => {
   return (
@@ -25,7 +28,20 @@ const LendingPoolListTableHeader = () => {
       <div>{I18n.t('aprapy')}</div>
       <div>{I18n.t('aprDetail')}</div>
       <div>{I18n.t('totalDeposited')}</div>
-      <div>{I18n.t('utilizationRatio')}</div>
+      <div>
+        {I18n.t('utilizationRatio')}
+        <QuestionMark 
+          onClick={() => {
+            openModal$.next({
+              component: (
+                <Modal title={I18n.t('utilizationRatio')}>
+                  {I18n.t('utilizationRatio.description')}
+                </Modal>
+              )
+            })
+          }} 
+        />
+      </div>
       <div>{I18n.t('depositAvailable')}</div>
       <div>&nbsp;</div>
     </div>
@@ -149,6 +165,11 @@ class LendingPoolList extends Component {
           )
           : (
             <div className="LendingPoolList__cardContents">
+              <LabelAndValue
+                className="LendingPoolList__cardContentsHeader"
+                label={I18n.t('lendingList')}
+                value={`%${I18n.t('apy')}`}
+              />
               {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
                 const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                 const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply

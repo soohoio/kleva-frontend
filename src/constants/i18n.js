@@ -17,6 +17,7 @@ export const en = {
   'lendnstake.intro.misc': '영상으로 쉽게 알아보기',
   'token': '토큰',
   'aprapy': '연간이자율(복리/단리)',
+  'apy': '연간이자율(복리)',
   'aprDetail': '이자율 상세',
   'totalDeposited': '총 예치 수량',
   'utilizationRatio': '활용률',
@@ -24,6 +25,8 @@ export const en = {
   'protocolAPR': '프로토콜',
   'lendingAPR': '예치',
   'stakingAPR': '스테이킹',
+  'utilizationRatio.description': `총 예치 토큰 수량 중 이자 농사 사용자가 레버리지 활용을 위해 대출한 토큰의 비율입니다.<br /> 이자 농사 사용자가 대출받으면서 지불한 이자의 일부는 해당 토큰을 예치한 사용자에게 지급됩니다. 따라서 토큰의 대출이 많이 발생할수록 즉, 활용률이 높아질수록 예치를 통해 받는 이자도 많아집니다.`,
+  'lendingList': '예치 목록',
   
 }
 
@@ -46,6 +49,7 @@ export const ko = {
   'lendnstake.intro.misc': '영상으로 쉽게 알아보기',
   'token': '토큰',
   'aprapy': '연간이자율(복리/단리)',
+  'apy': '연간이자율(복리)',
   'aprDetail': '이자율 상세',
   'totalDeposited': '총 예치 수량',
   'utilizationRatio': '활용률',
@@ -53,6 +57,8 @@ export const ko = {
   'protocolAPR': '프로토콜',
   'lendingAPR': '예치',
   'stakingAPR': '스테이킹',
+  'utilizationRatio.description': `총 예치 토큰 수량 중 이자 농사 사용자가 레버리지 활용을 위해 대출한 토큰의 비율입니다.<br /> 이자 농사 사용자가 대출받으면서 지불한 이자의 일부는 해당 토큰을 예치한 사용자에게 지급됩니다. 따라서 토큰의 대출이 많이 발생할수록 즉, 활용률이 높아질수록 예치를 통해 받는 이자도 많아집니다.`,
+  'lendingList': '예치 목록',
 }
 
 export const zh = {
