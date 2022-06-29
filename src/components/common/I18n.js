@@ -35,7 +35,7 @@ export const I18n = {
 }
 
 const takeApartHTMLTag = (str, arr = []) => {
-  const matched = str.match(new RegExp(/<.+?<\/.+?>/))
+  const matched = str.match(new RegExp(/<.+?<\/.+?>/)) || str.match(new RegExp(/<.+?\>/))
 
   if (!matched) {
     // arr.length == 0 means there's no html tag in the string, 
