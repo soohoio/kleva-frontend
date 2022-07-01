@@ -6,18 +6,19 @@ import { takeUntil, tap } from 'rxjs/operators'
 import { nFormatter } from 'utils/misc'
 
 import './LendingPoolListItem.scss'
-import { openModal$ } from '../streams/ui'
-import ConnectWallet from './ConnectWallet'
-import DepositModal from './DepositModal'
-import WithdrawModal from './WithdrawModal'
-import AssetInfo from './AssetInfo'
-import LabelAndValue from './LabelAndValue'
-import { toAPY } from '../utils/calc'
-import ConnectWalletPopup from './ConnectWalletPopup'
-import { getIbTokenFromOriginalToken, tokenList } from '../constants/tokens'
-import { isSameAddress, noRounding } from '../utils/misc'
-import { protocolAPR$ } from '../streams/farming'
-import { I18n } from './common/I18n'
+import { openModal$ } from '../../streams/ui'
+import ConnectWallet from '../ConnectWallet'
+import DepositModal from '../DepositModal'
+import WithdrawModal from '../WithdrawModal'
+import AssetInfo from '../AssetInfo'
+import LabelAndValue from '../LabelAndValue'
+import { toAPY } from '../../utils/calc'
+import ConnectWalletPopup from '../ConnectWalletPopup'
+import { getIbTokenFromOriginalToken, tokenList } from '../../constants/tokens'
+import { isSameAddress, noRounding } from '../../utils/misc'
+import { protocolAPR$ } from '../../streams/farming'
+import { I18n } from '../common/I18n'
+import LendAndStakeControllerPopup from './LendAndStakeControllerPopup'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -126,37 +127,10 @@ class LendingPoolListItem extends Component {
           </div>
         </div>
         <div className="LendingPoolListItem">
-          <div className="LendingDepositWithdraw">
+          <div className="LendingDepositAndSimulation">
             <div
-              className={cx("LendingDepositWithdraw__depositButton", {
-                "LendingDepositWithdraw__depositButton--disabled": !selectedAddress || isDisabled
-              })}
-              onClick={() => {
-
-                if (!selectedAddress) {
-                  return
-                }
-
-                if (isDisabled) {
-                  return
-                }
-
-                openModal$.next({
-                  component: (
-                    <DepositModal
-                      ibTokenPrice={ibTokenPrice}
-                      stakingToken={stakingToken}
-                      vaultAddress={vaultAddress}
-                    />
-                  )
-                })
-              }}
-            >
-              Deposit
-            </div>
-            <div
-              className={cx("LendingDepositWithdraw__withdrawButton", {
-                "LendingDepositWithdraw__withdrawButton--disabled": !selectedAddress || isDisabled
+              className={cx("LendingDepositAndSimulation__simulationButton", {
+                "LendingDepositAndSimulation__simulationButton--disabled": !selectedAddress || isDisabled
               })}
               onClick={() => {
                 if (!selectedAddress) {
@@ -178,7 +152,39 @@ class LendingPoolListItem extends Component {
                 })
               }}
             >
-              Withdraw
+              {I18n.t('profitSimulation')}
+            </div>
+            <div
+              className={cx("LendingDepositAndSimulation__depositButton", {
+                "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDisabled
+              })}
+              onClick={() => {
+
+                if (!selectedAddress) {
+                  return
+                }
+
+                if (isDisabled) {
+                  return
+                }
+
+                openModal$.next({
+                  component: (
+                    <LendAndStakeControllerPopup
+                      ibToken={ibToken}
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+
+                      lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
+                      protocolAPR={protocolAPR}
+                    />
+                  )
+                })
+              }}
+            >
+              {I18n.t('lend')}
             </div>
           </div>
         </div>

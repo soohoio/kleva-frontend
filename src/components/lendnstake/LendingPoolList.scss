@@ -9,7 +9,7 @@
 }
 
 .LendingPoolList {
-  padding: 0 8px;
+  padding: 0;
   width: 100%;
   padding-bottom: 32px;
   
@@ -18,6 +18,10 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+}
+
+.LendingPoolList__list {
+  
 }
 
 .LendingPoolList__title {

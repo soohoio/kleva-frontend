@@ -4,22 +4,24 @@ import cx from 'classnames'
 import { Subject, merge, interval, forkJoin } from 'rxjs'
 import { takeUntil, tap, switchMap, startWith, debounceTime } from 'rxjs/operators'
 import './LendingPoolList.scss'
-import { lendingPools, PROTOCOL_FEE } from '../constants/lendingpool'
+import { lendingPools, PROTOCOL_FEE } from '../../constants/lendingpool'
 import LendingPoolListItem from './LendingPoolListItem'
-import { listTokenSupplyInfo$ } from '../streams/contract'
-import { lendingTokenSupplyInfo$, poolAmountInStakingPool$ } from '../streams/vault'
-import { balancesInWallet$, selectedAddress$ } from '../streams/wallet'
-import { isDesktop$, openModal$ } from '../streams/ui'
+import { listTokenSupplyInfo$ } from '../../streams/contract'
+import { lendingTokenSupplyInfo$, poolAmountInStakingPool$ } from '../../streams/vault'
+import { balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
+import { isDesktop$, openModal$ } from '../../streams/ui'
 import LendingPoolListItemCard from './LendingPoolListItemCard'
-import { stakingPoolsByToken } from '../constants/stakingpool'
-import { klevaAnnualRewards$, protocolAPR$ } from '../streams/farming'
-import { tokenPrices$ } from '../streams/tokenPrice'
-import { tokenList } from '../constants/tokens'
-import { isSameAddress } from '../utils/misc'
-import { I18n } from './common/I18n'
-import QuestionMark from './common/QuestionMark'
-import Modal from './common/Modal'
-import LabelAndValue from './LabelAndValue'
+import { stakingPoolsByToken } from '../../constants/stakingpool'
+import { klevaAnnualRewards$, protocolAPR$ } from '../../streams/farming'
+import { tokenPrices$ } from '../../streams/tokenPrice'
+import { tokenList } from '../../constants/tokens'
+import { isSameAddress } from '../../utils/misc'
+import { I18n } from '../common/I18n'
+import QuestionMark from '../common/QuestionMark'
+import Modal from '../common/Modal'
+import LabelAndValue from '../LabelAndValue'
+
+import UtilizationInfoModal from '../modals/UtilizationInfoModal'
 
 const LendingPoolListTableHeader = () => {
   return (
@@ -33,13 +35,9 @@ const LendingPoolListTableHeader = () => {
         <QuestionMark 
           onClick={() => {
             openModal$.next({
-              component: (
-                <Modal title={I18n.t('utilizationRatio')}>
-                  {I18n.t('utilizationRatio.description')}
-                </Modal>
-              )
+              component: <UtilizationInfoModal />
             })
-          }} 
+          }}
         />
       </div>
       <div>{I18n.t('depositAvailable')}</div>
@@ -146,6 +144,7 @@ class LendingPoolList extends Component {
                       wKLAYBalance={balancesInWallet$.value[tokenList.WKLAY.address]}
                       ibTokenBalanceInWallet={balancesInWallet$.value[ibTokenAddress]}
                       lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
                       protocolAPR={protocolAPR}
                       title={title}
                       utilization={utilization}
@@ -155,7 +154,6 @@ class LendingPoolList extends Component {
                       totalBorrowed={totalBorrowed}
                       ibTokenPrice={ibTokenPrice}
                       depositedTokenBalance={depositedTokenBalance}
-                      stakingAPR={stakingAPR}
                       tvl={tvl}
                     />
                   )
@@ -168,81 +166,84 @@ class LendingPoolList extends Component {
               <LabelAndValue
                 className="LendingPoolList__cardContentsHeader"
                 label={I18n.t('lendingList')}
-                value={`%${I18n.t('apy')}`}
+                value={`% ${I18n.t('apy')}`}
               />
-              {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
-                const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
-                const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply
-                const totalBorrowed = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalBorrowed
-                const depositedTokenBalance = lendingTokenSupplyInfo && lendingTokenSupplyInfo.depositedTokenBalance
-                const ibTokenPrice = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
-                const ibTokenAddress = vaultAddress
-                const originalToken = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibToken.originalToken
 
-                const _stakingPool = stakingPoolsByToken[ibTokenAddress]
-                const _stakingPoolPID = _stakingPool && _stakingPool.pid
-                const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID]
-                const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID]
-                const klevaPrice = tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()]
-                const originalTokenPrice = tokenPrices$.value[originalToken && originalToken.address.toLowerCase()]
-                const ibTokenPriceRatio = ibTokenPrice
-                const ibTokenPriceInUSD = originalTokenPrice * ibTokenPriceRatio
+              <div className="LendingPoolList__list">
+                {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
+                  const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
+                  const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply
+                  const totalBorrowed = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalBorrowed
+                  const depositedTokenBalance = lendingTokenSupplyInfo && lendingTokenSupplyInfo.depositedTokenBalance
+                  const ibTokenPrice = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibTokenPrice
+                  const ibTokenAddress = vaultAddress
+                  const originalToken = lendingTokenSupplyInfo && lendingTokenSupplyInfo.ibToken.originalToken
 
-                const tvl = new BigNumber(depositedTokenBalance)
-                  .multipliedBy(tokenPrices$.value[stakingToken.address.toLowerCase()])
-                  .toNumber()
+                  const _stakingPool = stakingPoolsByToken[ibTokenAddress]
+                  const _stakingPoolPID = _stakingPool && _stakingPool.pid
+                  const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID]
+                  const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID]
+                  const klevaPrice = tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()]
+                  const originalTokenPrice = tokenPrices$.value[originalToken && originalToken.address.toLowerCase()]
+                  const ibTokenPriceRatio = ibTokenPrice
+                  const ibTokenPriceInUSD = originalTokenPrice * ibTokenPriceRatio
 
-                const isKlevaLendingPool = isSameAddress(stakingToken?.address, tokenList.KLEVA.address)
+                  const tvl = new BigNumber(depositedTokenBalance)
+                    .multipliedBy(tokenPrices$.value[stakingToken.address.toLowerCase()])
+                    .toNumber()
 
-                const protocolAPR = isKlevaLendingPool
-                  ? protocolAPR$.value
-                  : 0
+                  const isKlevaLendingPool = isSameAddress(stakingToken?.address, tokenList.KLEVA.address)
 
-                const stakingAPR = new BigNumber(klevaAnnualReward)
-                  .multipliedBy(klevaPrice)
-                  .div(poolDepositedAmount * ibTokenPriceInUSD)
-                  .multipliedBy(100)
-                  .toNumber()
+                  const protocolAPR = isKlevaLendingPool
+                    ? protocolAPR$.value
+                    : 0
 
-                const utilization = new BigNumber(totalBorrowed)
-                  .div(totalSupply)
-                  .multipliedBy(100)
-                  .toNumber()
+                  const stakingAPR = new BigNumber(klevaAnnualReward)
+                    .multipliedBy(klevaPrice)
+                    .div(poolDepositedAmount * ibTokenPriceInUSD)
+                    .multipliedBy(100)
+                    .toNumber()
 
-                const borrowingInterest = lendingTokenSupplyInfo$.value &&
-                  lendingTokenSupplyInfo$.value[stakingToken.address] &&
-                  lendingTokenSupplyInfo$.value[stakingToken.address].borrowingInterest
+                  const utilization = new BigNumber(totalBorrowed)
+                    .div(totalSupply)
+                    .multipliedBy(100)
+                    .toNumber()
 
-                const lendingAPR = new BigNumber(borrowingInterest)
-                  .multipliedBy(utilization / 100)
-                  .multipliedBy(1 - PROTOCOL_FEE)
-                  // .multipliedBy(100)
-                  .toNumber()
+                  const borrowingInterest = lendingTokenSupplyInfo$.value &&
+                    lendingTokenSupplyInfo$.value[stakingToken.address] &&
+                    lendingTokenSupplyInfo$.value[stakingToken.address].borrowingInterest
 
-                return (
-                  <LendingPoolListItemCard
-                    key={title}
-                    selectedAddress={selectedAddress$.value}
-                    isExpand={activeIdx == idx}
-                    onClick={() => this.setState({ activeIdx: activeIdx == idx ? null : idx })}
-                    balanceInWallet={balancesInWallet$.value[stakingToken.address]}
-                    wKLAYBalance={balancesInWallet$.value[tokenList.WKLAY.address]}
-                    ibTokenBalanceInWallet={balancesInWallet$.value[ibTokenAddress]}
-                    title={title}
-                    stakingToken={stakingToken}
-                    vaultAddress={vaultAddress}
-                    protocolAPR={protocolAPR}
-                    totalSupply={totalSupply}
-                    totalBorrowed={totalBorrowed}
-                    ibTokenPrice={ibTokenPrice}
-                    depositedTokenBalance={depositedTokenBalance}
-                    utilization={utilization}
-                    lendingAPR={lendingAPR}
-                    stakingAPR={stakingAPR}
-                    tvl={tvl}
-                  />
-                )
-              })}
+                  const lendingAPR = new BigNumber(borrowingInterest)
+                    .multipliedBy(utilization / 100)
+                    .multipliedBy(1 - PROTOCOL_FEE)
+                    // .multipliedBy(100)
+                    .toNumber()
+
+                  return (
+                    <LendingPoolListItemCard
+                      key={title}
+                      selectedAddress={selectedAddress$.value}
+                      isExpand={activeIdx == idx}
+                      onClick={() => this.setState({ activeIdx: activeIdx == idx ? null : idx })}
+                      balanceInWallet={balancesInWallet$.value[stakingToken.address]}
+                      wKLAYBalance={balancesInWallet$.value[tokenList.WKLAY.address]}
+                      ibTokenBalanceInWallet={balancesInWallet$.value[ibTokenAddress]}
+                      title={title}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+                      protocolAPR={protocolAPR}
+                      totalSupply={totalSupply}
+                      totalBorrowed={totalBorrowed}
+                      ibTokenPrice={ibTokenPrice}
+                      depositedTokenBalance={depositedTokenBalance}
+                      utilization={utilization}
+                      lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
+                      tvl={tvl}
+                    />
+                  )
+                })}
+              </div>
             </div>
           )
         }

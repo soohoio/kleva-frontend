@@ -2,14 +2,24 @@
   background-color: #fff;
   padding: 0;
   padding-bottom: 32px;
-  margin-bottom: 12px;
+  padding-top: 28px;
   position: relative;
+  border-bottom: 1px solid #E6E9F2;
+  
+  &:first-of-type {
+    padding-top: 0;
+  }
 }
 
 .LendingPoolListItemCard__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.LendingPoolListItemCard__content {
+  padding-top: 15px;
+  padding-left: 44px;
 }
 
 .LendingPoolListItemCard__apy {
@@ -23,21 +33,19 @@
   
 }
 
-.LendingPoolListItemCard__content {
-  padding-top: 36px;
-}
-
 .LendingPoolListItemCard__lv {
   margin-bottom: 10px;
   
   .LabelAndValue__label {
-    @include font-style('font-1', 'sb', 13px);
-    color: #797b80;
+    @include font-style('font-1', 'm', 15px);
+    display: flex;
+    align-items: center;
+    color: #333333;
   }
   
   .LabelAndValue__value {
-    @include font-style('font-1', 'm', 16px);
-    color: #131414;
+    @include font-style('font-1', 'sb', 15px);
+    color: #333333;
   }
 
   &--apy {
@@ -56,7 +64,11 @@
   }
 
   &--balance {
-    margin-bottom: 36px;
+    .LabelAndValue__value {
+      @include font-style('font-1', 'sb', 15px);
+      color: #8B95B2;
+    }
+    margin-bottom: 15px;
   }
 
 }

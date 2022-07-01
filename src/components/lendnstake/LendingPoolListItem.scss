@@ -74,18 +74,19 @@
   justify-content: center;
 }
 
-.LendingDepositWithdraw {
+.LendingDepositAndSimulation {
   display: flex;
   flex-direction: column;
   // align-items: center;
+  width: 100%;
 
   align-items: flex-end;
 }
 
-.LendingDepositWithdraw__depositButton {
-  @include button-1(32px);
-  @include font-style('font-1', 'sb', 12px);
-  width: 84px;
+.LendingDepositAndSimulation__depositButton {
+  @include button-1(36px);
+  @include font-style('font-1', 'sb', 14px);
+  width: 100%;
   margin-bottom: 8px;
 
   &--disabled {
@@ -93,12 +94,13 @@
   }
 }
 
-.LendingDepositWithdraw__withdrawButton {
-  @include button-1(32px);
-  @include font-style('font-1', 'sb', 12px);
-  width: 84px;
-  background-color: #ebf0ff;
-  color: #3369ff;
+.LendingDepositAndSimulation__simulationButton {
+  @include button-1(36px);
+  @include font-style('font-1', 'sb', 14px);
+  width: 100%;
+  background-color: #EDF2FA;
+  color: #3C6BFA;
+  margin-bottom: 8px;
 
   &--disabled {
     @include disabled-button;
@@ -106,7 +108,7 @@
 }
 
 .LendingPoolListItem__tokenValue {
-  margin-right: 4px;
+  
 }
 
 .LendingPoolListItem__tokenSymbol {
@@ -124,7 +126,7 @@
 
 .LendingPoolListItem__apr {
   .LabelAndValue__value {
-    @include font-style('font-1', 'm', 15px);
+    @include font-style('font-1', 'm', 14px);
     color: #777d8f;
   }
 }
