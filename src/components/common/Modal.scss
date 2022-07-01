@@ -2,12 +2,15 @@
   position: fixed;
   z-index: 9999;
   border-radius: 10px;
-  padding: 40px 30px;
+  padding: 30px;
   background-color: #fff;
 
   left: 0;
   bottom: 0;
   width: 100%;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
   @include desktop {
     padding: 40px 30px;
@@ -16,6 +19,9 @@
     bottom: 50%;
     left: 50%;
     transform: translate(-50%, 50%);
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 }
 
@@ -24,6 +30,10 @@
   justify-content: space-between;
   color: #131414;
   padding-bottom: 20px;
+
+  &--noTitle {
+    padding-bottom: 0;
+  }
 }
 
 .Modal__title {

@@ -47,8 +47,10 @@ class Modal extends Component {
 
     return (
       <div className={cx("Modal", className)}>
-        <div className="Modal__header">
-          <span className="Modal__title">{title}</span>
+        <div className={cx("Modal__header", {
+          "Modal__header--noTitle": !title,
+        })}>
+          {!!title && <span className="Modal__title">{title}</span>}
           <img onClick={() => {
             if (layeredModalContentComponent$.value) {
               closeLayeredModal$.next(true)
