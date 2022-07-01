@@ -1,0 +1,42 @@
+.APRDetailInfoModal {
+
+  .LabelAndValue {
+    margin-bottom: 12px;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 16px);
+    color: #333333;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 17px);
+    color: #333333;
+  }
+
+  hr {
+    margin: 17px 0;
+    border-top: 0;
+    border-bottom: 1px solid #E6E7F2;
+  }
+}
+
+.APRDetailInfoModal__apr {
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+}
+
+.APRDetailInfoModal__apy {
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 16px);
+    color: #265FFC;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'sb', 17px);
+    color: #265FFC;
+  }
+}
