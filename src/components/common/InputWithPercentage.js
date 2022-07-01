@@ -116,6 +116,7 @@ class InputWithPercentage extends Component {
       imgSrc, 
       label,
       value$,
+      autoFocus,
       className,
     } = this.props
 
@@ -127,13 +128,13 @@ class InputWithPercentage extends Component {
       >
         {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
         <input
+          autoFocus={autoFocus}
           ref={this.$input}
           className="InputWithPercentage__input"
           value={value$.value}
           placeholder="0"
           onChange={(e) => {
 
-            
             if (isNaN(Number(e.target.value))) return
 
             value$.next(e.target.value)

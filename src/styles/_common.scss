@@ -1,6 +1,10 @@
 // Variables
 $CONTENT_WIDTH: 980px;
 
+.Tip__parent {
+  position: relative;
+}
+
 // Input
 
 @mixin input {
@@ -52,9 +56,13 @@ $CONTENT_WIDTH: 980px;
   height: $height;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  background-color: #3369ff;
+  border-radius: 4px;
+  background-color:#4B77FA;
   color: #ffffff;
+
+  &--disabled {
+    @include disabled-button;
+  }
 }
 
 @mixin button-2($height: 36px) {
@@ -71,8 +79,8 @@ $CONTENT_WIDTH: 980px;
 }
 
 @mixin disabled-button {
-  background-color: #f2f3f5;
-  color: rgba(#475066, .3);
+  background-color: #e9ebf0;
+  color: #ffffff;
   cursor: not-allowed;
 }
 
