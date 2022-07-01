@@ -1,0 +1,54 @@
+.CompletedModal {
+  flex-direction: column;
+
+  width: 285px;
+  padding: 0;
+  text-align: center;
+
+  .Modal__close {
+    display: none;
+  }
+}
+
+.CompletedModal__content {
+  width: 100%;
+  justify-content: center;
+
+  padding: 30px;
+  padding-bottom: 0;
+}
+
+.CompletedModal__title {
+  @include font-style('font-1', 'b', 19px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.CompletedModal__description {
+  @include font-style('font-1', 'm', 15px);
+  color: #666D81;
+  margin-bottom: 30px;
+}
+
+.CompletedModal__menus {
+  display: flex;
+  flex-direction: column;
+}
+
+.CompletedModal__menuItem {
+  @include font-style('font-1', 'sb', 17px);
+
+  &:first-of-type {
+    color: #265FFC;
+  }
+
+  color: #777D8F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 57px;
+
+  border-top: 1px solid #E6E9F2;
+
+  cursor: pointer;
+}
