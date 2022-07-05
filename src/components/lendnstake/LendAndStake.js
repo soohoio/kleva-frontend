@@ -6,7 +6,7 @@ import { I18n } from '../common/I18n'
 
 import Bloc from './LendAndStake.bloc'
 import './LendAndStake.scss'
-import LendingPoolList from '../LendingPoolList';
+import LendingPoolList from './LendingPoolList';
 
 class LendAndStake extends Component {
   bloc = new Bloc(this)

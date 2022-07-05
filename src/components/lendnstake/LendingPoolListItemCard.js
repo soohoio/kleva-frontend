@@ -19,6 +19,7 @@ import { I18n } from '../common/I18n'
 import Modal from '../common/Modal';
 import UtilizationInfoModal from '../modals/UtilizationInfoModal';
 import APRDetailInfoModal from '../modals/APRDetailInfoModal'
+import LendAndStakeControllerPopup from './LendAndStakeControllerPopup';
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -85,6 +86,12 @@ class LendingPoolListItemCard extends Component {
                 openModal$.next({
                   component: (
                     <APRDetailInfoModal
+                      selectedAddress={selectedAddress}
+                      ibToken={ibToken}
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+                      
                       title={stakingToken.title}
                       lendingAPR={lendingAPR}
                       stakingAPR={stakingAPR}
@@ -138,6 +145,67 @@ class LendingPoolListItemCard extends Component {
               <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
             </>
           )} />
+
+          <div className="LendingPoolListItemCard__buttons">
+            <div
+              className={cx("LendingPoolListItemCard__simulationButton", {
+                "LendingPoolListItemCard__simulationButton--disabled": !selectedAddress || isDisabled
+              })}
+              onClick={() => {
+                if (!selectedAddress) {
+                  return
+                }
+
+                if (isDisabled) {
+                  return
+                }
+
+                openModal$.next({
+                  component: (
+                    <WithdrawModal
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={ibToken}
+                      vaultAddress={vaultAddress}
+                    />
+                  )
+                })
+              }}
+            >
+              {I18n.t('profitSimulation')}
+            </div>
+            <div
+              className={cx("LendingPoolListItemCard__depositButton", {
+                "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDisabled
+              })}
+              onClick={() => {
+
+                if (!selectedAddress) {
+                  return
+                }
+
+                if (isDisabled) {
+                  return
+                }
+
+                openModal$.next({
+                  component: (
+                    <LendAndStakeControllerPopup
+                      ibToken={ibToken}
+                      ibTokenPrice={ibTokenPrice}
+                      stakingToken={stakingToken}
+                      vaultAddress={vaultAddress}
+
+                      lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
+                      protocolAPR={protocolAPR}
+                    />
+                  )
+                })
+              }}
+            >
+              {I18n.t('lend')}
+            </div>
+          </div>
         </div>
         {/* <div className="LendingPoolListItemCard__contentWrapper">
           <div onClick={onClick} className="LendingPoolListItemCard__content">

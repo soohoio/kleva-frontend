@@ -40,3 +40,14 @@
     color: #265FFC;
   }
 }
+
+.APRDetailInfoModal__depositButton {
+  flex: 1;
+  @include button-1(42px);
+  @include font-style('font-1', 'sb', 14px);
+  width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
