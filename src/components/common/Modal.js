@@ -43,10 +43,12 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, className, children } = this.props
+    const { title, className, children, mobileCoverAll } = this.props
 
     return (
-      <div className={cx("Modal", className)}>
+      <div className={cx("Modal", className, {
+        "Modal--mobileCoverAll": mobileCoverAll,
+      })}>
         <div className={cx("Modal__header", {
           "Modal__header--noTitle": !title,
         })}>
