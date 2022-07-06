@@ -19,6 +19,7 @@ import { isSameAddress, noRounding } from '../../utils/misc'
 import { protocolAPR$ } from '../../streams/farming'
 import { I18n } from '../common/I18n'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup'
+import ProfitSimulationPopup from './ProfitSimulationPopup'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -130,23 +131,17 @@ class LendingPoolListItem extends Component {
           <div className="LendingDepositAndSimulation">
             <div
               className={cx("LendingDepositAndSimulation__simulationButton", {
-                "LendingDepositAndSimulation__simulationButton--disabled": !selectedAddress || isDisabled
+                "LendingDepositAndSimulation__simulationButton--disabled": !lendingAPR || !stakingAPR,
               })}
               onClick={() => {
-                if (!selectedAddress) {
-                  return
-                }
-
-                if (isDisabled) {
-                  return
-                }
-
+                if (!lendingAPR || !stakingAPR) return
                 openModal$.next({
                   component: (
-                    <WithdrawModal
-                      ibTokenPrice={ibTokenPrice}
-                      stakingToken={ibToken}
-                      vaultAddress={vaultAddress}
+                    <ProfitSimulationPopup 
+                      stakingToken={stakingToken}
+                      lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
+                      protocolAPR={protocolAPR}
                     />
                   )
                 })

@@ -20,6 +20,7 @@ import Modal from '../common/Modal';
 import UtilizationInfoModal from '../modals/UtilizationInfoModal';
 import APRDetailInfoModal from '../modals/APRDetailInfoModal'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup';
+import ProfitSimulationPopup from './ProfitSimulationPopup'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -91,7 +92,7 @@ class LendingPoolListItemCard extends Component {
                       ibTokenPrice={ibTokenPrice}
                       stakingToken={stakingToken}
                       vaultAddress={vaultAddress}
-                      
+
                       title={stakingToken.title}
                       lendingAPR={lendingAPR}
                       stakingAPR={stakingAPR}
@@ -162,10 +163,11 @@ class LendingPoolListItemCard extends Component {
 
                 openModal$.next({
                   component: (
-                    <WithdrawModal
-                      ibTokenPrice={ibTokenPrice}
-                      stakingToken={ibToken}
-                      vaultAddress={vaultAddress}
+                    <ProfitSimulationPopup
+                      stakingToken={stakingToken}
+                      lendingAPR={lendingAPR}
+                      stakingAPR={stakingAPR}
+                      protocolAPR={protocolAPR}
                     />
                   )
                 })

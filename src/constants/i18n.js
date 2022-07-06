@@ -26,6 +26,8 @@ export const en = {
   'lendstake.controller.stakeCompleted.description': '스테이킹한 자산 내역은 <text style="color: #3C6BFA;">내 자산</text> 탭에서 확인하실 수 있습니다.',
   'lendstake.controller.wklaySwitch.title': 'KLAY를 WKLAY로 전환해야<br/> 예치가 가능합니다.',
   'lendstake.controller.wklaySwitch.title2': '전환한 WKLAY를 예치하면<br/> ib토큰이 지급됩니다.',
+  'lendstake.profitsimulation.title': '예치 수량을 입력하면<br/> 예상 수익이 계산됩니다.',
+  'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
   'tip.ibToken.title': 'ib토큰 = 토큰 교환비',
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
@@ -53,6 +55,15 @@ export const en = {
   'approve': '승인하기',
   'switch': '전환하기',
   'profitSimulation': '수익 시뮬레이션',
+  'calculate': '계산하기',
+  'expectedProfit': "예상 수익",
+  'days10': '10일',
+  'days30': '1개월',
+  'days180': '6개월',
+  'days365': '1년',
+  'lendingProfit': '예치 이자',
+  'stakingProfit': '스테이킹 이자',
+  'apyApplied': '복리 이자 적용',
   
 }
 
@@ -84,6 +95,8 @@ export const ko = {
   'lendstake.controller.stakeCompleted.description': '스테이킹한 자산 내역은 <text style="color: #3C6BFA;">내 자산</text> 탭에서 확인하실 수 있습니다.',
   'lendstake.controller.wklaySwitch.title': 'KLAY를 WKLAY로 전환해야<br/> 예치가 가능합니다.',
   'lendstake.controller.wklaySwitch.title2': '전환한 WKLAY를 예치하면<br/> ib토큰이 지급됩니다.',
+  'lendstake.profitsimulation.title': '예치 수량을 입력하면<br/> 예상 수익이 계산됩니다.',
+  'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
   'tip.ibToken.title': 'ib토큰 = 토큰 교환비',
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
@@ -111,6 +124,15 @@ export const ko = {
   'approve': '승인하기',
   'switch': '전환하기',
   'profitSimulation': '수익 시뮬레이션',
+  'calculate': '계산하기',
+  'expectedProfit': "예상 수익",
+  'days10': '10일',
+  'days30': '1개월',
+  'days180': '6개월',
+  'days365': '1년',
+  'lendingProfit': '예치 이자',
+  'stakingProfit': '스테이킹 이자',
+  'apyApplied': '복리 이자 적용',
 }
 
 export const zh = {

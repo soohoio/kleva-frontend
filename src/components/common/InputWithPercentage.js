@@ -118,6 +118,7 @@ class InputWithPercentage extends Component {
       value$,
       autoFocus,
       className,
+      noPercentage,
     } = this.props
 
     return (
@@ -148,11 +149,11 @@ class InputWithPercentage extends Component {
         />
         <div className="InputWithPercentage__right">
           <span className="InputWithPercentage__label">{label}</span>
-          <Opener
+          {!noPercentage && <Opener
             items={percentItems}
             selectedItem={this.selectedItem$.value}
             onSelect={this.selectPercent}
-          />
+          />}
         </div>
       </div>
     )

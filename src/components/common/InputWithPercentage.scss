@@ -6,7 +6,8 @@
   align-items: center;
   height: 44px;
   padding: 0 15px;
-  padding-right: 6px;
+  // padding-right: 6px;
+  padding-right: 17px;
   justify-content: space-between;
 
   &--active {
@@ -88,10 +89,10 @@
 }
 
 .InputWithPercentage__label {
-  @include font-style('font-1', 'sb', 16px);
+  @include font-style('font-1', 'm', 16px);
   display: flex;
   align-items: center;
-  color: #494a4d;
+  color: #777D8F;
   // margin-left: 15px;
   // margin-right: 12px;
   // width: 52px;
