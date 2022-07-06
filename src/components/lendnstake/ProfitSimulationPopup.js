@@ -111,6 +111,16 @@ class ProfitSimulationPopup extends Component {
             </div>
 
             <div className="ProfitSimulationPopup__profitDetail">
+              {this.bloc.protocolProfit$.value != 0 && (
+                <LabelAndValue
+                  label={I18n.t('protocolProfit')}
+                  value={(
+                    <>
+                      {nFormatter(this.bloc.protocolProfit$.value, 2)} {stakingToken.title} (${nFormatter(protocolProfitInDollar, 2)})
+                  </>
+                  )}
+                />
+              )}
               <LabelAndValue
                 label={I18n.t('lendingProfit')}
                 value={(

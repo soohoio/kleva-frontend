@@ -62,6 +62,7 @@ export const en = {
   'days180': '6개월',
   'days365': '1년',
   'lendingProfit': '예치 이자',
+  'protocolProfit': '프로토콜 이자',
   'stakingProfit': '스테이킹 이자',
   'apyApplied': '복리 이자 적용',
   
@@ -131,6 +132,7 @@ export const ko = {
   'days180': '6개월',
   'days365': '1년',
   'lendingProfit': '예치 이자',
+  'protocolProfit': '프로토콜 이자',
   'stakingProfit': '스테이킹 이자',
   'apyApplied': '복리 이자 적용',
 }
