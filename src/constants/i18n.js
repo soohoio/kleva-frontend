@@ -28,6 +28,22 @@ export const en = {
   'lendstake.controller.wklaySwitch.title2': '전환한 WKLAY를 예치하면<br/> ib토큰이 지급됩니다.',
   'lendstake.profitsimulation.title': '예치 수량을 입력하면<br/> 예상 수익이 계산됩니다.',
   'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
+
+  'farming.intro.title': '레버리지 이자 농사',
+  'farming.intro.description': '보유한 토큰과 함께 KLEVA에서 빌린 토큰을 합쳐 유동성 풀에 활용함으로써 보상량을 극대화할 수 있습니다.',
+  'farming.intro.misc': '영상으로 쉽게 알아보기',
+  'farming.multiplyLabel': '배',
+  'farming.yieldFarmingReward': '농사 수익',
+  'farming.yieldFarmingAPR': '농사 이자율',
+  'farming.klevaReward': 'KLEVA 보상',
+  'farming.tradingFeeAPR': '거래 수수료',
+  'borrow': '대출',
+  'farm': 'FARM',
+
+  'sort.tvl': '총 예치금 순',
+  'sort.yieldFarmingAPR': '농사 수익 순',
+  'sort.2xleverageAPR': '총 수익률 순',
+
   'tip.ibToken.title': 'ib토큰 = 토큰 교환비',
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
@@ -36,10 +52,13 @@ export const en = {
   'stake': '스테이크하기',
   'doLater': '다음에 하기',
   'token': '토큰',
+  'pairToken': '페어 토큰',
   'aprapy': '연간이자율(복리/단리)',
   'apr': '연간이자율(단리)',
   'apy': '연간이자율(복리)',
   'aprDetail': '이자율 상세',
+  'borrowingInterest': '대출 이자율',
+  'leverage': '레버리지',
   'totalDeposited': '총 예치 수량',
   'utilizationRatio': '활용률',
   'depositAvailable': '예치 가능 수량',
@@ -65,6 +84,7 @@ export const en = {
   'protocolProfit': '프로토콜 이자',
   'stakingProfit': '스테이킹 이자',
   'apyApplied': '복리 이자 적용',
+  'all': '전체',
   
 }
 
@@ -98,6 +118,22 @@ export const ko = {
   'lendstake.controller.wklaySwitch.title2': '전환한 WKLAY를 예치하면<br/> ib토큰이 지급됩니다.',
   'lendstake.profitsimulation.title': '예치 수량을 입력하면<br/> 예상 수익이 계산됩니다.',
   'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
+
+  'farming.intro.title': '레버리지 이자 농사',
+  'farming.intro.description': '보유한 토큰과 함께 KLEVA에서 빌린 토큰을 합쳐 유동성 풀에 활용함으로써 보상량을 극대화할 수 있습니다.',
+  'farming.intro.misc': '영상으로 쉽게 알아보기',
+  'farming.multiplyLabel': '배',
+  'farming.yieldFarmingReward': '농사 수익',
+  'farming.yieldFarmingAPR': '농사 이자율',
+  'farming.klevaReward': 'KLEVA 보상',
+  'farming.tradingFeeAPR': '거래 수수료',
+  'borrow': '대출',
+  'farm': 'FARM',
+
+  'sort.tvl': '총 예치금 순',
+  'sort.yieldFarmingAPR': '농사 수익 순',
+  'sort.2xleverageAPR': '총 수익률 순',
+
   'tip.ibToken.title': 'ib토큰 = 토큰 교환비',
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
@@ -106,10 +142,13 @@ export const ko = {
   'stake': '스테이크하기',
   'doLater': '다음에 하기',
   'token': '토큰',
+  'pairToken': '페어 토큰',
   'aprapy': '연간이자율(복리/단리)',
   'apr': '연간이자율(단리)',
   'apy': '연간이자율(복리)',
   'aprDetail': '이자율 상세',
+  'borrowingInterest': '대출 이자율',
+  'leverage': '레버리지',
   'totalDeposited': '총 예치 수량',
   'utilizationRatio': '활용률',
   'depositAvailable': '예치 가능 수량',
@@ -135,6 +174,7 @@ export const ko = {
   'protocolProfit': '프로토콜 이자',
   'stakingProfit': '스테이킹 이자',
   'apyApplied': '복리 이자 적용',
+  'all': '전체',
 }
 
 export const zh = {

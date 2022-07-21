@@ -1,13 +1,22 @@
 import { lpTokenByIngredients } from "./tokens"
 import { workers, workersBy } from "./workers"
+import { lendingPoolsByStakingTokenAddress } from './lendingpool';
 
 const makeFarm = (token1, token2) => {
+
+  const workerList = workersBy(token1, token2)
+
+  const defaultBorrowingAsset = [token1, token2].filter(({ address }) => {
+    const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
+    return hasLendingPool
+  })[0]
 
   return {
     token1,
     token2,
     lpToken: lpTokenByIngredients(token1, token2),
-    workerList: workersBy(token1, token2),
+    workerList: workerList,
+    defaultBorrowingAsset,
     exchange: 'klayswap',
   }
 }

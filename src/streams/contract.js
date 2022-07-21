@@ -1317,6 +1317,8 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
             lpToken: multicallArrayItem.info.lpToken,
         }
 
+        acc[multicallArrayItem.info.lpToken.address.toLowerCase()] = acc[multicallArrayItem.info.farmIdx]
+
         return acc
       }, {})
     })

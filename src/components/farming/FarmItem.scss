@@ -1,0 +1,141 @@
+.FarmItem {
+  @include grid-column-farmitem;
+  display: grid;
+  width: 100%;
+  align-items: center;
+  height: 120px;
+
+  border-bottom: 1px solid rgba(#E6EAF2, .8);
+}
+
+.FarmItem__pairItem, 
+.FarmItem__aprItem, 
+.FarmItem__aprDetailItem, 
+.FarmItem__borrowingInterestItem,
+.FarmItem__tvlItem,
+.FarmItem__leverageItem {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+// pair item
+.FarmItem__pairItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.FarmItem__tokenImages {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+}
+
+.FarmItem__tokenIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  &--baseToken {
+
+  }
+}
+
+.FarmItem__mainInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.FarmItem__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 6px;
+}
+
+.FarmItem__exchange {
+  @include font-style('font-1', 'r', 14px);
+  color: #969BAB;
+}
+
+// apr item
+
+.FarmItem__aprItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.FarmItem__apr {
+  @include font-style('font-1', 'b', 17px);
+  color: #265FFC;
+  margin-bottom: 6px;
+}
+
+.FarmItem__apy {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}
+
+// apr detail item
+.FarmItem__aprDetailItem {
+  display: flex;
+  flex-direction: column;
+
+  .LabelAndValue {
+    justify-content: center;
+
+    margin-bottom: 6px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 14px);
+    color: #333333;
+    margin-right: 6px;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'sb', 14px);
+    color: #333333;
+  }
+}
+
+// borrowing interest item
+.FarmItem__borrowingInterestItem {
+
+}
+
+.FarmItem__tvlItem {
+  @include font-style('font-1', 'b', 14px);
+  color: #333333;
+}
+
+.FarmItem__leverageItem {
+  flex-direction: column;
+}
+
+.FarmItem__leverageController {
+  width: 120px;
+  height: 36px;
+  margin-bottom: 8px;
+}
+
+.FarmItem__button {
+  @include desktop {
+    margin-bottom: 0;
+  }
+
+  margin-left: 0;
+
+  width: 120px;
+  @include button-1(36px);
+
+  &--disabled {
+    @include disabled-button;
+  }
+}

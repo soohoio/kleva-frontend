@@ -1,6 +1,5 @@
-.FarmItem {
+.FarmItemCard {
   border-radius: 8px;
-  box-shadow: 0 2px 10px 0 rgba(24, 24, 24, 0.05);
   background-color: #fff;
   width: 100%;
   position: relative;
@@ -12,21 +11,24 @@
   }
 }
 
-.FarmItem__header {
+.FarmItemCard__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px;
-  border-bottom: solid 2px #f2f2f2;
-  height: 87px;
+  
+  padding: 20px 0;
+
+  &:first-of-type {
+    padding-top: 0;
+  }
 }
 
-.FarmItem__headerLeft {
+.FarmItemCard__headerLeft {
   display: flex;
   align-items: center;
 }
 
-.FarmItem__content {
+.FarmItemCard__content {
   padding: 24px;
 
   @include desktop {
@@ -34,18 +36,25 @@
   }
 }
 
-.FarmItem__footer {
+.FarmItemCard__footer {
+  display: flex;
+  align-items: center;
   padding: 0 24px;
   padding-bottom: 24px;
+
+  padding-right: 0;
+
+  padding-left: 44px;
 }
 
-.FarmItem__tokenImages {
+.FarmItemCard__tokenImages {
   display: flex;
+  flex-direction: column;
 }
 
-.FarmItem__tokenIcon {
-  width: 36px;
-  height: 36px;
+.FarmItemCard__tokenIcon {
+  width: 33px;
+  height: 33px;
   border-radius: 50%;
   // background-color: #f5f5f5;
   background-color: #ffffff;
@@ -53,51 +62,59 @@
 
   &--baseToken {
     position: relative;
-    left: -12px;
-  }  
+    top: -5px;
+  }
 }
 
-.FarmItem__mainInfo {
+.FarmItemCard__mainInfo {
   display: flex;
   flex-direction: column;
   text-align: left;
+  margin-left: 12px;
 }
 
-.FarmItem__title {
-  @include font-style('font-1', 'b', 16px);
-  color: #131414;
+.FarmItemCard__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 11px;
 }
 
-.FarmItem__tvl {
-  @include font-style('font-1', 'm', 11px);
-  color: #131414;
-  text-decoration: underline;
+.FarmItemCard__tvl {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+  margin-top: 11px;
 }
 
-.FarmItem__subInfo {
+.FarmItemCard__subInfo {
   display: flex;
   flex-direction: column;
   text-align: right;
+  height: 48px;
 }
 
-.FarmItem__apy {
-  @include font-style('font-1', 'm', 18px);
-  color: #3369ff;
+.FarmItemCard__apy {
+  @include font-style('font-1', 'b', 17px);
+  color: #265FFC;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.FarmItem__exchange {
-  @include font-style('font-1', 'm', 10px);
-  color: #797b80;
+.FarmItemCard__exchange {
+  @include font-style('font-1', 'r', 14px);
+  color: #969BAB;
 }
 
-.FarmItem__button {
+.FarmItemCard__button {
   @include desktop {
     margin-bottom: 0;
   }
 
-  @include button-1(40px);
-  width: 100%;
-  margin-bottom: 24px;
+  margin-left: 7px;
+
+  width: 100px;
+  @include button-1(42px);
 
   &--disabled {
     @include disabled-button;
@@ -133,11 +150,11 @@
   top: -2px;
 }
 
-.FarmItem__totalAPR {
+.FarmItemCard__totalAPR {
   color: #3369ff;
 }
 
-.FarmItem__opener {
+.FarmItemCard__opener {
   border-radius: 8px;
   background-color: #fcfcfc;
   height: 24px;
@@ -152,4 +169,13 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   cursor: pointer;
+}
+
+.FarmItemCard__leverageController {
+  flex: auto;
+  margin-bottom: 0;
+
+  .LeverageController__content {
+    width: 100%;
+  }
 }

@@ -5,12 +5,12 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import './FarmList.scss'
 import FarmItem from './FarmItem'
-import { farmPool } from '../constants/farmpool'
-import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from '../streams/farming'
-import { lendingTokenSupplyInfo$ } from '../streams/vault'
-import { tokenPrices$ } from '../streams/tokenPrice'
-import { selectedAddress$ } from '../streams/wallet'
-import { isDesktop$ } from '../streams/ui'
+import { farmPool } from '../../constants/farmpool'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from '../../streams/farming'
+import { lendingTokenSupplyInfo$ } from '../../streams/vault'
+import { tokenPrices$ } from '../../streams/tokenPrice'
+import { selectedAddress$ } from '../../streams/wallet'
+import { isDesktop$ } from '../../streams/ui'
 
 class FarmList extends Component {
   destroy$ = new Subject()

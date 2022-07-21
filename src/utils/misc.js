@@ -112,7 +112,10 @@ export const nFormatter = (num, digits, locale) => {
   }
 
   const lookup = locale == 'ko'
-    ? [{ value: 1e8, symbol: "억" }] 
+    ? [
+        { value: 1e4, symbol: "만" },
+        { value: 1e8, symbol: "억" },
+    ] 
     : [
         { value: 1e6, symbol: "M" },
         { value: 1e9, symbol: "B" },

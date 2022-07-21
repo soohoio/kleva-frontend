@@ -5,6 +5,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
 import './Dropdown.scss'
 import { BehaviorSubject } from 'rxjs';
+import { I18n } from './I18n'
 
 class Dropdown extends Component {
   $container = createRef()
@@ -43,14 +44,22 @@ class Dropdown extends Component {
   }
     
   render() {
-    const { items, selectedItem$, onSelect } = this.props
+    const { items, selectedItem$, onSelect, className } = this.props
+
     return (
       <div 
         ref={this.$container} 
         onClick={() => this.opened$.next(!this.opened$.value)} 
-        className="Dropdown"
+        className={cx("Dropdown", className, {
+          "Dropdown--opened": !!this.opened$.value,
+          [`${className}--opened`]: !!this.opened$.value,
+        })}
       >
-        <div className="Dropdown__selected">{selectedItem$.value?.title}</div>
+        <div className="Dropdown__selected">
+          {selectedItem$.value?.i18nkey 
+            ? I18n.t(selectedItem$.value.i18nkey)
+            : selectedItem$.value?.title}
+          </div>
         {this.opened$.value && (
           <div className="Dropdown__list">
             {items.map((item) => {
@@ -59,9 +68,14 @@ class Dropdown extends Component {
                   onClick={() => {
                     onSelect(item)
                   }}
-                  className="Dropdown__listItem"
+                  className={cx("Dropdown__listItem", {
+                    "Dropdown__listItem--selected": selectedItem$.value?.value == item.value,
+                  })}
                 >
-                  {item?.title}
+                  {item?.i18nkey 
+                    ? I18n.t(item.i18nkey)
+                    : item?.title
+                  }
                 </div>
               )
             })}

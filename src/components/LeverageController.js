@@ -21,18 +21,18 @@ class LeverageController extends Component {
   }
     
   render() {
-    const { currentLeverage, setLeverage, offset, leverageCap, leverageCapRaw } = this.props
+    const { className, currentLeverage, setLeverage, leverageLabel, offset } = this.props
     
     return (
-      <div className="LeverageController">
-        <span className="LeverageController__title">Leverage</span>
+      <div className={cx("LeverageController", className)}>
+        {/* <span className="LeverageController__title">Leverage</span> */}
         <div className="LeverageController__content">
           <img 
             className="LeverageController__minusIcon" 
             src="/static/images/minus.svg" 
             onClick={() => setLeverage(currentLeverage - offset)}
           />
-          <span className="LeverageController__leverageValue">{currentLeverage}</span>
+          <span className="LeverageController__leverageValue">{currentLeverage}{leverageLabel}</span>
           <img 
             className="LeverageController__plusIcon" 
             src="/static/images/plus.svg" 

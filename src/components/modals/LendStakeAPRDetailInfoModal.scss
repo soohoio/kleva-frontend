@@ -1,4 +1,4 @@
-.APRDetailInfoModal {
+.LendStakeAPRDetailInfoModal {
 
   .LabelAndValue {
     margin-bottom: 12px;
@@ -21,14 +21,14 @@
   }
 }
 
-.APRDetailInfoModal__apr {
+.LendStakeAPRDetailInfoModal__apr {
   .LabelAndValue__value {
     @include font-style('font-1', 'b', 17px);
     color: #333333;
   }
 }
 
-.APRDetailInfoModal__apy {
+.LendStakeAPRDetailInfoModal__apy {
   
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 16px);
@@ -41,7 +41,7 @@
   }
 }
 
-.APRDetailInfoModal__depositButton {
+.LendStakeAPRDetailInfoModal__depositButton {
   flex: 1;
   @include button-1(42px);
   @include font-style('font-1', 'sb', 14px);

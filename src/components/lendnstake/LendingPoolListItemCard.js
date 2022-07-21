@@ -18,7 +18,7 @@ import QuestionMark from '../common/QuestionMark'
 import { I18n } from '../common/I18n'
 import Modal from '../common/Modal';
 import UtilizationInfoModal from '../modals/UtilizationInfoModal';
-import APRDetailInfoModal from '../modals/APRDetailInfoModal'
+import LendStakeAPRDetailInfoModal from '../modals/LendStakeAPRDetailInfoModal'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup';
 import ProfitSimulationPopup from './ProfitSimulationPopup'
 
@@ -86,7 +86,7 @@ class LendingPoolListItemCard extends Component {
               onClick={() => {
                 openModal$.next({
                   component: (
-                    <APRDetailInfoModal
+                    <LendStakeAPRDetailInfoModal
                       selectedAddress={selectedAddress}
                       ibToken={ibToken}
                       ibTokenPrice={ibTokenPrice}

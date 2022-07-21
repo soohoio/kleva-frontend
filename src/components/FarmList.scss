@@ -7,12 +7,22 @@
   margin-bottom: 36px;
   justify-content: space-between;
   width: 100%;
+
+  align-items: center;
+
+  flex-direction: column;
+
+  @include desktop {
+    flex-direction: row;
+  }
 }
 
 .FarmList__title {
   @include font-style('font-1', 'b', 20px);
   color: #ffffff;
 }
+
+.FarmList__hr
 
 .FarmList__content {
   display: flex;

@@ -1,0 +1,231 @@
+.FarmList {
+  margin-bottom: 80px;
+}
+
+.FarmList__header {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: column;
+
+  @include desktop {
+    flex-direction: row;
+  }
+}
+
+.FarmList__title {
+  @include font-style('font-1', 'b', 20px);
+  color: #ffffff;
+}
+
+.FarmList__tableHeader {
+  // @include grid-column-farmitem;
+  // grid-template-columns: 1.7fr 1.6fr 2fr 2fr 1fr auto;
+  @include grid-column-farmitem;
+  display: grid;
+  width: 100%;
+  height: 46px;
+  border-top: 1px solid #DADDE5;
+  border-bottom: 1px solid rgba(#E6EAF2, .8);
+
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}
+
+.FarmList__aprHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.FarmList__leverageHeader {
+  width: 120px;
+}
+
+.FarmList__pairHeader {
+  display: flex;
+  align-items: center;
+}
+.FarmList__aprHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 124px;
+}
+.FarmList__aprDetailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.FarmList__borrowingInterestAPRHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.FarmList__tvlHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.FarmList__leverageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.FarmList__content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+  
+  @include desktop {
+    gap: 0;
+  }
+
+  // @include desktop {
+  //   display: grid;
+  //   @include grid-column-farmitem;
+  // }
+}
+
+.FarmList__tabs {
+  display: flex;
+  align-items: center;
+  
+}
+
+.FarmList__tab {
+  @include font-style('font-1', 'm', 16px);
+  margin-right: 4px;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #D7DCEA;
+  border-radius: 47px;
+  padding: 12px 18px;
+  height: 42px;
+  cursor: pointer;
+  position: relative;
+
+  // 1px-like (prevent width flickering)
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    border-radius: 47px;
+  }
+
+  &--active {
+    border: 2px solid #416FFA;
+    &::before {
+      display: none;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+  }
+}
+
+.FarmList__sortDropdown {
+  @include font-style('font-1', 'b', 17px);
+  padding-left: 0;
+  color: #333333;
+  border: 0;
+  position: relative;
+
+  @include desktop {
+    @include font-style('font-1', 'b', 15px);
+  }
+
+  .Dropdown__list {
+    border: 1px solid #D7DCEA;
+    border-radius: 7px;
+    box-shadow: 0px 9px 16px -6px rgba(14, 28, 71, 0.13);
+    width: 140px;
+    flex-direction: column;
+    display: flex;
+    height: 140px;
+  }
+
+  .Dropdown__listItem {
+    @include font-style('font-1', 'm', 15px);
+    color: #4C505C;
+    padding-left: 20px;
+    
+    &--selected {
+      @include font-style('font-1', 'b', 15px);
+      color: #265FFC;
+    }
+    flex: 1;
+  }
+
+  &::before {
+    content: "";
+    background-image: url(/static/images/common/btn_sorting_down.svg);
+    background-size: 100%;
+    width: 14px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+  }
+
+  &--opened {
+    &::before {
+      content: "";
+      background-image: url(/static/images/common/btn_sorting_up.svg);
+      background-size: 100%;
+      width: 14px;
+      height: 12px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+    }
+  }
+}
+
+.FarmList__sortDropdownWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  padding-left: 0;
+
+  @include desktop {
+    padding: 0;
+  }
+}
+
+.FarmList__hr {
+  height: 1px;
+  width: 100%;
+  background: #EBEEF5;
+  margin: 24px 0;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.FarmList__percentageInfo {
+
+  @include font-style('font-1', 'm', 15px);
+  color: #969BAB;
+
+  @include desktop {
+    display: none;
+  }
+}

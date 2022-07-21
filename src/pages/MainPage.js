@@ -9,6 +9,7 @@ import TabNavigation from '../components/TabNavigation'
 import NotificationBanner from '../components/NotificationBanner'
 import { currentTab$ } from '../streams/view'
 import LendAndStake from '../components/lendnstake/LendAndStake'
+import Farming from '../components/farming/Farming'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -34,6 +35,12 @@ class MainPage extends Component {
     if (currentTab$.value == 'lendnstake') {
       return (
         <LendAndStake />
+      )
+    }
+
+    if (currentTab$.value == 'farming') {
+      return (
+        <Farming />
       )
     }
   }

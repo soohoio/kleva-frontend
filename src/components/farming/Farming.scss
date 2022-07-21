@@ -1,0 +1,29 @@
+.Farming {
+  padding-bottom: 100px;
+}
+
+.Farming__introTitle {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.Farming__introDescription {
+  @include font-style('font-1', 'm', 15px);
+  color: #616674;
+  margin-bottom: 12px;
+}
+
+.Farming__introMisc {
+  @include font-style('font-1', 'b', 16px);
+  color: #3C6BFA;
+}
+
+
+.Farming__list {
+  margin-top: 32px;
+
+  @include desktop {
+    margin-top: 36px;
+  }
+}

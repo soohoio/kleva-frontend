@@ -65,7 +65,7 @@ class TVL extends Component {
   formatTVL = () => {
     const _tvl = this.getTVL()
 
-    return nFormatter(_tvl, 2, currentLocale$.value)
+    return nFormatter(_tvl, 0, currentLocale$.value)
   }
     
   render() {
