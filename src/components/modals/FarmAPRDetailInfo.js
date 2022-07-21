@@ -69,7 +69,11 @@ class FarmAPRDetailInfo extends Component {
       worker$,
     } = this.props
 
-    const radioList = Object.entries(baseBorrowingInterests).map(([address, { token, baseInterest }]) => {
+    const radioList = Object.entries(baseBorrowingInterests)
+    .filter(([address, { baseInterest }]) => {
+      return baseInterest != 0
+    })
+    .map(([address, { token, baseInterest }]) => {
       return {
         label: `${token.title}`,
         labelDecorator: I18n.t('borrow'),

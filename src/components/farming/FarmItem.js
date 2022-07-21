@@ -96,15 +96,19 @@ class FarmItem extends Component {
       selectedBorrowingAssetWithInterest,
     } = this.bloc.getBorrowingInterests()
 
-    const radioList = Object.entries(baseBorrowingInterests).map(([address, { token, baseInterest }]) => {
-      return {
-        label: `${token.title}`,
-        value: `-${new BigNumber(baseInterest)
-          .multipliedBy(this.bloc.leverageValue$.value - 1)
-          .toFixed(2)}%`,
-        onClick: () => this.bloc.setBorrowingAsset({ asset: token }), // define onClick in separate items
-      }
-    })
+    const radioList = Object.entries(baseBorrowingInterests)
+      .filter(([address, { baseInterest }]) => {
+        return baseInterest != 0
+      })
+      .map(([address, { token, baseInterest }]) => {
+        return {
+          label: `${token.title}`,
+          value: `-${new BigNumber(baseInterest)
+            .multipliedBy(this.bloc.leverageValue$.value - 1)
+            .toFixed(2)}%`,
+          onClick: () => this.bloc.setBorrowingAsset({ asset: token }), // define onClick in separate items
+        }
+      })
 
     return (
       <div className="FarmItem">
@@ -176,102 +180,6 @@ class FarmItem extends Component {
             {I18n.t('farm')}
           </button>
         </div>
-        
-
-
-        {/* <div className="FarmItem__header">
-          <div className="FarmItem__headerLeft">
-            <div className="FarmItem__tokenImages">
-              <img className="FarmItem__tokenIcon" src={token1.iconSrc} />
-              <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token2.iconSrc} />
-            </div>
-            <div className="FarmItem__mainInfo">
-              <p className="FarmItem__title">{token1.title}+{token2.title}</p>
-              <p className="FarmItem__exchange">{exchange}</p>
-            </div>
-          </div>
-          <div className="FarmItem__subInfo">
-            <p className="FarmItem__apy">
-              {nFormatter(APY, 2)}%
-              <QuestionMark
-                color="#265FFC"
-                info
-                onClick={() => {
-                  openModal$.next({
-                    component: (
-                      <FarmAPRDetailInfo
-                        title={`${token1.title}+${token2.title}`}
-                        workerInfo={workerInfo}
-                        workerList={workerList}
-                        lpToken={lpToken}
-                        token1={token1}
-                        token2={token2}
-                        selectedAddress={selectedAddress}
-                        yieldFarmingAPRWithoutLeverage={yieldFarmingAPRWithoutLeverage}
-                        borrowingAvailableAssets={borrowingAvailableAssets}
-                        borrowingAssetMap$={borrowingAssetMap$}
-                        leverageValue$={this.bloc.leverageValue$}
-                        leverageCapRaw={leverageCapRaw}
-                        leverageCap={leverageCap}
-                        worker$={this.bloc.worker$}
-                        setLeverage={(v) => this.bloc.setLeverageValue(v, leverageCapRaw)}
-                        setBorrowingAsset={this.bloc.setBorrowingAsset}
-                        yieldFarmingAPR={yieldFarmingAPR}
-                        klevaRewardAPR={debtTokenKlevaRewardsAPR}
-                        tradingFeeAPR={tradingFeeAPR}
-                        baseBorrowingInterests={baseBorrowingInterests}
-                        apr={totalAPR}
-                        apy={APY}
-                      />
-                    )
-                  })
-                }}
-              />
-            </p>
-            <p className="FarmItem__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value)}</p>
-          </div>
-        </div>
-        <div className="FarmItem__footer">
-          <LeverageController
-            className="FarmItem__leverageController"
-            offset={0.5}
-            currentLeverage={leverageValue}
-            leverageLabel={I18n.t('farming.multiplyLabel')}
-            leverageCap={leverageCap}
-            setLeverage={(v) => this.bloc.setLeverageValue(v, leverageCapRaw)}
-          />
-          <button
-            className={cx("FarmItem__button", {
-              "FarmItem__button--disabled": !selectedAddress,
-            })}
-            onClick={() => {
-
-              if (!selectedAddress) return
-
-              openModal$.next({
-                component: (
-                  <AddPositionPopup
-                    title="Add Position"
-                    defaultLeverage={leverageValue}
-                    yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                    tradingFeeAPR={tradingFeeAPR}
-
-                    workerList={workerList}
-                    workerInfo={workerInfo}
-
-                    token1={token1}
-                    token2={token2}
-
-                    lpToken={lpToken}
-                    borrowingAvailableAssets={borrowingAvailableAssets}
-                    leverage={1}
-                  />)
-              })
-            }}
-          >
-            {I18n.t('farm')}
-          </button>
-        </div> */}
       </div>
     )
   }
