@@ -29,25 +29,11 @@ class LendNStakeAssetBrief extends Component {
   render() {
     const { ibTokenBalances, totalInUSD } = this.props
 
-    const sorted = ibTokenBalances.sort((a, b) => {
-      const a_percentage = new BigNumber(a.balanceTotalInUSD)
-        .div(totalInUSD)
-        .multipliedBy(100)
-        .toNumber()
-      
-      const b_percentage = new BigNumber(b.balanceTotalInUSD)
-        .div(totalInUSD)
-        .multipliedBy(100)
-        .toNumber()
-      
-      return b_percentage - a_percentage
-    })
-
     return (
       <div className="LendNStakeAssetBrief">
         <p className="LendNStakeAssetBrief__total">${nFormatter(totalInUSD, 2)}</p>
         <div className="LendNStakeAssetBrief__gauge">
-          {sorted.map(({ title, balanceTotalInUSD }) => {
+          {ibTokenBalances.map(({ title, balanceTotalInUSD }) => {
 
             const percentage = new BigNumber(balanceTotalInUSD).div(totalInUSD).multipliedBy(100).toNumber()
             
@@ -62,7 +48,7 @@ class LendNStakeAssetBrief extends Component {
           })}
         </div>
         <div className="LendNStakeAssetBrief__gaugeLabels">
-          {sorted.map(({ title, balanceTotalInUSD }) => {
+          {ibTokenBalances.map(({ title, balanceTotalInUSD }) => {
             const percentage = new BigNumber(balanceTotalInUSD)
               .div(totalInUSD)
               .multipliedBy(100)

@@ -36,44 +36,58 @@ class LendNStakeAssetList extends Component {
   }
 
   getLendNStakeValue = () => {
-    const ibTokenBalances = ibTokens && Object.values(ibTokens).reduce((acc, cur) => {
-      const balanceInWallet = balancesInWallet$.value[cur.address] && balancesInWallet$.value[cur.address].balanceParsed
-      const balanceInStaking = balancesInStakingPool$.value[cur.address] && balancesInStakingPool$.value[cur.address].balanceParsed
-      const balanceTotal = new BigNumber(balanceInWallet).plus(balanceInStaking).toNumber()
+    const ibTokenBalances = ibTokens && Object
+      .values(ibTokens)
+      .reduce((acc, cur) => {
+        const balanceInWallet = balancesInWallet$.value[cur.address] && balancesInWallet$.value[cur.address].balanceParsed
+        const balanceInStaking = balancesInStakingPool$.value[cur.address] && balancesInStakingPool$.value[cur.address].balanceParsed
+        const balanceTotal = new BigNumber(balanceInWallet).plus(balanceInStaking).toNumber()
 
-      const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[cur.address.toLowerCase()])
-      const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
+        const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[cur.address.toLowerCase()])
+        const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
 
-      const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
+        const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
 
-      const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
+        const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
 
-      const balanceTotalInUSD = new BigNumber(balanceTotal)
-        .multipliedBy(originalTokenPrice)
-        .multipliedBy(ibTokenPrice)
-        .toNumber()
+        const balanceTotalInUSD = new BigNumber(balanceTotal)
+          .multipliedBy(originalTokenPrice)
+          .multipliedBy(ibTokenPrice)
+          .toNumber()
 
-      // accumulate which has balances
-      if (balanceTotal == 0 || isNaN(balanceTotal)) return acc
+        // accumulate which has balances
+        if (balanceTotal == 0 || isNaN(balanceTotal)) return acc
 
-      acc.push({
-        ...cur,
-        balanceInWallet,
-        balanceInStaking,
-        balanceTotalInUSD,
-      })
+        acc.push({
+          ...cur,
+          balanceInWallet,
+          balanceInStaking,
+          balanceTotalInUSD,
+        })
 
-      return acc
-    }, [])
+        return acc
+      }, [])
 
-    const totalInUSD = ibTokenBalances.reduce((acc, cur) => {
-      return new BigNumber(acc).plus(cur.balanceTotalInUSD).toNumber()
-    }, 0)
+      const totalInUSD = ibTokenBalances.reduce((acc, cur) => {
+        return new BigNumber(acc).plus(cur.balanceTotalInUSD).toNumber()
+      }, 0)
 
-    return {
-      ibTokenBalances,
-      totalInUSD,
-    }
+      return {
+        ibTokenBalances: ibTokenBalances.sort((a, b) => {
+          const a_percentage = new BigNumber(a.balanceTotalInUSD)
+            .div(totalInUSD)
+            .multipliedBy(100)
+            .toNumber()
+
+          const b_percentage = new BigNumber(b.balanceTotalInUSD)
+            .div(totalInUSD)
+            .multipliedBy(100)
+            .toNumber()
+
+          return b_percentage - a_percentage
+        }),
+        totalInUSD,
+      }
   }
     
   render() {

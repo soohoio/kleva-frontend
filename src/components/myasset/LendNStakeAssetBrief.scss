@@ -165,5 +165,6 @@
 
 .LendNStakeAssetBrief__percentage {
   @include font-style('font-1', 'r', 14px);
+  margin-left: 3px;
   color: #8B96B3;
 }
