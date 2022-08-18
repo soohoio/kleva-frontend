@@ -1,0 +1,91 @@
+.EarnedPopup {
+
+  height: 100%;
+  border-radius: 0;
+
+  @include desktop {
+    width: 395px !important;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .Modal__content {
+    max-height: unset;
+  }
+}
+
+.EarnedItem {
+  display: flex;
+  width: 100%;
+  padding-top: 18px;
+
+  &:last-of-type {
+    .EarnedItem__content {
+      border: 0;
+    }
+  }
+}
+
+.EarnedItem__content {
+  height: 77px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid #EBEEF5;
+
+  padding-bottom: 18px;
+}
+
+.EarnedItem__icon {
+  width: 33px;
+  height: 33px;
+  margin-right: 12px;
+  border-radius: 50%;
+}
+
+.EarnedItem__left {
+
+}
+
+.EarnedItem__title {
+  @include font-style('font-1', 'b', 16px);
+  color: #333333;
+}
+
+.EarnedItem__subtitle {
+  @include font-style('font-1', 'm', 15px);
+  color: #969BAB;
+}
+
+.EarnedItem__left {
+  display: flex;
+  align-items: center;
+}
+
+.EarnedItem__titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.EarnedItem__right {
+  display: flex;
+  align-items: center;
+  
+  @include font-style('font-1', 'm', 13px);
+  color: #131414;
+
+  strong {
+    @include font-style('font-1', 'b', 15px);
+    color: #3369ff;
+    margin-right: 6px; 
+  }
+}
+
+.EarnedItem__claimButton {
+  @include button-1(28px);
+  @include font-style('font-1', 'sb', 12px);
+  width: 72px;
+  margin-left: 20px;
+  background-color: #ebf0ff;
+  color: #3369ff;
+}

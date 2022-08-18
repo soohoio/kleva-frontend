@@ -179,3 +179,7 @@ export const coverSmallNumber = (val, decimals) => {
 
   return Number(val).toLocaleString('en-us', { maximumFractionDigits: decimals })
 }
+
+export const padAddress = (address) => {
+  return "0x" + address.slice(2).padStart(64, "0")
+}

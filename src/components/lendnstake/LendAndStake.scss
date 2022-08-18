@@ -1,5 +1,10 @@
 .LendAndStake {
+  padding: 0 20px;
 
+  @include desktop {
+    width: $CONTENT_WIDTH;
+    margin: 0 auto;
+  }
 }
 
 .LendAndStake__introTitle {

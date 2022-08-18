@@ -1,6 +1,11 @@
 .ManagementAsset {
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+
+  @include desktop {
+    margin-bottom: 0;
+  }
 }
 
 .ManagementAsset__title {
@@ -9,10 +14,25 @@
   margin-bottom: 5px;
 }
 
+.ManagementAsset__value {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop {
+    flex-direction: row;
+    align-items: baseline;
+  }
+}
+
 .ManagementAsset__totalManagedValue {
   @include font-style('font-1', 'b', 32px);
   color: #151515;
   margin-bottom: 5px;
+  margin-right: 8px;
+
+  @include desktop {
+    @include font-style('font-1', 'b', 38px);
+  }
 }
 
 .ManagementAsset__debt {

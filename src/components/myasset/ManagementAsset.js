@@ -95,15 +95,6 @@ class ManagementAsset extends Component {
           acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue).toNumber()
           acc.farmingPositionValue = new BigNumber(acc.farmingPositionValue).plus(farmingPositionValue).toNumber()
 
-          console.log(baseTokenPrice, 'baseTokenPrice')
-          console.log(farmingTokenPrice, 'farmingTokenPrice')
-
-          console.log(userFarmingTokenAmount, 'userFarmingTokenAmount')
-          console.log(userBaseTokenAmount, 'userBaseTokenAmount')
-
-          console.log(farmingPositionValue, 'farmingPositionValue')
-          console.log(debtValue, 'debtValue')
-
           return acc
           
         }, { 
@@ -152,8 +143,10 @@ class ManagementAsset extends Component {
     return (
       <div className="ManagementAsset">
         <div className="ManagementAsset__title">{I18n.t('myasset.management.title')}</div>
-        <p className="ManagementAsset__totalManagedValue">${nFormatter(totalManagedAsset, 2)}</p>
-        <p className="ManagementAsset__debt">{I18n.t('borrow')} ${nFormatter(debtValueTotal, 2)}</p>
+        <div className="ManagementAsset__value">
+          <p className="ManagementAsset__totalManagedValue">${nFormatter(totalManagedAsset, 2)}</p>
+          <p className="ManagementAsset__debt">{I18n.t('borrow')} ${nFormatter(debtValueTotal, 2)}</p>
+        </div>
       </div>
     )
   }

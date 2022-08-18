@@ -5,12 +5,11 @@
 .MainPage__tabContent {
 
   width: 100%;
-  margin: 0 auto;
-  padding: 0 20px;
+  // margin: 0 auto;
   padding-top: 32px;
 
   @include desktop {
-    width: $CONTENT_WIDTH;
+    // width: $CONTENT_WIDTH;
     padding: 0;
     padding-top: 32px;
   }

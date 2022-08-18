@@ -65,6 +65,12 @@ export const en = {
   'myasset.withdrawStaking': '스테이킹 해제',
   'myasset.staking': '스테이킹',
   'myasset.withdraw': '출금하기',
+  'myasset.earned.klevaReward': 'KLEVA 보상',
+  'myasset.earned.leverageReward': '레버리지 보상',
+  'myasset.earned.stakingReward': '스테이킹 보상',
+  'myasset.earned.claimAll': '전체 수령하기',
+  'tokenClaimed': '<text style="color: #3C6BFA;">%{amount}</text>개의 <text style="color: #3C6BFA;">%{title}</text>가 지급되었습니다.',
+  'tokenClaimed.description': '지급받은 %{title}을 예치하고 더 큰 수익을 올려보세요.',
 
 
   'sort.tvl': '총 예치금 순',
@@ -77,6 +83,7 @@ export const en = {
   'needApprove': '처음 예치하는 토큰은 사용 승인이 필요합니다. 승인 과정에서 수수료(0.02~0.03 KLAY)가 차감되니 지갑에 KLAY 잔고가 있는지 확인해 주세요. ',
   'viewInMyAsset': '내 자산 탭에서 보기',
   'checkLater': '나중에 확인',
+  'confirm': '확인',
   'stake': '스테이크하기',
   'doLater': '다음에 하기',
   'token': '토큰',
@@ -195,6 +202,12 @@ export const ko = {
   'myasset.withdrawStaking': '스테이킹 해제',
   'myasset.staking': '스테이킹',
   'myasset.withdraw': '출금하기',
+  'myasset.earned.klevaReward': 'KLEVA 보상',
+  'myasset.earned.leverageReward': '레버리지 보상',
+  'myasset.earned.stakingReward': '스테이킹 보상',
+  'myasset.earned.claimAll': '전체 수령하기',
+  'tokenClaimed': '<text style="color: #3C6BFA;">%{amount}</text>개의 <text style="color: #3C6BFA;">%{title}</text>가 지급되었습니다.',
+  'tokenClaimed.description': '지급받은 %{title}을 예치하고 더 큰 수익을 올려보세요.',
 
 
   'sort.tvl': '총 예치금 순',
@@ -207,6 +220,7 @@ export const ko = {
   'needApprove': '처음 예치하는 토큰은 사용 승인이 필요합니다. 승인 과정에서 수수료(0.02~0.03 KLAY)가 차감되니 지갑에 KLAY 잔고가 있는지 확인해 주세요. ',
   'viewInMyAsset': '내 자산 탭에서 보기',
   'checkLater': '나중에 확인',
+  'confirm': '확인',
   'stake': '스테이크하기',
   'doLater': '다음에 하기',
   'token': '토큰',

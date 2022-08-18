@@ -1,0 +1,53 @@
+.ClaimableKLEVA {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  height: 82px;
+
+  border: double 2px transparent;
+  border-radius: 9px;
+  background-image: linear-gradient(#fff,#fff ), radial-gradient(circle at top left, #338BFF,#6590FC);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  @include desktop {
+    width: 340px;
+  }
+}
+
+.ClaimableKLEVA__left {
+  display: flex;
+  flex-direction: column; 
+  padding-left: 17px;
+}
+
+.ClaimableKLEVA__title {
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+  margin-bottom: 3px;
+}
+
+.ClaimableKLEVA__pendingReward {
+  display: flex;
+  align-items: baseline;
+}
+
+.ClaimableKLEVA__pendingRewardValue {
+  @include font-style('font-1', 'b', 20px);
+  color: #265FFC;
+  margin-right: 4px;
+}
+
+.ClaimableKLEVA__pendingRewardInUSD {
+  @include font-style('font-1', 'm', 14px);
+  color: #8B96B3;
+}
+
+.ClaimableKLEVA__claim {
+  @include font-style('font-1', 'b', 16px);
+  color: #265FFC;
+  padding-right: 25px;
+  cursor: pointer;
+}

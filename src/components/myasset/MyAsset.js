@@ -7,6 +7,7 @@ import { I18n } from '../common/I18n'
 import { contentView$ } from 'streams/ui'
 
 import MyAssetHeader from './MyAssetHeader'
+import ThickHR from '../common/ThickHR'
 
 import './MyAsset.scss'
 
@@ -30,16 +31,24 @@ class MyAsset extends Component {
 
   render() {
     return (
-      <div className={cx("MyAsset", {
-        [`MyAsset--contentView`]: !!contentView$.value,
-      })}>
-        <MyAssetHeader />
-        {/* <div className="MyAsset__content">
-          {contentView$.value || }
-        </div> */}
-      </div>
+      <>
+        <div className="MyAsset__header">
+          <MyAssetHeader />
+        </div>
+        <ThickHR />
+      </>
+      
     )
   }
 }
 
 export default MyAsset
+
+// {/* <div className={cx("MyAsset", {
+//           [`MyAsset--contentView`]: !!contentView$.value,
+//         })}>
+          
+//           {/* <div className="MyAsset__content">
+//             {contentView$.value || }
+//           </div> */}
+//         </div> */}
