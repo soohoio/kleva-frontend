@@ -1,0 +1,35 @@
+.MyAsset {
+  padding-bottom: 100px;
+
+  &--contentView {
+    .MyAsset__intro {
+      display: none;
+    }
+  }
+}
+
+.MyAsset__introTitle {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.MyAsset__introDescription {
+  @include font-style('font-1', 'm', 15px);
+  color: #616674;
+  margin-bottom: 12px;
+}
+
+.MyAsset__introMisc {
+  @include font-style('font-1', 'b', 16px);
+  color: #3C6BFA;
+}
+
+
+.MyAsset__list {
+  margin-top: 32px;
+
+  @include desktop {
+    margin-top: 36px;
+  }
+}

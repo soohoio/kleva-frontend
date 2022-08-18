@@ -135,3 +135,50 @@ export const getKilledPositions$ = (owner, page = 1) => {
       })
     )
 }
+
+export const getPositionsAll$ = (owner) => {
+
+  return from(
+    request(
+      GRAPH_NODE_URL,
+      gql`
+      query($first: Int!, $skip: Int!, $where: Position_filter) {
+        positions(
+            first: $first, 
+            skip: $skip, 
+            where: $where, 
+            orderBy: latestBlockTime,
+            orderDirection: desc
+        ) {
+          id,
+          positionId,
+          workerAddress,
+          lpShare,
+          debtShare,
+          debtAmount,
+        }
+      }
+    `,
+      {
+        first: 1000,
+        skip: 0,
+        where: { owner, lpShare_gt: 0 },
+      }
+    )).pipe(
+      map(({ positions }) => {
+
+        return positions
+          .filter((item) => {
+            const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
+
+            // Invalid or Deprecated worker
+            return !!_farm
+          })
+          .map((item) => {
+            const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
+
+            return { ...item, ..._farm }
+          })
+      })
+    )
+}

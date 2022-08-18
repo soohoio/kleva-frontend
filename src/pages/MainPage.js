@@ -10,6 +10,7 @@ import NotificationBanner from '../components/NotificationBanner'
 import { currentTab$ } from '../streams/view'
 import LendAndStake from '../components/lendnstake/LendAndStake'
 import Farming from '../components/farming/Farming'
+import MyAsset from '../components/myasset/MyAsset'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -32,6 +33,12 @@ class MainPage extends Component {
   }
 
   renderTab = () => {
+    if (currentTab$.value == 'myasset') {
+      return (
+        <MyAsset />
+      )
+    }
+
     if (currentTab$.value == 'lendnstake') {
       return (
         <LendAndStake />

@@ -52,6 +52,21 @@ export const en = {
   'borrow': '대출',
   'farm': 'FARM',
 
+  'myasset.management.title': '총 운용 자산',
+  'myasset.claimableKLEVA': '수령 가능한 KLEVA',
+  'claim': '수령하기',
+  'myasset.managementDetail': '운용 자산 상세',
+  'myasset.asset.lendnstake': '예치 자산',
+  'myasset.asset.farming': '농사 자산',
+  'myasset.marketValue': '평가 금액',
+  'myasset.tokenAmount': '토큰 수량',
+  'myasset.tradeValue': '%{token} 교환 수량',
+  'myasset.inStaking': '스테이킹 중',
+  'myasset.withdrawStaking': '스테이킹 해제',
+  'myasset.staking': '스테이킹',
+  'myasset.withdraw': '출금하기',
+
+
   'sort.tvl': '총 예치금 순',
   'sort.yieldFarmingAPR': '농사 수익 순',
   'sort.2xleverageAPR': '총 수익률 순',
@@ -166,6 +181,21 @@ export const ko = {
   'tokenRatio.description': '이자농사는 두 토큰 가치의 비율이 50:50이 되도록 자동 스왑되어 예치됩니다. 한 쪽 토큰 비중이 높을수록 스왑에 의한 손실이 발생하며 50:50에 가까울수록 손실은 줄어듭니다.',
   'borrow': '대출',
   'farm': 'FARM',
+
+  'myasset.management.title': '총 운용 자산',
+  'myasset.claimableKLEVA': '수령 가능한 KLEVA',
+  'claim': '수령하기',
+  'myasset.managementDetail': '운용 자산 상세',
+  'myasset.asset.lendnstake': '예치 자산',
+  'myasset.asset.farming': '농사 자산',
+  'myasset.marketValue': '평가 금액',
+  'myasset.tokenAmount': '토큰 수량',
+  'myasset.tradeValue': '%{token} 교환 수량',
+  'myasset.inStaking': '스테이킹 중',
+  'myasset.withdrawStaking': '스테이킹 해제',
+  'myasset.staking': '스테이킹',
+  'myasset.withdraw': '출금하기',
+
 
   'sort.tvl': '총 예치금 순',
   'sort.yieldFarmingAPR': '농사 수익 순',

@@ -1,0 +1,21 @@
+.ManagementAsset {
+  display: flex;
+  flex-direction: column;
+}
+
+.ManagementAsset__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.ManagementAsset__totalManagedValue {
+  @include font-style('font-1', 'b', 32px);
+  color: #151515;
+  margin-bottom: 5px;
+}
+
+.ManagementAsset__debt {
+  @include font-style('font-1', 'm', 17px);
+  color: #FA5A5A;
+}

@@ -154,11 +154,6 @@ export const getLPAmountBasedOnIngredientsToken = ({ poolInfo, token1, token2 })
     : token1.amount
 
   const bPriceInA = new BigNumber(reserveA).div(reserveB)
-
-  console.log(token1, 'token1')
-  console.log(token2, 'token2')
-  console.log(reserveA, 'reserveA')
-  console.log(reserveB, 'reserveB')
   
   // the price of amountB in tokenA
   const amountBInTokenA = new BigNumber(amountB).multipliedBy(bPriceInA)
@@ -171,14 +166,6 @@ export const getLPAmountBasedOnIngredientsToken = ({ poolInfo, token1, token2 })
     .div(reserveA)
     .div(2)
     .toNumber()
-
-  console.log(lpTotalSupply, 'lpTotalSupply')
-  console.log(amountA, 'amountA')
-  console.log(amountB, 'amountB')
-  console.log(bPriceInA.toString(), 'bPriceInA')
-  console.log(amountBInTokenA.toString(), 'amountBInTokenA')
-  console.log(allValueInTokenA.toString(), 'allValueInTokenA')
-  console.log(lpShare, 'lpShare')
 
   return lpShare
 }

@@ -1,6 +1,7 @@
 import { Subject, BehaviorSubject, fromEvent, interval, merge, timer } from 'rxjs'
-import { startWith, takeUntil } from 'rxjs/operators'
+import { distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators'
 import { v4 as uuidV4 } from 'uuid'
+import { currentTab$ } from './view'
 
 export const modalContentComponent$ = new BehaviorSubject(null)
 export const overlayBackgroundColor$ = new BehaviorSubject(null)
@@ -121,4 +122,10 @@ removeBanner$.subscribe(({ key }) => {
   ]
 
   banners$.next(afterRemove)
+})
+
+currentTab$.pipe(
+  distinctUntilChanged(),
+).subscribe(() => {
+  contentView$.next(null)
 })
