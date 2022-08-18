@@ -1,0 +1,94 @@
+.SUWController {
+
+}
+
+.SUWController__title {
+  @include font-style('font-1', 'sb', 22px);
+  line-height: 30px;
+  color: #222222;
+}
+
+.SUWController__description {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+  margin-top: 14px;
+  line-height: 22px;
+}
+
+// available
+.SUWController__available {
+  margin-top: 20px;
+  display: flex;
+  align-content: center;
+  margin-bottom: 10px;
+}
+
+.SUWController__availableLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #787F98;
+}
+
+.SUWController__availableAmount {
+  @include font-style('font-1', 'sb', 15px);
+  color: #222222;
+  margin-left: 5px;
+}
+
+// Button
+.SUWController__confirmButton {
+  @include button-1(50px);
+  @include font-style('font-1', 'b', 16px);
+  width: 100%;
+  margin-top: 20px;
+}
+
+.SUWController__doLaterButton {
+  @include button-1(50px);
+  @include font-style('font-1', 'm', 16px);
+  background-color: transparent;
+  color: #787F98;
+  width: 100%;
+  margin-top: 7px;
+}
+
+.SUWController__depositInput {
+  margin-bottom: 17px;
+  height: 50px;
+}
+
+
+// inputAndButton
+.SUWController__inputAndButton {
+  display: flex;
+  align-items: center;
+  margin-bottom: 34px;
+
+  .SUWController__depositInput {
+    width: 239px;
+    margin-right: 7px;
+    margin-bottom: 0;
+  }
+}
+
+.SUWController__hr {
+  border-top: 0;
+  background-color: rgba(#E6E7F2, .8);
+  margin-bottom: 32px;
+}
+
+.SUWController__willReceive {
+  display: flex;
+  align-content: center;
+  margin: 17px 0;
+}
+
+.SUWController__willReceiveLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+}
+
+.SUWController__willReceiveAmount {
+  @include font-style('font-1', 'b', 15px);
+  color: #265FFC;
+  margin-left: 5px;
+}

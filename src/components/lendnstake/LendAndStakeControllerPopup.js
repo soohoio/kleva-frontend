@@ -122,9 +122,6 @@ class LendAndStakeControllerPopup extends Component {
 
     
     // Staking
-    console.log(allowancesInStakingPool$.value, 'allowancesInStakingPool$.value')
-    console.log(ibToken, 'ibToken')
-    console.log(stakingToken, 'stakingToken')
     const isStakingApproved = (allowancesInStakingPool$.value && allowancesInStakingPool$.value[ibToken.address] != 0)
 
     const availableStakingBalance = balancesInWallet$.value[ibToken.address] &&

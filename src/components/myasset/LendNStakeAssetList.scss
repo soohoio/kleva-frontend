@@ -1,3 +1,68 @@
 .LendNStakeAssetList {
   
 }
+
+.LendNStakeAssetList__cards {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.LendNStakeAssetList__grid {
+  display: none;
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.LendNStakeAssetList__gridHeader {
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+    height: 46px;
+    border-top: 1px solid rgba(#DADDE6, .6);
+    border-bottom: 1px solid rgba(#E9ECF5, .8);
+  }
+}
+
+.LendNStakeAssetList__gridHeaderItem {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+  display: flex;
+  align-items: center;
+}
+
+.LendNStakeAssetList__tokenHeader {
+
+}
+
+.LendNStakeAssetList__aprapyHeader {
+  justify-content: center;
+}
+
+.LendNStakeAssetList__aprDetailHeader {
+  justify-content: center;
+  padding-left: 16px;
+}
+
+.LendNStakeAssetList__marketValueHeader {
+  justify-content: center;
+}
+
+.LendNStakeAssetList__tokenAmountHeader {
+  justify-content: center;
+}
+
+.LendNStakeAssetList__inStakingHeader {
+  justify-content: center;
+}
+
+
+.LendNStakeAssetList__gridContent {
+
+}

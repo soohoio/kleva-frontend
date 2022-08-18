@@ -31,6 +31,10 @@
     max-height: unset;
     padding-top: 50px;
 
+    .Modal__content {
+      height: 100%;
+    }
+
     @include desktop {
       height: auto;
       max-height: calc(90vh - 160px);

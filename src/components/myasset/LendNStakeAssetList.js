@@ -6,10 +6,13 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import Bloc from './LendNStakeAssetList.bloc'
 import './LendNStakeAssetList.scss'
 import { balancesInStakingPool$, balancesInWallet$ } from '../../streams/wallet'
-import { getOriginalTokenFromIbToken, ibTokenByAddress, ibTokens } from '../../constants/tokens'
+
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import LendNStakeAssetBrief from './LendNStakeAssetBrief'
-import { lendingTokenSupplyInfo$ } from '../../streams/vault'
+import { lendingTokenSupplyInfo$, poolAmountInStakingPool$ } from '../../streams/vault'
+import LendNStakeAssetCard from './LendNStakeAssetCard'
+import LendNStakeAssetGridItem from './LendNStakeAssetGridItem'
+import { I18n } from 'components/common/I18n'
 
 class LendNStakeAssetList extends Component {
   bloc = new Bloc(this)
@@ -22,6 +25,7 @@ class LendNStakeAssetList extends Component {
       balancesInStakingPool$,
       tokenPrices$,
       lendingTokenSupplyInfo$,
+      poolAmountInStakingPool$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -34,64 +38,9 @@ class LendNStakeAssetList extends Component {
   componentWillUnmount() {
     this.destroy$.next(true)
   }
-
-  getLendNStakeValue = () => {
-    const ibTokenBalances = ibTokens && Object
-      .values(ibTokens)
-      .reduce((acc, cur) => {
-        const balanceInWallet = balancesInWallet$.value[cur.address] && balancesInWallet$.value[cur.address].balanceParsed
-        const balanceInStaking = balancesInStakingPool$.value[cur.address] && balancesInStakingPool$.value[cur.address].balanceParsed
-        const balanceTotal = new BigNumber(balanceInWallet).plus(balanceInStaking).toNumber()
-
-        const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[cur.address.toLowerCase()])
-        const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
-
-        const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
-
-        const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
-
-        const balanceTotalInUSD = new BigNumber(balanceTotal)
-          .multipliedBy(originalTokenPrice)
-          .multipliedBy(ibTokenPrice)
-          .toNumber()
-
-        // accumulate which has balances
-        if (balanceTotal == 0 || isNaN(balanceTotal)) return acc
-
-        acc.push({
-          ...cur,
-          balanceInWallet,
-          balanceInStaking,
-          balanceTotalInUSD,
-        })
-
-        return acc
-      }, [])
-
-      const totalInUSD = ibTokenBalances.reduce((acc, cur) => {
-        return new BigNumber(acc).plus(cur.balanceTotalInUSD).toNumber()
-      }, 0)
-
-      return {
-        ibTokenBalances: ibTokenBalances.sort((a, b) => {
-          const a_percentage = new BigNumber(a.balanceTotalInUSD)
-            .div(totalInUSD)
-            .multipliedBy(100)
-            .toNumber()
-
-          const b_percentage = new BigNumber(b.balanceTotalInUSD)
-            .div(totalInUSD)
-            .multipliedBy(100)
-            .toNumber()
-
-          return b_percentage - a_percentage
-        }),
-        totalInUSD,
-      }
-  }
     
   render() {
-    const { ibTokenBalances, totalInUSD } = this.getLendNStakeValue()
+    const { ibTokenBalances, totalInUSD } = this.bloc.getLendNStakeValue()
     
     return (
       <div className="LendNStakeAssetList">
@@ -99,6 +48,99 @@ class LendNStakeAssetList extends Component {
           ibTokenBalances={ibTokenBalances}
           totalInUSD={totalInUSD}
         />
+
+        <div className="LendNStakeAssetList__cards">
+          {ibTokenBalances.map(({
+            title,
+            address,
+            originalToken,
+            iconSrc,
+            tradeableValue,
+            balanceInWallet,
+            balanceInStaking,
+            balanceTotal,
+            balanceTotalInUSD,
+            stakingPercentage,
+            lendingAPR,
+            stakingAPR,
+            protocolAPR,
+            totalAPR,
+            stakingToken,
+          }) => {
+            return (
+              <LendNStakeAssetCard 
+                stakingToken={stakingToken}
+                title={title}
+                address={address}
+                iconSrc={iconSrc}
+                tradeableValue={tradeableValue}
+                originalToken={originalToken}
+                balanceInWallet={balanceInWallet}
+                balanceInStaking={balanceInStaking}
+                balanceTotal={balanceTotal}
+                balanceTotalInUSD={balanceTotalInUSD}
+                stakingPercentage={stakingPercentage}
+                lendingAPR={lendingAPR}
+                stakingAPR={stakingAPR}
+                protocolAPR={protocolAPR}
+                totalAPR={totalAPR}
+              />
+            )
+          })}
+        </div>
+        
+        <div className="LendNStakeAssetList__grid">
+          <div className="LendNStakeAssetList__gridHeader">
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__tokenHeader">{I18n.t('token')}</span>
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__aprapyHeader">{I18n.t('aprapy')}</span>
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__aprDetailHeader">{I18n.t('aprDetail')}</span>
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__marketValueHeader">{I18n.t('myasset.marketValue')}</span>
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__tokenAmountHeader">{I18n.t('myasset.tokenAmount')}</span>
+            <span className="LendNStakeAssetList__gridHeaderItem LendNStakeAssetList__inStakingHeader">{I18n.t('myasset.inStaking')}</span>
+            <span></span>
+            <span></span>
+          </div>
+          <div className="LendNStakeAssetList__gridContent">
+
+            {ibTokenBalances.map(({
+              title,
+              address,
+              originalToken,
+              iconSrc,
+              tradeableValue,
+              balanceInWallet,
+              balanceInStaking,
+              balanceTotal,
+              balanceTotalInUSD,
+              stakingPercentage,
+              lendingAPR,
+              stakingAPR,
+              protocolAPR,
+              totalAPR,
+              stakingToken,
+            }) => {
+              return (
+                <LendNStakeAssetGridItem
+                  stakingToken={stakingToken}
+                  title={title}
+                  address={address}
+                  iconSrc={iconSrc}
+                  tradeableValue={tradeableValue}
+                  originalToken={originalToken}
+                  balanceInWallet={balanceInWallet}
+                  balanceInStaking={balanceInStaking}
+                  balanceTotal={balanceTotal}
+                  balanceTotalInUSD={balanceTotalInUSD}
+                  stakingPercentage={stakingPercentage}
+                  lendingAPR={lendingAPR}
+                  stakingAPR={stakingAPR}
+                  protocolAPR={protocolAPR}
+                  totalAPR={totalAPR}
+                />
+              )
+            })}
+          </div>
+        </div>
       </div>
     )
   }

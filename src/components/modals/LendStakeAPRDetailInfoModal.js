@@ -37,6 +37,7 @@ class LendStakeAPRDetailInfoModal extends Component {
       ibTokenPrice,
       stakingToken,
       vaultAddress,
+      noButton,
     } = this.props
 
     return (
@@ -47,34 +48,36 @@ class LendStakeAPRDetailInfoModal extends Component {
         <hr />
         <LabelAndValue className="LendStakeAPRDetailInfoModal__apr" label={I18n.t('apr')} value={`${nFormatter(apr, 2)}%`} />
         <LabelAndValue className="LendStakeAPRDetailInfoModal__apy" label={I18n.t('apy')} value={`${nFormatter(apy, 2)}%`} />
-        <div
-          className={cx("LendStakeAPRDetailInfoModal__depositButton", {
-            "LendStakeAPRDetailInfoModal__depositButton--disabled": !selectedAddress
-          })}
-          onClick={() => {
+        {!noButton && (
+          <div
+            className={cx("LendStakeAPRDetailInfoModal__depositButton", {
+              "LendStakeAPRDetailInfoModal__depositButton--disabled": !selectedAddress
+            })}
+            onClick={() => {
 
-            if (!selectedAddress) {
-              return
-            }
+              if (!selectedAddress) {
+                return
+              }
 
-            openModal$.next({
-              component: (
-                <LendAndStakeControllerPopup
-                  ibToken={ibToken}
-                  ibTokenPrice={ibTokenPrice}
-                  stakingToken={stakingToken}
-                  vaultAddress={vaultAddress}
+              openModal$.next({
+                component: (
+                  <LendAndStakeControllerPopup
+                    ibToken={ibToken}
+                    ibTokenPrice={ibTokenPrice}
+                    stakingToken={stakingToken}
+                    vaultAddress={vaultAddress}
 
-                  lendingAPR={lendingAPR}
-                  stakingAPR={stakingAPR}
-                  protocolAPR={protocolAPR}
-                />
-              )
-            })
-          }}
-        >
-          {I18n.t('lend')}
-        </div>
+                    lendingAPR={lendingAPR}
+                    stakingAPR={stakingAPR}
+                    protocolAPR={protocolAPR}
+                  />
+                )
+              })
+            }}
+          >
+            {I18n.t('lend')}
+          </div>
+        )}
       </Modal>
     )
   }

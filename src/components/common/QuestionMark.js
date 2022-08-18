@@ -14,7 +14,7 @@ class QuestionMark extends Component {
   }
     
   render() {
-    const { title, info, color, onClick } = this.props
+    const { title, size, info, color, onClick } = this.props
 
     if (title) {
       return (
@@ -23,6 +23,7 @@ class QuestionMark extends Component {
           <div
             style={{
               color,
+              fontSize: size,
               borderColor: color,
             }}
             onClick={onClick}
@@ -39,6 +40,7 @@ class QuestionMark extends Component {
           style={{
             color,
             borderColor: color,
+            fontSize: size,
           }}
           onClick={onClick}
           className="QuestionMark"

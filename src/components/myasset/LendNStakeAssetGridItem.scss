@@ -1,0 +1,215 @@
+.LendNStakeAssetGridItem {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+
+  height: 120px;
+  border-bottom: 1px solid  #E9ECF5;
+
+  &:last-of-type {
+    border: 0;
+  }
+}
+
+.LendNStakeAssetGridItem__asset {
+  display: flex;
+  align-items: center;
+}
+
+.LendNStakeAssetGridItem__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-left: 12px;
+}
+
+.LendNStakeAssetGridItem__icon {
+  width: 33px;
+  height: 33px;
+
+  position: relative;
+
+  &::before {
+    @include font-style('font-1', 'b', 12px);
+    color: #ffffff;
+    content: "ib";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #4070FF 0%, #6188FF 100%);
+    box-shadow: 0px 2px 1px -1px rgba(0, 19, 68, 0.2);
+  }
+
+  img {
+    width: 33px;
+    height: 33px;
+  }
+}
+
+.LendNStakeAssetGridItem__aprapy, 
+.LendNStakeAssetGridItem__aprDetail, 
+.LendNStakeAssetGridItem__marketValue, 
+.LendNStakeAssetGridItem__tokenAmount, 
+.LendNStakeAssetGridItem__inStaking,
+.LendNStakeAssetGridItem__withdrawWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.LendNStakeAssetGridItem__aprDetail {
+
+  .LabelAndValue {
+    width: 100%;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 14px);
+    color: #333333;
+    flex: 1;
+    text-align: right;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'sb', 14px);
+    color: #333333;
+    flex: 1;
+    text-align: right;
+  }
+}
+
+.LendNStakeAssetGridItem__marketValue {
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+}
+
+.LendNStakeAssetGridItem__stakingButtons {
+  display: flex;
+  height: 100%;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+
+}
+
+.LendNStakeAssetGridItem__content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+}
+
+.LendNStakeAssetGridItem__contentHeader {
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F2F7;
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 18px);
+    color: #222222;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+}
+
+.LendNStakeAssetGridItem__marketValue {
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+}
+
+.LendNStakeAssetGridItem__tokenAmount {
+  margin-bottom: 13px;
+  
+  .LendNStakeAssetGridItem__tokenAmountValue {
+    @include font-style('font-1', 'b', 14px);
+    color: #333333;
+    margin-bottom: 6px;
+  }
+  
+  .LendNStakeAssetGridItem__tradeableValue {
+    @include font-style('font-1', 'm', 13px);
+    color: #777D8F;
+  }
+
+  .LabelAndValue__value {
+    text-align: right;
+  }
+}
+
+.LendNStakeAssetGridItem__stakingValue {
+  margin-bottom: 13px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 15px);
+    color: #265FFC;
+  }
+}
+
+.LendNStakeAssetGridItem__gaugeBar {
+  position: relative;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #E6EBF7;
+  margin-bottom: 20px;
+
+  width: 85px;
+}
+
+.LendNStakeAssetGridItem__gauge {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background-color: #5985FF;
+  z-index: 9;
+  border-radius: 4px;
+}
+
+.LendNStakeAssetGridItem__unstake {
+  @include button-1(36px);
+  // max-width: 101px;
+  background-color:  #EDF2FC;
+  color: #265FFC;
+}
+
+.LendNStakeAssetGridItem__stake {
+  @include button-1(36px);
+  // max-width: 101px;
+  background-color: #2D65FC;
+  margin-bottom: 8px;
+}
+
+.LendNStakeAssetGridItem__withdraw {
+  @include button-1(80px);
+  @include font-style('font-1', 'b', 15px);
+  background-color: transparent;
+  width: 100%;
+  color: #265FFC;
+}
