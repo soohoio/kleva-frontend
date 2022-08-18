@@ -380,5 +380,33 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "workerAddress",
+          "type": "address"
+        },
+        {
+          "name": "baseAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "farmingAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPositionValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
 ]

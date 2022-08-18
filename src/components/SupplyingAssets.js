@@ -10,7 +10,7 @@ import { tokenList } from '../constants/tokens'
 import { balancesInWallet$ } from '../streams/wallet'
 import WKLAYSwitcher from './WKLAYSwitcher'
 
-const SupplyInput = ({ 
+export const SupplyInput = ({ 
   value$,
   imgSrc,
   labelTitle, 

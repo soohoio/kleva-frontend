@@ -1,0 +1,37 @@
+.WKLAYSwitcher__available {
+  margin-top: 20px;
+  display: flex;
+  align-content: center;
+  margin-bottom: 10px;
+}
+
+.WKLAYSwitcher__availableLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #787F98;
+}
+
+.WKLAYSwitcher__availableAmount {
+  @include font-style('font-1', 'sb', 15px);
+  color: #222222;
+  margin-left: 5px;
+}
+
+
+.WKLAYSwitcher__inputAndButton {
+  display: flex;
+  align-items: center;
+  margin-bottom: 34px;
+
+  .WKLAYSwitcher__depositInput {
+    flex: auto;
+    margin-right: 7px;
+    margin-bottom: 0;
+  }
+}
+
+.WKLAYSwitcher__wrapButton {
+  @include button-1(50px);
+  @include font-style('font-1', 'b', 16px);
+  margin-top: 0;
+  width: 95px;
+}

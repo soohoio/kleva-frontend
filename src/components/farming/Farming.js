@@ -5,6 +5,8 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import { I18n } from '../common/I18n'
 import FarmList from './FarmList'
 
+import { contentView$ } from 'streams/ui'
+
 import './Farming.scss'
 
 class Farming extends Component {
@@ -12,7 +14,7 @@ class Farming extends Component {
 
   componentDidMount() {
     merge(
-      of(true),
+      contentView$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -27,7 +29,9 @@ class Farming extends Component {
 
   render() {
     return (
-      <div className="Farming">
+      <div className={cx("Farming", {
+        [`Farming--contentView`]: !!contentView$.value,
+      })}>
         <div className="Farming__intro">
           <p className="Farming__introTitle">
             {I18n.t('farming.intro.title')}
@@ -40,7 +44,7 @@ class Farming extends Component {
           </p>
         </div>
         <div className="Farming__list">
-          <FarmList />
+          {contentView$.value || <FarmList />}
         </div>
       </div>
     )

@@ -1,0 +1,26 @@
+.LeverageInfoModal {
+
+}
+
+.LeverageInfoModal__description {
+  @include font-style('font-1', 'm', 16px);
+  color: #636878;
+  margin-bottom: 18px;
+}
+
+.LeverageInfoModal__exampleTitle {
+  @include font-style('font-1', 'b', 15px);
+  color: #265FFC;
+  margin-bottom: 1px;
+}
+
+.LeverageInfoModal__example {
+  @include font-style('font-1', 'b', 16px);
+  color: #222222;
+  margin-bottom: 2px;
+}
+
+.LeverageInfoModal__exampleAssume {
+  @include font-style('font-1', 'm', 14px);
+  color: #969BAB;
+}

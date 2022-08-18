@@ -14,3 +14,9 @@ showDetailDefault$.subscribe((val) => {
 })
 
 export const walletType$ = new BehaviorSubject()
+
+export const slippage$ = new BehaviorSubject(ls.get('slippage$') || 0.5)
+
+slippage$.subscribe((val) => {
+  ls.set('slippage$', val)
+})

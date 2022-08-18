@@ -17,6 +17,8 @@ import { I18n } from '../common/I18n';
 import { currentLocale$ } from 'streams/i18n';
 import QuestionMark from '../common/QuestionMark';
 import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
+import { openContentView$ } from '../../streams/ui'
+import AddPosition from './AddPosition'
 
 const FarmProperty = ({ className, label, labelSub, value }) => {
   return (
@@ -165,14 +167,33 @@ class FarmItemCard extends Component {
 
               if (!selectedAddress) return
 
-              openModal$.next({
+              // openModal$.next({
+              //   component: (
+              //     <AddPositionPopup
+              //       title="Add Position"
+              //       defaultLeverage={leverageValue}
+              //       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+              //       tradingFeeAPR={tradingFeeAPR}
+
+              //       workerList={workerList}
+              //       workerInfo={workerInfo}
+
+              //       token1={token1}
+              //       token2={token2}
+
+              //       lpToken={lpToken}
+              //       borrowingAvailableAssets={borrowingAvailableAssets}
+              //       leverage={1}
+              //     />)
+              // })
+
+              openContentView$.next({
                 component: (
-                  <AddPositionPopup
-                    title="Add Position"
-                    defaultLeverage={leverageValue}
+                  <AddPosition
+                    title={`${token1?.title}+${token2?.title}`}
+                    defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                     tradingFeeAPR={tradingFeeAPR}
-
                     workerList={workerList}
                     workerInfo={workerInfo}
 
@@ -182,7 +203,12 @@ class FarmItemCard extends Component {
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}
                     leverage={1}
-                  />)
+
+                    offset={0.5}
+
+                    baseBorrowingInterests={baseBorrowingInterests}
+                  />
+                )
               })
             }}
           >

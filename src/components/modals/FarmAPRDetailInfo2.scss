@@ -1,0 +1,90 @@
+.FarmAPRDetailInfo2 {
+
+  .LabelAndValue {
+    margin-bottom: 12px;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 16px);
+    color: #333333;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 17px);
+    color: #333333;
+  }
+
+  hr {
+    margin: 17px 0;
+    border-top: 0;
+    border-bottom: 1px solid #E6E7F2;
+  }
+}
+
+.FarmAPRDetailInfo2__apr {
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+}
+
+.FarmAPRDetailInfo2__apy {
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 16px);
+    color: #265FFC;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'sb', 17px);
+    color: #265FFC;
+  }
+}
+
+.FarmAPRDetailInfo2__depositButton {
+  flex: 1;
+  @include button-1(42px);
+  @include font-style('font-1', 'sb', 14px);
+  width: 100%;
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
+
+.FarmAPRDetailInfo2__footer {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-top: 24px;
+}
+
+.FarmAPRDetailInfo2__button {
+  @include desktop {
+    margin-bottom: 0;
+  }
+
+  margin-left: 7px;
+
+  width: 100px;
+  @include button-1(42px);
+
+  &--disabled {
+    @include disabled-button;
+  }
+}
+
+.FarmAPRDetailInfo2__leverageController {
+  flex: auto;
+  margin-bottom: 0;
+
+  .LeverageController__content {
+    width: 100%;
+  }
+}
+
+.FarmAPRDetailInfo2__borrowingInterest {
+  .LabelAndValue__value {
+    color: #F53C3C;
+  }
+}

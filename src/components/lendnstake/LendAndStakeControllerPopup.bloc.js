@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js'
 import { approve$, depositForLending$, getTransactionReceipt$, stakeToStakingPool$, wrapKLAY$ } from "../../streams/contract"
 import { MAX_UINT } from 'constants/setting'
 import { fetchWalletInfo$ } from "../../streams/wallet"
-import { closeModal$, openModal$ } from "../../streams/ui"
+import { closeContentView$, closeModal$, contentView$, openModal$ } from "../../streams/ui"
 import { tokenList } from "../../constants/tokens"
 import CompletedModal from "../common/CompletedModal"
 import { I18n } from "../common/I18n"
@@ -98,7 +98,7 @@ export default class {
             title: I18n.t('viewInMyAsset'), 
             onClick: () => { 
               closeModal$.next(true)
-              currentTab$.next('myAsset')
+              currentTab$.next('myasset')
             }
           },
           { 

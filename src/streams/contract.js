@@ -1791,3 +1791,16 @@ export const optimalSwap$ = ({ workerAddress, amtA, amtB }) => {
     ]
   })
 }
+
+export const getPositionValue$ = ({ workerAddress, baseTokenAmount, farmingTokenAmount }) => {
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getPositionValue",
+    params: [
+      workerAddress,
+      baseTokenAmount,
+      farmingTokenAmount,
+    ]
+  })
+}

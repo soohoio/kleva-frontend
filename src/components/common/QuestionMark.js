@@ -14,19 +14,37 @@ class QuestionMark extends Component {
   }
     
   render() {
-    const { info, color, onClick } = this.props
+    const { title, info, color, onClick } = this.props
+
+    if (title) {
+      return (
+        <div className="QuestionMark__wrapper">
+          {title && <span className="QuestionMark__title">{title}</span>}
+          <div
+            style={{
+              color,
+              borderColor: color,
+            }}
+            onClick={onClick}
+            className="QuestionMark"
+          >
+            {info ? 'i' : '?'}
+          </div>
+        </div>
+      )
+    }
 
     return (
-      <div
-        style={{
-          color,
-          borderColor: color,
-        }}
-        onClick={onClick}
-        className="QuestionMark"
-      >
-        {info ? 'i' : '?'}
-      </div>
+        <div
+          style={{
+            color,
+            borderColor: color,
+          }}
+          onClick={onClick}
+          className="QuestionMark"
+        >
+          {info ? 'i' : '?'}
+        </div>
     )
   }
 }

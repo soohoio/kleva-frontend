@@ -399,3 +399,5 @@ export const tokenList = {
   ...ibTokens,
   ...lpTokens,
 }
+
+export const isKLAY = (address) => address === tokenList.KLAY.address

@@ -1,0 +1,26 @@
+.TokenRatio {
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 24px;
+  border-bottom: 1px solid #EBEEF5;
+
+  margin-bottom: 24px;
+}
+
+.TokenRatio__title {
+  @include font-style('font-1', 'b', 15px);
+  color: #222222;
+  margin-bottom: 5px;
+}
+
+.TokenRatio__value {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+  margin-bottom: 10px;
+}
+
+.TokenRatio__description {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}

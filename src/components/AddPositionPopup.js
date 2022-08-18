@@ -42,13 +42,17 @@ class AddPositionPopup extends Component {
     this.bloc = new Bloc(props)
 
     // Set default leverage first
-    const { workerInfo } = this.props
+    const { workerInfo, defaultWorker } = this.props
     const workerConfig = addressKeyFind(workerInfo, this.bloc.worker$?.value?.workerAddress)
     const leverageCap = getBufferedLeverage(workerConfig?.workFactorBps)
-    
-    this.bloc.leverage$.next(Math.min(props.defaultLeverage, leverageCap))
+
+    // this.bloc.leverage$.next(Math.min(props.defaultLeverage, leverageCap))
+    this.bloc.leverage$.next(props.defaultLeverage)
+    if (defaultWorker) {
+      this.bloc.worker$.next(defaultWorker)
+    }
   }
-  
+
   componentDidMount() {
     merge(
       selectedAddress$,
@@ -60,7 +64,7 @@ class AddPositionPopup extends Component {
       this.bloc.worker$,
       this.bloc.farmingTokenAmountInBaseToken$,
       this.bloc.afterPositionValue$,
-      
+
       this.bloc.showAPRDetail$,
       this.bloc.showSummary$,
       this.bloc.leverageImpact$,
@@ -85,10 +89,10 @@ class AddPositionPopup extends Component {
         debounceTime(100),
         tap(() => {
           this.bloc.getAfterPositionValue()
-          this.bloc.getPriceImpact(poolReserves$.value)
-          this.bloc.getLeverageImpact(poolReserves$.value)
+          // this.bloc.getPriceImpact(poolReserves$.value)
+          // this.bloc.getLeverageImpact(poolReserves$.value)
 
-          // this.bloc.getOpenPositionResult()
+          this.bloc.getOpenPositionResult()
 
           // Check leverage available
           const { workerInfo } = this.props
@@ -110,6 +114,7 @@ class AddPositionPopup extends Component {
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
           const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+
           this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
           this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
         })
@@ -140,7 +145,7 @@ class AddPositionPopup extends Component {
       takeUntil(this.destroy$)
     ).subscribe()
   }
-  
+
   componentWillUnmount() {
     this.destroy$.next(true)
   }
@@ -159,28 +164,28 @@ class AddPositionPopup extends Component {
     }
 
     const baseToken = this.bloc.baseToken$.value
-    
+
     // KLAY -> WKLAY
     const isFarmingTokenKLAY = this.bloc.isKLAY(this.bloc.farmingToken$.value && this.bloc.farmingToken$.value.address)
-    
-    const farmingToken = isFarmingTokenKLAY 
+
+    const farmingToken = isFarmingTokenKLAY
       ? tokenList.WKLAY
       : this.bloc.farmingToken$.value
 
-    const baseTokenAllowance = this.bloc.isKLAY(baseToken.address) 
+    const baseTokenAllowance = this.bloc.isKLAY(baseToken.address)
       ? addressKeyFind(this.bloc.allowances$.value, tokenList.WKLAY.address)
       : addressKeyFind(this.bloc.allowances$.value, baseToken.address)
 
-    const isBaseTokenApproved = this.bloc.baseTokenAmount$.value == 0 
+    const isBaseTokenApproved = this.bloc.baseTokenAmount$.value == 0
       || (baseTokenAllowance && baseTokenAllowance != 0)
 
     const farmingTokenAllowance = this.bloc.allowances$.value[farmingToken.address]
 
-    const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0 
+    const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0
       || (farmingTokenAllowance && farmingTokenAllowance != 0)
 
     const availableFarmingTokenAmount = balancesInWallet$.value[farmingToken.address]
-    const availableBaseTokenAmount = this.bloc.isKLAY(baseToken.address) 
+    const availableBaseTokenAmount = this.bloc.isKLAY(baseToken.address)
       ? balancesInWallet$.value[tokenList.WKLAY.address]
       : balancesInWallet$.value[baseToken.address]
 
@@ -195,7 +200,7 @@ class AddPositionPopup extends Component {
         </button>
       )
     }
-    
+
     // Farming Token Allowance Check
     if (!isFarmingTokenApproved) {
       return (
@@ -208,17 +213,17 @@ class AddPositionPopup extends Component {
       )
     }
 
-    const isDisabled = 
-      new BigNumber(this.bloc.baseTokenAmount$.value).gt(availableBaseTokenAmount?.balanceParsed) 
-        || new BigNumber(this.bloc.farmingTokenAmount$.value).gt(availableFarmingTokenAmount?.balanceParsed)
-        || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
-        || this.bloc.borrowMoreAvailable$.value == false
+    const isDisabled =
+      new BigNumber(this.bloc.baseTokenAmount$.value || 0).gt(availableBaseTokenAmount?.balanceParsed)
+      || new BigNumber(this.bloc.farmingTokenAmount$.value || 0).gt(availableFarmingTokenAmount?.balanceParsed)
+      || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
+      || this.bloc.borrowMoreAvailable$.value == false
 
     return (
       <button
         onClick={() => {
           if (isDisabled) return
-          
+
           openLayeredModal$.next({
             component: (
               <AreYouSureFarming
@@ -260,10 +265,10 @@ class AddPositionPopup extends Component {
       borrowingDelta: new BigNumber(this.bloc.getAmountToBorrow()).div(10 ** this.bloc.baseToken$.value?.decimals).toNumber()
     })
   }
-    
+
   render() {
-    const { 
-      title, 
+    const {
+      title,
       yieldFarmingAPR,
       tradingFeeAPR,
       borrowingAvailableAssets,
@@ -271,11 +276,11 @@ class AddPositionPopup extends Component {
       token1,
       token2,
       workerInfo,
-    } = this.props  
+    } = this.props
 
     const ibToken = getIbTokenFromOriginalToken(this.bloc.borrowingAsset$.value)
 
-    const farmingToken = isSameAddress(this.bloc.borrowingAsset$.value?.address, token1?.address) 
+    const farmingToken = isSameAddress(this.bloc.borrowingAsset$.value?.address, token1?.address)
       ? token2
       : token1
 
@@ -313,17 +318,6 @@ class AddPositionPopup extends Component {
 
     const borrowingInfo = lendingTokenSupplyInfo$.value && lendingTokenSupplyInfo$.value[this.bloc.borrowingAsset$.value && this.bloc.borrowingAsset$.value.address.toLowerCase()]
 
-    const ibBorrowingInfo = addressKeyFind(lendingTokenSupplyInfo$.value, ibToken.address)
-
-    // const borrowingDelta = new BigNumber(this.bloc.getAmountToBorrow())
-    //   .div(10 ** this.bloc.baseToken$.value?.decimals)
-    //   .toNumber()
-
-    // const newBorrowingInterest = calcInterestRate(
-    //   new BigNumber(ibBorrowingInfo?.totalBorrowed).plus(borrowingDelta),
-    //   ibBorrowingInfo?.totalSupply - new BigNumber(ibBorrowingInfo?.totalBorrowed).plus(borrowingDelta)
-    // )
-
     const after_borrowingInterestAPR = borrowingInfo
       && new BigNumber(borrowingInfo.borrowingInterest)
         .multipliedBy(this.bloc.leverage$.value - 1)
@@ -346,9 +340,9 @@ class AddPositionPopup extends Component {
         "AddPositionPopup__modal--dim": !!layeredModalContentComponent$.value
       })} title={title}>
         {this.bloc.showAPRDetail$.value && (
-          <APRAPYDetailed 
+          <APRAPYDetailed
             showDetail$={this.bloc.showAPRDetail$}
-            
+
             totalAPRBefore={before_totalAPR}
             totalAPRAfter={after_totalAPR}
 
@@ -366,7 +360,7 @@ class AddPositionPopup extends Component {
         )}
         <div className="AddPositionPopup">
           <div className="AddPositionPopup__content">
-            <APRAPYBrief 
+            <APRAPYBrief
               totalAPRBefore={before_totalAPR}
               totalAPRAfter={after_totalAPR}
 
@@ -380,7 +374,7 @@ class AddPositionPopup extends Component {
 
               borrowingInterestAPRBefore={before_borrowingInterestAPR}
               borrowingInterestAPRAfter={after_borrowingInterestAPR}
-            
+
               showDetail$={this.bloc.showAPRDetail$}
             />
             <div className="AddPositionPopup__controller">
@@ -393,7 +387,7 @@ class AddPositionPopup extends Component {
                 farmingTokenAmount$={this.bloc.farmingTokenAmount$}
                 baseTokenAmount$={this.bloc.baseTokenAmount$}
               />
-              <LeverageGauge 
+              <LeverageGauge
                 leverage$={this.bloc.leverage$}
                 leverageCap={leverageCap}
               />

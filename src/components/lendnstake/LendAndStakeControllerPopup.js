@@ -212,7 +212,7 @@ class LendAndStakeControllerPopup extends Component {
               content={I18n.t('tip.ibToken.description')}
             />
           </div>
-          <p className="LendAndStakeControllerPopup__description">{I18n.t('lendnstake.controller.needApprove')}</p>
+          <p className="LendAndStakeControllerPopup__description">{I18n.t('needApprove')}</p>
           {this.renderButton()}
         </>
       )
@@ -391,7 +391,7 @@ class LendAndStakeControllerPopup extends Component {
               content={I18n.t('tip.ibToken.description')}
             />
           </div>
-          <p className="LendAndStakeControllerPopup__description">{I18n.t('lendnstake.controller.needApprove')}</p>
+          <p className="LendAndStakeControllerPopup__description">{I18n.t('needApprove')}</p>
           {this.renderButton()}
         </>
       )

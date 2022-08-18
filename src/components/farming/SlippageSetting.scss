@@ -1,0 +1,70 @@
+.SlippageSetting {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #EBEEF5;
+  margin-bottom: 20px;
+}
+
+.SlippageSetting__controller {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.SlippageSetting__inputWrapper {
+  position: relative;
+  flex: auto;
+  margin-right: 6px;
+}
+
+.SlippageSetting__input {
+  @include input;
+  @include font-style('font-1', 'b', 17px);
+  display: flex;
+  align-items: center;
+  color: #222222;
+  width: 100%;
+  border-radius: 5px;
+  height: 45px;
+  background-color: #F5F7FA;
+  padding: 0 13px;
+  padding-right: 30px;
+}
+
+.SlippageSetting__percent {
+  @include font-style('font-1', 'sb', 17px);
+  color: #333333;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 13px;
+}
+
+.SlippageSetting__button {
+  @include font-style('font-1', 'sb', 15px);
+  text-align: center;
+  color: #333333;
+  width: 60px;
+  height: 45px;
+  border: 1px solid #D7DCEA;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  margin-right: 6px;
+  justify-content: center;
+  border-radius: 6px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &--active {
+    border: 2px solid #416FFA;
+  }
+}
+
+.SlippageSetting__description {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}

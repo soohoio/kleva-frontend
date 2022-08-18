@@ -1,0 +1,74 @@
+.LeverageInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.LeverageInput__leverageInput {
+  @include input;
+  @include font-style('font-1', 'b', 20px);
+  color: #222222;
+  width: 100%;
+  border-radius: 5px;
+  height: 50px;
+  background-color: #F5F7FA;
+  padding: 12px 18px;
+}
+
+.LeverageInput__header {
+  @include font-style('font-1', 'b', 16px);
+  color: #222222;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.LeverageInput__content {
+  display: flex;
+  align-items: center;
+}
+
+.LeverageInput__inputWrapper {
+  position: relative;
+  flex: auto;
+  margin-right: 7px;
+}
+
+.LeverageInput__buttons {
+  width: 111px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #D7DCEA;
+  border-radius: 5px;
+}
+
+.LeverageInput__x {
+  @include font-style('font-1', 'm', 18px);
+  color: #333333;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 17px;
+}
+
+.LeverageInput__minus {
+  cursor: pointer;
+  flex: 1;
+  outline: 0;
+  border: 0;
+  height: 50px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  border-right: 1px solid #D7DCEA;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.LeverageInput__plus {
+  cursor: pointer;
+  flex: 1;
+  outline: 0;
+  border: 0;
+  height: 50px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+}

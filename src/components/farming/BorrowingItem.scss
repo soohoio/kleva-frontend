@@ -1,0 +1,48 @@
+.BorrowingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 17px;
+  width: 100%;
+  height: 53px;
+
+  background-color: #FFFFFF;
+  border: 1px solid #D7DCEA;
+  border-radius: 6px;
+  margin-bottom: 11px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  
+  cursor: pointer;
+
+  &--active {
+    border: 2px solid #4C7BFC;
+
+    .BorrowingItem__interestRateValue {
+      color: #F53C3C;
+    }
+  }
+}
+
+.BorrowingItem__title {
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+}
+
+.BorrowingItem__value {
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+}
+
+.BorrowingItem__interestRateTitle {
+  @include font-style('font-1', 'm', 15px);
+  color: #9EA6BC;
+}
+
+.BorrowingItem__interestRateValue {
+  @include font-style('font-1', 'sb', 15px);
+  color: #D3D7E0;
+  margin-left: 5px;
+}

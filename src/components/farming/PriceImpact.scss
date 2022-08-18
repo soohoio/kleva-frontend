@@ -1,0 +1,27 @@
+.PriceImpact {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.PriceImpact__label {
+  display: flex;
+  flex-direction: column;
+}
+
+.PriceImpact__impactRatio {
+  @include font-style('font-1', 'b', 18px);
+  color: #F53C3C;
+}
+
+.PriceImpact__title {
+  @include font-style('font-1', 'b', 15px);
+  color: #222222;
+  margin-bottom: 3px;
+}
+
+.PriceImpact__subtitle {
+  @include font-style('font-1', 'm', 14px);
+  color: #969BAB;
+}

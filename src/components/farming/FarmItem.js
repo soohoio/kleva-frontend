@@ -19,6 +19,8 @@ import QuestionMark from '../common/QuestionMark';
 import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
 import LabelAndValue from '../LabelAndValue'
 import RadioSet2 from '../common/RadioSet2'
+import { openContentView$ } from '../../streams/ui'
+import AddPosition from './AddPosition'
 
 const FarmProperty = ({ className, label, labelSub, value }) => {
   return (
@@ -157,10 +159,11 @@ class FarmItem extends Component {
 
               if (!selectedAddress) return
 
-              openModal$.next({
+              openContentView$.next({
                 component: (
-                  <AddPositionPopup
-                    title="Add Position"
+                  <AddPosition
+                    selectedAddress={selectedAddress}
+                    title={`${token1?.title}+${token2?.title}`}
                     defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                     tradingFeeAPR={tradingFeeAPR}
@@ -173,7 +176,12 @@ class FarmItem extends Component {
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}
                     leverage={1}
-                  />)
+
+                    offset={0.5}
+
+                    baseBorrowingInterests={baseBorrowingInterests}
+                  />
+                )
               })
             }}
           >
