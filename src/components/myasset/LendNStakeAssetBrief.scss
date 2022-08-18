@@ -1,0 +1,169 @@
+.LendNStakeAssetBrief {
+  display: flex;
+  flex-direction: column;
+}
+
+.LendNStakeAssetBrief__total {
+  @include font-style('font-1', 'b', 25px);
+  color: #000000;
+  margin-bottom: 13px;
+}
+
+.LendNStakeAssetBrief__gauge {
+  display: flex;
+  width: 100%;
+  height: 4px;
+  margin-bottom: 14px;
+}
+
+.LendNStakeAssetBrief__gaugeItem {
+
+  &--ibWEMIX {
+    background-color: #44CF84;
+  }
+
+  &--ibKLAY {
+    background-color: #F9784F;
+  }
+
+  &--iboUSDT {
+    background-color: red;
+  }
+
+  &--ibKDAI {
+    background-color: blue;
+  }
+
+  &--iboETH {
+    background-color: yellow;
+  }
+
+  &--ibKLEVA {
+    background-color: green;
+  }
+
+  &--iboUSDC {
+    background-color: gray;
+  }
+
+
+  &:first-of-type {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  &:last-of-type {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+}
+
+.LendNStakeAssetBrief__gaugeLabels {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 24px;
+}
+
+.LendNStakeAssetBrief__gaugeLabel {
+  @include font-style('font-1', 'm', 14px);
+  display: flex;
+  align-items: center;
+  color: #636878;
+  margin-right: 10px;
+  
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &--ibWEMIX {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: #44CF84;
+    }
+  }
+
+  &--ibKLAY {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: #F9784F;
+    }
+  }
+
+  &--iboUSDT {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: red;
+    }
+  }
+
+  &--ibKDAI {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: blue;
+    }
+  }
+
+  &--iboETH {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: yellow;
+    }
+  }
+
+  &--ibKLEVA {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: green;
+    }
+  }
+
+  &--iboUSDC {
+    &::before {
+      display: flex;
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: gray;
+    }
+  }
+
+}
+
+.LendNStakeAssetBrief__percentage {
+  @include font-style('font-1', 'r', 14px);
+  color: #8B96B3;
+}
