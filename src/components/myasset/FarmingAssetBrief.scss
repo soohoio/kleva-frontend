@@ -1,0 +1,256 @@
+.FarmingAssetBrief {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 40px;
+}
+
+.FarmingAssetBrief__total {
+  @include font-style('font-1', 'b', 25px);
+  color: #000000;
+  margin-bottom: 13px;
+}
+
+.FarmingAssetBrief__gauge {
+  display: flex;
+  width: 100%;
+  height: 4px;
+  margin-bottom: 14px;
+}
+
+.FarmingAssetBrief__gaugeItem {
+
+  &--KLAY\+oUSDT {
+    background-color: #44CF84;
+  }
+  &--KLAY\+KSP {
+    background-color: #F9784F;
+  }
+  &--KLAY\+oETH {
+    background-color: red;
+  }
+  &--KLAY\+oXRP {
+    background-color: blue;
+  }
+  &--KLAY\+WEMIX {
+    background-color: yellow;
+  }
+  &--oUSDT\+oUSDC {
+    background-color: green;
+  }
+  &--oUSDT\+KDAI {
+    background-color: gray;
+  }
+  &--oETH\+oUSDT {
+    background-color: #44CF84;
+  }
+  &--oUSDT\+WEMIX {
+    background-color: #F9784F;
+  }
+  &--KLAY\+BORA {
+    background-color: red;
+  }
+  &--oETH\+oXRP {
+    background-color: blue;
+  }
+  &--oXRP\+KDAI {
+    background-color: yellow;
+  }
+  &--KLAY\+KLEVA {
+    background-color: green;
+  }
+  &--oUSDT\+oUSDC {
+    background-color: gray;
+  }
+  &--KLAY\+oUSDC {
+    background-color: #44CF84;
+  }
+
+
+  &:first-of-type {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  &:last-of-type {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+}
+
+.FarmingAssetBrief__gaugeLabels {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 24px;
+}
+
+.FarmingAssetBrief__gaugeLabel {
+  @include font-style('font-1', 'm', 14px);
+  display: flex;
+  align-items: center;
+  color: #636878;
+  margin-right: 10px;
+  
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  
+  &--KLAY\+oUSDT::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #44CF84;
+  }
+  
+  &--KLAY\+KSP::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #F9784F;
+  }
+  
+  &--KLAY\+oETH::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: red;
+  }
+  
+  &--KLAY\+oXRP::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: blue;
+  }
+  
+  &--KLAY\+WEMIX::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: yellow;
+  }
+  
+  &--oUSDT\+oUSDC::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: green;
+  }
+  
+  &--oUSDT\+KDAI::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: gray;
+  }
+  
+  &--oETH\+oUSDT::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #44CF84;
+  }
+  
+  &--oUSDT\+WEMIX::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #F9784F;
+  }
+  
+  &--KLAY\+BORA::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: red;
+  }
+  
+  &--oETH\+oXRP::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: blue;
+  }
+  
+  &--oXRP\+KDAI::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: yellow;
+  }
+  
+  &--KLAY\+KLEVA::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: green;
+  }
+  
+  &--oUSDT\+oUSDC::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: gray;
+  }
+  
+  &--KLAY\+oUSDC::before {
+    display: flex;
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #44CF84;
+  }
+}
+
+.FarmingAssetBrief__percentage {
+  @include font-style('font-1', 'r', 14px);
+  margin-left: 3px;
+  color: #8B96B3;
+}

@@ -152,10 +152,18 @@ export const getPositionsAll$ = (owner) => {
         ) {
           id,
           positionId,
+          owner,
           workerAddress,
           lpShare,
           debtShare,
           debtAmount,
+          latestBlockTime,
+
+          positionValueAtKilled,
+          debtAtKilled,
+          prizeAtKilled,
+          restAmountAtKilled,
+          killedTx,
         }
       }
     `,
@@ -182,3 +190,4 @@ export const getPositionsAll$ = (owner) => {
       })
     )
 }
+

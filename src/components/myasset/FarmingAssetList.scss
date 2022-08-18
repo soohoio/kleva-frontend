@@ -1,0 +1,68 @@
+.FarmingAssetList {
+  
+}
+
+.FarmingAssetList__cards {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.FarmingAssetList__grid {
+  display: none;
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.FarmingAssetList__gridHeader {
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+    height: 46px;
+    border-top: 1px solid rgba(#DADDE6, .6);
+    border-bottom: 1px solid rgba(#E9ECF5, .8);
+  }
+}
+
+.FarmingAssetList__gridHeaderItem {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+  display: flex;
+  align-items: center;
+}
+
+.FarmingAssetList__tokenHeader {
+
+}
+
+.FarmingAssetList__aprapyHeader {
+  justify-content: center;
+}
+
+.FarmingAssetList__aprDetailHeader {
+  justify-content: center;
+  padding-left: 16px;
+}
+
+.FarmingAssetList__marketValueHeader {
+  justify-content: center;
+}
+
+.FarmingAssetList__tokenAmountHeader {
+  justify-content: center;
+}
+
+.FarmingAssetList__inStakingHeader {
+  justify-content: center;
+}
+
+
+.FarmingAssetList__gridContent {
+
+}

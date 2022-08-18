@@ -12,6 +12,7 @@ import ThickHR from '../common/ThickHR'
 import './MyAsset.scss'
 import Tabs from '../common/Tabs'
 import LendNStakeAssetList from './LendNStakeAssetList'
+import FarmingAssetList from './FarmingAssetList'
 
 class MyAsset extends Component {
   destroy$ = new Subject()
@@ -59,7 +60,10 @@ class MyAsset extends Component {
               }
             ]}
           />
-          <LendNStakeAssetList />
+          {this.assetMenu$.value === 'lendnstake' 
+            ? <LendNStakeAssetList />
+            : <FarmingAssetList />
+          }
         </div>
       </>
       

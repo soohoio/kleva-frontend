@@ -228,6 +228,11 @@ export const lpTokenByIngredients = (tokenA, tokenB) => {
   return _lpTokenByIngredients[`${tokenA && tokenA.address.toLowerCase()}-${tokenB && tokenB.address.toLowerCase()}`]
 }
 
+export const lpTokenByAddress = Object.values(lpTokens).reduce((acc, cur) => {
+  acc[cur.address] = cur
+  return acc
+}, {})
+
 // REAL
 export const ibTokens = {
   "ibKLAY": {

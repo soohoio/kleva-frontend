@@ -1,0 +1,360 @@
+.FarmAssetCard {
+  display: flex;
+  background-color: white;
+
+  padding-top: 24px;
+  padding-bottom: 30px;
+  background-color: #fff;
+
+  position: relative;
+  align-items: flex-start;
+
+  .LabelAndValue {
+    align-items: center;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'sb', 13px);
+    color: #797b80;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #131414;
+  }
+}
+
+.FarmAssetCard__iconWrapper {
+  width: 33px;
+  display: flex;
+  flex-direction: column;
+}
+
+.FarmAssetCard__icon {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  position: relative;
+
+  &:last-of-type {
+    top: -10px;
+    z-index: 9;
+  }
+}
+
+.FarmAssetCard__content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+}
+
+.FarmAssetCard__contentHeader {
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F2F7;
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 18px);
+    color: #222222;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+}
+
+.FarmAssetCard__marketValue {
+  margin-bottom: 13px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+}
+
+.FarmAssetCard__poolInfoTitle {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 11px;
+}
+
+.FarmAssetCard__poolInfoExchange {
+  @include font-style('font-1', 'r', 14px);
+  color: #969BAB;
+}
+
+.FarmAssetCard__apy {
+  @include font-style('font-1', 'b', 18px);
+  color: #265FFC;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.FarmAssetCard__leverage {
+  @include font-style('font-1', 'm', 15px);
+  color: #8B96B3;
+}
+
+.FarmAssetCard__valueItem {
+  margin-bottom: 13px;
+  text-align: right;
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+}
+
+.FarmAssetCard__debtRatio {
+  margin-bottom: 18px;
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+
+
+  &--yellow {
+    .LabelAndValue__value {
+      color: #FA9A00 !important;
+    }
+  }
+
+  &--red {
+    .LabelAndValue__value {
+      color: #FF4D00 !important;
+    }
+  }
+}
+
+.FarmAssetCard__gaugeBar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #E6EBF7;
+  margin-bottom: 20px;
+}
+
+.FarmAssetCard__gauge {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background-color: #5985FF;
+  z-index: 9;
+  border-radius: 4px;
+
+  &--yellow {
+    background-color: #FA9A00;
+  }
+
+  &--red {
+    background-color: #FF4D00;
+  }
+}
+
+.FarmAssetCard__buttons {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.FarmAssetCard__closeButton {
+  @include button-1(43px);
+  background-color: #EDF2FC;
+  color: #265FFC;
+  flex: 1;
+}
+
+.FarmAssetCard__adjustButton {
+  @include button-1(43px);
+  background-color: #EDF2FC;
+  color: #265FFC;
+  margin-left: 7px;
+  flex: 1;
+}
+
+.FarmAssetCard__debtRatioDescription {
+  color: #8B96B3;
+  @include font-style('font-1', 'm', 15px);
+}
+
+// .FarmAssetCard__header {
+//   display: flex;
+//   width: 100%;
+//   justify-content: space-between;
+// }
+
+// .FarmAssetCard__headerLeft {
+//   display: flex;
+//   gap: 16px;
+// }
+
+// .FarmAssetCard__poolInfo {
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .FarmAssetCard__pollInfoTitle {
+//   @include font-style('font-1', 'b', 16px);
+//   color: #131414;
+//   margin-bottom: 1px;
+// }
+
+// .FarmAssetCard__poolInfoExchange {
+//   @include font-style('font-1', 'm', 11px);
+//   color: #797b80;
+// }
+
+// .FarmAssetCard__infoIconList {
+//   display: flex;
+//   align-items: center;
+//   flex-direction: column;
+// }
+
+// .FarmAssetCard__infoIcon {
+//   width: 24px;
+//   height: 24px;
+//   position: relative;
+//   border-radius: 50%;
+
+//   &:last-of-type {
+//     top: -6px;
+//     z-index: 9;
+//   }
+// }
+
+// .FarmAssetCard__infoTitleList {
+//   display: flex; 
+//   flex-direction: column;
+// }
+
+// .FarmAssetCard__infoTitle {
+//   @include font-style('font-1', 'b', 16px);
+//   color: #131414;
+// }
+
+// .FarmAssetCard__infoExchangeTitle {
+//   @include font-style('font-1', 'm', 11px);
+//   color: #797b80;
+// }
+
+// .FarmAssetCard__apy {
+//   @include font-style('font-1', 'm', 12px);
+//   // color: #3369ff;
+//   strong {
+//     // color: #3369ff;
+//     @include font-style('font-1', 'sb', 16px);
+//     color: #131414;
+//     margin-bottom: 4px;
+//   }
+// }
+
+// .FarmAssetCard__apyLabel {
+//   @include font-style('font-1', 'm', 11px);
+//   color: #797b80;
+// }
+
+// .FarmAssetCard__opener {
+//   border-radius: 8px;
+//   background-color: #fcfcfc;
+//   height: 24px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   border-top-left-radius: 0;
+//   border-top-right-radius: 0;
+//   cursor: pointer;
+// }
+
+// .FarmAssetCard__expanded {
+//   width: 100%;
+// }
+
+// .FarmAssetCard__buttons {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   gap: 16px;
+//   margin-top: 36px;
+//   margin-bottom: 16px;
+// }
+
+// .FarmAssetCard__adjustButton {
+//   @include button-2(44px);
+//   @include font-style('font-1', 'sb', 15px);
+//   background-color: #ebf0ff;
+//   color: #3369ff;
+//   flex: 1;
+//   margin-bottom: 4px;
+// }
+
+// .FarmAssetCard__closeButton {
+//   @include button-2(44px);
+//   @include font-style('font-1', 'sb', 15px);
+//   background-color: #ffeae8;
+//   color: #f25a49;
+//   flex: 1;
+
+//   &--disabled {
+//     @include disabled-button;
+//   }
+// }
+
+// .FarmAssetCard__apy {
+//   .LabelAndValue__value {
+//     color: #3369ff !important;
+//   }
+// }
+
+// .FarmAssetCard__safetyBuffer {
+
+//   .LabelAndValue__value {
+//     color: #00b470;
+//   } 
+
+//   &--yellow {
+//     .LabelAndValue__value {
+//       color: #f5b400 !important;
+//     }
+//   }
+
+//   &--red {
+//     .LabelAndValue__value {
+//       color: #f25a49 !important;
+//     }
+//   }
+// }
