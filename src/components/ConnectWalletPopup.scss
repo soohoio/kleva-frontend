@@ -39,23 +39,23 @@
 
 .ConnectWalletPopup__items {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 .WalletConnectOption {
   display: flex;
-  flex-direction: column;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  height: 128px;
+  height: 56px;
   border-radius: 6px;
-  border: solid 1px #e6e6e6;
+  border: 1px solid #D7DCEA;
+  box-shadow: 0px 4px 4px -2px rgba(0, 21, 83, 0.06);
   background-color: #fff;
   cursor: pointer;
-
-  @include gap-like(8px);
+  margin-bottom: 12px;
 
   &--dcent {
     @include desktop {
@@ -82,10 +82,39 @@
 }
 
 .WalletConnectOption__title {
-  @include font-style('font-1', 'm', 14px);
-  color: #171b1d;
+  @include font-style('font-1', 'm', 16px);
+  color: #4C505C;
 }
 
 .WalletConnectOption__image {
-  margin-bottom: 16px;
+  margin-right: 8px;
+}
+
+.ConnectWalletPopup__noWalletGuide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ConnectWalletPopup__noWalletTitle {
+  @include font-style('font-1', 'b', 18px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.ConnectWalletPopup__noWalletDescription {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+  margin-bottom: 20px;
+}
+
+.ConnectWalletPopup__makeWallet {
+  @include font-style('font-1', 'sb', 16px);
+  color: #265FFC;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }

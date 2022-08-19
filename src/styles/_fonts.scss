@@ -8,6 +8,7 @@ $font-weights: (
   "sb": 600,
   "Bold": 700,
   "b": 700,
+  "eb": 800,
 );
 
 @mixin font-style($type, $weight, $size) {

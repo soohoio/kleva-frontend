@@ -14,6 +14,8 @@ import { getPositionsAll$ } from '../../streams/graphql'
 import { getEachTokenBasedOnLPShare } from '../../utils/calc'
 import { klayswapPoolInfo$, workerInfo$ } from '../../streams/farming'
 import { nFormatter } from '../../utils/misc'
+import Guide from '../common/Guide'
+import { currentTab$ } from '../../streams/view'
 
 class ManagementAsset extends Component {
   destroy$ = new Subject()

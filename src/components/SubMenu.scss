@@ -6,6 +6,7 @@
 .SubMenu__item {
   @include font-style('font-1', 'sb', 15px);
   color: #777D8F;
+  cursor: pointer;
   margin-right: 18px;
 
   &--switch {

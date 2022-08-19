@@ -1,0 +1,116 @@
+.Intro6 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px;
+  
+  background-color: #F4F5FA;
+  
+  justify-content: center;
+  align-items: center;
+  
+  @include desktop {
+    padding: 0;
+    height: 430px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.Intro6__content {
+  display: flex;
+  flex-direction: column;
+  @include desktop {
+    width: $CONTENT_WIDTH;
+    flex-direction: row;
+    
+  }
+}
+
+.Intro6__title {
+  @include font-style('font-1', 'eb', 26px);
+  width: $CONTENT_WIDTH;
+  margin: 0 auto;
+  color: #222222;
+  margin-bottom: 30px;
+
+  @include desktop {
+    br {
+      display: none;
+    }
+  }
+}
+
+.QuoteItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 14px;
+  margin-bottom: 30px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  @include desktop {
+    margin-right: 20px;
+    margin-bottom: 0;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.QuoteItem__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 24px;
+}
+
+.QuoteItem__titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.QuoteItem__title {
+  @include font-style('font-1', 'eb', 22px);
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.QuoteItem__subtitle {
+  @include font-style('font-1', 'sb', 16px);
+  color: #7B91CC;
+}
+
+.QuoteItem__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.QuoteItem__description {
+  @include font-style('font-1', 'm', 16px);
+  color: #636878;
+  line-height: 23px;
+  margin-bottom: 28px;
+  padding: 0 24px;
+}
+
+.QuoteItem__see {
+  outline: 0;
+  background-color: white;
+  border: 0;
+  @include font-style('font-1', 'sb', 16px);
+  border-top: 1px solid #EDF1FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #265FFC;
+  height: 57px;
+}

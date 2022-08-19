@@ -1,0 +1,40 @@
+.Guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Guide__title {
+  @include font-style('font-1', 'b', 19px);
+  color: #222222;
+}
+
+.Guide__description {
+  margin-top: 8px;
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+}
+
+.Guide__button {
+  @include button-1(43px);
+  margin-top: 20px;
+
+  padding: 0 20px;
+}
+
+
+.Guide__buttons {
+  display: flex;
+  min-width: 400px;
+
+  .Guide__button {
+    flex: 1;
+
+    margin-right: 8px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import './ConnectWalletPopup.scss'
 import Modal from './common/Modal'
+import { I18n } from './common/I18n'
 import { connectInjected, logout$, selectedAddress$ } from '../streams/wallet'
 import { closeModal$, isDesktop$ } from '../streams/ui'
 import { accessKlip$ } from '../streams/klip'
@@ -14,7 +15,10 @@ const WalletConnectOption = ({ title, className, imgSrc, onClick }) => {
   return (
     <div onClick={onClick} className={cx("WalletConnectOption", className)}>
       <img className="WalletConnectOption__image" src={imgSrc} />
-      <p className="WalletConnectOption__title">{title}</p>
+      <p className="WalletConnectOption__title">{I18n.t('connectWallet.connectWith', {
+        title
+      })}
+    </p>
     </div>
   )
 }
@@ -40,79 +44,80 @@ class ConnectWalletPopup extends Component {
 
     return (
       <Modal 
-        title={selectedAddress$.value 
-          ? "My Wallet"
-          : "Connect Wallet"
-        }
+        className="ConnectWalletPopup Modal--mobileCoverAll"
+        title={I18n.t('connectWallet.title')}
       >
-        {selectedAddress$.value 
-          ? (
-            <div className="ConnectWalletPopup__connectedInfo">
-              <p className="ConnectWalletPopup__connectedAs">Connected as: <span>{selectedAddress$.value}</span></p>
-              <button 
-                onClick={() => {
-                  logout$.next(true)
-                  closeModal$.next(true)
-                }}
-                className="ConnectWalletPopup__disconnectButton"
-              >
-                Disconnect
-              </button>
-            </div>
-          )
-          : (
-            <div className="ConnectWalletPopup__items">
-              <WalletConnectOption
-                title="DCENT"
-                className="WalletConnectOption--dcent"
-                imgSrc="/static/images/logo-dcent.svg"
-                onClick={() => {
-                  if (window.klaytn) {
-                    connectInjected()
-                    return
-                  }
-                  const _url = encodeURIComponent(window.location.href)
-                  const network = 'klaytn-mainnet'
-                  const DEEP_LINKING_DCENT = "https://link.dcentwallet.com/DAppBrowser/?url=" + _url + "&network=" + network
-                  window.open(DEEP_LINKING_DCENT)
-                }}
-              />
-              <WalletConnectOption
-                title="Kaikas"
-                className="WalletConnectOption--kaikas"
-                imgSrc="/static/images/wallet-option-kaikas.svg"
-                onClick={() => {
-                  connectInjected()
-                  closeModal$.next(true)
-                }}
-              />
-              <WalletConnectOption
-                title="Klip"
-                className="WalletConnectOption--klip"
-                imgSrc="/static/images/wallet-option-klip.svg"
-                onClick={() => {
-                  accessKlip$().subscribe((result) => {
-                    walletType$.next("klip")
-                    selectedAddress$.next(result && result.klaytn_address)
+        <div className="ConnectWalletPopup__items">
+          <WalletConnectOption
+            title="DCENT"
+            className="WalletConnectOption--dcent"
+            imgSrc="/static/images/logo-dcent.svg"
+            onClick={() => {
+              if (window.klaytn) {
+                connectInjected()
+                return
+              }
+              const _url = encodeURIComponent(window.location.href)
+              const network = 'klaytn-mainnet'
+              const DEEP_LINKING_DCENT = "https://link.dcentwallet.com/DAppBrowser/?url=" + _url + "&network=" + network
+              window.open(DEEP_LINKING_DCENT)
+            }}
+          />
+          <WalletConnectOption
+            title="Kaikas"
+            className="WalletConnectOption--kaikas"
+            imgSrc="/static/images/wallet-option-kaikas.svg"
+            onClick={() => {
+              connectInjected()
+              closeModal$.next(true)
+            }}
+          />
+          <WalletConnectOption
+            title="Klip"
+            className="WalletConnectOption--klip"
+            imgSrc="/static/images/wallet-option-klip.svg"
+            onClick={() => {
+              accessKlip$().subscribe((result) => {
+                walletType$.next("klip")
+                selectedAddress$.next(result && result.klaytn_address)
 
-                    if (!isMobile) {
-                      closeModal$.next(true)
-                    }
-                  })
-                }}
-              />
-              <WalletConnectOption
-                title="Metamask"
-                className="WalletConnectOption--metamask"
-                imgSrc="/static/images/wallet-option-metamask.png"
-                onClick={() => {
-                  connectInjected('metamask')
+                if (!isMobile) {
                   closeModal$.next(true)
-                }}
-              />
-            </div>
-          )
-        }
+                }
+              })
+            }}
+          />
+          <WalletConnectOption
+            title="Metamask"
+            className="WalletConnectOption--metamask"
+            imgSrc="/static/images/wallet-option-metamask.png"
+            onClick={() => {
+              connectInjected('metamask')
+              closeModal$.next(true)
+            }}
+          />
+        </div>
+
+        <div className="ConnectWalletPopup__noWalletGuide">
+          <p className="ConnectWalletPopup__noWalletTitle">{I18n.t('connectWallet.noWallet.title')}</p>
+          <p className="ConnectWalletPopup__noWalletDescription">{I18n.t('connectWallet.noWallet.description')}</p>
+
+          <p className="ConnectWalletPopup__makeWallet">
+            {I18n.t('connectWallet.makeWallet', {
+              title: 'Klip'
+            })} {'>'}
+          </p>
+          <p className="ConnectWalletPopup__makeWallet">
+            {I18n.t('connectWallet.makeWallet', {
+              title: 'D`CENT'
+            })} {'>'}
+          </p>
+          <p className="ConnectWalletPopup__makeWallet">
+            {I18n.t('connectWallet.makeWallet', {
+              title: 'Metamask'
+            })} {'>'}
+          </p>
+        </div>
       </Modal>
     )
   }

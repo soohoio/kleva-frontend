@@ -9,6 +9,7 @@ import TVL from './TVL'
 import Hamburger from './Hamburger'
 import LYFPrice from './LYFPrice'
 import ConnectWallet from './ConnectWallet'
+import { currentTab$ } from '../streams/view'
 
 class Header2 extends Component {
 
@@ -37,6 +38,9 @@ class Header2 extends Component {
         <div className="Header2__content">
           <div className="Header2__left">
             <img
+              onClick={() => {
+                currentTab$.next(null)
+              }}
               className="Header2__logo"
               src="/static/images/kleva.logo.svg"
             />

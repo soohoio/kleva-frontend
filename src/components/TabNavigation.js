@@ -45,7 +45,7 @@ class TabNavigation extends Component {
           <div className="TabNavigation__tabs">
             <TabNavigationItem onClick={() => currentTab$.next('myasset')} isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
             <TabNavigationItem onClick={() => currentTab$.next('lendnstake')} isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
-            <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming')} />
+            <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming1')} />
           </div>
           <div className="TabNavigation__right">
             <SubMenu />

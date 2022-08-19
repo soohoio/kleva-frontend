@@ -21,6 +21,7 @@ class WKLAYSwitcher extends Component {
     merge(
       this.bloc.isWrapping$,
       this.bloc.klayAmountToWrap$,
+      this.bloc.wklayAmountToUnwrap$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -33,8 +34,64 @@ class WKLAYSwitcher extends Component {
     this.destroy$.next(true)
   }
 
-  render() {
+  renderWKLAYToKLAY = () => {
     const { balancesInWallet } = this.props
+
+    const availableBalance = balancesInWallet[tokenList.WKLAY.address] && balancesInWallet[tokenList.WKLAY.address].balanceParsed
+
+    const isUnwrapDisabled = !this.bloc.wklayAmountToUnwrap$.value
+      || new BigNumber(this.bloc.wklayAmountToUnwrap$.value).lte(0)
+      || new BigNumber(this.bloc.wklayAmountToUnwrap$.value).gt(availableBalance)
+      || !isValidDecimal(this.bloc.wklayAmountToUnwrap$.value, 18)
+
+    return (
+      <div className="WKLAYSwitcher">
+        <div className="WKLAYSwitcher__available">
+          <span className="WKLAYSwitcher__availableLabel">{I18n.t('lendstake.controller.available')} WKLAY</span>
+          <span className="WKLAYSwitcher__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+        </div>
+        <div className="WKLAYSwitcher__inputAndButton">
+          <InputWithPercentage
+            noPercentage
+            className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
+            decimalLimit={18}
+            value$={this.bloc.wklayAmountToUnwrap$}
+            valueLimit={availableBalance}
+            targetToken={tokenList.WKLAY}
+          />
+          {this.bloc.isWrapping$.value
+            ? (
+              <button
+                className="WKLAYSwitcher__wrapButton"
+              >
+                ...
+              </button>
+            )
+            : (
+              <button
+                onClick={() => {
+                  if (isUnwrapDisabled) return
+                  this.bloc.unwrapWKLAY()
+                }}
+                className={cx("WKLAYSwitcher__wrapButton", {
+                  "WKLAYSwitcher__wrapButton--disabled": isUnwrapDisabled,
+                })}
+              >
+                {I18n.t('switch')}
+              </button>
+            )
+          }
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const { balancesInWallet, toKLAY } = this.props
+
+    if (!!toKLAY) {
+      return this.renderWKLAYToKLAY()
+    }
 
     const availableBalance = balancesInWallet[tokenList.KLAY.address] && balancesInWallet[tokenList.KLAY.address].balanceParsed
 

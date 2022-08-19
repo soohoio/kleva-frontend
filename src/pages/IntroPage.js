@@ -1,23 +1,38 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of } from 'rxjs'
+import { Subject, merge, of, BehaviorSubject, interval, fromEvent } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
+import './MainPage.scss'
+import Header2 from '../components/Header2'
+import TabNavigation from '../components/TabNavigation'
+import NotificationBanner from '../components/NotificationBanner'
+
 import './IntroPage.scss'
+import Intro1 from '../components/intro/Intro1'
+import Intro2 from '../components/intro/Intro2'
+import Intro3 from '../components/intro/Intro3'
+import Intro4 from '../components/intro/Intro4'
+import Intro5 from '../components/intro/Intro5'
+import Intro6 from '../components/intro/Intro6'
+import Intro7 from '../components/intro/Intro7'
+
+import { showStartButton$ } from 'streams/ui'
 
 class IntroPage extends Component {
+  $app = createRef()
+
   destroy$ = new Subject()
   
   componentDidMount() {
     merge(
-      of(true),
+      showStartButton$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
     })
-    
   }
   
   componentWillUnmount() {
@@ -25,10 +40,20 @@ class IntroPage extends Component {
   }
     
   render() {
-    
     return (
       <div className="IntroPage">
-        
+        <Header2 />
+        <TabNavigation />
+        <NotificationBanner />
+        <div ref={this.$app} className="IntroPage__tabContent">
+          <Intro1 shouldShow={showStartButton$.value} />
+          <Intro2 />
+          <Intro3 />
+          <Intro4 />
+          <Intro5 />
+          <Intro6 />
+          {/* <Intro7 /> */}
+        </div>
       </div>
     )
   }

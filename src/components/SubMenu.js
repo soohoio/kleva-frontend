@@ -6,6 +6,10 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './SubMenu.scss'
 import LanguageChange from './LanguageChange';
 import { I18n } from './common/I18n';
+import { openModal$ } from '../streams/ui'
+import WKLAYSwitchModal from './modals/WKLAYSwitchModal'
+import { selectedAddress$ } from '../streams/wallet'
+import ConnectWalletPopup from './ConnectWalletPopup'
 
 class SubMenu extends Component {
 
@@ -31,7 +35,22 @@ class SubMenu extends Component {
     
     return (
       <div className="SubMenu">
-        <div className="SubMenu__item SubMenu__item--switch">{I18n.t('wklaySwitch')}</div>
+        <div 
+          onClick={() => {
+
+            if (!selectedAddress$.value) {
+              openModal$.next({
+                component: <ConnectWalletPopup />
+              })
+              return
+            }
+
+            openModal$.next({
+              component: <WKLAYSwitchModal />
+            })
+          }}
+          className="SubMenu__item SubMenu__item--switch"
+        >{I18n.t('wklaySwitch')}</div>
         <div className="SubMenu__item SubMenu__item--guide">{I18n.t('useGuide')}</div>
         <LanguageChange />
       </div>

@@ -11,6 +11,12 @@
   }
 }
 
+.MyAsset__tabs {
+  @include desktop {
+    margin-bottom: 60px;
+  }
+}
+
 .MyAsset__header {
   @include desktop {
     width: $CONTENT_WIDTH;

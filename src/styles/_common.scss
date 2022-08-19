@@ -111,3 +111,17 @@ $CONTENT_WIDTH: 980px;
   grid-template-columns: 2fr 1fr 2fr 2fr 1fr auto;
 
 }
+
+.mobileOnly {
+  display: inline;
+  @include desktop {
+    display: none;
+  }
+}
+
+.desktopOnly {
+  display: none;
+  @include desktop {
+    display: inline;
+  }
+}

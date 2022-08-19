@@ -2,6 +2,7 @@ import { Subject, BehaviorSubject, fromEvent, interval, merge, timer } from 'rxj
 import { distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators'
 import { v4 as uuidV4 } from 'uuid'
 import { currentTab$ } from './view'
+import { browserHistory } from 'react-router'
 
 export const modalContentComponent$ = new BehaviorSubject(null)
 export const overlayBackgroundColor$ = new BehaviorSubject(null)
@@ -126,6 +127,14 @@ removeBanner$.subscribe(({ key }) => {
 
 currentTab$.pipe(
   distinctUntilChanged(),
-).subscribe(() => {
+).subscribe((tab) => {
   contentView$.next(null)
+  
+  if (!tab) {
+    browserHistory.push('/')
+    return
+  }
+  browserHistory.push('/main')
 })
+
+export const showStartButton$ = new BehaviorSubject(false)

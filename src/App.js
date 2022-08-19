@@ -26,7 +26,7 @@ import {
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
-import { isFocused$, openModal$, showFooter$ } from './streams/ui'
+import { isFocused$, openModal$, showFooter$, showStartButton$ } from './streams/ui'
 import { debtTokens, ibTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
@@ -251,6 +251,7 @@ class App extends Component<Props> {
   }
 
   checkShowFooter = () => {
+
     const scrollHeight = this.$app.current.scrollHeight
     const clientHeight = this.$app.current.clientHeight
     const height = scrollHeight - clientHeight
@@ -258,6 +259,10 @@ class App extends Component<Props> {
 
     const shouldShow = ((scrollTop / height) > 0.8) || (height - scrollTop < 52)
     showFooter$.next(shouldShow)
+
+    const shouldShowStartButton = scrollTop > 200
+
+    showStartButton$.next(shouldShowStartButton)
   }
 
   componentWillUnmount() {

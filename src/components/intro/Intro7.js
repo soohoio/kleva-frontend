@@ -3,9 +3,11 @@ import cx from 'classnames'
 import { Subject, merge, of } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
-import './ThickHR.scss'
+import { I18n } from '../common/I18n'
 
-class ThickHR extends Component {
+import './Intro7.scss'
+
+class Intro7 extends Component {
 
   destroy$ = new Subject()
   
@@ -26,16 +28,14 @@ class ThickHR extends Component {
   }
     
   render() {
-    const { size } = this.props
+    
     return (
-      <div 
-        style={{
-          height: `${size}px`
-        }} 
-        className="ThickHR" 
-      />
+      <div className="Intro7">
+        <p>{I18n.t('intro7.title')}</p>
+        <button>{I18n.t('intro7.see')}</button>
+      </div>
     )
   }
 }
 
-export default ThickHR
+export default Intro7

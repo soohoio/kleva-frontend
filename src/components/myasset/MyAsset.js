@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of, BehaviorSubject } from 'rxjs'
-import { takeUntil, tap, debounceTime } from 'rxjs/operators'
+import { Subject, merge, of, BehaviorSubject, interval } from 'rxjs'
+import { filter, takeUntil, tap, debounceTime, switchMap, startWith } from 'rxjs/operators'
 import { I18n } from '../common/I18n'
 
 import { contentView$ } from 'streams/ui'
@@ -13,6 +13,18 @@ import './MyAsset.scss'
 import Tabs from '../common/Tabs'
 import LendNStakeAssetList from './LendNStakeAssetList'
 import FarmingAssetList from './FarmingAssetList'
+import { balancesInStakingPool$, selectedAddress$ } from '../../streams/wallet'
+import Guide from '../common/Guide'
+import { openModal$ } from '../../streams/ui'
+import ConnectWalletPopup from '../ConnectWalletPopup'
+import { getOriginalTokenFromIbToken, ibTokenByAddress } from '../../constants/tokens'
+import { tokenPrices$ } from '../../streams/tokenPrice'
+import { lendingTokenSupplyInfo$ } from '../../streams/vault'
+import { currentTab$ } from '../../streams/view'
+import { getPositions$, getPositionsAll$ } from '../../streams/graphql'
+import { hasPosition$, positions$ } from '../../streams/farming'
+
+
 
 class MyAsset extends Component {
   destroy$ = new Subject()
@@ -24,12 +36,31 @@ class MyAsset extends Component {
     merge(
       contentView$,
       this.assetMenu$,
+      hasPosition$,
+      selectedAddress$,
+      balancesInStakingPool$,
+      tokenPrices$,
+      lendingTokenSupplyInfo$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
     })
+
+    selectedAddress$.pipe(
+      filter((account) => !!account),
+      switchMap(() => {
+        return interval(1000 * 30).pipe(
+          startWith(0),
+          switchMap(() => getPositions$(selectedAddress$.value, 1))
+        )
+      }),
+      tap((positions) => {
+        hasPosition$.next(positions.length != 0)
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe()
   }
 
   componentWillUnmount() {
@@ -48,7 +79,64 @@ class MyAsset extends Component {
     return <FarmingAssetList />
   }
 
+  getIbTokenValues = () => {
+    return balancesInStakingPool$.value && Object.entries(balancesInStakingPool$.value).reduce((acc, [ibTokenAddress, { balanceParsed }]) => {
+
+      const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[ibTokenAddress.toLowerCase()])
+      const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
+
+      const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
+
+      const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
+
+      return new BigNumber(acc).plus(
+        new BigNumber(originalTokenPrice)
+          .multipliedBy(ibTokenPrice)
+          .multipliedBy(balanceParsed)
+      ).toNumber()
+    }, 0)
+  }
+
   render() {
+
+    if (!selectedAddress$.value) {
+      return (
+        <Guide 
+          title={I18n.t('guide.connectWallet.title')}
+          buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
+          onClick={() => {
+            openModal$.next({
+              component: <ConnectWalletPopup />
+            })
+          }}
+        />
+      )
+    }
+    
+    const ibTokenValueTotal = this.getIbTokenValues()
+
+    if (ibTokenValueTotal == 0 && !hasPosition$.value) {
+      return (
+        <Guide
+          title={I18n.t('guide.emptyManagedAsset.title')}
+          buttons={[
+            {
+              title: I18n.t('guide.emptyManagedAsset.buttoneTitle1'),
+              onclick: () => {
+                currentTab$.next('lendnstake')
+              }
+            },
+            {
+              title: I18n.t('guide.emptyManagedAsset.buttoneTitle2'),
+              onclick: () => {
+                currentTab$.next('farming')
+              }
+            }
+          ]}
+        />
+      )
+    }
+
     return (
       <>
         {!contentView$.value && (

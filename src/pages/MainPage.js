@@ -33,6 +33,9 @@ class MainPage extends Component {
   }
 
   renderTab = () => {
+
+    console.log(currentTab$.value, 'currentTab$.value')
+
     if (currentTab$.value == 'myasset') {
       return (
         <MyAsset />

@@ -1,0 +1,40 @@
+.IntroPage {
+  height: 100vh;
+
+  .TabNavigation {
+    display: none;
+  }
+  
+  .TabNavigation {
+    display: none;
+  }
+
+  .NotificationBanner {
+    display: none;
+  }
+
+  @include desktop {
+   .TabNavigation {
+      display: flex;
+    }
+
+    .NotificationBanner {
+      display: flex;
+    } 
+  }
+}
+
+.IntroPage__tabContent {
+
+  width: 100%;
+  // margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 100px;
+
+  @include desktop {
+    // width: $CONTENT_WIDTH;
+    padding: 0;
+    padding-top: 0;
+    padding-bottom: 100px;
+  }
+}

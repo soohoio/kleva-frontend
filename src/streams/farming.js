@@ -45,3 +45,5 @@ positions$.pipe(
 export const protocolAPR$ = new BehaviorSubject(0)
 
 export const fetchLendingInfo$ = new Subject()
+
+export const hasPosition$ = new BehaviorSubject()
