@@ -94,6 +94,8 @@ class FarmAssetCard extends Component {
 
       userFarmingTokenAmount,
       userBaseTokenAmount,
+      selectedAddress,
+      lpToken,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -281,8 +283,8 @@ class FarmAssetCard extends Component {
                 openContentView$.next({
                   component: (
                     <AdjustPosition
-                      title="Adjust Position"
                       id={id}
+                      lpToken={lpToken}
                       positionId={positionId}
                       vaultAddress={vaultAddress}
                       farmingToken={farmingToken}
@@ -290,14 +292,20 @@ class FarmAssetCard extends Component {
                       workerInfo={workerInfo}
                       leverageCap={leverageCap}
 
-                      defaultLeverage={currentPositionLeverage}
-
-                      yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                      tradingFeeAPRBefore={before_tradingFeeAPR}
-                      klevaRewardsAPRBefore={before_klevaRewardsAPR}
                       borrowingInterestAPRBefore={before_borrowingInterestAPR}
 
                       baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
+
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
+
+                      offset={0.5}
                     />
                   )
                 })

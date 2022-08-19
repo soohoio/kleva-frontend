@@ -169,6 +169,9 @@ class FarmingAssetList extends Component {
               return (
                 <FarmAssetCard 
                   key={positionInfo && positionInfo.id}
+
+                  selectedAddress={selectedAddress$.value}
+
                   userFarmingTokenAmount={userFarmingTokenAmount}
                   userBaseTokenAmount={userBaseTokenAmount}
                   poolInfo={klayswapPoolInfo$.value}

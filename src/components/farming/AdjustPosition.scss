@@ -46,9 +46,14 @@
 }
 
 .AdjustPosition__cancelButton {
-  @include button-1(50px);
-  background-color: #EDF2FC;
-  color: #265FFC;
+
+  display: none;
+
+  @include desktop {
+    @include button-1(50px);
+    background-color: #EDF2FC;
+    color: #265FFC;
+  }
 }
 
 .AdjustPosition__left {
