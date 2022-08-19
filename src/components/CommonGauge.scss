@@ -5,37 +5,50 @@
 .CommonGauge__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
-  margin-bottom: 28px;
 }
 
 .CommonGauge__title {
-  @include font-style('font-1', 'm', 18px);
-  color: #131414;
+  @include font-style('font-1', 'sb', 16px);
+  display: block;
+  color: #687395;
+  margin-bottom: 15px;
 }
 
 .CommonGauge__description {
-  @include font-style('font-1', 'm', 11px);
-  margin-top: 2px;
-  color: rgba(73, 74, 77, 0.5);
+
+  p {
+    margin-bottom: 4px;
+  }
+
+  span {
+    @include font-style('font-1', 'm', 15px);
+    color: #969BAB;
+  }
+
+  strong {
+    @include font-style('font-1', 'b', 20px);
+    color: #222222;
+    margin-right: 4px;
+  }
 }
 
 .CommonGauge__inputWrapper {
   display: flex;
-  padding: 0 12px;
+  width: 90px;
+  padding: 12px 18px;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  border: solid 1px #f2f2f2;
-  background-color: #fcfcfc;
-  width: 72px;
-  height: 32px;
+  border-radius: 5px;
+  border: 0;
+  background: #F5F7FA;
+  height: 40px;
 }
 
 .CommonGauge__leverageInput {
-  @include font-style('font-1', 'sb', 13px);
-  color: #797b80;
+  @include font-style('font-1', 'b', 16px);
+  color: #265FFC;
   background-color: transparent;
   border: 0;
   outline: 0;
@@ -43,8 +56,8 @@
 }
 
 .CommonGauge__x {
-  @include font-style('font-1', 'sb', 13px);
-  color: #494a4d;
+  @include font-style('font-1', 'sb', 16px);
+  color: #265FFC;
 }
 
 // Gauge Bar
@@ -59,7 +72,7 @@
   top: 50%;
   transform: translateY(-50%);
   border-radius: 2px;
-  background-color: #3369ff;
+  background-color: #3A6EFC;
   height: 4px;
   z-index: 9;
   max-width: 100%;
@@ -93,7 +106,7 @@
 
   &--active {
 
-    border: solid 3px #3369ff;
+    border: solid 3px #3A6EFC;
 
     .GaugeBar__barItemLabel {
       @include font-style('font-1', 'sb', 13px);
@@ -112,13 +125,18 @@
 
 .GaugeBar__barHead {
   position: absolute;
-  width: 16px;
-  height: 16px;
-  border: solid 2px #3369ff;
-  background-color: #3369ff;
+  width: 25px;
+  height: 25px;
+  border: solid 2px #3A6EFC;
+  background-color: #ffffff;
   border-radius: 50%;
 
   z-index: 99;
   top: 50%;
   transform: translateY(-50%);
+}
+
+
+.ClosePositionPopup__warn {
+  margin-bottom: 10px;
 }

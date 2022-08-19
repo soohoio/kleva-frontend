@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime, distinctUntilChanged, switchMap } from 'r
 import Bloc from './ClosePosition.bloc'
 import './ClosePosition.scss'
 import ModalHeader from '../modals/ModalHeader'
-import { toAPY } from '../../utils/calc'
+import { getBufferedWorkFactorBps, getEachTokenBasedOnLPShare, toAPY } from '../../utils/calc'
 import { I18n } from '../common/I18n'
 import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
@@ -21,13 +21,15 @@ import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
 import { slippage$ } from '../../streams/setting'
 import { addressKeyFind, nFormatter, noRounding } from '../../utils/misc'
-import { checkAllowances$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
+import { checkAllowances$, getDebtRepaymentRange$, getLpAmounts$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
 import Tabs from '../common/Tabs'
 import BeforeAfter from '../BeforeAfter'
 import ThickHR from '../common/ThickHR'
 import RadioSet2 from '../common/RadioSet2'
+import PartialController from '../PartialController'
+import { klayswapPoolInfo$ } from '../../streams/farming'
 
 class ClosePosition extends Component {
   destroy$ = new Subject()
@@ -44,8 +46,17 @@ class ClosePosition extends Component {
       getPositionInfo_single$({
         workerAddress: this.props.workerInfo.workerAddress,
         positionId: this.props.positionId,
+      }),
+      getLpAmounts$({
+        workerAddress: this.props.workerInfo.workerAddress,
+        positionId: this.props.positionId,
       })
-    ).subscribe(([{ baseAmt, farmAmt }, { positionValue, health, debtAmt }]) => {
+    ).subscribe((
+        [
+          { baseAmt, farmAmt }, 
+          { positionValue, health, debtAmt },
+          { balance, share }
+      ]) => {
       this.bloc.before_farmingAmount$.next(farmAmt)
       this.bloc.before_baseAmount$.next(baseAmt)
       this.bloc.before_positionValue$.next(positionValue)
@@ -53,10 +64,14 @@ class ClosePosition extends Component {
       this.bloc.before_debtAmount$.next(debtAmt)
 
       this.bloc.before_equityValue$.next(new BigNumber(positionValue).minus(debtAmt).toString())
+
+      this.bloc.lpAmount$.next(balance)
+      this.bloc.lpShare$.next(share)
     })
 
     merge(
       balancesInWallet$,
+      klayswapPoolInfo$,
       merge(
         this.bloc.before_farmingAmount$,
         this.bloc.before_baseAmount$,
@@ -128,15 +143,12 @@ class ClosePosition extends Component {
       this.bloc.addCollateralAvailable$,
       this.bloc.isDebtSizeValid$,
       this.bloc.borrowMoreAvailable$,
-      this.bloc.entirelyClose$,
       this.bloc.closingMethod$.pipe(
         tap(() => {
           console.log('get result!')
           this.bloc.getCloseResult()
         })
       ),
-      this.bloc.partialCloseRatio$,
-      this.bloc.repayDebtRatio$,
       this.bloc.debtRepaymentAmount$,
       this.bloc.repayPercentageLimit$,
       this.bloc.receiveBaseTokenAmt$,
@@ -145,6 +157,177 @@ class ClosePosition extends Component {
       this.bloc.tokenOutAmount$,
       this.bloc.priceImpactBps$,
       this.bloc.priceImpactBpsWithoutFee$,
+      this.bloc.updatedPositionValue$,
+      this.bloc.updatedHealth$,
+      this.bloc.updatedDebtAmt$,
+      this.bloc.lpAmount$,
+      this.bloc.lpShare$,
+      this.bloc.newUserBaseTokenAmount$,
+      this.bloc.newUserFarmingTokenAmount$,
+      merge(
+        this.bloc.entirelyClose$,
+        this.bloc.partialCloseRatio$,
+        this.bloc.repayDebtRatio$,
+      ).pipe(
+        tap(() => {
+          this.bloc.getCloseResult()
+        }),
+        tap(() => {
+
+          console.log(this.bloc.lpAmount$.value, 'this.bloc.lpAmount$.value')
+
+          const closedLpAmt = new BigNumber(this.bloc.lpAmount$.value)
+            .multipliedBy(this.bloc.partialCloseRatio$.value)
+            .div(100)
+            .toFixed(0)
+
+          console.log(closedLpAmt, 'closedLpAmt')
+
+          return getDebtRepaymentRange$({
+            workerAddress: this.props.workerInfo.workerAddress,
+            positionId: this.props.positionId,
+            closedLpAmt,
+          }).subscribe(({
+            closedPositionValue,
+            closedHealth,
+            minDebtRepayment,
+            maxDebtRepayment,
+          }) => {
+
+            const newPositionValue = new BigNumber(this.bloc.before_positionValue$.value)
+              .minus(closedPositionValue)
+              .toString()
+
+            const newHealth = new BigNumber(this.bloc.before_health$.value)
+              .minus(closedHealth)
+              .toString()
+
+            const debtRepayment = new BigNumber(closedPositionValue)
+              .multipliedBy(this.bloc.repayDebtRatio$.value / 100)
+              .toString()
+
+            const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
+              .minus(debtRepayment)
+              .toString()
+
+            const newEquityValue = new BigNumber(newPositionValue)
+              .minus(newDebtValue)
+              .toString()
+
+            const finalCalculatedLeverage = new BigNumber(newPositionValue).div(newEquityValue).toNumber()
+            this.bloc.finalCalculatedLeverage$.next(finalCalculatedLeverage)
+
+            this.bloc.newPositionValue$.next(newPositionValue)
+            this.bloc.newDebtValue$.next(newDebtValue)
+            this.bloc.debtRepaymentAmount$.next(debtRepayment)
+
+            const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.props.lpToken?.address)
+
+            const {
+              userFarmingTokenAmountPure: newUserFarmingTokenAmount,
+              userBaseTokenAmountPure: newUserBaseTokenAmount,
+            } = getEachTokenBasedOnLPShare({
+              poolInfo,
+              // lpShare: 1 * 10 ** lpToken.decimals,
+              lpShare: new BigNumber(this.bloc.lpShare$.value)
+                .multipliedBy((100 - this.bloc.partialCloseRatio$.value))
+                .div(100)
+                .toString(),
+              farmingToken: this.props.farmingToken,
+              baseToken: this.props.baseToken,
+              totalShare: this.props.totalShare,
+              totalStakedLpBalance: this.props.totalStakedLpBalance,
+            })
+            
+            this.bloc.newUserBaseTokenAmount$.next(newUserBaseTokenAmount)
+            this.bloc.newUserFarmingTokenAmount$.next(newUserFarmingTokenAmount)
+
+            const { rawKillFactorBps, workFactorBps } = this.bloc.getConfig()
+
+            const bufferedWorkFactorBps = getBufferedWorkFactorBps(workFactorBps)
+
+            const ibToken = getIbTokenFromOriginalToken(this.props.baseToken)
+
+            const a1 = new BigNumber(newHealth).multipliedBy(bufferedWorkFactorBps).toString()
+            const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
+
+            const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+
+            const minDebtSizeParsed = new BigNumber(ibToken?.minDebtSize).div(10 ** ibToken?.decimals).toString()
+
+            const debtValue = this.bloc.before_debtAmount$.value
+
+            const neededRepayAmount = new BigNumber(debtValue)
+              .minus(new BigNumber(a1).div(10 ** 4))
+              .div(10 ** this.props.baseToken.decimals)
+              .toFixed(4)
+
+            const neededRepayAmountInGaugeRatio = new BigNumber(neededRepayAmount)
+              .multipliedBy(10 ** this.props.baseToken.decimals)
+              .div(closedPositionValue)
+              .multipliedBy(100)
+              .toFixed(2)
+
+            // Calculate Debt Repay Percentage Limit
+            const repayPercentageLimit = new BigNumber(maxDebtRepayment)
+              .div(closedPositionValue)
+              .multipliedBy(100)
+              .toString()
+
+            const availableMaxPartialCloseRatio = new BigNumber(1)
+              .minus(
+                new BigNumber(ibToken?.minDebtSize)
+                  .multipliedBy(10 ** 4)
+                  .div(new BigNumber(this.bloc.before_health$.value).multipliedBy(bufferedWorkFactorBps))
+              )
+              .multipliedBy(100)
+              .multipliedBy(0.99) // 1% buffer
+              .toString()
+
+            // Impossible Partial Close Ratio Situation
+            // 1) repay debt ratio should be A,
+            // 2) But when the ratio becomes A, the position can't meet min debt size criteria.
+            // So in this case, you can't execute 'partial close'.
+            const isImpossiblePartialCloseRatio = new BigNumber(debtValue).minus(
+              new BigNumber(neededRepayAmount).multipliedBy(10 ** this.props.baseToken?.decimals)
+            ).lt(ibToken?.minDebtSize)
+
+            const isDebtTooLow = new BigNumber(debtValue).lte(ibToken?.minDebtSize)
+
+            const isYouMustRepayMoreSituation = (neededRepayAmount != 0) && !(new BigNumber(a1).isGreaterThan(a2))
+
+            const isAvailablePartialCloseRatioTooLow = availableMaxPartialCloseRatio < 2
+
+            const isPartialCloseRatioTooGreat = !new BigNumber(this.bloc.partialCloseRatio$.value).lt(availableMaxPartialCloseRatio)
+
+            const _partialClosePositionAvailable = this.bloc.partialCloseRatio$.value != 0
+              && isDebtSizeValid
+              && !isPartialCloseRatioTooGreat
+              && !isImpossiblePartialCloseRatio
+              && !isYouMustRepayMoreSituation
+              && !isAvailablePartialCloseRatioTooLow
+              && !isDebtTooLow
+
+            this.bloc.repayPercentageLimit$.next(repayPercentageLimit)
+
+            this.bloc.partialCloseAvailable$.next({
+              status: _partialClosePositionAvailable,
+              reason: this.getErrorReason({
+                isDebtSizeValid,
+                isImpossiblePartialCloseRatio,
+                isYouMustRepayMoreSituation,
+                availableMaxPartialCloseRatio,
+                isPartialCloseRatioTooGreat,
+                neededRepayAmount,
+                neededRepayAmountInGaugeRatio,
+                isAvailablePartialCloseRatioTooLow,
+                minDebtSizeParsed,
+                isDebtTooLow,
+              }),
+            })
+          })
+        })
+      )
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -176,42 +359,45 @@ class ClosePosition extends Component {
     this.destroy$.next(true)
   }
 
+  getErrorReason = ({
+    isDebtSizeValid,
+    isImpossiblePartialCloseRatio,
+    isYouMustRepayMoreSituation,
+    isAvailablePartialCloseRatioTooLow,
+    isDebtTooLow,
+    isPartialCloseRatioTooGreat,
+
+    availableMaxPartialCloseRatio,
+    neededRepayAmount,
+    neededRepayAmountInGaugeRatio,
+    minDebtSizeParsed,
+  }) => {
+
+    if (isAvailablePartialCloseRatioTooLow || isDebtTooLow) {
+      return `You can't close this position partially. Please use "Entirely Close" instead.`
+    }
+
+    if (!isDebtSizeValid) {
+      return `Your updated Debt Value is less than the minimum required debt which is ${minDebtSizeParsed} ${this.props.baseToken.title}.` // invalid debt
+    }
+
+    if (isPartialCloseRatioTooGreat || isImpossiblePartialCloseRatio) {
+      return `You can't close the position with that ratio. It must be less than ${Number(availableMaxPartialCloseRatio).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`
+    }
+
+    if (isYouMustRepayMoreSituation) {
+      return `You must repay enough debt to lower your position's Debt Ratio below the maximum allowed when partially closing a position on this pool. In this case, you must repay ${neededRepayAmount} ${this.props.baseToken.title} (~${neededRepayAmountInGaugeRatio}%) of the closed amount.`
+    }
+
+    return null
+  }
+
   renderButtons = () => {
     const { farmingToken, baseToken, vaultAddress } = this.props
 
-    const ibToken = getIbTokenFromOriginalToken(baseToken)
-
-    const baseTokenAllowance = isKLAY(baseToken.address)
-      ? addressKeyFind(this.bloc.allowances$.value, tokenList.WKLAY.address)
-      : addressKeyFind(this.bloc.allowances$.value, baseToken.address)
-
-    const isBaseTokenApproved = this.bloc.baseTokenAmount$.value == 0
-      || (baseTokenAllowance && baseTokenAllowance != 0)
-
-    const farmingTokenAllowance = isKLAY(farmingToken.address)
-      ? addressKeyFind(this.bloc.allowances$.value, tokenList.WKLAY.address)
-      : addressKeyFind(this.bloc.allowances$.value, farmingToken.address)
-
-    const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0
-      || (farmingTokenAllowance && farmingTokenAllowance != 0)
-
-    const availableFarmingTokenAmount = balancesInWallet$.value[farmingToken.address]
-    const availableBaseTokenAmount = isKLAY(baseToken.address)
-      ? balancesInWallet$.value[tokenList.WKLAY.address]
-      : balancesInWallet$.value[baseToken.address]
-
-    const isAddCollateralDisabled =
-      new BigNumber(this.bloc.baseTokenAmount$.value).gt(availableBaseTokenAmount?.balanceParsed)
-      || new BigNumber(this.bloc.farmingTokenAmount$.value).gt(availableFarmingTokenAmount?.balanceParsed)
-      || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
-      || !this.bloc.addCollateralAvailable$.value
-
-    const isBorrowMoreDisabled = (Number(noRounding(this.bloc.leverage$.value, 2)) == Number(noRounding(this.props.currentPositionLeverage, 2)))
-      || !this.bloc.borrowMoreAvailable$.value
-
-    const isDisabled = this.bloc.borrowMore$.value
-      ? isBorrowMoreDisabled
-      : isAddCollateralDisabled
+    const isDisabled = this.bloc.entirelyClose$.vaule 
+      ? false
+      : !this.bloc.partialCloseAvailable$.value?.status
 
     return (
       <>
@@ -222,55 +408,24 @@ class ClosePosition extends Component {
             })}
           </p>
         )}
-        {(!isFarmingTokenApproved || !isBaseTokenApproved) && (
-          <p className="ClosePosition__needApprove">{I18n.t('needApprove')}</p>
-        )}
         <div className="ClosePosition__buttons">
           <button onClick={() => closeContentView$.next(true)} className="ClosePosition__cancelButton">
             {I18n.t('cancel')}
           </button>
-          {!isFarmingTokenApproved && (
-            <button
-              onClick={() => this.bloc.approve(farmingToken, vaultAddress)}
-              className="ClosePosition__button"
-            >
-              {this.bloc.isLoading$.value
-                ? "..."
-                : I18n.t('approveToken', {
-                  token: isKLAY(farmingToken.address)
-                    ? 'WKLAY'
-                    : farmingToken.title
-                })
-              }
-            </button>
-          )}
-          {!isBaseTokenApproved && (
-            <button
-              onClick={() => this.bloc.approve(baseToken, vaultAddress)}
-              className="ClosePosition__button"
-            >
-              {this.bloc.isLoading$.value
-                ? "..."
-                : I18n.t('approveToken', { token: baseToken.title })
-              }
-            </button>
-          )}
-          {isBaseTokenApproved && isFarmingTokenApproved && (
-
-            <button
-              onClick={() => {
-                this.bloc.closePosition()
-              }}
-              className={cx("ClosePosition__button", {
-                "ClosePosition__button--disabled": isDisabled,
-              })}
-            >
-              {this.bloc.isLoading$.value
-                ? "..."
-                : I18n.t('myasset.withdraw')
-              }
-            </button>
-          )}
+          <button
+            onClick={() => {
+              if (isDisabled) return
+              this.bloc.closePosition()
+            }}
+            className={cx("ClosePosition__button", {
+              "ClosePosition__button--disabled": isDisabled,
+            })}
+          >
+            {this.bloc.isLoading$.value
+              ? "..."
+              : I18n.t('myasset.withdraw')
+            }
+          </button>
         </div>
       </>
     )
@@ -365,6 +520,8 @@ class ClosePosition extends Component {
       defaultLeverage,
       yieldFarmingAPR,
       tradingFeeAPR,
+      klevaRewardAPR,
+      borrowingInterestAPRBefore,
       workerInfo,
 
       farmingToken,
@@ -382,17 +539,24 @@ class ClosePosition extends Component {
     // config
     const { leverageCap } = this.bloc.getConfig()
 
-    // before / after
     const {
-      before_totalAPR,
-      after_yieldFarmingAPR,
-      after_tradingFeeAPR,
-      after_klevaRewardsAPR,
-      borrowingInfo,
-      after_borrowingInterestAPR,
-      after_totalAPR,
-    } = this.bloc.getBeforeAfter()
+        before_totalAPR,
+        after_totalAPR,
+        before_safetyBuffer,
+        after_debtRatio,
+        after_safetyBuffer,
+        after_yieldFarmingAPR,
+        after_tradingFeeAPR,
+        after_klevaRewardsAPR,
+        after_borrowingInterestAPR,
+    } = this.bloc.getBeforeAfterValues({
+      yieldFarmingAPRBefore: yieldFarmingAPR,
+      tradingFeeAPRBefore: tradingFeeAPR,
+      klevaRewardsAPRBefore: klevaRewardAPR,
+      borrowingInterestAPRBefore,
+    })
 
+    const before_apy = toAPY(before_totalAPR)
     const apy = toAPY(after_totalAPR)
 
     const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
@@ -415,12 +579,15 @@ class ClosePosition extends Component {
 
     const equityFarmingAmount = new BigNumber(this.bloc.before_farmingAmount$.value || 0)
       .div(10 ** farmingToken.decimals)
-      .plus(this.bloc.farmingTokenAmount$.value || 0)
+      .multipliedBy(100 - this.bloc.partialCloseRatio$.value)
+      .div(100)
       .toNumber()
 
     const equityBaseAmount = new BigNumber(this.bloc.before_baseAmount$.value || 0)
+      .minus(this.bloc.before_debtAmount$.value)
       .div(10 ** baseToken.decimals)
-      .plus(this.bloc.baseTokenAmount$.value || 0)
+      .multipliedBy(100 - this.bloc.partialCloseRatio$.value)
+      .div(100)
       .toNumber()
 
     // debt ratio
@@ -523,44 +690,97 @@ class ClosePosition extends Component {
               )
               : (
                 <>
+                  <PartialController
+                    farmingToken={farmingToken}
+                    baseToken={baseToken}
+                    userFarmingTokenAmount={new BigNumber(this.bloc.before_farmingAmount$.value).div(10 ** farmingToken.decimals).toNumber()}
+                    userBaseTokenAmount={new BigNumber(this.bloc.before_baseAmount$.value).div(10 ** baseToken.decimals).toNumber()}
+                    partialCloseRatio$={this.bloc.partialCloseRatio$}
+                    repayDebtRatio$={this.bloc.repayDebtRatio$}
+                    debtRepaymentAmount$={this.bloc.debtRepaymentAmount$}
+                    repayPercentageLimit={this.bloc.repayPercentageLimit$.value}
+                  />
+                  {this.bloc.partialCloseAvailable$.value?.reason && (
+                    <p className="ClosePositionPopup__warn">
+                      {this.bloc.partialCloseAvailable$.value?.reason}
+                    </p>
+                  )}
+
+                  <div className="ClosePosition__remainInfo">
+                    <p className="ClosePosition__remainInfoTitle">{I18n.t('farming.closePosition.remainedAsset')}</p>
+                    <LabelAndValue
+                      className="ClosePosition__totalDeposit"
+                      label={I18n.t('farming.summary.totalDeposit')}
+                      value={(
+                        <>
+                          <p>
+                            {
+                              noRounding(
+                                new BigNumber(this.bloc.newUserFarmingTokenAmount$.value)
+                                  .div(10 ** farmingToken.decimals)
+                                  .toNumber(),
+                                4
+                              )
+                            } {farmingToken.title}
+                          </p>
+                          <p>
+                            {
+                              noRounding(
+                                new BigNumber(this.bloc.newUserBaseTokenAmount$.value)
+                                  .div(10 ** baseToken.decimals)
+                                  .toNumber(),
+                                4
+                              )
+                            } {baseToken.title}
+                          </p>
+                        </>
+                      )}
+                    />
+                    <LabelAndValue
+                      className="ClosePosition__equity"
+                      label={(
+                        <>
+                          <p>{I18n.t('myasset.farming.equityValue')}</p>
+                        </>
+                      )}
+                      value={(
+                        <>
+                          <p>{nFormatter(equityFarmingAmount, 4)} {farmingToken.title}</p>
+                          <p>{nFormatter(equityBaseAmount, 4)} {baseToken.title}</p>
+                        </>
+                      )}
+                    />
+                    <LabelAndValue
+                      className="ClosePosition__debt"
+                      label={I18n.t('farming.summary.debt')}
+                      value={`${nFormatter(borrowingAmount, 4)} ${baseToken.title}`}
+                    />
+                    <LabelAndValue
+                      className="ClosePosition__debtRatio"
+                      label={I18n.t('myasset.farming.debtRatio')}
+                      value={(
+                        <>
+                          <BeforeAfter
+                            before={`${before_debtRatio.toFixed(2)}%`}
+                            after={`${debtRatio.toFixed(2)}%`}
+                          />
+                        </>
+                      )}
+                    />
+                    <LabelAndValue
+                      className="ClosePosition__apy"
+                      label={I18n.t('apy')}
+                      value={(
+                        <BeforeAfter 
+                          before={`${Number(before_apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                          after={`${Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                        />
+                      )}
+                    />
+                  </div>
                 </>
               )
             }
-            {/* {this.bloc.borrowMore$.value
-              ? (
-                <>
-                  <LeverageInput
-                    offset={offset}
-                    leverageLowerBound={this.props.currentPositionLeverage}
-                    leverageCap={leverageCap}
-                    setLeverage={this.bloc.setLeverageValue}
-                    leverage$={this.bloc.leverage$}
-                  />
-                  <LabelAndValue
-                    className="ClosePosition__borrowingAsset"
-                    label={I18n.t('farming.ClosePosition.borrowingAsset')}
-                    value={`${noRounding(debtDelta, 4)} ${baseToken.title}`}
-                  />
-                  <LabelAndValue
-                    className="ClosePosition__debtRatio"
-                    label={I18n.t('myasset.farming.debtRatio')}
-                    value={(
-                      <>
-                        <BeforeAfter
-                          before={`${before_debtRatio.toFixed(2)}%`}
-                          after={`${debtRatio.toFixed(2)}%`}
-                        />
-                      </>
-                    )}
-                  />
-                </>
-              )
-              : (
-                <>
-                  {this.renderSupplyInput({ baseToken, farmingToken })}
-                </>
-              )
-            } */}
           </div>
           <ThickHR />
           <div className="ClosePosition__right">
@@ -588,44 +808,12 @@ class ClosePosition extends Component {
                 label={I18n.t('totalReceivedAsset')}
                 value={(
                   <>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value).div(10 ** farmingToken.decimals).toNumber(), 4)} {farmingToken.title}</p>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value).div(10 ** baseToken.decimals).toNumber(), 4)} {baseToken.title}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value || 0).div(10 ** farmingToken.decimals).toNumber(), 4)} {farmingToken.title}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value || 0).div(10 ** baseToken.decimals).toNumber(), 4)} {baseToken.title}</p>
                   </>
                 )}
               />
             </div>
-            
-
-            {/* <LabelAndValue
-              className="ClosePosition__equity"
-              label={(
-                <>
-                  <p>{I18n.t('farming.summary.equity')}</p>
-                  <p>{I18n.t('farming.summary.equity.description')}</p>
-                </>
-              )}
-              value={(
-                <>
-                  <p>{noRounding(equityFarmingAmount, 4)} {farmingToken.title}</p>
-                  <p>{noRounding(equityBaseAmount, 4)} {baseToken.title}</p>
-                </>
-              )}
-            />
-            <LabelAndValue
-              className="ClosePosition__debt"
-              label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(resultDebtAmount, 4)} ${baseToken.title}`}
-            />
-            <LabelAndValue
-              className="ClosePosition__totalDeposit"
-              label={I18n.t('farming.summary.totalDeposit')}
-              value={(
-                <>
-                  <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-                  <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-                </>
-              )}
-            /> */}
           </div>
         </div>
         <div className="ClosePosition__footer">

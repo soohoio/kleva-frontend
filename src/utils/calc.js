@@ -2,6 +2,10 @@ import PriorityQueue from 'javascript-priority-queue'
 import { getIbTokenFromOriginalToken } from '../constants/tokens'
 import { addressKeyFind, isSameAddress } from './misc'
 
+export const getBufferedWorkFactorBps = (workFactorBps) => {
+  return (workFactorBps - 300) / 0.97
+}
+
 export const getBufferedLeverage = (workFactorBps) => {
   // const buffered = (workFactorBps - 100) / 0.99
   const buffered = (workFactorBps - 300) / 0.97
@@ -87,8 +91,8 @@ export const isValidDecimal = (num, decimalLimit) => {
   return decimalPoints.length <= decimalLimit
 }
 
-export const getEachTokenBasedOnLPShare = ({ 
-  poolInfo, 
+export const getEachTokenBasedOnLPShare = ({
+  poolInfo,
   lpShare,
   farmingToken,
   baseToken,
@@ -96,7 +100,7 @@ export const getEachTokenBasedOnLPShare = ({
   totalStakedLpBalance,
 }) => {
 
-  if (poolInfo && !poolInfo.supply) return { 
+  if (poolInfo && !poolInfo.supply) return {
     userFarmingTokenAmount: 0,
     userBaseTokenAmount: 0,
   }
@@ -129,14 +133,14 @@ export const getEachTokenBasedOnLPShare = ({
       .multipliedBy(portion)
       .toNumber()
 
-    return {
-      userFarmingTokenAmount: new BigNumber(userFarmingTokenAmountPure).div(10 ** farmingToken.decimals).toNumber(),
-      userBaseTokenAmount: new BigNumber(userBaseTokenAmountPure).div(10 ** baseToken.decimals).toNumber(),
+  return {
+    userFarmingTokenAmount: new BigNumber(userFarmingTokenAmountPure).div(10 ** farmingToken.decimals).toNumber(),
+    userBaseTokenAmount: new BigNumber(userBaseTokenAmountPure).div(10 ** baseToken.decimals).toNumber(),
 
-      userFarmingTokenAmountPure,
-      userBaseTokenAmountPure,
-      lpAmount,
-    }
+    userFarmingTokenAmountPure,
+    userBaseTokenAmountPure,
+    lpAmount,
+  }
 }
 
 // 

@@ -1440,12 +1440,6 @@ export const partialCloseLiquidate$ = (vaultAddress, { positionId, maxDebtRepaym
 }
 
 export const partialMinimizeTrading$ = (vaultAddress, { positionId, maxDebtRepayment, data }) => {
-  /*
-    abi.encode(
-      KlayswapPartialMinimizeTradingStrategy_address, 
-      abi.encode(maxLpTokenToLiquidate, maxDebtRepayment, minFarmingTokenAmount)
-    )
-  */
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
@@ -1683,7 +1677,11 @@ export const getLpAmounts$ = ({
       workerAddress,
       positionId,
     ]
-  })
+  }).pipe(
+    tap((result) => {
+      console.log(result, '@result@')
+    })
+  )
 }
 
 export const getLpIngridients$ = ({
@@ -1943,4 +1941,36 @@ export const getPositionValue$ = ({ workerAddress, baseTokenAmount, farmingToken
       farmingTokenAmount,
     ]
   })
+}
+
+export const getDebtRepaymentRange$ = ({
+  workerAddress,
+  positionId,
+  closedLpAmt,
+}) => {
+
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getDebtRepaymentRange",
+    params: [
+      workerAddress,
+      positionId,
+      closedLpAmt,
+    ]
+  }).pipe(
+    map(({
+      closedPositionValue,
+      closedHealth,
+      minDebtRepayment,
+      maxDebtRepayment,
+    }) => {
+      return {
+        closedPositionValue,
+        closedHealth,
+        minDebtRepayment,
+        maxDebtRepayment,
+      }
+    })
+  )
 }

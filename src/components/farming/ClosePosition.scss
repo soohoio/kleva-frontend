@@ -90,15 +90,19 @@
   }
 
   .LabelAndValue__label {
-    @include font-style('font-1', 'b', 17px);
-    color: #333333;
+    @include font-style('font-1', 'm', 15px);
+    color: #222222;
   }
-  
+
   .LabelAndValue__value {
-    @include font-style('font-1', 'b', 20px);
+    @include font-style('font-1', 'm', 16px);
+    color: #222222;
+    line-height: 20px;
+    text-align: right;
+  }
+
+  .BeforeAfter__after {
     color: #265FFC;
-    display: flex;
-    align-items: center;
   }
 }
 
@@ -120,14 +124,19 @@
 }
 
 .ClosePosition__debtRatio {
+  border-top: 1px solid #EBEEF5;
+  padding-top: 21px;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
-    color: #636879;
+    color: #222222;
   }
-  
+
   .LabelAndValue__value {
-    @include font-style('font-1', 'b', 16px);
-    color: #333333;
+    @include font-style('font-1', 'm', 16px);
+    color: #222222;
+    line-height: 20px;
+    text-align: right;
   }
 }
 
@@ -177,16 +186,15 @@
 }
 
 .ClosePosition__totalDeposit {
-  border-top: 1px solid #EBEEF5;
   padding-top: 20px;
-  margin-bottom: 26px;
+  margin-bottom: 15px;
   .LabelAndValue__label {
-    @include font-style('font-1', 'b', 15px);
+    @include font-style('font-1', 'm', 15px);
     color: #222222;
   }
 
   .LabelAndValue__value {
-    @include font-style('font-1', 'b', 16px);
+    @include font-style('font-1', 'm', 16px);
     color: #222222;
     line-height: 20px;
     text-align: right;
@@ -296,6 +304,43 @@
 
     @include font-style('font-1', 'm', 16px);
     color: #333333;
+    text-align: right;
+  }
+}
+
+.ClosePosition__remainInfoTitle {
+  @include font-style('font-1', 'b', 16px);
+  color: #222222;
+}
+
+.ClosePosition__equity {
+  margin-bottom: 15px;
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #222222;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #222222;
+    line-height: 20px;
+    text-align: right;
+  }
+}
+
+.ClosePosition__debt {
+  margin-bottom: 20px;
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #222222;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #222222;
+    line-height: 20px;
     text-align: right;
   }
 }

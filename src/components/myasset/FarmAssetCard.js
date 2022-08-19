@@ -97,6 +97,10 @@ class FarmAssetCard extends Component {
       userBaseTokenAmount,
       selectedAddress,
       lpToken,
+      lpShare,
+      
+      totalShare,
+      totalStakedLpBalance,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -265,6 +269,9 @@ class FarmAssetCard extends Component {
                       baseToken={baseToken}
                       workerInfo={workerInfo}
                       leverageCap={leverageCap}
+                      lpShare={lpShare}
+                      totalShare={totalShare}
+                      totalStakedLpBalance={totalStakedLpBalance}
 
                       borrowingInterestAPRBefore={before_borrowingInterestAPR}
 

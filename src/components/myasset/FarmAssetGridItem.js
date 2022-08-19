@@ -97,7 +97,12 @@ class FarmAssetGridItem extends Component {
 
       selectedAddress,
       lpToken,
+      lpShare,
+      totalShare,
+      totalStakedLpBalance,
     } = this.props
+
+    console.log(this.props, '@this.props')
 
     const debtValueParsed = new BigNumber(debtValue)
       .div(10 ** baseToken.decimals)
@@ -247,6 +252,10 @@ class FarmAssetGridItem extends Component {
                     yieldFarmingAPR={before_yieldFarmingAPR}
                     tradingFeeAPR={before_tradingFeeAPR}
                     klevaRewardAPR={before_klevaRewardsAPR}
+
+                    lpShare={lpShare}
+                    totalShare={totalShare}
+                    totalStakedLpBalance={totalStakedLpBalance}
 
                     offset={0.5}
                   />

@@ -110,7 +110,7 @@ class CommonGauge extends Component {
         >
           <div style={{ left: barHeadLeft }} className="GaugeBar__barHead" />
           <div style={{ width: `${barWidth}%` }} className="GaugeBar__bar" />
-          {range(barItemCount).map((idx) => {
+          {/* {range(barItemCount).map((idx) => {
             const barValue = (offset * idx)
 
             return (
@@ -136,7 +136,7 @@ class CommonGauge extends Component {
                 </p>
               </div>
             )
-          })}
+          })} */}
           <div
             className="GaugeBar__barBehind"
           />
