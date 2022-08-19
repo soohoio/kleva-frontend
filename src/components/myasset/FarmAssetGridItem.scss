@@ -1,0 +1,307 @@
+.FarmAssetGridItem {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 165px 120px;
+
+  height: 128px;
+  border-bottom: 1px solid  #E9ECF5;
+}
+
+.FarmAssetGridItem__iconWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+}
+
+.FarmAssetGridItem__titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.FarmAssetGridItem__poolInfoTitle {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 6px;
+}
+
+.FarmAssetGridItem__poolInfoExchange {
+  @include font-style('font-1', 'r', 14px);
+  color:  #969BAB;
+}
+
+.FarmAssetGridItem__apy {
+  @include font-style('font-1', 'b', 16px);
+  margin-bottom: 6px;
+  color: #265FFC;
+}
+
+.FarmAssetGridItem__apr {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}
+
+.FarmAssetGridItem__equityValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .FarmAssetGridItem__assetValue {
+    text-align: center !important;
+  }
+}
+
+.FarmAssetGridItem__debt {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FarmAssetGridItem__buttons {
+  display: flex;
+  height: 100%;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+
+}
+
+.FarmAssetGridItem__closeButton {
+  @include button-1(36px);
+  width: 100%;
+  background-color:  #EDF2FC;
+  color: #265FFC;
+  margin-bottom: 8px;
+}
+
+.FarmAssetGridItem__adjustButton {
+  @include button-1(36px);
+  width: 100%;
+  background-color:  #EDF2FC;
+  color: #265FFC;
+  margin-bottom: 8px;
+}
+
+.FarmAssetGridItem__asset {
+  display: flex;
+  align-items: center;
+}
+
+.FarmAssetGridItem__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-left: 12px;
+}
+
+.FarmAssetGridItem__icon {
+  width: 33px;
+  height: 33px;
+  
+  &:last-of-type {
+    position: relative;
+    top: -6px;
+    z-index: 9;
+  }
+}
+
+.FarmAssetGridItem__aprapy, 
+.FarmAssetGridItem__aprDetail, 
+.FarmAssetGridItem__values, 
+.FarmAssetGridItem__tokenAmount, 
+.FarmAssetGridItem__inStaking,
+.FarmAssetGridItem__withdrawWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.FarmAssetGridItem__aprDetail {
+
+  .LabelAndValue {
+    width: 100%;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 14px);
+    color: #333333;
+    flex: 1;
+    text-align: right;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'sb', 14px);
+    color: #333333;
+    flex: 1;
+    text-align: right;
+  }
+}
+
+.FarmAssetGridItem__marketValue {
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+  margin-bottom: 6px;
+  width: 100%;
+  text-align: right;
+}
+
+.FarmAssetGridItem__assetValue {
+  @include font-style('font-1', 'm', 14px);
+  color: #333333;
+  line-height: 18px;
+  width: 100%;
+  text-align: right;
+}
+
+.FarmAssetGridItem__stakingButtons {
+  display: flex;
+  height: 100%;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+
+}
+
+.FarmAssetGridItem__content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+}
+
+.FarmAssetGridItem__contentHeader {
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F2F7;
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 18px);
+    color: #222222;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+}
+
+.FarmAssetGridItem__marketValue {
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+}
+
+.FarmAssetGridItem__tokenAmount {
+  margin-bottom: 13px;
+  
+  .FarmAssetGridItem__tokenAmountValue {
+    @include font-style('font-1', 'b', 14px);
+    color: #333333;
+    margin-bottom: 6px;
+  }
+  
+  .FarmAssetGridItem__tradeableValue {
+    @include font-style('font-1', 'm', 13px);
+    color: #777D8F;
+  }
+
+  .LabelAndValue__value {
+    text-align: right;
+  }
+}
+
+.FarmAssetGridItem__stakingValue {
+  margin-bottom: 13px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 15px);
+    color: #265FFC;
+  }
+}
+
+.FarmAssetGridItem__gaugeBar {
+  margin-top: 13px;
+  position: relative;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #E6EBF7;
+
+  width: 141px;
+}
+
+.FarmAssetGridItem__gauge {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background-color: #5985FF;
+  z-index: 9;
+  border-radius: 4px;
+
+  &--yellow {
+    background-color: #FA9A00;
+  }
+
+  &--red {
+    background-color: #FF4D00;
+  }
+}
+
+.FarmAssetGridItem__unstake {
+  @include button-1(36px);
+  // max-width: 101px;
+  background-color:  #EDF2FC;
+  color: #265FFC;
+}
+
+.FarmAssetGridItem__stake {
+  @include button-1(36px);
+  // max-width: 101px;
+  background-color: #2D65FC;
+  margin-bottom: 8px;
+}
+
+.FarmAssetGridItem__withdraw {
+  @include button-1(80px);
+  @include font-style('font-1', 'b', 15px);
+  background-color: transparent;
+  width: 100%;
+  color: #265FFC;
+}
+
+.FarmAssetGridItem__debtValue {
+  @include font-style('font-1', 'm', 14px);
+  color: #333333;
+  margin-right: 3px;
+}
+
+.FarmAssetGridItem__debtRatio {
+  @include font-style('font-1', 'b', 14px);
+  color: #333333;
+
+  &--yellow {
+    color: #FA9A00 !important;
+  }
+
+  &--red {
+    color: #FF4D00 !important;
+  }
+}

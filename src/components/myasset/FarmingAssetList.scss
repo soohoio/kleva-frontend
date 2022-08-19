@@ -23,7 +23,7 @@
 
   @include desktop {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr 2fr 165px 120px;
     height: 46px;
     border-top: 1px solid rgba(#DADDE6, .6);
     border-bottom: 1px solid rgba(#E9ECF5, .8);
@@ -47,7 +47,7 @@
 
 .FarmingAssetList__aprDetailHeader {
   justify-content: center;
-  padding-left: 16px;
+  padding-left: 32px;
 }
 
 .FarmingAssetList__marketValueHeader {
@@ -65,4 +65,22 @@
 
 .FarmingAssetList__gridContent {
 
+}
+
+.FarmAssetList__threshold {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.FarmAssetList__thresholdTitle {
+  @include font-style('font-1', 'b', 13px);
+  color: #F85C5C;
+  margin-right: 2px;
+}
+
+.FarmAssetList__thresholdDescription {
+  @include font-style('font-1', 'r', 13px);
+  color: #868FA8;
 }

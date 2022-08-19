@@ -17,6 +17,7 @@ import { aprInfo$, fetchPositions$, klayswapPoolInfo$, klevaAnnualRewards$, posi
 import FarmingAssetBrief from './FarmingAssetBrief'
 import { getPositionInfo$ } from '../../streams/contract'
 import FarmAssetCard from './FarmAssetCard'
+import FarmAssetGridItem from './FarmAssetGridItem'
 
 class FarmingAssetList extends Component {
   bloc = new Bloc(this)
@@ -128,7 +129,7 @@ class FarmingAssetList extends Component {
           totalInUSD={totalInUSD}
         />
 
-        <div className="FarmAssetList__cards">
+        <div className="FarmingAssetList__cards">
           {list
             .filter((positionInfo) => {
               return positionInfo?.positionValue != 0
@@ -184,98 +185,77 @@ class FarmingAssetList extends Component {
           }
         </div>
 
-        {/* <div className="FarmingAssetList__cards">
-          {ibTokenBalances.map(({
-            title,
-            address,
-            originalToken,
-            iconSrc,
-            tradeableValue,
-            balanceInWallet,
-            balanceInStaking,
-            balanceTotal,
-            balanceTotalInUSD,
-            stakingPercentage,
-            lendingAPR,
-            stakingAPR,
-            protocolAPR,
-            totalAPR,
-            stakingToken,
-          }) => {
-            return (
-              <LendNStakeAssetCard
-                stakingToken={stakingToken}
-                title={title}
-                address={address}
-                iconSrc={iconSrc}
-                tradeableValue={tradeableValue}
-                originalToken={originalToken}
-                balanceInWallet={balanceInWallet}
-                balanceInStaking={balanceInStaking}
-                balanceTotal={balanceTotal}
-                balanceTotalInUSD={balanceTotalInUSD}
-                stakingPercentage={stakingPercentage}
-                lendingAPR={lendingAPR}
-                stakingAPR={stakingAPR}
-                protocolAPR={protocolAPR}
-                totalAPR={totalAPR}
-              />
-            )
-          })}
-        </div>
-
         <div className="FarmingAssetList__grid">
-          <div className="FarmingAssetList__gridHeader">
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenHeader">{I18n.t('token')}</span>
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprapyHeader">{I18n.t('aprapy')}</span>
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprDetailHeader">{I18n.t('aprDetail')}</span>
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__marketValueHeader">{I18n.t('myasset.marketValue')}</span>
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenAmountHeader">{I18n.t('myasset.tokenAmount')}</span>
-            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__inStakingHeader">{I18n.t('myasset.inStaking')}</span>
-            <span></span>
-            <span></span>
-          </div>
-          <div className="FarmingAssetList__gridContent">
 
-            {ibTokenBalances.map(({
-              title,
-              address,
-              originalToken,
-              iconSrc,
-              tradeableValue,
-              balanceInWallet,
-              balanceInStaking,
-              balanceTotal,
-              balanceTotalInUSD,
-              stakingPercentage,
-              lendingAPR,
-              stakingAPR,
-              protocolAPR,
-              totalAPR,
-              stakingToken,
-            }) => {
-              return (
-                <LendNStakeAssetGridItem
-                  stakingToken={stakingToken}
-                  title={title}
-                  address={address}
-                  iconSrc={iconSrc}
-                  tradeableValue={tradeableValue}
-                  originalToken={originalToken}
-                  balanceInWallet={balanceInWallet}
-                  balanceInStaking={balanceInStaking}
-                  balanceTotal={balanceTotal}
-                  balanceTotalInUSD={balanceTotalInUSD}
-                  stakingPercentage={stakingPercentage}
-                  lendingAPR={lendingAPR}
-                  stakingAPR={stakingAPR}
-                  protocolAPR={protocolAPR}
-                  totalAPR={totalAPR}
-                />
-              )
-            })}
+          <div className="FarmingAssetList__gridHeader">
+            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenHeader">{I18n.t('pairToken')}</span>
+            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprapyHeader">{I18n.t('currentAPR')}</span>
+            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprDetailHeader">{I18n.t('myasset.marketValueAndTotalValue')}</span>
+            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__marketValueHeader">{I18n.t('myasset.myEquityValue')}</span>
+            <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenAmountHeader">{I18n.t('myasset.debtValueAndDebtRatio')}</span>
+            <span></span>
           </div>
-        </div> */}
+
+          <div className="FarmingAssetList__gridContent">
+            {list
+              .filter((positionInfo) => {
+                return positionInfo?.positionValue != 0
+              })
+              .sort((a, b) => {
+                return b?.latestBlockTime - a?.latestBlockTime
+              })
+              .map((positionInfo, idx) => {
+
+                const lpToken = positionInfo.lpToken
+                const poolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address && lpToken.address.toLowerCase()]
+
+                // position value calculation
+                const { userFarmingTokenAmount, userBaseTokenAmount } = getEachTokenBasedOnLPShare({
+                  poolInfo,
+                  lpShare: positionInfo.lpShare,
+                  farmingToken: positionInfo.farmingToken,
+                  baseToken: positionInfo.baseToken,
+                  totalShare: positionInfo.totalShare,
+                  totalStakedLpBalance: positionInfo.totalStakedLpBalance,
+                })
+
+                const baseTokenPrice = tokenPrices$.value[positionInfo.baseToken.address.toLowerCase()]
+                const farmingTokenPrice = tokenPrices$.value[positionInfo.farmingToken.address.toLowerCase()]
+
+                const farmingPositionValueInUSD = new BigNumber(userFarmingTokenAmount)
+                  .multipliedBy(farmingTokenPrice)
+                  .plus(
+                    new BigNumber(userBaseTokenAmount)
+                      .multipliedBy(baseTokenPrice)
+                  )
+                  .toNumber()
+
+                const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
+                const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+
+                return (
+                  <FarmAssetGridItem
+                    key={positionInfo && positionInfo.id}
+                    userFarmingTokenAmount={userFarmingTokenAmount}
+                    userBaseTokenAmount={userBaseTokenAmount}
+                    poolInfo={klayswapPoolInfo$.value}
+                    lendingTokenSupplyInfo={lendingTokenSupplyInfo$.value}
+                    tokenPrices={tokenPrices$.value}
+                    klevaAnnualRewards={klevaAnnualRewards$.value}
+                    aprInfo={aprInfo}
+                    workerInfo={workerInfo}
+                    balanceTotalInUSD={farmingPositionValueInUSD}
+                    {...positionInfo}
+                  />
+                )
+              })
+            }
+          </div>
+          <div className="FarmAssetList__threshold">
+            <span className="FarmAssetList__thresholdTitle">{I18n.t('liquidationThreshold')}</span>
+            <span className="FarmAssetList__thresholdDescription">{I18n.t('liquidationThreshold.description')}</span>
+          </div>
+        </div>
       </div>
     )
   }
