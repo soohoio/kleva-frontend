@@ -875,6 +875,18 @@ export const getPositionInfo$ = (positionList) => {
   )
 }
 
+export const getPositionInfo_single$ = ({ workerAddress, positionId }) => {
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getPositionInfo",
+    params: [
+      workerAddress,
+      positionId,
+    ]
+  })
+}
+
 export const getWorkerInfo$ = (workerList) => {
   // KillFactorBPS
   const p1 = multicall(

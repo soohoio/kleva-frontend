@@ -41,10 +41,6 @@ class FarmAPRDetailInfo2 extends Component {
   render() {
     const {
       title,
-
-      token1,
-      token2,
-
       yieldFarmingAPR,
       klevaRewardAPR,
       tradingFeeAPR,

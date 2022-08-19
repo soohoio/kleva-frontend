@@ -36,34 +36,51 @@ class MyAsset extends Component {
     this.destroy$.next(true)
   }
 
+  renderContent = () => {
+    if (contentView$.value) {
+      return contentView$.value
+    }
+
+    if (this.assetMenu$.value === 'lendnstake') {
+      return <LendNStakeAssetList />
+    }
+
+    return <FarmingAssetList />
+  }
+
   render() {
     return (
       <>
-        <div className="MyAsset__header">
-          <MyAssetHeader />
-        </div>
-        <ThickHR />
+        {!contentView$.value && (
+          <>
+            <div className="MyAsset__header">
+              <MyAssetHeader />
+            </div>
+            <ThickHR />
+          </>
+        )}
         <div className="MyAsset__content">
-          <p className="MyAsset__tabsTitle">{I18n.t('myasset.managementDetail')}</p>
-          <Tabs
-            className="MyAsset__tabs"
-            list={[
-              {
-                title: I18n.t('myasset.asset.lendnstake'),
-                onClick: () => this.assetMenu$.next('lendnstake'),
-                isActive: this.assetMenu$.value === 'lendnstake',
-              },
-              {
-                title: I18n.t('myasset.asset.farming'),
-                onClick: () => this.assetMenu$.next('farming'),
-                isActive: this.assetMenu$.value === 'farming',
-              }
-            ]}
-          />
-          {this.assetMenu$.value === 'lendnstake' 
-            ? <LendNStakeAssetList />
-            : <FarmingAssetList />
-          }
+          {!contentView$.value && (
+            <>
+              <p className="MyAsset__tabsTitle">{I18n.t('myasset.managementDetail')}</p>
+              <Tabs
+                className="MyAsset__tabs"
+                list={[
+                  {
+                    title: I18n.t('myasset.asset.lendnstake'),
+                    onClick: () => this.assetMenu$.next('lendnstake'),
+                    isActive: this.assetMenu$.value === 'lendnstake',
+                  },
+                  {
+                    title: I18n.t('myasset.asset.farming'),
+                    onClick: () => this.assetMenu$.next('farming'),
+                    isActive: this.assetMenu$.value === 'farming',
+                  }
+                ]}
+              />
+            </>
+          )}
+          {this.renderContent()}
         </div>
       </>
       
@@ -72,12 +89,3 @@ class MyAsset extends Component {
 }
 
 export default MyAsset
-
-// {/* <div className={cx("MyAsset", {
-//           [`MyAsset--contentView`]: !!contentView$.value,
-//         })}>
-          
-//           {/* <div className="MyAsset__content">
-//             {contentView$.value || }
-//           </div> */}
-//         </div> */}

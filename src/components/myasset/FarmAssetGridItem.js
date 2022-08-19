@@ -7,10 +7,10 @@ import BigNumber from 'bignumber.js'
 
 import { I18n } from 'components/common/I18n'
 
-import { openModal$ } from '../../streams/ui'
+import { openContentView$, openModal$ } from '../../streams/ui'
 import ClosePositionPopup from 'components/ClosePositionPopup'
 import { debtTokens, getIbTokenFromOriginalToken, lpTokenByIngredients, tokenList } from '../../constants/tokens'
-import AdjustPositionPopup from 'components/AdjustPositionPopup'
+import AdjustPosition from 'components/farming/AdjustPosition'
 
 import './FarmAssetGridItem.scss'
 import { nFormatter, noRounding } from '../../utils/misc'
@@ -93,6 +93,9 @@ class FarmAssetGridItem extends Component {
 
       userFarmingTokenAmount,
       userBaseTokenAmount,
+
+      selectedAddress,
+      lpToken,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -245,27 +248,36 @@ class FarmAssetGridItem extends Component {
           <button
             className="FarmAssetGridItem__adjustButton"
             onClick={() => {
-              openModal$.next({
-                component: <AdjustPositionPopup
-                  title="Adjust Position"
-                  id={id}
-                  positionId={positionId}
-                  vaultAddress={vaultAddress}
-                  farmingToken={farmingToken}
-                  baseToken={baseToken}
-                  workerInfo={workerInfo}
-                  leverageCap={leverageCap}
 
-                  yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                  tradingFeeAPRBefore={before_tradingFeeAPR}
-                  klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                  borrowingInterestAPRBefore={before_borrowingInterestAPR}
+              openContentView$.next({
+                component: (
+                  <AdjustPosition
+                    id={id}
+                    lpToken={lpToken}
+                    positionId={positionId}
+                    vaultAddress={vaultAddress}
+                    farmingToken={farmingToken}
+                    baseToken={baseToken}
+                    workerInfo={workerInfo}
+                    leverageCap={leverageCap}
 
-                  baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
-                />
+                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                    selectedAddress={selectedAddress}
+                    title={I18n.t('myasset.farming.adjustPosition')}
+                    currentPositionLeverage={currentPositionLeverage}
+
+                    yieldFarmingAPR={before_yieldFarmingAPR}
+                    tradingFeeAPR={before_tradingFeeAPR}
+                    klevaRewardAPR={before_klevaRewardsAPR}
+
+                    offset={0.5}
+                  />
+                )
               })
-
-
             }}
           >
             {I18n.t('myasset.farming.adjustPosition')}

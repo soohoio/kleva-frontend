@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 
 import { I18n } from 'components/common/I18n'
 
-import { openModal$ } from '../../streams/ui'
+import { openContentView$, openModal$ } from '../../streams/ui'
 import ClosePositionPopup from 'components/ClosePositionPopup'
 import { debtTokens, getIbTokenFromOriginalToken, lpTokenByIngredients, tokenList } from '../../constants/tokens'
 import AdjustPositionPopup from 'components/AdjustPositionPopup'
@@ -17,6 +17,7 @@ import { nFormatter, noRounding } from '../../utils/misc'
 import LabelAndValue from 'components/LabelAndValue'
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/calc'
 import QuestionMark from '../common/QuestionMark'
+import AdjustPosition from '../farming/AdjustPosition'
 
 class FarmAssetCard extends Component {
   destroy$ = new Subject()
@@ -276,145 +277,36 @@ class FarmAssetCard extends Component {
             <button
               className="FarmAssetCard__adjustButton"
               onClick={() => {
-                openModal$.next({
-                  component: <AdjustPositionPopup
-                    title="Adjust Position"
-                    id={id}
-                    positionId={positionId}
-                    vaultAddress={vaultAddress}
-                    farmingToken={farmingToken}
-                    baseToken={baseToken}
-                    workerInfo={workerInfo}
-                    leverageCap={leverageCap}
 
-                    yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                    tradingFeeAPRBefore={before_tradingFeeAPR}
-                    klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                openContentView$.next({
+                  component: (
+                    <AdjustPosition
+                      title="Adjust Position"
+                      id={id}
+                      positionId={positionId}
+                      vaultAddress={vaultAddress}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
+                      workerInfo={workerInfo}
+                      leverageCap={leverageCap}
 
-                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
-                  />
+                      defaultLeverage={currentPositionLeverage}
+
+                      yieldFarmingAPRBefore={before_yieldFarmingAPR}
+                      tradingFeeAPRBefore={before_tradingFeeAPR}
+                      klevaRewardsAPRBefore={before_klevaRewardsAPR}
+                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+                    />
+                  )
                 })
-
-
               }}
             >
               {I18n.t('myasset.farming.adjustPosition')}
             </button>
           </div>
         </div>
-
-        {/* <div onClick={onClick} className="FarmAssetCard__header">
-          <div className="FarmAssetCard__headerLeft">
-            <div className="FarmAssetCard__infoIconList">
-              <img className="FarmAssetCard__infoIcon" src={farmingToken.iconSrc} />
-              <img className="FarmAssetCard__infoIcon" src={baseToken.iconSrc} />
-            </div>
-            <div className="FarmAssetCard__poolInfo">
-              <p className="FarmAssetCard__pollInfoTitle">{farmingToken.title}-{baseToken.title}</p>
-              <p className="FarmAssetCard__poolInfoExchange">{exchange} #{positionId}</p>
-            </div>
-          </div>
-          <div className="FarmAssetCard__headerRight">
-            <div className="FarmAssetCard__apy">
-              <strong>{nFormatter(before_apy, 2)}</strong>%
-            </div>
-            <p className="FarmAssetCard__apyLabel">Current APY</p>
-          </div>
-        </div>
-
-        <div className="FarmAssetCard__expanded">
-          <LabelAndValue
-            label="Position Value"
-            value={`${new BigNumber(positionValue)
-              .div(10 ** baseToken.decimals)
-              .toNumber()
-              .toLocaleString('en-us', { maximumFractionDigits: 6 })} ${baseToken.title}`}
-          />
-          <LabelAndValue
-            label="Debt Value"
-            value={`${new BigNumber(debtValue)
-              .div(10 ** baseToken.decimals)
-              .toNumber()
-              .toLocaleString('en-us', { maximumFractionDigits: 6 })} ${baseToken.title}`}
-          />
-          <LabelAndValue label="Equity Value" value={`${equityValueParsed} ${baseToken.title}`} />
-          <LabelAndValue className="FarmAssetCard__apy" label="Current APY" value={`${nFormatter(before_apy, 2)}%`} />
-          <LabelAndValue label="Debt Ratio" value={`${nFormatter(debtRatio, 2)}%`} />
-          <LabelAndValue
-            label="Liquidation Threshold"
-            value={`${liquidationThreshold || '-'} ${liquidationThreshold ? "%" : ""}`}
-          />
-          <LabelAndValue
-            className={cx("FarmAssetCard__safetyBuffer", {
-              "FarmAssetCard__safetyBuffer--yellow": safetyBuffer !== 0 && safetyBuffer > 10 && safetyBuffer < 20,
-              "FarmAssetCard__safetyBuffer--red": safetyBuffer !== 0 && safetyBuffer < 10,
-            })}
-            label="Safety Buffer"
-            value={`${nFormatter(safetyBuffer, 2) || '-'} ${safetyBuffer ? "%" : ""}`}
-          />
-
-          <div className="FarmAssetCard__buttons">
-            <button
-              className={cx("FarmAssetCard__closeButton", {
-                "FarmAssetCard__closeButton--disabled": closePositionDisabled,
-              })}
-              onClick={() => {
-                if (closePositionDisabled) return
-
-                openModal$.next({
-                  component: (
-                    <ClosePositionPopup
-                      title="Close Position"
-                      id={id}
-                      tokenPrices={tokenPrices}
-                      positionId={positionId}
-                      vaultAddress={vaultAddress}
-                      farmingToken={farmingToken}
-                      baseToken={baseToken}
-                      workerInfo={workerInfo}
-
-                      yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                      tradingFeeAPRBefore={before_tradingFeeAPR}
-                      klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
-                    />
-                  )
-                })
-              }}
-            >
-              Close
-              </button>
-            <button
-              className="FarmAssetCard__adjustButton"
-              onClick={() => {
-                openModal$.next({
-                  component: <AdjustPositionPopup
-                    title="Adjust Position"
-                    id={id}
-                    positionId={positionId}
-                    vaultAddress={vaultAddress}
-                    farmingToken={farmingToken}
-                    baseToken={baseToken}
-                    workerInfo={workerInfo}
-                    leverageCap={leverageCap}
-
-                    yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                    tradingFeeAPRBefore={before_tradingFeeAPR}
-                    klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
-
-                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
-                  />
-                })
-
-
-              }}
-            >
-              Adjust
-              </button>
-          </div>
-        </div> */}
       </div>
     )
   }

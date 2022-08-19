@@ -8,6 +8,7 @@ import { I18n } from './I18n'
 import QuestionMark from './QuestionMark'
 import LeverageInfoModal from '../modals/LeverageInfoModal'
 import { openModal$ } from '../../streams/ui'
+import { noRounding } from '../../utils/misc'
 
 class LeverageInput extends Component {
   destroy$ = new Subject()
@@ -30,7 +31,10 @@ class LeverageInput extends Component {
   }
     
   render() {
-    const { leverageCap, offset, leverage$, setLeverage } = this.props
+    const { leverageCap, leverageLowerBound, offset, leverage$, setLeverage } = this.props
+
+    const leverageValue = noRounding(leverage$.value, 2)
+
     return (
       <div className="LeverageInput">
         <div className="LeverageInput__header">
@@ -56,20 +60,20 @@ class LeverageInput extends Component {
               }}
               className="LeverageInput__leverageInput"
               readOnly
-              value={leverage$.value}
+              value={leverageValue}
             />
             <span className="LeverageInput__x">{I18n.t('farming.multiplyLabel')}</span>
           </div>
 
           <div className="LeverageInput__buttons">
             <button
-              onClick={() => setLeverage(leverage$.value - offset, leverageCap)}
+              onClick={() => setLeverage(Number(leverageValue) - offset, leverageCap, leverageLowerBound)}
               className="LeverageInput__minus"
             >
               <img src="/static/images/minus.svg" />
             </button>
             <button
-              onClick={() => setLeverage(leverage$.value + offset, leverageCap)}
+              onClick={() => setLeverage(Number(leverageValue) + offset, leverageCap, leverageLowerBound)}
               className="LeverageInput__plus"
             >
               <img src="/static/images/plus.svg" />

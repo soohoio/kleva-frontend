@@ -165,7 +165,7 @@ export const getLPAmountBasedOnIngredientsToken = ({ poolInfo, token1, token2 })
     .multipliedBy(allValueInTokenA)
     .div(reserveA)
     .div(2)
-    .toNumber()
+    .toString()
 
   return lpShare
 }

@@ -1,0 +1,32 @@
+.ModalHeader {
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.ModalHeader__title {
+  @include font-style('font-1', 'b', 20px);
+  color: #151515;
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  @include desktop {
+    text-align: left;
+  }
+}
+
+.ModalHeader__close {
+  width: 24px;
+  height: 24px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+
+  @include desktop {
+    display: none;
+  }
+}

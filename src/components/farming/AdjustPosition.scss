@@ -1,0 +1,224 @@
+.AdjustPosition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 18px 0;
+  
+  @include desktop {
+    position: static;
+    width: auto;
+    background-color: unset;
+    padding: 0;
+  }
+
+  .ThickHR {
+    @include desktop {
+      display: none;
+    }
+  }
+
+  .LeverageInput {
+    margin-bottom: 20px;
+  }
+}
+
+.AdjustPosition__content {
+  @include desktop {
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+.AdjustPosition__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include desktop {
+    button {
+      width: 130px;
+      margin-right: 8px;
+    }
+  }
+}
+
+.AdjustPosition__cancelButton {
+  @include button-1(50px);
+  background-color: #EDF2FC;
+  color: #265FFC;
+}
+
+.AdjustPosition__left {
+  @include desktop {
+    flex: 1;
+    margin-right: 60px;
+    padding-left: 0;
+  }
+  padding: 0 18px;
+}
+
+.AdjustPosition__right {
+  @include desktop {
+    flex: 1;
+    padding-right: 0;
+  }
+  padding: 0 18px;
+}
+
+.AdjustPosition__apy {
+  margin-top: 8px;
+  align-items: center;
+  border-bottom: 1px solid #E6EAF2;
+  padding-bottom: 20px;
+  margin-bottom: 36px;
+
+  .QuestionMark {
+    font-size: 14px;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 20px);
+    color: #265FFC;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.AdjustPosition__borrowingAssetList {
+  margin-top: 16px;
+}
+
+.AdjustPosition__borrowingAsset {
+  margin-bottom: 11px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #636879;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 16px);
+    color: #333333;
+  }
+}
+
+.AdjustPosition__debtRatio {
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #636879;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 16px);
+    color: #333333;
+  }
+}
+
+.AdjustPosition__hr {
+  width: 100%;
+  height: 10px;
+  background-color: #F0F2F7;
+  border: 0;
+  margin: 30px 0;
+
+  &--mobile {
+    @include desktop {
+      display: none;
+    }
+  }
+}
+
+.AdjustPosition__equity {
+  margin-bottom: 15px;
+  
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #222222;
+
+    p:last-of-type {
+      @include font-style('font-1', 'm', 14px);
+      margin-top: 3px;
+      color: #969BAB;
+    }
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    text-align: right;
+    color: #222222;
+    line-height: 20px;
+  }
+}
+
+.AdjustPosition__debt {
+  margin-bottom: 20px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #222222;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #222222;
+    line-height: 20px;
+    text-align: right;
+  }
+}
+
+.AdjustPosition__totalDeposit {
+  border-top: 1px solid #EBEEF5;
+  padding-top: 20px;
+  margin-bottom: 26px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #222222;
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 16px);
+    color: #222222;
+    line-height: 20px;
+    text-align: right;
+  }
+}
+
+.AdjustPosition__footer {
+  padding: 0 20px;
+  @include desktop {
+    margin-top: 40px;
+    padding-top: 30px;
+
+    border-top: 1px solid rgba(#DADDE6, .8);
+  }
+}
+
+.AdjustPosition__button {
+  @include button-1(50px);
+  background-color: #2D65FC;
+  width: 100%;
+  margin-bottom: 10px;
+
+  @include desktop {
+    margin-bottom: 0;
+  }
+}
+
+.AdjustPosition__needApprove {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+  margin-bottom: 20px;
+  line-height: 22px;
+}
+
+.AdjustPosition__minDebtSize {
+  @include font-style('font-1', 'b', 14px);
+  color: #F73D3D;
+  margin-bottom: 20px;
+}
