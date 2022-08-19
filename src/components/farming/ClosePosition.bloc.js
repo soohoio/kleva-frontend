@@ -4,7 +4,10 @@ import { distinctUntilChanged, switchMap, takeUntil, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
-import { addCollateral$, borrowMore$, addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
+import { 
+  getCloseMinimizeResult$,
+  getCloseBaseOnlyResult$,
+  addCollateral$, borrowMore$, addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$, convertToBaseToken$, minimizeTrading$ } from '../../streams/contract'
 import { fetchWalletInfo$ } from '../../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
@@ -19,6 +22,7 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import CompletedModal from '../common/CompletedModal'
 import { currentTab$ } from '../../streams/view'
 import { I18n } from '../common/I18n'
+
 
 export default class {
   constructor(comp) {
@@ -72,6 +76,21 @@ export default class {
     this.showAPRDetail$ = showDetailDefault$
     this.showSummary$ = showSummaryDefault$
     this.borrowMore$ = new BehaviorSubject(false)
+    this.closingMethod$ = new BehaviorSubject('minimizeTrading')
+
+    this.entirelyClose$ = new BehaviorSubject(true)
+    this.partialCloseAvailable$ = new BehaviorSubject({})
+
+    this.partialCloseRatio$ = new BehaviorSubject(0)
+    this.repayDebtRatio$ = new BehaviorSubject(0)
+    this.debtRepaymentAmount$ = new BehaviorSubject(0)
+    this.repayPercentageLimit$ = new BehaviorSubject()
+    this.receiveBaseTokenAmt$ = new BehaviorSubject()
+    this.receiveFarmTokenAmt$ = new BehaviorSubject()
+    this.amountToTrade$ = new BehaviorSubject()
+    this.tokenOutAmount$ = new BehaviorSubject()
+    this.priceImpactBps$ = new BehaviorSubject()
+    this.priceImpactBpsWithoutFee$ = new BehaviorSubject()
 
     this.init()
   }
@@ -82,25 +101,21 @@ export default class {
 
     this.leverage$.next(this.comp.props.currentPositionLeverage)
 
-    this.borrowMore$.pipe(
+    this.entirelyClose$.pipe(
       distinctUntilChanged(),
       tap(() => {
-        // Reset all
-        this.farmingTokenAmount$.next('')
-        this.baseTokenAmount$.next('')
-        // this.farmingTokenAmountInBaseToken$.next('')
-        this.leverage$.next(this.comp.props.currentPositionLeverage)
-        // this.before_userFarmingTokenAmount$.next('')
-        // this.before_userBaseTokenAmount$.next('')
-        // this.newEquityValue$.next('')
-        this.newDebtValue$.next('')
-        // this.newPositionValue$.next('')
-        // this.amountToBeBorrowed$.next('')
-        this.addCollateralAvailable$.next(true)
-        this.borrowMoreAvailable$.next(true)
-        this.priceImpact$.next('')
-        // this.finalPositionIngredientBaseTokenAmount$.next('')
-        // this.finalPositionIngredientFarmingTokenAmount$.next('')
+        this.partialCloseRatio$.next(0)
+        this.partialCloseAvailable$.next({})
+        this.partialCloseRatio$.next(0)
+        this.repayDebtRatio$.next(0)
+        this.debtRepaymentAmount$.next(0)
+        this.repayPercentageLimit$.next(0)
+        this.receiveBaseTokenAmt$.next(0)
+        this.receiveFarmTokenAmt$.next(0)
+        this.amountToTrade$.next(0)
+        this.tokenOutAmount$.next(0)
+        this.priceImpactBps$.next(0)
+        this.priceImpactBpsWithoutFee$.next(0)
       }),
       takeUntil(this.comp.destroy$)
     ).subscribe()
@@ -433,7 +448,7 @@ export default class {
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
       fetchPositions$.next(true)
-      
+
       closeContentView$.next(true)
 
       openModal$.next({
@@ -450,6 +465,199 @@ export default class {
           </CompletedModal>
         )
       })
+
+      openModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('confirm'),
+              onClick: () => {
+                closeModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('myasset.suwController.withdrawCompleted')}</p>
+          </CompletedModal>
+        )
+      })
     })
+  }
+
+  convertToBaseToken = () => {
+    const { positionId, workerInfo, vaultAddress } = this.comp.props
+
+    const strategyAddress = STRATEGIES["LIQUIDATE_STRATEGY"]
+
+    const MIN_BASE_TOKEN_AMOUNT = new BigNumber(this.receiveBaseTokenAmt$.value)
+      .multipliedBy(1 - (Number(slippage$.value) / 100))
+      .toFixed(0)
+
+    const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_BASE_TOKEN_AMOUNT])
+    const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
+
+    convertToBaseToken$(vaultAddress, {
+      positionId: positionId,
+      data,
+    }).pipe(
+      tap(() => this.isLoading$.next(true)),
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
+    ).subscribe((result) => {
+      fetchWalletInfo$.next(true)
+      this.isLoading$.next(false)
+      fetchPositions$.next(true)
+      
+      closeContentView$.next(true)
+
+      openModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('confirm'),
+              onClick: () => {
+                closeModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('myasset.suwController.withdrawCompleted')}</p>
+          </CompletedModal>
+        )
+      })
+    })
+  }
+
+  minimizeTrading = () => {
+    const { positionId, vaultAddress } = this.comp.props
+
+    const strategyAddress = STRATEGIES["MINIMIZE_TRADING_STRATEGY"]
+
+    const MIN_FARMING_TOKEN_AMOUNT = new BigNumber(this.receiveFarmTokenAmt$.value)
+      .multipliedBy(1 - (Number(slippage$.value) / 100))
+      .toFixed(0)
+
+    const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_FARMING_TOKEN_AMOUNT])
+    const data = caver.klay.abi.encodeParameters(
+      ['address', 'bytes'],
+      [strategyAddress, ext]
+    )
+
+    minimizeTrading$(vaultAddress, {
+      positionId,
+      data,
+    }).pipe(
+      tap(() => this.isLoading$.next(true)),
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
+    ).subscribe((result) => {
+      fetchWalletInfo$.next(true)
+      fetchPositions$.next(true)
+      this.isLoading$.next(false)
+      closeContentView$.next(true)
+
+      openModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('confirm'),
+              onClick: () => {
+                closeModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('myasset.suwController.withdrawCompleted')}</p>
+          </CompletedModal>
+        )
+      })
+    })
+  }
+
+  getCloseResult = () => {
+    const { positionId, workerInfo } = this.comp.props
+    const workerAddress = workerInfo.workerAddress
+
+    console.log(workerAddress, 'workerAddress')
+    console.log(positionId, 'positionId')
+
+    if (this.closingMethod$.value === 'minimizeTrading') {
+      getCloseMinimizeResult$({
+        workerAddress,
+        positionId
+      }).pipe(
+        tap(({
+          receiveFarmTokenAmt,
+          receiveBaseTokenAmt,
+          amountToTrade,
+          tokenOutAmount,
+          priceImpactBps,
+          priceImpactBpsWithoutFee,
+        }) => {
+
+          console.log(receiveFarmTokenAmt, 'receiveFarmTokenAmt')
+          console.log(receiveBaseTokenAmt, 'receiveBaseTokenAmt')
+          console.log(amountToTrade, 'amountToTrade')
+          console.log(tokenOutAmount, 'tokenOutAmount')
+          console.log(priceImpactBps, 'priceImpactBps')
+          console.log(priceImpactBpsWithoutFee, 'priceImpactBpsWithoutFee')
+
+          this.receiveBaseTokenAmt$.next(receiveBaseTokenAmt)
+          this.receiveFarmTokenAmt$.next(receiveFarmTokenAmt)
+          this.amountToTrade$.next(amountToTrade)
+          this.tokenOutAmount$.next(tokenOutAmount)
+          this.priceImpactBps$.next(priceImpactBps)
+          this.priceImpactBpsWithoutFee$.next(priceImpactBpsWithoutFee)
+
+        })
+      ).subscribe()
+    }
+
+    if (this.closingMethod$.value === 'convertToBaseToken') {
+
+      getCloseBaseOnlyResult$({
+        workerAddress,
+        positionId,
+      }).pipe(
+        tap(({
+          receiveBaseTokenAmt,
+          amountToTrade,
+          tokenOutAmount,
+          priceImpactBps,
+          priceImpactBpsWithoutFee,
+        }) => {
+
+          this.receiveBaseTokenAmt$.next(receiveBaseTokenAmt)
+          this.receiveFarmTokenAmt$.next(0)
+          this.amountToTrade$.next(amountToTrade)
+          this.tokenOutAmount$.next(tokenOutAmount)
+          this.priceImpactBps$.next(priceImpactBps)
+          this.priceImpactBpsWithoutFee$.next(priceImpactBpsWithoutFee)
+        }),
+      ).subscribe()
+    }
+  }
+
+  closePosition = () => {
+    // Entire Close
+    if (this.entirelyClose$.value) {
+      if (this.closingMethod$.value === "convertToBaseToken") {
+        this.convertToBaseToken()
+        return
+      }
+
+      if (this.closingMethod$.value === "minimizeTrading") {
+        this.minimizeTrading()
+        return
+      }
+    }
+
+    // Partial Close
+    // if (this.closingMethod$.value === "convertToBaseToken") {
+    //   console.log("partialConvertToBaseToken")
+    //   this.partialConvertToBaseToken()
+    //   return
+    // }
+
+    // if (this.closingMethod$.value === "minimizeTrading") {
+    //   console.log("partialMinimizeTrading")
+    //   this.partialMinimizeTrading()
+    //   return
+    // }
   }
 }

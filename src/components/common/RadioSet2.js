@@ -36,9 +36,9 @@ class RadioSet2 extends Component {
   }
     
   render() {
-    const { selectedLabel, onSelect, list } = this.props
+    const { className, selectedLabel, onSelect, list } = this.props
     return (
-      <div className="RadioSet2">
+      <div className={cx("RadioSet2", className)}>
         {list.map(({ label, labelDecorator, value, onClick }) => {
           const isActive = selectedLabel == label
           return (

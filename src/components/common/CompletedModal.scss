@@ -23,17 +23,16 @@
   justify-content: center;
 
   padding: 30px;
-  padding-bottom: 0;
 }
 
 .CompletedModal__title {
   @include font-style('font-1', 'b', 19px);
   color: #222222;
-  margin-bottom: 8px;
 }
 
 .CompletedModal__description {
   @include font-style('font-1', 'm', 15px);
+  margin-top: 8px;
   color: #666D81;
   margin-bottom: 30px;
 }

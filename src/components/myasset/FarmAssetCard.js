@@ -18,6 +18,7 @@ import LabelAndValue from 'components/LabelAndValue'
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/calc'
 import QuestionMark from '../common/QuestionMark'
 import AdjustPosition from '../farming/AdjustPosition'
+import ClosePosition from '../farming/ClosePosition'
 
 class FarmAssetCard extends Component {
   destroy$ = new Subject()
@@ -253,25 +254,55 @@ class FarmAssetCard extends Component {
               onClick={() => {
                 if (closePositionDisabled) return
 
-                openModal$.next({
+                openContentView$.next({
                   component: (
-                    <ClosePositionPopup
-                      title="Close Position"
+                    <ClosePosition
                       id={id}
-                      tokenPrices={tokenPrices}
+                      lpToken={lpToken}
                       positionId={positionId}
                       vaultAddress={vaultAddress}
                       farmingToken={farmingToken}
                       baseToken={baseToken}
                       workerInfo={workerInfo}
+                      leverageCap={leverageCap}
 
-                      yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                      tradingFeeAPRBefore={before_tradingFeeAPR}
-                      klevaRewardsAPRBefore={before_klevaRewardsAPR}
                       borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
+
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
+
+                      offset={0.5}
                     />
                   )
                 })
+
+                // openModal$.next({
+                //   component: (
+                //     <ClosePositionPopup
+                //       title="Close Position"
+                //       id={id}
+                //       tokenPrices={tokenPrices}
+                //       positionId={positionId}
+                //       vaultAddress={vaultAddress}
+                //       farmingToken={farmingToken}
+                //       baseToken={baseToken}
+                //       workerInfo={workerInfo}
+
+                //       yieldFarmingAPRBefore={before_yieldFarmingAPR}
+                //       tradingFeeAPRBefore={before_tradingFeeAPR}
+                //       klevaRewardsAPRBefore={before_klevaRewardsAPR}
+                //       borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                //     />
+                //   )
+                // })
               }}
             >
               {I18n.t('myasset.withdraw')}

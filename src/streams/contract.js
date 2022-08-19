@@ -35,7 +35,7 @@ import { executeContractKlip$ } from './klip'
 
 import { MAX_UINT } from 'constants/setting'
 import { showParamsOnCall } from '../utils/callHelper'
-import { getOriginalTokenFromIbToken, ibTokenByAddress, lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
+import { getOriginalTokenFromIbToken, ibTokenByAddress, isKLAY, lpTokenByIngredients, singleTokensByAddress, tokenList } from '../constants/tokens'
 import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
@@ -1537,6 +1537,125 @@ export const getOpenPositionResult$ = ({
   })
 }
 
+export const getCloseBaseOnlyResult$ = ({
+  workerAddress,
+  positionId
+}) => {
+
+  console.log(workerAddress, 'workerAddress')
+  console.log(positionId, 'positionId')
+
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getCloseBaseOnlyResult",
+    params: [
+      workerAddress,
+      positionId,
+    ]
+  }).pipe(
+    switchMap(({
+      receiveBaseTokenAmt,
+      amountToTrade,
+    }) => {
+
+      const worker = workerByAddress[workerAddress]
+
+      console.log(worker, '@worker')
+
+      return getDexSelling$({
+        tokenIn: worker.farmingToken.address,
+        tokenInAmount: amountToTrade,
+        tokenOut: worker.baseToken.address,
+      }).pipe(
+        map(({
+          tokenOutAmount,
+          priceImpactBps,
+          priceImpactBpsWithoutFee,
+        }) => {
+          return {
+            receiveBaseTokenAmt,
+            amountToTrade,
+            tokenOutAmount,
+            priceImpactBps,
+            priceImpactBpsWithoutFee,
+          }
+        })
+      )
+    }),
+    catchError(() => {
+      return of({
+        error: true,
+        receiveBaseTokenAmt: 0,
+        amountToTrade: 0,
+        tokenOutAmount: 0,
+        priceImpactBps: 0,
+        priceImpactBpsWithoutFee: 0,
+      })
+    })
+  )
+}
+
+export const getCloseMinimizeResult$ = ({
+  workerAddress,
+  positionId
+}) => {
+
+  console.log(workerAddress, '@@workerAddress')
+  console.log(positionId, '@@positionId')
+
+return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getCloseMinimizeResult",
+    params: [
+      workerAddress,
+      positionId,
+    ]
+  }).pipe(
+    switchMap(({
+      amountToTrade,
+      receiveBaseTokenAmt,
+      receiveFarmTokenAmt,
+    }) => {
+
+      let worker = workerByAddress[workerAddress]
+
+      return getDexSelling$({
+        tokenIn: worker.farmingToken.address,
+        tokenInAmount: amountToTrade,
+        tokenOut: worker.baseToken.address,
+      }).pipe(
+        map(({
+          tokenOutAmount,
+          priceImpactBps,
+          priceImpactBpsWithoutFee,
+        }) => {
+          return {
+            receiveFarmTokenAmt,
+            receiveBaseTokenAmt,
+            amountToTrade,
+            tokenOutAmount,
+            priceImpactBps,
+            priceImpactBpsWithoutFee,
+          }
+        })
+      )
+    }),
+    catchError(() => {
+      return of({
+        error: true,
+        receiveFarmTokenAmt: 0,
+        receiveBaseTokenAmt: 0,
+        amountToTrade: 0,
+        tokenOutAmount: 0,
+        priceImpactBps: 0,
+        priceImpactBpsWithoutFee: 0,
+      })
+    })
+  )
+}
+
 export const getMinimizeResult$ = ({
   workerAddress,
   positionId,
@@ -1767,6 +1886,15 @@ export const getDexSelling$ = ({
   tokenInAmount,
   tokenOut,
 }) => {
+
+  if (tokenInAmount == 0) {
+    return of({
+      tokenOutAmount: 0,
+      priceImpactBps: 0,
+      priceImpactBpsWithoutFee: 0,
+    })
+  }
+
   return call$({
     abi: KlayswapCalculatorABI,
     address: KLAYSWAP_CALCULATOR,
