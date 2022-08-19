@@ -1,63 +1,61 @@
 .MobileGNB {
+
+  height: 100%;
+  width: 90%;
+  right: 0;
+  left: unset;
+
   display: flex;
   flex-direction: column;
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
   overflow: scroll;
   padding: 28px 24px;
   border-radius: 8px;
   background-color: #fff;
   z-index: 9999;
 
-  .SidebarItem {
+  .Guide {
+    align-items: flex-start;
+  }
+
+  .Guide__button {
+    margin-top: 0;
+  }
+
+  .Guide__title {
+    @include font-style('font-1', 'b', 21px);
+    color: #333333;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .SubMenu {
+    margin-top: 45px;
     display: flex;
-    align-items: center;
-    height: 56px;
-    cursor: pointer;
-    padding-left: 16px;
-    margin-bottom: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    &:active {
-      .SidebarItem__title {
-        color: rgba(#272729, .5) !important;
-      }
-      background-color: #fafafa;
-      border-radius: 8px;
+  .SubMenu__item {
+    @include font-style('font-1', 'b', 17px);
+    color: #333333;
+    margin-bottom: 28px;
+  }
+
+  .LanguageChange {
+    width: 100%;
+
+    .Dropdown {
+      width: 100%;
+      height: 45px;
     }
-
-    &--active {
-      .SidebarItem__title {
-        @include font-style('font-1', 'b', 20px);
-        color: #3369ff !important;
-      }
-    }
-  }
-
-  .SidebarItem__icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-  }
-
-  .SidebarItem__title {
-    @include font-style('font-1', 'm', 20px);
-    color: #272729;
-
-    // &:hover {
-    //   color: rgba(#272729, .5);
-    // }
-  }
-
-  .Sidebar__hr {
-    margin: 27px 0;
   }
 }
 
 .MobileGNB__header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   margin-bottom: 36px;
 }
@@ -70,4 +68,17 @@
 .MobileGNB__close {
   width: 24px;
   height: 24px;
+}
+
+.MobileGNB__connected {
+  @include font-style('font-1', 'b', 21px);
+  color: #333333;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.MobileGNB__logout {
+  @include font-style('font-1', 'm', 15px);
+  color: #919FC8;
+  cursor: pointer;
 }

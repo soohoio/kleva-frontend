@@ -11,34 +11,11 @@ import './MobileGNB.scss'
 import { openModal$ } from '../streams/ui'
 import OpenSoon from './OpenSoon'
 
-const SidebarItem = ({ onClickOverwrite, href, clientSideHref, active, title, iconSrc }) => {
-  return (
-    <div
-      className={cx("SidebarItem", {
-        "SidebarItem--active": active
-      })}
-      onClick={() => {
-
-        if (typeof onClickOverwrite === 'function') {
-          onClickOverwrite()
-          return
-        }
-
-        if (clientSideHref) {
-          browserHistory.push(clientSideHref)
-          closeModal$.next(true)
-          return
-        }
-
-        window.open(href)
-        closeModal$.next(true)
-      }}
-    >
-      {iconSrc && <img className="SidebarItem__icon" src={iconSrc} />}
-      <span className="SidebarItem__title">{title}</span>
-    </div>
-  )
-}
+import Guide from 'components/common/Guide'
+import ConnectWalletPopup from './ConnectWalletPopup'
+import { logout$, selectedAddress$ } from '../streams/wallet'
+import { I18n } from './common/I18n'
+import SubMenu from './SubMenu'
 
 class MobileGNB extends Component {
   destroy$ = new Subject()
@@ -56,34 +33,44 @@ class MobileGNB extends Component {
 
   componentWillUnmount() {
     this.destroy$.next(true)
-  }
+ 45 }
 
   render() {
     return (
       <div className="MobileGNB">
         <div className="MobileGNB__header">
-          <img className="MobileGNB__headerLogo" src="/static/images/logo-kleva-blue.svg" />
           <img 
             onClick={() => closeModal$.next(true)} 
             className="MobileGNB__close" 
             src="/static/images/close-black.svg" 
           />
         </div>
-        <SidebarItem
-          clientSideHref="/lend"
-          title="Lend"
-          active={path$.value === '/' || path$.value === '/lend'}
-        />
-        <SidebarItem
-          clientSideHref="/stake"
-          title="Stake"
-          active={path$.value === '/stake'}
-        />
-        <SidebarItem
-          clientSideHref="/farm"
-          title="Farm"
-          active={path$.value === '/farm'}
-        />
+        {selectedAddress$.value 
+          ? (
+            <>
+              <p className="MobileGNB__connected">{I18n.t('connected')}</p>
+              <p 
+                className="MobileGNB__logout"
+                onClick={() => logout$.next(true)}
+              >
+                {I18n.t('logout')}
+              </p>
+            </>
+            )
+          : (
+            <Guide
+              title={I18n.t('connectWallet2')}
+              buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
+              onClick={() => {
+                openModal$.next({
+                  component: <ConnectWalletPopup />
+                })
+              }}
+            />
+          )
+        }
+
+        <SubMenu />
       </div>
     )
   }
