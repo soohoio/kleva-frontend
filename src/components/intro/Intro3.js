@@ -43,7 +43,7 @@ class Intro3 extends Component {
             <p className="Intro3__description2 mobileOnly">{I18n.t('intro3.description2')}</p>
           </div>
         </div>
-        <ThickHR size="4" />
+        <ThickHR className="ThickHR--mobile" size="4" />
       </>
     )
   }

@@ -26,13 +26,13 @@ class ThickHR extends Component {
   }
     
   render() {
-    const { size } = this.props
+    const { className, size } = this.props
     return (
       <div 
         style={{
           height: `${size}px`
         }} 
-        className="ThickHR" 
+        className={cx("ThickHR", className)}
       />
     )
   }

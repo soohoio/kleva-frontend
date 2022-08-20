@@ -51,7 +51,8 @@ class SubMenu extends Component {
           }}
           className="SubMenu__item SubMenu__item--switch"
         >{I18n.t('wklaySwitch')}</div>
-        <div className="SubMenu__item SubMenu__item--guide">{I18n.t('useGuide')}</div>
+        <div className="SubMenu__item SubMenu__item--useguide">{I18n.t('useGuide')}</div>
+        <div className="SubMenu__item SubMenu__item--withus">WITH US</div>
         <LanguageChange />
       </div>
     )

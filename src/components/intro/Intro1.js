@@ -17,7 +17,7 @@ class Intro1 extends Component {
   
   componentDidMount() {
     merge(
-      of(true),
+      selectedAddress$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -32,7 +32,8 @@ class Intro1 extends Component {
   }
     
   render() {
-    
+
+
     const { shouldShow } = this.props
 
     return (
@@ -47,16 +48,14 @@ class Intro1 extends Component {
           <button
             onClick={() => {
 
-              currentTab$.next('myasset')
+              if (selectedAddress$.value) {
+                currentTab$.next('myasset')
+                return
+              }
 
-              // if (selectedAddress$.value) {
-              //   currentTab$.next('myasset')
-              //   return
-              // }
-
-              // openModal$.next({
-              //   component: <ConnectWalletPopup />
-              // })
+              openModal$.next({
+                component: <ConnectWalletPopup />
+              })
             }}
             className={cx("Intro1__start", {
               "Intro1__start--shouldShow": shouldShow,

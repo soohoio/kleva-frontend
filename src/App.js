@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { browserHistory } from 'react-router'
 import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of, combineLatest } from 'rxjs'
-import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime } from 'rxjs/operators'
+import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime, pairwise } from 'rxjs/operators'
 import cx from 'classnames'
 import 'utils/tweening'
 
@@ -26,8 +26,8 @@ import {
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
-import { isFocused$, openModal$, showFooter$, showStartButton$ } from './streams/ui'
-import { debtTokens, ibTokens, singleTokens, singleTokensByAddress, tokenList } from './constants/tokens'
+import { isFocused$, showFooter$, showStartButton$ } from './streams/ui'
+import { debtTokens, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
@@ -39,6 +39,7 @@ import { calcProtocolAPR } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
 import { addressKeyFind } from './utils/misc'
+import { currentTab$ } from './streams/view'
 
 type Props = {
   isLoading: boolean,
@@ -60,6 +61,18 @@ class App extends Component<Props> {
   }
 
   componentDidMount() {
+
+    const isLoggedInFirst$ = selectedAddress$.pipe(
+      pairwise(),
+      map(([before, after]) => {
+        return before === undefined && !!after
+      })
+    )
+
+    isLoggedInFirst$.subscribe(() => {
+      currentTab$.next('myasset')
+    })
+
     // Fetch lending token supply info.
     merge(
       fetchLendingInfo$,

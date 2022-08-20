@@ -11,6 +11,11 @@
   @include font-style('font-1', 'm', 13px);
   color: #777D8F;
   position: relative;
+
+  background-image: url(/static/images/exported/down.svg);
+  background-size: 10px;
+  background-position: top 50% right 11px;
+  background-repeat: no-repeat;
 }
 
 .Dropdown__list {

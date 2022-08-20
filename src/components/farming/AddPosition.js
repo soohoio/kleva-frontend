@@ -131,14 +131,6 @@ class AddPosition extends Component {
       ? addressKeyFind(this.bloc.allowances$.value, tokenList.WKLAY.address)
       : addressKeyFind(this.bloc.allowances$.value, farmingToken.address)
 
-    console.log(this.bloc.allowances$.value, 'this.bloc.allowances$.value')
-
-    console.log(baseToken, 'baseToken')
-    console.log(baseTokenAllowance, 'baseTokenAllowance')
-
-    console.log(farmingToken, 'farmingToken')
-    console.log(farmingTokenAllowance, 'farmingTokenAllowance')
-
     const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0
       || (farmingTokenAllowance && farmingTokenAllowance != 0)
 

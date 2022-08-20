@@ -17,21 +17,30 @@ import Intro5 from '../components/intro/Intro5'
 import Intro6 from '../components/intro/Intro6'
 import Intro7 from '../components/intro/Intro7'
 
-import { showStartButton$ } from 'streams/ui'
-
 class IntroPage extends Component {
   $app = createRef()
 
   destroy$ = new Subject()
+
+  touched$ = new BehaviorSubject()
   
   componentDidMount() {
     merge(
-      showStartButton$,
+      this.touched$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
+    })
+
+    merge(
+      fromEvent(this.$app.current, 'click'),
+      fromEvent(this.$app.current, 'touchstart'),
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.touched$.next(true)
     })
   }
   
@@ -46,7 +55,9 @@ class IntroPage extends Component {
         <TabNavigation />
         <NotificationBanner />
         <div ref={this.$app} className="IntroPage__tabContent">
-          <Intro1 shouldShow={showStartButton$.value} />
+          <Intro1 
+            shouldShow={this.touched$.value}
+          />
           <Intro2 />
           <Intro3 />
           <Intro4 />

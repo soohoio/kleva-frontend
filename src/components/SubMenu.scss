@@ -8,11 +8,42 @@
   color: #777D8F;
   cursor: pointer;
   margin-right: 18px;
+  display: flex;
+  align-items: center;
 
   &--switch {
     &::before {
       content: "";
-
+      display: inline-block;
+      background-image: url(/static/images/exported/klayswitch.svg);
+      width: 17px;
+      height: 17px;
+      background-size: 100%;
+      margin-right: 4px;
+    }
+  }
+  
+  &--useguide {
+    &::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/static/images/exported/useguide.svg);
+      width: 17px;
+      height: 17px;
+      background-size: 100%;
+      margin-right: 4px;
+    }
+  }
+  
+  &--withus {
+    &::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/static/images/exported/withus.svg);
+      width: 17px;
+      height: 17px;
+      background-size: 100%;
+      margin-right: 4px;
     }
   }
 }

@@ -9,7 +9,9 @@ import { I18n } from '../common/I18n'
 const VideoItem = ({ imgSrc, title, description }) => {
   return (
     <div className="VideoItem">
-      <img className="VideoItem__image" src={imgSrc} />
+      <div className="VideoItem__imageWrapper">
+        <img className="VideoItem__image" src={imgSrc} />
+      </div>
       <p className="VideoItem__title">{title}</p>
       <p className="VideoItem__description">{description}</p>
     </div>

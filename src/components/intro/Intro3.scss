@@ -33,7 +33,7 @@
   width: 100%;
   
   @include desktop {
-    width: 403px;
+    width: 410px;
   }
 }
 
@@ -45,14 +45,20 @@
   align-items: center;
 
   @include desktop {
+    width: auto;
     flex-direction: row;
+    justify-content: flex-end;
   }
 }
 
 .Intro3__title {
   @include font-style('font-1', 'b', 19px);
   color: #265FFC;
-  margin-bottom: 12px;
+  margin-bottom: 9px;
+  
+  @include desktop {
+    margin-bottom: 12px;
+  }
 }
 
 .Intro3__description {
@@ -62,7 +68,9 @@
   line-height: 37px;
 
   @include desktop {
+    @include font-style('font-1', 'b', 40px);
     margin-bottom: 24px;
+    line-height: 52px;
   }
 }
 
@@ -70,4 +78,17 @@
   @include font-style('font-1', 'sb', 19px);
   color: #4C505C;
   line-height: 26px;
+
+  strong {
+    @include font-style('font-1', 'b', 19px);
+  }
+
+  @include desktop {
+    line-height: 34px;
+    @include font-style('font-1', 'sb', 24px);
+
+    strong {
+      @include font-style('font-1', 'b', 24px);
+    }
+  }
 }
