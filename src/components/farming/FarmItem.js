@@ -6,10 +6,8 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import { openModal$ } from 'streams/ui'
 
 import LeverageController from '../LeverageController'
-import AddPositionPopup from '../AddPositionPopup'
 
 import './FarmItem.scss'
-import BorrowingAssetSelector from '../BorrowingAssetSelector'
 import { nFormatter } from '../../utils/misc'
 
 import Bloc from './FarmItem.bloc'

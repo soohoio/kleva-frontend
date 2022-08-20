@@ -9,15 +9,11 @@ import Modal from '../common/Modal'
 import { I18n } from '../common/I18n'
 import LabelAndValue from '../LabelAndValue'
 import { nFormatter } from '../../utils/misc'
-import LendAndStakeControllerPopup from '../lendnstake/LendAndStakeControllerPopup'
-import { openModal$ } from '../../streams/ui'
+import { closeModal$, openContentView$, openModal$ } from '../../streams/ui'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
-import RadioSet from '../common/RadioSet'
 import RadioSet2 from '../common/RadioSet2'
-import AddPositionPopup from '../AddPositionPopup';
 import LeverageController from '../LeverageController';
-
-
+import AddPosition from '../farming/AddPosition'
 
 class FarmAPRDetailInfo extends Component {
 
@@ -114,10 +110,12 @@ class FarmAPRDetailInfo extends Component {
 
               if (!selectedAddress) return
 
-              openModal$.next({
+              closeModal$.next(true)
+
+              openContentView$.next({
                 component: (
-                  <AddPositionPopup
-                    title="Add Position"
+                  <AddPosition
+                    title={`${token1?.title}+${token2?.title}`}
                     defaultLeverage={leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                     tradingFeeAPR={tradingFeeAPR}
@@ -130,7 +128,12 @@ class FarmAPRDetailInfo extends Component {
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}
                     leverage={1}
-                  />)
+
+                    offset={0.5}
+
+                    baseBorrowingInterests={baseBorrowingInterests}
+                  />
+                )
               })
             }}
           >

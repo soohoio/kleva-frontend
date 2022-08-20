@@ -3,7 +3,6 @@ import { takeUntil, tap, switchMap, map } from 'rxjs/operators'
 
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
-import BorrowingAssetSelector from '../BorrowingAssetSelector'
 import { debtTokens, lpTokenByIngredients, tokenList } from '../../constants/tokens'
 import { nFormatter } from '../../utils/misc'
 

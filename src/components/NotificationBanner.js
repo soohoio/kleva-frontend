@@ -5,7 +5,6 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
 import './NotificationBanner.scss'
 import Shortcuts from './Shortcuts'
-import RollingBanner from './RollingBanner'
 import RollingNoti from './RollingNoti'
 
 class NotificationBanner extends Component {

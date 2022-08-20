@@ -9,7 +9,6 @@ import { closeModal$ } from 'streams/ui'
 
 import './MobileGNB.scss'
 import { openModal$ } from '../streams/ui'
-import OpenSoon from './OpenSoon'
 
 import Guide from 'components/common/Guide'
 import ConnectWalletPopup from './ConnectWalletPopup'

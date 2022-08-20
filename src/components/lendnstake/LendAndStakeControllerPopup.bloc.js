@@ -51,20 +51,20 @@ export default class {
       ? depositAmount
       : 0
 
-    // depositForLending$(vaultAddress, depositAmount, nativeCoinAmount).pipe(
-    //   tap(() => this.isLoading$.next(true)),
-    //   switchMap((result) => {
-    //     return getTransactionReceipt$(result && result.result || result.tx_hash)
-    //   })
-    // ).subscribe((result) => {
-    //   this.isLoading$.next(false)
-    //   fetchWalletInfo$.next(true)
+    depositForLending$(vaultAddress, depositAmount, nativeCoinAmount).pipe(
+      tap(() => this.isLoading$.next(true)),
+      switchMap((result) => {
+        return getTransactionReceipt$(result && result.result || result.tx_hash)
+      })
+    ).subscribe((result) => {
+      this.isLoading$.next(false)
+      fetchWalletInfo$.next(true)
 
-    //   this.lendCompleted$.next(true)
-    //   // closeModal$.next(true)
-    // })
+      this.lendCompleted$.next(true)
+      // closeModal$.next(true)
+    })
 
-    this.lendCompleted$.next(true)
+    // this.lendCompleted$.next(true)
   }
 
   approveStaking = (stakingToken) => {
@@ -82,36 +82,36 @@ export default class {
       .multipliedBy(10 ** stakingToken.decimals)
       .toString()
 
-    // stakeToStakingPool$(accountFor, pid, stakeAmountPure).pipe(
-    //   tap(() => this.isLoading$.next(true)),
-    //   switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
-    // ).subscribe((result) => {
-    //   this.isLoading$.next(false)
-    //   fetchWalletInfo$.next(true)
-    //   // closeModal$.next(true)
-    // })
+    stakeToStakingPool$(accountFor, pid, stakeAmountPure).pipe(
+      tap(() => this.isLoading$.next(true)),
+      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
+    ).subscribe((result) => {
+      this.isLoading$.next(false)
+      fetchWalletInfo$.next(true)
+      // closeModal$.next(true)
 
-    openModal$.next({
-      component: (
-        <CompletedModal menus={[
-          { 
-            title: I18n.t('viewInMyAsset'), 
-            onClick: () => { 
-              closeModal$.next(true)
-              currentTab$.next('myasset')
-            }
-          },
-          { 
-            title: I18n.t('checkLater'), 
-            onClick: () => { 
-              closeModal$.next(true)
-            }
-          },
-        ]}>
-          <p className="CompletedModal__title">{I18n.t('lendstake.controller.stakeCompleted.title')}</p>
-          <p className="CompletedModal__description">{I18n.t('lendstake.controller.stakeCompleted.description')}</p>
-        </CompletedModal>
-      )
+      openModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('viewInMyAsset'),
+              onClick: () => {
+                closeModal$.next(true)
+                currentTab$.next('myasset')
+              }
+            },
+            {
+              title: I18n.t('checkLater'),
+              onClick: () => {
+                closeModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('lendstake.controller.stakeCompleted.title')}</p>
+            <p className="CompletedModal__description">{I18n.t('lendstake.controller.stakeCompleted.description')}</p>
+          </CompletedModal>
+        )
+      })
     })
   }
 

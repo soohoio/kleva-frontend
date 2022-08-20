@@ -6,10 +6,8 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import { openModal$ } from 'streams/ui'
 
 import LeverageController from '../LeverageController'
-import AddPositionPopup from '../AddPositionPopup'
 
 import './FarmItemCard.scss'
-import BorrowingAssetSelector from '../BorrowingAssetSelector'
 import { nFormatter } from '../../utils/misc'
 
 import Bloc from './FarmItem.bloc'
@@ -166,26 +164,6 @@ class FarmItemCard extends Component {
             onClick={() => {
 
               if (!selectedAddress) return
-
-              // openModal$.next({
-              //   component: (
-              //     <AddPositionPopup
-              //       title="Add Position"
-              //       defaultLeverage={leverageValue}
-              //       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-              //       tradingFeeAPR={tradingFeeAPR}
-
-              //       workerList={workerList}
-              //       workerInfo={workerInfo}
-
-              //       token1={token1}
-              //       token2={token2}
-
-              //       lpToken={lpToken}
-              //       borrowingAvailableAssets={borrowingAvailableAssets}
-              //       leverage={1}
-              //     />)
-              // })
 
               openContentView$.next({
                 component: (

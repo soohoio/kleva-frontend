@@ -9,14 +9,7 @@ import Modal from '../common/Modal'
 import { I18n } from '../common/I18n'
 import LabelAndValue from '../LabelAndValue'
 import { nFormatter } from '../../utils/misc'
-import LendAndStakeControllerPopup from '../lendnstake/LendAndStakeControllerPopup'
-import { openModal$ } from '../../streams/ui'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
-import RadioSet from '../common/RadioSet'
-import RadioSet2 from '../common/RadioSet2'
-import AddPositionPopup from '../AddPositionPopup';
-import LeverageController from '../LeverageController';
-
 
 
 class FarmAPRDetailInfo2 extends Component {

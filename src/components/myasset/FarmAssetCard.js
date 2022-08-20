@@ -8,9 +8,9 @@ import BigNumber from 'bignumber.js'
 import { I18n } from 'components/common/I18n'
 
 import { openContentView$, openModal$ } from '../../streams/ui'
-import ClosePositionPopup from 'components/ClosePositionPopup'
+// import ClosePositionPopup from 'components/ClosePositionPopup'
 import { debtTokens, getIbTokenFromOriginalToken, lpTokenByIngredients, tokenList } from '../../constants/tokens'
-import AdjustPositionPopup from 'components/AdjustPositionPopup'
+// import AdjustPositionPopup from 'components/AdjustPositionPopup'
 
 import './FarmAssetCard.scss'
 import { nFormatter, noRounding } from '../../utils/misc'
