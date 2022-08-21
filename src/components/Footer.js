@@ -37,10 +37,34 @@ class Footer extends Component {
         <div className="Footer__content">
           <div className="Footer__contentHeader">
             <div className="Footer__socials">
-              <img className="Footer__icon" src="/static/images/common/icon_footer_gitbook.svg" />
-              <img className="Footer__icon" src="/static/images/common/icon_footer_twitter.svg" />
-              <img className="Footer__icon" src="/static/images/common/icon_footer_telegram.svg" />
-              <img className="Footer__icon" src="/static/images/common/icon_footer_medium.svg" />
+              <img 
+                className="Footer__icon" 
+                onClick={() => {
+                  window.open('https://docs.kleva.io')
+                }}
+                src="/static/images/common/icon_footer_gitbook.svg" 
+              />
+              <img 
+                className="Footer__icon" 
+                onClick={() => {
+                  window.open('https://mobile.twitter.com/kleva_protocol')
+                }}
+                src="/static/images/common/icon_footer_twitter.svg" 
+              />
+              <img 
+                className="Footer__icon" 
+                onClick={() => {
+                  window.open('https://t.me/klevaprotocol_official')
+                }}
+                src="/static/images/common/icon_footer_telegram.svg" 
+              />
+              <img 
+                className="Footer__icon" 
+                onClick={() => {
+                  window.open('https://medium.com/@KLEVA_Protocol_official')
+                }}
+                src="/static/images/common/icon_footer_medium.svg" 
+              />
             </div>
             <LanguageChange />
           </div>

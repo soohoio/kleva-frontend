@@ -6,6 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './NotificationBanner.scss'
 import Shortcuts from './Shortcuts'
 import RollingNoti from './RollingNoti'
+import { readNotiMap$ } from '../streams/setting'
 
 class NotificationBanner extends Component {
 
@@ -13,7 +14,7 @@ class NotificationBanner extends Component {
   
   componentDidMount() {
     merge(
-      of(true),
+      readNotiMap$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -26,17 +27,35 @@ class NotificationBanner extends Component {
   componentWillUnmount() {
     this.destroy$.next(true)
   }
+
+  getItems = () => {
+    const items = [
+      {
+        key: "items001",
+        category: 'notice',
+        content: 'notice.1',
+        href: 'https://bit.ly/3NXDcgN',
+      },
+    ].filter(({ key }) => {
+      return !readNotiMap$.value[key]
+    })
+
+    return items
+  }
     
   render() {
-    const items = [
-      { category: 'notice', content: 'notice.1' }
-    ]
-    
+
+    const items = this.getItems()
+
     return (
-      <div className="NotificationBanner">
+      <div 
+        className={cx("NotificationBanner", {
+          "NotificationBanner--noItem": items.length == 0,
+        })}
+      >
         <div className="NotificationBanner__content">
           <div className="NotificationBanner__left">
-            <RollingNoti />
+            <RollingNoti items={items} />
           </div>
           <div className="NotificationBanner__right">
             <Shortcuts />

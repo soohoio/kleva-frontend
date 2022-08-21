@@ -1,5 +1,5 @@
 import ls from 'local-storage'
-import { BehaviorSubject } from "rxjs"
+import { BehaviorSubject, Subject } from "rxjs"
 import { distinctUntilChanged } from 'rxjs/operators'
 
 export const showSummaryDefault$ = new BehaviorSubject(ls.get('showSummaryDefault$'))
@@ -19,4 +19,22 @@ export const slippage$ = new BehaviorSubject(ls.get('slippage$') || 0.5)
 
 slippage$.subscribe((val) => {
   ls.set('slippage$', val)
+})
+
+export const readNotiMap$ = new BehaviorSubject(ls.get('readNotiMap$') || {})
+
+export const readNoti$ = new Subject()
+
+readNoti$.subscribe((notiKey) => {
+
+  readNotiMap$.next({
+    ...readNotiMap$.value,
+    [notiKey]: true,
+  })
+})
+
+readNotiMap$.subscribe((values) => {
+  ls.set('readNotiMap$', {
+    ...values,
+  })
 })
