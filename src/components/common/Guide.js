@@ -31,7 +31,7 @@ class Guide extends Component {
     return (
       <div className="Guide">
         <p className="Guide__title">{title}</p>
-        <p className="Guide__description">{description}</p>
+        {!!description && <p className="Guide__description">{description}</p>}
         {buttons && buttons.length != 0
           ? (
             <div className="Guide__buttons">

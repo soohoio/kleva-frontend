@@ -4,14 +4,14 @@
   width: 90%;
   right: 0;
   left: unset;
+  max-width: 295px;
 
   display: flex;
   flex-direction: column;
   position: fixed;
   bottom: 0;
   overflow: scroll;
-  padding: 28px 24px;
-  border-radius: 8px;
+  padding: 28px 30px;
   background-color: #fff;
   z-index: 9999;
 
@@ -20,14 +20,17 @@
   }
 
   .Guide__button {
+    width: 81px;
+    padding: 0;
     margin-top: 0;
+    background-color: #2D65FC;
   }
 
   .Guide__title {
     @include font-style('font-1', 'b', 21px);
     color: #333333;
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
   }
 
   .SubMenu {
@@ -57,7 +60,7 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
 
 .MobileGNB__headerLogo {
@@ -66,8 +69,9 @@
 }
 
 .MobileGNB__close {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .MobileGNB__connected {

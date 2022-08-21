@@ -42,7 +42,7 @@ class MobileGNB extends Component {
           <img 
             onClick={() => closeModal$.next(true)} 
             className="MobileGNB__close" 
-            src="/static/images/close-black.svg" 
+            src="/static/images/exported/x.svg" 
           />
         </div>
         {selectedAddress$.value 
@@ -60,7 +60,7 @@ class MobileGNB extends Component {
           : (
             <Guide
               title={I18n.t('connectWallet2')}
-              buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
+              buttonTitle={I18n.t('connect')}
               onClick={() => {
                 openModal$.next({
                   component: <ConnectWalletPopup />
