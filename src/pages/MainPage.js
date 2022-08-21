@@ -11,6 +11,7 @@ import { currentTab$ } from '../streams/view'
 import LendAndStake from '../components/lendnstake/LendAndStake'
 import Farming from '../components/farming/Farming'
 import MyAsset from '../components/myasset/MyAsset'
+import Footer from '../components/Footer'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -64,6 +65,7 @@ class MainPage extends Component {
         <div className="MainPage__tabContent">
           {this.renderTab()}
         </div>
+        <Footer />
       </div>
     )
   }

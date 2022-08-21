@@ -253,6 +253,7 @@ class App extends Component<Props> {
     this.checkShowFooter()
     
     merge(
+      currentTab$,
       fromEvent(this.$app.current, 'scroll'),
       fromEvent(window, 'resize'),
     ).pipe(
@@ -271,11 +272,8 @@ class App extends Component<Props> {
     const scrollTop = this.$app.current.scrollTop
 
     const shouldShow = ((scrollTop / height) > 0.8) || (height - scrollTop < 52)
+    console.log(shouldShow, 'shouldShow')
     showFooter$.next(shouldShow)
-
-    const shouldShowStartButton = scrollTop > 200
-
-    showStartButton$.next(shouldShowStartButton)
   }
 
   componentWillUnmount() {

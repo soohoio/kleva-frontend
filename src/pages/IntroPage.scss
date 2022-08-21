@@ -27,6 +27,11 @@
     margin: 0;
     height: 10px !important;
   }
+
+  .Footer {
+    display: flex;
+    position: static;
+  }
 }
 
 .IntroPage__tabContent {

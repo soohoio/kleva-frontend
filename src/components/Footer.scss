@@ -1,162 +1,79 @@
 .Footer {
-  width: 100vw;
-  z-index: 9;
-  left: 0;
-  bottom: 0;
   width: 100%;
-  align-items: center;
-  background-color: #292c33;
-  display: flex;
-  padding: 24px;
+
+  background-color: #0F1115;
   justify-content: center;
-  
+  height: 156px;
+  display: flex;
   flex-direction: column;
+
+  padding: 0 20px;
   
   @include desktop {
     display: none;
-    flex-direction: row;
     
     &--show {
-      justify-content: space-between;
-      padding: 0 40px;
-      position: fixed;
       display: flex;
-      height: 52px;
+      position: fixed;
+      z-index: 9;
+      width: 100vw;
+      left: 0;
+      bottom: 0;
+      height: 122px;
     }
-    
-    @media only screen and (min-height: 500px) {
-    }
+  }
+
+  .Dropdown {
+    border: 0;
   }
 }
 
-.Footer__left {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.Footer__content {
   @include desktop {
-    width: auto;
-    justify-content: unset;
+    width: $CONTENT_WIDTH;
+    margin: 0 auto;
   }
 }
 
-.Footer__right {
+.Footer__contentHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.Footer__socials {
   display: flex;
   align-items: center;
-  width: 100%;
-  justify-content: center;
-  margin-top: 25px;
+}
+
+.Footer__icon {
+  height: 17px;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+.Footer__project {
+  display: flex;
   flex-direction: column;
-
+  align-items: flex-start;
+  
   @include desktop {
-    width: auto;
-    justify-content: unset;
+    align-items: center;
     flex-direction: row;
-    margin-top: 0;
   }
 }
 
-.Footer__itemCategory {
-  @include font-style('font-1', 'r', 11px);
-  color: rgba(255, 255, 255, 0.3);
-  
-  margin-left: 12px;
-  margin-right: 12px;
-  margin-bottom: 8px;
-  margin-top: 8px;
-  
+.Footer__projectName {
+  margin-right: 10px;
+  margin-bottom: 10px;
+
   @include desktop {
-    @include font-style('font-1', 'r', 13px);
-    margin-top: 0;
-    margin-left: 28px;
-    margin-right: 20px;
     margin-bottom: 0;
   }
 }
 
-.Footer__logoImage {
-  cursor: pointer;
-  height: 16px;
-
-  &--klayfi { 
-    @include desktop {
-      height: 18px; 
-    }
-    margin-right: 16px;
-  }
-
-  &--sooho { 
-    height: 14px;
-    margin-right: 16px;
-
-    @include desktop {
-      height: 16px; 
-    }
-  }
-
-  &--peckshield {
-    margin-right: 16px;
-  }
-
-  &--claimswap {
-    height: 22px;
-    margin-right: 16px;
-  }
-  
-  &--kokoa {
-    height: 16px;
-    margin-right: 16px;
-  }
-  
-  &--kns {
-    height: 10px;
-  }
-
-  &--scvsoft { 
-    height: 18px;
-
-    @include desktop {
-      height: 20px; 
-    }
-  }
-}
-
-.Footer__socialLink {
-  @include gap-like(36px);
-
-  @include desktop {
-    @include gap-like(16px);
-  }
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.Footer__logoList {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  @include desktop {
-    flex-direction: row;
-  }
-}
-
 .Footer__copyright {
-  @include font-style('font-1', 'r', 13px);
-  color: rgba(255, 255, 255, 0.3);
-  margin-top: 12px;
-
-  @include desktop {
-    margin-left: 28px;
-    margin-top: 0;
-  }
-}
-
-.Footer__itemWrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+  @include font-style('font-1', 'r', 14px);
+  color: #60636B;
 }
