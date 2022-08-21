@@ -15,7 +15,7 @@ import Intro3 from '../components/intro/Intro3'
 import Intro4 from '../components/intro/Intro4'
 import Intro5 from '../components/intro/Intro5'
 import Intro6 from '../components/intro/Intro6'
-import Intro7 from '../components/intro/Intro7'
+import FAQ from '../components/intro/FAQ'
 
 class IntroPage extends Component {
   $app = createRef()
@@ -63,7 +63,7 @@ class IntroPage extends Component {
           <Intro4 />
           <Intro5 />
           <Intro6 />
-          {/* <Intro7 /> */}
+          <FAQ />
         </div>
       </div>
     )

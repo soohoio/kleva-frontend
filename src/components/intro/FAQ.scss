@@ -1,0 +1,131 @@
+.FAQ {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px;
+  
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  
+  @include desktop {
+    padding: 50px 0;
+    width: $CONTENT_WIDTH;
+    margin: 0 auto;
+  }
+}
+
+.FAQ__title {
+  @include font-style('font-1', 'eb', 26px);
+  margin: 0 auto;
+  width: 100%;
+  color: #222222;
+  margin-bottom: 32px;
+  line-height: 34px;
+
+  @include desktop {
+    br {
+      display: none;
+    }
+  }
+}
+
+.FAQItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+  border-bottom: 1px solid #E9EAF0;
+  width: 100%;
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
+
+  &--active {
+    .FAQItem__title{
+      &::before {
+        content: "";
+        width: 13px;
+        height: 7px;
+        background-size: 100%;
+        display: flex;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        background-image: url(/static/images/exported/up-gray.svg);
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+.FAQItem__title {
+  @include font-style('font-1', 'b', 17px);
+  width: 100%;
+  color: #222222;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    width: 13px;
+    height: 7px;
+    background-size: 100%;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-image: url(/static/images/exported/down-gray.svg);
+    background-repeat: no-repeat;
+  }
+
+  @include desktop {
+    @include font-style('font-1', 'b', 22px);
+  }
+}
+
+.FAQItem__description {
+  @include font-style('font-1', 'm', 16px);
+  
+  color: #636878;
+  text-align: left;
+  width: 100%;
+  margin-top: 22px;
+  line-height: 23px;
+}
+
+.FAQItem__link {
+  @include font-style('font-1', 'sb', 16px);
+  display: flex;
+  align-items: center;
+  color: #265FFC;
+  margin-top: 14px;
+  width: 100%;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    display: flex;
+    background-image: url(/static/images/exported/right-blue-arrow.svg);
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 13px;
+    background-size: 100%;
+    margin-left: 4px;
+  }
+}
+
+.FAQ__see {
+  @include button-1(50px);
+  background-color: #EDF2FC;
+  color: #265FFC;
+  width: 100%;
+  margin-top: 24px;
+}
