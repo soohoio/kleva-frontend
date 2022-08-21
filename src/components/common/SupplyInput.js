@@ -51,6 +51,7 @@ class SupplyInput extends Component {
           <span className="SupplyInput__labelValue">{Number(labelValue).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
         <InputWithPercentage
+          zeroValueDisable
           decimalLimit={decimalLimit}
           imgSrc={imgSrc}
           value$={value$}

@@ -18,7 +18,13 @@ export default class {
 
     // this.borrowingAsset$ = new BehaviorSubject(defaultBorrowingAsset)
     this.worker$ = new BehaviorSubject(selectedWorker)
-    this.leverageValue$ = new BehaviorSubject(1)
+    this.leverageValue$ = new BehaviorSubject(2) // default leverage: 2
+
+    this.comp.props.sortTypeChanged$.pipe(
+      takeUntil(this.comp.destroy$)
+    ).subscribe(() => {
+      this.leverageValue$.next(2)
+    })
   }
 
   getBorrowingAvailableAsset = () => {

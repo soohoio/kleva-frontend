@@ -18,23 +18,10 @@ import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
 import { openContentView$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 
-const FarmProperty = ({ className, label, labelSub, value }) => {
-  return (
-    <div className={cx("FarmProperty", className)}>
-      <div className="FarmProperty__label">
-        {label}
-        {labelSub && <p className="FarmProperty__labelSub">{labelSub}</p>}
-      </div>
-      <div className="FarmProperty__value">{value}</div>
-    </div>
-  )
-}
-
 class FarmItemCard extends Component {
-
-  bloc = new Bloc(this)
-
   destroy$ = new Subject()
+  
+  bloc = new Bloc(this)
   
   constructor(props) {
     super(props)
@@ -44,7 +31,6 @@ class FarmItemCard extends Component {
     merge(
       currentLocale$,
       this.props.borrowingAssetMap$,
-      // this.bloc.borrowingAsset$,
       this.bloc.worker$,
       this.bloc.leverageValue$,
     ).pipe(
@@ -91,7 +77,6 @@ class FarmItemCard extends Component {
 
     const {
       baseBorrowingInterests,
-      selectedBorrowingAssetWithInterest,
     } = this.bloc.getBorrowingInterests()
 
     return (
@@ -180,7 +165,6 @@ class FarmItemCard extends Component {
 
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}
-                    leverage={1}
 
                     offset={0.5}
 

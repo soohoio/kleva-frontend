@@ -19,7 +19,6 @@ import BorrowingItem from './BorrowingItem'
 import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
-import { slippage$ } from '../../streams/setting'
 import { addressKeyFind, nFormatter } from '../../utils/misc'
 import { checkAllowances$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
@@ -76,7 +75,7 @@ class AddPosition extends Component {
           return a.workerAddress === b.workerAddress
         }),
         tap(() => {
-          const { workerConfig, leverageCap } = this.bloc.getConfig()
+          const { leverageCap } = this.bloc.getConfig()
           // If leverage value is greater than leverage cap, lower it to the leverage cap.
           if (new BigNumber(this.bloc.leverage$.value).gt(leverageCap)) {
             this.bloc.leverage$.next(leverageCap)
@@ -286,39 +285,23 @@ class AddPosition extends Component {
   render() {
     const { 
       title,
-      defaultLeverage,
-      yieldFarmingAPR,
-      tradingFeeAPR,
-      workerList,
-      workerInfo,
-
       token1,
       token2,
-
-      lpToken,
-      borrowingAvailableAssets,
-      leverage,
-      selectedAddress,
-
       offset, 
-      setLeverage,
-
       baseBorrowingInterests,
     } = this.props
 
     // tokens
-    const { ibToken, farmingToken, baseToken } = this.bloc.getTokens()
+    const { farmingToken, baseToken } = this.bloc.getTokens()
 
     // config
-    const { workerConfig, leverageCap } = this.bloc.getConfig()
+    const { leverageCap } = this.bloc.getConfig()
 
     // before / after
     const { 
-      before_totalAPR,
       after_yieldFarmingAPR,
       after_tradingFeeAPR,
       after_klevaRewardsAPR,
-      borrowingInfo,
       after_borrowingInterestAPR,
       after_totalAPR,
     } = this.bloc.getBeforeAfter()
@@ -376,7 +359,6 @@ class AddPosition extends Component {
                               title={`${token1.title}+${token2.title}`}
                               token1={token1}
                               token2={token2}
-                              selectedAddress={selectedAddress}
                               yieldFarmingAPR={after_yieldFarmingAPR}
                               klevaRewardAPR={after_klevaRewardsAPR}
                               tradingFeeAPR={after_tradingFeeAPR}

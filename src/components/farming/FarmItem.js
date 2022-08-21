@@ -3,8 +3,6 @@ import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
-import { openModal$ } from 'streams/ui'
-
 import LeverageController from '../LeverageController'
 
 import './FarmItem.scss'
@@ -13,30 +11,15 @@ import { nFormatter } from '../../utils/misc'
 import Bloc from './FarmItem.bloc'
 import { I18n } from '../common/I18n';
 import { currentLocale$ } from 'streams/i18n';
-import QuestionMark from '../common/QuestionMark';
-import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
 import LabelAndValue from '../LabelAndValue'
 import RadioSet2 from '../common/RadioSet2'
 import { openContentView$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 
-const FarmProperty = ({ className, label, labelSub, value }) => {
-  return (
-    <div className={cx("FarmProperty", className)}>
-      <div className="FarmProperty__label">
-        {label}
-        {labelSub && <p className="FarmProperty__labelSub">{labelSub}</p>}
-      </div>
-      <div className="FarmProperty__value">{value}</div>
-    </div>
-  )
-}
-
 class FarmItem extends Component {
-
-  bloc = new Bloc(this)
-
   destroy$ = new Subject()
+  
+  bloc = new Bloc(this)
 
   constructor(props) {
     super(props)
@@ -46,7 +29,6 @@ class FarmItem extends Component {
     merge(
       currentLocale$,
       this.props.borrowingAssetMap$,
-      // this.bloc.borrowingAsset$,
       this.bloc.worker$,
       this.bloc.leverageValue$,
     ).pipe(
@@ -77,7 +59,6 @@ class FarmItem extends Component {
       borrowingAssetMap$,
     } = this.props
 
-    const leverageValue = this.bloc.leverageValue$.value
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
     const {
@@ -93,7 +74,6 @@ class FarmItem extends Component {
 
     const {
       baseBorrowingInterests,
-      selectedBorrowingAssetWithInterest,
     } = this.bloc.getBorrowingInterests()
 
     const radioList = Object.entries(baseBorrowingInterests)
@@ -160,7 +140,6 @@ class FarmItem extends Component {
               openContentView$.next({
                 component: (
                   <AddPosition
-                    selectedAddress={selectedAddress}
                     title={`${token1?.title}+${token2?.title}`}
                     defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
@@ -173,7 +152,6 @@ class FarmItem extends Component {
 
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}
-                    leverage={1}
 
                     offset={0.5}
 

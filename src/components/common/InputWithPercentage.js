@@ -119,18 +119,26 @@ class InputWithPercentage extends Component {
       autoFocus,
       className,
       noPercentage,
+      valueLimit,
+      zeroValueDisable,
     } = this.props
+
+    // zeroValueDisable: If value is zero, disable
+    const isZeroValue = valueLimit == 0
+    const isDisabled = zeroValueDisable && isZeroValue
 
     return (
       <div 
         className={cx("InputWithPercentage", className, {
           "InputWithPercentage--focused": isFocused,
+          "InputWithPercentage--disabled": isDisabled,
         })}
       >
         {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
         <input
           autoFocus={autoFocus}
           ref={this.$input}
+          readOnly={isDisabled}
           className="InputWithPercentage__input"
           value={value$.value}
           placeholder="0"

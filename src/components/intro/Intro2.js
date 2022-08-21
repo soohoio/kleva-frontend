@@ -62,6 +62,7 @@ class Intro2 extends Component {
     return new BigNumber(lendingPoolTVL)
       .plus(farmPoolTVL)
       .toNumber()
+
   }
 
   render() {

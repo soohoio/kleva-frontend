@@ -42,6 +42,13 @@ class FarmList extends Component {
   // 'all', 'wemix', 'klay'
   filterType$ = new BehaviorSubject('all')
 
+  sortTypeChanged$ = merge(
+    this.sortType$,
+    this.filterType$,
+  ).pipe(
+    distinctUntilChanged()
+  )
+
   sortCachedAt$ = new BehaviorSubject()
   sorted$ = new BehaviorSubject([])
 
@@ -252,6 +259,7 @@ class FarmList extends Component {
       return (
         <FarmItemCard
           key={lpToken && lpToken.address}
+          sortTypeChanged$={this.sortTypeChanged$}
           klevaAnnualRewards={klevaAnnualRewards$.value}
           tokenPrices={tokenPrices$.value}
           farmDeposited={farmPoolDeposited$.value[idx]}
@@ -282,6 +290,7 @@ class FarmList extends Component {
     return (
       <FarmItem
         key={lpToken && lpToken.address}
+        sortTypeChanged$={this.sortTypeChanged$}
         klevaAnnualRewards={klevaAnnualRewards$.value}
         tokenPrices={tokenPrices$.value}
         farmDeposited={farmPoolDeposited$.value[idx]}
