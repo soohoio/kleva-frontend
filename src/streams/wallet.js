@@ -9,6 +9,8 @@ export const selectedAddress$ = new BehaviorSubject()
 
 export const logout$ = new Subject()
 
+export const walletProviderName$ = new BehaviorSubject()
+
 selectedAddress$.pipe(
   distinctUntilChanged()
 ).subscribe(() => {
@@ -23,7 +25,9 @@ selectedAddress$.pipe(
   
 })
 
-export const connectInjected = (injectedType) => {
+export const connectInjected = (injectedType, walletProviderName) => {
+
+  walletProviderName$.next(walletProviderName)
 
   if (injectedType === "metamask") {
     if (!window.ethereum) {
@@ -85,6 +89,8 @@ logout$.subscribe(() => {
   fetchWalletInfo$.next(true)
   selectedAddress$.next(null)
   pendingGT$.next({})
+
+  walletProviderName$.next('')
 })
 
 window.selectedAddress$ = selectedAddress$

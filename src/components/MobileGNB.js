@@ -12,7 +12,7 @@ import { openModal$ } from '../streams/ui'
 
 import Guide from 'components/common/Guide'
 import ConnectWalletPopup from './ConnectWalletPopup'
-import { logout$, selectedAddress$ } from '../streams/wallet'
+import { logout$, selectedAddress$, walletProviderName$ } from '../streams/wallet'
 import { I18n } from './common/I18n'
 import SubMenu from './SubMenu'
 
@@ -21,7 +21,8 @@ class MobileGNB extends Component {
 
   componentDidMount() {
     merge(
-      path$
+      path$,
+      walletProviderName$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -47,7 +48,7 @@ class MobileGNB extends Component {
         {selectedAddress$.value 
           ? (
             <>
-              <p className="MobileGNB__connected">{I18n.t('connected')}</p>
+              <p className="MobileGNB__connected">{I18n.t('connected', { title: walletProviderName$.value })}</p>
               <p 
                 className="MobileGNB__logout"
                 onClick={() => logout$.next(true)}

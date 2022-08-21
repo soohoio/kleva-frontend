@@ -54,7 +54,7 @@ class ConnectWalletPopup extends Component {
             imgSrc="/static/images/logo-dcent.svg"
             onClick={() => {
               if (window.klaytn) {
-                connectInjected()
+                connectInjected('', 'dcent')
                 return
               }
               const _url = encodeURIComponent(window.location.href)
@@ -68,7 +68,7 @@ class ConnectWalletPopup extends Component {
             className="WalletConnectOption--kaikas"
             imgSrc="/static/images/wallet-option-kaikas.svg"
             onClick={() => {
-              connectInjected()
+              connectInjected('', 'Kaikas')
               closeModal$.next(true)
             }}
           />
@@ -80,6 +80,7 @@ class ConnectWalletPopup extends Component {
               accessKlip$().subscribe((result) => {
                 walletType$.next("klip")
                 selectedAddress$.next(result && result.klaytn_address)
+                connectInjected('', 'Klip')
 
                 if (!isMobile) {
                   closeModal$.next(true)
@@ -92,7 +93,7 @@ class ConnectWalletPopup extends Component {
             className="WalletConnectOption--metamask"
             imgSrc="/static/images/wallet-option-metamask.png"
             onClick={() => {
-              connectInjected('metamask')
+              connectInjected('metamask', 'Metamask')
               closeModal$.next(true)
             }}
           />

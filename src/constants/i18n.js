@@ -6,7 +6,7 @@ export const en = {
   'connectWallet': '지갑 연결하기',
   'connectWallet2': '지갑을 연결해 주세요.',
   'logout': '연결 해제하기',
-  'connected': '지갑에 연결됨',
+  'connected': '%{title} 지갑에 연결됨',
   
   'connectWallet.title': '자산 연동을 위해<br/>지갑을 연결해 주세요.',
   'connectWallet.connectWith': '%{title} 지갑 연결',
@@ -258,7 +258,7 @@ export const ko = {
   'connectWallet': '지갑 연결하기',
   'connectWallet2': '지갑을 연결해 주세요.',
   'logout': '연결 해제하기',
-  'connected': '지갑에 연결됨',
+  'connected': '%{title} 지갑에 연결됨',
   'connectWallet.title': '자산 연동을 위해<br/>지갑을 연결해 주세요.',
   'connectWallet.connectWith': '%{title} 지갑 연결',
   'connectWallet.noWallet.title': '지갑이 없으신가요?',
