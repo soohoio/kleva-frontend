@@ -32,6 +32,14 @@ class AddPosition extends Component {
   componentDidMount() {
     merge(
       balancesInWallet$,
+      
+      // If the user changes farmingTokenAmount || baseTokenAmount || leverage
+      // call view function `getOpenPositionResult`,
+      // it leads to fill following behavior subject,
+      // i) positionValue$
+      // : result of calling view function `getPositionValue(workerAddress, *baseAmt without leverage, farmAmt)`
+      // ii) resultBaseTokenAmount$, resultFarmTokenAmount$
+      // iii) priceImpact$, leverageImpact$
       merge(
         this.bloc.farmingTokenAmount$,
         this.bloc.baseTokenAmount$,
@@ -39,17 +47,22 @@ class AddPosition extends Component {
       ).pipe(
         switchMap(() => this.bloc.getOpenPositionResult$()),
         tap(() => {
+          
           // Check leverage available
-          const positionValue = this.bloc.positionValue$.value
+          const estimatedPositionValueWithoutLeverage = this.bloc.estimatedPositionValueWithoutLeverage$.value
           const amountToBorrow = this.bloc.getAmountToBorrow()
 
-          const newPositionValue = new BigNumber(positionValue).plus(amountToBorrow).toString()
-          const newDebtValue = new BigNumber(amountToBorrow).toString()
+          const newPositionValue = new BigNumber(estimatedPositionValueWithoutLeverage)
+            .plus(amountToBorrow)
+            .toString()
 
-          const { workFactorBps } = this.bloc.getConfig()
+          const newDebtValue = new BigNumber(amountToBorrow).toString()
 
           // Min Debt Size Check
           const ibToken = getIbTokenFromOriginalToken(this.bloc.borrowingAsset$.value)
+
+          const { workFactorBps } = this.bloc.getConfig()
+
           const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
 
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
@@ -64,12 +77,16 @@ class AddPosition extends Component {
       this.bloc.isLoading$,
       this.bloc.baseToken$,
       this.bloc.farmingToken$,
-      this.bloc.positionValue$,
+      this.bloc.estimatedPositionValueWithoutLeverage$,
       this.bloc.resultBaseTokenAmount$,
       this.bloc.resultFarmTokenAmount$,
       this.bloc.leverageImpact$,
       this.bloc.priceImpact$,
       this.bloc.borrowingAsset$,
+      // If worker changed, 
+      // 1) check current leverage is suitable for the leverage cap
+      // -> If it is higher than leverage cap, lower it
+      // 2) reset farmingTokenAmount$, baseTokenAmount$ to 0
       this.bloc.worker$.pipe(
         distinctUntilChanged((a, b) => {
           return a.workerAddress === b.workerAddress
@@ -119,6 +136,7 @@ class AddPosition extends Component {
   renderButtons = () => {
     const { ibToken, farmingToken, baseToken } = this.bloc.getTokens()
 
+    // Allowance check
     const baseTokenAllowance = isKLAY(baseToken.address)
       ? addressKeyFind(this.bloc.allowances$.value, tokenList.WKLAY.address)
       : addressKeyFind(this.bloc.allowances$.value, baseToken.address)
@@ -133,6 +151,7 @@ class AddPosition extends Component {
     const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0
       || (farmingTokenAllowance && farmingTokenAllowance != 0)
 
+    // Available balance check
     const availableFarmingTokenAmount = balancesInWallet$.value[farmingToken.address]
     const availableBaseTokenAmount = isKLAY(baseToken.address)
       ? balancesInWallet$.value[tokenList.WKLAY.address]

@@ -47,8 +47,6 @@ export default class {
     this.baseTokenAmount$ = new BehaviorSubject('')
     this.priceImpact$ = new BehaviorSubject('')
     this.leverageImpact$ = new BehaviorSubject('')
-    this.outputAmount$ = new BehaviorSubject()
-    this.expectedLpAmount$ = new BehaviorSubject()
     this.allowances$ = new BehaviorSubject({})
     this.leverage$ = new BehaviorSubject(1)
     this.borrowMoreAvailable$ = new BehaviorSubject(true)
@@ -56,26 +54,15 @@ export default class {
 
     this.resultBaseTokenAmount$ = new BehaviorSubject()
     this.resultFarmTokenAmount$ = new BehaviorSubject()
-    this.positionValue$ = new BehaviorSubject(0)
-
-    // ex) Farming Token: 10 KSP, Base Token: 100 KLEVA
-    // Convert 10 KSP to [farmingTokenAmountInBaseToken] KLEVA.
-    this.farmingTokenAmountInBaseToken$ = new BehaviorSubject()
-    this.afterPositionValue$ = new BehaviorSubject()
+    this.estimatedPositionValueWithoutLeverage$ = new BehaviorSubject(0)
 
     this.fetchAllowances$ = new Subject()
-
-    // UI
-    this.showAPRDetail$ = showDetailDefault$
-    this.showSummary$ = showSummaryDefault$
 
     this.init()
   }
 
   init = () => {
-    const { workerInfo, defaultWorker } = this.comp.props
-    const workerConfig = addressKeyFind(workerInfo, this.worker$?.value?.workerAddress)
-    const leverageCap = getBufferedLeverage(workerConfig?.workFactorBps)
+    const { defaultWorker } = this.comp.props
 
     this.leverage$.next(this.comp.props.defaultLeverage)
     if (defaultWorker) {
@@ -171,7 +158,7 @@ export default class {
   }
 
   getAmountToBorrow = () => {
-    const positionValue = this.positionValue$.value
+    const positionValue = this.estimatedPositionValueWithoutLeverage$.value
     const leverage = this.leverage$.value
 
     return new BigNumber(positionValue)
@@ -229,15 +216,12 @@ export default class {
       }),
     ]).pipe(
       tap(([openPositionResult, openPositionResult_leverage, positionValue]) => {
-        // console.log(openPositionResult, 'openPositionResult')
-        // console.log(openPositionResult_leverage, 'openPositionResult_leverage')
-
         this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
         this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
 
         this.priceImpact$.next(new BigNumber(openPositionResult.priceImpactBps).div(10000).toString())
 
-        this.positionValue$.next(positionValue)
+        this.estimatedPositionValueWithoutLeverage$.next(positionValue)
 
         if (this.leverage$.value == 1) {
           this.leverageImpact$.next(0)
