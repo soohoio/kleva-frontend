@@ -26,6 +26,7 @@
   
   @include desktop {
     @include button-1(43px);
+    padding: 0 20px;
   }
 }
 

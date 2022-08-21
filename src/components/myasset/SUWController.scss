@@ -1,5 +1,13 @@
 .SUWController {
+  
+}
 
+.SUWController__modal {
+  @include desktop {
+    .Modal__content {
+      overflow: unset;
+    }
+  }
 }
 
 .SUWController__title {

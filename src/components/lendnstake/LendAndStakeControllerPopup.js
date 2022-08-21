@@ -491,7 +491,7 @@ class LendAndStakeControllerPopup extends Component {
     const isKLAY = isSameAddress(stakingToken.address, tokenList.KLAY.address)
 
     return (
-      <Modal mobileCoverAll>
+      <Modal className="LendAndStakeControllerPopup__modal" mobileCoverAll>
         {isKLAY
           ? this.renderWKLAYContent()
           : this.renderContent()

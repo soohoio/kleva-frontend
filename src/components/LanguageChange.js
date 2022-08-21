@@ -37,10 +37,11 @@ class LanguageChange extends Component {
   }
     
   render() {
-    
+    const { upper } = this.props
     return (
       <div className="LanguageChange">
         <Dropdown
+          upper={upper}
           selectedItem$={this.selectedItem$}
           items={LANGUAGES}
           onSelect={(item) => {

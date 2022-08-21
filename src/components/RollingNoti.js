@@ -65,6 +65,8 @@ class RollingNoti extends Component {
     const child = this.$container.current.children[this.activeIdx$.value]
     const { top } = this.$container.current.getBoundingClientRect()
 
+    if (!child) return
+
     const nextVal = child.offsetTop - top
 
     new Tween({ scrollTop: this.$container.current.scrollTop })

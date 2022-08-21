@@ -2,6 +2,14 @@
 
 }
 
+.LendAndStakeControllerPopup__modal {
+  @include desktop {
+    .Modal__content {
+      overflow: unset;
+    }
+  }
+}
+
 .LendAndStakeControllerPopup__title {
   @include font-style('font-1', 'sb', 22px);
   line-height: 30px;

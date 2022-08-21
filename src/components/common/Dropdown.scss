@@ -1,37 +1,64 @@
 .Dropdown {
-  border: 1px solid #CCD1E2;
-  height: 29px;
+  border: 1px solid #D7DCEA;
+  height: 45px;
   width: 110px;
-  padding: 0 11px;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 5px;
 
-  @include font-style('font-1', 'm', 13px);
-  color: #777D8F;
+  @include font-style('font-1', 'sb', 16px);
+  color:  #636878;
   position: relative;
 
   background-image: url(/static/images/exported/down.svg);
   background-size: 10px;
   background-position: top 50% right 11px;
   background-repeat: no-repeat;
+
+  @include desktop {
+    @include font-style('font-1', 'sb', 13px);
+    height: 29px;
+    padding-left: 10px;
+  }
+
+  &--upper {
+    .Dropdown__list {
+      top: unset;
+      bottom: 120%;
+    }
+  }
 }
 
 .Dropdown__list {
   position: absolute;
   z-index: 9;
   width: 100%;
-  top: 100%;
+  top: 120%;
   left: 0;
-  border: 1px solid #CCD1E2;
   background-color: white;
-  border-radius: 3px;
+  border-radius: 5px;
+  padding: 11px 0;
+
+  background: #FFFFFF;
+
+  border: 1px solid #D7DCEA;
+  box-shadow: 0px 9px 16px -6px rgba(14, 28, 71, 0.13);
+  border-radius: 7px;
 }
 
 .Dropdown__listItem {
-  height: 29px;
+  height: 39px;
   display: flex;
   align-items: center;
-  padding: 0 11px;
+  padding: 0 19px;
+
+  @include font-style('font-1', 'm', 15px);
+  color: #4C505C;
+
+  &--selected {
+    @include font-style('font-1', 'b', 15px);
+    color: #265FFC;
+  }
 }

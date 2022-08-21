@@ -143,6 +143,7 @@
   color: #333333;
   border: 0;
   position: relative;
+  background-image: unset;
 
   @include desktop {
     @include font-style('font-1', 'b', 15px);

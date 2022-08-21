@@ -44,13 +44,14 @@ class Dropdown extends Component {
   }
     
   render() {
-    const { items, selectedItem$, onSelect, className } = this.props
+    const { items, upper, selectedItem$, onSelect, className } = this.props
 
     return (
       <div 
         ref={this.$container} 
         onClick={() => this.opened$.next(!this.opened$.value)} 
         className={cx("Dropdown", className, {
+          "Dropdown--upper": upper,
           "Dropdown--opened": !!this.opened$.value,
           [`${className}--opened`]: !!this.opened$.value,
         })}

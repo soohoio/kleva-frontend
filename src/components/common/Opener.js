@@ -100,23 +100,37 @@ class Opener extends Component {
                 onChange={(e) => this.setState({ searchKey: e.target.value })}
               />
             </div>
-            <div ref={(elem) => {
-              if (!elem) return
+            <div 
+              ref={(elem) => {
+                if (!elem) return
 
-              const $list = document.querySelector('.Opener__list')
-              const $selected = elem.querySelector('.Opener__item--selected')
+                const $list = document.querySelector('.Opener__list')
+                const $selected = elem.querySelector('.Opener__item--selected')
+              
+                // const containerRect = this.$container.current.getBoundingClientRect()
 
-              if (!$selected || !$list || $list.dirty) return
+                // console.log(containerRect, '@containerRect')
 
-              const selectedRect = $selected.getBoundingClientRect()
-              const listRect = $list.getBoundingClientRect()
+                // $list.style.position = "fixed"
+                // $list.style.left = `${containerRect.x}px`
+                // $list.style.top = `${containerRect.y}px`
+                // $list.style.width = `${containerRect.width}px`
 
-              const _scrollTop = selectedRect.top - listRect.top - 48
+                if (!$selected || !$list || $list.dirty) return
 
-              $list.scrollTop = _scrollTop
-              $list.dirty = true
 
-            }} className="Opener__list">
+
+                const selectedRect = $selected.getBoundingClientRect()
+                const listRect = $list.getBoundingClientRect()
+
+                const _scrollTop = selectedRect.top - listRect.top - 48
+
+                $list.scrollTop = _scrollTop
+                $list.dirty = true
+
+              }} 
+              className="Opener__list"
+            >
               {items
                 // .filter((item) => this.filterSearch(item, searchKey))
                 .map((item) => {

@@ -66,7 +66,9 @@ class Footer extends Component {
                 src="/static/images/common/icon_footer_medium.svg" 
               />
             </div>
-            <LanguageChange />
+            <LanguageChange 
+              upper
+            />
           </div>
           <div className="Footer__project">
             <img src="/static/images/common/footer_logo.svg" className="Footer__projectName" />

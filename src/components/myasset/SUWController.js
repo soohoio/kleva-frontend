@@ -391,7 +391,7 @@ class SUWController extends Component {
 
   render() {
     return (
-      <Modal mobileCoverAll>
+      <Modal className="SUWController__modal" mobileCoverAll>
         {this.renderContent()}
       </Modal>
     )
