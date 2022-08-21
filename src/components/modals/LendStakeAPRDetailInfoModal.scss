@@ -43,6 +43,7 @@
 
 .LendStakeAPRDetailInfoModal__depositButton {
   flex: 1;
+  margin-top: 24px;
   @include button-1(42px);
   @include font-style('font-1', 'sb', 14px);
   width: 100%;

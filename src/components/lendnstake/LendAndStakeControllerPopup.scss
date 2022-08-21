@@ -8,10 +8,14 @@
       overflow: unset;
     }
   }
+    
+  .Modal__content {
+    max-height: unset !important;
+  }
 }
 
 .LendAndStakeControllerPopup__title {
-  @include font-style('font-1', 'sb', 22px);
+  @include font-style('font-1', 'b', 22px);
   line-height: 30px;
   color: #222222;
 }

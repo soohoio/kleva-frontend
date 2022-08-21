@@ -138,3 +138,5 @@ currentTab$.pipe(
 })
 
 export const showStartButton$ = new BehaviorSubject(false)
+
+export const shouldNavigationTabFloat$ = new BehaviorSubject(false)

@@ -59,7 +59,7 @@ class Modal extends Component {
               return
             }
             closeModal$.next(true)
-          }} className="Modal__close" src="/static/images/close-black.svg" />
+          }} className="Modal__close" src="/static/images/exported/x.svg" />
         </div>
         <div ref={this.$modalContent} className="Modal__content">
           {children}

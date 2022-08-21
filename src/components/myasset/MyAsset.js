@@ -21,8 +21,8 @@ import { getOriginalTokenFromIbToken, ibTokenByAddress } from '../../constants/t
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import { currentTab$ } from '../../streams/view'
-import { getPositions$, getPositionsAll$ } from '../../streams/graphql'
-import { hasPosition$, positions$ } from '../../streams/farming'
+import { getPositions$ } from '../../streams/graphql'
+import { hasPosition$ } from '../../streams/farming'
 
 
 
@@ -32,9 +32,12 @@ class MyAsset extends Component {
   // lendnstake, farming
   assetMenu$ = new BehaviorSubject('lendnstake')
 
+  firstLoading$ = new BehaviorSubject(true)
+
   componentDidMount() {
     merge(
       contentView$,
+      this.firstLoading$,
       this.assetMenu$,
       hasPosition$,
       selectedAddress$,
@@ -51,12 +54,14 @@ class MyAsset extends Component {
     selectedAddress$.pipe(
       filter((account) => !!account),
       switchMap(() => {
+
         return interval(1000 * 30).pipe(
           startWith(0),
           switchMap(() => getPositions$(selectedAddress$.value, 1))
         )
       }),
       tap((positions) => {
+        this.firstLoading$.next(false)
         hasPosition$.next(positions.length != 0)
       }),
       takeUntil(this.destroy$)
@@ -113,6 +118,10 @@ class MyAsset extends Component {
       )
     }
     
+    if (this.firstLoading$.value) {
+      return "..."
+    }
+
     const ibTokenValueTotal = this.getIbTokenValues()
 
     if (ibTokenValueTotal == 0 && !hasPosition$.value) {

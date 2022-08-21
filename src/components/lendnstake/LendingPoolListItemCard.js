@@ -63,8 +63,8 @@ class LendingPoolListItemCard extends Component {
 
     const ibToken = getIbTokenFromOriginalToken(stakingToken)
 
-    // const isDisabled = isSameAddress(stakingToken.address, tokenList.oUSDT.address)
     const isDisabled = false
+    const isDepositDisabled = balanceInWallet && balanceInWallet.balanceParsed == "0"
 
     const isKLAY = isSameAddress(stakingToken.address, tokenList.KLAY.address)
 
@@ -177,7 +177,7 @@ class LendingPoolListItemCard extends Component {
             </div>
             <div
               className={cx("LendingPoolListItemCard__depositButton", {
-                "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDisabled
+                "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDepositDisabled
               })}
               onClick={() => {
 
@@ -185,7 +185,7 @@ class LendingPoolListItemCard extends Component {
                   return
                 }
 
-                if (isDisabled) {
+                if (isDepositDisabled) {
                   return
                 }
 

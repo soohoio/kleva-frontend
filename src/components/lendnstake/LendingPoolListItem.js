@@ -58,8 +58,8 @@ class LendingPoolListItem extends Component {
 
     const isKLAY = isSameAddress(stakingToken.address, tokenList.KLAY.address)
 
-    // const isDisabled = isSameAddress(stakingToken.address, tokenList.oUSDT.address)
     const isDisabled = false
+    const isDepositDisabled = balanceInWallet && balanceInWallet.balanceParsed == "0"  
 
     return (
       <>
@@ -107,16 +107,6 @@ class LendingPoolListItem extends Component {
           {nFormatter(utilization, 2)}%
         </div>
         <div className="LendingPoolListItem">
-          {/* <div className="LendingPoolListItem__tokenBalance">
-            <span className="LendingPoolListItem__tokenValue">{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })}</span>            
-            <span className="LendingPoolListItem__tokenSymbol">ib{stakingToken.title}</span>
-          </div>
-          {isKLAY && (
-            <div className="LendingPoolListItem__tokenBalance">
-              <span className="LendingPoolListItem__tokenValue">{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </span>
-              <span className="LendingPoolListItem__tokenSymbol">WKLAY</span>
-            </div>
-          )} */}
           <div className="LendingPoolListItem__tokenBalance">
             <p className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </p>
             <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
@@ -146,7 +136,7 @@ class LendingPoolListItem extends Component {
             </div>
             <div
               className={cx("LendingDepositAndSimulation__depositButton", {
-                "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDisabled
+                "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDepositDisabled
               })}
               onClick={() => {
 

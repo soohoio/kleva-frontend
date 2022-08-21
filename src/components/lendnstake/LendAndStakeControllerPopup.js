@@ -23,6 +23,9 @@ import { allowancesInStakingPool$, selectedAddress$ } from '../../streams/wallet
 import { closeModal$ } from 'streams/ui';
 import LabelAndValue from '../LabelAndValue'
 import Tip from '../common/Tip'
+import { openModal$ } from '../../streams/ui'
+import CompletedModal from '../common/CompletedModal'
+import { currentTab$ } from '../../streams/view'
 
 class LendAndStakeControllerPopup extends Component {
   destroy$ = new Subject()
@@ -161,7 +164,28 @@ class LendAndStakeControllerPopup extends Component {
         </button>
         <button
           onClick={() => {
-            closeModal$.next(true)
+            openModal$.next({
+              component: (
+                <CompletedModal menus={[
+                  {
+                    title: I18n.t('viewInMyAsset'),
+                    onClick: () => {
+                      closeModal$.next(true)
+                      currentTab$.next('myasset')
+                    }
+                  },
+                  {
+                    title: I18n.t('checkLater'),
+                    onClick: () => {
+                      closeModal$.next(true)
+                    }
+                  },
+                ]}>
+                  <p className="CompletedModal__title">{I18n.t('lendstake.controller.lendCompleted.title')}</p>
+                  <p className="CompletedModal__description">{I18n.t('lendstake.controller.lendCompleted.description')}</p>
+                </CompletedModal>
+              )
+            })
           }}
           className={cx("LendAndStakeControllerPopup__doLaterButton")}
         >

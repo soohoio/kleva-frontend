@@ -25,28 +25,26 @@ class QuestionMark extends Component {
               color,
               fontSize: size,
               borderColor: color,
+              backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg`
             }}
             onClick={onClick}
             className="QuestionMark"
-          >
-            {info ? 'i' : '?'}
-          </div>
+        />
         </div>
       )
     }
 
     return (
-        <div
-          style={{
-            color,
-            borderColor: color,
-            fontSize: size,
-          }}
-          onClick={onClick}
-          className="QuestionMark"
-        >
-          {info ? 'i' : '?'}
-        </div>
+      <div
+        style={{
+          color,
+          fontSize: size,
+          borderColor: color,
+          backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg`
+        }}
+        onClick={onClick}
+        className="QuestionMark"
+      />
     )
   }
 }

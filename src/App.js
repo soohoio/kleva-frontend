@@ -26,7 +26,7 @@ import {
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
-import { isFocused$, showFooter$, showStartButton$ } from './streams/ui'
+import { isFocused$, shouldNavigationTabFloat$, showFooter$, showStartButton$ } from './streams/ui'
 import { debtTokens, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
@@ -271,9 +271,13 @@ class App extends Component<Props> {
     const height = scrollHeight - clientHeight
     const scrollTop = this.$app.current.scrollTop
 
+    // footer
     const shouldShow = ((scrollTop / height) > 0.8) || (height - scrollTop < 52)
-    console.log(shouldShow, 'shouldShow')
     showFooter$.next(shouldShow)
+
+    // navigation tab
+    const shouldFloat = scrollTop > 132 
+    shouldNavigationTabFloat$.next(shouldFloat)
   }
 
   componentWillUnmount() {

@@ -22,6 +22,19 @@
 .LendAndStake__introMisc {
   @include font-style('font-1', 'b', 16px);
   color: #3C6BFA;
+
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    background-image: url(/static/images/exported/play-blue.svg);
+    width: 17px;
+    height: 17px;
+    background-size: 100%;
+    margin-right: 4px;
+  }
 }
 
 

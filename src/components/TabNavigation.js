@@ -7,6 +7,7 @@ import './TabNavigation.scss'
 import { I18n } from './common/I18n'
 import { currentTab$ } from '../streams/view'
 import SubMenu from './Submenu'
+import { shouldNavigationTabFloat$ } from '../streams/ui'
 
 const TabNavigationItem = ({ onClick, isActive, title }) => {
   return (
@@ -27,6 +28,7 @@ class TabNavigation extends Component {
   componentDidMount() {
     merge(
       currentTab$,
+      shouldNavigationTabFloat$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -40,17 +42,26 @@ class TabNavigation extends Component {
     
   render() {
     return (
-      <div className="TabNavigation">
-        <div className="TabNavigation__content">
-          <div className="TabNavigation__tabs">
-            <TabNavigationItem onClick={() => currentTab$.next('myasset')} isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
-            <TabNavigationItem onClick={() => currentTab$.next('lendnstake')} isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
-            <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming1')} />
-          </div>
-          <div className="TabNavigation__right">
-            <SubMenu />
+      <div 
+        className={cx("TabNavigation__wrapper", {
+          "TabNavigation__wrapper--float": shouldNavigationTabFloat$.value
+        })}
+      >
+        <div
+          className={cx("TabNavigation")}
+        >
+          <div className="TabNavigation__content">
+            <div className="TabNavigation__tabs">
+              <TabNavigationItem onClick={() => currentTab$.next('myasset')} isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
+              <TabNavigationItem onClick={() => currentTab$.next('lendnstake')} isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
+              <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming1')} />
+            </div>
+            <div className="TabNavigation__right">
+              <SubMenu />
+            </div>
           </div>
         </div>
+        <div className="TabNavigationItem__invisibleWall" />
       </div>
     )
   }
