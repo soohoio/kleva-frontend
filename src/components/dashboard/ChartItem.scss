@@ -1,0 +1,33 @@
+.ChartItem {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  margin-bottom: 36px;
+  flex: 1;
+}
+
+.ChartItem__title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  @include font-style('font-1', 'b', 15px);
+  color: #333333;
+
+  span {
+    margin-left: 4px;
+  }
+}
+
+.ChartItem__value {
+  @include font-style('font-1', 'b', 30px);
+  color: #222222;
+  line-height: 36px;
+  margin-bottom: 7px;
+}
+
+.ChartItem__lastUpdated {
+  @include font-style('font-1', 'r', 14px);
+  color: #8B96B2;
+}

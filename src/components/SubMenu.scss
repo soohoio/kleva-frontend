@@ -46,4 +46,16 @@
       margin-right: 4px;
     }
   }
+
+  &--dashboard {
+    &::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/static/images/exported/dashboard.svg);
+      width: 17px;
+      height: 17px;
+      background-size: 100%;
+      margin-right: 4px;
+    }
+  }
 }

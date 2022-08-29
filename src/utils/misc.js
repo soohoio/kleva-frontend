@@ -161,9 +161,9 @@ export const noRounding = (num, digits) => {
   const integerPoints = splitted[0]
   const decimalPoints = splitted[1]
 
-  if (!decimalPoints) return num
-
   const integerWithCommas = numberWithCommas(integerPoints)
+  
+  if (!decimalPoints) return integerWithCommas
 
   if (digits == 0) {
     return integerWithCommas

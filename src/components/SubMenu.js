@@ -6,10 +6,14 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './SubMenu.scss'
 import LanguageChange from './LanguageChange';
 import { I18n } from './common/I18n';
-import { openModal$ } from '../streams/ui'
+import { closeModal$, openModal$ } from '../streams/ui'
 import WKLAYSwitchModal from './modals/WKLAYSwitchModal'
 import { selectedAddress$ } from '../streams/wallet'
 import ConnectWalletPopup from './ConnectWalletPopup'
+import Dashboard from './dashboard/Dashboard'
+import Modal from './common/Modal'
+import ThickHR from './common/ThickHR'
+import { currentTab$ } from '../streams/view'
 
 class SubMenu extends Component {
 
@@ -35,6 +39,15 @@ class SubMenu extends Component {
     
     return (
       <div className="SubMenu">
+        <div 
+          className="SubMenu__item SubMenu__item--dashboard"
+          onClick={() => {
+            closeModal$.next(true)
+            currentTab$.next('dashboard')
+          }}
+        >
+          {I18n.t('dashboard')}
+        </div>
         <div 
           onClick={() => {
 

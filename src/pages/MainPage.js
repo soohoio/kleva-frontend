@@ -12,11 +12,12 @@ import LendAndStake from '../components/lendnstake/LendAndStake'
 import Farming from '../components/farming/Farming'
 import MyAsset from '../components/myasset/MyAsset'
 import Footer from '../components/Footer'
+import Dashboard from '../components/dashboard/Dashboard'
 
 class MainPage extends Component {
   destroy$ = new Subject()
-  
-  
+
+
   componentDidMount() {
     merge(
       // 'myAsset', 'lendnstake', 'farming'
@@ -28,7 +29,7 @@ class MainPage extends Component {
       this.forceUpdate()
     })
   }
-  
+
   componentWillUnmount() {
     this.destroy$.next(true)
   }
@@ -54,8 +55,14 @@ class MainPage extends Component {
         <Farming />
       )
     }
+
+    if (currentTab$.value == 'dashboard') {
+      return (
+        <Dashboard />
+      )
+    }
   }
-    
+
   render() {
     return (
       <div className="MainPage">

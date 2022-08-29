@@ -1,0 +1,120 @@
+.Dashboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 26px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 18px 0;
+  overflow: scroll;
+  z-index: 9;
+
+  @include desktop {
+    position: static;
+    width: $CONTENT_WIDTH;
+    margin: 0 auto;
+  }
+
+  text {
+    @include font-style('font-1', 'r', 11px);
+  }
+}
+
+.DashboardHeader {
+  display: flex;
+  align-items: center;
+  height: 60px;
+
+  @include desktop {
+    margin-bottom: 30px;
+  }
+}
+
+.DashboardHeader__title {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  @include desktop {
+    text-align: left;
+  }
+}
+
+.DashboardHeader__close {
+  width: 24px;
+  height: 24px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.Dashboard__content {
+  width: 100%;
+  padding-bottom: 100px;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  @include desktop {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.Dashboard__left {
+  width: 100%; 
+  flex: auto;
+  padding: 0 18px;
+
+  @include desktop {
+    width: auto;
+  }
+}
+
+.Dashboard__right {
+  padding: 0 18px;
+  width: 100%;
+
+  @include desktop {
+    width: 323px;
+  }
+}
+
+.Chart {
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.Dashboard__lendnfarming {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  
+  .ChartItem:first-of-type {
+    margin-right: 10px;
+  }
+
+  @include desktop {
+    flex-direction: row;
+  }
+}

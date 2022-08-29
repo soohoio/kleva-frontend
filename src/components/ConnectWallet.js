@@ -23,14 +23,6 @@ class ConnectWallet extends Component {
     ).subscribe(() => {
       this.forceUpdate()
     })
-
-    fromEvent(window, 'click').pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((e) => {
-      if (e && e.target.className.indexOf("ConnectWallet") === -1) {
-        this.setState({ isExpand: false })
-      }
-    })
   }
 
   componentWillUnmount() {
