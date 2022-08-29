@@ -9,6 +9,7 @@
   padding-top: 32px;
 
   min-height: 60vh;
+  overflow: hidden;
   
   @include desktop {
     // width: $CONTENT_WIDTH;
