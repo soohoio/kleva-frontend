@@ -6,14 +6,18 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './Intro5.scss'
 import { I18n } from '../common/I18n'
 
-const VideoItem = ({ imgSrc, title, description }) => {
+export const VideoItem = ({ className, imgSrc, title, subtitle, description, action }) => {
   return (
-    <div className="VideoItem">
+    <div className={cx("VideoItem", className)}>
       <div className="VideoItem__imageWrapper">
         <img className="VideoItem__image" src={imgSrc} />
       </div>
-      <p className="VideoItem__title">{title}</p>
+      <p className="VideoItem__title">
+        {title}
+        {subtitle && <span className="VideoItem__subtitle">{subtitle}</span>}
+      </p>
       <p className="VideoItem__description">{description}</p>
+      {!!action && action}
     </div>
   )
 }
@@ -49,13 +53,17 @@ class Intro5 extends Component {
             description={I18n.t('intro5.video1.description')}
           />
           <VideoItem
+            className="VideoItem--2"
             imgSrc="/static/images/intro/tutorial_thum_2.png"
             title={I18n.t('intro5.video2.title')}
+            subtitle={I18n.t('tag.novice')}
             description={I18n.t('intro5.video2.description')}
           />
           <VideoItem
+            className="VideoItem--3"
             imgSrc="/static/images/intro/tutorial_thum_3.png"
             title={I18n.t('intro5.video3.title')}
+            subtitle={I18n.t('tag.highProfit')}
             description={I18n.t('intro5.video3.description')}
           />
         </div>

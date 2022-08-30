@@ -15,6 +15,8 @@ export const en = {
   'connectWallet.noWallet.description': `You must have a crypto wallet to use KLEVA Protocol. If you don't have one yet, create your own wallet referring to the links below.`,
   'connectWallet.makeWallet': 'Create %{title} wallet',
 
+  'tag.novice': '초보자',
+  'tag.highProfit': '고수익',
   'wklaySwitch': 'Wrap/Unwrap KLAY',
   'wklaySwitch.description': 'To keep the WKLAY token in your wallet, you need to switch to KLAY, and to use KLAY for deposit, you need to switch to WKLAY.',
   'wklaySwitch.toKLAY': 'Unwrap WKLAY',
@@ -286,6 +288,8 @@ export const ko = {
   'connectWallet.noWallet.description': 'KLEVA 프로토콜 이용을 위해 지갑이 필요합니다. 아직 지갑이 없다면 아래 링크를 참고하여 만들어 주세요.',
   'connectWallet.makeWallet': '%{title} 지갑 만들기',
 
+  'tag.novice': '초보자',
+  'tag.highProfit': '고수익',
   'wklaySwitch': 'KLAY/WKLAY 전환',
   'wklaySwitch.description': '토큰을 지갑에 보관하려면 KLAY로 전환이 필요하고, 예치 시 사용하려면 WKLAY로 전환이 필요합니다.',
   'wklaySwitch.toKLAY': 'KLAY로 전환',

@@ -1,3 +1,165 @@
 .UseGuide {
-  
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 26px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 18px 0;
+  overflow: scroll;
+  z-index: 9;
+
+  @include desktop {
+    position: static;
+    width: $CONTENT_WIDTH;
+    margin: 0 auto;
+  }
+
+  text {
+    @include font-style('font-1', 'r', 11px);
+  }
+}
+
+.UseGuideHeader {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin-bottom: 38px;
+  padding: 0 20px;
+
+  @include desktop {
+    margin-bottom: 30px;
+    padding: 0;
+  }
+}
+
+.UseGuideHeader__title {
+  @include font-style('font-1', 'b', 24px);
+  color: #222222;
+
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  @include desktop {
+    text-align: left;
+  }
+}
+
+.UseGuideHeader__close {
+  width: 24px;
+  height: 24px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.UseGuide__content {
+  width: 100%;
+  padding: 0 30px;
+  padding-bottom: 100px;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  @include desktop {
+    width: 100%;
+    padding: 0;
+  }
+
+  .VideoItem {
+    width: 100%;
+    flex: unset;
+    margin-bottom: 40px;
+    
+    &:nth-of-type(2n) {
+      margin-right: 0;
+    }
+
+    @include desktop {
+      margin-right: 50px;
+      width: 47%;
+      margin-bottom: 74px;
+    }
+  }
+
+  .VideoItem__imageWrapper {
+    height: 262px;
+  }
+
+  .VideoItem__image {
+    height: 262px;
+  }
+}
+
+.UseGuide__category {
+  @include font-style('font-1', 'b', 22px);
+  color: #222222;
+  margin-bottom: 14px;
+
+  @include desktop {
+    @include font-style('font-1', 'sb', 18px);
+  }
+}
+
+.UseGuide__items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+
+  width: 100%;
+}
+
+.UseGuideItem {
+  width: 48%;
+  height: 72px;
+  margin-right: 7px;
+  margin-bottom: 10px;
+
+  border: 1px solid #EBEEF5;
+  box-shadow: 0px 4px 4px -2px rgba(0, 21, 83, 0.04);
+  border-radius: 8px;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+
+  @include desktop {
+    flex: unset;
+    width: 32%;
+    height: 100px;
+    margin-bottom: 15px;
+
+    &:nth-child(2n) {
+      margin-right: 7px;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+}
+
+.UseGuideItem__image {
+
 }

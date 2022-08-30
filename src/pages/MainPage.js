@@ -14,6 +14,7 @@ import MyAsset from '../components/myasset/MyAsset'
 import Footer from '../components/Footer'
 import Dashboard from '../components/dashboard/Dashboard'
 import Withus from '../components/intro/Withus'
+import UseGuide from '../components/intro/UseGuide'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -63,6 +64,12 @@ class MainPage extends Component {
     if (currentTab$.value == 'withus') {
       return (
         <Withus />
+      )
+    }
+    
+    if (currentTab$.value == 'useguide') {
+      return (
+        <UseGuide />
       )
     }
   }

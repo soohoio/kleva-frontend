@@ -56,12 +56,54 @@
       margin-right: 0;
     }
   }
+
+  &--2 {
+    .VideoItem__subtitle {
+      color: #6289F5;
+      background-color: #F2F6FF;
+    }
+  }
+
+  &--3 {
+    .VideoItem__subtitle {
+      color: #F56262;
+      background-color: #FFF2F2;
+    }
+  }
 }
 
 .VideoItem__title {
   @include font-style('font-1', 'b', 19px);
+  display: flex;
+  align-items: center;
   color: #222222;
   margin-bottom: 6px;
+}
+
+.VideoItem__subtitle {
+  @include font-style('font-1', 'sb', 12px);
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+
+.VideoItem__action {
+  cursor: pointer;
+  @include font-style('font-1', 'sb', 16px);
+  display: flex;
+  align-items: center;
+  color: #265FFC;
+  margin-top: 10px;
+
+  &::after {
+    content: "";
+    width: 8px;
+    height: 13px;
+    background-image: url(/static/images/exported/right-blue-arrow.svg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-left: 5px;
+  }
 }
 
 .VideoItem__imageWrapper {
