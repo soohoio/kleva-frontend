@@ -103,17 +103,32 @@ class ConnectWalletPopup extends Component {
           <p className="ConnectWalletPopup__noWalletTitle">{I18n.t('connectWallet.noWallet.title')}</p>
           <p className="ConnectWalletPopup__noWalletDescription">{I18n.t('connectWallet.noWallet.description')}</p>
 
-          <p className="ConnectWalletPopup__makeWallet">
+          <p 
+            className="ConnectWalletPopup__makeWallet"
+            onClick={() => {
+              window.open('https://www.kakaocorp.com/page/service/service/Klip')
+            }}
+          >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Klip'
             })} {'>'}
           </p>
-          <p className="ConnectWalletPopup__makeWallet">
+          <p 
+            className="ConnectWalletPopup__makeWallet"
+            onClick={() => {
+              window.open('https://dcentwallet.com')
+            }}
+          >
             {I18n.t('connectWallet.makeWallet', {
               title: 'D`CENT'
             })} {'>'}
           </p>
-          <p className="ConnectWalletPopup__makeWallet">
+          <p 
+            className="ConnectWalletPopup__makeWallet"
+            onClick={() => {
+              window.open('https://metamask.io/')
+            }}
+          >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Metamask'
             })} {'>'}
