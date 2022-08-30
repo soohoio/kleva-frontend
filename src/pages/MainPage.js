@@ -13,10 +13,10 @@ import Farming from '../components/farming/Farming'
 import MyAsset from '../components/myasset/MyAsset'
 import Footer from '../components/Footer'
 import Dashboard from '../components/dashboard/Dashboard'
+import Withus from '../components/intro/Withus'
 
 class MainPage extends Component {
   destroy$ = new Subject()
-
 
   componentDidMount() {
     merge(
@@ -35,8 +35,6 @@ class MainPage extends Component {
   }
 
   renderTab = () => {
-
-    console.log(currentTab$.value, 'currentTab$.value')
 
     if (currentTab$.value == 'myasset') {
       return (
@@ -59,6 +57,12 @@ class MainPage extends Component {
     if (currentTab$.value == 'dashboard') {
       return (
         <Dashboard />
+      )
+    }
+    
+    if (currentTab$.value == 'withus') {
+      return (
+        <Withus />
       )
     }
   }
