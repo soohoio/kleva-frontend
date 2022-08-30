@@ -66,7 +66,7 @@ class FAQ extends Component {
         <p className="FAQ__title">{I18n.t('intro7.title')}</p>
         <FAQItem 
           title={I18n.t('faq.1.q')} 
-          description={I18n.t('faq.2.description')} 
+          description={I18n.t('faq.1.description')} 
           isActive={this.activeIdx$.value == 1}
           onClick={() => this.toggleActive(1)}
         />
@@ -78,13 +78,13 @@ class FAQ extends Component {
         />
         <FAQItem 
           title={I18n.t('faq.3.q')} 
-          description={I18n.t('faq.2.description')} 
+          description={I18n.t('faq.3.description')} 
           isActive={this.activeIdx$.value == 3}
           onClick={() => this.toggleActive(3)}
         />
         <FAQItem 
           title={I18n.t('faq.4.q')} 
-          description={I18n.t('faq.2.description')} 
+          description={I18n.t('faq.4.description')} 
           isActive={this.activeIdx$.value == 4}
           onClick={() => this.toggleActive(4)}
         />

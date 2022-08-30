@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './Intro6.scss'
 import { I18n } from '../common/I18n'
 
-const QuoteItem = ({ imgSrc, title, subtitle, description, href }) => {
+const QuoteItem = ({ imgSrc, title, subtitle, seeTitle, description, href }) => {
   return (
     <div className="QuoteItem">
       <div className="QuoteItem__header">
@@ -23,7 +23,7 @@ const QuoteItem = ({ imgSrc, title, subtitle, description, href }) => {
         }}
         className="QuoteItem__see"
       >
-        {I18n.t('intro6.see')}
+        {seeTitle}
       </button>
     </div>
   )
@@ -55,6 +55,7 @@ class Intro6 extends Component {
         <p className="Intro6__title">{I18n.t('intro6.title')}</p>
         <div className="Intro6__content">
           <QuoteItem
+            seeTitle={I18n.t('intro6.see1')}
             href="https://docs.kleva.io/undefined-1/undefined-3/1"
             imgSrc="/static/images/intro/intro_profile_1.png"
             title={I18n.t('intro6.quote1.title')}
@@ -62,6 +63,7 @@ class Intro6 extends Component {
             description={I18n.t('intro6.quote1.description')}
           />
           <QuoteItem
+            seeTitle={I18n.t('intro6.see2')}
             href="https://docs.kleva.io/undefined-1/undefined-3/3"
             imgSrc="/static/images/intro/intro_profile_2.png"
             title={I18n.t('intro6.quote2.title')}
@@ -69,6 +71,7 @@ class Intro6 extends Component {
             description={I18n.t('intro6.quote2.description')}
           />
           <QuoteItem
+            seeTitle={I18n.t('intro6.see3')}
             href="https://docs.kleva.io/undefined-1/undefined-3/4-2"
             imgSrc="/static/images/intro/intro_profile_3.png"
             title={I18n.t('intro6.quote3.title')}
