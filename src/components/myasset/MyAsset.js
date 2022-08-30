@@ -131,13 +131,13 @@ class MyAsset extends Component {
           buttons={[
             {
               title: I18n.t('guide.emptyManagedAsset.buttoneTitle1'),
-              onclick: () => {
+              onClick: () => {
                 currentTab$.next('lendnstake')
               }
             },
             {
               title: I18n.t('guide.emptyManagedAsset.buttoneTitle2'),
-              onclick: () => {
+              onClick: () => {
                 currentTab$.next('farming')
               }
             }
