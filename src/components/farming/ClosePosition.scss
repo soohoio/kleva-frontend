@@ -295,6 +295,10 @@
 
 }
 
+.ClosePositionPopup__warn {
+  @include not-draggable;
+}
+
 .ClosePosition__tokenSwap {
   margin-bottom: 16px;
   .LabelAndValue__label {

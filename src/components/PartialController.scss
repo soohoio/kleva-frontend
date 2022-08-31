@@ -4,6 +4,7 @@
 
 .PartialController__gaugeSummary {
   @include font-style('font-1', 'sb', 16px);
+  @include not-draggable;
   color: #494a4d;
   padding: 12px 16px;
   border-radius: 8px;

@@ -14,9 +14,13 @@
   display: block;
   color: #687395;
   margin-bottom: 15px;
+
+  @include not-draggable;
 }
 
 .CommonGauge__description {
+
+  @include not-draggable;
 
   p {
     margin-bottom: 4px;
@@ -35,6 +39,7 @@
 }
 
 .CommonGauge__inputWrapper {
+  @include not-draggable;
   display: flex;
   width: 90px;
   padding: 12px 18px;
