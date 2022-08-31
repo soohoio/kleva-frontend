@@ -102,8 +102,6 @@ class FarmAssetGridItem extends Component {
       totalStakedLpBalance,
     } = this.props
 
-    console.log(this.props, '@this.props')
-
     const debtValueParsed = new BigNumber(debtValue)
       .div(10 ** baseToken.decimals)
       .toNumber()

@@ -165,9 +165,17 @@ class ClosePosition extends Component {
       this.bloc.lpShare$,
       this.bloc.newUserBaseTokenAmount$,
       this.bloc.newUserFarmingTokenAmount$,
+      this.bloc.minPartialCloseRatio$,
+      this.bloc.maxPartialCloseRatio$,
+      this.bloc.minRepaymentDebtRatio$,
+      this.bloc.maxRepaymentDebtRatio$,
       merge(
         this.bloc.entirelyClose$,
-        this.bloc.partialCloseRatio$,
+        this.bloc.partialCloseRatio$.pipe(
+          tap(() => {
+            this.bloc.repayDebtRatio$.next(0)
+          })
+        ),
         this.bloc.repayDebtRatio$,
       ).pipe(
         tap(() => {
@@ -177,12 +185,10 @@ class ClosePosition extends Component {
 
           console.log(this.bloc.lpAmount$.value, 'this.bloc.lpAmount$.value')
 
-          const closedLpAmt = new BigNumber(this.bloc.lpAmount$.value)
-            .multipliedBy(this.bloc.partialCloseRatio$.value)
+          const closedLpAmt = new BigNumber(this.bloc.lpAmount$.value || 0)
+            .multipliedBy(this.bloc.partialCloseRatio$.value || 0)
             .div(100)
             .toFixed(0)
-
-          console.log(closedLpAmt, 'closedLpAmt')
 
           return getDebtRepaymentRange$({
             workerAddress: this.props.workerInfo.workerAddress,
@@ -194,6 +200,20 @@ class ClosePosition extends Component {
             minDebtRepayment,
             maxDebtRepayment,
           }) => {
+
+            console.log(closedPositionValue, 'closedPositionValue')
+            console.log(closedHealth, 'closedHealth')
+            console.log(minDebtRepayment, 'minDebtRepayment')
+            console.log(maxDebtRepayment, 'maxDebtRepayment')
+
+            this.bloc.minRepaymentDebtRatio$.next(closedPositionValue == 0
+              ? 0
+              : (minDebtRepayment / closedPositionValue) * 100
+            )
+            this.bloc.maxRepaymentDebtRatio$.next(closedPositionValue == 0
+              ? 0
+              : (maxDebtRepayment / closedPositionValue) * 100
+            )
 
             const newPositionValue = new BigNumber(this.bloc.before_positionValue$.value)
               .minus(closedPositionValue)
@@ -285,6 +305,8 @@ class ClosePosition extends Component {
               .multipliedBy(0.99) // 1% buffer
               .toString()
 
+            this.bloc.maxPartialCloseRatio$.next(availableMaxPartialCloseRatio)
+
             // Impossible Partial Close Ratio Situation
             // 1) repay debt ratio should be A,
             // 2) But when the ratio becomes A, the position can't meet min debt size criteria.
@@ -299,7 +321,7 @@ class ClosePosition extends Component {
 
             const isAvailablePartialCloseRatioTooLow = availableMaxPartialCloseRatio < 2
 
-            const isPartialCloseRatioTooGreat = !new BigNumber(this.bloc.partialCloseRatio$.value).lt(availableMaxPartialCloseRatio)
+            const isPartialCloseRatioTooGreat = new BigNumber(this.bloc.partialCloseRatio$.value).gt(availableMaxPartialCloseRatio)
 
             const _partialClosePositionAvailable = this.bloc.partialCloseRatio$.value != 0
               && isDebtSizeValid
@@ -721,6 +743,11 @@ class ClosePosition extends Component {
                     repayDebtRatio$={this.bloc.repayDebtRatio$}
                     debtRepaymentAmount$={this.bloc.debtRepaymentAmount$}
                     repayPercentageLimit={this.bloc.repayPercentageLimit$.value}
+
+                    minPartialCloseRatio$={this.bloc.minPartialCloseRatio$}
+                    maxPartialCloseRatio$={this.bloc.maxPartialCloseRatio$}
+                    minRepaymentDebtRatio$={this.bloc.minRepaymentDebtRatio$}
+                    maxRepaymentDebtRatio$={this.bloc.maxRepaymentDebtRatio$}
                   />
                   {this.bloc.partialCloseAvailable$.value?.reason && (
                     <p className="ClosePositionPopup__warn">

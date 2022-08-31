@@ -14,7 +14,7 @@ class PartialController extends Component {
   componentDidMount() {
     const { debtRepaymentAmount$ } = this.props
     merge(
-      debtRepaymentAmount$
+      debtRepaymentAmount$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -37,7 +37,17 @@ class PartialController extends Component {
       debtRepaymentAmount$,
       repayPercentageLimit,
       isBaseTokenKLAY,
+
+      minPartialCloseRatio$,
+      maxPartialCloseRatio$,
+      minRepaymentDebtRatio$,
+      maxRepaymentDebtRatio$,
     } = this.props
+
+    console.log(minPartialCloseRatio$.value, 'minPartialCloseRatio$.value')
+    console.log(maxPartialCloseRatio$.value, 'maxPartialCloseRatio$.value')
+    console.log(minRepaymentDebtRatio$.value, 'minRepaymentDebtRatio$.value')
+    console.log(maxRepaymentDebtRatio$.value, 'maxRepaymentDebtRatio$.value')
 
     const baseTokenTitle = isBaseTokenKLAY
       ? "WKLAY"
@@ -58,6 +68,10 @@ class PartialController extends Component {
     return (
       <div className="PartialController">
         <CommonGauge
+
+          min={minPartialCloseRatio$.value}
+          max={maxPartialCloseRatio$.value}
+
           percentage$={partialCloseRatio$}
           title={I18n.t('withdrawAsset')}
           description={(
@@ -80,6 +94,9 @@ class PartialController extends Component {
           {baseTokenTitle}
         </div>
         <CommonGauge
+          min={minRepaymentDebtRatio$.value}
+          max={maxRepaymentDebtRatio$.value}
+
           percentage$={repayDebtRatio$}
           title={I18n.t('farming.closePosition.debtRepayment')}
           description={(

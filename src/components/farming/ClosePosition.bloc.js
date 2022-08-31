@@ -106,6 +106,12 @@ export default class {
     this.newPositionValue$ = new BehaviorSubject()
     this.liquidationThreshold$ = new BehaviorSubject()
 
+    // gauge
+    this.minPartialCloseRatio$ = new BehaviorSubject(0)
+    this.maxPartialCloseRatio$ = new BehaviorSubject()
+    this.minRepaymentDebtRatio$ = new BehaviorSubject()
+    this.maxRepaymentDebtRatio$ = new BehaviorSubject()
+
     this.init()
   }
 

@@ -56,15 +56,21 @@ class CommonGauge extends Component {
   }
 
   setPercentage = (e) => {
-    const { percentage$, limit } = this.props
+    const { 
+      min,
+      max,
+      percentage$, 
+      limit 
+    } = this.props
 
-    const clientX = e.clientX || (e.changedTouches[0] && e.changedTouches[0].clientX)
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0] && e.changedTouches[0].clientX)
     const rect = document.querySelector('.GaugeBar__barBehind').getBoundingClientRect()
     const percent = Math.max(0, Math.min((clientX - rect.x) / rect.width, 1))
 
     const nextPercentage = percent * 100
-
-    if (nextPercentage > limit) {
+    
+    if (nextPercentage > max) {
+      percentage$.next(max)
       return
     }
 
@@ -73,7 +79,7 @@ class CommonGauge extends Component {
 
   render() {
     const {
-      title ,
+      title,
       description,
       percentage$,
       offset,

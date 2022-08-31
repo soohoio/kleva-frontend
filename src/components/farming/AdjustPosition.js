@@ -415,9 +415,6 @@ class AdjustPosition extends Component {
       .div(10 ** baseToken.decimals)
       .toNumber()
 
-    console.log(this.bloc.newDebtValue$.value, 'this.bloc.newDebtValue$.value')
-    console.log(resultDebtAmount, 'resultDebtAmount')
-
     const equityFarmingAmount = new BigNumber(this.bloc.before_farmingAmount$.value || 0)
       .div(10 ** farmingToken.decimals)
       .plus(this.bloc.farmingTokenAmount$.value || 0)
