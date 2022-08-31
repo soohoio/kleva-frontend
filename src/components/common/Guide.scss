@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  padding: 0 18px;
 }
 
 .Guide__title {
@@ -33,7 +35,7 @@
 
 .Guide__buttons {
   display: flex;
-  min-width: 400px;
+  width: 100%;
 
   .Guide__button {
     flex: 1;
@@ -43,5 +45,10 @@
     &:last-of-type {
       margin-right: 0;
     }
+  }
+
+  @include desktop {
+    min-width: 400px;
+    width: unset;
   }
 }

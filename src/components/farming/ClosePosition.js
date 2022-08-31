@@ -12,7 +12,7 @@ import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
 import { balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
 import QuestionMark from '../common/QuestionMark'
-import { closeContentView$, openModal$ } from '../../streams/ui'
+import { closeContentView$, closeModal$, openModal$ } from '../../streams/ui'
 import FarmAPRDetailInfo2 from '../modals/FarmAPRDetailInfo2'
 import LeverageInput from '../common/LeverageInput'
 import BorrowingItem from './BorrowingItem'
@@ -30,6 +30,7 @@ import ThickHR from '../common/ThickHR'
 import RadioSet2 from '../common/RadioSet2'
 import PartialController from '../PartialController'
 import { klayswapPoolInfo$ } from '../../streams/farming'
+import CompletedModal from '../common/CompletedModal'
 
 class ClosePosition extends Component {
   destroy$ = new Subject()
@@ -534,6 +535,8 @@ class ClosePosition extends Component {
       setLeverage,
 
       baseBorrowingInterests,
+
+      currentPositionLeverage,
     } = this.props
 
     // config
@@ -644,7 +647,26 @@ class ClosePosition extends Component {
                 },
                 {
                   title: I18n.t('farming.closePosition.partialClose'),
-                  onClick: () => this.bloc.entirelyClose$.next(false),
+                  onClick: () => {
+                    if (currentPositionLeverage == 1) {
+                      
+                      openModal$.next({
+                        component: <CompletedModal menus={[
+                          {
+                            title: I18n.t('confirm'),
+                            onClick: () => {
+                              closeModal$.next(true)
+                            }
+                          },
+                        ]}>
+                          <p className="CompletedModal__title">{I18n.t('farming.closePosition.partialClose.disabled')}</p>
+                          <p className="CompletedModal__description">{I18n.t('farming.closePosition.partialClose.disabled.description')}</p>
+                        </CompletedModal>
+                      })
+                      return
+                    }
+                    this.bloc.entirelyClose$.next(false)
+                  },
                   isActive: !this.bloc.entirelyClose$.value,
                 }
               ]}
