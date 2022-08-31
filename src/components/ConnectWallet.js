@@ -9,7 +9,7 @@ import { openModal$ } from 'streams/ui'
 
 import './ConnectWallet.scss'
 import ConnectWalletPopup from './ConnectWalletPopup'
-import { logout$ } from '../streams/wallet'
+import { logout$, walletProviderName$ } from '../streams/wallet'
 
 class ConnectWallet extends Component {
   destroy$ = new Subject()
@@ -17,6 +17,7 @@ class ConnectWallet extends Component {
   componentDidMount() {
     merge(
       selectedAddress$,
+      walletProviderName$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -40,7 +41,6 @@ class ConnectWallet extends Component {
         onClick={() => {
           // Disconnect
           if (selectedAddress$.value) {
-            logout$.next(true)
             return
           }
 
@@ -52,10 +52,22 @@ class ConnectWallet extends Component {
           "ConnectWallet--connected": !!selectedAddress$.value,
         })}
       >
+        <span className="ConnectWallet__message">
+          {selectedAddress$.value 
+            ? I18n.t('connected', { title: walletProviderName$.value }) 
+            : I18n.t('connectWallet')
+          }
+        </span>
         {selectedAddress$.value && (
-          <img className="ConnectWallet__disconnect" src="/static/images/close.svg" />
+          <span 
+            onClick={() => {
+              logout$.next(true)
+            }}
+            className="ConnectWallet__logout"
+          >
+            {I18n.t('logout')}
+          </span>
         )}
-        <span className="ConnectWallet__message">{displayAddress || I18n.t('connectWallet')}</span>
       </div>
     )
   }

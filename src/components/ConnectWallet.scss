@@ -8,9 +8,19 @@
   border-radius: 4px;
 
   &--connected {
-    color: #3369ff;
-    background-color: #ebf0ff;
+    cursor: default;
+    // color: #3369ff;
+    // background-color: #ebf0ff;
+    color: #333333;
+    background-color: transparent;
   }
+}
+
+.ConnectWallet__logout {
+  @include font-style('font-1', 'm', 15px);
+  color: #919FC8;
+  margin-left: 4px;
+  cursor: pointer;
 }
 
 .ConnectWallet__disconnect {
