@@ -144,7 +144,7 @@ class LendingPoolListItem extends Component {
                   return
                 }
 
-                if (isDisabled) {
+                if (isDepositDisabled) {
                   return
                 }
 
