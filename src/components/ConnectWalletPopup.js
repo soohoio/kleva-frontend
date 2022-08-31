@@ -114,13 +114,23 @@ class ConnectWalletPopup extends Component {
             })} {'>'}
           </p>
           <p 
-            className="ConnectWalletPopup__makeWallet"
+            className="ConnectWalletPopup__makeWallet ConnectWalletPopup__makeWallet--dcent"
             onClick={() => {
               window.open('https://dcentwallet.com')
             }}
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'D`CENT'
+            })} {'>'}
+          </p>
+          <p
+            className="ConnectWalletPopup__makeWallet ConnectWalletPopup__makeWallet--kaikas"
+            onClick={() => {
+              window.open('https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi')
+            }}
+          >
+            {I18n.t('connectWallet.makeWallet', {
+              title: 'Kaikas'
             })} {'>'}
           </p>
           <p 
