@@ -37,6 +37,7 @@ class LendStakeAPRDetailInfoModal extends Component {
       ibTokenPrice,
       stakingToken,
       vaultAddress,
+      isDepositDisabled,
       noButton,
     } = this.props
 
@@ -51,13 +52,11 @@ class LendStakeAPRDetailInfoModal extends Component {
         {!noButton && (
           <div
             className={cx("LendStakeAPRDetailInfoModal__depositButton", {
-              "LendStakeAPRDetailInfoModal__depositButton--disabled": !selectedAddress
+              "LendStakeAPRDetailInfoModal__depositButton--disabled": isDepositDisabled || !selectedAddress
             })}
             onClick={() => {
-
-              if (!selectedAddress) {
-                return
-              }
+              if (isDepositDisabled) return
+              if (!selectedAddress) return
 
               openModal$.next({
                 component: (

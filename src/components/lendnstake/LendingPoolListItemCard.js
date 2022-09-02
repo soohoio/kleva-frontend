@@ -87,6 +87,7 @@ class LendingPoolListItemCard extends Component {
                 openModal$.next({
                   component: (
                     <LendStakeAPRDetailInfoModal
+                      isDepositDisabled={isDepositDisabled}
                       selectedAddress={selectedAddress}
                       ibToken={ibToken}
                       ibTokenPrice={ibTokenPrice}
