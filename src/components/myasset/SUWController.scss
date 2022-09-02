@@ -100,3 +100,12 @@
   color: #265FFC;
   margin-left: 5px;
 }
+
+.SUWController__doLaterButton {
+  margin-top: 15px;
+  @include button-1(36px);
+  @include font-style('font-1', 'm', 16px);
+  background-color: transparent;
+  color: #969BAB;
+  width: 100%;
+}

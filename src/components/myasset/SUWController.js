@@ -361,6 +361,14 @@ class SUWController extends Component {
           <span className="SUWController__willReceiveAmount">{Number(this.bloc.withdrawAmount$.value).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
         {this.renderButton()}
+        <button
+          onClick={() => {
+            closeModal$.next(true)
+          }}
+          className={cx("SUWController__doLaterButton")}
+        >
+          {I18n.t('doLater')}
+        </button>
       </>
     )
   }
