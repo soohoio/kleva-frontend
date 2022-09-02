@@ -49,8 +49,14 @@ class ClaimableKLEVA extends Component {
 
     const { pendingReward, inUSD } = this.getPendingAggregation()
 
+    const isDisabled = pendingReward == 0
+
     return (
-      <div className="ClaimableKLEVA">
+      <div 
+        className={cx("ClaimableKLEVA", {
+          "ClaimableKLEVA--disabled": isDisabled,
+        })}
+      >
         <div className="ClaimableKLEVA__left">
           <p className="ClaimableKLEVA__title">{I18n.t('myasset.claimableKLEVA')}</p>
           <p className="ClaimableKLEVA__pendingReward">
@@ -60,6 +66,7 @@ class ClaimableKLEVA extends Component {
         </div>
         <span 
           onClick={() => {
+            if (isDisabled) return
             openModal$.next({
               component: <EarnedPopup />
             })
