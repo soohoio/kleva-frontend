@@ -58,7 +58,7 @@ class ProfitSimulationPopup extends Component {
     
   render() {
     const { stakingToken, protocolAPR, lendingAPR, stakingAPR } = this.props
-    const isDisabled = this.bloc.amount$.value == 0
+    const isDisabled = !this.bloc.amount$.value || this.bloc.amount$.value == 0
 
     const protocolProfitInDollar = this.bloc.amountInDollar(stakingToken, this.bloc.protocolProfit$.value)
     const lendingProfitInDollar = this.bloc.amountInDollar(stakingToken, this.bloc.lendingProfit$.value)
