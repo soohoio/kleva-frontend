@@ -209,8 +209,9 @@ class LendAndStakeControllerPopup extends Component {
     const availableBalance = balancesInWallet$.value[stakingToken.address] &&
       balancesInWallet$.value[stakingToken.address].balanceParsed
 
+
     const willReceiveAmount = (ibTokenPrice && this.bloc.depositAmount$.value)
-      ? new BigNumber(this.bloc.depositAmount$.value).div(ibTokenPrice).toNumber().toLocaleString('en-us', { maximumFractionDigits: 4 })
+      ? noRounding(new BigNumber(this.bloc.depositAmount$.value).div(ibTokenPrice).toNumber(), 4)
       : "0.00"
 
     const isApproved = (allowancesInLendingPool$.value && allowancesInLendingPool$.value[vaultAddress] != 0)
@@ -271,7 +272,7 @@ class LendAndStakeControllerPopup extends Component {
 
           <div className="LendAndStakeControllerPopup__willReceive">
             <span className="LendAndStakeControllerPopup__willReceiveLabel">{I18n.t('lendstake.controller.willReceive')} ib{stakingToken.title}</span>
-            <span className="LendAndStakeControllerPopup__willReceiveAmount">~{Number(willReceiveAmount).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+            <span className="LendAndStakeControllerPopup__willReceiveAmount">~{willReceiveAmount}</span>
           </div>
 
           {this.renderButton()}
@@ -391,7 +392,7 @@ class LendAndStakeControllerPopup extends Component {
       balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed
 
     const willReceiveAmount = (ibTokenPrice && this.bloc.depositAmount$.value)
-      ? new BigNumber(this.bloc.depositAmount$.value).div(ibTokenPrice).toNumber().toLocaleString('en-us', { maximumFractionDigits: 4 })
+      ? noRounding(new BigNumber(this.bloc.depositAmount$.value).div(ibTokenPrice).toNumber(), 4)
       : "0.00"
 
     const isLendCompleted = !!this.bloc.lendCompleted$.value
@@ -452,7 +453,7 @@ class LendAndStakeControllerPopup extends Component {
 
           <div className="LendAndStakeControllerPopup__willReceive">
             <span className="LendAndStakeControllerPopup__willReceiveLabel">{I18n.t('lendstake.controller.willReceive')} ib{stakingToken.title}</span>
-            <span className="LendAndStakeControllerPopup__willReceiveAmount">~{Number(willReceiveAmount).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+            <span className="LendAndStakeControllerPopup__willReceiveAmount">~{willReceiveAmount}</span>
           </div>
 
           {this.renderButton()}
