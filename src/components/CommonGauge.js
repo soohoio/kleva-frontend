@@ -6,6 +6,7 @@ import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 import { range } from 'lodash'
 
 import './CommonGauge.scss'
+import { noRounding } from '../utils/misc'
 
 class CommonGauge extends Component {
   $gaugeBar = createRef()
@@ -132,7 +133,7 @@ class CommonGauge extends Component {
             <input
               className="CommonGauge__leverageInput"
               readOnly
-              value={percentage$.value}
+              value={noRounding(percentage$.value, 2)}
             />
             <span className="CommonGauge__x">%</span>
           </div>

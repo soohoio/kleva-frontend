@@ -82,14 +82,12 @@ class PartialController extends Component {
             </>
           )}
           offset={25}
+          bottomContent={(partialCloseRatio$.value == maxPartialCloseRatio$.value) && (
+            <p className="PartialController__bottomContentDescription">{I18n.t('farming.closePosition.partialClose.ratioTooLow', {
+              value: Number(maxPartialCloseRatio$.value).toFixed(2)
+            })}</p>
+          )}
         />
-        <div className="PartialController__gaugeSummary">
-          <strong>{nFormatter(farmingTokenCloseAmount, 4)}</strong>
-          {farmingToken.title}
-          <span className="PartialController__plus">+</span>
-          <strong>{nFormatter(baseTokenCloseAmount, 4)}</strong>
-          {baseTokenTitle}
-        </div>
         <CommonGauge
           min={minRepaymentDebtRatio$.value}
           max={maxRepaymentDebtRatio$.value}

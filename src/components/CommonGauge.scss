@@ -1,5 +1,5 @@
 .CommonGauge {
-  margin-bottom: 56px;
+  margin-bottom: 25px;
 }
 
 .CommonGauge__header {
@@ -43,6 +43,7 @@
   display: flex;
   width: 90px;
   padding: 12px 18px;
+  padding-right: 13px;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
@@ -57,7 +58,8 @@
   background-color: transparent;
   border: 0;
   outline: 0;
-  width: 100%
+  width: 100%;
+  padding-right: 0;
 }
 
 .CommonGauge__x {
