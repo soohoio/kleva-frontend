@@ -6,10 +6,10 @@ import { takeUntil, map, tap, debounceTime, startWith, switchMap, filter } from 
 import { I18n } from '../common/I18n'
 
 import './ManagementAsset.scss'
-import { balancesInStakingPool$, selectedAddress$ } from '../../streams/wallet'
+import { balancesInStakingPool$, balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import { tokenPrices$ } from '../../streams/tokenPrice'
-import { getOriginalTokenFromIbToken, ibTokenByAddress, tokenList } from '../../constants/tokens'
+import { getOriginalTokenFromIbToken, ibTokenByAddress, ibTokens, tokenList } from '../../constants/tokens'
 import { getPositionsAll$ } from '../../streams/graphql'
 import { getEachTokenBasedOnLPShare } from '../../utils/calc'
 import { klayswapPoolInfo$, workerInfo$ } from '../../streams/farming'
@@ -116,7 +116,24 @@ class ManagementAsset extends Component {
   }
 
   getIbTokenValues = () => {
-    return balancesInStakingPool$.value && Object.entries(balancesInStakingPool$.value).reduce((acc, [ibTokenAddress, { balanceParsed }]) => {
+
+
+    const unstakedIbTokenValues = ibTokens && Object.values(ibTokens).reduce((acc, { address, originalToken }) => {
+
+      const { balanceParsed } = balancesInWallet$.value[address]
+
+      const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
+      const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
+      const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
+
+      return new BigNumber(acc).plus(
+        new BigNumber(originalTokenPrice)
+          .multipliedBy(ibTokenPrice)
+          .multipliedBy(balanceParsed)
+      ).toNumber()
+    }, 0)
+
+    const stakedValues = balancesInStakingPool$.value && Object.entries(balancesInStakingPool$.value).reduce((acc, [ibTokenAddress, { balanceParsed }]) => {
 
       const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[ibTokenAddress.toLowerCase()])
       const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
@@ -131,6 +148,8 @@ class ManagementAsset extends Component {
           .multipliedBy(balanceParsed)
       ).toNumber()
     }, 0)
+
+    return new BigNumber(unstakedIbTokenValues).plus(stakedValues).toNumber()
   }
     
   render() {

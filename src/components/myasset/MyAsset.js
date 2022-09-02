@@ -13,11 +13,11 @@ import './MyAsset.scss'
 import Tabs from '../common/Tabs'
 import LendNStakeAssetList from './LendNStakeAssetList'
 import FarmingAssetList from './FarmingAssetList'
-import { balancesInStakingPool$, selectedAddress$ } from '../../streams/wallet'
+import { balancesInStakingPool$, balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
 import Guide from '../common/Guide'
 import { openModal$ } from '../../streams/ui'
 import ConnectWalletPopup from '../ConnectWalletPopup'
-import { getOriginalTokenFromIbToken, ibTokenByAddress } from '../../constants/tokens'
+import { getOriginalTokenFromIbToken, ibTokenByAddress, ibTokens } from '../../constants/tokens'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import { currentTab$ } from '../../streams/view'
@@ -85,7 +85,23 @@ class MyAsset extends Component {
   }
 
   getIbTokenValues = () => {
-    return balancesInStakingPool$.value && Object.entries(balancesInStakingPool$.value).reduce((acc, [ibTokenAddress, { balanceParsed }]) => {
+
+    const unstakedIbTokenValues = ibTokens && Object.values(ibTokens).reduce((acc, { address, originalToken }) => {
+
+      const { balanceParsed } = balancesInWallet$.value[address]
+
+      const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
+      const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
+      const ibTokenPrice = lendingTokenSupplyInfo?.ibTokenPrice
+
+      return new BigNumber(acc).plus(
+        new BigNumber(originalTokenPrice)
+          .multipliedBy(ibTokenPrice)
+          .multipliedBy(balanceParsed)
+      ).toNumber()
+    }, 0)
+
+    const stakedValues = balancesInStakingPool$.value && Object.entries(balancesInStakingPool$.value).reduce((acc, [ibTokenAddress, { balanceParsed }]) => {
 
       const originalToken = getOriginalTokenFromIbToken(ibTokenByAddress[ibTokenAddress.toLowerCase()])
       const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
@@ -100,6 +116,8 @@ class MyAsset extends Component {
           .multipliedBy(balanceParsed)
       ).toNumber()
     }, 0)
+
+    return new BigNumber(unstakedIbTokenValues).plus(stakedValues).toNumber()
   }
 
   render() {
