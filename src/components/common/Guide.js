@@ -26,10 +26,10 @@ class Guide extends Component {
   }
     
   render() {
-    const { title, description, buttonTitle, buttons, onClick } = this.props
+    const { className, title, description, buttonTitle, buttons, onClick } = this.props
     
     return (
-      <div className="Guide">
+      <div className={cx("Guide", className)}>
         <p className="Guide__title">{title}</p>
         {!!description && <p className="Guide__description">{description}</p>}
         {buttons && buttons.length != 0

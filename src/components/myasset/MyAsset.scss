@@ -41,3 +41,34 @@
   color: #222222;
   margin-bottom: 16px;
 }
+
+.MyAsset__videoSectionTitle {
+  @include font-style('font-1', 'b', 22px);
+  color: #222222;
+  margin-bottom: 20px;
+}
+
+.MyAsset__connectGuide {
+  .Guide__title {
+    @include font-style('font-1', 'b', 22px);
+    width: 100%;
+  }
+
+  .Guide__button {
+    width: 100%;
+    height: 50px;
+  }
+
+  @include desktop {
+    .Guide__title {
+      @include font-style('font-1', 'b', 19px);
+      width: auto;
+      margin-bottom: 0;
+    } 
+
+    .Guide__button {
+      width: auto;
+      height: 43px;
+    }
+  }
+}

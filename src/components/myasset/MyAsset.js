@@ -15,7 +15,8 @@ import LendNStakeAssetList from './LendNStakeAssetList'
 import FarmingAssetList from './FarmingAssetList'
 import { balancesInStakingPool$, balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
 import Guide from '../common/Guide'
-import { openModal$ } from '../../streams/ui'
+import { VideoItem } from '../../components/intro/Intro5'
+import { closeModal$, openModal$ } from '../../streams/ui'
 import ConnectWalletPopup from '../ConnectWalletPopup'
 import { getOriginalTokenFromIbToken, ibTokenByAddress, ibTokens } from '../../constants/tokens'
 import { tokenPrices$ } from '../../streams/tokenPrice'
@@ -23,7 +24,7 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import { currentTab$ } from '../../streams/view'
 import { getPositions$ } from '../../streams/graphql'
 import { hasPosition$ } from '../../streams/farming'
-
+import Videos from '../common/Videos'
 
 
 class MyAsset extends Component {
@@ -124,15 +125,21 @@ class MyAsset extends Component {
 
     if (!selectedAddress$.value) {
       return (
-        <Guide 
-          title={I18n.t('guide.connectWallet.title')}
-          buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
-          onClick={() => {
-            openModal$.next({
-              component: <ConnectWalletPopup />
-            })
-          }}
-        />
+        <>
+          <Guide 
+            className="MyAsset__connectGuide"
+            title={I18n.t('guide.connectWallet.title')}
+            buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
+            onClick={() => {
+              openModal$.next({
+                component: <ConnectWalletPopup />
+              })
+            }}
+          />
+          <Videos 
+            sectionTitle={I18n.t('intro5.title')}
+          />
+        </>
       )
     }
     
