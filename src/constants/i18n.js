@@ -117,7 +117,7 @@ export const en = {
   'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
 
   'farming.intro.title': '레버리지 이자 농사',
-  'farming.intro.description': '보유한 토큰과 함께 KLEVA에서 빌린 토큰을 합쳐 유동성 풀에 활용함으로써 보상량을 극대화할 수 있습니다.',
+  'farming.intro.description': '보유한 토큰과 KLEVA에서 빌린 토큰을 함께 예치하여 보상 수익을 극대화 할 수 있습니다.',
   'farming.intro.misc': '영상으로 쉽게 알아보기',
   'farming.multiplyLabel': '배',
   'farming.yieldFarmingReward': '농사 수익',
@@ -396,7 +396,7 @@ export const ko = {
   'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
 
   'farming.intro.title': '레버리지 이자 농사',
-  'farming.intro.description': '보유한 토큰과 함께 KLEVA에서 빌린 토큰을 합쳐 유동성 풀에 활용함으로써 보상량을 극대화할 수 있습니다.',
+  'farming.intro.description': '보유한 토큰과 KLEVA에서 빌린 토큰을 함께 예치하여 보상 수익을 극대화 할 수 있습니다.',
   'farming.intro.misc': '영상으로 쉽게 알아보기',
   'farming.multiplyLabel': '배',
   'farming.yieldFarmingReward': '농사 수익',
