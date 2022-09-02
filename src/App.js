@@ -33,7 +33,7 @@ import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
 import { fetchUnlockAmount$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
-import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$, fetchLendingInfo$ } from './streams/farming'
+import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$, fetchLendingInfo$, farmPoolDepositedByAddress$ } from './streams/farming'
 import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
 import { calcProtocolAPR } from './utils/calc'
 import { farmPool } from './constants/farmpool'
@@ -188,8 +188,11 @@ class App extends Component<Props> {
       switchMap(() => {
         return getFarmDeposited$(farmPool, workerInfo$.value, tokenPrices$.value)
       }),
-      tap((farmDepositedInfo) => {
-        farmPoolDeposited$.next(farmDepositedInfo)
+      tap(({ byAddress, byPid }) => {
+
+        farmPoolDepositedByAddress$.next(byAddress)
+
+        farmPoolDeposited$.next(byPid)
       }),
       takeUntil(this.destroy$)
     ).subscribe()

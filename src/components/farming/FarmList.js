@@ -7,7 +7,7 @@ import './FarmList.scss'
 import FarmItemCard from './FarmItemCard'
 import FarmItem from './FarmItem'
 import { farmPool } from '../../constants/farmpool'
-import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$ } from '../../streams/farming'
+import { aprInfo$, farmPoolDeposited$, farmPoolDepositedByAddress$, klevaAnnualRewards$, workerInfo$ } from '../../streams/farming'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { selectedAddress$ } from '../../streams/wallet'
@@ -157,8 +157,8 @@ class FarmList extends Component {
         // yield farming apr sort
         if (this.sortType$.value.value == SORT_KEY_TVL) {
           // tvl sort
-          const a_farmDeposited = farmPoolDeposited$.value[a.lpToken.address] || farmPoolDeposited$.value[a.lpToken.address.toLowerCase()]
-          const b_farmDeposited = farmPoolDeposited$.value[b.lpToken.address] || farmPoolDeposited$.value[b.lpToken.address.toLowerCase()]
+          const a_farmDeposited = farmPoolDepositedByAddress$.value[a.lpToken.address] || farmPoolDepositedByAddress$.value[a.lpToken.address.toLowerCase()]
+          const b_farmDeposited = farmPoolDepositedByAddress$.value[b.lpToken.address] || farmPoolDepositedByAddress$.value[b.lpToken.address.toLowerCase()]
 
           return (b_farmDeposited && b_farmDeposited.deposited) - (a_farmDeposited && a_farmDeposited.deposited)
         }

@@ -69,14 +69,14 @@
 }
 
 .FarmItem__apr {
-  @include font-style('font-1', 'b', 17px);
-  color: #265FFC;
-  margin-bottom: 6px;
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
 }
 
 .FarmItem__apy {
-  @include font-style('font-1', 'm', 14px);
-  color: #777D8F;
+  @include font-style('font-1', 'b', 17px);
+  color: #265FFC;
+  margin-bottom: 6px;
 }
 
 // apr detail item

@@ -14,6 +14,9 @@ window.klevaAnnualRewards$ = klevaAnnualRewards$
 export const farmPoolDeposited$ = new BehaviorSubject({})
 window.farmPoolDeposited$ = farmPoolDeposited$
 
+export const farmPoolDepositedByAddress$ = new BehaviorSubject({})
+window.farmPoolDepositedByAddress$ = farmPoolDepositedByAddress$
+
 // Klayswap Info
 export const klayswapPoolInfo$ = new BehaviorSubject({})
 

@@ -1320,19 +1320,22 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
           .multipliedBy(lpTokenPrice)
           .toNumber()
 
-          acc[multicallArrayItem.info.farmIdx] = {
+        acc.byPid[multicallArrayItem.info.farmIdx] = {
 
-            deposited: new BigNumber(acc[multicallArrayItem.info.farmIdx] && acc[multicallArrayItem.info.farmIdx].deposited || 0)
+            deposited: new BigNumber(acc.byPid[multicallArrayItem.info.farmIdx] && acc.byPid[multicallArrayItem.info.farmIdx].deposited || 0)
               .plus(_deposited)
               .toNumber(),
 
             lpToken: multicallArrayItem.info.lpToken,
         }
 
-        acc[multicallArrayItem.info.lpToken.address.toLowerCase()] = acc[multicallArrayItem.info.farmIdx]
+        acc.byAddress[multicallArrayItem.info.lpToken.address.toLowerCase()] = acc.byPid[multicallArrayItem.info.farmIdx]
 
         return acc
-      }, {})
+      }, {
+        byAddress: {},
+        byPid: {},
+      })
     })
   )
 }

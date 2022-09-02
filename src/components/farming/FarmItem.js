@@ -104,8 +104,8 @@ class FarmItem extends Component {
           </div>
         </div>
         <div className="FarmItem__aprItem">
-          <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
           <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
+          <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
         </div>
         <div className="FarmItem__aprDetailItem">
           <LabelAndValue label={I18n.t('farming.yieldFarmingAPR')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
