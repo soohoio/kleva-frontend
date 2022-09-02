@@ -31,47 +31,55 @@ class Videos extends Component {
   }
     
   render() {
-    const { sectionTitle } = this.props
+    const { 
+      sectionTitle,
+      hideIndexMap = {},
+    } = this.props
     
     return (
       <div className="Videos">
         <p className="Videos__sectionTitle">{sectionTitle}</p>
         <div className="Videos__content">
-          <VideoItem
-            imgSrc="/static/images/intro/tutorial_thum_1.png"
-            title={I18n.t('intro5.video1.title')}
-            description={I18n.t('intro5.video1.description')}
-          />
-          <VideoItem
-            className="VideoItem--2"
-            imgSrc="/static/images/intro/tutorial_thum_2.png"
-            title={I18n.t('intro5.video2.title')}
-            description={I18n.t('intro5.video2.description')}
-            subtitle={I18n.t('tag.novice')}
-            action={(
-              <div onClick={() => {
-                closeModal$.next(true)
-                currentTab$.next('lendnstake')
-              }} className="VideoItem__action">
-                {I18n.t('guide.emptyManagedAsset.buttoneTitle1')}
-              </div>
-            )}
-          />
-          <VideoItem
-            className="VideoItem--3"
-            imgSrc="/static/images/intro/tutorial_thum_3.png"
-            title={I18n.t('intro5.video3.title')}
-            description={I18n.t('intro5.video3.description')}
-            subtitle={I18n.t('tag.highProfit')}
-            action={(
-              <div onClick={() => {
-                closeModal$.next(true)
-                currentTab$.next('farming')
-              }} className="VideoItem__action">
-                {I18n.t('guide.emptyManagedAsset.buttoneTitle2')}
-              </div>
-            )}
-          />
+          {[
+            <VideoItem
+              className="VideoItem--1"
+              imgSrc="/static/images/intro/tutorial_thum_1.png"
+              title={I18n.t('intro5.video1.title')}
+              description={I18n.t('intro5.video1.description')}
+            />,
+            <VideoItem
+              className="VideoItem--2"
+              imgSrc="/static/images/intro/tutorial_thum_2.png"
+              title={I18n.t('intro5.video2.title')}
+              description={I18n.t('intro5.video2.description')}
+              subtitle={I18n.t('tag.novice')}
+              action={(
+                <div onClick={() => {
+                  closeModal$.next(true)
+                  currentTab$.next('lendnstake')
+                }} className="VideoItem__action">
+                  {I18n.t('guide.emptyManagedAsset.buttoneTitle1')}
+                </div>
+              )}
+            />,
+            <VideoItem
+              className="VideoItem--3"
+              imgSrc="/static/images/intro/tutorial_thum_3.png"
+              title={I18n.t('intro5.video3.title')}
+              description={I18n.t('intro5.video3.description')}
+              subtitle={I18n.t('tag.highProfit')}
+              action={(
+                <div onClick={() => {
+                  closeModal$.next(true)
+                  currentTab$.next('farming')
+                }} className="VideoItem__action">
+                  {I18n.t('guide.emptyManagedAsset.buttoneTitle2')}
+                </div>
+              )}
+            />
+          ].filter((item, idx) => {
+            return !hideIndexMap[idx]
+          })}
         </div>
       </div>
     )

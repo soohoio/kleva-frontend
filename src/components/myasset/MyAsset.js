@@ -136,7 +136,7 @@ class MyAsset extends Component {
               })
             }}
           />
-          <Videos 
+          <Videos
             sectionTitle={I18n.t('intro5.title')}
           />
         </>
@@ -151,23 +151,30 @@ class MyAsset extends Component {
 
     if (ibTokenValueTotal == 0 && !hasPosition$.value) {
       return (
-        <Guide
-          title={I18n.t('guide.emptyManagedAsset.title')}
-          buttons={[
-            {
-              title: I18n.t('guide.emptyManagedAsset.buttoneTitle1'),
-              onClick: () => {
-                currentTab$.next('lendnstake')
+        <>
+          <Guide
+            className="MyAsset__participateGuide"
+            title={I18n.t('guide.emptyManagedAsset.title')}
+            buttons={[
+              {
+                title: I18n.t('guide.emptyManagedAsset.buttoneTitle1'),
+                onClick: () => {
+                  currentTab$.next('lendnstake')
+                }
+              },
+              {
+                title: I18n.t('guide.emptyManagedAsset.buttoneTitle2'),
+                onClick: () => {
+                  currentTab$.next('farming')
+                }
               }
-            },
-            {
-              title: I18n.t('guide.emptyManagedAsset.buttoneTitle2'),
-              onClick: () => {
-                currentTab$.next('farming')
-              }
-            }
-          ]}
-        />
+            ]}
+          />
+          <Videos
+            hideIndexMap={{ 0: true }}
+            sectionTitle={I18n.t('intro5.title')}
+          />
+        </>
       )
     }
 

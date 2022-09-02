@@ -72,3 +72,45 @@
     }
   }
 }
+
+.MyAsset__participateGuide {
+  .Guide__title {
+    @include font-style('font-1', 'b', 22px);
+    width: 100%;
+  }
+
+  .Guide__button {
+    width: 100%;
+    height: 50px;
+    background-color: #EDF2FC;
+    color: #265FFC;
+    flex: unset;
+    margin-top: 8px;
+    @include font-style('font-1', 'sb', 16px);
+  }
+
+  .Guide__buttons {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  @include desktop {
+    .Guide__title {
+      @include font-style('font-1', 'b', 19px);
+      width: auto;
+      margin-bottom: 0;
+    } 
+
+    .Guide__buttons {
+      flex-direction: row;
+      margin-top: 0;
+    }
+
+    .Guide__button {
+      width: auto;
+      height: 43px;
+      flex: 1;
+      margin-top: 20px;
+    }
+  }
+}
