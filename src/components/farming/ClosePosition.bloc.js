@@ -415,7 +415,7 @@ export default class {
               }
             },
           ]}>
-            <p className="CompletedModal__title">{I18n.t('farming.adjustPosition.completed.title')}</p>
+            <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
           </CompletedModal>
         )
       })
@@ -481,7 +481,7 @@ export default class {
               }
             },
           ]}>
-            <p className="CompletedModal__title">{I18n.t('farming.adjustPosition.completed.title')}</p>
+            <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
           </CompletedModal>
         )
       })
@@ -741,7 +741,7 @@ export default class {
                 }
               },
             ]}>
-              <p className="CompletedModal__title">{I18n.t('farming.adjustPosition.completed.title')}</p>
+              <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
             </CompletedModal>
           )
         })
@@ -796,7 +796,7 @@ export default class {
                 }
               },
             ]}>
-              <p className="CompletedModal__title">{I18n.t('farming.adjustPosition.completed.title')}</p>
+              <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
             </CompletedModal>
           )
         })
