@@ -82,9 +82,9 @@ class FarmAPRDetailInfo extends Component {
 
     return (
       <Modal className="FarmAPRDetailInfo" title={title}>
-        <LabelAndValue label={I18n.t('farming.yieldFarmingReward')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
-        <LabelAndValue label={I18n.t('farming.klevaReward')} value={`${nFormatter(klevaRewardAPR, 2)}%`} />
+        {!!yieldFarmingAPR && <LabelAndValue label={I18n.t('farming.yieldFarmingReward')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />}
         {!!tradingFeeAPR && <LabelAndValue label={I18n.t('farming.tradingFeeAPR')} value={`${nFormatter(tradingFeeAPR, 2)}%`} />}
+        <LabelAndValue label={I18n.t('farming.klevaReward')} value={`${nFormatter(klevaRewardAPR, 2)}%`} />
         <RadioSet2
           selectedLabel={borrowingAssetMap$?.value[lpToken.address]?.title}
           list={radioList}
