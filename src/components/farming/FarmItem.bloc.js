@@ -10,6 +10,8 @@ export default class {
   constructor(comp) {
     this.comp = comp
 
+    const { token1, token2 } = this.comp.props
+
     const defaultBorrowingAsset = this.getBorrowingAvailableAsset()[0]
 
     const selectedWorker = this.comp.props.workerList.find((w) => {
@@ -18,7 +20,13 @@ export default class {
 
     // this.borrowingAsset$ = new BehaviorSubject(defaultBorrowingAsset)
     this.worker$ = new BehaviorSubject(selectedWorker)
+
     this.leverageValue$ = new BehaviorSubject(2) // default leverage: 2
+
+    this.leverageMemoryMap$ = new BehaviorSubject({
+      [token1.address.toLowerCase()]: 2,
+      [token2.address.toLowerCase()]: 2
+    })
 
     this.comp.props.sortTypeChanged$.pipe(
       takeUntil(this.comp.destroy$)
@@ -95,13 +103,23 @@ export default class {
     })
     this.worker$.next(selectedWorker)
 
-    // Reset Leverage
-    this.leverageValue$.next(1)
+    
+    // Restore memoized leverage value 
+    this.leverageValue$.next(this.leverageMemoryMap$.value[asset.address.toLowerCase()])
   }
 
   setLeverageValue = (v, leverageCapRaw) => {
     if (v < 1) return
     if (v > leverageCapRaw) return
+
+    const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
+
+    // memoize leverage value
+    this.leverageMemoryMap$.next({
+      ...this.leverageMemoryMap$.value,
+      [borrowingAsset.address.toLowerCase()]: v,
+    })
+
     this.leverageValue$.next(v)
   }
 
