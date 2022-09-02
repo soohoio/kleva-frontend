@@ -102,9 +102,6 @@ class ClosePosition extends Component {
 
           const amountToBeBorrowed = this.bloc.getAmountToBorrow()
 
-          console.log(this.bloc.before_debtAmount$.value, 'this.bloc.before_debtAmount$.value')
-          console.log(amountToBeBorrowed, 'amountToBeBorrowed')
-
           const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
             .plus(amountToBeBorrowed)
             .toString()
@@ -410,7 +407,7 @@ class ClosePosition extends Component {
   renderButtons = () => {
     const { farmingToken, baseToken, vaultAddress } = this.props
 
-    const isDisabled = this.bloc.entirelyClose$.vaule 
+    const isDisabled = this.bloc.entirelyClose$.value 
       ? false
       : !this.bloc.partialCloseAvailable$.value?.status
 
