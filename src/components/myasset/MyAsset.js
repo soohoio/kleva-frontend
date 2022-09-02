@@ -88,7 +88,7 @@ class MyAsset extends Component {
 
     const unstakedIbTokenValues = ibTokens && Object.values(ibTokens).reduce((acc, { address, originalToken }) => {
 
-      const { balanceParsed } = balancesInWallet$.value[address]
+      const balanceParsed = balancesInWallet$.value[address] && balancesInWallet$.value[address].balanceParsed
 
       const originalTokenPrice = tokenPrices$.value[originalToken.address.toLowerCase()]
       const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value?.[originalToken.address]
