@@ -156,11 +156,14 @@ class InputWithPercentage extends Component {
           }}
         />
         <div className="InputWithPercentage__right">
-          {!noPercentage && <Opener
-            items={percentItems}
-            selectedItem={this.selectedItem$.value}
-            onSelect={this.selectPercent}
-          />}
+          <span className="InputWithPercentage__label">{label}</span>
+          {!noPercentage && (
+            <Opener
+              items={percentItems}
+              selectedItem={this.selectedItem$.value}
+              onSelect={this.selectPercent}
+            />
+          )}
         </div>
       </div>
     )
