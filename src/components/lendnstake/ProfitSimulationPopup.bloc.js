@@ -20,7 +20,7 @@ export default class {
     this.calculatedOnce$ = new BehaviorSubject()
     
     // 10, 30, 180, 365
-    this.timePassed$ = new BehaviorSubject(180)
+    this.timePassed$ = new BehaviorSubject(365)
   }
 
   getTotalAPR = ({ lendingAPR, stakingAPR, protocolAPR }) => {
