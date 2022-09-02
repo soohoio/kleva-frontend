@@ -77,15 +77,18 @@
     flex: 1;
     padding-right: 0;
   }
-  padding: 0 18px;
+
 }
 
 .ClosePosition__apy {
   margin-top: 8px;
   align-items: center;
-  border-bottom: 1px solid #E6EAF2;
   padding-bottom: 20px;
   margin-bottom: 36px;
+  
+  @include desktop {
+    border-bottom: 1px solid #E6EAF2;
+  }
 
   .QuestionMark {
     font-size: 14px;

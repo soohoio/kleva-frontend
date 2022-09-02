@@ -68,7 +68,7 @@
 // Gauge Bar
 .GaugeBar {
   position: relative;
-  width: 90%;
+  // width: 90%;
   height: 30px;
 
   cursor: pointer;
@@ -80,7 +80,7 @@
   transform: translateY(-50%);
   border-radius: 2px;
   background-color: #3A6EFC;
-  height: 4px;
+  height: 5px;
   z-index: 9;
   max-width: 100%;
 }
@@ -90,8 +90,19 @@
   transform: translateY(-50%);
   width: 100%;
   border-radius: 2px;
-  background-color: #f2f2f2;
-  height: 4px; 
+  background-color: #F5F7FA;
+  height: 5px; 
+  cursor: pointer;
+}
+
+.GaugeBar__availableRangeBar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  border-radius: 2px;
+  background-color: #DDE2F0;
+  height: 5px; 
   cursor: pointer;
 }
 

@@ -14,12 +14,19 @@ class CommonGauge extends Component {
 
   componentDidMount() {
     const { percentage$ } = this.props
+
+    // console.log(this.props, 'this.props')
+    // console.log(percentage$, 'percentage$')
+
     merge(
       percentage$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
+
+      console.log(percentage$.value, 'percentage$.value')
+
       this.forceUpdate()
     })
 
@@ -60,17 +67,26 @@ class CommonGauge extends Component {
       min,
       max,
       percentage$, 
-      limit 
+      limit,
+      disabled,
     } = this.props
+
+    if (disabled) return
 
     const clientX = e.clientX || (e.changedTouches && e.changedTouches[0] && e.changedTouches[0].clientX)
     const rect = document.querySelector('.GaugeBar__barBehind').getBoundingClientRect()
     const percent = Math.max(0, Math.min((clientX - rect.x) / rect.width, 1))
 
     const nextPercentage = percent * 100
+
     
     if (nextPercentage > max) {
       percentage$.next(max)
+      return
+    }
+
+    if (nextPercentage < min) {
+      percentage$.next(min)
       return
     }
 
@@ -79,20 +95,31 @@ class CommonGauge extends Component {
 
   render() {
     const {
+      min,
+      max,
       title,
       description,
       percentage$,
       offset,
       limit,
+      
+      bottomContent,
     } = this.props
 
     const barItemCount = parseInt(100 / offset) + 1
 
     const indexLike = (percentage$.value) / offset
-    const barWidth = (indexLike / (barItemCount - 1)) * 100
+    // const barWidth = ((indexLike / (barItemCount - 1)) * 100) - min
+    const barWidth = Math.max(percentage$.value - min, 1)
 
     const barHeadLeftMargin = 0
-    const barHeadLeft = `calc(${barWidth}% - ${barHeadLeftMargin}px)`
+    
+    const barHeadLeft = percentage$.value < 3
+      ? 0
+      : `calc(${percentage$.value}% - 12px)`
+
+    const availableRangeBarWidth = max - min
+    const availableRangeBarLeft = min
 
     return (
       <div className="CommonGauge">
@@ -115,39 +142,13 @@ class CommonGauge extends Component {
           className="GaugeBar"
         >
           <div style={{ left: barHeadLeft }} className="GaugeBar__barHead" />
-          <div style={{ width: `${barWidth}%` }} className="GaugeBar__bar" />
-          {/* {range(barItemCount).map((idx) => {
-            const barValue = (offset * idx)
-
-            return (
-              <div
-                key={idx}
-                style={{ left: `${(idx / (barItemCount - 1)) * 100}%` }}
-                className={cx("GaugeBar__barItem", {
-                  [`GaugeBar__barItem--active`]: barValue <= percentage$.value,
-                })}
-              >
-                <p 
-                  onClick={() => {
-                    const nextPercentage = barValue
-                    if (nextPercentage > limit) {
-                      percentage$.next(limit)
-                      return
-                    }
-                    percentage$.next(barValue)
-                  }} 
-                  className="GaugeBar__barItemLabel"
-                >
-                  {barValue}%
-                </p>
-              </div>
-            )
-          })} */}
+          <div style={{ left: `${availableRangeBarLeft}%`, width: `${barWidth}%` }} className="GaugeBar__bar" />
+          <div style={{ left: `${availableRangeBarLeft}%`, width: `${availableRangeBarWidth}%` }} className="GaugeBar__availableRangeBar" />
           <div
             className="GaugeBar__barBehind"
           />
         </div>
-
+        {bottomContent}
       </div>
     )
   }

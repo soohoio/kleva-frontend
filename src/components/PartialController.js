@@ -12,9 +12,11 @@ class PartialController extends Component {
   destroy$ = new Subject()
 
   componentDidMount() {
-    const { debtRepaymentAmount$ } = this.props
+    const { debtRepaymentAmount$, minRepaymentDebtRatio$, maxRepaymentDebtRatio$ } = this.props
     merge(
       debtRepaymentAmount$,
+      minRepaymentDebtRatio$,
+      maxRepaymentDebtRatio$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -43,11 +45,6 @@ class PartialController extends Component {
       minRepaymentDebtRatio$,
       maxRepaymentDebtRatio$,
     } = this.props
-
-    console.log(minPartialCloseRatio$.value, 'minPartialCloseRatio$.value')
-    console.log(maxPartialCloseRatio$.value, 'maxPartialCloseRatio$.value')
-    console.log(minRepaymentDebtRatio$.value, 'minRepaymentDebtRatio$.value')
-    console.log(maxRepaymentDebtRatio$.value, 'maxRepaymentDebtRatio$.value')
 
     const baseTokenTitle = isBaseTokenKLAY
       ? "WKLAY"
@@ -97,6 +94,8 @@ class PartialController extends Component {
           min={minRepaymentDebtRatio$.value}
           max={maxRepaymentDebtRatio$.value}
 
+          disabled={partialCloseRatio$.value == 0}
+
           percentage$={repayDebtRatio$}
           title={I18n.t('farming.closePosition.debtRepayment')}
           description={(
@@ -107,6 +106,18 @@ class PartialController extends Component {
           )}
           offset={25}
           limit={repayPercentageLimit}
+          bottomContent={(!!maxRepaymentDebtRatio$.value && (
+            <>
+              <p className="PartialController__bottomContentTitle">{I18n.t('farming.closePosition.partialClose.repaymentRange.title', {
+                from: Number(minRepaymentDebtRatio$.value).toFixed(2),
+                to: Number(maxRepaymentDebtRatio$.value).toFixed(2),
+              })}
+              </p>
+              <p className="PartialController__bottomContentDescription">{I18n.t('farming.closePosition.partialClose.repaymentRange.description', {
+                value: Number(minRepaymentDebtRatio$.value).toFixed(2)
+              })}</p>
+            </>
+          ))}
         />
       </div>
     )

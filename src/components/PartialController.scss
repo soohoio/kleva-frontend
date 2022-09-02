@@ -24,3 +24,21 @@
 .PartialController__plus {
   margin: 0 8px;
 }
+
+.PartialController__bottomContentTitle {
+  @include font-style('font-1', 'b', 16px);
+  color: #265FFC;
+  margin-bottom: 6px;
+  line-height: 20px;
+  margin-top: 27px;
+}
+
+.PartialController__bottomContentDescription {
+  @include font-style('font-1', 'm', 14px);
+  line-height: 20px;
+  color: #777D8F;
+  
+  strong {
+    @include font-style('font-1', 'b', 14px);
+  }
+}
