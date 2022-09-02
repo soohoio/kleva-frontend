@@ -1,4 +1,12 @@
 
+.WKLAYSwitchModal {
+  @include desktop {
+    .Modal__content {
+      overflow: unset;
+    }
+  }
+}
+
 .WKLAYSwitchModal__description {
   margin-bottom: 20px;
   @include font-style('font-1', 'm', 15px);

@@ -1,14 +1,14 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { debounceTime, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
 
 import Bloc from './WKLAYSwitcher.bloc'
 
 import './WKLAYSwitcher.scss'
 import { tokenList } from '../../constants/tokens'
 import InputWithPercentage from './InputWithPercentage'
-import { nFormatter } from '../../utils/misc'
+import { nFormatter, noRounding } from '../../utils/misc'
 import SupplyInput from './SupplyInput'
 import { I18n } from './I18n'
 
@@ -19,7 +19,13 @@ class WKLAYSwitcher extends Component {
 
   componentDidMount() {
     merge(
-      this.bloc.isWrapping$,
+      this.bloc.isWrapping$.pipe(
+        distinctUntilChanged(),
+        tap(() => {
+          this.bloc.klayAmountToWrap$.next('')
+          this.bloc.wklayAmountToUnwrap$.next('')
+        })
+      ),
       this.bloc.klayAmountToWrap$,
       this.bloc.wklayAmountToUnwrap$,
     ).pipe(
@@ -35,7 +41,7 @@ class WKLAYSwitcher extends Component {
   }
 
   renderWKLAYToKLAY = () => {
-    const { balancesInWallet } = this.props
+    const { balancesInWallet, column } = this.props
 
     const availableBalance = balancesInWallet[tokenList.WKLAY.address] && balancesInWallet[tokenList.WKLAY.address].balanceParsed
 
@@ -45,20 +51,35 @@ class WKLAYSwitcher extends Component {
       || !isValidDecimal(this.bloc.wklayAmountToUnwrap$.value, 18)
 
     return (
-      <div className="WKLAYSwitcher">
+      <div 
+        className={cx("WKLAYSwitcher", {
+          "WKLAYSwitcher--column": column
+        })}
+      >
         <div className="WKLAYSwitcher__available">
           <span className="WKLAYSwitcher__availableLabel">{I18n.t('lendstake.controller.available')} WKLAY</span>
           <span className="WKLAYSwitcher__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
-            noPercentage
+            noPercentage={!column}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}
             value$={this.bloc.wklayAmountToUnwrap$}
             valueLimit={availableBalance}
             targetToken={tokenList.WKLAY}
           />
+          {column && (
+            <div className="WKLAYSwitcher__willReceive">
+              <span className="WKLAYSwitcher__willReceiveLabel">{I18n.t('willConvert', { title: "KLAY" })}</span>
+              <span className="WKLAYSwitcher__willReceiveAmount">
+                {this.bloc.wklayAmountToUnwrap$.value
+                  ? noRounding(this.bloc.wklayAmountToUnwrap$.value, 18)
+                  : "0"
+                }
+              </span>
+            </div>
+          )}
           {this.bloc.isWrapping$.value
             ? (
               <button
@@ -87,9 +108,10 @@ class WKLAYSwitcher extends Component {
   }
 
   render() {
-    const { balancesInWallet, toKLAY } = this.props
+    const { balancesInWallet, toKLAY, column } = this.props
 
     if (!!toKLAY) {
+      // WKLAY to KLAY
       return this.renderWKLAYToKLAY()
     }
 
@@ -100,21 +122,37 @@ class WKLAYSwitcher extends Component {
       || new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.klayAmountToWrap$.value, 18)
 
+    // KLAY to WKLAY
     return (
-      <div className="WKLAYSwitcher">
+      <div 
+        className={cx("WKLAYSwitcher", {
+          "WKLAYSwitcher--column": column,
+        })}
+      >
         <div className="WKLAYSwitcher__available">
           <span className="WKLAYSwitcher__availableLabel">{I18n.t('lendstake.controller.available')} KLAY</span>
           <span className="WKLAYSwitcher__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
-            noPercentage
+            noPercentage={!column}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}
             value$={this.bloc.klayAmountToWrap$}
             valueLimit={availableBalance}
             targetToken={tokenList.KLAY}
           />
+          {column && (
+            <div className="WKLAYSwitcher__willReceive">
+              <span className="WKLAYSwitcher__willReceiveLabel">{I18n.t('willConvert', { title: "WKLAY" })}</span>
+              <span className="WKLAYSwitcher__willReceiveAmount">
+                {this.bloc.klayAmountToWrap$.value
+                  ? noRounding(this.bloc.klayAmountToWrap$.value, 18)
+                  : "0"
+                }
+              </span>
+            </div>
+          )}
           {this.bloc.isWrapping$.value
             ? (
               <button

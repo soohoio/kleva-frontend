@@ -1,3 +1,20 @@
+.WKLAYSwitcher {
+  &--column {
+    .WKLAYSwitcher__inputAndButton {
+      flex-direction: column;
+    }
+
+    .WKLAYSwitcher__depositInput {
+      width: 100%;
+      margin-bottom: 17px;
+    }
+
+    .WKLAYSwitcher__wrapButton {
+      width: 100%;
+    }
+  }
+}
+
 .WKLAYSwitcher__available {
   margin-top: 20px;
   display: flex;
@@ -34,4 +51,22 @@
   @include font-style('font-1', 'b', 16px);
   margin-top: 0;
   width: 95px;
+}
+
+.WKLAYSwitcher__willReceive {
+  width: 100%;
+  display: flex;
+  align-content: center;
+  margin: 17px 0;
+}
+
+.WKLAYSwitcher__willReceiveLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #777D8F;
+}
+
+.WKLAYSwitcher__willReceiveAmount {
+  @include font-style('font-1', 'b', 15px);
+  color: #265FFC;
+  margin-left: 5px;
 }
