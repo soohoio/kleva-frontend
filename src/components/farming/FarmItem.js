@@ -110,6 +110,7 @@ class FarmItem extends Component {
         <div className="FarmItem__aprDetailItem">
           <LabelAndValue label={I18n.t('farming.yieldFarmingAPR')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />
           <LabelAndValue label={I18n.t('farming.klevaReward')} value={`${nFormatter(debtTokenKlevaRewardsAPR, 2)}%`} />
+          {tradingFeeAPR != 0 && <LabelAndValue label={I18n.t('farming.tradingFeeAPR')} value={`${nFormatter(tradingFeeAPR, 2)}%`} />}
         </div>
         <div className="FarmItem__borrowingInterestItem">
           <RadioSet2
