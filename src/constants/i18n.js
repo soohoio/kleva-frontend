@@ -130,7 +130,7 @@ export const en = {
   'farming.summary.equity': '내 담보 자산',
   'farming.summary.equity.description': '수수료 차감 전 수량',
   'farming.summary.debt': '대출 자산',
-  'farming.summary.totalDeposit': '총 운용 자산',
+  'farming.summary.totalDeposit': '총 예치 자산',
   'farming.error.minDebtSize': `최소 %{minDebt} 이상을 대출받아야 합니다.`,
   'farming.completed.title': '이자농사 예치가 완료되었습니다.',
   'farming.completed.description': '예치한 자산 내역은 <text style="color: #3C6BFA;">내 자산</text> 탭에서 확인하실 수 있습니다.',
@@ -276,6 +276,7 @@ export const en = {
   'slippage': '슬리피지',
   'slippage.modal.description': '이자 농사에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
   'fiftyfiftyMode': '50:50 비율',
+  
 }
 
 export const ko = {
@@ -410,7 +411,7 @@ export const ko = {
   'farming.summary.equity': '내 담보 자산',
   'farming.summary.equity.description': '수수료 차감 전 수량',
   'farming.summary.debt': '대출 자산',
-  'farming.summary.totalDeposit': '총 운용 자산',
+  'farming.summary.totalDeposit': '총 예치 자산',
   'farming.error.minDebtSize': `최소 %{minDebt} 이상을 대출받아야 합니다.`,
   'farming.completed.title': '이자농사 예치가 완료되었습니다.',
   'farming.completed.description': '예치한 자산 내역은 <text style="color: #3C6BFA;">내 자산</text> 탭에서 확인하실 수 있습니다.',
@@ -556,6 +557,7 @@ export const ko = {
   'slippage': '슬리피지',
   'slippage.modal.description': '이자 농사에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
   'fiftyfiftyMode': '50:50 비율',
+  
 }
 
 export const zh = {
