@@ -53,14 +53,18 @@ class ConnectWalletPopup extends Component {
             className="WalletConnectOption--dcent"
             imgSrc="/static/images/logo-dcent.svg"
             onClick={() => {
-              if (window.klaytn) {
+
+              if (window.klaytn && window.klaytn.isDcentWallet) {
                 connectInjected('', 'dcent')
+                closeModal$.next(true)
                 return
               }
+
               const _url = encodeURIComponent(window.location.href)
               const network = 'klaytn-mainnet'
               const DEEP_LINKING_DCENT = "https://link.dcentwallet.com/DAppBrowser/?url=" + _url + "&network=" + network
               window.open(DEEP_LINKING_DCENT)
+              closeModal$.next(true)
             }}
           />
           <WalletConnectOption
