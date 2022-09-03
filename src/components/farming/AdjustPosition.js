@@ -25,6 +25,8 @@ import WKLAYSwitcher from '../common/WKLAYSwitcher'
 import Tabs from '../common/Tabs'
 import BeforeAfter from '../BeforeAfter'
 import ThickHR from '../common/ThickHR'
+import { klayswapPoolInfo$ } from '../../streams/farming'
+import Checkbox from '../common/Checkbox'
 
 class AdjustPosition extends Component {
   destroy$ = new Subject()
@@ -54,12 +56,45 @@ class AdjustPosition extends Component {
 
     merge(
       balancesInWallet$,
+      klayswapPoolInfo$,
+      this.bloc.isFarmingFocused$,
+      this.bloc.isBaseFocused$,
+      this.bloc.fiftyfiftyMode$.pipe(
+        distinctUntilChanged(),
+        tap((isModeOn) => {
+          if (!isModeOn) return
+
+          if (this.bloc.farmingTokenAmount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'farmingToken' })
+          }
+
+          if (this.bloc.baseTokenAmount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'baseToken' })
+          }
+        })
+      ),
       merge(
         this.bloc.before_farmingAmount$,
         this.bloc.before_baseAmount$,
 
-        this.bloc.farmingTokenAmount$,
-        this.bloc.baseTokenAmount$,
+        this.bloc.farmingTokenAmount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isFarmingFocused$.value) return
+
+            // fiftyfifty mode
+            this.bloc.handleFiftyFiftyMode({ from: 'farmingToken' })
+          }),
+        ),
+        this.bloc.baseTokenAmount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isBaseFocused$.value) return
+
+            // fiftyfifty mode
+            this.bloc.handleFiftyFiftyMode({ from: 'baseToken' })
+          }),
+        ),
         this.bloc.leverage$,
         this.bloc.borrowMore$.pipe(
           distinctUntilChanged(),
@@ -283,6 +318,10 @@ class AdjustPosition extends Component {
       return (
         <>
           <SupplyInput
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
+            focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
             value$={this.bloc.baseTokenAmount$}
             valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
@@ -293,6 +332,7 @@ class AdjustPosition extends Component {
             targetToken={baseToken}
           />
           <SupplyInput
+            focused$={this.bloc.isFarmingFocused$}
             decimalLimit={farmingToken.decimals}
             value$={this.bloc.farmingTokenAmount$}
             valueLimit={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
@@ -311,6 +351,10 @@ class AdjustPosition extends Component {
       return (
         <>
           <SupplyInput
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
+            focused$={this.bloc.isFarmingFocused$}
             decimalLimit={farmingToken.decimals}
             value$={this.bloc.farmingTokenAmount$}
             valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
@@ -321,6 +365,7 @@ class AdjustPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
             value$={this.bloc.baseTokenAmount$}
             valueLimit={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
@@ -338,6 +383,10 @@ class AdjustPosition extends Component {
     return (
       <>
         <SupplyInput
+          headerRightContent={(
+            <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+          )}
+          focused$={this.bloc.isFarmingFocused$}
           decimalLimit={farmingToken.decimals}
           value$={this.bloc.farmingTokenAmount$}
           valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
@@ -348,6 +397,7 @@ class AdjustPosition extends Component {
           targetToken={farmingToken}
         />
         <SupplyInput
+          focused$={this.bloc.isBaseFocused$}
           decimalLimit={baseToken.decimals}
           value$={this.bloc.baseTokenAmount$}
           valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}

@@ -1,0 +1,16 @@
+.Checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Checkbox__image {
+  width: 21px;
+  height: 21px;
+  margin-right: 7px;
+}
+
+.Checkbox__title {
+  @include font-style('font-1', 'm', 15px);
+  color: #636878;
+}

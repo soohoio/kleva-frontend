@@ -281,7 +281,7 @@ export const getOptimalAmount = (amtA, resA, resB) => {
   const result = new BigNumber(amtA)
     .multipliedBy(resB)
     .div(resA)
-    .toString()
+    .toFixed(0)
 
   return result
 }

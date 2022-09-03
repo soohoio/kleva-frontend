@@ -41,17 +41,24 @@ class SupplyInput extends Component {
       priceRatio,
       valueLimit,
       decimalLimit,
-      targetToken
+      targetToken,
+      headerRightContent,
+
+      focused$,
     } = this.props
 
     return (
       <div className="SupplyInput">
         <div className="SuppyInput__header">
-          <span className="SupplyInput__labelTitle">{labelTitle}</span>
-          <span className="SupplyInput__labelValue">{Number(labelValue).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+          <div className="SupplyInput__left">
+            <span className="SupplyInput__labelTitle">{labelTitle}</span>
+            <span className="SupplyInput__labelValue">{Number(labelValue).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+          </div>
+          {!!headerRightContent && headerRightContent}
         </div>
         <InputWithPercentage
           zeroValueDisable
+          focused$={focused$}
           decimalLimit={decimalLimit}
           imgSrc={imgSrc}
           value$={value$}

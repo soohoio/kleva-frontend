@@ -29,7 +29,7 @@ class InputWithPercentage extends Component {
   }
 
   componentDidMount() {
-    const { value$, valueLimit } = this.props
+    const { value$, focused$, valueLimit } = this.props
 
     merge(
       value$.pipe(
@@ -53,12 +53,19 @@ class InputWithPercentage extends Component {
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.setState({ isFocused: true })
+
+      if (focused$) {
+        focused$.next(true)
+      }
     })
     
     fromEvent(this.$input.current, 'blur').pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.setState({ isFocused: false })
+      if (focused$) {
+        focused$.next(false)
+      }
     })
 
     // Initial value

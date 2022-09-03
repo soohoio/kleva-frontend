@@ -5,9 +5,11 @@
 
 .SuppyInput__header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+
+  justify-content: space-between;
 }
 
 .SupplyInput__labelTitle {

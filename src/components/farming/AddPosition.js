@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime, distinctUntilChanged, switchMap } from 'r
 import Bloc from './AddPosition.bloc'
 import './AddPosition.scss'
 import AddPositionHeader from './AddPositionHeader'
-import { toAPY } from '../../utils/calc'
+import { getOptimalAmount, toAPY } from '../../utils/calc'
 import { I18n } from '../common/I18n'
 import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
@@ -19,10 +19,12 @@ import BorrowingItem from './BorrowingItem'
 import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
-import { addressKeyFind, nFormatter } from '../../utils/misc'
+import { addressKeyFind, isSameAddress, nFormatter } from '../../utils/misc'
 import { checkAllowances$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
+import Checkbox from '../common/Checkbox'
+import { klayswapPoolInfo$ } from '../../streams/farming'
 
 class AddPosition extends Component {
   bloc = new Bloc(this)
@@ -30,9 +32,27 @@ class AddPosition extends Component {
   destroy$ = new Subject()
   
   componentDidMount() {
+    const { lpToken } = this.props
     merge(
       balancesInWallet$,
+      klayswapPoolInfo$,
+      this.bloc.isFarmingFocused$,
+      this.bloc.isBaseFocused$,
       
+      this.bloc.fiftyfiftyMode$.pipe(
+        distinctUntilChanged(),
+        tap((isModeOn) => {
+          if (!isModeOn) return
+
+          if (this.bloc.farmingTokenAmount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'farmingToken' })
+          }
+
+          if (this.bloc.baseTokenAmount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'baseToken' })
+          }
+        })
+      ),
       // If the user changes farmingTokenAmount || baseTokenAmount || leverage
       // call view function `getOpenPositionResult`,
       // it leads to fill following behavior subject,
@@ -41,8 +61,24 @@ class AddPosition extends Component {
       // ii) resultBaseTokenAmount$, resultFarmTokenAmount$
       // iii) priceImpact$, leverageImpact$
       merge(
-        this.bloc.farmingTokenAmount$,
-        this.bloc.baseTokenAmount$,
+        this.bloc.farmingTokenAmount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isFarmingFocused$.value) return
+
+            // fiftyfifty mode
+            this.bloc.handleFiftyFiftyMode({ from: 'farmingToken' })
+          }),
+        ),
+        this.bloc.baseTokenAmount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isBaseFocused$.value) return
+            
+            // fiftyfifty mode
+            this.bloc.handleFiftyFiftyMode({ from: 'baseToken' })
+          }),
+        ),
         this.bloc.leverage$,
       ).pipe(
         switchMap(() => this.bloc.getOpenPositionResult$()),
@@ -223,6 +259,10 @@ class AddPosition extends Component {
       return (
         <>
           <SupplyInput
+            focused$={this.bloc.isBaseFocused$}
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
             decimalLimit={baseToken.decimals}
             value$={this.bloc.baseTokenAmount$}
             valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
@@ -233,6 +273,7 @@ class AddPosition extends Component {
             targetToken={baseToken}
           />
           <SupplyInput
+            focused$={this.bloc.isFarmingFocused$}
             decimalLimit={farmingToken.decimals}
             value$={this.bloc.farmingTokenAmount$}
             valueLimit={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
@@ -251,6 +292,10 @@ class AddPosition extends Component {
       return (
         <>
           <SupplyInput
+            focused$={this.bloc.isFarmingFocused$}
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
             decimalLimit={farmingToken.decimals}
             value$={this.bloc.farmingTokenAmount$}
             valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
@@ -261,6 +306,7 @@ class AddPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
             value$={this.bloc.baseTokenAmount$}
             valueLimit={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
@@ -278,6 +324,10 @@ class AddPosition extends Component {
     return (
       <>
         <SupplyInput
+          focused$={this.bloc.isFarmingFocused$}
+          headerRightContent={(
+            <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+          )}
           decimalLimit={farmingToken.decimals}
           value$={this.bloc.farmingTokenAmount$}
           valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
@@ -288,6 +338,7 @@ class AddPosition extends Component {
           targetToken={farmingToken}
         />
         <SupplyInput
+          focused$={this.bloc.isBaseFocused$}
           decimalLimit={baseToken.decimals}
           value$={this.bloc.baseTokenAmount$}
           valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}

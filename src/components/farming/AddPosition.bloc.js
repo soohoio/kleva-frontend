@@ -12,7 +12,7 @@ import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../../consta
 import { closeContentView$, closeModal$, openModal$ } from '../../streams/ui'
 import { showDetailDefault$, showSummaryDefault$, slippage$ } from '../../streams/setting'
 import { klevaAnnualRewards$, poolReserves$, fetchPositions$, klayswapPoolInfo$ } from '../../streams/farming'
-import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, optimalDeposit } from '../../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, optimalDeposit } from '../../utils/calc'
 import { addressKeyFind, isSameAddress } from '../../utils/misc'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
@@ -57,6 +57,10 @@ export default class {
     this.estimatedPositionValueWithoutLeverage$ = new BehaviorSubject(0)
 
     this.fetchAllowances$ = new Subject()
+
+    this.fiftyfiftyMode$ = new BehaviorSubject(false)
+    this.isFarmingFocused$ = new BehaviorSubject(false)
+    this.isBaseFocused$ = new BehaviorSubject(false)
 
     this.init()
   }
@@ -364,5 +368,58 @@ export default class {
         )
       })
     })
+  }
+
+  handleFiftyFiftyMode = ({ from }) => {
+    const poolInfo = klayswapPoolInfo$.value[this.lpToken?.address?.toLowerCase()]
+
+    if (from === 'farmingToken') {
+      
+      if (this.farmingTokenAmount$.value == 0) {
+        this.baseTokenAmount$.next(0)
+        return
+      }
+
+      const baseOptimalAmount = getOptimalAmount(
+        new BigNumber(this.farmingTokenAmount$.value).multipliedBy(10 ** this.farmingToken$.value.decimals).toString(),
+        isSameAddress(this.farmingToken$.value?.address, poolInfo.tokenA)
+          ? poolInfo.amountA
+          : poolInfo.amountB,
+        isSameAddress(this.farmingToken$.value?.address, poolInfo.tokenA)
+          ? poolInfo.amountB
+          : poolInfo.amountA,
+      )
+
+      this.baseTokenAmount$.next(
+        new BigNumber(baseOptimalAmount)
+          .div(10 ** this.baseToken$.value?.decimals)
+          .toFixed(4)
+        )
+      return
+    }
+
+    if (from === 'baseToken') {
+
+      if (this.baseTokenAmount$.value == 0) {
+        this.farmingTokenAmount$.next(0)
+        return
+      }
+
+      const farmingOptimalAmount = getOptimalAmount(
+        new BigNumber(this.baseTokenAmount$.value).multipliedBy(10 ** this.baseToken$.value.decimals).toString(),
+        isSameAddress(this.baseToken$.value?.address, poolInfo.tokenA)
+          ? poolInfo.amountA
+          : poolInfo.amountB,
+        isSameAddress(this.baseToken$.value?.address, poolInfo.tokenA)
+          ? poolInfo.amountB
+          : poolInfo.amountA,
+      )
+  
+      this.farmingTokenAmount$.next(
+        new BigNumber(farmingOptimalAmount)
+          .div(10 ** this.farmingToken$.value?.decimals)
+          .toFixed(4)
+        )
+    }
   }
 } 
