@@ -14,6 +14,10 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import RadioSet2 from '../common/RadioSet2'
 import LeverageController from '../LeverageController';
 import AddPosition from '../farming/AddPosition'
+import { calcKlevaRewardsAPR, toAPY } from '../../utils/calc'
+import { tokenPrices$ } from '../../streams/tokenPrice'
+import { klevaAnnualRewards$ } from '../../streams/farming'
+import { debtTokens, tokenList } from '../../constants/tokens'
 
 class FarmAPRDetailInfo extends Component {
 
@@ -43,12 +47,6 @@ class FarmAPRDetailInfo extends Component {
       token1,
       token2,
 
-      yieldFarmingAPR,
-      yieldFarmingAPRWithoutLeverage,
-      klevaRewardAPR,
-      tradingFeeAPR,
-      apr,
-      apy,
       baseBorrowingInterests,
       borrowingAvailableAssets,
       setBorrowingAsset,
@@ -63,6 +61,9 @@ class FarmAPRDetailInfo extends Component {
       borrowingAssetMap$,
       leverageValue$,
       worker$,
+
+      yieldFarmingAPRWithoutLeverage,
+      tradingFeeAPRWithoutLeverage,
     } = this.props
 
     const radioList = Object.entries(baseBorrowingInterests)
@@ -70,15 +71,46 @@ class FarmAPRDetailInfo extends Component {
       return baseInterest != 0
     })
     .map(([address, { token, baseInterest }]) => {
+
+      const pureValue = new BigNumber(baseInterest)
+        .multipliedBy(leverageValue$.value - 1)
+        .multipliedBy(-1)
+        .toFixed(2)
+
       return {
         label: `${token.title}`,
         labelDecorator: I18n.t('borrow'),
-        value: `-${new BigNumber(baseInterest)
-          .multipliedBy(leverageValue$.value - 1)
-          .toFixed(2)}%`,
+        value: `${pureValue}%`,
+        pureValue,
         onClick: () => setBorrowingAsset({ asset: token }), // define onClick in separate items
       }
     })
+
+    const borrowingAsset = borrowingAssetMap$?.value[lpToken.address]
+
+    const borrowingInterest = new BigNumber(baseBorrowingInterests[borrowingAsset?.address]?.baseInterest)
+      .multipliedBy(leverageValue$.value - 1)
+      .toNumber()
+
+    const yieldFarmingAPR = new BigNumber(yieldFarmingAPRWithoutLeverage).multipliedBy(leverageValue$.value).toNumber()
+    const tradingFeeAPR = new BigNumber(tradingFeeAPRWithoutLeverage).multipliedBy(leverageValue$.value).toNumber()
+    const klevaRewardAPR = calcKlevaRewardsAPR({
+      tokenPrices: tokenPrices$.value,
+      lendingTokenSupplyInfo: lendingTokenSupplyInfo$.value,
+      borrowingAsset: borrowingAssetMap$?.value[lpToken.address],
+      debtTokens,
+      klevaAnnualRewards: klevaAnnualRewards$.value,
+      klevaTokenPrice: tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()],
+      leverage: leverageValue$.value,
+    })
+
+    const apr = new BigNumber(yieldFarmingAPR)
+      .plus(tradingFeeAPR)
+      .plus(klevaRewardAPR)
+      .minus(borrowingInterest)
+      .toNumber()
+
+    const apy = toAPY(apr)
 
     return (
       <Modal className="FarmAPRDetailInfo" title={title}>

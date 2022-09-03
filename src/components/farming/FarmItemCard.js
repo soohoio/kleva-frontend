@@ -65,7 +65,6 @@ class FarmItemCard extends Component {
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
     const {
-      yieldFarmingAPRWithoutLeverage,
       yieldFarmingAPR,
       tradingFeeAPR,
       debtTokenKlevaRewardsAPR,
@@ -73,6 +72,9 @@ class FarmItemCard extends Component {
       APY,
       leverageCapRaw,
       leverageCap,
+
+      yieldFarmingAPRWithoutLeverage,
+      tradingFeeAPRWithoutLeverage,
     } = this.bloc.getRenderIngredients()
 
     const {
@@ -109,7 +111,10 @@ class FarmItemCard extends Component {
                         token1={token1}
                         token2={token2}
                         selectedAddress={selectedAddress}
+                        
                         yieldFarmingAPRWithoutLeverage={yieldFarmingAPRWithoutLeverage}
+                        tradingFeeAPRWithoutLeverage={tradingFeeAPRWithoutLeverage}
+
                         borrowingAvailableAssets={borrowingAvailableAssets}
                         borrowingAssetMap$={borrowingAssetMap$}
                         leverageValue$={this.bloc.leverageValue$}

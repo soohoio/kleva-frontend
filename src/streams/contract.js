@@ -520,7 +520,7 @@ export const listTokenSupplyInfo$ = (lendingPools, debtTokens, account) => {
                 .multipliedBy(60 * 60 * 24 * 365)
                 .div(10 ** 18)
                 .multipliedBy(100)
-                .toString()
+                .toNumber()
 
               acc[vaultAddress] = {
                 ...item,

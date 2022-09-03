@@ -42,7 +42,7 @@ export default class {
     })
   }
 
-  getBorrowingInterests = () => {
+  getBorrowingInterests = (leverageValue) => {
 
     const {
       token1,
@@ -50,8 +50,6 @@ export default class {
       token1BorrowingInterest,
       token2BorrowingInterest,
     } = this.comp.props
-
-    const leverageValue = this.leverageValue$.value
 
     const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
 
@@ -123,12 +121,11 @@ export default class {
     this.leverageValue$.next(v)
   }
 
-  getDebtTokenKlevaRewardsAPR = () => {
+  getDebtTokenKlevaRewardsAPR = (leverageValue) => {
     const { klevaAnnualRewards, tokenPrices, lendingTokenSupplyInfo } = this.comp.props
 
     // const borrowingAsset = this.borrowingAsset$.value
     const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
-    const leverageValue = this.leverageValue$.value
 
     return calcKlevaRewardsAPR({
       tokenPrices,
@@ -162,17 +159,21 @@ export default class {
     const leverageValue = this.leverageValue$.value
     const worker = this.worker$.value
 
-    const { selectedBorrowingInterestAPR } = this.getBorrowingInterests()
+    const { selectedBorrowingInterestAPR: selectedBorrowingInterestAPRWithoutLeverage } = this.getBorrowingInterests(this.leverageValue$.value)
+    const { selectedBorrowingInterestAPR } = this.getBorrowingInterests(this.leverageValue$.value)
 
     const yieldFarmingAPRWithoutLeverage = this.getYieldFarmingAPR(1)
     const yieldFarmingAPR = this.getYieldFarmingAPR(leverageValue)
 
-    const tradingFeeAPR = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
+    const tradingFeeAPRWithoutLeverage = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
+      .toNumber()
+    
+    const tradingFeeAPR = aprInfo && new BigNumber(tradingFeeAPRWithoutLeverage)
       .multipliedBy(leverageValue)
       .toNumber()
 
-    const debtTokenKlevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
-
+    const debtTokenKlevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(this.leverageValue$.value)
+    
     const totalAPR = new BigNumber(yieldFarmingAPR)
       .plus(tradingFeeAPR)
       .plus(debtTokenKlevaRewardsAPR)
@@ -192,6 +193,7 @@ export default class {
       yieldFarmingAPRWithoutLeverage,
       yieldFarmingAPR,
       tradingFeeAPR,
+      tradingFeeAPRWithoutLeverage,
       debtTokenKlevaRewardsAPR,
       totalAPR,
       APY,
