@@ -2,12 +2,18 @@
   display: flex;
   align-items: center;
   height: 60px;
+
+  @include desktop {
+    align-items: unset;
+    height: 60px;
+  }
 }
 
 .AddPositionHeader__title {
-  @include font-style('font-1', 'b', 20px);
-  color: #151515;
+  @include font-style('font-1', 'b', 24px);
+  color: #222;
   text-align: center;
+  padding-bottom: 22px;
   position: relative;
   width: 100%;
   line-height: 24px;

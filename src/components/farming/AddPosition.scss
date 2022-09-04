@@ -49,6 +49,10 @@
   padding-bottom: 20px;
   margin-bottom: 36px;
 
+  @include desktop {
+    margin-top: 0;
+  }
+
   .QuestionMark {
     font-size: 14px;
   }
@@ -144,6 +148,8 @@
   @include desktop {
     margin-top: 40px;
     padding-top: 30px;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -153,6 +159,12 @@
   background-color: #2D65FC;
   width: 100%;
   margin-bottom: 10px;
+
+  @include desktop {
+    width: 130px;
+    margin-right: 8px;
+    margin-bottom: 0;
+  }
 }
 
 .AddPosition__needApprove {
@@ -176,5 +188,29 @@
 
   br {
     display: none;
+  }
+}
+
+.AddPosition__cancelButton {
+
+  display: none;
+
+  @include desktop {
+    @include button-1(50px);
+    background-color: #EDF2FC;
+    color: #265FFC;
+  }
+}
+
+.AddPosition__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include desktop {
+    button {
+      width: 130px;
+      margin-right: 8px;
+    }
   }
 }

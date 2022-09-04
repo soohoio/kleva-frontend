@@ -12,7 +12,7 @@ import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
 import { balancesInWallet$, selectedAddress$ } from '../../streams/wallet'
 import QuestionMark from '../common/QuestionMark'
-import { openModal$ } from '../../streams/ui'
+import { closeContentView$, openModal$ } from '../../streams/ui'
 import FarmAPRDetailInfo2 from '../modals/FarmAPRDetailInfo2'
 import LeverageInput from '../common/LeverageInput'
 import BorrowingItem from './BorrowingItem'
@@ -549,7 +549,13 @@ class AddPosition extends Component {
           </div>
         </div>
         <div className="AddPosition__footer">
-          {this.renderButtons()}
+          <div className="AddPosition__buttons">
+            <button onClick={() => closeContentView$.next(true)} className="AddPosition__cancelButton">
+              {I18n.t('cancel')}
+            </button>
+            {this.renderButtons()}
+          </div>
+          
         </div>
       </div>
     )
