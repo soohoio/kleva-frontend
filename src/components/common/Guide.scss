@@ -8,7 +8,7 @@
 }
 
 .Guide__title {
-  @include font-style('font-1', 'b', 19px);
+  @include font-style('font-1', 'b', 22px);
   color: #222222;
 }
 
@@ -27,7 +27,9 @@
   padding: 0 20px;
   
   @include desktop {
-    @include button-1(43px);
+    @include button-1(50px);
+    @include font-style('font-1', 'sb', 16px);
+    color: #265FFC;
     padding: 0 20px;
   }
 }
