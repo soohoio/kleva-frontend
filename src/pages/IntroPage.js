@@ -35,14 +35,14 @@ class IntroPage extends Component {
       this.forceUpdate()
     })
 
-    merge(
-      fromEvent(this.$app.current, 'click'),
-      fromEvent(this.$app.current, 'touchstart'),
-    ).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.touched$.next(true)
-    })
+    // merge(
+    //   fromEvent(this.$app.current, 'click'),
+    //   fromEvent(this.$app.current, 'touchstart'),
+    // ).pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe(() => {
+    //   this.touched$.next(true)
+    // })
   }
   
   componentWillUnmount() {
@@ -57,7 +57,7 @@ class IntroPage extends Component {
         <NotificationBanner />
         <div ref={this.$app} className="IntroPage__tabContent">
           <Intro1 
-            shouldShow={this.touched$.value}
+            shouldShow={true}
           />
           <Intro2 />
           <Intro3 />
