@@ -3,7 +3,11 @@
   grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
 
   height: 120px;
-  border-bottom: 1px solid  #E9ECF5;
+  border-bottom: 1px solid #E6E7F2;
+
+  &:first-of-type {
+    border-bottom: 1px solid #E6E7F2 !important;
+  }
 
   &:last-of-type {
     border: 0;
@@ -187,7 +191,7 @@
   position: absolute;
   left: 0;
   height: 100%;
-  background-color: #5985FF;
+  background-color: #4D7CFF;
   z-index: 9;
   border-radius: 4px;
 }
