@@ -26,6 +26,9 @@ class SlippageSetting extends Component {
   }
   
   componentWillUnmount() {
+
+    slippage$.next(0.5) // reset to default value
+
     this.destroy$.next(true)
   }
     

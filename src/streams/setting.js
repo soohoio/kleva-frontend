@@ -15,11 +15,12 @@ showDetailDefault$.subscribe((val) => {
 
 export const walletType$ = new BehaviorSubject()
 
-export const slippage$ = new BehaviorSubject(ls.get('slippage$') || 0.5)
+// export const slippage$ = new BehaviorSubject(ls.get('slippage$') || 0.5)
+export const slippage$ = new BehaviorSubject(0.5)
 
-slippage$.subscribe((val) => {
-  ls.set('slippage$', val)
-})
+// slippage$.subscribe((val) => {
+//   ls.set('slippage$', val)
+// })
 
 export const readNotiMap$ = new BehaviorSubject(ls.get('readNotiMap$') || {})
 
