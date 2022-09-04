@@ -29,7 +29,7 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     max-height: unset;
-    padding: 50px 0 0 0;
+    padding: 50px 20px;
 
     .Modal__content {
       height: 100%;
@@ -63,8 +63,8 @@
 
 .Modal__close {
   position: absolute;
-  top: 21px;
-  right: 21px;
+  top: 15px;
+  right: 15px;
   
   width: 30px;
   height: 30px;
