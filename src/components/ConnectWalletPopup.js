@@ -6,7 +6,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 import './ConnectWalletPopup.scss'
 import Modal from './common/Modal'
 import { I18n } from './common/I18n'
-import { connectInjected, logout$, selectedAddress$ } from '../streams/wallet'
+import { connectInjected, logout$, selectedAddress$, walletProviderName$ } from '../streams/wallet'
 import { closeModal$, isDesktop$ } from '../streams/ui'
 import { accessKlip$ } from '../streams/klip'
 import { walletType$ } from '../streams/setting'
@@ -84,7 +84,7 @@ class ConnectWalletPopup extends Component {
               accessKlip$().subscribe((result) => {
                 walletType$.next("klip")
                 selectedAddress$.next(result && result.klaytn_address)
-                connectInjected('', 'Klip')
+                walletProviderName$.next('Klip')
 
                 if (!isMobile) {
                   closeModal$.next(true)
