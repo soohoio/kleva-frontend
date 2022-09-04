@@ -1,13 +1,13 @@
 .FarmList {
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 }
 
 .FarmList__header {
   display: flex;
-  margin-bottom: 20px;
   justify-content: space-between;
   width: 100%;
   flex-direction: column;
+  margin-bottom: 10px;
 
   @include desktop {
     flex-direction: row;
@@ -104,10 +104,12 @@
   justify-content: center;
   border: 2px solid #D7DCEA;
   border-radius: 47px;
-  padding: 12px 18px;
   height: 42px;
   cursor: pointer;
   position: relative;
+
+  padding: 10px 16px;
+  line-height: 18px;
 
   // 1px-like (prevent width flickering)
   &::before {
@@ -144,6 +146,8 @@
   border: 0;
   position: relative;
   background-image: unset;
+  width: auto;
+  padding-right: 19px;
 
   @include desktop {
     @include font-style('font-1', 'b', 15px);
@@ -157,12 +161,14 @@
     flex-direction: column;
     display: flex;
     height: 140px;
+    top: 100%;
+    left: -1px;
   }
 
   .Dropdown__listItem {
     @include font-style('font-1', 'm', 15px);
     color: #4C505C;
-    padding-left: 20px;
+    padding-left: 18px;
     
     &--selected {
       @include font-style('font-1', 'b', 15px);
@@ -176,11 +182,11 @@
     background-image: url(/static/images/common/btn_sorting_down.svg);
     background-size: 100%;
     width: 14px;
-    height: 12px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0;
+    height: 11px;
   }
 
   &--opened {
@@ -202,7 +208,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
   padding-left: 0;
 
   @include desktop {
@@ -214,7 +219,7 @@
   height: 1px;
   width: 100%;
   background: #EBEEF5;
-  margin: 24px 0;
+  margin: 24px 0 14px 0;
 
   @include desktop {
     display: none;
