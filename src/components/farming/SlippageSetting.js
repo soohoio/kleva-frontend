@@ -44,6 +44,8 @@ class SlippageSetting extends Component {
           <div className="SlippageSetting__inputWrapper">
             <input
               onChange={(e) => {
+                if (isNaN(Number(e.target.value))) return
+                
                 slippage$.next(e.target.value)
               }}
               value={slippage$.value}
