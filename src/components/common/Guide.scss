@@ -10,6 +10,7 @@
 .Guide__title {
   @include font-style('font-1', 'b', 22px);
   color: #222222;
+  line-height: 30px;
 }
 
 .Guide__description {
@@ -28,8 +29,7 @@
   
   @include desktop {
     @include button-1(50px);
-    @include font-style('font-1', 'sb', 16px);
-    color: #265FFC;
+    @include font-style('font-1', 'sb', 20px);
     padding: 0 20px;
   }
 }
