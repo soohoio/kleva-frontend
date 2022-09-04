@@ -467,7 +467,9 @@ class AddPosition extends Component {
               value1={value1}
               value2={value2}
             />
-            <PriceImpact priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} />
+            <PriceImpact 
+              priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} 
+            />
             <SlippageSetting />
             
             <LabelAndValue

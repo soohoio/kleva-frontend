@@ -756,7 +756,15 @@ class ClosePosition extends Component {
                   )
               } ${farmingToken.title}`}
               />
-              <PriceImpact priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} />
+              <PriceImpact
+                tokenToSwap={this.bloc.farmingToken$.value}
+                lossAmount={new BigNumber(this.bloc.amountToTrade$.value)
+                    .div(10 ** farmingToken.decimals)
+                    .multipliedBy(this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value)
+                    .toNumber()
+                  }
+                priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} 
+              />
               <SlippageSetting />
               <LabelAndValue
                 className="ClosePosition__totalReceived"

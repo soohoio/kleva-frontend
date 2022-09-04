@@ -3,6 +3,10 @@
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
+
+  .LabelAndValue__value {
+    text-align: right;
+  }
 }
 
 .PriceImpact__label {
@@ -13,6 +17,10 @@
 .PriceImpact__impactRatio {
   @include font-style('font-1', 'b', 18px);
   color: #F53C3C;
+
+  &--sub {
+    @include font-style('font-1', 'b', 14px);
+  }
 }
 
 .PriceImpact__title {
@@ -24,4 +32,10 @@
 .PriceImpact__subtitle {
   @include font-style('font-1', 'm', 14px);
   color: #969BAB;
+}
+
+.PriceImpact__lossAmount {
+  @include font-style('font-1', 'b', 16px);
+  color: #F53C3C;
+  margin-bottom: 2px;
 }

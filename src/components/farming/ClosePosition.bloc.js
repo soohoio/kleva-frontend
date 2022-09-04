@@ -608,7 +608,7 @@ export default class {
             priceImpactBps,
             priceImpactBpsWithoutFee,
           }) => {
-  
+
             this.receiveBaseTokenAmt$.next(receiveBaseTokenAmt)
             this.receiveFarmTokenAmt$.next(receiveFarmTokenAmt)
             this.amountToTrade$.next(amountToTrade)

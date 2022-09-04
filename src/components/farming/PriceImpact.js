@@ -10,6 +10,7 @@ import { I18n } from '../common/I18n'
 import QuestionMark from '../common/QuestionMark'
 import { openModal$ } from '../../streams/ui'
 import PriceImpactInfoModal from '../modals/PriceImpactInfoModal'
+import { nFormatter, noRounding } from '../../utils/misc'
 
 class PriceImpact extends Component {
 
@@ -32,7 +33,8 @@ class PriceImpact extends Component {
   }
     
   render() {
-    const { priceImpact } = this.props
+    const { lossAmount, tokenToSwap, priceImpact } = this.props
+
     return (
       <LabelAndValue
         className="PriceImpact"
@@ -50,9 +52,27 @@ class PriceImpact extends Component {
           </div>
         )}
         value={(
-          <span className="PriceImpact__impactRatio">
-            -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
-          </span>
+          <>
+            {tokenToSwap 
+              ? (
+                <>
+                  <p className="PriceImpact__lossAmount">
+                    -{noRounding(lossAmount, 4)} {tokenToSwap.title}
+                  </p>
+                  <p className="PriceImpact__impactRatio PriceImpact__impactRatio--sub">
+                    -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
+                  </p>
+                </>
+              )
+              : (
+                <>
+                  <p className="PriceImpact__impactRatio">
+                    -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
+                  </p>
+                </>
+              )
+            }
+          </>
         )}
       />
     )
