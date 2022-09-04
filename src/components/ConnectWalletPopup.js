@@ -108,16 +108,6 @@ class ConnectWalletPopup extends Component {
           <p className="ConnectWalletPopup__noWalletDescription">{I18n.t('connectWallet.noWallet.description')}</p>
 
           <p 
-            className="ConnectWalletPopup__makeWallet"
-            onClick={() => {
-              window.open('https://www.kakaocorp.com/page/service/service/Klip')
-            }}
-          >
-            {I18n.t('connectWallet.makeWallet', {
-              title: 'Klip'
-            })} {'>'}
-          </p>
-          <p 
             className="ConnectWalletPopup__makeWallet ConnectWalletPopup__makeWallet--dcent"
             onClick={() => {
               window.open('https://dcentwallet.com')
@@ -135,6 +125,16 @@ class ConnectWalletPopup extends Component {
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Kaikas'
+            })} {'>'}
+          </p>
+          <p
+            className="ConnectWalletPopup__makeWallet"
+            onClick={() => {
+              window.open('https://www.kakaocorp.com/page/service/service/Klip')
+            }}
+          >
+            {I18n.t('connectWallet.makeWallet', {
+              title: 'Klip'
             })} {'>'}
           </p>
           <p 
