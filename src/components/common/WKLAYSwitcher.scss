@@ -23,21 +23,22 @@
 }
 
 .WKLAYSwitcher__availableLabel {
-  @include font-style('font-1', 'm', 15px);
+  @include font-style('font-1', 'm', 14px);
   color: #787F98;
+  line-height: 17px;
 }
 
 .WKLAYSwitcher__availableAmount {
-  @include font-style('font-1', 'sb', 15px);
+  @include font-style('font-1', 'sb', 14px);
   color: #222222;
+  line-height: 17px;
   margin-left: 5px;
 }
-
 
 .WKLAYSwitcher__inputAndButton {
   display: flex;
   align-items: center;
-  margin-bottom: 34px;
+  margin-bottom: 30px;
 
   .WKLAYSwitcher__depositInput {
     flex: auto;
@@ -50,7 +51,9 @@
   @include button-1(50px);
   @include font-style('font-1', 'b', 16px);
   margin-top: 0;
-  width: 95px;
+  padding: 0 20px;
+  line-height: 20px;
+  white-space: nowrap;
 }
 
 .WKLAYSwitcher__willReceive {

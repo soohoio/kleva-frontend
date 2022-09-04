@@ -5,15 +5,19 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  padding: 18px 0;
   overflow: scroll;
   z-index: 9;
+  padding: 0 0 30px 0;
   
   @include desktop {
     position: static;
     width: auto;
     background-color: unset;
     padding: 0;
+  }
+
+  .WKLAYSwitcher__available {
+    margin-top: 0;
   }
 }
 
@@ -28,14 +32,14 @@
   @include desktop {
     flex: 1;
   }
-  padding: 0 18px;
+  padding: 0 20px;
 }
 
 .AddPosition__right {
   @include desktop {
     flex: 1;
   }
-  padding: 0 18px;
+  padding: 0 20px;
 }
 
 .AddPosition__apy {
@@ -121,6 +125,7 @@
   border-top: 1px solid #EBEEF5;
   padding-top: 20px;
   margin-bottom: 26px;
+  align-items: center;
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
@@ -144,6 +149,7 @@
 
 .AddPosition__button {
   @include button-1(50px);
+  @include font-style('font-1', 'b', 16px);
   background-color: #2D65FC;
   width: 100%;
   margin-bottom: 10px;
@@ -160,4 +166,15 @@
   @include font-style('font-1', 'b', 14px);
   color: #F73D3D;
   margin-bottom: 20px;
+}
+
+.AddPosition__wklayConvertLabel {
+  @include font-style('font-1', 'm', 15px);
+  color: #3B70F7;
+  margin-bottom: 6px;
+  line-height: 21px;
+
+  br {
+    display: none;
+  }
 }

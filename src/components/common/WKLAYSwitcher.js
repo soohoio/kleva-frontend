@@ -62,6 +62,7 @@ class WKLAYSwitcher extends Component {
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
+            placeholder={I18n.t('writeAmount')}
             noPercentage={!column}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}
@@ -108,7 +109,7 @@ class WKLAYSwitcher extends Component {
   }
 
   render() {
-    const { balancesInWallet, toKLAY, column } = this.props
+    const { description, balancesInWallet, toKLAY, column } = this.props
 
     if (!!toKLAY) {
       // WKLAY to KLAY
@@ -129,6 +130,7 @@ class WKLAYSwitcher extends Component {
           "WKLAYSwitcher--column": column,
         })}
       >
+        {!!description && description}
         <div className="WKLAYSwitcher__available">
           <span className="WKLAYSwitcher__availableLabel">{I18n.t('lendstake.controller.available')} KLAY</span>
           <span className="WKLAYSwitcher__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>

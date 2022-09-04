@@ -128,6 +128,7 @@ class InputWithPercentage extends Component {
       noPercentage,
       valueLimit,
       zeroValueDisable,
+      placeholder,
     } = this.props
 
     // zeroValueDisable: If value is zero, disable
@@ -148,7 +149,7 @@ class InputWithPercentage extends Component {
           readOnly={isDisabled}
           className="InputWithPercentage__input"
           value={value$.value}
-          placeholder="0"
+          placeholder={placeholder || "0"}
           onChange={(e) => {
 
             if (isNaN(Number(e.target.value))) return

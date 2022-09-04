@@ -1,12 +1,13 @@
 .SupplyInput {
-  margin-bottom: 24px;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 .SuppyInput__header {
   display: flex;
   align-items: baseline;
   width: 100%;
+  line-height: 17px;
   margin-bottom: 10px;
 
   justify-content: space-between;
@@ -20,7 +21,7 @@
 .SupplyInput__labelValue {
   @include font-style('font-1', 'b', 14px);
   margin-left: 5px;
-  color: #616666;
+  color: #333;
 }
 
 .SupplyInput__priceRatioWrapper {

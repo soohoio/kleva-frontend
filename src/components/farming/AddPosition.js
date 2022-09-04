@@ -281,7 +281,12 @@ class AddPosition extends Component {
             labelTitle={`${I18n.t('farming.controller.converted')} ${tokenList.WKLAY.title}`}
             targetToken={tokenList.WKLAY}
           />
-          <WKLAYSwitcher balancesInWallet={balancesInWallet$.value} />
+          <WKLAYSwitcher 
+            balancesInWallet={balancesInWallet$.value} 
+            description={(
+              <p className="AddPosition__wklayConvertLabel">{I18n.t('lendstake.controller.wklaySwitch.title')}</p>
+            )}
+          />
         </>
       )
     }
@@ -312,7 +317,12 @@ class AddPosition extends Component {
             labelTitle={`${I18n.t('farming.controller.converted')} ${tokenList.WKLAY.title}`}
             targetToken={tokenList.WKLAY}
           />
-          <WKLAYSwitcher balancesInWallet={balancesInWallet$.value} />
+          <WKLAYSwitcher 
+            balancesInWallet={balancesInWallet$.value} 
+            description={(
+              <p className="AddPosition__wklayConvertLabel">{I18n.t('lendstake.controller.wklaySwitch.title')}</p>
+            )}
+          />
         </>
       )
     }

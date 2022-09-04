@@ -18,6 +18,7 @@
 .QuestionMark__title {
   @include font-style('font-1', 'b', 15px);
   color: #222222;
+  line-height: 20px;
 }
 
 .QuestionMark__wrapper {
