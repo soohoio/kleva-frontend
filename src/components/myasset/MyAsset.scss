@@ -12,7 +12,7 @@
 }
 
 .MyAsset__tabs {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 
   @include desktop {
     margin-bottom: 60px;
@@ -23,6 +23,7 @@
   @include desktop {
     width: $CONTENT_WIDTH;
     margin: 0 auto;
+    padding: 0;
   }
   padding: 0 20px;
 }
@@ -33,7 +34,7 @@
   @include desktop {
     width: $CONTENT_WIDTH;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 0 60px 0;
   }
 
   // padding-bottom: 80px;
@@ -42,9 +43,9 @@
 .MyAsset__tabsTitle {
   @include font-style('font-1', 'b', 19px);
   color: #222222;
+  margin-bottom: 14px;
   
   line-height: 23px;
-  margin-bottom: 14px;
 }
 
 .MyAsset__videoSectionTitle {
