@@ -8,6 +8,7 @@ import { I18n } from './common/I18n'
 import { currentTab$ } from '../streams/view'
 import SubMenu from './Submenu'
 import { shouldNavigationTabFloat$ } from '../streams/ui'
+import { path$ } from '../streams/location'
 
 const TabNavigationItem = ({ onClick, isActive, title }) => {
   return (
@@ -29,6 +30,7 @@ class TabNavigation extends Component {
     merge(
       currentTab$,
       shouldNavigationTabFloat$,
+      path$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -52,9 +54,21 @@ class TabNavigation extends Component {
         >
           <div className="TabNavigation__content">
             <div className="TabNavigation__tabs">
-              <TabNavigationItem onClick={() => currentTab$.next('myasset')} isActive={currentTab$.value === 'myasset'} title={I18n.t('myasset')} />
-              <TabNavigationItem onClick={() => currentTab$.next('lendnstake')} isActive={currentTab$.value === 'lendnstake'} title={I18n.t('lendnstake')} />
-              <TabNavigationItem onClick={() => currentTab$.next('farming')} isActive={currentTab$.value === 'farming'} title={I18n.t('farming1')} />
+              <TabNavigationItem 
+                onClick={() => currentTab$.next('myasset')} 
+                isActive={path$.value === '/main' && currentTab$.value === 'myasset'} 
+                title={I18n.t('myasset')} 
+              />
+              <TabNavigationItem 
+                onClick={() => currentTab$.next('lendnstake')} 
+                isActive={path$.value === '/main' && currentTab$.value === 'lendnstake'} 
+                title={I18n.t('lendnstake')} 
+              />
+              <TabNavigationItem 
+                onClick={() => currentTab$.next('farming')} 
+                isActive={path$.value === '/main' && currentTab$.value === 'farming'} 
+                title={I18n.t('farming1')} 
+              />
             </div>
             <div className="TabNavigation__right">
               <SubMenu />

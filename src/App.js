@@ -23,6 +23,8 @@ import {
   getYearlyKSP$,
 } from './streams/contract'
 
+import { path$ } from './streams/location'
+
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
@@ -264,6 +266,14 @@ class App extends Component<Props> {
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.checkShowFooter()
+    })
+
+    // If page is 'main', but current tab is null, set it to 'myasset'
+    path$.pipe(
+      filter((path) => path === '/main' && !currentTab$.value),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      currentTab$.next('myasset')
     })
   }
 

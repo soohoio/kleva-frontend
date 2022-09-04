@@ -13,6 +13,7 @@ import MainPage from './pages/MainPage'
 import { path$ } from 'streams/location'
 
 import './index.scss'
+import { closeModal$ } from './streams/ui'
 
 
 // polyflil
@@ -21,6 +22,7 @@ smoothscroll.polyfill()
 const history = browserHistory
 
 history.listen(({ pathname }) => {
+  closeModal$.next(true)
   path$.next(pathname)
 })
 
