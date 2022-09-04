@@ -80,7 +80,9 @@ class MainPage extends Component {
         <Header2 />
         <TabNavigation />
         <NotificationBanner />
-        <div className="MainPage__tabContent">
+        <div className={cx("MainPage__tabContent", {
+          [`MainPage__tabContent--${currentTab$.value}`]: true,
+        })}>
           {this.renderTab()}
         </div>
         <Footer />

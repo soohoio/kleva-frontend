@@ -36,17 +36,18 @@
   }
 
   @include desktop {
-    display: none;
+    // display: none;
     
-    &--show {
-      display: flex;
-      position: fixed;
-      z-index: 9;
-      width: 100vw;
-      left: 0;
-      bottom: 0;
-      height: 122px;
-    }
+    display: flex;
+    z-index: 9;
+    width: 100vw;
+    height: 122px;
+
+    position : relative;
+    transform : translateY(-100%);
+    // &--show {
+      // position: fixed;
+    // }
   }
 }
 
