@@ -11,9 +11,10 @@
   position: fixed;
   bottom: 0;
   overflow: scroll;
-  padding: 28px 30px;
+  padding: 19px 30px 30px;
   background-color: #fff;
   z-index: 9999;
+  border-top: solid 1px #EBEEF5;
 
   .Guide {
     align-items: flex-start;
@@ -53,6 +54,7 @@
     .Dropdown {
       width: 100%;
       height: 45px;
+      background-size: 13px;
     }
   }
 }
@@ -61,7 +63,7 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .MobileGNB__headerLogo {
@@ -73,6 +75,7 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
+  margin-right: -10px;
 }
 
 .MobileGNB__connected {
