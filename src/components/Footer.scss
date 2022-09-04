@@ -1,14 +1,40 @@
 .Footer {
   width: 100%;
 
-  background-color: #0F1115;
   justify-content: center;
   height: 156px;
   display: flex;
   flex-direction: column;
 
-  padding: 0 20px;
+  background-color: #17191F;
+  padding: 0 10px 25px 20px;
   
+  .Dropdown__list {
+    padding: 10px 0;
+  }
+
+  .Dropdown__listItem {
+    padding: 0 18px;
+  }
+
+  .Dropdown {
+    border: 0;
+    width: 100px;
+    padding: 0 30px 0 0;
+    color: #B4B8BF;
+    line-height: 20px;
+    background-size: 14px;
+    flex-direction: row-reverse;
+
+    &--upper {
+      .Dropdown__list {
+        // bottom: -65px;
+        left: -29px;
+        width: 120px;
+      }
+    }
+  }
+
   @include desktop {
     display: none;
     
@@ -21,10 +47,6 @@
       bottom: 0;
       height: 122px;
     }
-  }
-
-  .Dropdown {
-    border: 0;
   }
 }
 
@@ -39,7 +61,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .Footer__socials {

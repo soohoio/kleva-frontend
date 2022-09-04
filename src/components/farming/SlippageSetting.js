@@ -45,6 +45,7 @@ class SlippageSetting extends Component {
             <input
               onChange={(e) => {
                 if (isNaN(Number(e.target.value))) return
+                if (Number(e.target.value) > 100) return
                 
                 slippage$.next(e.target.value)
               }}

@@ -269,7 +269,6 @@ class AddPosition extends Component {
             labelValue={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
             imgSrc={baseToken.iconSrc}
             labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
-            inputLabel={baseToken.title}
             targetToken={baseToken}
           />
           <SupplyInput
@@ -280,7 +279,6 @@ class AddPosition extends Component {
             labelValue={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
             imgSrc={farmingToken.iconSrc}
             labelTitle={`${I18n.t('farming.controller.converted')} ${tokenList.WKLAY.title}`}
-            inputLabel={tokenList.WKLAY.title}
             targetToken={tokenList.WKLAY}
           />
           <WKLAYSwitcher balancesInWallet={balancesInWallet$.value} />
@@ -302,7 +300,6 @@ class AddPosition extends Component {
             labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
             imgSrc={farmingToken.iconSrc}
             labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-            inputLabel={farmingToken.title}
             targetToken={farmingToken}
           />
           <SupplyInput
@@ -313,7 +310,6 @@ class AddPosition extends Component {
             labelValue={balancesInWallet$.value[tokenList.WKLAY.address] && balancesInWallet$.value[tokenList.WKLAY.address].balanceParsed}
             imgSrc={tokenList.WKLAY.iconSrc}
             labelTitle={`${I18n.t('farming.controller.converted')} ${tokenList.WKLAY.title}`}
-            inputLabel={tokenList.WKLAY.title}
             targetToken={tokenList.WKLAY}
           />
           <WKLAYSwitcher balancesInWallet={balancesInWallet$.value} />
@@ -334,7 +330,6 @@ class AddPosition extends Component {
           labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
           imgSrc={farmingToken.iconSrc}
           labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          inputLabel={farmingToken.title}
           targetToken={farmingToken}
         />
         <SupplyInput
@@ -345,7 +340,6 @@ class AddPosition extends Component {
           labelValue={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
           imgSrc={baseToken.iconSrc}
           labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
-          inputLabel={baseToken.title}
           targetToken={baseToken}
         />
       </>

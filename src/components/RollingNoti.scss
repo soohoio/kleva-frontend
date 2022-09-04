@@ -26,13 +26,16 @@
   background-color: #6188FF;
   color: $white;
   height: 18px;
-  margin-right: 10px;
   padding: 0 4px;
   border-radius: 3px;
+
+  margin-right: 8px;
+  letter-spacing: 0;
 }
 
 .RollingNoti__itemContent {
   @include font-style('font-1', 'm', 15px);
   color: #636D8B;
   cursor: pointer;
+  line-height: 19px;
 }
