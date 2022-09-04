@@ -186,7 +186,7 @@ class FarmAssetGridItem extends Component {
           <LabelAndValue
             className="FarmAssetGridItem__apr"
             label=""
-            value={I18n.t('myasset.farming.leverageValue', { leverage: toFixed(Number(currentPositionLeverage), 1) })}
+            value={I18n.t('myasset.farming.leverageValue', { leverage: Number(currentPositionLeverage).toFixed(1) })}
           />
         </div>
         <div className="FarmAssetGridItem__values">
