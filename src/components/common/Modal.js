@@ -49,7 +49,7 @@ class Modal extends Component {
       <div className={cx("Modal", className, {
         "Modal--mobileCoverAll": mobileCoverAll,
       })}>
-        <div className={cx("Modal__header", {
+        {/* <div className={cx("Modal__header", {
           "Modal__header--noTitle": !title,
         })}>
           {!!title && <span className="Modal__title">{title}</span>}
@@ -60,8 +60,20 @@ class Modal extends Component {
             }
             closeModal$.next(true)
           }} className="Modal__close" src="/static/images/exported/x.svg" />
-        </div>
+        </div> */}
         <div ref={this.$modalContent} className="Modal__content">
+          <div className={cx("Modal__header", {
+            "Modal__header--noTitle": !title,
+          })}>
+            {!!title && <span className="Modal__title">{title}</span>}
+            <img onClick={() => {
+              if (layeredModalContentComponent$.value) {
+                closeLayeredModal$.next(true)
+                return
+              }
+              closeModal$.next(true)
+            }} className="Modal__close" src="/static/images/exported/x.svg" />
+          </div>
           {children}
         </div>
       </div>

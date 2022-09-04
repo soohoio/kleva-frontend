@@ -7,11 +7,13 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 16px);
     color: #333333;
+    line-height: 20px;
   }
 
   .LabelAndValue__value {
     @include font-style('font-1', 'm', 17px);
     color: #333333;
+    line-height: 20px;
   }
 
   hr {
@@ -67,7 +69,8 @@
   margin-left: 7px;
 
   width: 100px;
-  @include button-1(42px);
+  @include button-1(48px);
+  @include font-style('font-1', 'b', 16px);
 
   &--disabled {
     @include disabled-button;
@@ -80,5 +83,10 @@
 
   .LeverageController__content {
     width: 100%;
+    height: 48px;
+  }
+
+  .LeverageController__leverageValue {
+    font-size: 16px;
   }
 }

@@ -19,6 +19,7 @@
   &--active {
     .RadioSet2__value {
       color: #f53c3c;
+      line-height: 20px;
     }
 
     .Circle {
@@ -35,6 +36,7 @@
 .RadioSet2__label {
   @include font-style('font-1', 'm', 16px);
   color: #333333;
+  line-height: 20px;
 
   @include desktop {
     @include font-style('font-1', 'm', 14px);
@@ -59,8 +61,8 @@
   border: 1px solid #CCD3E8;
   background-color: #ffffff;
   margin-right: 6px;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 .Circle__mini {

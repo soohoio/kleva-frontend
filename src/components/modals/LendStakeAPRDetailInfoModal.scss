@@ -7,11 +7,13 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 16px);
     color: #333333;
+    line-height: 20px;
   }
 
   .LabelAndValue__value {
     @include font-style('font-1', 'm', 17px);
     color: #333333;
+    line-height: 20px;
   }
 
   hr {
@@ -30,6 +32,8 @@
 
 .LendStakeAPRDetailInfoModal__apy {
   
+  margin-bottom: 0;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 16px);
     color: #265FFC;
@@ -44,8 +48,8 @@
 .LendStakeAPRDetailInfoModal__depositButton {
   flex: 1;
   margin-top: 24px;
-  @include button-1(42px);
-  @include font-style('font-1', 'sb', 14px);
+  @include button-1(48px);
+  @include font-style('font-1', 'b', 16px);
   width: 100%;
 
   &--disabled {
