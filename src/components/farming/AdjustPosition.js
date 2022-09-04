@@ -405,6 +405,52 @@ class AdjustPosition extends Component {
     )
   }
 
+renderTotalValue = ({
+    resultFarmingTokenAmount,
+    resultBaseTokenAmount,
+  }) => {
+    const { farmingToken, baseToken } = this.props
+
+    if (isKLAY(farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+      </>
+    )
+  }
+
+  renderTokenRatio = () => {
+    const { baseToken, farmingToken } = this.props
+
+    const { farmingValue, baseValue } = this.bloc.getValueInUSD()
+    
+    const isKlayRelatedFarm = isKLAY(baseToken.address) || isKLAY(farmingToken.address)
+    if (isKlayRelatedFarm) {
+      return (
+        <TokenRatio
+          value1={isKLAY(farmingToken.address) ? baseValue : farmingValue}
+          value2={isKLAY(baseToken.address) ? baseValue : farmingValue}
+        />
+      )
+    }
+
+    return (
+      <TokenRatio
+        value1={farmingValue}
+        value2={baseValue}
+      />
+    )
+  }
+
   render() {
     const {
       title,
@@ -444,8 +490,6 @@ class AdjustPosition extends Component {
     const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
       .div(10 ** baseToken.decimals)
       .toNumber()
-
-    const { value1, value2 } = this.bloc.getValueInUSD()
 
     const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
       .div(10 ** farmingToken.decimals)
@@ -578,12 +622,7 @@ class AdjustPosition extends Component {
           </div>
           <ThickHR />
           <div className="AdjustPosition__right">
-            {!this.bloc.borrowMore$.value && (
-              <TokenRatio
-                value1={value1}
-                value2={value2}
-              />
-            )}
+            {!this.bloc.borrowMore$.value && this.renderTokenRatio()}
             <PriceImpact 
               priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} 
             />
@@ -612,12 +651,10 @@ class AdjustPosition extends Component {
             <LabelAndValue
               className="AdjustPosition__totalDeposit"
               label={I18n.t('farming.summary.totalDeposit')}
-              value={(
-                <>
-                  <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-                  <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-                </>
-              )}
+              value={this.renderTotalValue({
+                resultFarmingTokenAmount,
+                resultBaseTokenAmount,
+              })}
             />
           </div>
         </div>

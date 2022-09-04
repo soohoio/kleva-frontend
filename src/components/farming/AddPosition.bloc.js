@@ -251,8 +251,8 @@ export default class {
     const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD)
 
     return {
-      value1: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
-      value2: new BigNumber(baseInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
+      farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
+      baseValue: new BigNumber(baseInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
     }
   }
 

@@ -345,6 +345,29 @@ class AddPosition extends Component {
       </>
     )
   }
+
+  renderTotalValue = ({
+    resultFarmingTokenAmount,
+    resultBaseTokenAmount,
+  }) => {
+    const { farmingToken, baseToken } = this.bloc.getTokens()
+
+    if (isKLAY(farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+      </>
+    )
+  }
     
   render() {
     const { 
@@ -390,7 +413,7 @@ class AddPosition extends Component {
         }
       })
 
-    const { value1, value2 } = this.bloc.getValueInUSD()
+    const { farmingValue, baseValue } = this.bloc.getValueInUSD()
 
     const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
       .div(10 ** farmingToken.decimals)
@@ -399,6 +422,8 @@ class AddPosition extends Component {
     const resultBaseTokenAmount = new BigNumber(this.bloc.resultBaseTokenAmount$.value)
       .div(10 ** baseToken.decimals)
       .toNumber()
+
+    const isKlayRelatedFarm = isKLAY(baseToken.address) || isKLAY(farmingToken.address)
 
     return (
       <div className="AddPosition">
@@ -463,10 +488,21 @@ class AddPosition extends Component {
           </div>
           <hr className="AddPosition__hr AddPosition__hr--mobile" />
           <div className="AddPosition__right">
-            <TokenRatio 
-              value1={value1}
-              value2={value2}
-            />
+            {/* if wklay included in pair, value2 is always wklay's ratio even if the borrowing asset is not WKLAY. */}
+            {isKlayRelatedFarm
+              ? (
+                <TokenRatio
+                  value1={isKLAY(farmingToken.address) ? baseValue : farmingValue}
+                  value2={isKLAY(baseToken.address) ? baseValue : farmingValue}
+                />
+              )
+              : (
+                <TokenRatio
+                  value1={farmingValue}
+                  value2={baseValue}
+                />
+              )
+            }
             <PriceImpact 
               priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} 
             />
@@ -495,12 +531,10 @@ class AddPosition extends Component {
             <LabelAndValue
               className="AddPosition__totalDeposit"
               label={I18n.t('farming.summary.totalDeposit')}
-              value={(
-                <>
-                  <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-                  <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-                </>
-              )}
+              value={this.renderTotalValue({
+                resultFarmingTokenAmount,
+                resultBaseTokenAmount,
+              })}
             />
           </div>
         </div>
