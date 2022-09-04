@@ -151,12 +151,9 @@ class LendingPoolListItemCard extends Component {
           <div className="LendingPoolListItemCard__buttons">
             <div
               className={cx("LendingPoolListItemCard__simulationButton", {
-                "LendingPoolListItemCard__simulationButton--disabled": !selectedAddress || isDisabled
+                "LendingPoolListItemCard__simulationButton--disabled": isDisabled
               })}
               onClick={() => {
-                if (!selectedAddress) {
-                  return
-                }
 
                 if (isDisabled) {
                   return
