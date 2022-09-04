@@ -17,6 +17,10 @@
     display: flex;
     flex-direction: column;
   }
+
+  &--killed {
+    margin-bottom: 50px;
+  }
 }
 
 .FarmingAssetList__gridHeader {
@@ -82,5 +86,22 @@
 
 .FarmAssetList__thresholdDescription {
   @include font-style('font-1', 'r', 13px);
+  color: #868FA8;
+}
+
+.FarmingAssetList__killedAssetInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.FarmingAssetList__killedAssetInfoTitle {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-right: 7px;
+}
+
+.FarmingAssetList__killedAssetDescription {
+  @include font-style('font-1', 'm', 14px);
   color: #868FA8;
 }

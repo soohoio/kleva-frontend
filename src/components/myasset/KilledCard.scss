@@ -1,0 +1,159 @@
+.KilledCard {
+  display: flex;
+  background-color: white;
+
+  padding-bottom: 30px;
+  background-color: #fff;
+
+  margin-left: -1px;
+  border-bottom: 1px solid #e6eaf2;
+  margin-bottom: 26px;
+
+  position: relative;
+  align-items: flex-start;
+
+  .LabelAndValue {
+    align-items: center;
+    line-height: 19px;
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'sb', 13px);
+    color: #797b80;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 16px);
+    color: #131414;
+  }
+}
+
+.KilledCard__iconWrapper {
+  width: 33px;
+  display: flex;
+  flex-direction: column;
+  margin-top: -5px;
+}
+
+.KilledCard__icon {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  position: relative;
+
+  &:last-of-type {
+    top: -6px;
+    z-index: 9;
+  }
+}
+
+.KilledCard__content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 14px;
+}
+
+.KilledCard__contentHeader {
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F2F7;
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 18px);
+    color: #222222;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+}
+
+.KilledCard__marketValue {
+  margin-bottom: 13px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    color: #636878;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'm', 15px);
+    color: #333333;
+  }
+}
+
+.KilledCard__withdrawnValue {
+  margin-bottom: 13px;
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 15px);
+    color: #333333;
+  }
+}
+
+.KilledCard__poolInfoTitle {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 10px;
+  line-height: 19px;
+}
+
+.KilledCard__poolInfoExchange {
+  @include font-style('font-1', 'r', 14px);
+  color: #969BAB;
+  line-height: 17px;
+}
+
+.KilledCard__liquidated {
+  @include font-style('font-1', 'b', 18px);
+  color: #F73D3D;
+  text-align: right;
+  margin-bottom: 10px;
+  line-height: 19px;
+}
+
+.KilledCard__leverage {
+  @include font-style('font-1', 'm', 15px);
+  color: #8B96B3;
+  line-height: 17px;
+}
+
+.KilledCard__buttons {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.KilledCard__historyButton {
+  @include button-1(43px);
+  @include font-style('font-1', 'sb', 15px);
+  background-color: #EDF2FC;
+  color: #265FFC;
+  flex: 1;
+}
+
+.KilledCard__deleteButton {
+  @include button-1(43px);
+  @include font-style('font-1', 'sb', 15px);
+  background-color: #FFF5F5;
+  color: #FA5A5A;
+  margin-left: 7px;
+  flex: 1;
+}
+
+.KilledCard__liquidationDescription {
+  color: #8B96B3;
+  @include font-style('font-1', 'm', 15px);
+  line-height: 21px;
+}

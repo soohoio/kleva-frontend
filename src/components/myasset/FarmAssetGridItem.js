@@ -32,6 +32,7 @@ class FarmAssetGridItem extends Component {
 
   getCurrentLeverageValue = () => {
     const { baseToken, positionValue, debtValue } = this.props
+    
     const equityValueParsed = new BigNumber(positionValue)
       .minus(debtValue)
       .div(10 ** baseToken.decimals)
@@ -259,26 +260,6 @@ class FarmAssetGridItem extends Component {
                   />
                 )
               })
-
-              // openModal$.next({
-              //   component: (
-              //     <ClosePositionPopup
-              //       title="Close Position"
-              //       id={id}
-              //       tokenPrices={tokenPrices}
-              //       positionId={positionId}
-              //       vaultAddress={vaultAddress}
-              //       farmingToken={farmingToken}
-              //       baseToken={baseToken}
-              //       workerInfo={workerInfo}
-
-              //       yieldFarmingAPRBefore={before_yieldFarmingAPR}
-              //       tradingFeeAPRBefore={before_tradingFeeAPR}
-              //       klevaRewardsAPRBefore={before_klevaRewardsAPR}
-              //       borrowingInterestAPRBefore={before_borrowingInterestAPR}
-              //     />
-              //   )
-              // })
             }}
           >
             {I18n.t('myasset.withdraw')}

@@ -1,5 +1,6 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { map, filter, windowTime } from "rxjs/operators"
+import ls from 'local-storage'
 
 import { ajax$ } from 'streams/api'
 
@@ -50,3 +51,10 @@ export const protocolAPR$ = new BehaviorSubject(0)
 export const fetchLendingInfo$ = new Subject()
 
 export const hasPosition$ = new BehaviorSubject()
+
+// 
+export const ignorePositionMap$ = new BehaviorSubject(ls.get('ignorePositionMap$') || {})
+
+ignorePositionMap$.subscribe((val) => {
+  ls.set('ignorePositionMap$', val)
+})

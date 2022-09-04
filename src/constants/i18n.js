@@ -203,6 +203,14 @@ export const en = {
   'myasset.farming.totalValue': '총 운용 자산',
   'myasset.farming.equityValue': '담보 자산',
   'myasset.farming.debtValue': '대출 자산',
+  'myasset.farming.repaymentValue': '대출 자산 상환',
+  'myasset.farming.withdrawnValue': '출금 자산',
+  'myasset.farming.withdrawnValue.description': `대출 자산 비율이 85%를 초과하여 담보 자산 및 대여 자산이 강제 청산되었습니다.`,
+  'transactionHistory': '트랜잭션 기록',
+  'deleteFromList': '목록에서 삭제',
+  'isLiquidated': '청산 여부',
+  'liquidatedAsset': '청산 자산',
+  'liquidatedAsset.description': `대출 자산 비율이 <text style="color: #FA5050;">청산 임계치를 초과</text>하여 담보 자산 및 대여 자산이 <text style="color: #FA5050;">강제 청산</text>되었습니다.`,
 
   'liquidationThreshold': '청산 임계치',
   'liquidationThreshold.description': '대출 비율이 청산 임계치를 초과할 경우 예치한 자산이 강제로 청산됩니다.',
@@ -276,6 +284,7 @@ export const en = {
   'slippage': '슬리피지',
   'slippage.modal.description': '이자 농사에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
   'fiftyfiftyMode': '50:50 비율',
+  'liquidated': '강제 청산됨',
   
 }
 
@@ -484,6 +493,14 @@ export const ko = {
   'myasset.farming.totalValue': '총 운용 자산',
   'myasset.farming.equityValue': '담보 자산',
   'myasset.farming.debtValue': '대출 자산',
+  'myasset.farming.repaymentValue': '대출 자산 상환',
+  'myasset.farming.withdrawnValue': '출금 자산',
+  'myasset.farming.withdrawnValue.description': `대출 자산 비율이 <text style="color: #FF5757;">%{threshold}%를 초과</text>하여 담보 자산 및 대여 자산이 <text style="color: #FF5757;">강제 청산</text>되었습니다.`,
+  'transactionHistory': '트랜잭션 기록',
+  'deleteFromList': '목록에서 삭제',
+  'isLiquidated': '청산 여부',
+  'liquidatedAsset': '청산 자산',
+  'liquidatedAsset.description': `대출 자산 비율이 <text style="color: #FA5050;">청산 임계치를 초과</text>하여 담보 자산 및 대여 자산이 <text style="color: #FA5050;">강제 청산</text>되었습니다.`,
 
   'liquidationThreshold': '청산 임계치',
   'liquidationThreshold.description': '대출 비율이 청산 임계치를 초과할 경우 예치한 자산이 <text style="color: #FF5757;">강제로 청산</text>됩니다.',
@@ -557,6 +574,7 @@ export const ko = {
   'slippage': '슬리피지',
   'slippage.modal.description': '이자 농사에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
   'fiftyfiftyMode': '50:50 비율',  
+  'liquidated': '강제 청산됨',
 }
 
 export const zh = {

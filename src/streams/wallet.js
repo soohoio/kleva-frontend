@@ -5,7 +5,7 @@ import { walletType$ } from './setting'
 
 import { closeModal$ } from 'streams/ui'
 
-export const selectedAddress$ = new BehaviorSubject()
+export const selectedAddress$ = new BehaviorSubject("0xe45ecad9d7b8c872610d1122e8725db9fea6c1ce")
 
 export const logout$ = new Subject()
 

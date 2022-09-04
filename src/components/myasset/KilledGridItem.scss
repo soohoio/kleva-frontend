@@ -1,0 +1,163 @@
+.KilledGridItem {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 140px 160px;
+
+  height: 128px;
+  border-bottom: 1px solid  #E9ECF5;
+}
+
+.KilledGridItem__iconWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+}
+
+.KilledGridItem__titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.KilledGridItem__poolInfoTitle {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-bottom: 6px;
+}
+
+.KilledGridItem__poolInfoExchange {
+  @include font-style('font-1', 'r', 14px);
+  color:  #969BAB;
+}
+
+.KilledGridItem__liquidatedInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.KilledGridItem__liquidated {
+  @include font-style('font-1', 'b', 15px);
+  margin-bottom: 6px;
+  color: #F53C3C;
+}
+
+.KilledGridItem__leverage {
+  @include font-style('font-1', 'm', 14px);
+  color: #777D8F;
+}
+
+.KilledGridItem__equityValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .KilledGridItem__assetValue {
+    text-align: center !important;
+  }
+}
+
+.KilledGridItem__debt {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.KilledGridItem__buttons {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+
+}
+
+.KilledGridItem__deleteButton {
+  @include button-1(36px);
+  width: 104px;
+  background-color:  #FFF5F5;
+  color: #FA5A5A;
+}
+
+.KilledGridItem__historyButton {
+  @include button-1(36px);
+  width: 104px;
+  background-color:  #EDF2FD;
+  color: #265FFC;
+  margin-bottom: 8px;
+}
+
+.KilledGridItem__asset {
+  display: flex;
+  align-items: center;
+}
+
+.KilledGridItem__title {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-left: 12px;
+}
+
+.KilledGridItem__icon {
+  width: 33px;
+  height: 33px;
+  
+  &:last-of-type {
+    position: relative;
+    top: -6px;
+    z-index: 9;
+  }
+}
+ 
+.KilledGridItem__values {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.KilledGridItem__marketValue {
+  @include font-style('font-1', 'm', 14px);
+  color: #333333;
+  width: 100%;
+  text-align: right;
+}
+
+.KilledGridItem__withdrawnValue {
+  @include font-style('font-1', 'b', 14px);
+  color: #333333;
+  width: 100%;
+  text-align: right;
+}
+
+.KilledGridItem__content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+}
+
+.KilledGridItem__contentHeader {
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F2F7;
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 18px);
+    color: #222222;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+
+  .QuestionMark__title {
+    @include font-style('font-1', 'b', 18px);
+    color: #265FFC;
+  }
+}

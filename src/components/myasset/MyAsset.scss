@@ -28,12 +28,13 @@
 }
 
 .MyAsset__content {
+  padding: 0 20px;
+  
   @include desktop {
     width: $CONTENT_WIDTH;
     margin: 0 auto;
+    padding: 0;
   }
-
-  padding: 0 20px;
 
   // padding-bottom: 80px;
 }

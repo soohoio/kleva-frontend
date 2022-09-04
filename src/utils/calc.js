@@ -79,7 +79,10 @@ export const toAPY = (apr) => {
 
 export const toFixed = (num, fixed) => {
   var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
-  return num.toString().match(re)[0];
+
+  const matched = num.toString().match(re)
+
+  return matched && matched[0];
 }
 
 export const isValidDecimal = (num, decimalLimit) => {

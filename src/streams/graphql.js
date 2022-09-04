@@ -1,5 +1,5 @@
 import { request, gql } from 'graphql-request'
-import { from, Observable } from 'rxjs'
+import { forkJoin, from, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { farmPool, farmPoolByWorker } from '../constants/farmpool'
 
@@ -28,7 +28,7 @@ export const getUserPositionSummary$ = (owner) => {
     )
 }
 
-export const getPositions$ = (owner, page = 1) => {
+export const getPositions$ = (owner, page = 1, first, skip) => {
 
   return from(
     request(
@@ -60,8 +60,8 @@ export const getPositions$ = (owner, page = 1) => {
       }
     `,
     { 
-      first: ITEM_PER_PAGE,
-      skip: Math.max(0, ITEM_PER_PAGE * (page - 1)),
+      first: first || ITEM_PER_PAGE,
+      skip: skip || Math.max(0, ITEM_PER_PAGE * (page - 1)),
       where: { owner, lpShare_gt: 0 },
     }
   )).pipe(
@@ -82,7 +82,7 @@ export const getPositions$ = (owner, page = 1) => {
   )
 }
 
-export const getKilledPositions$ = (owner, page = 1) => {
+export const getKilledPositions$ = (owner, page = 1, first, skip) => {
 
   return from(
     request(
@@ -114,8 +114,8 @@ export const getKilledPositions$ = (owner, page = 1) => {
       }
     `,
       {
-        first: ITEM_PER_PAGE,
-        skip: Math.max(0, ITEM_PER_PAGE * (page - 1)),
+        first: first || ITEM_PER_PAGE,
+        skip: skip || Math.max(0, ITEM_PER_PAGE * (page - 1)),
         where: { owner, killed: true },
       }
     )).pipe(
@@ -138,44 +138,16 @@ export const getKilledPositions$ = (owner, page = 1) => {
 
 export const getPositionsAll$ = (owner) => {
 
-  return from(
-    request(
-      GRAPH_NODE_URL,
-      gql`
-      query($first: Int!, $skip: Int!, $where: Position_filter) {
-        positions(
-            first: $first, 
-            skip: $skip, 
-            where: $where, 
-            orderBy: latestBlockTime,
-            orderDirection: desc
-        ) {
-          id,
-          positionId,
-          owner,
-          workerAddress,
-          lpShare,
-          debtShare,
-          debtAmount,
-          latestBlockTime,
+  return forkJoin([
+    getPositions$(owner, 0, 1000),
+    getKilledPositions$(owner, 0, 1000),
+  ]).pipe(
+      map(([positions, killedPositions]) => {
 
-          positionValueAtKilled,
-          debtAtKilled,
-          prizeAtKilled,
-          restAmountAtKilled,
-          killedTx,
-        }
-      }
-    `,
-      {
-        first: 1000,
-        skip: 0,
-        where: { owner, lpShare_gt: 0 },
-      }
-    )).pipe(
-      map(({ positions }) => {
-
-        return positions
+        return [
+          ...positions,
+          ...killedPositions,
+        ]
           .filter((item) => {
             const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
 
