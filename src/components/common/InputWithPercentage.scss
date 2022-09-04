@@ -21,7 +21,8 @@
 
   .Opener {
     // width: 72px;
-    width: 108px;
+    // width: 108px;
+    width: 80px;
     margin-bottom: 0;
     border-radius: 8px;
     background-color: transparent !important;
@@ -32,7 +33,7 @@
   }
   
   .Opener__item {
-    height: 32px;
+    height: 39px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -42,14 +43,16 @@
     &:first-of-type {
       min-width: 72px;
       background-image: url(/static/images/common/btn-down.svg);
-      background-position: right 10px top 50%;
       background-repeat: no-repeat;
-      background-size: 14px;
+
+      background-position: right 0px top 50%;
+      background-size: 13px;
+      text-align: right;
     }
 
     &--selected {
       .Opener__itemTitle {
-        color: #3369ff;
+        color: #265ffc;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -99,6 +102,5 @@
 .InputWithPercentage__right {
   display: flex;
   align-items: center;
-  margin-right: 6px;
 }
 

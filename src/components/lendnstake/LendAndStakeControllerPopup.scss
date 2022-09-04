@@ -33,8 +33,10 @@
   display: flex;
   align-items: center;
   margin-top: 10px;
-  margin-bottom: 35px;
   color: #787F98;
+
+  line-height: 19px;
+  margin-bottom: 33px;
 }
 
 // available
@@ -43,6 +45,7 @@
   display: flex;
   align-content: center;
   margin-bottom: 10px;
+  line-height: 18px;
 }
 
 .LendAndStakeControllerPopup__availableLabel {
@@ -61,6 +64,7 @@
   display: flex;
   align-content: center;
   margin: 17px 0;
+  line-height: 18px;
 }
 
 .LendAndStakeControllerPopup__willReceiveLabel {
@@ -70,8 +74,8 @@
 
 .LendAndStakeControllerPopup__willReceiveAmount {
   @include font-style('font-1', 'sb', 15px);
-  color: #3B70F7;
   margin-left: 5px;
+  color: #265ffc;
 }
 
 // aprDetail

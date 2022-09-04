@@ -75,7 +75,7 @@ $CONTENT_WIDTH: 980px;
   justify-content: center;
   border-radius: 8px;
   background-color: #ebf0ff;
-  color: #3369ff;
+  color: #265ffc;
 }
 
 @mixin disabled-button {
@@ -87,7 +87,7 @@ $CONTENT_WIDTH: 980px;
 // Text
 @mixin text-1(
   $color: #797b80, 
-  $hover-color: #3369ff, 
+  $hover-color: #265ffc, 
   $active-color: rgba(51, 105, 255, 0.7),
   $disable-color: #797b80
 ) {

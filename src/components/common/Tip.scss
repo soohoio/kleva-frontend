@@ -4,7 +4,7 @@
   box-shadow: 0px 9px 16px -6px rgba(14, 28, 71, 0.13);
   border-radius: 8px;
 
-  padding: 19px;
+  padding: 20px 18px;
 
   position: absolute;
   left: 50%;
@@ -16,8 +16,8 @@
 
 .Tip__close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 11px;
+  right: 11px;
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -27,9 +27,11 @@
   @include font-style('font-1', 'b', 16px);
   color: #222222;
   margin-bottom: 10px;
+  line-height: 20px;
 }
 
 .Tip__description {
   @include font-style('font-1', 'm', 15px);
   color: #636878;
+  line-height: 22px;
 }

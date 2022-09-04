@@ -37,12 +37,16 @@
   z-index: 9;
   top: 102px;
   left: 0;
-  width: 100%;
+  // width: 100%;
   padding: 10px 0;
 
   border-radius: 8px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
+
+  width: 95px;
+  border: 1px solid #d7dcea;
+  box-shadow: 0 9px 16px -6px rgba(14, 28, 71, 0.13);
 
   .Opener__item {
     background-color: transparent;
@@ -56,11 +60,13 @@
   align-items: center;
   cursor: pointer;
   height: 48px;
-  margin: 0 7px;
+  // margin: 0 7px;
   border-radius: 8px;
-  @include font-style('font-1', 'b', 14px);
-  color: $white;
-  padding: 0 12px;
+  @include font-style('font-1', 'm', 15px);
+  color: #4c505c;
+  // padding: 0 12px;
+  padding: 0 18px 0 0;
+  text-align: right;
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   background-color: #f2f2f2;
   transition: background-color 100ms;
@@ -69,7 +75,7 @@
     background-color: #ebf0ff;
 
     .Opener__itemTitle {
-      color: #3369ff !important;
+      color: #265ffc !important;
     }
   }
 
@@ -82,6 +88,9 @@
     background-color: #ebf0ff !important;
     border-radius: 6px;
     margin-right: 0;
+
+    @include font-style('font-1', 'b', 15px);
+    color: #265ffc;
   }
 
   &--selectedRoot {
