@@ -68,7 +68,7 @@
     margin-right: 60px;
     padding-left: 0;
   }
-  padding: 0 20px;
+  padding: 0;
 }
 
 .AdjustPosition__right {
@@ -76,7 +76,7 @@
     flex: 1;
     padding-right: 0;
   }
-  padding: 0 18px;
+  padding: 0;
 }
 
 .AdjustPosition__apy {
@@ -188,6 +188,11 @@
   padding-top: 20px;
   margin-bottom: 26px;
   align-items: center;
+
+  @include desktop {
+    margin-bottom: 0;
+  }
+
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
@@ -206,8 +211,7 @@
   @include desktop {
     margin-top: 40px;
     padding-top: 30px;
-
-    border-top: 1px solid rgba(#DADDE6, .8);
+    border-top: 1px solid #DADDE5;
   }
 }
 

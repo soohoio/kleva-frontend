@@ -12,6 +12,10 @@
   @include font-style('font-1', 'b', 15px);
   color: #222222;
   margin-bottom: 5px;
+
+  @include desktop {
+    margin-top: 2px;
+  }
 }
 
 .TokenRatio__value {
