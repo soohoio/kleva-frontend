@@ -30,8 +30,23 @@ export const connectInjected = (injectedType, walletProviderName) => {
   walletProviderName$.next(walletProviderName)
 
   if (injectedType === "metamask") {
-    if (!window.ethereum) {
+    if (!window.isMobile && !window.ethereum) {
       alert('Please install Metamask first.')
+      return
+    }
+
+    if (window.isMobile && !window.ethereum) {
+      document.location = `dapp://${window.location.host}${window.location.pathname}`;
+      
+      var time = (new Date()).getTime();
+      setTimeout(function () {
+        var now = (new Date()).getTime();
+
+        if ((now - time) < 400) {
+          document.location = `https://metamask.app.link/dapp/${window.location.host}`;
+        }
+      }, 300);
+      window.open(`dapp://${window.location.host}${window.location.pathname}`)
       return
     }
 
