@@ -13,7 +13,7 @@
 
 .LeverageController__content {
   width: 140px;
-  height: 42px;
+  height: 36px;
   border-radius: 4px;
   background-color: #F5F7FA;
   display: flex;
@@ -24,9 +24,9 @@
 }
 
 .LeverageController__leverageValue {
-  @include font-style('font-1', 'sb', 15px);
+  @include font-style('font-1', 'b', 15px);
   line-height: 18px;
-  color: #131414;
+  color: #444;
 }
 
 .LeverageController__minusIcon {
