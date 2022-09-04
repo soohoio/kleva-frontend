@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  padding: 18px 0;
+  padding: 0 0 30px 0;
   overflow: scroll;
   z-index: 9;
   
@@ -64,17 +64,22 @@
 }
 
 .ClosePosition__left {
+  padding: 0 20px;
+
   @include desktop {
     flex: 1;
     margin-right: 60px;
     padding-left: 0;
+    padding: 0;
   }
-  padding: 0 18px;
 }
 
 .ClosePosition__right {
+  padding: 0 20px;
+
   @include desktop {
     flex: 1;
+    padding: 0;
     padding-right: 0;
   }
 
@@ -83,11 +88,11 @@
 .ClosePosition__apy {
   margin-top: 8px;
   align-items: center;
-  padding-bottom: 20px;
-  margin-bottom: 36px;
+  // padding-bottom: 20px;
+  margin-bottom: 34px;
   
   @include desktop {
-    border-bottom: 1px solid #E6EAF2;
+    // border-bottom: 1px solid #E6EAF2;
   }
 
   .QuestionMark {
@@ -114,6 +119,7 @@
   .BeforeAfter__after {
     @include font-style('font-1', 'b', 16px);
     display: flex;
+    line-height: 20px;
     align-items: center;
     color: #265FFC;
   }
@@ -138,7 +144,7 @@
 
 .ClosePosition__debtRatio {
   border-top: 1px solid #EBEEF5;
-  padding-top: 21px;
+  padding-top: 20px;
 
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
@@ -178,7 +184,8 @@
 }
 
 .ClosePosition__totalReceived {
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 26px;
   
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
@@ -236,6 +243,7 @@
 
 .ClosePosition__button {
   @include button-1(50px);
+  @include font-style('font-1', 'b', 16px);
   background-color: #2D65FC;
   width: 100%;
   margin-bottom: 10px;
@@ -261,6 +269,8 @@
 // 
 
 .ClosePosition__entireCloseHeader {
+
+   align-items: center;
 
   .LabelAndValue {
     margin-bottom: 15px;
@@ -288,7 +298,7 @@
 }
 
 .ClosePosition__tabs {
-  margin-bottom: 40px;
+  margin: 10px 0 30px 0;
 }
 
 .ClosePosition__radioSet {
@@ -296,6 +306,10 @@
   padding-bottom: 26px;
   border-bottom: 1px solid #EBEEF5;
   margin-bottom: 24px;
+
+  @include desktop {
+    margin-top: 6px;
+  }
 
   &--mobileOnly {
     display: flex;
@@ -370,4 +384,10 @@
     line-height: 20px;
     text-align: right;
   }
+}
+
+.ClosePosition__footer {
+  margin-top: 25px;
+  padding-top: 30px;
+  border-top: 1px solid #DADDE5;
 }

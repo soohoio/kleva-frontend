@@ -2,11 +2,17 @@
   display: flex;
   align-items: center;
   height: 60px;
+
+  @include desktop {
+    align-items: unset;
+    height: unset;
+  }
 }
 
 .ModalHeader__title {
-  @include font-style('font-1', 'b', 20px);
-  color: #151515;
+  @include font-style('font-1', 'b', 24px);
+  color: #222;
+  padding-bottom: 22px;
   text-align: center;
   position: relative;
   width: 100%;
