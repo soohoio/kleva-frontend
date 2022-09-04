@@ -414,16 +414,16 @@ renderTotalValue = ({
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
       </>
     )
   }
@@ -646,7 +646,7 @@ renderTotalValue = ({
             <LabelAndValue
               className="AdjustPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(resultDebtAmount, 4)} ${baseToken.title}`}
+              value={`${noRounding(resultDebtAmount, 4)} ${baseToken.title}`}
             />
             <LabelAndValue
               className="AdjustPosition__totalDeposit"

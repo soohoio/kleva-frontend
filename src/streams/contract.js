@@ -1521,6 +1521,7 @@ export const getOpenPositionResult$ = ({
   farmTokenAmount,
   positionId,
 }) => {
+
   return call$({
     abi: KlayswapCalculatorABI,
     address: KLAYSWAP_CALCULATOR,
@@ -1531,7 +1532,17 @@ export const getOpenPositionResult$ = ({
       farmTokenAmount,
       positionId,
     ]
-  })
+  }).pipe(
+    catchError(() => {
+      return of({
+        priceImpactBps: "0",
+        resultBaseTokenAmount: "0",
+        resultFarmTokenAmount: "0",
+        swapedBaseTokenAmount: "0",
+        swapedFarmTokenAmount: "0",
+      })
+    })
+  )
 }
 
 export const getCloseBaseOnlyResult$ = ({
@@ -1943,7 +1954,9 @@ export const getPositionValue$ = ({ workerAddress, baseTokenAmount, farmingToken
       baseTokenAmount,
       farmingTokenAmount,
     ]
-  })
+  }).pipe(
+    catchError(() => of(0))
+  )
 }
 
 export const getDebtRepaymentRange$ = ({

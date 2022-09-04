@@ -19,7 +19,7 @@ import BorrowingItem from './BorrowingItem'
 import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
-import { addressKeyFind, isSameAddress, nFormatter } from '../../utils/misc'
+import { addressKeyFind, isSameAddress, nFormatter, noRounding } from '../../utils/misc'
 import { checkAllowances$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
@@ -355,16 +355,16 @@ class AddPosition extends Component {
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
       </>
     )
   }
@@ -518,15 +518,15 @@ class AddPosition extends Component {
               )}
               value={(
                 <>
-                  <p>{nFormatter(this.bloc.farmingTokenAmount$.value, 4)} {farmingToken.title}</p>
-                  <p>{nFormatter(this.bloc.baseTokenAmount$.value, 4)} {baseToken.title}</p>
+                  <p>{noRounding(this.bloc.farmingTokenAmount$.value, 4)} {farmingToken.title}</p>
+                  <p>{noRounding(this.bloc.baseTokenAmount$.value, 4)} {baseToken.title}</p>
                 </>
               )}
             />
             <LabelAndValue
               className="AddPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(borrowingAmount, 4)} ${baseToken.title}`}
+              value={`${noRounding(borrowingAmount, 4)} ${baseToken.title}`}
             />
             <LabelAndValue
               className="AddPosition__totalDeposit"
