@@ -71,7 +71,7 @@ export default class {
           .multipliedBy(1 - PROTOCOL_FEE)
           .toNumber()
 
-        const tradeableValue = new BigNumber(1 / ibTokenPrice)
+        const tradeableValue = new BigNumber(ibTokenPrice)
           .multipliedBy(balanceTotal)
           .toNumber()
 
