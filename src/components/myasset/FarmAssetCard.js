@@ -248,6 +248,7 @@ class FarmAssetCard extends Component {
                 "FarmAssetCard__gauge--red": debtRatio !== 0 && debtRatio > 70,
               })}
             />
+            <img src="/static/images/exported/warn-mark.svg" className="FarmAssetCard__warnMark" />
           </div>
           <p className="FarmAssetCard__debtRatioDescription">{I18n.t('myasset.farming.debtRatio.description')}</p>
           <div className="FarmAssetCard__buttons">

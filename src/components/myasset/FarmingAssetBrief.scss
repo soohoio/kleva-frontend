@@ -2,20 +2,21 @@
   display: flex;
   flex-direction: column;
 
-  margin-bottom: 40px;
+  margin-bottom: 38px;
 }
 
 .FarmingAssetBrief__total {
   @include font-style('font-1', 'b', 25px);
   color: #000000;
   margin-bottom: 13px;
+  line-height: 30px;
 }
 
 .FarmingAssetBrief__gauge {
   display: flex;
   width: 100%;
-  height: 4px;
-  margin-bottom: 14px;
+  height: 5px;
+  margin-bottom: 10px;
 }
 
 .FarmingAssetBrief__gaugeItem {

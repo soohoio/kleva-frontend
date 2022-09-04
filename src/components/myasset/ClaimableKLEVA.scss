@@ -33,7 +33,8 @@
 .ClaimableKLEVA__title {
   @include font-style('font-1', 'b', 15px);
   color: #333333;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
+  line-height: 20px;
 }
 
 .ClaimableKLEVA__pendingReward {
@@ -45,6 +46,7 @@
   @include font-style('font-1', 'b', 20px);
   color: #265FFC;
   margin-right: 4px;
+  line-height: 22px;
 }
 
 .ClaimableKLEVA__pendingRewardInUSD {
@@ -57,4 +59,5 @@
   color: #265FFC;
   padding-right: 25px;
   cursor: pointer;
+  line-height: 20px;
 }

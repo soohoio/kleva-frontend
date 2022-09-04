@@ -10,6 +10,7 @@
 
 .ManagementAsset__title {
   @include font-style('font-1', 'b', 17px);
+  line-height: 20px;
   color: #333333;
   margin-bottom: 5px;
 }
@@ -29,6 +30,7 @@
   color: #151515;
   margin-bottom: 5px;
   margin-right: 8px;
+  line-height: 37px;
 
   @include desktop {
     @include font-style('font-1', 'b', 38px);
@@ -36,6 +38,7 @@
 }
 
 .ManagementAsset__debt {
-  @include font-style('font-1', 'm', 17px);
+  @include font-style('font-1', 'm', 16px);
+  line-height: 19px;
   color: #FA5A5A;
 }

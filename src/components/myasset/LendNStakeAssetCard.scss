@@ -4,7 +4,9 @@
 
   padding-bottom: 30px;
   border-bottom: 1px solid  #E6EAF2;
-  margin-bottom: 24px;
+
+  margin-left: -1px;
+  margin-bottom: 30px;
 
   &:last-of-type {
     border: 0;
@@ -12,8 +14,8 @@
 }
 
 .LendNStakeAssetCard__icon {
-  width: 33px;
-  height: 33px;
+  width: 31px;
+  height: 31px;
 
   position: relative;
   top: -6px;
@@ -23,8 +25,8 @@
     color: #ffffff;
     content: "ib";
     position: absolute;
-    top: -6px;
-    left: -6px;
+    top: -8px;
+    left: -8px;
     width: 22px;
     height: 22px;
     display: flex;
@@ -58,6 +60,7 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 18px);
     color: #222222;
+    line-height: 19px;
   }
   
   .LabelAndValue__value {
@@ -68,11 +71,14 @@
   .QuestionMark__title {
     @include font-style('font-1', 'b', 18px);
     color: #265FFC;
+    line-height: 19px;
   }
 }
 
 .LendNStakeAssetCard__marketValue {
   margin-bottom: 13px;
+  line-height: 19px;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
     color: #333333;
@@ -90,21 +96,25 @@
     @include font-style('font-1', 'm', 15px);
     color: #333333;
     margin-bottom: 4px;
+    line-height: 19px;
   }
   
   .LendNStakeAssetCard__tokenAmountValue {
-    @include font-style('font-1', 'b', 17px);
+    @include font-style('font-1', 'b', 15px);
     color: #333333;
+    line-height: 19px;
   }
   
   .LendNStakeAssetCard__tokenAmountSubtitle {
     @include font-style('font-1', 'm', 14px);
     color: #777D8F;
+    line-height: 17px;
   }
   
   .LendNStakeAssetCard__tradeableValue {
     @include font-style('font-1', 'm', 14px);
     color: #777D8F;
+    line-height: 17px;
   }
 
   .LabelAndValue__value {
@@ -114,6 +124,7 @@
 
 .LendNStakeAssetCard__stakingValue {
   margin-bottom: 13px;
+  line-height: 19px;
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #333333;
@@ -150,21 +161,38 @@
 
 .LendNStakeAssetCard__unstake {
   @include button-1(43px);
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px;
   background-color:  #EDF2FC;
   color: #265FFC;
   flex: 1;
   margin-right: 7px;
+
+  &--disabled {
+    background-color:  #E1E4EB;
+  }
 }
 
 .LendNStakeAssetCard__stake {
   @include button-1(43px);
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px;
   background-color: #2D65FC;
   flex: 1;
+
+  &--disabled {
+    background-color:  #E1E4EB;
+  }
 }
 
 .LendNStakeAssetCard__withdraw {
   @include button-1(43px);
+  @include font-style('font-1', 'b', 15px);
   width: 100%;
   background-color:  #EDF2FC;
   color: #265FFC;
+
+  &--disabled {
+    background-color:  #E1E4EB;
+  }
 }

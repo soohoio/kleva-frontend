@@ -12,6 +12,8 @@
 }
 
 .MyAsset__tabs {
+  margin-bottom: 26px;
+
   @include desktop {
     margin-bottom: 60px;
   }
@@ -33,13 +35,15 @@
 
   padding: 0 20px;
 
-  padding-bottom: 80px;
+  // padding-bottom: 80px;
 }
 
 .MyAsset__tabsTitle {
   @include font-style('font-1', 'b', 19px);
   color: #222222;
-  margin-bottom: 16px;
+  
+  line-height: 23px;
+  margin-bottom: 14px;
 }
 
 .MyAsset__videoSectionTitle {
