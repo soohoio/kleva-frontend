@@ -217,6 +217,12 @@ class FarmAssetGridItem extends Component {
                 "FarmAssetGridItem__gauge--red": debtRatio !== 0 && debtRatio > 70,
               })}
             />
+            {!!liquidationThreshold && (
+              <div style={{ left: `${liquidationThreshold}%` }} className="FarmAssetGridItem__threshold">
+                <img src="/static/images/exported/warn-mark.svg" />
+                <p>{liquidationThreshold}%</p>
+              </div>
+            )}
           </div>
         </div>
         <div className="FarmAssetGridItem__buttons">

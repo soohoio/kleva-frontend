@@ -97,7 +97,7 @@ export const coupleArray = ({
   return result
 }
 
-const LESS_THAN_1_DECIMAL_MAX_DIGITS = 2
+const LESS_THAN_1_DECIMAL_MAX_DIGITS = 4
 
 function numberToKorean(number, lastOnly) {
   var inputNumber = number < 0 ? false : number;
@@ -143,6 +143,10 @@ export const nFormatter = (num, digits, locale, lastOnly) => {
     return 0
   }
 
+  if (Number(num) < 1) {
+    return noRounding(num, LESS_THAN_1_DECIMAL_MAX_DIGITS)
+  }
+
   if (locale === 'ko') {
     return numberToKorean(num, lastOnly)
   }
@@ -172,8 +176,8 @@ export const nFormatter = (num, digits, locale, lastOnly) => {
   return item 
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol 
     : Number(num) < 1
-      ? Number(num).toLocaleString('en-us', { maximumFractionDigits: LESS_THAN_1_DECIMAL_MAX_DIGITS })
-      : Number(num).toLocaleString('en-us', { maximumFractionDigits: digits })
+      ? noRounding(num, LESS_THAN_1_DECIMAL_MAX_DIGITS)
+      : noRounding(num, digits)
 }
 
 window.nFormatter = nFormatter
