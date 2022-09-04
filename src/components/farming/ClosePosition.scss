@@ -106,7 +106,15 @@
     text-align: right;
   }
 
+  .BeforeAfter__before {
+    @include font-style('font-1', 'r', 16px);
+    color: #969BAB;
+  }
+
   .BeforeAfter__after {
+    @include font-style('font-1', 'b', 16px);
+    display: flex;
+    align-items: center;
     color: #265FFC;
   }
 }
@@ -142,6 +150,16 @@
     color: #222222;
     line-height: 20px;
     text-align: right;
+  }
+
+  .BeforeAfter__before {
+    @include font-style('font-1', 'r', 16px);
+    color: #969BAB;
+  }
+
+  .BeforeAfter__after {
+    @include font-style('font-1', 'b', 16px);
+    color: #333333;
   }
 }
 

@@ -80,47 +80,44 @@ class ClosePosition extends Component {
         this.bloc.farmingTokenAmount$,
         this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
-        this.bloc.borrowMore$.pipe(
-          distinctUntilChanged(),
-        ),
       ).pipe(
-        switchMap(() => this.bloc.getOpenPositionResult$()),
-        tap(() => {
+        // switchMap(() => this.bloc.getOpenPositionResult$()),
+        // tap(() => {
 
-          const { baseToken } = this.props
+        //   const { baseToken } = this.props
 
-          const newPositionValue = this.bloc.positionValue$.value
-          const { rawKillFactorBps, workFactorBps } = this.bloc.getConfig()
+        //   const newPositionValue = this.bloc.positionValue$.value
+        //   const { rawKillFactorBps, workFactorBps } = this.bloc.getConfig()
 
-          // Check add collateral available
+        //   // Check add collateral available
 
-          const _addCollateralAvailable = new BigNumber(newPositionValue)
-            .multipliedBy(rawKillFactorBps)
-            .gte(new BigNumber(this.bloc.before_debtAmount$.value).multipliedBy(10 ** 4))
+        //   const _addCollateralAvailable = new BigNumber(newPositionValue)
+        //     .multipliedBy(rawKillFactorBps)
+        //     .gte(new BigNumber(this.bloc.before_debtAmount$.value).multipliedBy(10 ** 4))
 
-          this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
+        //   this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
 
-          const amountToBeBorrowed = this.bloc.getAmountToBorrow()
+        //   const amountToBeBorrowed = this.bloc.getAmountToBorrow()
 
-          const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
-            .plus(amountToBeBorrowed)
-            .toString()
+        //   const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
+        //     .plus(amountToBeBorrowed)
+        //     .toString()
 
-          this.bloc.newDebtValue$.next(newDebtValue)
+        //   // this.bloc.newDebtValue$.next(newDebtValue)
 
-          // Check borrow more valid
-          const ibToken = getIbTokenFromOriginalToken(baseToken)
-          const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+        //   // Check borrow more valid
+        //   const ibToken = getIbTokenFromOriginalToken(baseToken)
+        //   const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
 
-          this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
+        //   this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
 
-          const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
-          const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
+        //   const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
+        //   const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
-          const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+        //   const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
 
-          this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
-        })
+        //   this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
+        // })
       ),
 
       this.bloc.before_positionValue$,
@@ -135,7 +132,7 @@ class ClosePosition extends Component {
       this.bloc.resultBaseTokenAmount$,
       this.bloc.resultFarmTokenAmount$,
       this.bloc.leverageImpact$,
-      this.bloc.priceImpact$,
+      // this.bloc.priceImpact$,
       this.bloc.borrowingAsset$,
       this.bloc.newDebtValue$,
       this.bloc.addCollateralAvailable$,
@@ -169,9 +166,13 @@ class ClosePosition extends Component {
       merge(
         this.bloc.entirelyClose$,
         this.bloc.partialCloseRatio$,
-        // this.bloc.repayDebtRatio$,
+        this.bloc.repayDebtRatio$,
       ).pipe(
         tap(() => {
+
+          const uniqueID = `${this.bloc.partialCloseRatio$.value}-${this.bloc.minRepaymentDebtRatio$.value}`
+          this.bloc.dirty$.next(uniqueID)
+
           this.bloc.getCloseResult()
         }),
         tap(() => {
@@ -201,7 +202,11 @@ class ClosePosition extends Component {
               : ((maxDebtRepayment / closedPositionValue) * 100) * 0.99 // -1% buffer
             )
 
-            this.bloc.repayDebtRatio$.next(this.bloc.minRepaymentDebtRatio$.value)
+            // dirty check to prevent infinite loop
+            const uniqueID = `${this.bloc.partialCloseRatio$.value}-${this.bloc.minRepaymentDebtRatio$.value}`
+            if (this.bloc.dirty$.value != uniqueID) {
+              this.bloc.repayDebtRatio$.next(this.bloc.minRepaymentDebtRatio$.value)
+            }
 
             const newPositionValue = new BigNumber(this.bloc.before_positionValue$.value)
               .minus(closedPositionValue)
@@ -490,10 +495,6 @@ class ClosePosition extends Component {
     const before_apy = toAPY(before_totalAPR)
     const apy = toAPY(after_totalAPR)
 
-    const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
-      .div(10 ** baseToken.decimals)
-      .toNumber()
-
     const { value1, value2 } = this.bloc.getValueInUSD()
 
     const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
@@ -528,7 +529,7 @@ class ClosePosition extends Component {
       .toNumber()
 
     const debtRatio = new BigNumber(this.bloc.newDebtValue$.value)
-      .div(this.bloc.positionValue$.value)
+      .div(this.bloc.newPositionValue$.value)
       .multipliedBy(100)
       .toNumber()
 
@@ -539,6 +540,8 @@ class ClosePosition extends Component {
     debtDelta = debtDelta > 0.1
       ? debtDelta
       : 0
+
+    const priceImpact = this.bloc.priceImpactBps$.value / 10000
 
     // 
     const radioList = [
@@ -708,7 +711,7 @@ class ClosePosition extends Component {
                     <LabelAndValue
                       className="ClosePosition__debt"
                       label={I18n.t('farming.summary.debt')}
-                      value={`${nFormatter(borrowingAmount, 4)} ${baseToken.title}`}
+                      value={`${nFormatter(new BigNumber(this.bloc.newDebtValue$.value).div(10 ** baseToken.decimals).toNumber(), 4)} ${baseToken.title}`}
                     />
                     <LabelAndValue
                       className="ClosePosition__debtRatio"
@@ -728,7 +731,31 @@ class ClosePosition extends Component {
                       value={(
                         <BeforeAfter 
                           before={`${Number(before_apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
-                          after={`${Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                          after={(
+                            <>
+                              {`${Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%`}
+                              <QuestionMark
+                                info
+                                color="#265FFC"
+                                onClick={() => {
+                                  openModal$.next({
+                                    component: (
+                                      <FarmAPRDetailInfo2
+                                        title={`${farmingToken.title}+${baseToken.title}`}
+                                        selectedAddress={selectedAddress}
+                                        yieldFarmingAPR={after_yieldFarmingAPR}
+                                        klevaRewardAPR={after_klevaRewardsAPR}
+                                        tradingFeeAPR={after_tradingFeeAPR}
+                                        borrowingInterest={after_borrowingInterestAPR}
+                                        apr={after_totalAPR}
+                                        apy={apy}
+                                      />
+                                    )
+                                  })
+                                }}
+                              />
+                            </>
+                          )}
                         />
                       )}
                     />
@@ -760,10 +787,10 @@ class ClosePosition extends Component {
                 tokenToSwap={this.bloc.farmingToken$.value}
                 lossAmount={new BigNumber(this.bloc.amountToTrade$.value)
                     .div(10 ** farmingToken.decimals)
-                    .multipliedBy(this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value)
+                    .multipliedBy(priceImpact)
                     .toNumber()
                   }
-                priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value} 
+                priceImpact={priceImpact}
               />
               <SlippageSetting />
               <LabelAndValue

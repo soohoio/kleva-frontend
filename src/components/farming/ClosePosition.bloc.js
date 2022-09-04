@@ -112,6 +112,8 @@ export default class {
     this.minRepaymentDebtRatio$ = new BehaviorSubject()
     this.maxRepaymentDebtRatio$ = new BehaviorSubject()
 
+    this.dirty$ = new BehaviorSubject()
+
     this.init()
   }
 
@@ -211,19 +213,6 @@ export default class {
     }
   }
 
-  getAmountToBorrow = () => {
-    if (!this.borrowMore$.value) return 0
-
-    const amountToBeBorrowed = new BigNumber(this.before_equityValue$.value)
-      .multipliedBy(Number(this.leverage$.value) - Number(this.before_leverage))
-      .toFixed(0)
-
-    console.log(Number(this.leverage$.value), 'Number(this.leverage$.value)')
-    console.log(Number(this.before_leverage), 'Number(this.before_leverage)')
-
-    return amountToBeBorrowed
-  }
-
   getDebtTokenKlevaRewardsAPR = () => {
     const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
     const borrowingAsset = this.borrowingAsset$.value
@@ -236,7 +225,8 @@ export default class {
       klevaAnnualRewards: klevaAnnualRewards$.value,
       klevaTokenPrice: tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()],
       leverage: this.leverage$.value,
-      borrowingDelta: new BigNumber(this.getAmountToBorrow()).div(10 ** this.baseToken$.value?.decimals).toNumber()
+      // borrowingDelta: new BigNumber(this.getAmountToBorrow()).div(10 ** this.baseToken$.value?.decimals).toNumber()
+      borrowingDelta: new BigNumber(this.newDebtValue$.value).div(10 ** this.baseToken$.value?.decimals).toNumber()
     })
   }
 
@@ -248,7 +238,8 @@ export default class {
       .toString() || "0"
 
     const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount || 0)
-      .plus(this.getAmountToBorrow() || 0)
+      // .plus(this.getAmountToBorrow() || 0)
+      .plus(this.newDebtValue$.value || 0)
       .plus(this.before_baseAmount$.value || 0)
       .toFixed(0) || "0"
 
@@ -416,87 +407,6 @@ export default class {
             },
           ]}>
             <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
-          </CompletedModal>
-        )
-      })
-    })
-  }
-
-  // Borrow more
-  borrowMore = () => {
-    const { vaultAddress, positionId } = this.comp.props
-
-    const amountToBeBorrowed = this.getAmountToBorrow()
-
-    const strategyAddress = STRATEGIES["ADD_BASE_TOKEN_ONLY"]
-
-    const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.lpToken?.address)
-    const expectedLpAmount = getLPAmountBasedOnIngredientsToken({
-      poolInfo,
-      token1: {
-        ...this.baseToken$.value,
-        amount: new BigNumber(this.resultBaseTokenAmount$.value || 0)
-          .toString()
-      },
-      token2: {
-        ...this.farmingToken$.value,
-        amount: new BigNumber(this.resultFarmTokenAmount$.value || 0)
-          .toString()
-      }
-    })
-
-    const MIN_LP_AMOUNT = new BigNumber(expectedLpAmount)
-      .multipliedBy(1 - (Number(slippage$.value) / 100))
-      .toFixed(0)
-    const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
-    const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
-
-    console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
-    console.log(positionId, 'positionId')
-    console.log(amountToBeBorrowed, 'amountToBeBorrowed')
-    console.log(ext, 'ext')
-    console.log(data, 'data')
-
-    borrowMore$(vaultAddress, {
-      positionId: positionId,
-      debtAmount: amountToBeBorrowed,
-      data,
-    }).pipe(
-      tap(() => this.isLoading$.next(true)),
-      switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
-    ).subscribe(() => {
-      this.isLoading$.next(false)
-      fetchWalletInfo$.next(true)
-      fetchPositions$.next(true)
-
-      closeContentView$.next(true)
-
-      openModal$.next({
-        component: (
-          <CompletedModal menus={[
-            {
-              title: I18n.t('confirm'),
-              onClick: () => {
-                closeModal$.next(true)
-              }
-            },
-          ]}>
-            <p className="CompletedModal__title">{I18n.t('farming.closePosition.completed.title')}</p>
-          </CompletedModal>
-        )
-      })
-
-      openModal$.next({
-        component: (
-          <CompletedModal menus={[
-            {
-              title: I18n.t('confirm'),
-              onClick: () => {
-                closeModal$.next(true)
-              }
-            },
-          ]}>
-            <p className="CompletedModal__title">{I18n.t('myasset.suwController.withdrawCompleted')}</p>
           </CompletedModal>
         )
       })
