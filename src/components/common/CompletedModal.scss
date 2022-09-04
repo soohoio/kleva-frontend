@@ -1,7 +1,8 @@
 .CompletedModal {
   flex-direction: column;
 
-  width: 285px;
+  // width: 285px;
+  max-width: 280px;
   padding: 0;
   text-align: center;
 
@@ -22,32 +23,34 @@
   width: 100%;
   justify-content: center;
 
-  padding: 30px;
-  padding-bottom: 0;
+  padding: 32px 30px;
 }
 
 .CompletedModal__title {
   @include font-style('font-1', 'b', 19px);
   color: #222222;
+  line-height: 26px;
 }
 
 .CompletedModal__description {
   @include font-style('font-1', 'm', 15px);
   margin-top: 8px;
   color: #666D81;
+  line-height: 21px;
 }
 
 .CompletedModal__menus {
   display: flex;
   flex-direction: column;
 
-  margin-top: 30px;
+  // margin-top: 30px;
 }
 
 .CompletedModal__menuItem {
-  @include font-style('font-1', 'sb', 17px);
+  @include font-style('font-1', 'm', 17px);
 
   &:first-of-type {
+    @include font-style('font-1', 'b', 17px);
     color: #265FFC;
   }
 

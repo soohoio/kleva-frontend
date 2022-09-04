@@ -11,7 +11,7 @@
 }
 
 .SUWController__title {
-  @include font-style('font-1', 'sb', 22px);
+  @include font-style('font-1', 'b', 22px);
   line-height: 30px;
   color: #222222;
 }
@@ -29,6 +29,7 @@
   display: flex;
   align-content: center;
   margin-bottom: 10px;
+  line-height: 18px;
 }
 
 .SUWController__availableLabel {

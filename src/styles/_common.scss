@@ -79,7 +79,8 @@ $CONTENT_WIDTH: 980px;
 }
 
 @mixin disabled-button {
-  background-color: #e9ebf0;
+  // background-color: #e9ebf0;
+  background-color: #e1e4eb;
   color: #ffffff;
   cursor: not-allowed;
 }

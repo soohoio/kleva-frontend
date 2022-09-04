@@ -107,13 +107,21 @@ export default class {
         component: (
           <CompletedModal menus={[
             {
-              title: I18n.t('confirm'),
+              title: I18n.t('viewInMyAsset'),
+              onClick: () => {
+                closeModal$.next(true)
+                currentTab$.next('myasset')
+              }
+            },
+            {
+              title: I18n.t('checkLater'),
               onClick: () => {
                 closeModal$.next(true)
               }
             },
           ]}>
-            <p className="CompletedModal__title">{I18n.t('myasset.suwController.stakingCompleted')}</p>
+            <p className="CompletedModal__title">{I18n.t('lendstake.controller.stakeCompleted.title')}</p>
+            <p className="CompletedModal__description">{I18n.t('lendstake.controller.stakeCompleted.description')}</p>
           </CompletedModal>
         )
       })

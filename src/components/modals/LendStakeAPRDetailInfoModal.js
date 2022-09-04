@@ -44,7 +44,7 @@ class LendStakeAPRDetailInfoModal extends Component {
     return (
       <Modal className="LendStakeAPRDetailInfoModal" title={title}>
         <LabelAndValue label={I18n.t('lendingAPRFull')} value={`${nFormatter(lendingAPR, 2)}%`} />
-        <LabelAndValue label={I18n.t('stakingAPRFull')} value={`${nFormatter(stakingAPR, 2)}%`} />
+        <LabelAndValue label={I18n.t('stakingAPRFull')} value={`+${nFormatter(stakingAPR, 2)}%`} />
         {!!protocolAPR && <LabelAndValue label={I18n.t('protocolAPRFull')} value={`${nFormatter(protocolAPR, 2)}%`} />}
         <hr />
         <LabelAndValue className="LendStakeAPRDetailInfoModal__apr" label={I18n.t('apr')} value={`${nFormatter(apr, 2)}%`} />
