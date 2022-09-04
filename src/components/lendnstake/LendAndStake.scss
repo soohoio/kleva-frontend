@@ -17,6 +17,7 @@
   @include font-style('font-1', 'm', 15px);
   color: #616674;
   margin-bottom: 12px;
+  line-height: 22px;
 }
 
 .LendAndStake__introMisc {
@@ -25,15 +26,17 @@
 
   display: flex;
   align-items: center;
+  line-height: 19px;
 
   &::before {
     content: "";
     display: inline-block;
     background-image: url(/static/images/exported/play-blue.svg);
-    width: 17px;
-    height: 17px;
+    
     background-size: 100%;
-    margin-right: 4px;
+    width: 19px;
+    height: 19px;
+    margin-right: 5px;
   }
 }
 

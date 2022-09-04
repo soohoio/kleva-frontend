@@ -109,6 +109,7 @@
   border-top: 1px solid rgba(#e6e9f2, .8);
   padding-top: 26px;
   margin-bottom: 24px !important;
+  line-height: 19px;
 
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 17px);

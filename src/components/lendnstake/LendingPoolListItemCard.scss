@@ -1,13 +1,15 @@
 .LendingPoolListItemCard {
   background-color: #fff;
   padding: 0;
-  padding-bottom: 32px;
   padding-top: 28px;
   position: relative;
-  border-bottom: 1px solid #E6E9F2;
   
   &:first-of-type {
     padding-top: 0;
+  }
+
+  &:last-of-type {
+    border-bottom: 0;
   }
 }
 
@@ -18,8 +20,10 @@
 }
 
 .LendingPoolListItemCard__content {
-  padding-top: 15px;
-  padding-left: 44px;
+  padding-top: 10px;
+  margin-left: 44px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #F0F2F7;
 }
 
 .LendingPoolListItemCard__apy {
@@ -27,6 +31,7 @@
   display: flex;
   align-items: center;
   color: #265FFC;
+  line-height: 19px;
 }
 
 .LendingPoolListItemCard__contentWrapper {
@@ -35,6 +40,7 @@
 
 .LendingPoolListItemCard__lv {
   margin-bottom: 10px;
+  line-height: 19px;
   
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
@@ -81,20 +87,23 @@
 
 .LendingPoolListItemCard__depositButton {
   flex: 1;
-  @include button-1(42px);
-  @include font-style('font-1', 'sb', 14px);
+  @include button-1(43px);
+  @include font-style('font-1', 'b', 15px);
   width: 100%;
+  line-height: 19px;
 
   &--disabled {
     @include disabled-button;
+    background-color: #E1E4EB !important;
   }
 }
 
 .LendingPoolListItemCard__simulationButton {
   flex: 1.8;
-  @include button-1(42px);
-  @include font-style('font-1', 'sb', 14px);
+  @include button-1(43px);
+  @include font-style('font-1', 'b', 15px);
   width: 100%;
+  line-height: 19px;
   background-color: #EDF2FA;
   color: #3C6BFA;
   margin-right: 7px;

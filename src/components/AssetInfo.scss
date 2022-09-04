@@ -4,17 +4,12 @@
 }
 
 .AssetInfo__icon {
-  width: 32px;
-  height: 32px;
-  background-color: #F2F4FA;
-
-  @include desktop {
-    width: 32px;
-    height: 32px;
-  }
+  width: 31px;
+  height: 31px;
 
   border-radius: 50%;
-  margin-right: 12px;
+  margin-right: 14px;
+  margin-left: -1px;
 }
 
 .AssetInfo__info {
@@ -25,6 +20,7 @@
 .AssetInfo__title {
   @include font-style('font-1', 'b', 18px);
   color: #131414;
+  line-height: 19px;
 
   @include desktop {
     @include font-style('font-1', 'b', 17px);
