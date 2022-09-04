@@ -119,7 +119,7 @@ class FarmItem extends Component {
           />
         </div>
         <div className="FarmItem__tvlItem">
-          ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value)}
+          ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value, true)}
         </div>
         <div className="FarmItem__leverageItem">
           <LeverageController

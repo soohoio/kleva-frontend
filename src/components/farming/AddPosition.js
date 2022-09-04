@@ -355,16 +355,16 @@ class AddPosition extends Component {
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
       </>
     )
   }
@@ -518,15 +518,15 @@ class AddPosition extends Component {
               )}
               value={(
                 <>
-                  <p>{noRounding(this.bloc.farmingTokenAmount$.value, 4)} {farmingToken.title}</p>
-                  <p>{noRounding(this.bloc.baseTokenAmount$.value, 4)} {baseToken.title}</p>
+                  <p>{nFormatter(this.bloc.farmingTokenAmount$.value, 4)} {farmingToken.title}</p>
+                  <p>{nFormatter(this.bloc.baseTokenAmount$.value, 4)} {baseToken.title}</p>
                 </>
               )}
             />
             <LabelAndValue
               className="AddPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${noRounding(borrowingAmount, 4)} ${baseToken.title}`}
+              value={`${nFormatter(borrowingAmount, 4)} ${baseToken.title}`}
             />
             <LabelAndValue
               className="AddPosition__totalDeposit"

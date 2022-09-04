@@ -414,16 +414,16 @@ renderTotalValue = ({
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{noRounding(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{noRounding(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
       </>
     )
   }
@@ -597,7 +597,7 @@ renderTotalValue = ({
                   <LabelAndValue
                     className="AdjustPosition__borrowingAsset" 
                     label={I18n.t('farming.adjustPosition.borrowingAsset')} 
-                    value={`${noRounding(debtDelta, 4)} ${baseToken.title}`}
+                    value={`${nFormatter(debtDelta, 4)} ${baseToken.title}`}
                   />
                   <LabelAndValue 
                     className="AdjustPosition__debtRatio"
@@ -638,15 +638,15 @@ renderTotalValue = ({
               )}
               value={(
                 <>
-                  <p>{noRounding(equityFarmingAmount, 4)} {farmingToken.title}</p>
-                  <p>{noRounding(equityBaseAmount, 4)} {baseToken.title}</p>
+                  <p>{nFormatter(equityFarmingAmount, 4)} {farmingToken.title}</p>
+                  <p>{nFormatter(equityBaseAmount, 4)} {baseToken.title}</p>
                 </>
               )}
             />
             <LabelAndValue
               className="AdjustPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${noRounding(resultDebtAmount, 4)} ${baseToken.title}`}
+              value={`${nFormatter(resultDebtAmount, 4)} ${baseToken.title}`}
             />
             <LabelAndValue
               className="AdjustPosition__totalDeposit"

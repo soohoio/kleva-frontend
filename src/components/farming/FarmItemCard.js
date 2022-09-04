@@ -135,7 +135,7 @@ class FarmItemCard extends Component {
                 }}
               />
             </p>
-            <p className="FarmItemCard__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value)}</p>
+            <p className="FarmItemCard__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value, true)}</p>
           </div>
         </div>
         <div className="FarmItemCard__footer">

@@ -1,3 +1,5 @@
+import { currentLocale$ } from 'streams/i18n'
+
 export const addressKeyFind = (item, address) => {
   return item?.[address] || item?.[address.toLowerCase()]
 }
@@ -97,7 +99,37 @@ export const coupleArray = ({
 
 const LESS_THAN_1_DECIMAL_MAX_DIGITS = 2
 
-export const nFormatter = (num, digits, locale) => {
+function numberToKorean(number, lastOnly) {
+  var inputNumber = number < 0 ? false : number;
+  var unitWords = ['', '만 ', '억 ', '조 ', '경 '];
+  var splitUnit = 10000;
+  var splitCount = unitWords.length;
+  var resultArray = [];
+  var resultString = '';
+
+  for (var i = 0; i < splitCount; i++) {
+    var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
+    unitResult = Math.floor(unitResult);
+    if (unitResult > 0) {
+      resultArray[i] = unitResult;
+    }
+  }
+
+  if (lastOnly) {
+    return resultArray[resultArray.length - 1] + unitWords[resultArray.length - 1]
+  }
+
+  for (var i = 0; i < resultArray.length; i++) {
+    if (!resultArray[i]) continue;
+    resultString = String(resultArray[i]) + unitWords[i] + resultString;
+  }
+
+  return resultString;
+}
+
+export const nFormatter = (num, digits, locale, lastOnly) => {
+
+  locale = locale || currentLocale$.value
 
   if (num == '-') {
     return '-'
@@ -111,12 +143,11 @@ export const nFormatter = (num, digits, locale) => {
     return 0
   }
 
-  const lookup = locale == 'ko'
-    ? [
-        { value: 1e4, symbol: "만" },
-        { value: 1e8, symbol: "억" },
-    ] 
-    : [
+  if (locale === 'ko') {
+    return numberToKorean(num, lastOnly)
+  }
+
+  const lookup = [
         { value: 1e6, symbol: "M" },
         { value: 1e9, symbol: "B" },
         { value: 1e12, symbol: "T" },
