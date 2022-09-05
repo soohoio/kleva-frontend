@@ -188,8 +188,15 @@ function numberWithCommas(x) {
 
 export const noRounding = (num, digits) => {
   if (String(num).indexOf('e-') !== -1) {
-    return num
+
+    if (num >= 1e-6) {
+      return num
+    }
+
+    return 0
   }
+
+  
 
   const splitted = String(num).split('.')
 

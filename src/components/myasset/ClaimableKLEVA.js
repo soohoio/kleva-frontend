@@ -9,7 +9,7 @@ import './ClaimableKLEVA.scss'
 import { pendingGT$ } from '../../streams/wallet'
 import { tokenList } from '../../constants/tokens'
 import { tokenPrices$ } from '../../streams/tokenPrice'
-import { nFormatter } from '../../utils/misc'
+import { nFormatter, noRounding } from '../../utils/misc'
 import { openModal$ } from '../../streams/ui'
 import EarnedPopup from './EarnedPopup'
 
@@ -49,7 +49,9 @@ class ClaimableKLEVA extends Component {
 
     const { pendingReward, inUSD } = this.getPendingAggregation()
 
-    const isDisabled = pendingReward < 0.01
+    const rewardParsed = new BigNumber(pendingReward).div(10 ** tokenList.KLEVA.decimals).toNumber()
+
+    const isDisabled = rewardParsed < 0.0001
 
     return (
       <div 
@@ -60,8 +62,8 @@ class ClaimableKLEVA extends Component {
         <div className="ClaimableKLEVA__left">
           <p className="ClaimableKLEVA__title">{I18n.t('myasset.claimableKLEVA')}</p>
           <p className="ClaimableKLEVA__pendingReward">
-            <span className="ClaimableKLEVA__pendingRewardValue">{nFormatter(new BigNumber(pendingReward).div(10 ** tokenList.KLEVA.decimals).toNumber(), 2)}</span>
-            <span className="ClaimableKLEVA__pendingRewardInUSD">${nFormatter(inUSD, 2)}</span>
+            <span className="ClaimableKLEVA__pendingRewardValue">{noRounding(rewardParsed, 4)}</span>
+            <span className="ClaimableKLEVA__pendingRewardInUSD">${noRounding(inUSD, 2)}</span>
           </p>
         </div>
         <span 
