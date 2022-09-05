@@ -145,10 +145,11 @@
 
 .AddPosition__footer {
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
   @include desktop {
     margin-top: 40px;
     padding-top: 30px;
-    display: flex;
     justify-content: center;
   }
 }
@@ -172,12 +173,14 @@
   color: #777D8F;
   margin-bottom: 20px;
   line-height: 22px;
+  text-align: center;
 }
 
 .AddPosition__minDebtSize {
   @include font-style('font-1', 'b', 14px);
   color: #F73D3D;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .AddPosition__wklayConvertLabel {

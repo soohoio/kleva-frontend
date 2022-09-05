@@ -293,9 +293,9 @@ class LendAndStakeControllerPopup extends Component {
         </p>
 
         <div className="LendAndStakeControllerPopup__aprDetail">
-          <LabelAndValue label={I18n.t('lendingAPRFull')} value={`${nFormatter(lendingAPR, 2)}%`} />
-          <LabelAndValue className="LendAndStakeControllerPopup__stakingAPR" label={I18n.t('stakingAPRFull')} value={`+${nFormatter(stakingAPR, 2)}%`} />
-          {!!protocolAPR && <LabelAndValue label={I18n.t('protocolAPRFull')} value={`${nFormatter(protocolAPR, 2)}%`} />}
+          <LabelAndValue label={I18n.t('lendingAPRFull')} value={`${noRounding(lendingAPR, 2)}%`} />
+          <LabelAndValue className="LendAndStakeControllerPopup__stakingAPR" label={I18n.t('stakingAPRFull')} value={`${noRounding(stakingAPR, 2)}%`} />
+          {!!protocolAPR && <LabelAndValue label={I18n.t('protocolAPRFull')} value={`${noRounding(protocolAPR, 2)}%`} />}
         </div>
         
 
@@ -474,9 +474,9 @@ class LendAndStakeControllerPopup extends Component {
         </p>
 
         <div className="LendAndStakeControllerPopup__aprDetail">
-          <LabelAndValue label={I18n.t('lendingAPRFull')} value={`${nFormatter(lendingAPR, 2)}%`} />
-          <LabelAndValue className="LendAndStakeControllerPopup__stakingAPR" label={I18n.t('stakingAPRFull')} value={`+${nFormatter(stakingAPR, 2)}%`} />
-          {!!protocolAPR && <LabelAndValue label={I18n.t('protocolAPRFull')} value={`${nFormatter(protocolAPR, 2)}%`} />}
+          <LabelAndValue label={I18n.t('lendingAPRFull')} value={`${noRounding(lendingAPR, 2)}%`} />
+          <LabelAndValue className="LendAndStakeControllerPopup__stakingAPR" label={I18n.t('stakingAPRFull')} value={`${noRounding(stakingAPR, 2)}%`} />
+          {!!protocolAPR && <LabelAndValue label={I18n.t('protocolAPRFull')} value={`${noRounding(protocolAPR, 2)}%`} />}
         </div>
 
 

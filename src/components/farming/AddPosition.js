@@ -211,45 +211,52 @@ class AddPosition extends Component {
         {(!isFarmingTokenApproved || !isBaseTokenApproved) && (
           <p className="AddPosition__needApprove">{I18n.t('needApprove')}</p>
         )}
-        {!isFarmingTokenApproved && (
-          <button
-            onClick={() => this.bloc.approve(farmingToken, this.bloc.worker$.value.vaultAddress)}
-            className="AddPosition__button"
-          >
-            {this.bloc.isLoading$.value 
-              ? "..."
-              : I18n.t('approveToken', { token: isKLAY(farmingToken.address) 
-                  ? 'WKLAY'
-                  : farmingToken.title })
-            }
+        <div className="AddPosition__buttons">
+          <button onClick={() => closeContentView$.next(true)} className="AddPosition__cancelButton">
+            {I18n.t('cancel')}
           </button>
-        )}
-        {!isBaseTokenApproved && (
-          <button
-            onClick={() => this.bloc.approve(baseToken, this.bloc.worker$.value.vaultAddress)}
-            className="AddPosition__button"
-          >
-            {this.bloc.isLoading$.value
-              ? "..."
-              : I18n.t('approveToken', { token: baseToken.title })
-            }
-          </button>
-        )}
-        {isBaseTokenApproved && isFarmingTokenApproved && (
-          <button
-            onClick={() => {
-              this.bloc.addPosition()
-            }}
-            className={cx("AddPosition__button", {
-              "AddPosition__button--disabled": isDisabled,
-            })}
-          >
-            {this.bloc.isLoading$.value 
-              ? "..."
-              : I18n.t('farming')
-            }
-          </button>
-        )}
+          {!isFarmingTokenApproved && (
+            <button
+              onClick={() => this.bloc.approve(farmingToken, this.bloc.worker$.value.vaultAddress)}
+              className="AddPosition__button"
+            >
+              {this.bloc.isLoading$.value
+                ? "..."
+                : I18n.t('approveToken', {
+                  token: isKLAY(farmingToken.address)
+                    ? 'WKLAY'
+                    : farmingToken.title
+                })
+              }
+            </button>
+          )}
+          {!isBaseTokenApproved && (
+            <button
+              onClick={() => this.bloc.approve(baseToken, this.bloc.worker$.value.vaultAddress)}
+              className="AddPosition__button"
+            >
+              {this.bloc.isLoading$.value
+                ? "..."
+                : I18n.t('approveToken', { token: baseToken.title })
+              }
+            </button>
+          )}
+          {isBaseTokenApproved && isFarmingTokenApproved && (
+            <button
+              onClick={() => {
+                this.bloc.addPosition()
+              }}
+              className={cx("AddPosition__button", {
+                "AddPosition__button--disabled": isDisabled,
+              })}
+            >
+              {this.bloc.isLoading$.value
+                ? "..."
+                : I18n.t('farming')
+              }
+            </button>
+          )}
+        </div>
       </>
     )
   }
@@ -549,13 +556,7 @@ class AddPosition extends Component {
           </div>
         </div>
         <div className="AddPosition__footer">
-          <div className="AddPosition__buttons">
-            <button onClick={() => closeContentView$.next(true)} className="AddPosition__cancelButton">
-              {I18n.t('cancel')}
-            </button>
-            {this.renderButtons()}
-          </div>
-          
+          {this.renderButtons()}
         </div>
       </div>
     )

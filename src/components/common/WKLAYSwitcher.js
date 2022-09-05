@@ -62,7 +62,6 @@ class WKLAYSwitcher extends Component {
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
-            placeholder={I18n.t('writeAmount')}
             noPercentage={!column}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}

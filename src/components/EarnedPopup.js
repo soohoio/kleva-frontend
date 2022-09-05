@@ -53,8 +53,6 @@ class EarnedPopup extends Component {
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash)),
     ).subscribe((result) => {
 
-      console.log(result, '@result')
-
       const logs = result.logs.filter(({ address }) => isSameAddress(address, tokenList.KLEVA.address))
       
       const logFiltered = logs.filter(({ data }) => {

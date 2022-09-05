@@ -49,7 +49,7 @@ class ClaimableKLEVA extends Component {
 
     const { pendingReward, inUSD } = this.getPendingAggregation()
 
-    const isDisabled = pendingReward == 0
+    const isDisabled = pendingReward < 0.01
 
     return (
       <div 

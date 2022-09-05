@@ -210,7 +210,7 @@ class SUWController extends Component {
     if (!isApproved) {
       return (
         <>
-          <p className="SUWController__title">{I18n.t('myasset.suwController.staking.title')}</p>
+          <p className="SUWController__title">{I18n.t('myasset.suwController.stakingApprove.title')}</p>
           <p className="SUWController__description">{I18n.t('needApprove')}</p>
           {this.renderButton()}
         </>

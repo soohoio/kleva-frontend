@@ -79,7 +79,7 @@ class LendingPoolListItemCard extends Component {
             ibTokenPrice={ibTokenPrice}
           />
           <span className="LendingPoolListItemCard__apy">
-            {nFormatter(totalAPY, 2)}%
+            {noRounding(totalAPY, 2)}%
             <QuestionMark 
               info
               color="#265FFC" 

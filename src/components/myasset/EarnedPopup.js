@@ -116,7 +116,8 @@ class EarnedPopup extends Component {
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
 
-            return earnedAmount != 0
+            // return earnedAmount != 0
+            return earnedAmount >= 0.001
           })
           .map(({ title, pid }) => {
           const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
@@ -141,7 +142,8 @@ class EarnedPopup extends Component {
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
             
-            return earnedAmount != 0
+            // return earnedAmount != 0
+            return earnedAmount >= 0.001
           })
           .map(({ title, stakingToken, pid }) => {
             const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)

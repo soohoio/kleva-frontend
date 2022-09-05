@@ -99,7 +99,7 @@ class Withus extends Component {
               imgSrc="/static/images/exported/withus-scvsoft.svg"
             />
             <WithusItem
-              href="https://www.sooho.io/"
+              href="https://audit.sooho.io/"
               imgSrc="/static/images/exported/withus-sooho.svg"
             />
           </div>

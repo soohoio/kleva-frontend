@@ -74,12 +74,12 @@ class LendingPoolListItem extends Component {
           <LabelAndValue
             className="LendingPoolListItem__apy"
             label=""
-            value={`${nFormatter(totalAPY, 2)}%`}
+            value={`${noRounding(totalAPY, 2)}%`}
           />
           <LabelAndValue 
             className="LendingPoolListItem__apr"
             label="" 
-            value={`${nFormatter(totalAPR, 2)}%`} 
+            value={`${noRounding(totalAPR, 2)}%`} 
           />
         </div>
         <div className="LendingPoolListItem__aprDetail">
@@ -91,11 +91,11 @@ class LendingPoolListItem extends Component {
           )}
           <LabelAndValue
             label={I18n.t('lendingAPR')}
-            value={`${nFormatter(lendingAPR, 2)}%`}
+            value={`${noRounding(lendingAPR, 2)}%`}
           />
           <LabelAndValue
             label={I18n.t('stakingAPR')}
-            value={`${nFormatter(stakingAPR, 2)}%`}
+            value={`${noRounding(stakingAPR, 2)}%`}
           />
         </div>
         

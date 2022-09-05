@@ -235,10 +235,13 @@
   color: #777D8F;
   margin-bottom: 20px;
   line-height: 22px;
+  text-align: center;
 }
 
 .AdjustPosition__minDebtSize {
   @include font-style('font-1', 'b', 14px);
   color: #F73D3D;
   margin-bottom: 20px;
+  text-align: center;
+
 }
