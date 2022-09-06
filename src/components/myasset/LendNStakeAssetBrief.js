@@ -33,7 +33,7 @@ class LendNStakeAssetBrief extends Component {
       <div className="LendNStakeAssetBrief">
         <p className="LendNStakeAssetBrief__total">${nFormatter(totalInUSD, 2)}</p>
         <div className="LendNStakeAssetBrief__gauge">
-          {ibTokenBalances.map(({ title, balanceTotalInUSD }) => {
+          {ibTokenBalances.map(({ title, balanceTotalInUSD }, idx) => {
 
             const percentage = new BigNumber(balanceTotalInUSD).div(totalInUSD).multipliedBy(100).toNumber()
             
@@ -41,14 +41,14 @@ class LendNStakeAssetBrief extends Component {
               <div 
                 style={{ flex: `${Math.max(percentage, 1)}` }}
                 className={cx("LendNStakeAssetBrief__gaugeItem", {
-                  [`LendNStakeAssetBrief__gaugeItem--${title}`]: true, 
+                  [`LendNStakeAssetBrief__gaugeItem--${(idx + 1) % 11}`]: true,
                 })}
               />
             )
           })}
         </div>
         <div className="LendNStakeAssetBrief__gaugeLabels">
-          {ibTokenBalances.map(({ title, balanceTotalInUSD }) => {
+          {ibTokenBalances.map(({ title, balanceTotalInUSD }, idx) => {
             const percentage = new BigNumber(balanceTotalInUSD)
               .div(totalInUSD)
               .multipliedBy(100)
@@ -57,7 +57,7 @@ class LendNStakeAssetBrief extends Component {
             return (
               <span 
                 className={cx("LendNStakeAssetBrief__gaugeLabel", {
-                  [`LendNStakeAssetBrief__gaugeLabel--${title}`]: true,
+                  [`LendNStakeAssetBrief__gaugeLabel--${(idx + 1) % 11}`]: true,
                 })}
               >
                 {title} <span className="LendNStakeAssetBrief__percentage">{percentage.toFixed(1)}%</span>

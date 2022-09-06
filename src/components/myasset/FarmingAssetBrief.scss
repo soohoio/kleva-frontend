@@ -21,50 +21,35 @@
 
 .FarmingAssetBrief__gaugeItem {
 
-  &--KLAY\+oUSDT {
-    background-color: #44CF84;
+  &--1 {
+    background-color: #5985FF;
   }
-  &--KLAY\+KSP {
-    background-color: #F9784F;
+  &--2 {
+    background-color: #43E0B1;
   }
-  &--KLAY\+oETH {
-    background-color: red;
+  &--3 {
+    background-color: #FFAA00;
   }
-  &--KLAY\+oXRP {
-    background-color: blue;
+  &--4 {
+    background-color: #C458FB;
   }
-  &--KLAY\+WEMIX {
-    background-color: yellow;
+  &--5 {
+    background-color: #3BD100;
   }
-  &--oUSDT\+oUSDC {
-    background-color: green;
+  &--6 {
+    background-color: #FF6827;
   }
-  &--oUSDT\+KDAI {
-    background-color: gray;
+  &--7 {
+    background-color: #8BBFF2;
   }
-  &--oETH\+oUSDT {
-    background-color: #44CF84;
+  &--8 {
+    background-color: #009A88;
   }
-  &--oUSDT\+WEMIX {
-    background-color: #F9784F;
+  &--9 {
+    background-color: #FF74B7;
   }
-  &--KLAY\+BORA {
-    background-color: red;
-  }
-  &--oETH\+oXRP {
-    background-color: blue;
-  }
-  &--oXRP\+KDAI {
-    background-color: yellow;
-  }
-  &--KLAY\+KLEVA {
-    background-color: green;
-  }
-  &--oUSDT\+oUSDC {
-    background-color: gray;
-  }
-  &--KLAY\+oUSDC {
-    background-color: #44CF84;
+  &--10 {
+    background-color: #FFC979;
   }
 
 
@@ -97,156 +82,96 @@
   &:last-of-type {
     margin-right: 0;
   }
-
   
-  &--KLAY\+oUSDT::before {
+  &--1::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: #44CF84;
+    background-color: #5985FF;
   }
-  
-  &--KLAY\+KSP::before {
+  &--2::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: #F9784F;
+    background-color: #43E0B1;
   }
-  
-  &--KLAY\+oETH::before {
+  &--3::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: red;
+    background-color: #FFAA00;
   }
-  
-  &--KLAY\+oXRP::before {
+  &--4::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: blue;
+    background-color: #C458FB;
   }
-  
-  &--KLAY\+WEMIX::before {
+  &--5::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: yellow;
+    background-color: #3BD100;
   }
-  
-  &--oUSDT\+oUSDC::before {
+  &--6::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: green;
+    background-color: #FF6827;
   }
-  
-  &--oUSDT\+KDAI::before {
+  &--7::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: gray;
+    background-color: #8BBFF2;
   }
-  
-  &--oETH\+oUSDT::before {
+  &--8::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: #44CF84;
+    background-color: #009A88;
   }
-  
-  &--oUSDT\+WEMIX::before {
+  &--9::before{
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: #F9784F;
+    background-color: #FF74B7;
   }
-  
-  &--KLAY\+BORA::before {
+  &--10::before {
     display: flex;
     content: "";
     width: 8px;
     height: 8px;
     margin-right: 5px;
     border-radius: 50%;
-    background-color: red;
-  }
-  
-  &--oETH\+oXRP::before {
-    display: flex;
-    content: "";
-    width: 8px;
-    height: 8px;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: blue;
-  }
-  
-  &--oXRP\+KDAI::before {
-    display: flex;
-    content: "";
-    width: 8px;
-    height: 8px;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: yellow;
-  }
-  
-  &--KLAY\+KLEVA::before {
-    display: flex;
-    content: "";
-    width: 8px;
-    height: 8px;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: green;
-  }
-  
-  &--oUSDT\+oUSDC::before {
-    display: flex;
-    content: "";
-    width: 8px;
-    height: 8px;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: gray;
-  }
-  
-  &--KLAY\+oUSDC::before {
-    display: flex;
-    content: "";
-    width: 8px;
-    height: 8px;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: #44CF84;
+    background-color: #FFC979;
   }
 }
 

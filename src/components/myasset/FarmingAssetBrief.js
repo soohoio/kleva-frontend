@@ -33,7 +33,7 @@ class FarmingAssetBrief extends Component {
       <div className="FarmingAssetBrief">
         <p className="FarmingAssetBrief__total">${nFormatter(totalInUSD, 2)}</p>
         <div className="FarmingAssetBrief__gauge">
-          {farmingPositionValues.map(({ title, balanceTotalInUSD }) => {
+          {farmingPositionValues.map(({ title, balanceTotalInUSD }, idx) => {
 
             const percentage = new BigNumber(balanceTotalInUSD).div(totalInUSD).multipliedBy(100).toNumber()
 
@@ -41,14 +41,14 @@ class FarmingAssetBrief extends Component {
               <div
                 style={{ flex: `${Math.max(percentage, 1)}` }}
                 className={cx("FarmingAssetBrief__gaugeItem", {
-                  [`FarmingAssetBrief__gaugeItem--${title}`]: true,
+                  [`FarmingAssetBrief__gaugeItem--${(idx + 1) % 11}`]: true,
                 })}
               />
             )
           })}
         </div>
         <div className="FarmingAssetBrief__gaugeLabels">
-          {farmingPositionValues.map(({ title, balanceTotalInUSD }) => {
+          {farmingPositionValues.map(({ title, balanceTotalInUSD }, idx) => {
             const percentage = new BigNumber(balanceTotalInUSD)
               .div(totalInUSD)
               .multipliedBy(100)
@@ -57,7 +57,7 @@ class FarmingAssetBrief extends Component {
             return (
               <span
                 className={cx("FarmingAssetBrief__gaugeLabel", {
-                  [`FarmingAssetBrief__gaugeLabel--${title}`]: true,
+                  [`FarmingAssetBrief__gaugeLabel--${(idx + 1) % 11}`]: true,
                 })}
               >
                 {title} <span className="FarmingAssetBrief__percentage">{percentage.toFixed(1)}%</span>
