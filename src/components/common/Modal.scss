@@ -13,7 +13,7 @@
   border-bottom-right-radius: 0;
 
   @include desktop {
-    padding: 40px 30px;
+    // padding: 40px 30px;
     height: auto;
     width: 395px;
     bottom: 50%;
@@ -22,6 +22,9 @@
 
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+
+    padding: 35px 30px 35px;
+    border-radius: 10px;
   }
 
   &--mobileCoverAll {
@@ -42,6 +45,7 @@
       padding-top: 40px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+      padding: 35px 10px 0;
     }
   }
 }
