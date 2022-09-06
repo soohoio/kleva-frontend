@@ -231,7 +231,7 @@ export const en = {
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
   'needApprove': '처음 예치하는 토큰은 사용 승인이 필요합니다. 승인 과정에서 수수료(0.02~0.03 KLAY)가 차감되니 지갑에 KLAY 잔고가 있는지 확인해 주세요. ',
-  'viewInMyAsset': '내 자산 탭에서 보기',
+  'viewInMyAsset': '내 자산에서 보기',
   'checkLater': '나중에 확인',
   'confirm': '확인',
   'stake': '스테이킹하기',
@@ -523,7 +523,7 @@ export const ko = {
   'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
 
   'needApprove': '처음 예치하는 토큰은 사용 승인이 필요합니다. 승인 과정에서 수수료(0.02~0.03 KLAY)가 차감되니 지갑에 KLAY 잔고가 있는지 확인해 주세요. ',
-  'viewInMyAsset': '내 자산 탭에서 보기',
+  'viewInMyAsset': '내 자산에서 보기',
   'checkLater': '나중에 확인',
   'confirm': '확인',
   'stake': '스테이킹하기',
