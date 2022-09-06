@@ -53,13 +53,15 @@ class SubMenu extends Component {
 
             if (!selectedAddress$.value) {
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: <ConnectWalletPopup />
               })
               return
             }
 
             openModal$.next({
-              component: <WKLAYSwitchModal />
+              component: <WKLAYSwitchModal />,
+              classNameAttach: 'Modal--mobileCoverAll'
             })
           }}
           className="SubMenu__item SubMenu__item--switch"

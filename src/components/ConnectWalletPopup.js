@@ -44,7 +44,7 @@ class ConnectWalletPopup extends Component {
 
     return (
       <Modal 
-        className="ConnectWalletPopup Modal--mobileCoverAll"
+        className="ConnectWalletPopup"
         title={I18n.t('connectWallet.title')}
       >
         <div className="ConnectWalletPopup__items">

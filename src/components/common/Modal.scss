@@ -48,6 +48,17 @@
       padding: 35px 10px 0;
     }
   }
+
+  &--animation-appear {
+    animation: modal-background-appear-transition 300ms, modal-popup-appear-transition 200ms;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+  }
+
+  &--animation-disappear {
+    animation: modal-background-disappear-transition 150ms, modal-popup-disappear-transition 150ms;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    animation-fill-mode: forwards;
+  }
 }
 
 .Modal__header {
@@ -83,4 +94,44 @@
   @include font-style('font-1', 'm', 16px);
   color: #636878;
   line-height: 24px;
+}
+
+@keyframes modal-background-appear-transition {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: .4;
+  }
+}
+
+@keyframes modal-popup-appear-transition {
+  0% {
+    bottom: -100%;
+  }
+
+  100% {
+    bottom: 0;
+  }
+}
+
+@keyframes modal-background-disappear-transition {
+  0% {
+    opacity: .4;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-popup-disappear-transition {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: -100%;
+  }
 }

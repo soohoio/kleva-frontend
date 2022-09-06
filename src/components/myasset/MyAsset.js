@@ -132,6 +132,7 @@ class MyAsset extends Component {
             buttonTitle={I18n.t('guide.connectWallet.buttonTitle')}
             onClick={() => {
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: <ConnectWalletPopup />
               })
             }}

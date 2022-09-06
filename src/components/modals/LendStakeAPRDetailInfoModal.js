@@ -59,6 +59,7 @@ class LendStakeAPRDetailInfoModal extends Component {
               if (!selectedAddress) return
 
               openModal$.next({
+                classNameAttach: 'Modal--mobileCoverAll',
                 component: (
                   <LendAndStakeControllerPopup
                     ibToken={ibToken}

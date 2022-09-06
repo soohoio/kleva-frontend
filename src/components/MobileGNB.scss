@@ -16,6 +16,17 @@
   z-index: 9999;
   border-top: solid 1px #EBEEF5;
 
+  &--animation-appear {
+    animation: sidebar-background-appear-transition 300ms, sidebar-appear-transition 200ms;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+  }
+
+  &--animation-disappear {
+    animation: sidebar-background-disappear-transition 150ms, sidebar-disappear-transition 150ms;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    animation-fill-mode: forwards;
+  }
+
   .Guide {
     align-items: flex-start;
     padding: 0;
@@ -89,4 +100,46 @@
   @include font-style('font-1', 'm', 15px);
   color: #919FC8;
   cursor: pointer;
+}
+
+
+
+@keyframes sidebar-background-appear-transition {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: .4;
+  }
+}
+
+@keyframes sidebar-appear-transition {
+  0% {
+    right: -100%;
+  }
+
+  100% {
+    right: 0;
+  }
+}
+
+@keyframes sidebar-background-disappear-transition {
+  0% {
+    opacity: .4;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sidebar-disappear-transition {
+  0% {
+    right: 0;
+  }
+
+  100% {
+    right: -100%;
+  }
 }

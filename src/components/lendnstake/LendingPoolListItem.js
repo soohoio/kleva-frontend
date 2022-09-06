@@ -136,6 +136,7 @@ class LendingPoolListItem extends Component {
               onClick={() => {
                 if (!lendingAPR || !stakingAPR) return
                 openModal$.next({
+                  classNameAttach: 'Modal--mobileCoverAll',
                   component: (
                     <ProfitSimulationPopup 
                       stakingToken={stakingToken}
@@ -164,6 +165,7 @@ class LendingPoolListItem extends Component {
                 }
 
                 openModal$.next({
+                  classNameAttach: 'Modal--mobileCoverAll',
                   component: (
                     <LendAndStakeControllerPopup
                       ibToken={ibToken}

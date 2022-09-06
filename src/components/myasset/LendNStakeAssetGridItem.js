@@ -118,6 +118,7 @@ class LendNStakeAssetGridItem extends Component {
             onClick={() => {
               if (!isStakingAvailable) return
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: (
                   <SUWController
                     stakingToken={stakingToken}
@@ -136,6 +137,7 @@ class LendNStakeAssetGridItem extends Component {
             onClick={() => {
               if (!isUnstakingAvailable) return
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: (
                   <SUWController
                     stakingToken={stakingToken}
@@ -156,6 +158,7 @@ class LendNStakeAssetGridItem extends Component {
             onClick={() => {
               if (!isWithdrawAvailable) return
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: (
                   <SUWController
                     stakingToken={stakingToken}

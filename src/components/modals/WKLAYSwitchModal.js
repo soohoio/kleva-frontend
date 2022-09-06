@@ -57,7 +57,7 @@ class WKLAYSwitchModal extends Component {
   render() {
     return (
       <Modal 
-        className="WKLAYSwitchModal Modal--mobileCoverAll"
+        className="WKLAYSwitchModal"
         title={I18n.t('wklaySwitch')}
       >
         <p className="WKLAYSwitchModal__description">{I18n.t('wklaySwitch.description')}</p>

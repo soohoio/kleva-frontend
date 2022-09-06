@@ -54,6 +54,7 @@ class Intro1 extends Component {
               }
 
               openModal$.next({
+                classNameAttach: "Modal--mobileCoverAll",
                 component: <ConnectWalletPopup />
               })
             }}

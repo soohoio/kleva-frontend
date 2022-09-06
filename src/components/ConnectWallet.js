@@ -45,6 +45,7 @@ class ConnectWallet extends Component {
           }
 
           openModal$.next({
+            classNameAttach: "Modal--mobileCoverAll",
             component: <ConnectWalletPopup />
           })
         }}

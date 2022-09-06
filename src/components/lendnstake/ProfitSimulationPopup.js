@@ -75,7 +75,7 @@ class ProfitSimulationPopup extends Component {
       .toNumber()
 
     return (
-      <Modal mobileCoverAll>
+      <Modal>
         <p className="ProfitSimulationPopup__title">{I18n.t('lendstake.profitsimulation.title')}</p>
 
         <div className="ProfitSimulationPopup__inputAndButton">

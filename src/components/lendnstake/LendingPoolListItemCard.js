@@ -160,6 +160,7 @@ class LendingPoolListItemCard extends Component {
                 }
 
                 openModal$.next({
+                  classNameAttach: 'Modal--mobileCoverAll',
                   component: (
                     <ProfitSimulationPopup
                       stakingToken={stakingToken}
@@ -188,6 +189,7 @@ class LendingPoolListItemCard extends Component {
                 }
 
                 openModal$.next({
+                  classNameAttach: 'Modal--mobileCoverAll',
                   component: (
                     <LendAndStakeControllerPopup
                       ibToken={ibToken}

@@ -1,5 +1,5 @@
-import { Subject, BehaviorSubject, fromEvent, interval, merge, timer } from 'rxjs'
-import { distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators'
+import { Subject, BehaviorSubject, fromEvent, interval, merge, timer, of } from 'rxjs'
+import { delay, distinctUntilChanged, startWith, switchMap, takeUntil } from 'rxjs/operators'
 import { v4 as uuidV4 } from 'uuid'
 import { currentTab$ } from './view'
 import { browserHistory } from 'react-router'
@@ -75,27 +75,53 @@ export const openModal$ = new Subject()
 
 export const closeModal$ = new Subject()
 
-openModal$.subscribe(({ component, backgroundColor, disableScreenClose }) => {
+export const classNameAttach$ = new BehaviorSubject()
 
+openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScreenClose }) => {
+  modalAnimation$.next(null)
+
+  classNameAttach$.next(classNameAttach)
   modalContentComponent$.next(component)
+
+  if (!isDesktop$.value) {
+    // mobile animation
+    if (classNameAttach !== "Modal--mobileCoverAll") {
+      modalAnimation$.next('appear')
+    }
+  }
   
   if (backgroundColor) {
     overlayBackgroundColor$.next(backgroundColor)
   }
-  
   if (disableScreenClose) {
     disableScreenClose$.next(true)
   }
 })
 
-closeModal$.subscribe(() => {
+closeModal$.pipe(
+  switchMap(() => {
+    if (!isDesktop$.value && (classNameAttach$.value !== "Modal--mobileCoverAll")) {
+      // mobile animation
+      modalAnimation$.next('disappear')
+      
+      return timer(200)
+    }
+
+    return of(true)
+  }),
+).subscribe(() => {
+  console.log('end')
   modalContentComponent$.next(null)
+  modalAnimation$.next(null)
+  classNameAttach$.next(null)
   overlayBackgroundColor$.next(null)
   disableScreenClose$.next(null)
   isQrCodeModal$.next(null)
   
   closeLayeredModal$.next(null)
 })
+
+export const modalAnimation$ = new BehaviorSubject()
 
 export const pushBanner$ = new Subject()
 export const removeBanner$ = new Subject()

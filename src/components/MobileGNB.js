@@ -8,7 +8,7 @@ import { path$ } from 'streams/location'
 import { closeModal$ } from 'streams/ui'
 
 import './MobileGNB.scss'
-import { openModal$ } from '../streams/ui'
+import { classNameAttach$, modalAnimation$, openModal$ } from '../streams/ui'
 
 import Guide from 'components/common/Guide'
 import ConnectWalletPopup from './ConnectWalletPopup'
@@ -23,6 +23,7 @@ class MobileGNB extends Component {
     merge(
       path$,
       walletProviderName$,
+      modalAnimation$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -33,11 +34,14 @@ class MobileGNB extends Component {
 
   componentWillUnmount() {
     this.destroy$.next(true)
- 45 }
+  }
 
   render() {
     return (
-      <div className="MobileGNB">
+      <div className={cx("MobileGNB", {
+        "MobileGNB--animation-appear": true,
+        [`MobileGNB--animation-${modalAnimation$.value}`]: true,
+      })}>
         <div className="MobileGNB__header">
           <img 
             onClick={() => closeModal$.next(true)} 
@@ -63,6 +67,7 @@ class MobileGNB extends Component {
               buttonTitle={I18n.t('connect')}
               onClick={() => {
                 openModal$.next({
+                  classNameAttach: "Modal--mobileCoverAll",
                   component: <ConnectWalletPopup />
                 })
               }}

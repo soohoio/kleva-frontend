@@ -4,7 +4,7 @@ import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
-import { closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, unfreezeModalScroll$ } from '../../streams/ui'
+import { classNameAttach$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'
 
 function preventDefault(e) {
   e.preventDefault()
@@ -36,6 +36,15 @@ class Modal extends Component {
       if (!this.$modalContent.current) return
       this.$modalContent.current.removeEventListener('touchmove', preventDefault, { passive: false })
     })
+
+    merge(
+      modalAnimation$,
+      classNameAttach$,
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
   }
 
   componentWillUnmount() {
@@ -46,8 +55,9 @@ class Modal extends Component {
     const { title, className, children, mobileCoverAll } = this.props
 
     return (
-      <div className={cx("Modal", className, {
+      <div className={cx("Modal", className, classNameAttach$.value, {
         "Modal--mobileCoverAll": mobileCoverAll,
+        [`Modal--animation-${modalAnimation$.value}`]: true,
       })}>
         {/* <div className={cx("Modal__header", {
           "Modal__header--noTitle": !title,
