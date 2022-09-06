@@ -548,38 +548,41 @@ renderTotalValue = ({
       <div className="AdjustPosition">
         <div className="AdjustPosition__content">
           <div className="AdjustPosition__left">
-            <ModalHeader
-              title={title}
-            />
-            <LabelAndValue
-              className="AdjustPosition__apy"
-              label={I18n.t('apy')}
-              value={(
-                <>
-                  {Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%
-                  <QuestionMark
-                    info
-                    color="#265FFC"
-                    onClick={() => {
-                      openModal$.next({
-                        component: (
-                          <FarmAPRDetailInfo2
-                            title={`${farmingToken.title}+${baseToken.title}`}
-                            selectedAddress={selectedAddress}
-                            yieldFarmingAPR={after_yieldFarmingAPR}
-                            klevaRewardAPR={after_klevaRewardsAPR}
-                            tradingFeeAPR={after_tradingFeeAPR}
-                            borrowingInterest={after_borrowingInterestAPR}
-                            apr={after_totalAPR}
-                            apy={apy}
-                          />
-                        )
-                      })
-                    }}
-                  />
-                </>
-              )}
-            />
+            <div className="AdjustPosition__floatingHeader">
+              <ModalHeader
+                title={title}
+              />
+              <LabelAndValue
+                className="AdjustPosition__apy"
+                label={I18n.t('apy')}
+                value={(
+                  <>
+                    {Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%
+                    <QuestionMark
+                      info
+                      color="#265FFC"
+                      onClick={() => {
+                        openModal$.next({
+                          component: (
+                            <FarmAPRDetailInfo2
+                              title={`${farmingToken.title}+${baseToken.title}`}
+                              selectedAddress={selectedAddress}
+                              yieldFarmingAPR={after_yieldFarmingAPR}
+                              klevaRewardAPR={after_klevaRewardsAPR}
+                              tradingFeeAPR={after_tradingFeeAPR}
+                              borrowingInterest={after_borrowingInterestAPR}
+                              apr={after_totalAPR}
+                              apy={apy}
+                            />
+                          )
+                        })
+                      }}
+                    />
+                  </>
+                )}
+              />
+            </div>
+            
 
             <Tabs
               className="AdjustPosition__tabs"

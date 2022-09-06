@@ -151,7 +151,7 @@ class MyAsset extends Component {
 
     if (ibTokenValueTotal == 0 && !hasPosition$.value) {
       return (
-        <>
+        <div className="MyAsset">
           <Guide
             className="MyAsset__participateGuide"
             title={I18n.t('guide.emptyManagedAsset.title')}
@@ -174,12 +174,12 @@ class MyAsset extends Component {
             hideIndexMap={{ 0: true }}
             sectionTitle={I18n.t('intro5.title')}
           />
-        </>
+        </div>
       )
     }
 
     return (
-      <>
+      <div className="MyAsset">
         {!contentView$.value && (
           <>
             <div className="MyAsset__header">
@@ -211,8 +211,7 @@ class MyAsset extends Component {
           )}
           {this.renderContent()}
         </div>
-      </>
-      
+      </div>
     )
   }
 }

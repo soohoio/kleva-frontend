@@ -26,10 +26,10 @@
   margin-top: 30px;
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 0;
 
   .ProfitSimulationPopup__depositInput {
-    width: 239px;
+    width: 100%;
     margin-right: 7px;
     margin-bottom: 0;
   }
@@ -51,6 +51,7 @@
 }
 
 .ProfitSimulationPopup__expectedProfit {
+  margin-top: 30px;
   margin-bottom: 20px;
 }
 
@@ -82,11 +83,13 @@
   .LabelAndValue__label { 
     @include font-style('font-1', 'm', 15px);
     color: #333333;
+    line-height: 19px;
   }
   
   .LabelAndValue__value { 
     @include font-style('font-1', 'm', 15px);
     color: #333333;
+    line-height: 19px;
   }
 }
 
@@ -105,7 +108,7 @@
   background-color: #EFF1F4;
   border-radius: 7px;
   height: 48px;
-  padding: 0 6px;
+  padding: 0 2px;
 }
 
 .ProfitSimulationPopup__tab {

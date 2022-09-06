@@ -1,7 +1,7 @@
 .LendingPoolListItemCard {
   background-color: #fff;
   padding: 0;
-  padding-top: 28px;
+  padding-top: 22px;
   position: relative;
   
   &:first-of-type {
@@ -10,6 +10,9 @@
 
   &:last-of-type {
     border-bottom: 0;
+    .LendingPoolListItemCard__content {
+      border-bottom: 0;
+    }
   }
 }
 
@@ -20,7 +23,7 @@
 }
 
 .LendingPoolListItemCard__content {
-  padding-top: 10px;
+  padding-top: 8px;
   margin-left: 44px;
   padding-bottom: 30px;
   border-bottom: 1px solid #F0F2F7;
@@ -105,7 +108,7 @@
   width: 100%;
   line-height: 19px;
   background-color: #EDF2FA;
-  color: #3C6BFA;
+  color: #265ffc;
   margin-right: 7px;
 
   &--disabled {

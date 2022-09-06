@@ -25,6 +25,10 @@
   &:nth-child(7n+6) { padding-right: 16px; }
   &:nth-child(7n) { padding-right: 0; }
 
+  &--last {
+    border-bottom: 0;
+  }
+
   .LabelAndValue {
     width: 100%;
     justify-content: center;
@@ -73,6 +77,10 @@
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #E6E7F2;
+
+  &--last {
+    border-bottom: 0;
+  }
 }
 
 .LendingDepositAndSimulation {

@@ -15,6 +15,7 @@ import Footer from '../components/Footer'
 import Dashboard from '../components/dashboard/Dashboard'
 import Withus from '../components/intro/Withus'
 import UseGuide from '../components/intro/UseGuide'
+import { isDesktop$ } from '../streams/ui'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -38,9 +39,7 @@ class MainPage extends Component {
   renderTab = () => {
 
     if (currentTab$.value == 'myasset') {
-      return (
-        <MyAsset />
-      )
+      return <MyAsset />
     }
 
     if (currentTab$.value == 'lendnstake') {

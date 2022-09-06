@@ -448,39 +448,42 @@ class AddPosition extends Component {
       <div className="AddPosition">
         <div className="AddPosition__content">
           <div className="AddPosition__left">
-            <AddPositionHeader
-              title={title}
-            />
-            <LabelAndValue
-              className="AddPosition__apy"
-              label={I18n.t('apy')}
-              value={(
-                <>
-                  {Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%
-                  <QuestionMark
-                      info
-                      color="#265FFC"
-                      onClick={() => {
-                        openModal$.next({
-                          component: (
-                            <FarmAPRDetailInfo2
-                              title={`${token1.title}+${token2.title}`}
-                              token1={token1}
-                              token2={token2}
-                              yieldFarmingAPR={after_yieldFarmingAPR}
-                              klevaRewardAPR={after_klevaRewardsAPR}
-                              tradingFeeAPR={after_tradingFeeAPR}
-                              borrowingInterest={after_borrowingInterestAPR}
-                              apr={after_totalAPR}
-                              apy={apy}
-                            />
-                          )
-                        })
-                      }}
-                    />
-                </>
-              )}
-            />
+            <div className="AddPosition__floatingHeader">
+              <AddPositionHeader
+                title={title}
+              />
+              <LabelAndValue
+                className="AddPosition__apy"
+                label={I18n.t('apy')}
+                value={(
+                  <>
+                    {Number(apy).toLocaleString('en-us', { maximumFractionDigits: 2 })}%
+                    <QuestionMark
+                        info
+                        color="#265FFC"
+                        onClick={() => {
+                          openModal$.next({
+                            component: (
+                              <FarmAPRDetailInfo2
+                                title={`${token1.title}+${token2.title}`}
+                                token1={token1}
+                                token2={token2}
+                                yieldFarmingAPR={after_yieldFarmingAPR}
+                                klevaRewardAPR={after_klevaRewardsAPR}
+                                tradingFeeAPR={after_tradingFeeAPR}
+                                borrowingInterest={after_borrowingInterestAPR}
+                                apr={after_totalAPR}
+                                apy={apy}
+                              />
+                            )
+                          })
+                        }}
+                      />
+                  </>
+                )}
+              />
+            </div>
+            
             {this.renderSupplyInput({ baseToken, farmingToken })}
             <LeverageInput
               offset={offset}

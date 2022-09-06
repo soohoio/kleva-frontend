@@ -75,6 +75,7 @@
     background-color: #ebf0ff;
 
     .Opener__itemTitle {
+      font-weight: 700;
       color: #265ffc !important;
     }
   }
@@ -107,8 +108,8 @@
 }
 
 .Opener__itemTitle {
-  @include font-style('font-1', 'b', 16px);
-  color: #797b80;
+  @include font-style('font-1', 'm', 16px);
+  color: #4C505C;
   width: 100%;
 }
 

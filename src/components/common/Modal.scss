@@ -1,8 +1,8 @@
 .Modal {
   position: fixed;
   z-index: 9999;
-  border-radius: 10px;
-  padding: 40px 30px;
+  border-radius: 16px;
+  padding: 35px 25px 25px;
   background-color: #fff;
 
   left: 0;
@@ -32,11 +32,11 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     max-height: unset;
-    padding: 50px 20px;
+    padding: 50px 0 0 0;
 
     .Modal__content {
       height: 100%;
-      padding: 0 20px 40px 20px;
+      padding: 0 20px 35px;
     }
 
     @include desktop {
@@ -68,8 +68,8 @@
 
 .Modal__close {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 18px;
+  right: 18px;
   
   width: 30px;
   height: 30px;

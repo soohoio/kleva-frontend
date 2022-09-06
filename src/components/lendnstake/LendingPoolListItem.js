@@ -45,6 +45,7 @@ class LendingPoolListItem extends Component {
       tvl,
       selectedAddress,
       wKLAYBalance,
+      isLastIdx,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -63,14 +64,18 @@ class LendingPoolListItem extends Component {
 
     return (
       <>
-        <div className="LendingPoolListItem">
+        <div className={cx("LendingPoolListItem", {
+          "LendingPoolListItem--last": isLastIdx
+        })}>
           <AssetInfo 
             iconSrc={stakingToken && stakingToken.iconSrc} 
             title={title}
             ibTokenPrice={ibTokenPrice}
           />
         </div>
-        <div className="LendingPoolListItem">
+        <div className={cx("LendingPoolListItem", {
+          "LendingPoolListItem--last": isLastIdx
+        })}>
           <LabelAndValue
             className="LendingPoolListItem__apy"
             label=""
@@ -82,7 +87,9 @@ class LendingPoolListItem extends Component {
             value={`${noRounding(totalAPR, 2)}%`} 
           />
         </div>
-        <div className="LendingPoolListItem__aprDetail">
+        <div className={cx("LendingPoolListItem__aprDetail", {
+          "LendingPoolListItem__aprDetail--last": isLastIdx,
+        })}>
           {protocolAPR != 0 && (
             <LabelAndValue
               label={I18n.t('protocolAPR')}
@@ -99,20 +106,28 @@ class LendingPoolListItem extends Component {
           />
         </div>
         
-        <div className="LendingPoolListItem LendingPoolListItem--totalSupply">
+        <div className={cx("LendingPoolListItem LendingPoolListItem--totalSupply", {
+          "LendingPoolListItem--last": isLastIdx
+        })}>
           <p className="LendingPoolListItem__tokenValue">{noRounding(totalSupply, 0)}</p>
           <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
         </div>
-        <div className="LendingPoolListItem LendingPoolListItem--utilizationRatio">
+        <div className={cx("LendingPoolListItem LendingPoolListItem--utilizationRatio", {
+          "LendingPoolListItem--last": isLastIdx,
+        })}>
           {nFormatter(utilization, 2)}%
         </div>
-        <div className="LendingPoolListItem">
+        <div className={cx("LendingPoolListItem", {
+          "LendingPoolListItem--last": isLastIdx
+        })}>
           <div className="LendingPoolListItem__tokenBalance">
             <p className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </p>
             <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
           </div>
         </div>
-        <div className="LendingPoolListItem">
+        <div className={cx("LendingPoolListItem", {
+          "LendingPoolListItem--last": isLastIdx
+        })}>
           <div className="LendingDepositAndSimulation">
             <div
               className={cx("LendingDepositAndSimulation__simulationButton", {

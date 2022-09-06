@@ -29,10 +29,12 @@
 }
 
 .AddPosition__left {
+  padding: 0 20px;
+  padding-top: 128px; // for floating header
   @include desktop {
     flex: 1;
+    padding-top: 0;
   }
-  padding: 0 20px;
 }
 
 .AddPosition__right {
@@ -45,9 +47,12 @@
 .AddPosition__apy {
   margin-top: 8px;
   align-items: center;
-  border-bottom: 1px solid #E6EAF2;
   padding-bottom: 20px;
-  margin-bottom: 36px;
+  margin-bottom: 26px;
+  
+  @include desktop {
+    border-bottom: 1px solid #E6EAF2;
+  }
 
   @include desktop {
     margin-top: 0;
@@ -60,6 +65,7 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 17px);
     color: #333333;
+    line-height: 24px;
   }
   
   .LabelAndValue__value {
@@ -67,6 +73,7 @@
     color: #265FFC;
     display: flex;
     align-items: center;
+    line-height: 24px;
   }
 }
 
@@ -215,5 +222,24 @@
       width: 130px;
       margin-right: 8px;
     }
+  }
+}
+
+.AddPosition__floatingHeader {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 112px;
+  padding: 0 20px;
+  background-color: white;
+
+  @include desktop {
+    position: static;
+    transform: unset;
+    height: auto;
+    width: auto;
+    padding: unset;
   }
 }

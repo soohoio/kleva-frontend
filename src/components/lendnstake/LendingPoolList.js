@@ -85,8 +85,8 @@ class LendingPoolList extends Component {
             <>
               <LendingPoolListTableHeader />
               <div className="LendingPoolList__tableContents">
-                {lendingPools.map(({ title, stakingToken, vaultAddress }) => {
-                  
+                {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
+
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   
                   const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply
@@ -136,6 +136,8 @@ class LendingPoolList extends Component {
                     // .multipliedBy(100)
                     .toNumber()
 
+                  const isLastIdx = idx == lendingPools.length - 1
+
                   return (
                     <LendingPoolListItem
                       selectedAddress={selectedAddress$.value}
@@ -155,6 +157,7 @@ class LendingPoolList extends Component {
                       ibTokenPrice={ibTokenPrice}
                       depositedTokenBalance={depositedTokenBalance}
                       tvl={tvl}
+                      isLastIdx={isLastIdx}
                     />
                   )
                 })}

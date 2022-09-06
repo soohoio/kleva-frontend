@@ -79,7 +79,7 @@ class SlippageSetting extends Component {
             })}
             onClick={() => slippage$.next(1)}
           >
-            1%
+            1.0%
           </div>
         </div>
         <p className="SlippageSetting__description">{I18n.t('slippageSetting.description')}</p>

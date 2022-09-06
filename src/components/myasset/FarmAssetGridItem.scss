@@ -5,6 +5,15 @@
   height: 128px;
   border-bottom: 1px solid #E6E7F2;
   // padding-bottom: 60px;
+
+  
+  &:last-of-type {
+    border-bottom: 0;
+  }
+  
+  &:first-of-type {
+    border-bottom: 1px solid #E6E7F2;
+  }
 }
 
 .FarmAssetGridItem__iconWrapper {
@@ -244,10 +253,9 @@
   position: relative;
   height: 4px;
   border-radius: 4px;
-  background-color: #E6EBF7;
 
   width: 141px;
-  background-color: #5985ff;
+  background-color: #e6ebf7;
 }
 
 .FarmAssetGridItem__gauge {
@@ -297,7 +305,7 @@
 
 .FarmAssetGridItem__debtRatio {
   @include font-style('font-1', 'b', 14px);
-  color: #333333;
+  color: #5985FF;
 
   &--yellow {
     color: #FA9A00 !important;
