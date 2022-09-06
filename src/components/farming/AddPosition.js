@@ -198,6 +198,7 @@ class AddPosition extends Component {
       || new BigNumber(this.bloc.farmingTokenAmount$.value || 0).gt(availableFarmingTokenAmount?.balanceParsed)
       || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
       || this.bloc.borrowMoreAvailable$.value == false
+      || !this.bloc.isDebtSizeValid$.value
 
     return (
       <>
@@ -244,6 +245,7 @@ class AddPosition extends Component {
           {isBaseTokenApproved && isFarmingTokenApproved && (
             <button
               onClick={() => {
+                if (isDisabled) return
                 this.bloc.addPosition()
               }}
               className={cx("AddPosition__button", {
