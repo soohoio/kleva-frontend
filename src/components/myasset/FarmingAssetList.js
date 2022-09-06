@@ -176,7 +176,9 @@ class FarmingAssetList extends Component {
 
     const killedList = sortedList
       .filter((positionInfo) => {
-        return positionInfo?.positionValue == 0 && !ignorePositionMap$.value[positionInfo?.killedTx]
+        return !!positionInfo?.killedTx
+          && positionInfo?.positionValue == 0 
+          && !ignorePositionMap$.value[positionInfo?.killedTx]
       })
 
     return (

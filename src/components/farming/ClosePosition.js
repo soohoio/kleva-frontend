@@ -798,8 +798,8 @@ class ClosePosition extends Component {
                 label={I18n.t('totalReceivedAsset')}
                 value={(
                   <>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value || 0).div(10 ** farmingToken.decimals).toNumber(), 4)} {farmingToken.title}</p>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value || 0).div(10 ** baseToken.decimals).toNumber(), 4)} {baseToken.title}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value || 0).div(10 ** farmingToken.decimals).toNumber(), 4)} {isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value || 0).div(10 ** baseToken.decimals).toNumber(), 4)} {isKLAY(baseToken.address) ? "WKLAY" : baseToken.title}</p>
                   </>
                 )}
               />
