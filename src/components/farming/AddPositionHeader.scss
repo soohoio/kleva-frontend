@@ -18,6 +18,8 @@
   line-height: 24px;
 
   @include desktop {
+    font-size: 24px;
+    padding-bottom: 22px;
     text-align: left;
   }
 }

@@ -77,12 +77,12 @@
 }
 
 .AdjustPosition__right {
+  padding: 0 20px;
   @include desktop {
     flex: 1;
     padding-right: 0;
     padding: 0;
   }
-  padding: 0 20px;
 }
 
 .AdjustPosition__apy {
