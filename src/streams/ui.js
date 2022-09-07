@@ -27,12 +27,12 @@ export const closeLayeredModal$ = new Subject()
 export const layeredModalContentComponent$ = new BehaviorSubject(null)
 
 // Content View (V2)
-export const contentView$ = new BehaviorSubject()
+export const contentView$ = new BehaviorSubject({})
 export const openContentView$ = new Subject()
 export const closeContentView$ = new Subject()
 
-openContentView$.subscribe(({ component }) => {
-  contentView$.next(component)
+openContentView$.subscribe(({ key, component }) => {
+  contentView$.next({ key, component })
 })
 
 closeContentView$.subscribe(() => {

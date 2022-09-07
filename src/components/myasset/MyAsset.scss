@@ -5,6 +5,10 @@
 
   }
 
+  &--contentless {
+
+  }
+
   @include desktop {
     width: $CONTENT_WIDTH;
     margin: 0 auto;
@@ -20,12 +24,12 @@
 }
 
 .MyAsset__header {
+  padding: 0 20px;
   @include desktop {
     width: $CONTENT_WIDTH;
     margin: 0 auto;
     padding: 0;
   }
-  padding: 0 20px;
 }
 
 .MyAsset__content {
@@ -74,7 +78,9 @@
 
     .Guide__button {
       width: auto;
-      height: 43px;
+      font-size: 20px;
+      height: 50px;
+      border-radius: 5px;
     }
   }
 }
@@ -114,9 +120,12 @@
 
     .Guide__button {
       width: auto;
-      height: 43px;
       flex: 1;
       margin-top: 20px;
+
+      font-size: 20px;
+      height: 50px;
+      border-radius: 5px;
     }
   }
 }

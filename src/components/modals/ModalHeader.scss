@@ -18,6 +18,7 @@
   width: 100%;
 
   @include desktop {
+    padding-bottom: 12px;
     text-align: left;
   }
 }

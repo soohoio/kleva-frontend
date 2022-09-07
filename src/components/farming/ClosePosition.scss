@@ -29,6 +29,7 @@
   .RadioSet2__label {
     @include font-style('font-1', 'b', 17px);
     color: #333333;
+    line-height: 22px;
   }
 }
 
@@ -88,7 +89,6 @@
 .ClosePosition__apy {
   margin-top: 8px;
   align-items: center;
-  // padding-bottom: 20px;
   margin-bottom: 34px;
   
   @include desktop {
@@ -166,6 +166,7 @@
   .BeforeAfter__after {
     @include font-style('font-1', 'b', 16px);
     color: #333333;
+    line-height: 20px;
   }
 }
 
@@ -186,6 +187,10 @@
 .ClosePosition__totalReceived {
   align-items: center;
   margin-bottom: 26px;
+
+  @include desktop {
+    margin-bottom: 0;
+  }
   
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
@@ -197,6 +202,12 @@
     text-align: right;
     color: #333333;
     line-height: 20px;
+  }
+
+  .LabelAndValue__value {
+    p {
+      line-height: 22px;
+    }
   }
 }
 
@@ -218,6 +229,8 @@
 .ClosePosition__totalDeposit {
   padding-top: 20px;
   margin-bottom: 15px;
+  align-items: center;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
     color: #222222;
@@ -233,11 +246,13 @@
 
 .ClosePosition__footer {
   padding: 0 20px;
+  margin-top: 25px;
+  
   @include desktop {
     margin-top: 40px;
     padding-top: 30px;
 
-    border-top: 1px solid rgba(#DADDE6, .8);
+    border-top: 1px solid #DADDE5;
   }
 }
 
@@ -271,9 +286,9 @@
 
 .ClosePosition__entireCloseHeader {
 
-   align-items: center;
-
+  
   .LabelAndValue {
+    align-items: center;
     margin-bottom: 15px;
   }
 
@@ -357,6 +372,7 @@
 
 .ClosePosition__equity {
   margin-bottom: 15px;
+  align-items: center;
   
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
@@ -385,8 +401,4 @@
     line-height: 20px;
     text-align: right;
   }
-}
-
-.ClosePosition__footer {
-  
 }

@@ -202,7 +202,6 @@ class FarmAssetGridItem extends Component {
             <span className="FarmAssetGridItem__debtValue">{nFormatter(debtValueParsed, 4)} {baseToken.title}</span>
             <span 
               className={cx("FarmAssetGridItem__debtRatio", {
-                "FarmAssetGridItem__debtRatio--yellow": debtRatio !== 0 && debtRatio > 40 && debtRatio < 70,
                 "FarmAssetGridItem__debtRatio--red": debtRatio !== 0 && debtRatio > 70,
               })}
             >
@@ -213,7 +212,6 @@ class FarmAssetGridItem extends Component {
             <div
               style={{ width: `${debtRatio}%` }}
               className={cx("FarmAssetGridItem__gauge", {
-                "FarmAssetGridItem__gauge--yellow": debtRatio !== 0 && debtRatio > 40 && debtRatio < 70,
                 "FarmAssetGridItem__gauge--red": debtRatio !== 0 && debtRatio > 70,
               })}
             />
@@ -234,6 +232,7 @@ class FarmAssetGridItem extends Component {
               if (closePositionDisabled) return
 
               openContentView$.next({
+                key: "ClosePosition",
                 component: (
                   <ClosePosition
                     id={id}
@@ -275,6 +274,7 @@ class FarmAssetGridItem extends Component {
             onClick={() => {
 
               openContentView$.next({
+                key: "AdjustPosition",
                 component: (
                   <AdjustPosition
                     id={id}

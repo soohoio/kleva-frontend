@@ -74,8 +74,8 @@ class MyAsset extends Component {
   }
 
   renderContent = () => {
-    if (contentView$.value) {
-      return contentView$.value
+    if (contentView$.value?.component) {
+      return contentView$.value?.component
     }
 
     if (this.assetMenu$.value === 'lendnstake') {
@@ -181,7 +181,7 @@ class MyAsset extends Component {
 
     return (
       <div className="MyAsset">
-        {!contentView$.value && (
+        {!contentView$.value?.component && (
           <>
             <div className="MyAsset__header">
               <MyAssetHeader />
@@ -190,7 +190,7 @@ class MyAsset extends Component {
           </>
         )}
         <div className="MyAsset__content">
-          {!contentView$.value && (
+          {!contentView$.value?.component && (
             <>
               <p className="MyAsset__tabsTitle">{I18n.t('myasset.managementDetail')}</p>
               <Tabs

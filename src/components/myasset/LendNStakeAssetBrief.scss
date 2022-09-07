@@ -3,6 +3,10 @@
   flex-direction: column;
 
   margin-bottom: 40px;
+
+  @include desktop {
+    margin-bottom: 30px;
+  }
 }
 
 .LendNStakeAssetBrief__total {

@@ -33,4 +33,34 @@
       padding-top: 34px;
     }
   }
+
+  &--myasset {
+    @include desktop {
+      padding-top: 30px;
+    }
+
+    &--contentless {
+      @include desktop {
+        padding-top: 40px;
+      }
+    }
+  }
+
+  &--AddPosition {
+    @include desktop {
+      padding-top: 34px;
+    }
+  }
+
+  &--AdjustPosition {
+    @include desktop {
+      padding-top: 34px;
+    }
+  }
+
+  &--ClosePosition {
+    @include desktop {
+      padding-top: 34px;
+    }
+  }
 }

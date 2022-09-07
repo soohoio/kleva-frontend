@@ -15,7 +15,7 @@ import Footer from '../components/Footer'
 import Dashboard from '../components/dashboard/Dashboard'
 import Withus from '../components/intro/Withus'
 import UseGuide from '../components/intro/UseGuide'
-import { isDesktop$ } from '../streams/ui'
+import { contentView$, isDesktop$ } from '../streams/ui'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -24,6 +24,7 @@ class MainPage extends Component {
     merge(
       // 'myAsset', 'lendnstake', 'farming'
       currentTab$,
+      contentView$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -74,6 +75,9 @@ class MainPage extends Component {
   }
 
   render() {
+
+    console.log(contentView$.value, 'contentView$.value')
+
     return (
       <div className="MainPage">
         <Header2 />
@@ -81,6 +85,8 @@ class MainPage extends Component {
         <NotificationBanner />
         <div className={cx("MainPage__tabContent", {
           [`MainPage__tabContent--${currentTab$.value}`]: true,
+          [`MainPage__tabContent--${!contentView$.value?.component && 'contentless'}`]: true,
+          [`MainPage__tabContent--${contentView$.value?.key}`]: true,
         })}>
           {this.renderTab()}
         </div>

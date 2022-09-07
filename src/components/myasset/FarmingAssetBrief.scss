@@ -3,6 +3,10 @@
   flex-direction: column;
 
   margin-bottom: 38px;
+
+  @include desktop {
+    margin-bottom: 30px;
+  }
 }
 
 .FarmingAssetBrief__total {

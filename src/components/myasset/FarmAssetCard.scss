@@ -150,13 +150,6 @@
     color: #333333;
   }
 
-
-  &--yellow {
-    .LabelAndValue__value {
-      color: #FA9A00 !important;
-    }
-  }
-
   &--red {
     .LabelAndValue__value {
       color: #FF4D00 !important;
@@ -181,10 +174,6 @@
   background-color: #5985FF;
   z-index: 9;
   border-radius: 4px;
-
-  &--yellow {
-    background-color: #FA9A00;
-  }
 
   &--red {
     background-color: #FF4D00;

@@ -234,7 +234,6 @@ class FarmAssetCard extends Component {
           />
           <LabelAndValue
             className={cx("FarmAssetCard__debtRatio", {
-              "FarmAssetCard__debtRatio--yellow": debtRatio !== 0 && debtRatio > 40 && debtRatio < 70,
               "FarmAssetCard__debtRatio--red": debtRatio !== 0 && debtRatio > 70,
             })}
             label={I18n.t('myasset.farming.debtRatio')}
@@ -244,7 +243,6 @@ class FarmAssetCard extends Component {
             <div 
               style={{ width: `${debtRatio}%` }} 
               className={cx("FarmAssetCard__gauge", {
-                "FarmAssetCard__gauge--yellow": debtRatio !== 0 && debtRatio > 40 && debtRatio < 70,
                 "FarmAssetCard__gauge--red": debtRatio !== 0 && debtRatio > 70,
               })}
             />
@@ -260,6 +258,7 @@ class FarmAssetCard extends Component {
                 if (closePositionDisabled) return
 
                 openContentView$.next({
+                  key: "ClosePosition",
                   component: (
                     <ClosePosition
                       id={id}
@@ -320,6 +319,7 @@ class FarmAssetCard extends Component {
               onClick={() => {
 
                 openContentView$.next({
+                  key: "AdjustPosition",
                   component: (
                     <AdjustPosition
                       id={id}

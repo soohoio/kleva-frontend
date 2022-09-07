@@ -145,6 +145,7 @@ class FarmAPRDetailInfo extends Component {
               closeModal$.next(true)
 
               openContentView$.next({
+                key: "AddPosition",
                 component: (
                   <AddPosition
                     title={`${token1?.title}+${token2?.title}`}

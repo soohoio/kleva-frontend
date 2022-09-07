@@ -7,11 +7,7 @@ import './RadioSet2.scss'
 
 const Circle = ({ active }) => {
   return (
-    <div className={cx("Circle")}>
-      {active && (
-        <div className="Circle__mini" />
-      )}
-    </div>
+    <img className="Circle" src={`/static/images/exported/${active ? "radio-circle-active" : "radio-circle"}.svg`} className={cx("Circle")} />
   )
 }
 

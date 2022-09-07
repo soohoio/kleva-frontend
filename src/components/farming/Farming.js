@@ -30,7 +30,7 @@ class Farming extends Component {
   render() {
     return (
       <div className={cx("Farming", {
-        [`Farming--contentView`]: !!contentView$.value,
+        [`Farming--contentView`]: !!contentView$.value?.component,
       })}>
         <div className="Farming__intro">
           <p className="Farming__introTitle">
@@ -44,7 +44,7 @@ class Farming extends Component {
           </p>
         </div>
         <div className="Farming__list">
-          {contentView$.value || <FarmList />}
+          {contentView$.value?.component || <FarmList />}
         </div>
       </div>
     )

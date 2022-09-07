@@ -139,6 +139,7 @@ class FarmItem extends Component {
               if (!selectedAddress) return
 
               openContentView$.next({
+                key: "AddPosition",
                 component: (
                   <AddPosition
                     title={`${token1?.title}+${token2?.title}`}

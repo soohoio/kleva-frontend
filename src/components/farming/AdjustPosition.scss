@@ -29,6 +29,12 @@
   .WKLAYSwitcher__available {
     margin-top: 0;
   }
+
+  .WKLAYSwitcher__inputAndButton {
+    @include desktop {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .AdjustPosition__content {
@@ -71,7 +77,6 @@
     margin-right: 60px;
     padding-left: 0;
     padding: 0;
-    margin-bottom: 15px;
     padding-top: 0;
   }
 }
@@ -89,9 +94,10 @@
   margin-top: 8px;
   align-items: center;
   padding-bottom: 20px;
-  margin-bottom: 26px;
+  margin-bottom: 36px;
   
   @include desktop {
+    margin-bottom: 26px;
     border-bottom: 1px solid #E6EAF2;
   }
 
@@ -170,6 +176,10 @@
     @include font-style('font-1', 'b', 15px);
     color: #222222;
 
+    p {
+      line-height: 20px;
+    }
+
     p:last-of-type {
       @include font-style('font-1', 'm', 14px);
       margin-top: 3px;
@@ -190,6 +200,7 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
+    line-height: 20px;
   }
 
   .LabelAndValue__value {
@@ -213,6 +224,7 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
+    line-height: 20px;
   }
 
   .LabelAndValue__value {

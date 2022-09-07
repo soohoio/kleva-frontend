@@ -21,10 +21,6 @@
       color: #f53c3c;
       line-height: 20px;
     }
-
-    .Circle {
-      border: 1px solid #416FFA;
-    }
   }
 }
 
@@ -53,21 +49,24 @@
 }
 
 .Circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  margin-right: 9px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // border-radius: 50%;
 
-  border: 1px solid #CCD3E8;
-  background-color: #ffffff;
-  margin-right: 6px;
-  width: 18px;
-  height: 18px;
+  // border: 1px solid #CCD3E8;
+  // background-color: #ffffff;
+  // margin-right: 6px;
+  // width: 18px;
+  // height: 18px;
 }
 
-.Circle__mini {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #416FFA;
-}
+// .Circle__mini {
+//   width: 8px;
+//   height: 8px;
+//   border-radius: 50%;
+//   background-color: #416FFA;
+// }
