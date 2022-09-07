@@ -36,6 +36,7 @@ class CoverLayer extends Component<Props> {
       <div
         className={cx('CoverLayer__wrapper', {
           'CoverLayer__wrapper--hide': !modalContentComponent$.value,
+          'CoverLayer__wrapper--layered': !!layeredModalContentComponent$.value,
         })}
       >
         <div

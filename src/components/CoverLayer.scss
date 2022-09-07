@@ -17,4 +17,14 @@
   &--hide {
     display: none;
   }
+
+  &--layered {
+    .Modal {
+      z-index: 1;
+
+      &:last-of-type {
+        z-index: 9999;
+      }
+    }
+  }
 }
