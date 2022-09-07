@@ -25,6 +25,7 @@
     line-height: 20px;
     background-size: 14px;
     flex-direction: row-reverse;
+    font-size: 15px;
 
     &--upper {
       .Dropdown__list {
@@ -42,6 +43,7 @@
     z-index: 9;
     width: 100vw;
     height: 122px;
+    padding-bottom: 10px;
 
     position : relative;
     transform : translateY(-100%);

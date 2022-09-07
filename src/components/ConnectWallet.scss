@@ -9,17 +9,28 @@
 
   &--connected {
     cursor: default;
-    // color: #265ffc;
-    // background-color: #ebf0ff;
     color: #333333;
     background-color: transparent;
+
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    &::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      margin: 0 12px;
+      border-radius: 50%;
+      background-color: #D1D5E0;
+    }
   }
 }
 
 .ConnectWallet__logout {
-  @include font-style('font-1', 'm', 15px);
+  @include font-style('font-1', 'm', 14px);
   color: #919FC8;
-  margin-left: 4px;
+  margin-left: 5px;
   cursor: pointer;
 }
 
