@@ -463,6 +463,29 @@ renderTotalValue = ({
     )
   }
 
+  renderEquityValue = ({
+    farmingTokenAmount,
+    baseTokenAmount,
+  }) => {
+    const { farmingToken, baseToken } = this.props
+
+    if (isKLAY(farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+      </>
+    )
+  }
+
   render() {
     const {
       title,
@@ -651,12 +674,10 @@ renderTotalValue = ({
                   <p>{I18n.t('farming.summary.equity.description')}</p>
                 </>
               )}
-              value={(
-                <>
-                  <p>{nFormatter(equityFarmingAmount, 4)} {farmingToken.title}</p>
-                  <p>{nFormatter(equityBaseAmount, 4)} {baseToken.title}</p>
-                </>
-              )}
+              value={this.renderEquityValue({
+                farmingTokenAmount: equityFarmingAmount,
+                baseTokenAmount: equityBaseAmount,
+              })}
             />
             <LabelAndValue
               className="AdjustPosition__debt"

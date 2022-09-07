@@ -387,6 +387,29 @@ class AddPosition extends Component {
       </>
     )
   }
+  
+  renderEquityValue = ({
+    farmingTokenAmount,
+    baseTokenAmount,
+  }) => {
+    const { farmingToken, baseToken } = this.bloc.getTokens()
+
+    if (isKLAY(farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+      </>
+    )
+  }
     
   render() {
     const { 
@@ -538,12 +561,10 @@ class AddPosition extends Component {
                   <p>{I18n.t('farming.summary.equity.description')}</p>
                 </>
               )}
-              value={(
-                <>
-                  <p>{nFormatter(this.bloc.farmingTokenAmount$.value, 4)} {farmingToken.title}</p>
-                  <p>{nFormatter(this.bloc.baseTokenAmount$.value, 4)} {baseToken.title}</p>
-                </>
-              )}
+              value={this.renderEquityValue({
+                farmingTokenAmount: this.bloc.farmingTokenAmount$.value,
+                baseTokenAmount: this.bloc.baseTokenAmount$.value,
+              })}
             />
             <LabelAndValue
               className="AddPosition__debt"
