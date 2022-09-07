@@ -141,7 +141,7 @@ class SUWController extends Component {
               "SUWController__confirmButton--disabled": isStakingDisabled,
             })}
           >
-            {I18n.t('myasset.staking')}
+            {I18n.t('myasset.suwController.staking')}
           </button>
         </>
       )
@@ -168,7 +168,7 @@ class SUWController extends Component {
               "SUWController__confirmButton--disabled": isUnstakingDiasabled,
             })}
           >
-            {I18n.t('myasset.unstaking')}
+            {I18n.t('myasset.suwController.unstaking')}
           </button>
         </>
       )
