@@ -6,12 +6,13 @@ import BigNumber from 'bignumber.js'
 import { approve$, depositForLending$, getTransactionReceipt$, stakeToStakingPool$, wrapKLAY$ } from "../../streams/contract"
 import { MAX_UINT } from 'constants/setting'
 import { fetchWalletInfo$ } from "../../streams/wallet"
-import { closeContentView$, closeModal$, contentView$, openModal$ } from "../../streams/ui"
+import { closeContentView$, closeLayeredModal$, closeModal$, contentView$, openLayeredModal$, openModal$ } from "../../streams/ui"
 import { tokenList } from "../../constants/tokens"
 import CompletedModal from "../common/CompletedModal"
 import { I18n } from "../common/I18n"
 import { currentTab$ } from "../../streams/view"
 import { FAIRLAUNCH } from '../../constants/address'
+import LoadingModal from '../modals/LoadingModal'
 
 export default class {
   constructor() {
@@ -122,12 +123,35 @@ export default class {
 
     wrapKLAY$(amount).pipe(
       tap(() => {
-        this.isWrapping$.next(true)
+        openLayeredModal$.next({
+          component: <LoadingModal />
+        })
+        // this.isWrapping$.next(true)
         // this.isLoading$.next(true)
       }),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe((result) => {
-      this.isWrapping$.next(false)
+      openLayeredModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('confirm'),
+              onClick: () => {
+                const inputElem = document.querySelector(".LendAndStakeControllerPopup__depositInput--wklay input")
+                console.log(inputElem, 'inputElem')
+                if (inputElem) {
+                  inputElem.focus()
+                }
+                closeLayeredModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('convert.completed.title')}</p>
+            <p className="CompletedModal__description">{I18n.t('convert.completed.description')}</p>
+          </CompletedModal>
+        )
+      })
+      // this.isWrapping$.next(false)
       // this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
       this.klayAmountToWrap$.next('')

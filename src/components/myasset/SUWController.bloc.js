@@ -6,12 +6,13 @@ import BigNumber from 'bignumber.js'
 import { approve$, depositForLending$, getTransactionReceipt$, stakeToStakingPool$, unstakeFromStakingPool$, unwrapWKLAY$, withdrawFromLending$, wrapKLAY$ } from "../../streams/contract"
 import { MAX_UINT } from 'constants/setting'
 import { fetchWalletInfo$ } from "../../streams/wallet"
-import { closeContentView$, closeModal$, contentView$, openModal$ } from "../../streams/ui"
+import { closeContentView$, closeLayeredModal$, closeModal$, contentView$, openLayeredModal$, openModal$ } from "../../streams/ui"
 import { tokenList } from "../../constants/tokens"
 import CompletedModal from "../common/CompletedModal"
 import { I18n } from "../common/I18n"
 import { currentTab$ } from "../../streams/view"
 import { FAIRLAUNCH } from '../../constants/address'
+import LoadingModal from '../modals/LoadingModal'
 
 export default class {
   constructor() {
@@ -163,14 +164,36 @@ export default class {
       .toString()
 
     unwrapWKLAY$(unwrapAmount).pipe(
-      tap(() => this.isLoading$.next(true)),
+      tap(() => {
+        openLayeredModal$.next({
+          component: <LoadingModal />
+        })
+        this.isLoading$.next(true)
+      }),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
     ).subscribe(() => {
+      closeLayeredModal$.next(true)
+
+      openModal$.next({
+        component: (
+          <CompletedModal menus={[
+            {
+              title: I18n.t('confirm'),
+              onClick: () => {
+                closeModal$.next(true)
+              }
+            },
+          ]}>
+            <p className="CompletedModal__title">{I18n.t('convert.completed.title')}</p>
+          </CompletedModal>
+        )
+      })
+
       this.wklayAmountToUnwrap$.next('')
       this.isLoading$.next(false)
       fetchWalletInfo$.next(true)
 
-      closeModal$.next(true)
+      // closeModal$.next(true)
     })
   }
 }

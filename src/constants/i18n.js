@@ -288,6 +288,9 @@ export const en = {
   'liquidated': '강제 청산됨',
   'writeAmount': '수량 입력',
   'notEnoughAmount': '토큰 수량이 부족합니다.',
+  'processing': '거래를 진행 중입니다.',
+  'convert.completed.title': '전환 완료되었습니다.',
+  'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
   
 }
 
@@ -581,6 +584,9 @@ export const ko = {
   'liquidated': '강제 청산됨',
   'writeAmount': '수량 입력',
   'notEnoughAmount': '토큰 수량이 부족합니다.',
+  'processing': '거래를 진행 중입니다.',
+  'convert.completed.title': '전환 완료되었습니다.',
+  'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
 }
 
 export const zh = {

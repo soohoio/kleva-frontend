@@ -54,9 +54,11 @@ class Modal extends Component {
   render() {
     const { title, className, children, mobileCoverAll } = this.props
 
+    console.log(mobileCoverAll, 'mobileCoverAll')
+
     return (
       <div className={cx("Modal", className, classNameAttach$.value, {
-        "Modal--mobileCoverAll": mobileCoverAll,
+        "Modal--mobileCoverAll": !!mobileCoverAll,
         [`Modal--animation-${modalAnimation$.value}`]: true,
       })}>
         {/* <div className={cx("Modal__header", {

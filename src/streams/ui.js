@@ -39,11 +39,13 @@ closeContentView$.subscribe(() => {
   contentView$.next(null)
 })
 
-openLayeredModal$.subscribe(({ component }) => {
+openLayeredModal$.subscribe(({ component, classNameAttach }) => {
+  classNameAttach$.next(classNameAttach)
   layeredModalContentComponent$.next(component)
 })
 
 closeLayeredModal$.subscribe(() => {
+  classNameAttach$.next(null)
   layeredModalContentComponent$.next(null)
 })
 
@@ -85,7 +87,7 @@ openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScre
 
   if (!isDesktop$.value) {
     // mobile animation
-    if (classNameAttach !== "Modal--mobileCoverAll") {
+    if (classNameAttach && (classNameAttach !== "Modal--mobileCoverAll")) {
       modalAnimation$.next('appear')
     }
   }
@@ -100,7 +102,7 @@ openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScre
 
 closeModal$.pipe(
   switchMap(() => {
-    if (!isDesktop$.value && (classNameAttach$.value !== "Modal--mobileCoverAll")) {
+    if (!isDesktop$.value && (classNameAttach$.value && (classNameAttach$.value !== "Modal--mobileCoverAll"))) {
       // mobile animation
       modalAnimation$.next('disappear')
       

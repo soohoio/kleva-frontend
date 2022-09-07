@@ -37,6 +37,7 @@ class WKLAYSwitchModal extends Component {
     if (this.mode$.value === 'toklay') {
       return (
         <WKLAYSwitcher
+          noCompleteDescription
           toKLAY
           column
           balancesInWallet={balancesInWallet$.value}
@@ -47,6 +48,7 @@ class WKLAYSwitchModal extends Component {
     if (this.mode$.value === 'towklay') {
       return (
         <WKLAYSwitcher
+          noCompleteDescription
           column
           balancesInWallet={balancesInWallet$.value}
         />

@@ -13,7 +13,7 @@ import SupplyInput from './SupplyInput'
 import { I18n } from './I18n'
 
 class WKLAYSwitcher extends Component {
-  bloc = new Bloc()
+  bloc = new Bloc(this)
 
   destroy$ = new Subject()
 

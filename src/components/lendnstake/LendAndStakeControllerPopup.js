@@ -442,7 +442,7 @@ class LendAndStakeControllerPopup extends Component {
           </div>
 
           <InputWithPercentage
-            className={cx("LendAndStakeControllerPopup__depositInput", {
+            className={cx("LendAndStakeControllerPopup__depositInput", "LendAndStakeControllerPopup__depositInput--wklay", {
               "LendAndStakeControllerPopup__depositInput--upper": true
             })}
             decimalLimit={stakingToken.decimals}

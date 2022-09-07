@@ -3,7 +3,7 @@
 
   // width: 285px;
   max-width: 280px;
-  padding: 0;
+  padding: 0 !important;
   text-align: center;
 
   top: 50%;
@@ -16,6 +16,10 @@
 
   .Modal__close {
     display: none;
+  }
+
+  .Modal__content {
+    padding: 0 !important;
   }
 }
 

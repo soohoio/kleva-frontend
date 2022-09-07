@@ -1,0 +1,30 @@
+.LoadingModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 280px;
+  padding: 0;
+  text-align: center;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: unset;
+
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  height: 124px;
+
+  .Modal__close {
+    display: none;
+  }
+}
+
+.LoadingModal__description {
+  @include font-style('font-1', 'b', 17px);
+  color: #222222;
+  margin-top: 14px;
+}

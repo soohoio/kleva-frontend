@@ -132,6 +132,7 @@ class InputWithPercentage extends Component {
       valueLimit,
       zeroValueDisable,
       placeholder,
+      targetToken,
     } = this.props
 
     // zeroValueDisable: If value is zero, disable
@@ -147,6 +148,7 @@ class InputWithPercentage extends Component {
             "InputWithPercentage--focused": isFocused,
             "InputWithPercentage--disabled": isDisabled,
             "InputWithPercentage--invalid": isInvalidValue,
+            [`InputWithPercentage--${targetToken.title}`]: true,
           })}
         >
           {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
