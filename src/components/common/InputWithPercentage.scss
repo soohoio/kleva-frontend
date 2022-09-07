@@ -18,6 +18,13 @@
   &--focused {
     // border: solid 1px #c4d1f5;
     // background-color: #fafbff;
+    background-color: #fff;
+    border: 1px solid #B4BDD6;
+  }
+
+  &--invalid {
+    background-color: #fff;
+    border: 1px solid #F96A6A;
   }
 
   .Opener {
@@ -108,3 +115,9 @@
   align-items: center;
 }
 
+.InputWithPercentage__warn {
+  @include font-style('font-1', 'm', 14px);
+  width: 100%;
+  color: #FA5A5A;
+  margin-top: 10px;
+}

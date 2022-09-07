@@ -1,9 +1,12 @@
 import React, { Component, Fragment, createRef } from 'react'
+import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge, BehaviorSubject, fromEvent } from 'rxjs'
 import { debounceTime, distinctUntilChanged, take, takeUntil, tap } from 'rxjs/operators'
 
 import Opener from 'components/common/Opener'
+
+import { I18n } from 'components/common/I18n'
 
 import './InputWithPercentage.scss'
 import { toFixed } from '../../utils/calc'
@@ -133,47 +136,53 @@ class InputWithPercentage extends Component {
 
     // zeroValueDisable: If value is zero, disable
     const isZeroValue = valueLimit == 0
-    const isDisabled = zeroValueDisable && isZeroValue
+    const isDisabled = (zeroValueDisable && isZeroValue)
+
+    const isInvalidValue = valueLimit && (new BigNumber(value$.value).gt(valueLimit))
 
     return (
-      <div 
-        className={cx("InputWithPercentage", className, {
-          "InputWithPercentage--focused": isFocused,
-          "InputWithPercentage--disabled": isDisabled,
-        })}
-      >
-        {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
-        <input
-          autoFocus={autoFocus}
-          ref={this.$input}
-          readOnly={isDisabled}
-          className="InputWithPercentage__input"
-          value={value$.value}
-          placeholder={placeholder || "0"}
-          onChange={(e) => {
+      <>
+        <div 
+          className={cx("InputWithPercentage", className, {
+            "InputWithPercentage--focused": isFocused,
+            "InputWithPercentage--disabled": isDisabled,
+            "InputWithPercentage--invalid": isInvalidValue,
+          })}
+        >
+          {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
+          <input
+            autoFocus={autoFocus}
+            ref={this.$input}
+            readOnly={isDisabled}
+            className="InputWithPercentage__input"
+            value={value$.value}
+            placeholder={placeholder || I18n.t('writeAmount')}
+            onChange={(e) => {
 
-            if (isNaN(Number(e.target.value))) return
+              if (isNaN(Number(e.target.value))) return
 
-            value$.next(e.target.value)
+              value$.next(e.target.value)
 
-            this.selectedItem$.next({
-              title: `${Number(this.calcPercentageFromValue(value$.value)).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
-              value: value$.value,
-              key: `${this.calcPercentageFromValue(value$.value)}%`,
-            })
-          }}
-        />
-        <div className="InputWithPercentage__right">
-          <span className="InputWithPercentage__label">{label}</span>
-          {!noPercentage && (
-            <Opener
-              items={percentItems}
-              selectedItem={this.selectedItem$.value}
-              onSelect={this.selectPercent}
-            />
-          )}
+              this.selectedItem$.next({
+                title: `${Number(this.calcPercentageFromValue(value$.value)).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
+                value: value$.value,
+                key: `${this.calcPercentageFromValue(value$.value)}%`,
+              })
+            }}
+          />
+          <div className="InputWithPercentage__right">
+            <span className="InputWithPercentage__label">{label}</span>
+            {!noPercentage && (
+              <Opener
+                items={percentItems}
+                selectedItem={this.selectedItem$.value}
+                onSelect={this.selectPercent}
+              />
+            )}
+          </div>
         </div>
-      </div>
+        {!!isInvalidValue && <p className="InputWithPercentage__warn">{I18n.t('notEnoughAmount')}</p>}
+      </>
     )
   }
 }

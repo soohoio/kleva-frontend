@@ -233,11 +233,11 @@ class AdjustPosition extends Component {
       || new BigNumber(this.bloc.farmingTokenAmount$.value).gt(availableFarmingTokenAmount?.balanceParsed)
       || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
       || !this.bloc.addCollateralAvailable$.value
-      || !isDebtSizeValid$.value
+      || !this.bloc.isDebtSizeValid$.value
 
     const isBorrowMoreDisabled = (Number(noRounding(this.bloc.leverage$.value, 2)) == Number(noRounding(this.props.currentPositionLeverage, 2)))
       || !this.bloc.borrowMoreAvailable$.value
-      || !isDebtSizeValid$.value
+      || !this.bloc.isDebtSizeValid$.value
 
     const isDisabled = this.bloc.borrowMore$.value
       ? isBorrowMoreDisabled

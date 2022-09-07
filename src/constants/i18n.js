@@ -287,6 +287,7 @@ export const en = {
   'fiftyfiftyMode': '50:50 비율',
   'liquidated': '강제 청산됨',
   'writeAmount': '수량 입력',
+  'notEnoughAmount': '토큰 수량이 부족합니다.',
   
 }
 
@@ -579,6 +580,7 @@ export const ko = {
   'fiftyfiftyMode': '50:50 비율',  
   'liquidated': '강제 청산됨',
   'writeAmount': '수량 입력',
+  'notEnoughAmount': '토큰 수량이 부족합니다.',
 }
 
 export const zh = {

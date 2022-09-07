@@ -57,6 +57,7 @@ class SupplyInput extends Component {
           {!!headerRightContent && headerRightContent}
         </div>
         <InputWithPercentage
+          placeholder={"0"}
           zeroValueDisable
           focused$={focused$}
           decimalLimit={decimalLimit}
