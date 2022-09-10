@@ -43,7 +43,7 @@ class Withus extends Component {
       <div className="Withus">
         <div className="WithusHeader">
           <p className="WithusHeader__title">
-            WITH US
+            With Us
             <img
               onClick={() => {
                 currentTab$.next('myasset')

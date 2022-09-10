@@ -46,6 +46,12 @@
     }
   }
 
+  &--withus {
+    @include desktop {
+      padding-top: 18px;
+    }
+  }
+
   &--AddPosition {
     @include desktop {
       padding-top: 34px;
