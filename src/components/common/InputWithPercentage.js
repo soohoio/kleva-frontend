@@ -11,6 +11,7 @@ import { I18n } from 'components/common/I18n'
 import './InputWithPercentage.scss'
 import { toFixed } from '../../utils/calc'
 import { tokenList } from '../../constants/tokens'
+import { noRounding } from '../../utils/misc'
 
 const percentItems = [
   { title: "0%", value: 0, key: "0%" },
@@ -81,8 +82,13 @@ class InputWithPercentage extends Component {
 
   calcPercentageFromValue = (val) => {
     const { valueLimit } = this.props
+  
+    const percentage = new BigNumber(val).div(valueLimit).toNumber() * 100
+
     return (val && valueLimit != 0) 
-      ? new BigNumber(val).div(valueLimit).toNumber() * 100
+      ? percentage > 100 
+        ? "100%+"
+        : `${noRounding(percentage, 0)}%`
       : 0
   }
 
@@ -166,9 +172,9 @@ class InputWithPercentage extends Component {
               value$.next(e.target.value)
 
               this.selectedItem$.next({
-                title: `${Number(this.calcPercentageFromValue(value$.value)).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
+                title: `${this.calcPercentageFromValue(value$.value)}`,
                 value: value$.value,
-                key: `${this.calcPercentageFromValue(value$.value)}%`,
+                key: `${this.calcPercentageFromValue(value$.value)}`,
               })
             }}
           />
