@@ -338,7 +338,7 @@ export const ko = {
 
   'guide.connectWallet.title': '자산 연동을 위해 지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',
-  'guide.emptyManagedAsset.title': '현재 KLEVA에서 운용 중인 자산이 없습니다.',
+  'guide.emptyManagedAsset.title': '현재 KLEVA에서 운용 중인<br/>자산이 없습니다.',
   'guide.emptyManagedAsset.buttoneTitle1': '토큰 예치하기',
   'guide.emptyManagedAsset.buttoneTitle2': '이자농사 참여하기',
   'guide.emptyLendNStake.title': '예치 중인 자산이 없습니다.',

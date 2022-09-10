@@ -52,9 +52,7 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, className, children, mobileCoverAll } = this.props
-
-    console.log(mobileCoverAll, 'mobileCoverAll')
+    const { title, className, children, mobileCoverAll, onClose } = this.props
 
     return (
       <div className={cx("Modal", className, classNameAttach$.value, {
@@ -79,6 +77,12 @@ class Modal extends Component {
           })}>
             {!!title && <span className="Modal__title">{title}</span>}
             <img onClick={() => {
+
+              if (typeof onClose === 'function') {
+                onClose()
+                return
+              }
+
               if (layeredModalContentComponent$.value) {
                 closeLayeredModal$.next(true)
                 return

@@ -11,6 +11,12 @@
   @include font-style('font-1', 'b', 22px);
   color: #222222;
   line-height: 30px;
+
+  @include desktop {
+    br {
+      display: none;
+    }
+  }
 }
 
 .Guide__description {

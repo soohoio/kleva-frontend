@@ -23,7 +23,7 @@ import { allowancesInStakingPool$, selectedAddress$ } from '../../streams/wallet
 import { closeModal$ } from 'streams/ui';
 import LabelAndValue from '../LabelAndValue'
 import Tip from '../common/Tip'
-import { openModal$ } from '../../streams/ui'
+import { closeLayeredModal$, layeredModalContentComponent$, openModal$ } from '../../streams/ui'
 import CompletedModal from '../common/CompletedModal'
 import { currentTab$ } from '../../streams/view'
 
@@ -515,8 +515,45 @@ class LendAndStakeControllerPopup extends Component {
 
     const isKLAY = isSameAddress(stakingToken.address, tokenList.KLAY.address)
 
+    const isLendCompleted = !!this.bloc.lendCompleted$.value
+
     return (
-      <Modal className="LendAndStakeControllerPopup__modal">
+      <Modal
+        onClose={() => {
+          if (this.bloc.lendCompleted$.value) {
+            openModal$.next({
+              component: (
+                <CompletedModal menus={[
+                  {
+                    title: I18n.t('viewInMyAsset'),
+                    onClick: () => {
+                      closeModal$.next(true)
+                      currentTab$.next('myasset')
+                    }
+                  },
+                  {
+                    title: I18n.t('checkLater'),
+                    onClick: () => {
+                      closeModal$.next(true)
+                    }
+                  },
+                ]}>
+                  <p className="CompletedModal__title">{I18n.t('lendstake.controller.lendCompleted.title')}</p>
+                  <p className="CompletedModal__description">{I18n.t('lendstake.controller.lendCompleted.description')}</p>
+                </CompletedModal>
+              )
+            })
+            return
+          }
+
+          if (layeredModalContentComponent$.value) {
+            closeLayeredModal$.next(true)
+            return
+          }
+          closeModal$.next(true)
+        }}
+        className="LendAndStakeControllerPopup__modal"
+      >
         {isKLAY
           ? this.renderWKLAYContent()
           : this.renderContent()
