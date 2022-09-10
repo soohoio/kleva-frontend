@@ -109,7 +109,12 @@ function numberToKorean(number, lastOnly) {
 
   for (var i = 0; i < splitCount; i++) {
     var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
+
+    console.log(unitResult, 'unitResult 1')
+
     unitResult = Math.floor(unitResult);
+
+    console.log(unitResult, 'unitResult 2')
     if (unitResult > 0) {
       resultArray[i] = unitResult;
     }
@@ -143,41 +148,110 @@ export const nFormatter = (num, digits, locale, lastOnly) => {
     return 0
   }
 
-  if (Number(num) < 1) {
-    return noRounding(num, LESS_THAN_1_DECIMAL_MAX_DIGITS)
+  // rule 10 (ko-only 해)
+  if (num >= 100_000_000_000_000_000_000) {
+
+    if (locale === 'ko') {
+      const splitted = String(num / 10_000_000_000_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + '해'
+    }
   }
 
-  if (locale === 'ko') {
-    return numberToKorean(num, lastOnly)
+  // rule 09 (ko-only 경)
+  if (num >= 10_000_000_000_000_000) {
+
+    if (locale === 'ko') {
+      const splitted = String(num / 10_000_000_000_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + '경'
+    }
   }
 
-  const lookup = [
-        { value: 1e6, symbol: "M" },
-        { value: 1e9, symbol: "B" },
-        { value: 1e12, symbol: "T" },
-        { value: 1e15, symbol: "P" },
-        { value: 1e18, symbol: "E" },
-        { value: 1e21, symbol: "Z" },
-        { value: 1e24, symbol: "Y" },
-        { value: 1e27, symbol: "b" },
-        { value: 1e30, symbol: "ge" },
-        { value: 1e33, symbol: "sa" },
-        { value: 1e36, symbol: "pi" },
-        { value: 1e39, symbol: "al" },
-        { value: 1e42, symbol: "kr" },
-        { value: 1e45, symbol: "am" },
-        { value: 1e48, symbol: "pe" },
-    ]
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
-  var item = lookup.slice().reverse().find(function (item) {
-    return num >= item.value
-  })
+  // rule 08 (ko: 조, en: Trillion)
+  if (num >= 1_000_000_000_000) {
 
-  return item 
-    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol 
-    : Number(num) < 1
-      ? noRounding(num, LESS_THAN_1_DECIMAL_MAX_DIGITS)
-      : noRounding(num, digits)
+    if (locale === 'ko') {
+      const splitted = String(num / 1_000_000_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + '조'
+    } else {
+      const splitted = String(num / 1_000_000_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + 'T'
+    }
+  }
+  
+  // rule 07 (en-only: B)
+  if (num >= 1_000_000_000) {
+
+    if (locale === 'en') {
+      const splitted = String(num / 1_000_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + 'B'
+    }
+  }
+
+  // rule 06 (ko-only)
+  if (num >= 100_000_000) {
+    if (locale === 'ko') {
+      const splitted = String(num / 100_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + '억'
+    }
+  }
+
+  // rule 05
+  if (num >= 1_000_000) {
+
+    if (locale === 'ko') {
+      const splitted = String(num / 10_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      console.log(splitted, '@splitted')
+
+      return integerPart + decimalPart + '만'
+    } else {
+      const splitted = String(num / 1_000_000).split('.')
+      const integerPart = splitted[0]
+      const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
+
+      return integerPart + decimalPart + "M"
+    }
+  }
+
+  // rule 04
+  if (num >= 1_000) {
+    return Number(num).toLocaleString('en-us', { maximumFractionDigits: 0 })
+  }
+
+  // rule 03
+  if (num >= 1) {
+    return Number(num).toLocaleString('en-us', { maximumFractionDigits: 4 })
+  }
+
+  // rule 02
+  if (num >= 1e-6) {
+    return noRounding(num, 6)
+  }
+
+  // rule 01
+  if (num < 1e-6) {
+    return 0
+  }
 }
 
 window.nFormatter = nFormatter
@@ -225,3 +299,5 @@ export const coverSmallNumber = (val, decimals) => {
 export const padAddress = (address) => {
   return "0x" + address.slice(2).padStart(64, "0")
 }
+
+window.nFormatter = nFormatter
