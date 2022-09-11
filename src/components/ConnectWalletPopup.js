@@ -72,8 +72,9 @@ class ConnectWalletPopup extends Component {
             className="WalletConnectOption--kaikas"
             imgSrc="/static/images/wallet-option-kaikas.svg"
             onClick={() => {
-              connectInjected('', 'Kaikas')
-              closeModal$.next(true)
+              if (connectInjected('kaikas', 'Kaikas')) {
+                closeModal$.next(true)
+              }
             }}
           />
           <WalletConnectOption

@@ -33,7 +33,10 @@ export const connectInjected = (injectedType, walletProviderName) => {
   walletProviderName$.next(walletProviderName)
 
   if (injectedType === "metamask") {
-    if (!window.isMobile && !window.ethereum) {
+    const isNotInstalled = !window.isMobile && !window.ethereum
+    const needToUseDeeplink = window.isMobile && !window.ethereum
+    const notKlaytnNetwork = window.ethereum.networkVersion !== "8217"
+    if (isNotInstalled) {
       openModal$.next({
         component: (
           <CompletedModal
@@ -61,7 +64,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
       return false
     }
 
-    if (window.isMobile && !window.ethereum) {
+    if (needToUseDeeplink) {
       document.location = `dapp://${window.location.host}${window.location.pathname}`;
       
       var time = (new Date()).getTime();
@@ -76,7 +79,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
       return false
     }
 
-    if (window.ethereum.networkVersion !== "8217") {
+    if (notKlaytnNetwork) {
       openModal$.next({
         component: (
           <CompletedModal 
@@ -107,6 +110,37 @@ export const connectInjected = (injectedType, walletProviderName) => {
 
     window.injected = window.ethereum
   } else {
+    if (injectedType === "kaikas") {
+      const isNotInstalled = !window.isMobile && !window.klaytn
+      if (isNotInstalled) {
+        openModal$.next({
+          component: (
+            <CompletedModal
+              menus={[
+                {
+                  title: I18n.t('kaikas.install'),
+                  onClick: () => {
+                    window.open("https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi")
+                    closeModal$.next(true)
+                  }
+                },
+                {
+                  title: I18n.t('doLater'),
+                  onClick: () => {
+                    closeModal$.next(true)
+                  }
+                },
+              ]}
+            >
+              <p className="CompletedModal__title">{I18n.t('kaikas.notInstalled')}</p>
+              <p className="CompletedModal__description">{I18n.t('kaikas.notInstalled.description')}</p>
+            </CompletedModal>
+          )
+        })
+        return false
+      }
+    }
+
     window.injected = window.klaytn
   }
 
@@ -130,6 +164,8 @@ export const connectInjected = (injectedType, walletProviderName) => {
       window.location.reload()
     })
 
+    // @IMPORTANT
+    // returning true means it succeded to connect to the wallet.
     return true
   }
 }

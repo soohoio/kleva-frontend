@@ -112,7 +112,6 @@ closeModal$.pipe(
     return of(true)
   }),
 ).subscribe(() => {
-  console.log('end')
   modalContentComponent$.next(null)
   modalAnimation$.next(null)
   classNameAttach$.next(null)
