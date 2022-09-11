@@ -202,8 +202,8 @@ class FarmingAssetList extends Component {
               />
 
               <div className="FarmingAssetList__cards">
-                {sortedList
-                  .filter((positionInfo) => positionInfo?.positionValue != 0)
+                {/* killed list */}
+                {killedList
                   .map(({
                     positionInfo,
                     userFarmingTokenAmount,
@@ -212,8 +212,9 @@ class FarmingAssetList extends Component {
                     workerInfo,
                     farmingPositionValueInUSD,
                   }) => {
+
                     return (
-                      <FarmAssetCard
+                      <KilledCard
                         key={positionInfo && positionInfo.id}
 
                         selectedAddress={selectedAddress$.value}
@@ -232,8 +233,8 @@ class FarmingAssetList extends Component {
                     )
                   })
                 }
-                {/* killed list */}
-                {killedList
+                {sortedList
+                  .filter((positionInfo) => positionInfo?.positionValue != 0)
                   .map(({
                     positionInfo,
                     userFarmingTokenAmount,
@@ -242,9 +243,8 @@ class FarmingAssetList extends Component {
                     workerInfo,
                     farmingPositionValueInUSD,
                   }) => {
-
                     return (
-                      <KilledCard
+                      <FarmAssetCard
                         key={positionInfo && positionInfo.id}
 
                         selectedAddress={selectedAddress$.value}
