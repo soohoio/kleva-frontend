@@ -48,15 +48,16 @@ class Intro1 extends Component {
           <button
             onClick={() => {
 
-              if (selectedAddress$.value) {
-                currentTab$.next('myasset')
-                return
-              }
+              currentTab$.next('lendnstake')
+              // if (selectedAddress$.value) {
+              //   currentTab$.next('lendnstake')
+              //   return
+              // }
 
-              openModal$.next({
-                classNameAttach: "Modal--mobileCoverAll",
-                component: <ConnectWalletPopup />
-              })
+              // openModal$.next({
+              //   classNameAttach: "Modal--mobileCoverAll",
+              //   component: <ConnectWalletPopup />
+              // })
             }}
             className={cx("Intro1__start", {
               "Intro1__start--shouldShow": shouldShow,
