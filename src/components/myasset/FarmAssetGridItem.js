@@ -110,7 +110,7 @@ class FarmAssetGridItem extends Component {
     const debtRatio = new BigNumber(debtValue || 0)
       .div(positionValue || 1)
       .multipliedBy(100)
-      .toFixed(2)
+      .toNumber()
 
     const equityValueParsed = new BigNumber(positionValue)
       .minus(debtValue)
@@ -121,7 +121,6 @@ class FarmAssetGridItem extends Component {
     const liquidationThreshold = debtValue == 0
       ? 0
       : Number(killFactorBps / 100)
-        .toLocaleString('en-us', { maximumFractionDigits: 2 })
 
     const safetyBuffer = debtValue == 0
       ? 0
@@ -165,6 +164,11 @@ class FarmAssetGridItem extends Component {
 
     const before_apy = toAPY(before_apr)
 
+    // (workfactor bps + threshold) / 2
+    const midOfWbpsAndThreshold = liquidationThreshold 
+      ? ((workFactorBps / 100) + Number(liquidationThreshold)) / 2
+      : 0
+
     return (
       <div className="FarmAssetGridItem">
         <div className="FarmAssetGridItem__asset">
@@ -202,23 +206,23 @@ class FarmAssetGridItem extends Component {
             <span className="FarmAssetGridItem__debtValue">{nFormatter(debtValueParsed, 4)} {baseToken.title}</span>
             <span 
               className={cx("FarmAssetGridItem__debtRatio", {
-                "FarmAssetGridItem__debtRatio--red": debtRatio !== 0 && debtRatio > 70,
+                "FarmAssetGridItem__debtRatio--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
               })}
             >
-              {debtRatio}%
+              {debtRatio.toFixed(2)}%
             </span>
           </p>
           <div className="FarmAssetGridItem__gaugeBar">
             <div
-              style={{ width: `${debtRatio}%` }}
+              style={{ width: `${debtRatio * 100 / Number(liquidationThreshold)}%` }}
               className={cx("FarmAssetGridItem__gauge", {
-                "FarmAssetGridItem__gauge--red": debtRatio !== 0 && debtRatio > 70,
+                "FarmAssetGridItem__gauge--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
               })}
             />
             {!!liquidationThreshold && (
-              <div style={{ left: `${liquidationThreshold}%` }} className="FarmAssetGridItem__threshold">
+              <div style={{ left: `calc(100% - 14px)` }} className="FarmAssetGridItem__threshold">
                 <img src="/static/images/exported/warn-mark.svg" />
-                <p>{liquidationThreshold}%</p>
+                <p>{Number(liquidationThreshold).toFixed(1)}%</p>
               </div>
             )}
           </div>

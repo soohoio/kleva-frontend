@@ -110,7 +110,7 @@ class FarmAssetCard extends Component {
     const debtRatio = new BigNumber(debtValue || 0)
       .div(positionValue || 1)
       .multipliedBy(100)
-      .toFixed(2)
+      .toNumber()
 
     const equityValueParsed = new BigNumber(positionValue)
       .minus(debtValue)
@@ -121,7 +121,6 @@ class FarmAssetCard extends Component {
     const liquidationThreshold = debtValue == 0
       ? 0
       : Number(killFactorBps / 100)
-        .toLocaleString('en-us', { maximumFractionDigits: 2 })
 
     const safetyBuffer = debtValue == 0
       ? 0
@@ -164,6 +163,11 @@ class FarmAssetCard extends Component {
       .toNumber()
 
     const before_apy = toAPY(before_apr)
+
+    // (workfactor bps + threshold) / 2
+    const midOfWbpsAndThreshold = liquidationThreshold
+      ? ((workFactorBps / 100) + Number(liquidationThreshold)) / 2
+      : 0
 
     return (
       <div className="FarmAssetCard">
@@ -234,16 +238,16 @@ class FarmAssetCard extends Component {
           />
           <LabelAndValue
             className={cx("FarmAssetCard__debtRatio", {
-              "FarmAssetCard__debtRatio--red": debtRatio !== 0 && debtRatio > 70,
+              "FarmAssetCard__debtRatio--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
             })}
             label={I18n.t('myasset.farming.debtRatio')}
-            value={`${debtRatio}%`}
+            value={`${debtRatio.toFixed(2)}%`}
           />
           <div className="FarmAssetCard__gaugeBar">
             <div 
-              style={{ width: `${debtRatio}%` }} 
+              style={{ width: `${debtRatio * 100 / Number(liquidationThreshold)}%` }} 
               className={cx("FarmAssetCard__gauge", {
-                "FarmAssetCard__gauge--red": debtRatio !== 0 && debtRatio > 70,
+                "FarmAssetCard__gauge--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
               })}
             />
             {!!liquidationThreshold && <img src="/static/images/exported/warn-mark.svg" className="FarmAssetCard__warnMark" />}
