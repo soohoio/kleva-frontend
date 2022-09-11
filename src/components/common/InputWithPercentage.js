@@ -39,9 +39,9 @@ class InputWithPercentage extends Component {
       value$.pipe(
         tap((value) => {
           this.selectedItem$.next({ 
-            title: `${Number(this.calcPercentageFromValue(value)).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
+            title: `${this.calcPercentageFromValue(value)}`,
             value: value,
-            key: `${this.calcPercentageFromValue(value)}%`,
+            key: `${this.calcPercentageFromValue(value)}`,
           })
         })
       ),
@@ -82,26 +82,20 @@ class InputWithPercentage extends Component {
 
   calcPercentageFromValue = (val) => {
     const { valueLimit } = this.props
-  
+
     const percentage = new BigNumber(val).div(valueLimit).toNumber() * 100
 
     return (val && valueLimit != 0) 
       ? percentage > 100 
         ? "100%+"
         : `${noRounding(percentage, 0)}%`
-      : 0
+      : "0%"
   }
 
   selectPercent = ({ value }) => {
     const { value$, valueLimit, decimalLimit } = this.props
 
-    this.selectedItem$.next({
-      title: `${Number(value).toLocaleString('en-us', { maximumFractionDigits: 0 })}%`,
-      value: value,
-      key: `${value}%`,
-    })
-
-    const newValue = this.getNewValue(value, valueLimit)
+    let newValue = this.getNewValue(value, valueLimit)
 
     value$.next(newValue)
   }
@@ -117,13 +111,13 @@ class InputWithPercentage extends Component {
       const isTargetTokenKLAY = targetToken?.address?.toLowerCase() == tokenList.KLAY.address?.toLowerCase()
       
       if (isTargetTokenKLAY && valueLimit > 1) {
-        return new BigNumber(valueLimit).minus(1).toNumber()
+        return noRounding(new BigNumber(valueLimit).minus(1).toNumber(), 6)
       }
 
-      return valueLimit
+      return noRounding(valueLimit, 6)
     }
 
-    return toFixed(Number(valueLimit) * (value / 100), decimalLimit)
+    return Number(Number(valueLimit) * (value / 100)).toLocaleString('en-us', { maximumFractionDigits: 6 })
   }
     
   render() {
@@ -168,6 +162,14 @@ class InputWithPercentage extends Component {
             onChange={(e) => {
 
               if (isNaN(Number(e.target.value))) return
+
+              if (e.target.value >= 10_000_000_000_000_000) return
+
+              const splitted = String(e.target.value).split('.')
+              const integerPart = splitted[0]
+              const decimalPart = splitted[1]
+
+              if (decimalPart && decimalPart.length > 18) return
 
               value$.next(e.target.value)
 

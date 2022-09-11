@@ -420,12 +420,6 @@ export default class {
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
-    console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
-    console.log(positionId, 'positionId')
-    console.log(amountToBeBorrowed, 'amountToBeBorrowed')
-    console.log(ext, 'ext')
-    console.log(data, 'data')
-
     borrowMore$(vaultAddress, {
       positionId: positionId,
       debtAmount: amountToBeBorrowed,
@@ -480,7 +474,7 @@ export default class {
       this.baseTokenAmount$.next(
         new BigNumber(baseOptimalAmount)
           .div(10 ** this.baseToken$.value?.decimals)
-          .toFixed(4)
+          .toFixed(6)
       )
       return
     }
@@ -505,7 +499,7 @@ export default class {
       this.farmingTokenAmount$.next(
         new BigNumber(farmingOptimalAmount)
           .div(10 ** this.farmingToken$.value?.decimals)
-          .toFixed(4)
+          .toFixed(6)
       )
     }
   }

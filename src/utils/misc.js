@@ -97,41 +97,6 @@ export const coupleArray = ({
   return result
 }
 
-const LESS_THAN_1_DECIMAL_MAX_DIGITS = 4
-
-function numberToKorean(number, lastOnly) {
-  var inputNumber = number < 0 ? false : number;
-  var unitWords = ['', '만 ', '억 ', '조 ', '경 '];
-  var splitUnit = 10000;
-  var splitCount = unitWords.length;
-  var resultArray = [];
-  var resultString = '';
-
-  for (var i = 0; i < splitCount; i++) {
-    var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
-
-    console.log(unitResult, 'unitResult 1')
-
-    unitResult = Math.floor(unitResult);
-
-    console.log(unitResult, 'unitResult 2')
-    if (unitResult > 0) {
-      resultArray[i] = unitResult;
-    }
-  }
-
-  if (lastOnly) {
-    return resultArray[resultArray.length - 1] + unitWords[resultArray.length - 1]
-  }
-
-  for (var i = 0; i < resultArray.length; i++) {
-    if (!resultArray[i]) continue;
-    resultString = String(resultArray[i]) + unitWords[i] + resultString;
-  }
-
-  return resultString;
-}
-
 export const nFormatter = (num, digits, locale, lastOnly) => {
 
   locale = locale || currentLocale$.value
@@ -220,8 +185,6 @@ export const nFormatter = (num, digits, locale, lastOnly) => {
       const splitted = String(num / 10_000).split('.')
       const integerPart = splitted[0]
       const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
-
-      console.log(splitted, '@splitted')
 
       return integerPart + decimalPart + '만'
     } else {

@@ -393,7 +393,7 @@ export default class {
       this.baseTokenAmount$.next(
         new BigNumber(baseOptimalAmount)
           .div(10 ** this.baseToken$.value?.decimals)
-          .toFixed(4)
+          .toFixed(6)
         )
       return
     }
@@ -418,7 +418,7 @@ export default class {
       this.farmingTokenAmount$.next(
         new BigNumber(farmingOptimalAmount)
           .div(10 ** this.farmingToken$.value?.decimals)
-          .toFixed(4)
+          .toFixed(6)
         )
     }
   }
