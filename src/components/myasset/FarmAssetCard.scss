@@ -104,6 +104,8 @@
 
 .FarmAssetCard__apy {
   @include font-style('font-1', 'b', 18px);
+  display: flex;
+  align-items: center;
   color: #265FFC;
   text-align: right;
   margin-bottom: 10px;
@@ -114,6 +116,7 @@
 .FarmAssetCard__leverage {
   @include font-style('font-1', 'm', 15px);
   color: #8B96B3;
+  text-align: right;
   line-height: 17px;
 }
 
@@ -122,7 +125,8 @@
   text-align: right;
 
   .QuestionMark__title {
-    @include font-style('font-1', 'm', 15px);
+    @include font-style('font-1', 'b', 15px);
+    line-height: 19px;
     color: #333333;
   }
 
@@ -134,11 +138,23 @@
   .LabelAndValue__value {
     @include font-style('font-1', 'm', 15px);
     color: #333333;
+  }
+
+  &--total {
+    border-bottom: 1px solid #F0F2F7;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+
+  &--debt {
+    .LabelAndValue__value {
+      color: #F73D3D;
+    }
   }
 }
 
 .FarmAssetCard__debtRatio {
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
@@ -146,7 +162,7 @@
   }
   
   .LabelAndValue__value {
-    @include font-style('font-1', 'b', 15px);
+    @include font-style('font-1', 'b', 17px);
     color: #265FFC;
   }
 
@@ -204,9 +220,22 @@
 }
 
 .FarmAssetCard__debtRatioDescription {
+  display: flex;
+  align-items: center;
   color: #8B96B3;
   @include font-style('font-1', 'm', 15px);
   line-height: 21px;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    background-image: url(/static/images/exported/warn-mark.svg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
 }
 
 .FarmAssetCard__warnMark {
@@ -371,3 +400,17 @@
 //     }
 //   }
 // }
+
+.FarmAssetCard__balanceInUSD {
+  @include font-style('font-1', 'b', 17px);
+  color: #333333;
+  line-height: 19px;
+  margin-bottom: 5px;
+}
+
+.FarmAssetCard__miscLabel {
+  @include font-style('font-1', 'm', 13px);
+  color: #969BAB;
+  line-height: 19px;
+  margin-top: 2px;
+}

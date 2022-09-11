@@ -1,0 +1,15 @@
+.TotalAssetInfoModal {
+
+}
+
+.TotalAssetInfoModal__description {
+  @include font-style('font-1', 'm', 16px);
+  color: #636878;
+  margin-bottom: 18px;
+}
+
+.TotalAssetInfoModal__exampleTitle {
+  @include font-style('font-1', 'b', 15px);
+  color: #265FFC;
+  margin-bottom: 1px;
+}

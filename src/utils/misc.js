@@ -97,9 +97,9 @@ export const coupleArray = ({
   return result
 }
 
-export const nFormatter = (num, digits, locale, lastOnly) => {
+export const nFormatter = (num, forceDigits, forceLocale, lastOnly) => {
 
-  locale = locale || currentLocale$.value
+  const locale = forceLocale || currentLocale$.value
 
   if (num == '-') {
     return '-'
@@ -203,11 +203,17 @@ export const nFormatter = (num, digits, locale, lastOnly) => {
 
   // rule 03
   if (num >= 1) {
+    if (forceDigits) {
+      return Number(num).toLocaleString('en-us', { maximumFractionDigits: forceDigits })
+    }
     return Number(num).toLocaleString('en-us', { maximumFractionDigits: 4 })
   }
 
   // rule 02
   if (num >= 1e-6) {
+    if (forceDigits) {
+      return Number(num).toLocaleString('en-us', { maximumFractionDigits: forceDigits })
+    }
     return noRounding(num, 6)
   }
 

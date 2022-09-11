@@ -19,6 +19,8 @@ import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/cal
 import QuestionMark from '../common/QuestionMark'
 import AdjustPosition from '../farming/AdjustPosition'
 import ClosePosition from '../farming/ClosePosition'
+import TotalAssetInfoModal from '../modals/TotalAssetInfoModal'
+import FarmAPRDetailInfo2 from '../modals/FarmAPRDetailInfo2'
 
 class FarmAssetCard extends Component {
   destroy$ = new Subject()
@@ -187,26 +189,48 @@ class FarmAssetCard extends Component {
             value={(
               <>
                 <>
-                  <p className="FarmAssetCard__apy">{nFormatter(before_apy, 2)}%</p>
+                  <p className="FarmAssetCard__apy">
+                      {nFormatter(before_apy, 2)}%
+                      <QuestionMark 
+                        info
+                        onClick={() => {
+
+                          openModal$.next({
+                            component: (
+                              <FarmAPRDetailInfo2
+                                title={`${farmingToken.title}+${baseToken.title}`}
+                                yieldFarmingAPR={before_yieldFarmingAPR}
+                                klevaRewardAPR={before_klevaRewardsAPR}
+                                tradingFeeAPR={before_tradingFeeAPR}
+                                borrowingInterest={before_borrowingInterestAPR}
+                                apr={before_apr}
+                                apy={before_apy}
+                              />
+                            )
+                          })
+                        }}
+                      />
+                    </p>
                   <p className="FarmAssetCard__leverage">{I18n.t('myasset.farming.leverageValue', { leverage: Number(currentPositionLeverage).toFixed(1) })}</p>
                 </>
               </>
             )}
           />
           <LabelAndValue
-            className="FarmAssetCard__marketValue"
-            label={I18n.t('myasset.marketValue')}
-            value={`$${nFormatter(balanceTotalInUSD, 2)}`}
-          />
-          <LabelAndValue
-            className="FarmAssetCard__valueItem"
+            className="FarmAssetCard__valueItem FarmAssetCard__valueItem--total"
             label={(
               <QuestionMark 
                 title={I18n.t('myasset.farming.totalValue')}
+                onClick={() => {
+                  openModal$.next({
+                    component: <TotalAssetInfoModal />
+                  })
+                }}
               />
             )}
             value={(
               <>
+                <p className="FarmAssetCard__balanceInUSD">${nFormatter(balanceTotalInUSD, 2)}</p>
                 <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
                 <p>{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
               </>
@@ -214,11 +238,7 @@ class FarmAssetCard extends Component {
           />
           <LabelAndValue
             className="FarmAssetCard__valueItem"
-            label={(
-              <QuestionMark 
-                title={I18n.t('myasset.farming.equityValue')}
-              />
-            )}
+            label={I18n.t('myasset.farming.equityValue')}
             value={(
               <>
                 {/* <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
@@ -228,19 +248,20 @@ class FarmAssetCard extends Component {
             )}
           />
           <LabelAndValue
-            className="FarmAssetCard__valueItem"
-            label={(
-              <QuestionMark 
-                title={I18n.t('myasset.farming.debtValue')}
-              />
-            )}
+            className="FarmAssetCard__valueItem FarmAssetCard__valueItem--debt"
+            label={I18n.t('myasset.farming.debtValue')}
             value={`${nFormatter(debtValueParsed, 2)} ${baseToken.title}`}
           />
           <LabelAndValue
             className={cx("FarmAssetCard__debtRatio", {
               "FarmAssetCard__debtRatio--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
             })}
-            label={I18n.t('myasset.farming.debtRatio')}
+            label={(
+              <>
+                <p>{I18n.t('myasset.farming.debtRatio')}</p>
+                <p className="FarmAssetCard__miscLabel">{I18n.t('myasset.farming.debtRatio.label')}</p>
+              </>
+            )}
             value={`${debtRatio.toFixed(2)}%`}
           />
           <div className="FarmAssetCard__gaugeBar">
@@ -252,7 +273,7 @@ class FarmAssetCard extends Component {
             />
             {!!liquidationThreshold && <img src="/static/images/exported/warn-mark.svg" className="FarmAssetCard__warnMark" />}
           </div>
-          {!!liquidationThreshold && <p className="FarmAssetCard__debtRatioDescription">{I18n.t('myasset.farming.debtRatio.description')}</p>}
+          {!!liquidationThreshold && <p className="FarmAssetCard__debtRatioDescription">{I18n.t('myasset.farming.debtRatio.description', { value: Number(liquidationThreshold).toFixed(1) })}</p>}
           <div className="FarmAssetCard__buttons">
             <button
               className={cx("FarmAssetCard__closeButton", {
