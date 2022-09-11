@@ -32,18 +32,18 @@ class TotalSupplyInfo extends Component {
     
   render() {
     
-    const totalSupply = 39228192
     const marketCap = 24283603
     const klevaCirculation = 29827092
     const klevaPlatformLocked = 9382298
 
-    const circulationPercentage = klevaCirculation / totalSupply
-    const lockupPercentage = 1 - circulationPercentage
-
     const accumBuybackInUSD = 2383390
     const accumBurnAmount = 4395840
 
-    const burnPercentage = accumBurnAmount / klevaCirculation
+    const totalSupply = klevaCirculation + klevaPlatformLocked + accumBurnAmount
+    
+    const circulationPercentage = klevaCirculation / totalSupply
+    const lockupPercentage = klevaPlatformLocked / totalSupply
+    const burnPercentage = accumBurnAmount / totalSupply
 
     return (
       <div className="TotalSupplyInfo">
@@ -70,6 +70,12 @@ class TotalSupplyInfo extends Component {
               [`TotalSupplyInfo__gaugeItem--lockup`]: true,
             })}
           />
+          <div
+            style={{ flex: `${burnPercentage * 100}` }}
+            className={cx("TotalSupplyInfo__gaugeItem", {
+              [`TotalSupplyInfo__gaugeItem--burn`]: true,
+            })}
+          />
         </div>
 
         <LabelAndValue
@@ -92,13 +98,23 @@ class TotalSupplyInfo extends Component {
           )}
           value={`${noRounding(klevaPlatformLocked)} KLEVA`}
         />
+        <LabelAndValue 
+          className="TotalSupplyInfo__burn"
+          label={(
+            <>
+              <span>{I18n.t('dashboard.burn.title')}</span>
+              <span>{Number(burnPercentage * 100).toFixed(1)}%</span>
+            </>
+          )}
+          value={`${noRounding(accumBurnAmount)} KLEVA`}
+        />
         <hr className="TotalSupplyInfo__hr" />
         <LabelAndValue
           className="TotalSupplyInfo__accumBuybackInUSD"
           label={I18n.t('dashboard.accumBuybackValue.title')}
           value={`$${noRounding(accumBuybackInUSD, 0)}`}
         />
-        <LabelAndValue
+        {/* <LabelAndValue
           className="TotalSupplyInfo__accumBurnAmount"
           label={I18n.t('dashboard.accumBurnAmount.title')}
           value={(
@@ -107,7 +123,7 @@ class TotalSupplyInfo extends Component {
               <p>{I18n.t('dashboard.accumBurnAmount.description', { value: Number(burnPercentage * 100).toFixed(2) })}%</p>
             </>
           )}
-        />
+        /> */}
         <button className="TotalSupplyInfo__see">
           {I18n.t('dashboard.accumBurnAmount.view')}
         </button>

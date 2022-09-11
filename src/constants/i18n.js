@@ -48,6 +48,7 @@ export const en = {
   'dashboard.accumBurnAmount.title': 'Accumulated Burned Amount',
   'dashboard.accumBurnAmount.description': '%{value} of Circulating Supply',
   'dashboard.accumBurnAmount.view': 'Details',
+  'dashboard.burn.title': '소각 물량',
 
   'guide.connectWallet.title': 'Connect your wallet to start KLEVA Protocol',
   'guide.connectWallet.buttonTitle': 'Connect Wallet',
@@ -352,6 +353,7 @@ export const ko = {
   'dashboard.accumBurnAmount.title': '누적 소각량',
   'dashboard.accumBurnAmount.description': 'KLEVA 유통량 대비 %{value}',
   'dashboard.accumBurnAmount.view': '소각 내역 보기',
+  'dashboard.burn.title': '소각 물량',
 
   'guide.connectWallet.title': '자산 연동을 위해 지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',

@@ -54,6 +54,11 @@
 
   &--lockup {
     background-color: #002DA9;
+    margin-right: 2px;
+  }
+  
+  &--burn {
+    background-color: #FA5A5A;
   }
 
   &:first-of-type {
@@ -115,6 +120,9 @@
 }
 
 .TotalSupplyInfo__lockup {
+
+  margin-bottom: 12px !important;
+
   .LabelAndValue__label {
     span:first-of-type {
   
@@ -142,6 +150,37 @@
   .LabelAndValue__value {
     @include font-style('font-1', 'b', 16px);
     color: #002DA9;
+  }
+}
+
+.TotalSupplyInfo__burn {
+  .LabelAndValue__label {
+    span:first-of-type {
+  
+      @include font-style('font-1', 'm', 15px);
+      color: #333333;
+  
+      &::before {
+        display: inline-block;
+        content: "";
+        width: 7px;
+        height: 7px;
+        margin-right: 7px;
+        border-radius: 50%;
+        background-color: #FA5A5A;
+      }
+    }
+    
+    span:last-of-type {
+      margin-left: 4px;
+      @include font-style('font-1', 'r', 15px);
+      color: #9BA2B9;
+    }
+  }
+
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 16px);
+    color: #F73D3D;
   }
 }
 
