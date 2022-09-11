@@ -120,11 +120,16 @@
 }
 
 .TotalSupplyInfo__lockup {
-
   margin-bottom: 12px !important;
 
+
   .LabelAndValue__label {
+    display: flex;
+    align-items: center;
+    
     span:first-of-type {
+      display: flex;
+      align-items: center;
   
       @include font-style('font-1', 'm', 15px);
       color: #333333;

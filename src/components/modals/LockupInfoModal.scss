@@ -1,0 +1,9 @@
+.LockupInfoModal {
+
+}
+
+.LockupInfoModal__description {
+  @include font-style('font-1', 'm', 16px);
+  color: #636878;
+  margin-bottom: 18px;
+}

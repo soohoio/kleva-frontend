@@ -49,6 +49,8 @@ export const en = {
   'dashboard.accumBurnAmount.description': '%{value} of Circulating Supply',
   'dashboard.accumBurnAmount.view': 'Details',
   'dashboard.burn.title': '소각 물량',
+  'dashboard.lockup.modal.title': '락업 물량',
+  'dashboard.lockup.modal.description': '발행된 총 KLEVA 토큰 중 회사가 보유하거나 클레바 프로토콜 내 유저가 스테이킹하는 등 시장에 유통되지 않는 토큰의 총량을 의미합니다.',
 
   'guide.connectWallet.title': 'Connect your wallet to start KLEVA Protocol',
   'guide.connectWallet.buttonTitle': 'Connect Wallet',
@@ -354,6 +356,8 @@ export const ko = {
   'dashboard.accumBurnAmount.description': 'KLEVA 유통량 대비 %{value}',
   'dashboard.accumBurnAmount.view': '소각 내역 보기',
   'dashboard.burn.title': '소각 물량',
+  'dashboard.lockup.modal.title': '락업 물량',
+  'dashboard.lockup.modal.description': '발행된 총 KLEVA 토큰 중 회사가 보유하거나 클레바 프로토콜 내 유저가 스테이킹하는 등 시장에 유통되지 않는 토큰의 총량을 의미합니다.',
 
   'guide.connectWallet.title': '자산 연동을 위해 지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',

@@ -8,6 +8,9 @@ import './TotalSupplyInfo.scss'
 import { I18n } from '../common/I18n'
 import { noRounding } from '../../utils/misc'
 import LabelAndValue from '../LabelAndValue'
+import QuestionMark from '../common/QuestionMark'
+import { openModal$ } from '../../streams/ui'
+import LockupInfoModal from '../modals/LockupInfoModal'
 
 class TotalSupplyInfo extends Component {
   bloc = new Bloc(this)
@@ -92,7 +95,16 @@ class TotalSupplyInfo extends Component {
           className="TotalSupplyInfo__lockup"
           label={(
             <>
-              <span>{I18n.t('dashboard.lockup.title')}</span>
+              <span>
+                {I18n.t('dashboard.lockup.title')}
+                <QuestionMark
+                  onClick={() => {
+                    openModal$.next({
+                      component: <LockupInfoModal />
+                    })
+                  }}
+                />
+              </span>
               <span>{Number(lockupPercentage * 100).toFixed(1)}%</span>
             </>
           )}
@@ -114,16 +126,6 @@ class TotalSupplyInfo extends Component {
           label={I18n.t('dashboard.accumBuybackValue.title')}
           value={`$${noRounding(accumBuybackInUSD, 0)}`}
         />
-        {/* <LabelAndValue
-          className="TotalSupplyInfo__accumBurnAmount"
-          label={I18n.t('dashboard.accumBurnAmount.title')}
-          value={(
-            <>
-              <p>{noRounding(accumBurnAmount, 0)} KLEVA</p>
-              <p>{I18n.t('dashboard.accumBurnAmount.description', { value: Number(burnPercentage * 100).toFixed(2) })}%</p>
-            </>
-          )}
-        /> */}
         <button className="TotalSupplyInfo__see">
           {I18n.t('dashboard.accumBurnAmount.view')}
         </button>
