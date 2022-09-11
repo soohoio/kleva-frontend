@@ -34,7 +34,30 @@ export const connectInjected = (injectedType, walletProviderName) => {
 
   if (injectedType === "metamask") {
     if (!window.isMobile && !window.ethereum) {
-      alert('Please install Metamask first.')
+      openModal$.next({
+        component: (
+          <CompletedModal
+            menus={[
+              {
+                title: I18n.t('metamask.install'),
+                onClick: () => {
+                  window.open("https://metamask.io/download/")
+                  closeModal$.next(true)
+                }
+              },
+              {
+                title: I18n.t('doLater'),
+                onClick: () => {
+                  closeModal$.next(true)
+                }
+              },
+            ]}
+          >
+            <p className="CompletedModal__title">{I18n.t('metamask.notInstalled')}</p>
+            <p className="CompletedModal__description">{I18n.t('metamask.notInstalled.description')}</p>
+          </CompletedModal>
+        )
+      })
       return false
     }
 

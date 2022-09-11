@@ -320,7 +320,7 @@ export const ko = {
   'connectWallet.makeWallet': '%{title} 지갑 만들기',
   'changeNetwork.title': '메인넷을 Klaytn으로<br/>교체해 주세요.',
   'changeNetwork.description': 'Metamask를 실행해<br/>메인넷을 교체할 수 있습니다.',
-  'metamask.notInstalled': '설치되어 있지 않습니다.<br/>설치되어 있지 않습니다.',
+  'metamask.notInstalled': 'Metamask가<br/>설치되어 있지 않습니다.',
   'metamask.notInstalled.description': 'Metamask 지갑은 Chrome에서<br/>설치할 수 있습니다.',
   'metamask.install': 'Metamask 지갑 설치하기',
   'kaikas.notInstalled': 'Kaikas가<br/>설치되어 있지 않습니다.',
