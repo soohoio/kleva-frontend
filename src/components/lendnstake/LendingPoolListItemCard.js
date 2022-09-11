@@ -21,6 +21,7 @@ import UtilizationInfoModal from '../modals/UtilizationInfoModal';
 import LendStakeAPRDetailInfoModal from '../modals/LendStakeAPRDetailInfoModal'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup';
 import ProfitSimulationPopup from './ProfitSimulationPopup'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -176,17 +177,21 @@ class LendingPoolListItemCard extends Component {
             </div>
             <div
               className={cx("LendingPoolListItemCard__depositButton", {
-                "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDepositDisabled
+                // "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDepositDisabled
               })}
               onClick={() => {
 
                 if (!selectedAddress) {
+                  openModal$.next({
+                    classNameAttach: "Modal--mobileCoverAll",
+                    component: <ConnectWalletPopup />
+                  })
                   return
                 }
 
-                if (isDepositDisabled) {
-                  return
-                }
+                // if (isDepositDisabled) {
+                //   return
+                // }
 
                 openModal$.next({
                   classNameAttach: 'Modal--mobileCoverAll',

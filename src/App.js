@@ -72,7 +72,9 @@ class App extends Component<Props> {
     )
 
     isLoggedInFirst$.subscribe(() => {
-      currentTab$.next('myasset')
+      if (path$.value == '/') {
+        currentTab$.next('myasset')
+      }
     })
 
     // Fetch lending token supply info.

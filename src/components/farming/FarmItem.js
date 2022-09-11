@@ -13,8 +13,9 @@ import { I18n } from '../common/I18n';
 import { currentLocale$ } from 'streams/i18n';
 import LabelAndValue from '../LabelAndValue'
 import RadioSet2 from '../common/RadioSet2'
-import { openContentView$ } from '../../streams/ui'
+import { openContentView$, openModal$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 
 class FarmItem extends Component {
   destroy$ = new Subject()
@@ -132,11 +133,17 @@ class FarmItem extends Component {
           />
           <button
             className={cx("FarmItem__button", {
-              "FarmItem__button--disabled": !selectedAddress,
+              // "FarmItem__button--disabled": !selectedAddress,
             })}
             onClick={() => {
 
-              if (!selectedAddress) return
+              if (!selectedAddress) {
+                openModal$.next({
+                  classNameAttach: "Modal--mobileCoverAll",
+                  component: <ConnectWalletPopup />
+                })
+                return
+              }
 
               openContentView$.next({
                 key: "AddPosition",

@@ -15,6 +15,7 @@ import { isSameAddress, noRounding } from '../../utils/misc'
 import { I18n } from '../common/I18n'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup'
 import ProfitSimulationPopup from './ProfitSimulationPopup'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -152,17 +153,21 @@ class LendingPoolListItem extends Component {
             </div>
             <div
               className={cx("LendingDepositAndSimulation__depositButton", {
-                "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDepositDisabled
+                // "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDepositDisabled
               })}
               onClick={() => {
 
                 if (!selectedAddress) {
+                  openModal$.next({
+                    classNameAttach: "Modal--mobileCoverAll",
+                    component: <ConnectWalletPopup />
+                  })
                   return
                 }
 
-                if (isDepositDisabled) {
-                  return
-                }
+                // if (isDepositDisabled) {
+                //   return
+                // }
 
                 openModal$.next({
                   classNameAttach: 'Modal--mobileCoverAll',

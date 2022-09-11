@@ -17,6 +17,7 @@ import QuestionMark from '../common/QuestionMark';
 import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
 import { openContentView$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 
 class FarmItemCard extends Component {
   destroy$ = new Subject()
@@ -149,11 +150,17 @@ class FarmItemCard extends Component {
           />
           <button
             className={cx("FarmItemCard__button", {
-              "FarmItemCard__button--disabled": !selectedAddress,
+              // "FarmItemCard__button--disabled": !selectedAddress,
             })}
             onClick={() => {
 
-              if (!selectedAddress) return
+              if (!selectedAddress) {
+                openModal$.next({
+                  classNameAttach: "Modal--mobileCoverAll",
+                  component: <ConnectWalletPopup />
+                })
+                return
+              }
 
               openContentView$.next({
                 key: "AddPosition",
