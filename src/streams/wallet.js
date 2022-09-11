@@ -1,9 +1,12 @@
+import React from 'react'
 import { from, BehaviorSubject, Subject } from 'rxjs'
 import { distinctUntilChanged, filter, windowTime } from 'rxjs/operators'
 import ls from 'local-storage'
 import { walletType$ } from './setting'
 
-import { closeModal$ } from 'streams/ui'
+import { openModal$, closeModal$ } from 'streams/ui'
+import CompletedModal from '../components/common/CompletedModal'
+import { I18n } from '../components/common/I18n'
 
 export const selectedAddress$ = new BehaviorSubject()
 
@@ -32,7 +35,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
   if (injectedType === "metamask") {
     if (!window.isMobile && !window.ethereum) {
       alert('Please install Metamask first.')
-      return
+      return false
     }
 
     if (window.isMobile && !window.ethereum) {
@@ -47,12 +50,36 @@ export const connectInjected = (injectedType, walletProviderName) => {
         }
       }, 300);
       window.open(`dapp://${window.location.host}${window.location.pathname}`)
-      return
+      return false
     }
 
     if (window.ethereum.networkVersion !== "8217") {
-      alert('Please change network to Klaytn.')
-      return
+      openModal$.next({
+        component: (
+          <CompletedModal 
+            menus={[
+              {
+                title: I18n.t('viewDetail'),
+                onClick: () => {
+                  window.open("https://medium.com/@KLEVA_Protocol_official/kleva-protocol-integrates-metamask-b2f4ddd9b0c6")
+                  closeModal$.next(true)
+                }
+              },
+              {
+                title: I18n.t('doLater'),
+                onClick: () => {
+                  closeModal$.next(true)
+                }
+              },
+            ]}
+          >
+            <p className="CompletedModal__title">{I18n.t('changeNetwork.title')}</p>
+            <p className="CompletedModal__description">{I18n.t('changeNetwork.description')}</p>
+          </CompletedModal>
+        )
+      })
+      // alert('Please change network to Klaytn.')
+      return false
     }
 
     window.injected = window.ethereum
@@ -61,6 +88,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
   }
 
   if (window.injected) {
+
     from(window.injected.enable()).subscribe(([selectedAddress]) => {
       selectedAddress$.next(selectedAddress)
       walletType$.next("injected")
@@ -78,6 +106,8 @@ export const connectInjected = (injectedType, walletProviderName) => {
     window.injected.on('chainChanged', function (accounts) {
       window.location.reload()
     })
+
+    return true
   }
 }
 

@@ -97,8 +97,9 @@ class ConnectWalletPopup extends Component {
             className="WalletConnectOption--metamask"
             imgSrc="/static/images/wallet-option-metamask.png"
             onClick={() => {
-              connectInjected('metamask', 'Metamask')
-              closeModal$.next(true)
+              if (connectInjected('metamask', 'Metamask')) {
+                closeModal$.next(true)
+              }
             }}
           />
         </div>
