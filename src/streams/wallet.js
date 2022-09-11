@@ -4,9 +4,10 @@ import { distinctUntilChanged, filter, windowTime } from 'rxjs/operators'
 import ls from 'local-storage'
 import { walletType$ } from './setting'
 
-import { openModal$, closeModal$ } from 'streams/ui'
+import { openModal$, closeModal$, openLayeredModal$ } from 'streams/ui'
 import CompletedModal from '../components/common/CompletedModal'
 import { I18n } from '../components/common/I18n'
+import { closeLayeredModal$ } from './ui'
 
 export const selectedAddress$ = new BehaviorSubject()
 
@@ -35,9 +36,9 @@ export const connectInjected = (injectedType, walletProviderName) => {
   if (injectedType === "metamask") {
     const isNotInstalled = !window.isMobile && !window.ethereum
     const needToUseDeeplink = window.isMobile && !window.ethereum
-    const notKlaytnNetwork = window.ethereum.networkVersion !== "8217"
+    const notKlaytnNetwork = window.ethereum && (window.ethereum.networkVersion !== "8217")
     if (isNotInstalled) {
-      openModal$.next({
+      openLayeredModal$.next({
         component: (
           <CompletedModal
             menus={[
@@ -45,13 +46,13 @@ export const connectInjected = (injectedType, walletProviderName) => {
                 title: I18n.t('metamask.install'),
                 onClick: () => {
                   window.open("https://metamask.io/download/")
-                  closeModal$.next(true)
+                  closeLayeredModal$.next(true)
                 }
               },
               {
                 title: I18n.t('doLater'),
                 onClick: () => {
-                  closeModal$.next(true)
+                  closeLayeredModal$.next(true)
                 }
               },
             ]}
@@ -80,7 +81,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
     }
 
     if (notKlaytnNetwork) {
-      openModal$.next({
+      openLayeredModal$.next({
         component: (
           <CompletedModal 
             menus={[
@@ -88,13 +89,13 @@ export const connectInjected = (injectedType, walletProviderName) => {
                 title: I18n.t('viewDetail'),
                 onClick: () => {
                   window.open("https://medium.com/@KLEVA_Protocol_official/kleva-protocol-integrates-metamask-b2f4ddd9b0c6")
-                  closeModal$.next(true)
+                  closeLayeredModal$.next(true)
                 }
               },
               {
                 title: I18n.t('doLater'),
                 onClick: () => {
-                  closeModal$.next(true)
+                  closeLayeredModal$.next(true)
                 }
               },
             ]}
@@ -113,7 +114,7 @@ export const connectInjected = (injectedType, walletProviderName) => {
     if (injectedType === "kaikas") {
       const isNotInstalled = !window.isMobile && !window.klaytn
       if (isNotInstalled) {
-        openModal$.next({
+        openLayeredModal$.next({
           component: (
             <CompletedModal
               menus={[
@@ -121,13 +122,13 @@ export const connectInjected = (injectedType, walletProviderName) => {
                   title: I18n.t('kaikas.install'),
                   onClick: () => {
                     window.open("https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi")
-                    closeModal$.next(true)
+                    closeLayeredModal$.next(true)
                   }
                 },
                 {
                   title: I18n.t('doLater'),
                   onClick: () => {
-                    closeModal$.next(true)
+                    closeLayeredModal$.next(true)
                   }
                 },
               ]}
