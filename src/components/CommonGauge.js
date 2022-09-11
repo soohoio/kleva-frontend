@@ -1,33 +1,30 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, fromEvent, of } from 'rxjs'
+import { Subject, merge, fromEvent, of, BehaviorSubject } from 'rxjs'
 import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 import { range } from 'lodash'
 
 import './CommonGauge.scss'
-import { noRounding } from '../utils/misc'
+import { noRounding, replaceall } from '../utils/misc'
 
 class CommonGauge extends Component {
   $gaugeBar = createRef()
 
   destroy$ = new Subject()
 
+  prevValidPercentage$ = new BehaviorSubject()
+
   componentDidMount() {
     const { percentage$ } = this.props
 
-    // console.log(this.props, 'this.props')
-    // console.log(percentage$, 'percentage$')
-
     merge(
       percentage$,
+      this.prevValidPercentage$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
-
-      console.log(percentage$.value, 'percentage$.value')
-
       this.forceUpdate()
     })
 
@@ -80,18 +77,29 @@ class CommonGauge extends Component {
 
     const nextPercentage = percent * 100
 
-    
     if (nextPercentage > max) {
+      this.prevValidPercentage$.next(max)
       percentage$.next(max)
       return
     }
 
     if (nextPercentage < min) {
+      this.prevValidPercentage$.next(min)
       percentage$.next(min)
       return
     }
-
+    
+    this.prevValidPercentage$.next(nextPercentage)
     percentage$.next(nextPercentage)
+  }
+
+  isValidPercentage = (percentage) => {
+    const { min, max } = this.props
+    if (Number(min) > percentage) return false
+    if (Number(max) < percentage) return false
+    if (isNaN(percentage)) return false
+
+    return true
   }
 
   render() {
@@ -117,7 +125,9 @@ class CommonGauge extends Component {
     
     const barHeadLeft = percentage$.value < 3
       ? 0
-      : `calc(${percentage$.value}% - 12px)`
+      : percentage$.value > 100
+        ? `calc(100% - 12px)`
+        : `calc(${percentage$.value}% - 12px)`
 
     const availableRangeBarWidth = max - min
     const availableRangeBarLeft = min
@@ -132,7 +142,74 @@ class CommonGauge extends Component {
           <div className="CommonGauge__inputWrapper">
             <input
               className="CommonGauge__leverageInput"
-              readOnly
+              onChange={(e) => {
+
+                let temp = e.target.value
+                const pureNumberValue = Number(replaceall(',', '', temp))
+
+                const splitted = String(e.target.value).split('.')
+                const decimalPart = splitted[1]
+
+                // invalid value: if decimal part length is greater than 2
+                if (decimalPart && decimalPart.length > 2) return
+
+                // invalid value: if isNaN
+                if (isNaN(pureNumberValue)) {
+                  return
+                }
+
+                // invalid value: if value is geq 10_000_000_000_000_000
+                if (e.target.value >= 10_000_000_000_000_000) return
+                // invalid value: if value is ge 100
+                if (e.target.value > 100) return
+                
+                // The fact that percentage is 0 means it is untouched value,
+                // So if user inputs number on it, '0' should be removed.
+                // To prevent these cases: 
+                // 0 -> 10 (by typing 1 before '0')
+                // 0 -> 01 (by typing 1 behind '0')
+                if (percentage$.value == 0) {
+                  e.target.value = e.target.value.replace('0', '')
+                }
+
+                // If value becomes '', change it to untouched value, which is 0
+                if (e.target.value === '') {
+                  e.target.value = 0
+                }
+
+                // e.target.value.length will be decreased if user inputs backspace.
+                // which means "remove"
+                const isRemoving = percentage$.value.length > e.target.value.length
+
+                // While removing, if there's a trailing comma or trailling dot means,
+                // user want to decrease number value
+                // In this case, program should remove '.' so user doesn't need to remove '.' by himself.
+                // (X) 123.45 -> 123.4 -> 123.
+                //       (backspace) (backspace)
+                // (O) 123.45 -> 123.4 -> 123
+                //       (backspace) (backspace)
+                const hasTrailingDotAfterRemove = isRemoving && (e.target.value.slice(-1) === "." || e.target.value.slice(-1) === ",")
+
+                if (hasTrailingDotAfterRemove) {
+                  e.target.value = e.target.value.slice(0, e.target.value.length - 1)
+                }
+
+                // percentage$.value should be a number, not a decorated number string.
+                // That's why we replace all ',' to ''
+                const nextPercentage = replaceall(',', '', e.target.value)
+
+                percentage$.next(nextPercentage)
+              }}
+              onBlur={() => {
+
+                if (this.isValidPercentage(percentage$.value)) {
+                  // save previous valid value
+                  this.prevValidPercentage$.next(percentage$.value)
+                } else {
+                  // If percentage is invalid, overwrite it with previous valid value
+                  percentage$.next(this.prevValidPercentage$.value || 0)
+                }
+              }}
               value={noRounding(percentage$.value, 2)}
             />
             <span className="CommonGauge__x">%</span>

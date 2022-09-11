@@ -233,8 +233,6 @@ export const noRounding = (num, digits) => {
     return 0
   }
 
-  
-
   const splitted = String(num).split('.')
 
   const integerPoints = splitted[0]
@@ -242,7 +240,12 @@ export const noRounding = (num, digits) => {
 
   const integerWithCommas = numberWithCommas(integerPoints)
   
-  if (!decimalPoints) return integerWithCommas
+  if (!decimalPoints) {
+    if (splitted.length == 2) {
+      return integerWithCommas + "."
+    }
+    return integerWithCommas
+  }
 
   if (digits == 0) {
     return integerWithCommas
@@ -264,3 +267,11 @@ export const padAddress = (address) => {
 }
 
 window.nFormatter = nFormatter
+window.noRounding = noRounding
+
+export const replaceall = function (replaceThis, withThis, inThis) {
+  withThis = withThis.replace(/\$/g, "$$$$");
+  return inThis.replace(new RegExp(replaceThis.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|<>\-\&])/g, "\\$&"), "g"), withThis);
+}
+
+window.replaceall = replaceall
