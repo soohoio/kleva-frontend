@@ -21,7 +21,7 @@ const FAQItem = ({ title, description, onClick, isActive }) => {
             onClick={() => window.open('https://docs.kleva.io')}
             className="FAQItem__link"
           >
-            {I18n.t('intro7.see')}
+            {I18n.t('intro7.seeDetail')}
           </p>
         </>
       )}
