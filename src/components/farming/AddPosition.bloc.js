@@ -31,7 +31,8 @@ export default class {
     this.workerList = comp.props.workerList
 
     this.isLoading$ = new BehaviorSubject()
-    this.borrowingAsset$ = new BehaviorSubject(comp.props.borrowingAvailableAssets[0])
+
+    this.borrowingAsset$ = new BehaviorSubject(comp.props.defaultBorrowingAsset || comp.props.borrowingAvailableAssets[0])
 
     // this.worker$
     this.farmingToken$ = new BehaviorSubject(
@@ -66,12 +67,12 @@ export default class {
   }
 
   init = () => {
-    const { defaultWorker } = this.comp.props
+    // const { defaultWorker } = this.comp.props
 
     this.leverage$.next(this.comp.props.defaultLeverage)
-    if (defaultWorker) {
-      this.worker$.next(defaultWorker)
-    }
+    // if (defaultWorker) {
+    //   this.worker$.next(defaultWorker)
+    // }
   }
 
   getTokens = () => {

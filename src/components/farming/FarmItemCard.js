@@ -65,6 +65,8 @@ class FarmItemCard extends Component {
     const leverageValue = this.bloc.leverageValue$.value
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
+    const borrowingAsset = borrowingAssetMap$.value[lpToken.address]
+
     const {
       yieldFarmingAPR,
       tradingFeeAPR,
@@ -119,10 +121,8 @@ class FarmItemCard extends Component {
                         borrowingAvailableAssets={borrowingAvailableAssets}
                         borrowingAssetMap$={borrowingAssetMap$}
                         leverageValue$={this.bloc.leverageValue$}
-                        leverageCapRaw={leverageCapRaw}
-                        leverageCap={leverageCap}
                         worker$={this.bloc.worker$}
-                        setLeverage={(v) => this.bloc.setLeverageValue(v, leverageCapRaw)}
+                        setLeverage={this.bloc.setLeverageValue}
                         setBorrowingAsset={this.bloc.setBorrowingAsset}
                         yieldFarmingAPR={yieldFarmingAPR}
                         klevaRewardAPR={debtTokenKlevaRewardsAPR}
@@ -167,6 +167,7 @@ class FarmItemCard extends Component {
                 component: (
                   <AddPosition
                     title={`${token1?.title}+${token2?.title}`}
+                    defaultBorrowingAsset={borrowingAsset}
                     defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                     tradingFeeAPR={tradingFeeAPR}

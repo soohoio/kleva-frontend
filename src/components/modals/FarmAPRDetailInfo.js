@@ -8,7 +8,7 @@ import "./FarmAPRDetailInfo.scss"
 import Modal from '../common/Modal'
 import { I18n } from '../common/I18n'
 import LabelAndValue from '../LabelAndValue'
-import { nFormatter } from '../../utils/misc'
+import { nFormatter, noRounding } from '../../utils/misc'
 import { closeModal$, openContentView$, openModal$ } from '../../streams/ui'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import RadioSet2 from '../common/RadioSet2'
@@ -56,8 +56,6 @@ class FarmAPRDetailInfo extends Component {
       
       setLeverage,
       lpToken,
-      leverageCapRaw,
-      leverageCap,
       borrowingAssetMap$,
       leverageValue$,
       worker$,
@@ -65,6 +63,13 @@ class FarmAPRDetailInfo extends Component {
       yieldFarmingAPRWithoutLeverage,
       tradingFeeAPRWithoutLeverage,
     } = this.props
+
+    const worker = worker$.value
+    const workerConfig = workerInfo &&
+      worker &&
+      workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
+
+    const leverageCap = Number(noRounding(workerConfig && 10000 / (10000 - workerConfig.workFactorBps), 1))
 
     const radioList = Object.entries(baseBorrowingInterests)
     .filter(([address, { baseInterest }]) => {
@@ -131,8 +136,7 @@ class FarmAPRDetailInfo extends Component {
             offset={0.5}
             currentLeverage={leverageValue$.value}
             leverageLabel={I18n.t('farming.multiplyLabel')}
-            leverageCap={leverageCap}
-            setLeverage={(v) => setLeverage(v)}
+            setLeverage={(v) => setLeverage(v, leverageCap)}
           />
           <button
             className={cx("FarmAPRDetailInfo__button", {
@@ -148,6 +152,7 @@ class FarmAPRDetailInfo extends Component {
                 key: "AddPosition",
                 component: (
                   <AddPosition
+                    defaultBorrowingAsset={borrowingAsset}
                     title={`${token1?.title}+${token2?.title}`}
                     defaultLeverage={leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}

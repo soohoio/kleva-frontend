@@ -4,7 +4,7 @@ import { takeUntil, tap, switchMap, map } from 'rxjs/operators'
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/calc'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
 import { debtTokens, lpTokenByIngredients, tokenList } from '../../constants/tokens'
-import { nFormatter } from '../../utils/misc'
+import { nFormatter, noRounding } from '../../utils/misc'
 
 export default class {
   constructor(comp) {
@@ -23,10 +23,10 @@ export default class {
 
     this.leverageValue$ = new BehaviorSubject(2) // default leverage: 2
 
-    this.leverageMemoryMap$ = new BehaviorSubject({
-      [token1.address.toLowerCase()]: 2,
-      [token2.address.toLowerCase()]: 2
-    })
+    // this.leverageMemoryMap$ = new BehaviorSubject({
+    //   [token1.address.toLowerCase()]: 2,
+    //   [token2.address.toLowerCase()]: 2
+    // })
 
     this.comp.props.sortTypeChanged$.pipe(
       takeUntil(this.comp.destroy$)
@@ -89,7 +89,8 @@ export default class {
   }
 
   setBorrowingAsset = ({ asset }) => {
-    const { workerList } = this.comp.props
+    const { workerList, workerInfo } = this.comp.props
+
     const selectedWorker = workerList.find((w) => {
       return w.baseToken.address.toLowerCase() === asset.address.toLowerCase()
     })
@@ -101,22 +102,42 @@ export default class {
     })
     this.worker$.next(selectedWorker)
 
+    const leverageCap = this.getLeverageCap()
     
+    if (this.leverageValue$.value > leverageCap) {
+      this.leverageValue$.next(leverageCap)
+    }
     // Restore memoized leverage value 
-    this.leverageValue$.next(this.leverageMemoryMap$.value[asset.address.toLowerCase()])
+    // this.leverageValue$.next(
+    //   this.leverageMemoryMap$.value[asset.address.toLowerCase()]
+    // )
+  }
+
+  getLeverageCap = () => {
+    const { workerInfo } = this.comp.props
+
+    const worker = this.worker$.value
+    const workerConfig = workerInfo &&
+      worker &&
+      workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
+    
+    const leverageCap = Number(noRounding(workerConfig && 10000 / (10000 - workerConfig.workFactorBps), 1))
+
+    return leverageCap
   }
 
   setLeverageValue = (v, leverageCapRaw) => {
     if (v < 1) return
     if (v > leverageCapRaw) return
 
-    const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
+    // const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
 
     // memoize leverage value
-    this.leverageMemoryMap$.next({
-      ...this.leverageMemoryMap$.value,
-      [borrowingAsset.address.toLowerCase()]: v,
-    })
+
+    // this.leverageMemoryMap$.next({
+    //   ...this.leverageMemoryMap$.value,
+    //   [borrowingAsset.address.toLowerCase()]: v,
+    // })
 
     this.leverageValue$.next(v)
   }

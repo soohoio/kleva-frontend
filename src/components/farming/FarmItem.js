@@ -62,6 +62,8 @@ class FarmItem extends Component {
 
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
+    const borrowingAsset = borrowingAssetMap$.value[lpToken.address]
+
     const {
       yieldFarmingAPRWithoutLeverage,
       yieldFarmingAPR,
@@ -150,6 +152,7 @@ class FarmItem extends Component {
                 component: (
                   <AddPosition
                     title={`${token1?.title}+${token2?.title}`}
+                    defaultBorrowingAsset={borrowingAsset}
                     defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
                     tradingFeeAPR={tradingFeeAPR}
