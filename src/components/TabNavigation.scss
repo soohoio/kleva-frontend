@@ -61,7 +61,8 @@
   width: 100%;
 
   @include desktop {
-    width: 240px;
+    width: 228px;
+    white-space: nowrap;
     position: relative;
     left: -2px;
     gap: 28px;
