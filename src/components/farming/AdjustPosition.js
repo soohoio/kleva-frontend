@@ -267,9 +267,7 @@ class AdjustPosition extends Component {
               {this.bloc.isLoading$.value
                 ? "..."
                 : I18n.t('approveToken', {
-                  token: isKLAY(farmingToken.address)
-                    ? 'WKLAY'
-                    : farmingToken.title
+                  token: farmingTokenTitle
                 })
               }
             </button>
@@ -423,19 +421,22 @@ renderTotalValue = ({
   }) => {
     const { farmingToken, baseToken } = this.props
 
+  const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+  const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
+
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
+        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
       </>
     )
   }
@@ -469,19 +470,22 @@ renderTotalValue = ({
   }) => {
     const { farmingToken, baseToken } = this.props
 
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
+
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
-        <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
+        <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
       </>
     )
   }
@@ -505,6 +509,9 @@ renderTotalValue = ({
 
       baseBorrowingInterests,
     } = this.props
+
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
 
     // config
     const { leverageCap } = this.bloc.getConfig()
@@ -635,7 +642,7 @@ renderTotalValue = ({
                   <LabelAndValue
                     className="AdjustPosition__borrowingAsset" 
                     label={I18n.t('farming.adjustPosition.borrowingAsset')} 
-                    value={`${nFormatter(debtDelta, 4)} ${baseToken.title}`}
+                    value={`${nFormatter(debtDelta, 4)} ${baseTokenTitle}`}
                   />
                   <LabelAndValue 
                     className="AdjustPosition__debtRatio"
@@ -682,7 +689,7 @@ renderTotalValue = ({
             <LabelAndValue
               className="AdjustPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(resultDebtAmount, 4)} ${baseToken.title}`}
+              value={`${nFormatter(resultDebtAmount, 4)} ${baseTokenTitle}`}
             />
             <LabelAndValue
               className="AdjustPosition__totalDeposit"

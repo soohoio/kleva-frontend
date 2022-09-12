@@ -472,6 +472,9 @@ class ClosePosition extends Component {
       currentPositionLeverage,
     } = this.props
 
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
+
     // config
     const { leverageCap } = this.bloc.getConfig()
 
@@ -551,7 +554,7 @@ class ClosePosition extends Component {
         onClick: () => this.bloc.closingMethod$.next('minimizeTrading'),
       },
       {
-        label: I18n.t('farming.closePosition.baseTokenOnly', { title: baseToken.title }),
+        label: I18n.t('farming.closePosition.baseTokenOnly', { title: baseTokenTitle }),
         value: ``,
         onClick: () => this.bloc.closingMethod$.next('convertToBaseToken'),
       },
@@ -559,7 +562,7 @@ class ClosePosition extends Component {
 
     const selectedLabel = this.bloc.closingMethod$.value === 'minimizeTrading' 
       ? I18n.t('farming.closePosition.minimizeTrading')
-      : I18n.t('farming.closePosition.baseTokenOnly', { title: baseToken.title })
+      : I18n.t('farming.closePosition.baseTokenOnly', { title: baseTokenTitle })
 
     return (
       <div className="ClosePosition">
@@ -617,7 +620,7 @@ class ClosePosition extends Component {
                                 .div(10 ** farmingToken.decimals)
                                 .toNumber(),
                               4
-                            )} {farmingToken.title}
+                            )} {farmingTokenTitle}
                           </p>
                           <p>
                             {noRounding(
@@ -625,7 +628,7 @@ class ClosePosition extends Component {
                                 .div(10 ** baseToken.decimals)
                                 .toNumber(),
                               4
-                            )} {baseToken.title}
+                            )} {baseTokenTitle}
                           </p>
                         </>
                       )}
@@ -636,7 +639,7 @@ class ClosePosition extends Component {
                           new BigNumber(this.bloc.before_debtAmount$.value)
                             .div(10 ** baseToken.decimals)
                             .toNumber(),
-                          4)} ${baseToken.title}`}
+                          4)} ${baseTokenTitle}`}
                     />
                   </div>
                 </>
@@ -644,8 +647,14 @@ class ClosePosition extends Component {
               : (
                 <>
                   <PartialController
-                    farmingToken={farmingToken}
-                    baseToken={baseToken}
+                    farmingToken={{
+                      ...farmingToken,
+                      title: farmingTokenTitle
+                    }}
+                    baseToken={{
+                      ...baseToken,
+                      title: baseTokenTitle
+                    }}
                     userFarmingTokenAmount={new BigNumber(this.bloc.before_farmingAmount$.value).div(10 ** farmingToken.decimals).toNumber()}
                     userBaseTokenAmount={new BigNumber(this.bloc.before_baseAmount$.value).div(10 ** baseToken.decimals).toNumber()}
                     partialCloseRatio$={this.bloc.partialCloseRatio$}
@@ -679,7 +688,7 @@ class ClosePosition extends Component {
                                   .toNumber(),
                                 4
                               )
-                            } {farmingToken.title}
+                            } {farmingTokenTitle}
                           </p>
                           <p>
                             {
@@ -689,7 +698,7 @@ class ClosePosition extends Component {
                                   .toNumber(),
                                 4
                               )
-                            } {baseToken.title}
+                            } {baseTokenTitle}
                           </p>
                         </>
                       )}
@@ -703,15 +712,15 @@ class ClosePosition extends Component {
                       )}
                       value={(
                         <>
-                          <p>{nFormatter(equityFarmingAmount, 4)} {farmingToken.title}</p>
-                          <p>{nFormatter(equityBaseAmount, 4)} {baseToken.title}</p>
+                          <p>{nFormatter(equityFarmingAmount, 4)} {farmingTokenTitle}</p>
+                          <p>{nFormatter(equityBaseAmount, 4)} {baseTokenTitle}</p>
                         </>
                       )}
                     />
                     <LabelAndValue
                       className="ClosePosition__debt"
                       label={I18n.t('farming.summary.debt')}
-                      value={`${nFormatter(new BigNumber(this.bloc.newDebtValue$.value).div(10 ** baseToken.decimals).toNumber(), 4)} ${baseToken.title}`}
+                      value={`${nFormatter(new BigNumber(this.bloc.newDebtValue$.value).div(10 ** baseToken.decimals).toNumber(), 4)} ${baseTokenTitle}`}
                     />
                     <LabelAndValue
                       className="ClosePosition__debtRatio"
@@ -781,10 +790,13 @@ class ClosePosition extends Component {
                     new BigNumber(this.bloc.amountToTrade$.value).div(10 ** farmingToken.decimals).toNumber(),
                     4
                   )
-              } ${farmingToken.title}`}
+              } ${farmingTokenTitle}`}
               />
               <PriceImpact
-                tokenToSwap={this.bloc.farmingToken$.value}
+                tokenToSwap={{
+                  ...this.bloc.farmingToken$.value,
+                  title: farmingTokenTitle,
+                }}
                 lossAmount={new BigNumber(this.bloc.amountToTrade$.value)
                     .div(10 ** farmingToken.decimals)
                     .multipliedBy(priceImpact)
@@ -798,8 +810,8 @@ class ClosePosition extends Component {
                 label={I18n.t('totalReceivedAsset')}
                 value={(
                   <>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value || 0).div(10 ** farmingToken.decimals).toNumber(), 4)} {isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title}</p>
-                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value || 0).div(10 ** baseToken.decimals).toNumber(), 4)} {isKLAY(baseToken.address) ? "WKLAY" : baseToken.title}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveFarmTokenAmt$.value || 0).div(10 ** farmingToken.decimals).toNumber(), 4)} {farmingTokenTitle}</p>
+                    <p>{noRounding(new BigNumber(this.bloc.receiveBaseTokenAmt$.value || 0).div(10 ** baseToken.decimals).toNumber(), 4)} {baseTokenTitle}</p>
                   </>
                 )}
               />
