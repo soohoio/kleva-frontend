@@ -16,7 +16,7 @@
     padding: 0;
     // min-height: unset;
     min-height: calc(100% - 127px);
-    p두adding-bottom: 122px;
+    padding-bottom: 122px;
     padding-top: 32px;
     // padding-bottom: 40px;
   }
@@ -38,13 +38,12 @@
     @include desktop {
       padding-top: 30px;
     }
+  }
 
-    &--contentless {
+  &--contentless {
+
+    @include desktop {
       padding-top: 40px;
-
-      // @include desktop {
-      //   padding-top: 40px;
-      // }
     }
   }
 

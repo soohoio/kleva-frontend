@@ -363,7 +363,7 @@ export const ko = {
   'dashboard.lockup.modal.title': '락업 물량',
   'dashboard.lockup.modal.description': '발행된 총 KLEVA 토큰 중 회사가 보유하거나 클레바 프로토콜 내 유저가 스테이킹하는 등 시장에 유통되지 않는 토큰의 총량을 의미합니다.',
 
-  'guide.connectWallet.title': '자산 연동을 위해 지갑을 연결해 주세요.',
+  'guide.connectWallet.title': '자산 연동을 위해 <br/>지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',
   'guide.emptyManagedAsset.title': '현재 KLEVA에서 운용 중인 <br/>자산이 없습니다.',
   'guide.emptyManagedAsset.buttoneTitle1': '토큰 예치하기',
