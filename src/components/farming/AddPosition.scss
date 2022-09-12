@@ -30,7 +30,7 @@
 
 .AddPosition__left {
   padding: 0 20px;
-  padding-top: 128px; // for floating header
+  padding-top: 138px; // for floating header
   @include desktop {
     flex: 1;
     padding-top: 0;
@@ -49,9 +49,9 @@
   align-items: center;
   padding-bottom: 20px;
   margin-bottom: 26px;
+  border-bottom: 1px solid #e6eaf2;
   
   @include desktop {
-    border-bottom: 1px solid #E6EAF2;
     margin-top: 0;
   }
 

@@ -66,6 +66,7 @@
   .LabelAndValue__value {
     @include font-style('font-1', 'b', 18px);
     color: #265FFC;
+    line-height: 19px;
   }
 
   .QuestionMark__title {
@@ -82,11 +83,13 @@
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
     color: #333333;
+    line-height: 19px;
   }
   
   .LabelAndValue__value {
     @include font-style('font-1', 'b', 17px);
     color: #333333;
+    line-height: 19px;
   }
 }
 

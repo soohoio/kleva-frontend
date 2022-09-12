@@ -67,11 +67,13 @@
 }
 
 .LeverageInput__plus {
+  width: 54px;
   cursor: pointer;
   flex: 1;
   outline: 0;
   border: 0;
-  height: 50px;
+  height: 48px;
   background-color: #FFFFFF;
+  padding-top: 3px;
   border-radius: 5px;
 }
