@@ -33,15 +33,19 @@
   padding-top: 138px; // for floating header
   @include desktop {
     flex: 1;
+    padding: 0;
+    margin-right: 60px;
+    margin-bottom: 15px;
     padding-top: 0;
   }
 }
 
 .AddPosition__right {
+  padding: 0 20px;
   @include desktop {
     flex: 1;
+    padding: 0;
   }
-  padding: 0 20px;
 }
 
 .AddPosition__apy {
@@ -155,6 +159,7 @@
     margin-top: 40px;
     padding-top: 30px;
     justify-content: center;
+    border-top: 1px solid #DADDE5;
   }
 }
 
