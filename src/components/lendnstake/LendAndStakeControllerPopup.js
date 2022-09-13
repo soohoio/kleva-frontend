@@ -328,6 +328,8 @@ class LendAndStakeControllerPopup extends Component {
       || new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.klayAmountToWrap$.value, stakingToken.decimals)
 
+    const isInvalidValue = availableBalance && (new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance))
+
     return (
       <>
 
@@ -337,39 +339,45 @@ class LendAndStakeControllerPopup extends Component {
           <span className="LendAndStakeControllerPopup__availableLabel">{I18n.t('lendstake.controller.available')} {stakingToken.title}</span>
           <span className="LendAndStakeControllerPopup__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
-
-        <div className="LendAndStakeControllerPopup__inputAndButton">
-          <InputWithPercentage
-            autoFocus
-            className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
-            decimalLimit={stakingToken.decimals}
-            value$={this.bloc.klayAmountToWrap$}
-            valueLimit={availableBalance}
-            targetToken={stakingToken}
-          />
-          {this.bloc.isWrapping$.value
-            ? (
-              <button
-                className="LendAndStakeControllerPopup__wrapButton"
-              >
-                ...
-              </button>
-            )
-            : (
-              <button
-                onClick={() => {
-                  if (isWrapDisabled) return
-                  this.bloc.wrapKLAY()
-                }}
-                className={cx("LendAndStakeControllerPopup__wrapButton", {
-                  "LendAndStakeControllerPopup__wrapButton--disabled": isWrapDisabled,
-                })}
-              >
-                {I18n.t('switch')}
-              </button>
-            )
-          }
+        <div className="LendAndStakeControllerPopup__inputAndButtonWrapper">
+          <div className="LendAndStakeControllerPopup__inputAndButton">
+            <InputWithPercentage
+              autoFocus
+              className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
+              decimalLimit={stakingToken.decimals}
+              value$={this.bloc.klayAmountToWrap$}
+              valueLimit={availableBalance}
+              targetToken={stakingToken}
+              noWarn
+            />
+            {this.bloc.isWrapping$.value
+              ? (
+                <button
+                  className="LendAndStakeControllerPopup__wrapButton"
+                >
+                  ...
+                </button>
+              )
+              : (
+                <button
+                  onClick={() => {
+                    if (isWrapDisabled) return
+                    this.bloc.wrapKLAY()
+                  }}
+                  className={cx("LendAndStakeControllerPopup__wrapButton", {
+                    "LendAndStakeControllerPopup__wrapButton--disabled": isWrapDisabled,
+                  })}
+                >
+                  {I18n.t('switch')}
+                </button>
+              )
+            }
+          </div>
+          <p className={cx("InputWithPercentage__warn", {
+            "InputWithPercentage__warn--show": !!isInvalidValue
+          })}>{I18n.t('notEnoughAmount')}</p>
         </div>
+        
         <hr className="LendAndStakeControllerPopup__hr" />
       </>
     )

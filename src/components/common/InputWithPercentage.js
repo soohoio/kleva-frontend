@@ -133,6 +133,7 @@ class InputWithPercentage extends Component {
       zeroValueDisable,
       placeholder,
       targetToken,
+      noWarn,
     } = this.props
 
     // zeroValueDisable: If value is zero, disable
@@ -191,7 +192,7 @@ class InputWithPercentage extends Component {
             )}
           </div>
         </div>
-        {!!isInvalidValue && <p className="InputWithPercentage__warn">{I18n.t('notEnoughAmount')}</p>}
+        {!noWarn && !!isInvalidValue && <p className="InputWithPercentage__warn">{I18n.t('notEnoughAmount')}</p>}
       </>
     )
   }

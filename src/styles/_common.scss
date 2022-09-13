@@ -126,3 +126,12 @@ $CONTENT_WIDTH: 980px;
     display: inline;
   }
 }
+
+@mixin break-flex {
+  &::before {
+    display: flex;
+    content: "";
+    flex-basis: 100%;
+    height: 0;
+  }
+}

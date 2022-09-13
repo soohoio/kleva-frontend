@@ -129,19 +129,32 @@
 }
 
 .LendAndStakeControllerPopup__depositInput {
-  margin-bottom: 17px;
+  // margin-bottom: 17px;
   height: 50px;
 }
 
 
 // inputAndButton
+
+.LendAndStakeControllerPopup__inputAndButtonWrapper {
+  margin-bottom: 14px;
+  
+  .InputWithPercentage__warn {
+    visibility: hidden;
+
+    &--show {
+      visibility: visible;
+    }
+  }
+}
+
 .LendAndStakeControllerPopup__inputAndButton {
   display: flex;
   align-items: center;
-  margin-bottom: 34px;
 
   .LendAndStakeControllerPopup__depositInput {
-    width: 239px;
+    // width: 239px;
+    width: 100%;
     margin-right: 7px;
     margin-bottom: 0;
   }
@@ -150,6 +163,8 @@
 .LendAndStakeControllerPopup__wrapButton {
   @include button-1(50px);
   @include font-style('font-1', 'b', 16px);
+  white-space: nowrap;
+  padding: 0 20px;
   flex: auto;
 }
 
