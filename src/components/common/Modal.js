@@ -4,7 +4,7 @@ import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
-import { classNameAttach$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'
+import { classNameAttach$, classNameAttachLayered$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'
 
 function preventDefault(e) {
   e.preventDefault()
@@ -40,6 +40,7 @@ class Modal extends Component {
     merge(
       modalAnimation$,
       classNameAttach$,
+      classNameAttachLayered$,
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -52,13 +53,20 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, className, children, mobileCoverAll, onClose } = this.props
+    const { title, className, children, mobileCoverAll, onClose, layered } = this.props
+
 
     return (
-      <div className={cx("Modal", className, classNameAttach$.value, {
-        "Modal--mobileCoverAll": !!mobileCoverAll,
-        [`Modal--animation-${modalAnimation$.value}`]: true,
-      })}>
+      <div className={cx("Modal", 
+        className, 
+        layered 
+          ? classNameAttachLayered$.value 
+          : classNameAttach$.value, 
+        {
+          "Modal--mobileCoverAll": !!mobileCoverAll,
+          [`Modal--animation-${modalAnimation$.value}`]: true,
+        })}
+      >
         {/* <div className={cx("Modal__header", {
           "Modal__header--noTitle": !title,
         })}>

@@ -20,7 +20,7 @@
 
   &--layered {
     .Modal {
-      z-index: 1;
+      z-index: 9;
 
       &:last-of-type {
         z-index: 9999;

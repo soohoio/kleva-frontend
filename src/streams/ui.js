@@ -40,12 +40,14 @@ closeContentView$.subscribe(() => {
 })
 
 openLayeredModal$.subscribe(({ component, classNameAttach }) => {
-  classNameAttach$.next(classNameAttach)
+  if (classNameAttach) {
+    classNameAttachLayered$.next(classNameAttach)
+  }
   layeredModalContentComponent$.next(component)
 })
 
 closeLayeredModal$.subscribe(() => {
-  classNameAttach$.next(null)
+  classNameAttachLayered$.next(null)
   layeredModalContentComponent$.next(null)
 })
 
@@ -78,6 +80,7 @@ export const openModal$ = new Subject()
 export const closeModal$ = new Subject()
 
 export const classNameAttach$ = new BehaviorSubject()
+export const classNameAttachLayered$ = new BehaviorSubject()
 
 openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScreenClose }) => {
   modalAnimation$.next(null)

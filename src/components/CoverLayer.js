@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { cloneElement, Component, createRef } from 'react'
 import cx from 'classnames'
 import { merge, Subject } from 'rxjs'
 import { debounceTime, takeUntil, tap } from 'rxjs/operators'
@@ -32,6 +32,7 @@ class CoverLayer extends Component<Props> {
   }
 
   render() {
+
     return (
       <div
         className={cx('CoverLayer__wrapper', {
@@ -52,7 +53,7 @@ class CoverLayer extends Component<Props> {
           }}
         />
         {modalContentComponent$.value}
-        {layeredModalContentComponent$.value}
+        {!!layeredModalContentComponent$.value && cloneElement(layeredModalContentComponent$.value, { layered: true })}
       </div>
     )
   }
