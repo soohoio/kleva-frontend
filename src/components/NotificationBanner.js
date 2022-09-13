@@ -36,9 +36,10 @@ class NotificationBanner extends Component {
         content: 'notice.1',
         href: 'https://bit.ly/3NXDcgN',
       },
-    ].filter(({ key }) => {
-      return !readNotiMap$.value[key]
-    })
+    ]
+    // .filter(({ key }) => {
+    //   return !readNotiMap$.value[key]
+    // })
 
     return items
   }

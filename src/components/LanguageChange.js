@@ -46,7 +46,7 @@ class LanguageChange extends Component {
           items={LANGUAGES}
           onSelect={(item) => {
             localeChange$.next({ locale: item.value })
-            selectedItem$.next(item)
+            this.selectedItem$.next(item)
           }}
         />
       </div>
