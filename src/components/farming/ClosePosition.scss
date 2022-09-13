@@ -367,6 +367,8 @@
 
 .ClosePosition__remainInfoTitle {
   @include font-style('font-1', 'b', 16px);
+  border-top: 1px solid #ebeef5;
+  padding-top: 25px;
   color: #222222;
 }
 

@@ -1,5 +1,5 @@
 .CommonGauge {
-  margin-bottom: 25px;
+  margin-bottom: 23px;
 }
 
 .CommonGauge__header {
@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: flex-end;
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 2px;
 }
 
 .CommonGauge__title {
@@ -23,6 +23,8 @@
 .CommonGauge__description {
 
   @include not-draggable;
+
+  margin-bottom: 4px;
 
   p {
     margin-bottom: 4px;
@@ -77,7 +79,7 @@
   // width: 90%;
   height: 30px;
   
-  margin-right: 22px;
+  // margin-right: 22px;
 
   cursor: pointer;
 }
