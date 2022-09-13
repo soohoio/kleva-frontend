@@ -83,8 +83,7 @@ class FarmAPRDetailInfo extends Component {
         .toFixed(2)
 
       return {
-        label: `${token.title}`,
-        labelDecorator: I18n.t('borrow'),
+        label: `${I18n.t('borrow', { title: token.title})}`,
         value: `${pureValue}%`,
         pureValue,
         onClick: () => setBorrowingAsset({ asset: token }), // define onClick in separate items

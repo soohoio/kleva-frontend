@@ -318,7 +318,7 @@ class FarmingAssetList extends Component {
                 <div className="FarmingAssetList__gridHeader">
                   <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenHeader">{I18n.t('pairToken')}</span>
                   <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprapyHeader">{I18n.t('currentAPR')}</span>
-                  <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprDetailHeader">{I18n.t('myasset.marketValueAndTotalValue')}</span>
+                  <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__aprDetailHeader">{I18n.t('farming.summary.totalDeposit')}</span>
                   <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__marketValueHeader">{I18n.t('myasset.myEquityValue')}</span>
                   <span className="FarmingAssetList__gridHeaderItem FarmingAssetList__tokenAmountHeader">{I18n.t('myasset.debtValueAndDebtRatio')}</span>
                   <span></span>

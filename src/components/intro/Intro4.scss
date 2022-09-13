@@ -35,7 +35,8 @@
   flex-direction: column;
 
   @include desktop {
-    width: 410px;
+    // width: 410px;
+    width: 460px;
   }
 }
 

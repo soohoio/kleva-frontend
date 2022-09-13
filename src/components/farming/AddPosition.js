@@ -170,6 +170,7 @@ class AddPosition extends Component {
   }
 
   renderButtons = () => {
+    const { token1, token2 } = this.props
     const { ibToken, farmingToken, baseToken } = this.bloc.getTokens()
 
     // Allowance check
@@ -264,6 +265,8 @@ class AddPosition extends Component {
   }
 
   renderSupplyInput = ({ baseToken, farmingToken }) => {
+    const { token1 } = this.props
+
     if (isKLAY(farmingToken.address)) {
       return (
         <>
@@ -336,22 +339,43 @@ class AddPosition extends Component {
       )
     }
 
+    // make token1 position to upper side.
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <SupplyInput
+            focused$={this.bloc.isFarmingFocused$}
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
+            decimalLimit={farmingToken.decimals}
+            value$={this.bloc.farmingTokenAmount$}
+            valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+            labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+            imgSrc={farmingToken.iconSrc}
+            labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
+            targetToken={farmingToken}
+          />
+          <SupplyInput
+            focused$={this.bloc.isBaseFocused$}
+            decimalLimit={baseToken.decimals}
+            value$={this.bloc.baseTokenAmount$}
+            valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
+            labelValue={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
+            imgSrc={baseToken.iconSrc}
+            labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
+            targetToken={baseToken}
+          />
+        </>
+      )
+    }
+
     return (
       <>
         <SupplyInput
-          focused$={this.bloc.isFarmingFocused$}
           headerRightContent={(
             <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
           )}
-          decimalLimit={farmingToken.decimals}
-          value$={this.bloc.farmingTokenAmount$}
-          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          imgSrc={farmingToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          targetToken={farmingToken}
-        />
-        <SupplyInput
           focused$={this.bloc.isBaseFocused$}
           decimalLimit={baseToken.decimals}
           value$={this.bloc.baseTokenAmount$}
@@ -361,6 +385,16 @@ class AddPosition extends Component {
           labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
           targetToken={baseToken}
         />
+        <SupplyInput
+          focused$={this.bloc.isFarmingFocused$}
+          decimalLimit={farmingToken.decimals}
+          value$={this.bloc.farmingTokenAmount$}
+          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+          imgSrc={farmingToken.iconSrc}
+          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
+          targetToken={farmingToken}
+        />
       </>
     )
   }
@@ -369,6 +403,7 @@ class AddPosition extends Component {
     resultFarmingTokenAmount,
     resultBaseTokenAmount,
   }) => {
+    const { token1 } = this.props
     const { farmingToken, baseToken } = this.bloc.getTokens()
 
     if (isKLAY(farmingToken.address)) {
@@ -380,10 +415,30 @@ class AddPosition extends Component {
       )
     }
 
+    if (isKLAY(baseToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        </>
+      )
+    }
+
+    // make token1 position upper side
+
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        </>
+      )
+    }
+
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
         <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
       </>
     )
   }
@@ -392,6 +447,7 @@ class AddPosition extends Component {
     farmingTokenAmount,
     baseTokenAmount,
   }) => {
+    const { token1 } = this.props
     const { farmingToken, baseToken } = this.bloc.getTokens()
 
     if (isKLAY(farmingToken.address)) {
@@ -403,10 +459,28 @@ class AddPosition extends Component {
       )
     }
 
+    if (isKLAY(baseToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+        </>
+      )
+    }
+
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+        </>
+      )
+    }
+
     return (
       <>
-        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
         <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
       </>
     )
   }
@@ -448,7 +522,7 @@ class AddPosition extends Component {
       .map(([address, { token, baseInterest }]) => {
         return {
           asset: token,
-          label: `${token.title} ${I18n.t('borrow')}`,
+          label: `${I18n.t('borrow', { title: token.title })}`,
           value: `-${new BigNumber(baseInterest)
             .multipliedBy(this.bloc.leverage$.value - 1)
             .toFixed(2)}%`,

@@ -166,7 +166,7 @@ class ManagementAsset extends Component {
         <div className="ManagementAsset__title">{I18n.t('myasset.management.title')}</div>
         <div className="ManagementAsset__value">
           <p className="ManagementAsset__totalManagedValue">${nFormatter(totalManagedAsset, 2)}</p>
-          <p className="ManagementAsset__debt">{I18n.t('borrow')} ${nFormatter(debtValueTotal, 2)}</p>
+          <p className="ManagementAsset__debt">{I18n.t('borrow2')} ${nFormatter(debtValueTotal, 2)}</p>
         </div>
       </div>
     )

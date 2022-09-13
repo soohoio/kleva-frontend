@@ -18,7 +18,7 @@ import LeverageInput from '../common/LeverageInput'
 import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
-import { addressKeyFind, nFormatter, noRounding } from '../../utils/misc'
+import { addressKeyFind, isSameAddress, nFormatter, noRounding } from '../../utils/misc'
 import { checkAllowances$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
@@ -314,6 +314,8 @@ class AdjustPosition extends Component {
   }
 
   renderSupplyInput = ({ baseToken, farmingToken }) => {
+    const { token1 } = this.props
+
     if (isKLAY(farmingToken.address)) {
       return (
         <>
@@ -386,22 +388,42 @@ class AdjustPosition extends Component {
       )
     }
 
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <SupplyInput
+            headerRightContent={(
+              <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+            )}
+            focused$={this.bloc.isFarmingFocused$}
+            decimalLimit={farmingToken.decimals}
+            value$={this.bloc.farmingTokenAmount$}
+            valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+            labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+            imgSrc={farmingToken.iconSrc}
+            labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
+            targetToken={farmingToken}
+          />
+          <SupplyInput
+            focused$={this.bloc.isBaseFocused$}
+            decimalLimit={baseToken.decimals}
+            value$={this.bloc.baseTokenAmount$}
+            valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
+            labelValue={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
+            imgSrc={baseToken.iconSrc}
+            labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
+            targetToken={baseToken}
+          />
+        </>
+      )
+    }
+
     return (
       <>
         <SupplyInput
           headerRightContent={(
             <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
           )}
-          focused$={this.bloc.isFarmingFocused$}
-          decimalLimit={farmingToken.decimals}
-          value$={this.bloc.farmingTokenAmount$}
-          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          imgSrc={farmingToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          targetToken={farmingToken}
-        />
-        <SupplyInput
           focused$={this.bloc.isBaseFocused$}
           decimalLimit={baseToken.decimals}
           value$={this.bloc.baseTokenAmount$}
@@ -411,6 +433,16 @@ class AdjustPosition extends Component {
           labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
           targetToken={baseToken}
         />
+        <SupplyInput
+          focused$={this.bloc.isFarmingFocused$}
+          decimalLimit={farmingToken.decimals}
+          value$={this.bloc.farmingTokenAmount$}
+          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
+          imgSrc={farmingToken.iconSrc}
+          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
+          targetToken={farmingToken}
+        />
       </>
     )
   }
@@ -419,10 +451,11 @@ renderTotalValue = ({
     resultFarmingTokenAmount,
     resultBaseTokenAmount,
   }) => {
+    const { token1 } = this.props
     const { farmingToken, baseToken } = this.props
 
-  const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
-  const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
 
     if (isKLAY(farmingToken.address)) {
       return (
@@ -433,10 +466,29 @@ renderTotalValue = ({
       )
     }
 
+    if (isKLAY(baseToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
+        </>
+      )
+    }
+
+    // make token1 position upper side
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+        </>
+      )
+    }
+
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
         <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
+        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
       </>
     )
   }
@@ -468,6 +520,7 @@ renderTotalValue = ({
     farmingTokenAmount,
     baseTokenAmount,
   }) => {
+    const { token1 } = this.props
     const { farmingToken, baseToken } = this.props
 
     const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
@@ -482,10 +535,29 @@ renderTotalValue = ({
       )
     }
 
+    if (isKLAY(baseToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+        </>
+      )
+    }
+
+    // make token1 position upper side
+    if (isSameAddress(token1.address, farmingToken.address)) {
+      return (
+        <>
+          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
+          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+        </>
+      )
+    }
+
     return (
       <>
-        <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
         <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+        <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
       </>
     )
   }
