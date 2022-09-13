@@ -152,9 +152,7 @@ removeBanner$.subscribe(({ key }) => {
   banners$.next(afterRemove)
 })
 
-currentTab$.pipe(
-  distinctUntilChanged(),
-).subscribe((tab) => {
+currentTab$.subscribe((tab) => {
   contentView$.next(null)
   
   if (!tab) {
