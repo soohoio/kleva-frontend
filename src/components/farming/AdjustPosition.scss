@@ -33,6 +33,8 @@
   }
 
   .WKLAYSwitcher__inputAndButton {
+    align-items: flex-start;
+    
     @include desktop {
       margin-bottom: 0;
     }

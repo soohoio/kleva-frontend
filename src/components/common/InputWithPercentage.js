@@ -28,6 +28,8 @@ class InputWithPercentage extends Component {
   
   selectedItem$ = new BehaviorSubject()
 
+  opened$ = new BehaviorSubject()
+
   state = {
     isFocused: false,
   }
@@ -46,6 +48,7 @@ class InputWithPercentage extends Component {
         })
       ),
       this.selectedItem$,
+      this.opened$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -149,50 +152,58 @@ class InputWithPercentage extends Component {
             "InputWithPercentage--focused": isFocused,
             "InputWithPercentage--disabled": isDisabled,
             "InputWithPercentage--invalid": isInvalidValue,
+            "InputWithPercentage--opened": !!this.opened$.value,
             [`InputWithPercentage--${targetToken.title}`]: true,
           })}
         >
-          {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
-          <input
-            autoFocus={autoFocus}
-            ref={this.$input}
-            readOnly={isDisabled}
-            className="InputWithPercentage__input"
-            value={value$.value}
-            placeholder={placeholder || I18n.t('writeAmount')}
-            onChange={(e) => {
+          <div className="InputWithPercentage__content">
+            {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
+            <input
+              autoFocus={autoFocus}
+              ref={this.$input}
+              readOnly={isDisabled}
+              className="InputWithPercentage__input"
+              value={value$.value}
+              placeholder={placeholder || I18n.t('writeAmount')}
+              onChange={(e) => {
 
-              if (isNaN(Number(e.target.value))) return
+                if (isNaN(Number(e.target.value))) return
 
-              if (e.target.value >= 10_000_000_000_000_000) return
+                if (e.target.value >= 10_000_000_000_000_000) return
 
-              const splitted = String(e.target.value).split('.')
-              const integerPart = splitted[0]
-              const decimalPart = splitted[1]
+                const splitted = String(e.target.value).split('.')
+                const integerPart = splitted[0]
+                const decimalPart = splitted[1]
 
-              if (decimalPart && decimalPart.length > 18) return
+                if (decimalPart && decimalPart.length > 18) return
 
-              value$.next(e.target.value)
+                value$.next(e.target.value)
 
-              this.selectedItem$.next({
-                title: `${this.calcPercentageFromValue(value$.value)}`,
-                value: value$.value,
-                key: `${this.calcPercentageFromValue(value$.value)}`,
-              })
-            }}
-          />
-          <div className="InputWithPercentage__right">
-            <span className="InputWithPercentage__label">{label}</span>
-            {!noPercentage && (
-              <Opener
-                items={percentItems}
-                selectedItem={this.selectedItem$.value}
-                onSelect={this.selectPercent}
-              />
-            )}
+                this.selectedItem$.next({
+                  title: `${this.calcPercentageFromValue(value$.value)}`,
+                  value: value$.value,
+                  key: `${this.calcPercentageFromValue(value$.value)}`,
+                })
+              }}
+            />
+            <div className="InputWithPercentage__right">
+              <span className="InputWithPercentage__label">{label}</span>
+              {!noPercentage && (
+                <Opener
+                  opened$={this.opened$}
+                  items={percentItems}
+                  selectedItem={this.selectedItem$.value}
+                  onSelect={this.selectPercent}
+                />
+              )}
+            </div>
           </div>
+          {!noWarn && !!isInvalidValue && (
+            <>
+              <p className="InputWithPercentage__warn">{I18n.t('notEnoughAmount')}</p>
+            </>
+          )}
         </div>
-        {!noWarn && !!isInvalidValue && <p className="InputWithPercentage__warn">{I18n.t('notEnoughAmount')}</p>}
       </>
     )
   }

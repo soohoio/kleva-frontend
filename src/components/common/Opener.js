@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, fromEvent } from 'rxjs'
+import { BehaviorSubject, Subject, merge, fromEvent } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
 
 import './Opener.scss'
@@ -34,17 +34,35 @@ class Opener extends Component {
 
   destroy$ = new Subject()
 
+  isOpen$ = new BehaviorSubject()
+
   state = {
     isOpen: false,
     searchKey: '',
   }
 
   componentDidMount() {
+
+    merge(
+      this.isOpen$.pipe(
+        tap((isOpen) => {
+          if (this.props.opened$) {
+            this.props.opened$.next(isOpen)
+          }
+        })
+      )
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.forceUpdate()
+    })
+
     fromEvent(window, 'click').pipe(
       takeUntil(this.destroy$)
     ).subscribe((e) => {
       if (this.isClickOuterArea(e)) {
-        this.setState({ isOpen: false })
+        // this.setState({ isOpen: false })
+        this.isOpen$.next(false)
       }
     })
   }
@@ -64,8 +82,10 @@ class Opener extends Component {
   }
 
   render() {
-    const { isOpen, searchKey } = this.state
-    const { items = [], selectedItem, onSelect, noSearch, openMethod } = this.props
+    const { searchKey } = this.state
+    const { items = [], selectedItem, onSelect, noSearch, openMethod, opened$ } = this.props
+
+    const isOpen = this.isOpen$.value
 
     return (
       <div 
@@ -84,7 +104,8 @@ class Opener extends Component {
           onClick={() => {
             // No need to open Opener menu when there is only one item.
             // if (items.length === 1) return
-            this.setState({ isOpen: !isOpen })
+            // this.setState({ isOpen: !isOpen })
+            this.isOpen$.next(!this.isOpen$.value)
           }}
         />
         {isOpen && !noSearch && (
@@ -147,7 +168,8 @@ class Opener extends Component {
                       rightContent={rightContent}
                       onClick={() => {
                         onSelect(item)
-                        this.setState({ isOpen: false })
+                        this.isOpen$.next(false)
+                        // this.setState({ isOpen: false })
                       }}
                     />
                   )

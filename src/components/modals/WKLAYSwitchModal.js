@@ -26,7 +26,6 @@ class WKLAYSwitchModal extends Component {
     ).subscribe(() => {
       this.forceUpdate()
     })
-    
   }
   
   componentWillUnmount() {
@@ -34,9 +33,11 @@ class WKLAYSwitchModal extends Component {
   }
 
   renderContent = () => {
+
     if (this.mode$.value === 'toklay') {
       return (
         <WKLAYSwitcher
+          key="toklay"
           noCompleteDescription
           toKLAY
           column
@@ -48,6 +49,7 @@ class WKLAYSwitchModal extends Component {
     if (this.mode$.value === 'towklay') {
       return (
         <WKLAYSwitcher
+          key="towklay"
           noCompleteDescription
           column
           balancesInWallet={balancesInWallet$.value}
