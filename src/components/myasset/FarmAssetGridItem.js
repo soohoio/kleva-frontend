@@ -101,6 +101,9 @@ class FarmAssetGridItem extends Component {
       lpShare,
       totalShare,
       totalStakedLpBalance,
+
+      token1,
+      token2,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -282,6 +285,8 @@ class FarmAssetGridItem extends Component {
                 component: (
                   <AdjustPosition
                     id={id}
+                    token1={token1}
+                    token2={token2}
                     lpToken={lpToken}
                     positionId={positionId}
                     vaultAddress={vaultAddress}

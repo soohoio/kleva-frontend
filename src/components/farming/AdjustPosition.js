@@ -207,6 +207,9 @@ class AdjustPosition extends Component {
   renderButtons = () => {
     const { farmingToken, baseToken, vaultAddress } = this.props
 
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
+
     const ibToken = getIbTokenFromOriginalToken(baseToken)
 
     const baseTokenAllowance = isKLAY(baseToken.address)
