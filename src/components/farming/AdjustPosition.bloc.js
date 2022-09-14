@@ -61,6 +61,8 @@ export default class {
     this.before_leverage = this.comp.props.currentPositionLeverage
     this.newDebtValue$ = new BehaviorSubject(0)
 
+    this.finalCalculatedLeverage$ = new BehaviorSubject()
+
     // ex) Farming Token: 10 KSP, Base Token: 100 KLEVA
     // Convert 10 KSP to [farmingTokenAmountInBaseToken] KLEVA.
     this.farmingTokenAmountInBaseToken$ = new BehaviorSubject()
@@ -121,65 +123,6 @@ export default class {
     return { workerInfo, workFactorBps, rawKillFactorBps, leverageCap }
   }
 
-  getBeforeAfter = () => {
-    const before_yieldFarmingAPR = this.comp.props.yieldFarmingAPR
-    const before_tradingFeeAPR = this.comp.props.tradingFeeAPR
-    const before_klevaRewardsAPR = this.comp.props.klevaRewardAPR
-    const before_borrowingInterestAPR = this.comp.props.borrowingInterestAPRBefore
-
-    const before_totalAPR = new BigNumber(before_yieldFarmingAPR)
-      .plus(before_tradingFeeAPR)
-      .plus(before_klevaRewardsAPR) // klevaRewards
-      .minus(before_borrowingInterestAPR) // borrowingInterest
-      .toNumber()
-
-    // APR After
-    const after_yieldFarmingAPR = new BigNumber(before_yieldFarmingAPR)
-      .multipliedBy(this.leverage$.value)
-      .toNumber()
-
-    const after_tradingFeeAPR = new BigNumber(before_tradingFeeAPR)
-      .multipliedBy(this.leverage$.value)
-      .toNumber()
-
-    const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR()
-
-    const borrowingInfo = lendingTokenSupplyInfo$.value && lendingTokenSupplyInfo$.value[this.borrowingAsset$.value && this.borrowingAsset$.value.address.toLowerCase()]
-
-    const after_borrowingInterestAPR = borrowingInfo
-      && new BigNumber(borrowingInfo.borrowingInterest)
-        .multipliedBy(this.leverage$.value - 1)
-        .toNumber()
-
-    const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
-      .plus(after_tradingFeeAPR)
-      .plus(after_klevaRewardsAPR)
-      .minus(after_borrowingInterestAPR)
-      .toNumber()
-
-    // console.log(before_yieldFarmingAPR, 'before_yieldFarmingAPR')
-    // console.log(before_tradingFeeAPR, 'before_tradingFeeAPR')
-    // console.log(before_klevaRewardsAPR, 'before_klevaRewardsAPR')
-    // console.log(before_borrowingInterestAPR, 'before_borrowingInterestAPR')
-    // console.log(before_totalAPR, 'before_totalAPR')
-    // console.log(after_yieldFarmingAPR, 'after_yieldFarmingAPR')
-    // console.log(after_tradingFeeAPR, 'after_tradingFeeAPR')
-    // console.log(after_klevaRewardsAPR, 'after_klevaRewardsAPR')
-    // console.log(borrowingInfo, 'borrowingInfo')
-    // console.log(after_borrowingInterestAPR, 'after_borrowingInterestAPR')
-    // console.log(after_totalAPR, 'after_totalAPR')
-
-    return {
-      before_totalAPR,
-      after_yieldFarmingAPR,
-      after_tradingFeeAPR,
-      after_klevaRewardsAPR,
-      borrowingInfo,
-      after_borrowingInterestAPR,
-      after_totalAPR,
-    }
-  }
-
   getAmountToBorrow = () => {
     if (!this.borrowMore$.value) return 0
 
@@ -193,7 +136,7 @@ export default class {
     return amountToBeBorrowed
   }
 
-  getDebtTokenKlevaRewardsAPR = () => {
+  getDebtTokenKlevaRewardsAPR = (leverageValue) => {
     const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value
     const borrowingAsset = this.borrowingAsset$.value
 
@@ -204,7 +147,7 @@ export default class {
       debtTokens,
       klevaAnnualRewards: klevaAnnualRewards$.value,
       klevaTokenPrice: tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()],
-      leverage: this.leverage$.value,
+      leverage: leverageValue,
       borrowingDelta: new BigNumber(this.getAmountToBorrow()).div(10 ** this.baseToken$.value?.decimals).toNumber()
     })
   }
@@ -501,6 +444,61 @@ export default class {
           .div(10 ** this.farmingToken$.value?.decimals)
           .toFixed(6)
       )
+    }
+  }
+
+  getBeforeAfterValues = ({
+    yieldFarmingAPRBefore,
+    tradingFeeAPRBefore,
+    klevaRewardsAPRBefore,
+    borrowingInterestAPRBefore,
+  }) => {
+
+    const finalLeverageValue = this.finalCalculatedLeverage$.value
+    const { currentPositionLeverage } = this.comp.props
+
+    const before_totalAPR = new BigNumber(yieldFarmingAPRBefore)
+      .plus(tradingFeeAPRBefore)
+      .plus(klevaRewardsAPRBefore) // klevaRewards
+      .minus(borrowingInterestAPRBefore) // borrowingInterest
+      .toNumber()
+
+    const after_yieldFarmingAPR = new BigNumber(yieldFarmingAPRBefore)
+      .multipliedBy(finalLeverageValue)
+      .div(currentPositionLeverage)
+      .toNumber()
+
+    const after_tradingFeeAPR = new BigNumber(tradingFeeAPRBefore)
+      .multipliedBy(finalLeverageValue)
+      .div(currentPositionLeverage)
+      .toNumber()
+
+    const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(finalLeverageValue)
+
+    const after_borrowingInterestAPR = new BigNumber(borrowingInterestAPRBefore)
+      .multipliedBy(finalLeverageValue - 1)
+      .div(currentPositionLeverage - 1)
+      .toNumber()
+
+    const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
+      .plus(after_tradingFeeAPR)
+      .plus(after_klevaRewardsAPR) // klevaRewards
+      .minus(after_borrowingInterestAPR) // borrowingInterest
+      .toNumber()
+
+    after_totalAPR
+    after_yieldFarmingAPR
+    after_tradingFeeAPR
+    after_klevaRewardsAPR
+    after_borrowingInterestAPR
+
+    return {
+      before_totalAPR,
+      after_yieldFarmingAPR,
+      after_tradingFeeAPR,
+      after_klevaRewardsAPR,
+      after_borrowingInterestAPR,
+      after_totalAPR,
     }
   }
 }

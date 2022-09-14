@@ -126,6 +126,13 @@ class AdjustPosition extends Component {
             .toString()
 
           this.bloc.newDebtValue$.next(newDebtValue)
+          
+          const newEquityValue = new BigNumber(newPositionValue)
+            .minus(newDebtValue)
+            .toString()
+
+          const finalCalculatedLeverage = new BigNumber(newPositionValue).div(newEquityValue).toNumber()
+          this.bloc.finalCalculatedLeverage$.next(finalCalculatedLeverage)
 
           // Check borrow more valid
           const ibToken = getIbTokenFromOriginalToken(baseToken)
@@ -571,6 +578,8 @@ renderTotalValue = ({
       defaultLeverage,
       yieldFarmingAPR,
       tradingFeeAPR,
+      klevaRewardAPR,
+      borrowingInterestAPRBefore,
       workerInfo,
 
       farmingToken,
@@ -593,14 +602,17 @@ renderTotalValue = ({
 
     // before / after
     const {
-      before_totalAPR,
+      after_totalAPR,
       after_yieldFarmingAPR,
       after_tradingFeeAPR,
       after_klevaRewardsAPR,
-      borrowingInfo,
       after_borrowingInterestAPR,
-      after_totalAPR,
-    } = this.bloc.getBeforeAfter()
+    } = this.bloc.getBeforeAfterValues({
+      yieldFarmingAPRBefore: yieldFarmingAPR,
+      tradingFeeAPRBefore: tradingFeeAPR,
+      klevaRewardsAPRBefore: klevaRewardAPR,
+      borrowingInterestAPRBefore,
+    })
 
     const apy = toAPY(after_totalAPR)
 
