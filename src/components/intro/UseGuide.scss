@@ -3,8 +3,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 26px;
-
+  
   position: fixed;
   top: 0;
   left: 0;
@@ -14,11 +13,13 @@
   padding: 18px 0;
   overflow: scroll;
   z-index: 9;
-
+  padding: 0;
+  
   @include desktop {
     position: static;
     width: $CONTENT_WIDTH;
     margin: 0 auto;
+    padding: 0 26px;
   }
 
   text {
@@ -29,9 +30,9 @@
 .UseGuideHeader {
   display: flex;
   align-items: center;
-  height: 60px;
   margin-bottom: 38px;
-  padding: 0 20px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
 
   @include desktop {
     margin-bottom: 30px;
@@ -40,7 +41,8 @@
 }
 
 .UseGuideHeader__title {
-  @include font-style('font-1', 'b', 24px);
+  @include font-style('font-1', 'b', 20px);
+  line-height: 24px;
   color: #222222;
 
   text-align: center;
@@ -48,6 +50,8 @@
   width: 100%;
 
   @include desktop {
+    @include font-style('font-1', 'b', 24px);
+    line-height: 29px;
     text-align: left;
   }
 }
@@ -69,8 +73,8 @@
 
 .UseGuide__content {
   width: 100%;
-  padding: 0 30px;
-  padding-bottom: 100px;
+  padding: 0 25px;
+  padding-bottom: 20px;
 
   display: flex;
   align-items: flex-start;
@@ -80,6 +84,7 @@
   @include desktop {
     width: 100%;
     padding: 0;
+    padding-bottom: 20px;
   }
 
   .VideoItem {
@@ -93,17 +98,21 @@
 
     @include desktop {
       margin-right: 50px;
-      width: 47%;
-      margin-bottom: 74px;
+      width: 465px;
+      margin-bottom: 40px;
     }
   }
 
   .VideoItem__imageWrapper {
-    height: 262px;
+    // height: 262px;
+    height: unset;
+    margin-bottom: 16px;
   }
 
   .VideoItem__image {
-    height: 262px;
+    // height: 262px;
+    height: unset;
+    max-height: 262px;
   }
 }
 

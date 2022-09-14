@@ -17,7 +17,7 @@
     // min-height: unset;
     min-height: calc(100% - 127px);
     padding-bottom: 122px;
-    padding-top: 32px;
+    padding-top: 34px;
     // padding-bottom: 40px;
   }
 
@@ -43,7 +43,7 @@
   &--contentless {
 
     @include desktop {
-      padding-top: 40px;
+      // padding-top: 40px;
     }
   }
 

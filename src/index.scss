@@ -73,7 +73,8 @@ http://scripts.sil.org/OFL
 
 html {
   scroll-behavior: smooth;
-  font-size: 10px;
+  // font-size: 10px;
+	font-size: 0;
   overflow: auto;
   overflow-y: scroll;
   z-index: 0;

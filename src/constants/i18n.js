@@ -8,7 +8,7 @@ export const en = {
   'connectWallet2': 'Connect your wallet to start KLEVA Protocol',
   'logout': 'Disconnect Wallet',
   'connected': '%{title} Connected',
-  
+
   'connectWallet.title': 'Connect your wallet to start KLEVA Protocol',
   'connectWallet.connectWith': 'Connect %{title}',
   'connectWallet.noWallet.title': 'No Wallets yet?',
@@ -23,6 +23,7 @@ export const en = {
   'kaikas.notInstalled.description': 'You can install Kaikas on Chrome Browser',
   'kaikas.install': 'Install',
 
+
   'tag.novice': 'Beginner',
   'tag.highProfit': 'Advanced',
   'wklaySwitch': 'Wrap/Unwrap KLAY',
@@ -36,7 +37,7 @@ export const en = {
   'mediumShortcut': 'KLEVA Medium',
   'notice': 'Notice',
   'notice.1': 'KLEVA Buyback & Burn #1',
-  
+
   'dashboard.tvlChart.title': 'Total Value Locked',
   'dashboard.lendingChart.title': 'Lending TVL',
   'dashboard.farmingChart.title': 'Farming TVL',
@@ -52,6 +53,7 @@ export const en = {
   'dashboard.lockup.modal.title': 'Locked Supply',
   'dashboard.lockup.modal.description': 'It refers to the total amount of tokens not circulating in the market, such as those held by the developers or staked by users in the KLEVA protocol.',
 
+
   'guide.connectWallet.title': 'Connect your wallet to start KLEVA Protocol',
   'guide.connectWallet.buttonTitle': 'Connect Wallet',
   'guide.emptyManagedAsset.title': 'Participate in KLEVA Protocol!',
@@ -65,17 +67,19 @@ export const en = {
   'guide.emptyFarming.buttonTitle': 'Farming Pools',
 
 
-  'intro1.title': 'Kleverly LEVerage your Assets',
-  'intro1.description': '<strong>KLEVA</strong> Protocol is Decentralized Finance(DeFi) service that provides <strong style="color: #3C6BFA;">interest</strong> and <strong style="color: #3C6BFA;">KLEVA Token</strong> Reward',
+
+
+  'intro1.title': 'Kleverly LEVerage<br/>your Assets',
+  'intro1.description': '<strong>KLEVA</strong> Protocol is Decentralized Finance(DeFi) service<br/>that provides <strong style="color: #3C6BFA;">interest</strong><br/>and <strong style="color: #3C6BFA;">KLEVA Token</strong> Reward',
   'intro1.start': 'Start KLEVA',
   'intro2.title': 'Total Value Locked',
-  'intro2.description': 'Many KLEVARs are already participating in KLEVA Protocol',
+  'intro2.description': 'Many KLEVARs are already<br/>participating in KLEVA Protocol',
   'intro3.title': 'If you want stable profit',
-  'intro3.description': 'Lend · Stake your assets,<br/>and receive interest and KLEVA Token Reward!',
-  'intro3.description2': 'Deposit your token into Lending Pool and receive ibToken as Proof of Deposit.<br/>Then, stake your <strong style="color: #3C6BFA;">ibToken</strong> for <strong style="color: #3C6BFA;">interest</strong> and <strong style="color: #3C6BFA;">KLEVA</strong> Token Reward',
+  'intro3.description': 'Lend · Stake your assets,<br/>and receive interest<br/>and KLEVA Token Reward!',
+  'intro3.description2': 'Deposit your token into Lending Pool<br/>and receive ibToken as Proof of Deposit.<br/>Then, stake your <strong style="color: #3C6BFA;">ibToken</strong> for <strong style="color: #3C6BFA;">interest</strong><br/>and <strong style="color: #3C6BFA;">KLEVA</strong> Token Reward',
   'intro4.title': 'If you want higher profit,',
-  'intro4.description': 'Participate in Leveraged Yield Farming!',
-  'intro4.description2': `Farm with <strong style="color: #3C6BFA;">Leverage</strong> for higher profit. But with high profit comes risk,<br/>so be careful in investment!`,
+  'intro4.description': 'Participate in<br/>Leveraged Yield Farming!',
+  'intro4.description2': `Farm with <strong style="color: #3C6BFA;">Leverage</strong> for higher profit.<br/>But with high profit comes risk,<br/>so be careful in investment!`,
   'intro5.title': 'Learn easily with tutorial',
   'intro5.video1.title': 'Get Ready',
   'intro5.video1.description': 'Fill the wallet with token and connect the wallet to be able to use KLEVA protocol',
@@ -84,7 +88,8 @@ export const en = {
   'intro5.video3.title': 'Leveraged Yield Farming',
   'intro5.video3.description': 'Increase farming position through leverage for higher APY and KLEVA token reward',
 
-  'intro6.title': 'Different Reward for Different Strategies',
+
+  'intro6.title': 'Different Reward<br/>for Different Strategies',
   'intro6.quote1.title': 'Dason',
   'intro6.quote1.subtitle': 'Risk Averse Beginner',
   'intro6.quote1.description': 'Dason is new to DeFi but he wants to participate in KLEVA Protocol. He decides to take a safer approach and participate as Lender / Staker',
@@ -109,9 +114,10 @@ export const en = {
   'faq.3.q': 'How is Interest Rate Calculated?',
   'faq.4.q': 'When can I withdraw?',
 
+
   // lendnstake
   'lendnstake.intro.title': 'Lend · Stake',
-  'lendnstake.intro.description': 'Deposit your token into Lending Pool and receive ibToken as Proof of Deposit.<br/>Then, <text style="color: #3C6BFA;">stake</text> your ibToken for interest and <text style="color: #3C6BFA;">KLEVA Token</text> Reward',
+  'lendnstake.intro.description': 'Deposit your token into Lending Pool and receive ibToken as Proof of Deposit. Then, <text style="color: #3C6BFA;">stake</text> your ibToken for interest and <text style="color: #3C6BFA;">KLEVA Token</text> Reward',
   'lendnstake.intro.misc': 'Watch Tutorial',
   'lendnstake.controller.tokenToIbToken': 'Deposit Tokens and Receive ibTokens',
   'lendnstake.controller.tokenToIbTokenCompleted': 'ibToken Successfully Received',
@@ -120,20 +126,21 @@ export const en = {
   'lendstake.controller.willReceive': 'you will receive ',
   'lendstake.controller.stakingAvailable': 'Available',
   'lendstake.controller.lendCompleted.title': 'Lend Successful',
-  'lendstake.controller.lendCompleted.description': 'Deposited Tokoens can be found in <text style="color: #3C6BFA;">My Assets</text>.',
+  'lendstake.controller.lendCompleted.description': 'Deposited Tokens can be found in <text style="color: #3C6BFA;">My Assets</text>.',
   'lendstake.controller.stakeCompleted.title': 'Stake Successful',
   'lendstake.controller.stakeCompleted.description': 'Staked ibTokens can be found in <text style="color: #3C6BFA;">My Assets</text>.',
   'lendstake.controller.wklaySwitch.title': 'Wrap KLAY to WKLAY to deposit',
-  'lendstake.controller.wklaySwitch.title2': 'Deposit your WLAYs and receive ibToken.',
+  'lendstake.controller.wklaySwitch.title2': 'Deposit your WKLAYs and receive ibToken.',
   'lendstake.profitsimulation.title': 'Profit Simulator',
-  'lendstake.profitsimulation.caution': 'Above Simluation is for reference only.<br/>Actual profit/ reward may vary.',
+  'lendstake.profitsimulation.caution': 'Above Simulation is for reference only.<br/>Actual profit/ reward may vary.',
+
 
   'farming.intro.title': 'Leverage Yield Farming',
   'farming.intro.description': 'Expect higher profit by increasing your asset size with Leverage',
   'farming.intro.misc': 'Watch Tutorial',
   'farming.multiplyLabel': 'x',
   'farming.yieldFarmingReward': 'Yield Farming',
-  'farming.yieldFarmingAPR': 'Yield Farming',
+  'farming.yieldFarmingAPR': 'Yield Farming APR',
   'farming.klevaReward': 'KLEVA Rewards APR',
   'farming.tradingFeeAPR': 'Trading Fees APR',
   'farming.controller.available': 'Available',
@@ -168,14 +175,15 @@ export const en = {
   'farming.totalAsset.description': `Position Value in leveraged yield farming is the status of the user's leverage. The dollar value of the asset and the number of tokens in position value are displayed.`,
   'farming.totalAsset.example': 'Position Value = Equity Value + Debt Value',
   'tokenswap': 'Amount to Swap',
-  'totalReceivedAsset': `You'll appproximately receive`,
+  'totalReceivedAsset': `You'll approximately receive`,
   'farming': 'Farm',
   'tokenRatio': 'Asset Ratio',
   'tokenRatio.description': 'For farming, two tokens are automatically swapped and deposited with the ratio of 50:50. The higher the ratio of tokens on one side the more loss caused by swap, and the closer the ratio is to 50:50 the less.',
   'borrow': 'Borrow %{title}',
-  'borrow2': 'Borrow',
+  'myasset.farming.equityValue': 'Equity',
   'farm': 'FARM',
   'cancel': 'Cancel',
+
 
   'myasset.management.title': 'Total Value Locked',
   'myasset.claimableKLEVA': 'KLEVA to Claim',
@@ -229,22 +237,27 @@ export const en = {
   'liquidatedAsset': 'Liquidated Asset',
   'liquidatedAsset.description': `Your position has been <text style="color: #FA5050;">liquidated</text> as <text style="color: #FA5050;">the debt ratio exceeded</text>.`,
 
+
   'liquidationThreshold': 'Liquidation Threshold',
   'liquidationThreshold.description': 'Your position may be liquidated if debt ratio exceeds liquidation threshold.',
   'convertable': 'Available %{title}',
   'willConvert': 'Converted %{title}',
   'convertTo': 'Convert to%{title}',
-  
+
   'tokenClaimed': '<text style="color: #3C6BFA;">%{amount}</text> <text style="color: #3C6BFA;">%{title}</text> Successfully Claimed',
   'tokenClaimed.description': 'Deposit received %{title} token for higher profit',
+
+
 
 
   'sort.tvl': 'TVL',
   'sort.yieldFarmingAPR': 'Yield',
   'sort.2xleverageAPR': 'APY',
 
+
   'tip.ibToken.title': 'ibToken to Token Exchange Rate',
   'tip.ibToken.description': 'Number of tokens exchangeable per one ibToken.<br/>The exchange rate increases as borrowing interests paid by Farmers are accumulated.',
+
 
   'needApprove': 'Token Approval is required for your first deposit. Gas fee (0.02 ~ 0.03 KLAY) will be required for approval, so please check your KLAY balance ',
   'viewInMyAsset': 'Check on My Asset',
@@ -258,7 +271,7 @@ export const en = {
   'aprapy': 'APY/APR',
   'apr': 'Total APR',
   'apy': 'Total APY',
-  'aprDetail': 'APY Details',
+  'aprDetail': 'APR Details',
   'borrowingInterest': 'Borrowing Interest',
   'currentAPR': 'Current APR',
   'interest': 'Borrowing Interest',
@@ -273,7 +286,7 @@ export const en = {
   'lendingAPRFull': 'Lending APR',
   'stakingAPRFull': 'Staking APR',
   'utilizationRatio.description': `Ratio between tokens borrowed by Farmers and Total Supply deposited by Lenders. Part of Borrowing Interest paid by Farmers is rewarded to Lenders. Therefore, the higher the UR (more tokens borrowed by Farmers), the more interest Lenders are rewarded`,
-  'leverage.description': `Leverage mulitple is how much user wants to multiply ones' collateral asset to put in position. WIth collateral asset and leveraged borrowed asset, user may earn high APY and KLEVA reward. `,
+  'leverage.description': `Leverage multiple is how much user wants to multiply ones' collateral asset to put in position. WIth collateral asset and leveraged borrowed asset, user may earn high APY and KLEVA reward. `,
   'leverage.example': `Leverage 2.5x : Collateral Amount 100 + Debt Amount 150`,
   'leverage.example.description': `Assume that the collateral token and the debt token have the same value`,
   'lendingList': 'Lending Pools',
@@ -310,11 +323,12 @@ export const en = {
   'convert.completed.description': 'Deposit your <text style="color: #3C6BFA;">WKLAYs</text>',
 }
 
+
 export const ko = {
   'tvl': '총 운용금',
   'myasset': '내 자산',
   'lendnstake': '예치',
-  'farming1': '이자농사',
+  'farming1': '레버리지 투자',
   'connectWallet': '지갑 연결하기',
   'connect': '연결하기',
   'connectWallet2': '지갑을 연결해 주세요.',
@@ -334,6 +348,7 @@ export const ko = {
   'kaikas.notInstalled.description': 'Kaikas 지갑은 Chrome에서<br/>설치할 수 있습니다.',
   'kaikas.install': 'Kaikas 지갑 설치하기',
 
+
   'tag.novice': '초보자',
   'tag.highProfit': '고수익',
   'wklaySwitch': 'KLAY/WKLAY 전환',
@@ -347,10 +362,10 @@ export const ko = {
   'mediumShortcut': 'Medium 바로가기',
   'notice': '공지',
   'notice.1': 'KLEVA 토큰 첫 번째 소각 작업 완료!',
-  
+
   'dashboard.tvlChart.title': '운용 자산 규모',
   'dashboard.lendingChart.title': '총 예치 규모',
-  'dashboard.farmingChart.title': '총 이자농사 규모',
+  'dashboard.farmingChart.title': '총 레버리지 투자 규모',
   'dashboard.totalSupply.title': '총 발행량',
   'dashboard.marketCap.title': '시가 총액',
   'dashboard.circulatingSupply.title': '유통량',
@@ -363,17 +378,20 @@ export const ko = {
   'dashboard.lockup.modal.title': '락업 물량',
   'dashboard.lockup.modal.description': '발행된 총 KLEVA 토큰 중 회사가 보유하거나 클레바 프로토콜 내 유저가 스테이킹하는 등 시장에 유통되지 않는 토큰의 총량을 의미합니다.',
 
+
   'guide.connectWallet.title': '자산 연동을 위해 <br/>지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',
   'guide.emptyManagedAsset.title': '현재 KLEVA에서 운용 중인 <br/>자산이 없습니다.',
   'guide.emptyManagedAsset.buttoneTitle1': '토큰 예치하기',
-  'guide.emptyManagedAsset.buttoneTitle2': '이자농사 참여하기',
+  'guide.emptyManagedAsset.buttoneTitle2': '레버리지 투자 참여하기',
   'guide.emptyLendNStake.title': '예치 중인 자산이 없습니다.',
   'guide.emptyLendNStake.description': '보유한 토큰을 예치 스테이킹하고 예치 이자와<br/>KLEVA 토큰 보상을 받아보세요.',
-  'guide.emptyLendNStake.buttonTitle': '예치 목록 보기',
-  'guide.emptyFarming.title': '이자농사에 참여한 자산이 없습니다.',
-  'guide.emptyFarming.description': '보유한 토큰과 KLEVA에서 빌린 토큰을 함께 예치하여 보상 수익을 극대화 할 수 있습니다.',
-  'guide.emptyFarming.buttonTitle': '이자농사 목록 보기',
+  'guide.emptyLendNStake.buttonTitle': '풀 목록 보기',
+  'guide.emptyFarming.title': '레버리지 투자에 참여한 자산이 없습니다.',
+  'guide.emptyFarming.description': '보유한 토큰과 KLEVA에서 대여받은 토큰을 함께 예치하여 보상 수익을 극대화할 수 있습니다.',
+  'guide.emptyFarming.buttonTitle': '레버리지 투자 목록 보기',
+
+
 
 
   'intro1.title': '자산을 똑똑하게<br/>확장하는 방법!',
@@ -385,9 +403,10 @@ export const ko = {
   'intro3.description': '예치 · 스테이킹하고<br />이자와 클레바를 받으세요!',
   'intro3.description2': '토큰을 렌딩풀에 예치하고 증표로 받은<br/><strong style="color: #3C6BFA;">ib토큰</strong>을 스테이킹 후 유지하는 기간만큼<br/><strong style="color: #3C6BFA;">이자</strong>와 <strong style="color: #3C6BFA;">KLEVA</strong>를 받을 수 있어요.',
   'intro4.title': '고수익이 목표라면',
-  'intro4.description': '이자 농사에 참여하면<br />고수익이 가능해요!',
-  'intro4.description2': '보유한 토큰과 함께 <strong style="color: #3C6BFA;">레버리지</strong>를 통해 빌린 토큰을 이자 농사에 활용한다면 고수익이 가능하지만 <strong style="color: #3C6BFA;">신중한 투자</strong>가 필요해요.',
+  'intro4.description': '레버리지 투자에 참여하면<br />고수익이 가능해요!',
+  'intro4.description2': '보유한 토큰과 함께 <strong style="color: #3C6BFA;">레버리지</strong>를 통해 빌린 토큰을 활용한다면 고수익이 가능하지만 <strong style="color: #3C6BFA;">신중한 투자</strong>가 필요해요.',
   'intro5.title': '동영상으로 쉽게<br/> 배워 보세요.',
+
 
   'intro5.video1.title': '준비 단계',
   'intro5.video1.description': 'KLEVA protocol을 이용하기 위해 지갑으로 토큰을 옮겨 KLEVA protocol에 연결해보아요.',
@@ -395,6 +414,7 @@ export const ko = {
   'intro5.video2.description': '보유한 토큰을 예치해 이자수익을 받고 추가로 스테이킹해 KLEVA 토큰 보상을 받아보아요. ',
   'intro5.video3.title': '레버리지 투자',
   'intro5.video3.description': '레버리지를 통해 자산 규모를 키워 투자를 진행해 더 높은 연간수익률과 KLEVA 토큰 보상을 얻어보아요. ',
+
 
   'intro6.title': '투자 성향에 따라<br/>보상 받는 방법도 달라요.',
   'intro6.quote1.title': '데이슨',
@@ -404,22 +424,23 @@ export const ko = {
   'intro6.see2': '투자 과정 보기',
   'intro6.see3': '투자 과정 보기',
   'intro6.quote2.title': '제니스',
-  'intro6.quote2.subtitle': '위험을 최소화하는 농부',
-  'intro6.quote2.description': '제니스는 스테이킹보다는 큰 수익을 얻고 싶지만 리스크를 감수하고 싶지는 않습니다. 그래서 그녀는 이자 농사에 참여하되 레버리지는 이용하지 않기로 했습니다.',
+  'intro6.quote2.subtitle': '위험을 최소화하는 투자자',
+  'intro6.quote2.description': '제니스는 스테이킹보다는 큰 수익을 얻고 싶지만 리스크를 감수하고 싶지는 않습니다. 그래서 그녀는 스테이블 코인을 통해 레버리지 투자에 참여할 계획입니다.',
   'intro6.quote3.title': '제이콥',
-  'intro6.quote3.subtitle': '리스크가 두렵지 않은 농부',
-  'intro6.quote3.description': '제이콥은 DeFi를 오랜 기간 사용해 본 경험이 있으며 위험을 감수하면서 높은 보상을 얻어 가는 것을 선호하기 때문에 레버리지를 활용한 이자 농사에 참여할 계획입니다.',
+  'intro6.quote3.subtitle': '보상의 극대화 추구자',
+  'intro6.quote3.description': '제이콥은 DeFi를 오랜 기간 사용해 본 경험이 있으며 위험을 감수하면서 높은 보상을 얻어가는 것을 선호하기 때문에 포지션을 활용한 레버리지 투자에 참여할 계획입니다.',
   'intro7.title': '많이들 물어보세요.',
   'intro7.see': 'Docs에서 더보기',
   'intro7.seeDetail': '보다 자세한 내용은 Docs를 통해 확인해보세요.',
   'faq.1.q': '클레바는 어떻게 얻을 수 있나요?',
   'faq.2.q': 'ib토큰은 뭔가요?',
-  'faq.1.description': "KLEVA 토큰은 클레바 프로토콜 내 예치 및 레버리지 이자 농사 과정에서 획득할 수 있습니다. KLEVA 토큰은 KLEVA 프로토콜의 인센티브를 반영하도록 설계되었습니다. Performance Fee의 일부는 ibKLEVA 스테이커에게 분배하나 발생하는 수익의 대부분은 KLEVA Token을 Buyback & Burn하는 데 활용될 예정입니다. KLEVA Protocol은 DEX의 유동성을 활용하기 때문에 더 많은 DEX와 협업할 경우 더 큰 수익을 창출할 수 있습니다. 이 수익은 KLEVA Token의 Buyback & Burn에 적극 활용됩니다.",
+  'faq.1.description': "KLEVA 토큰은 클레바 프로토콜 내 예치 및 레버리지 투자 과정에서 획득할 수 있습니다. KLEVA 토큰은 KLEVA 프로토콜의 인센티브를 반영하도록 설계되었습니다. Performance Fee의 일부는 ibKLEVA 스테이커에게 분배하나 발생하는 수익의 대부분은 KLEVA Token을 Buyback & Burn하는 데 활용될 예정입니다. KLEVA Protocol은 DEX의 유동성을 활용하기 때문에 더 많은 DEX와 협업할 경우 더 큰 수익을 창출할 수 있습니다. 이 수익은 KLEVA Token의 Buyback & Burn에 적극 활용됩니다.",
   'faq.2.description': "대여자가 가상자산을 KLEVA Protocol의 랜딩풀에 예치하면 이에 대한 증표로 ibToken이 발행됩니다. 해당 토큰은 대여자가 예치한 자산을 추적하고 해당 가상자산이 대여자의 소유임을 증명하는 역할을 수행합니다. 따라서 ibToken을 보유하고 있다는 것은 가상자산에 대한 소유권을 갖고 있으며 언제든 원할 때 해당 가상자산을 인출할 수 있다는 뜻이기도 합니다.",
-  'faq.3.description': "연 이자율은 해당 토큰 풀의 가동율에 따라 정해진 규칙에 의해 결정됩니다.",
+  'faq.3.description': "연간 수익률은 해당 토큰 풀의 대여율에 따라 정해진 규칙에 의해 결정됩니다.",
   'faq.4.description': '클레바 프로토콜에서는 언제나 자유로운 출금이 가능합니다.',
-  'faq.3.q': '연이자율은 어떻게 계산되나요? ',
+  'faq.3.q': '연간 수익률은 어떻게 계산되나요? ',
   'faq.4.q': '예치 후 바로 출금이 가능한가요?',
+
 
   // lendnstake
   'lendnstake.intro.title': '예치 · 스테이킹',
@@ -427,7 +448,7 @@ export const ko = {
   'lendnstake.intro.misc': '영상으로 쉽게 알아보기',
   'lendnstake.controller.tokenToIbToken': '토큰을 예치하면<br />ib토큰이 지급됩니다.',
   'lendnstake.controller.tokenToIbTokenCompleted': 'ib토큰이 지급되었습니다.',
-  'lendnstake.controller.stakeIbToken': 'ib토큰을 <text style="color: #3C6BFA;">스테이킹</tex>해야 연간이자율(복리)의 수익을 얻을 수 있습니다. 보상은 <text style="color: #3C6BFA;">KLEVA</text> 토큰으로 지급됩니다.',
+  'lendnstake.controller.stakeIbToken': 'ib토큰을 <text style="color: #3C6BFA;">스테이킹</tex>해야 연간 수익률(복리)의 수익을 얻을 수 있습니다. 보상은 <text style="color: #3C6BFA;">KLEVA</text> 토큰으로 지급됩니다.',
   'lendstake.controller.available': '보유',
   'lendstake.controller.willReceive': '지급될 ',
   'lendstake.controller.stakingAvailable': '스테이킹 가능',
@@ -438,56 +459,58 @@ export const ko = {
   'lendstake.controller.wklaySwitch.title': 'KLAY를 WKLAY로 전환해야<br/> 예치가 가능합니다.',
   'lendstake.controller.wklaySwitch.title2': '전환한 WKLAY를 예치하면<br/> ib토큰이 지급됩니다.',
   'lendstake.profitsimulation.title': '예치 수량을 입력하면<br/> 예상 수익이 계산됩니다.',
-  'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 이자율은 매일 변동될 수 있습니다.',
+  'lendstake.profitsimulation.caution': '이해를 돕기 위한 참고 자료이며 시세와 시점에 따라 차이가 있을 수 있습니다. 수익률은 매일 변동될 수 있습니다.',
 
-  'farming.intro.title': '레버리지 이자 농사',
+
+  'farming.intro.title': '레버리지 투자',
   'farming.intro.description': '보유한 토큰과 KLEVA에서 빌린 토큰을 함께 예치하여 보상 수익을 극대화 할 수 있습니다.',
   'farming.intro.misc': '영상으로 쉽게 알아보기',
   'farming.multiplyLabel': '배',
-  'farming.yieldFarmingReward': '농사 수익',
-  'farming.yieldFarmingAPR': '농사 이자율',
+  'farming.yieldFarmingReward': '운용 수익',
+  'farming.yieldFarmingAPR': '운용 수익',
   'farming.klevaReward': 'KLEVA 보상',
-  'farming.tradingFeeAPR': '거래 수수료',
+  'farming.tradingFeeAPR': '거래 수수료 수익',
   'farming.controller.available': '보유',
   'farming.controller.converted': '전환된',
-  'farming.info.borrowingInterest': '대출 토큰 이자',
+  'farming.info.borrowingInterest': '레버리지 이자',
   'farming.summary.equity': '내 담보 자산',
   'farming.summary.equity.description': '수수료 차감 전 수량',
-  'farming.summary.debt': '대출 자산',
-  'farming.summary.totalDeposit': '총 예치 자산',
-  'farming.error.minDebtSize': `최소 %{minDebt} 이상을 대출받아야 합니다.`,
+  'farming.summary.debt': '상환 필요 자산',
+  'farming.summary.totalDeposit': '총 운용 자산',
+  'farming.error.minDebtSize': `최소 %{minDebt} 이상을 대여받아야 합니다.`,
   'farming.completed.title': '이자농사 예치가 완료되었습니다.',
   'farming.completed.description': '예치한 자산 내역은 <text style="color: #3C6BFA;">내 자산</text>에서 확인하실 수 있습니다.',
   'farming.adjustPosition.completed.title': '추가 예치 완료되었습니다.',
   'farming.closePosition.completed.title': '출금이 완료되었습니다.',
   'farming.adjustPosition.addCollateral': '담보 추가하기',
-  'farming.adjustPosition.borrowMore': '추가 대출받기',
-  'farming.adjustPosition.borrowingAsset': '대출받는 토큰',
+  'farming.adjustPosition.borrowMore': '추가 대여받기',
+  'farming.adjustPosition.borrowingAsset': '대여 받는 토큰',
   'farming.closePosition.entireClose': '전체 출금하기',
   'farming.closePosition.partialClose': '부분 출금하기',
-  'farming.closePosition.debtRepay': '대출 상환',
+  'farming.closePosition.debtRepay': '상환 자산',
   'farming.closePosition.minimizeTrading': '토큰 스왑을 최소화하여 출금',
   'farming.closePosition.baseTokenOnly': '전부 %{title}로 출금',
   'farming.closePosition.remainedAsset': '출금 후 잔여 자산 정보',
   'withdrawAsset': '출금 자산',
-  'farming.closePosition.debtRepayment': '출금 자산 중 대출 상환',
-  'farming.closePosition.debtRepayment.description': '출금 자산 중 대출 상환',
+  'farming.closePosition.debtRepayment': '출금 자산 중 상환 설정',
+  'farming.closePosition.debtRepayment.description': '출금 자산 중 상환 설정',
   'farming.closePosition.partialClose.disabled': '부분 출금 불가',
   'farming.closePosition.partialClose.disabled.description': '레버리지를 사용하지 않은 자산은 부분 출금이 불가합니다. 전체 출금으로 진행해 주세요.',
-  'farming.closePosition.partialClose.ratioTooLow': `최소 대출 수량을 유지하기 위해 출금 자산 비율이 <strong style="color: #265FFC;">%{value}%</strong> 보다 낮아야 합니다.`,
+  'farming.closePosition.partialClose.ratioTooLow': `최소 대여 수량을 유지하기 위해 출금 자산 비율이 <strong style="color: #265FFC;">%{value}%</strong> 보다 낮아야 합니다.`,
   'farming.closePosition.partialClose.repaymentRange.title': '상환 범위 %{from}% ~ %{to}%',
-  'farming.closePosition.partialClose.repaymentRange.description': '출금 후 대출 자산 비율이 최대 부채 비율보다 낮아야하기 때문에 출금 자산의 <strong style="color: #265FFC;">최소 %{value}%</strong> 이상의 대출을 상환해야 합니다.',
+  'farming.closePosition.partialClose.repaymentRange.description': '출금 후 레버리지 비율이 청산 한도보다 낮아야하기 때문에 출금 자산의 <strong style="color: #265FFC;">최소 %{value}%</strong> 이상의 자산을 상환해야 합니다.',
   'farming.totalAsset.description': '레버리지 자산에서의 총 운용 자산은 유저의 레버리지 투자 현황입니다. 자산의 달러 가치와 운용되고 있는 토큰 수량이 표기됩니다.',
-  'farming.totalAsset.example': '총 운용 자산 = 담보자산 + 상환 필요 자산',
+  'farming.totalAsset.example': '총 운용 자산 = 담보 자산 + 상환 필요 자산',
   'tokenswap': '토큰 스왑',
   'totalReceivedAsset': '총 수령 자산',
-  'farming': '예치하기',
+  'farming': '투자하기',
   'tokenRatio': '토큰 비율',
-  'tokenRatio.description': '이자농사는 두 토큰 가치의 비율이 50:50이 되도록 자동 스왑되어 예치됩니다. 한 쪽 토큰 비중이 높을수록 스왑에 의한 손실이 발생하며 50:50에 가까울수록 손실은 줄어듭니다.',
-  'borrow': '%{title} 대출',
-  'borrow2': '대출',
-  'farm': 'FARM',
+  'tokenRatio.description': '레버리지 투자는 두 토큰 가치의 비율이 50:50이 되도록 자동 스왑되어 예치됩니다. 한 쪽 토큰 비중이 높을수록 스왑에 의한 손실이 발생하며 50:50에 가까울수록 손실은 줄어듭니다.',
+  'borrow': '%{title} 레버리지',
+  'myasset.farming.equityValue': '담보 자산',
+  'farm': '투자',
   'cancel': '취소하기',
+
 
   'myasset.management.title': '총 운용 자산',
   'myasset.claimableKLEVA': '수령 가능한 KLEVA',
@@ -527,36 +550,41 @@ export const ko = {
   'myasset.farming.leverageValue': '레버리지 %{leverage}배',
   'myasset.farming.debtRatio': '레버리지 비율',
   'myasset.farming.debtRatio.label': '상환 필요 자산 / 총 운용 자산',
-  'myasset.farming.debtRatio.description': '<text style="color: #FA5050;">%{value}% 초과</text>시 운용 자산이 <text style="color: #FA5050;">강제 청산</text>됩니다.',
+  'myasset.farming.debtRatio.description': '<text style="color: #FA5050;">%{value}% 초과</text> 시 운용 자산이 <text style="color: #FA5050;">강제 청산</text>됩니다.',
   'myasset.farming.adjustPosition': '추가 예치',
   'myasset.farming.totalValue': '총 운용 자산',
   'myasset.farming.equityValue': '담보 자산',
   'myasset.farming.debtValue': '상환 필요 자산',
   'myasset.farming.repaymentValue': '반환된 대여 자산',
   'myasset.farming.withdrawnValue': '출금 자산',
-  'myasset.farming.withdrawnValue.description': `레버리지 비율이 청산 한도를 초과하여 담보 자산 및 대여 자산이 <text style="color: #FF5757;">강제 청산</text> 되었습니다.`,
+  'myasset.farming.withdrawnValue.description': `레버리지 비율이 청산 한도를 초과하여 담보 자산 및 대여 자산이 <text style="color: #FF5757;">강제 청산</text>되었습니다.`,
   'transactionHistory': '트랜잭션 기록',
   'deleteFromList': '목록에서 삭제',
   'isLiquidated': '청산 여부',
   'liquidatedAsset': '청산 자산',
-  'liquidatedAsset.description': `대출 자산 비율이 <text style="color: #FA5050;">청산 임계치를 초과</text>하여 담보 자산 및 대여 자산이 <text style="color: #FA5050;">강제 청산</text>되었습니다.`,
+  'liquidatedAsset.description': `레버리지 비율이 <text style="color: #FA5050;">청산 한도를 초과</text>하여 담보 자산 및 대여 자산이 <text style="color: #FA5050;">강제 청산</text>되었습니다.`,
+
 
   'liquidationThreshold': '청산 한도',
   'liquidationThreshold.description': '레버리지 비율이 청산 한도를 초과할 경우 운용 자산이 <text style="color: #FF5757;">강제로 청산</text>됩니다.',
   'convertable': '전환 가능 %{title}',
   'willConvert': '전환될 %{title}',
   'convertTo': '%{title}로 전환하기',
-  
+
   'tokenClaimed': '<text style="color: #3C6BFA;">%{amount}</text>개의 <text style="color: #3C6BFA;">%{title}</text>가 지급되었습니다.',
   'tokenClaimed.description': '지급받은 %{title}을 예치하고 더 큰 수익을 올려보세요.',
 
 
-  'sort.tvl': '총 예치금 순',
-  'sort.yieldFarmingAPR': '농사 수익 순',
+
+
+  'sort.tvl': '총 운용금 순',
+  'sort.yieldFarmingAPR': '운용 수익 순',
   'sort.2xleverageAPR': '총 수익률 순',
 
+
   'tip.ibToken.title': 'ib토큰 = 토큰 교환비',
-  'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 이자 농사에 참여하는 사용자들이 토큰을 대출하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
+  'tip.ibToken.description': '하나의 ib토큰 당 출금할 수 있는 토큰의 수량입니다. 레버리지 투자에 참여하는 사용자들이 토큰을 대여하고 지불하는 이자가 누적되면서 출금할 수 있는 토큰의 수량이 증가합니다. ',
+
 
   'needApprove': '처음 예치하는 토큰은 사용 승인이 필요합니다. 승인 과정에서 수수료(0.02~0.03 KLAY)가 차감되니 지갑에 KLAY 잔고가 있는지 확인해 주세요. ',
   'viewInMyAsset': '내 자산에서 보기',
@@ -567,9 +595,9 @@ export const ko = {
   'doLater': '다음에 하기',
   'token': '토큰',
   'pairToken': '페어 토큰',
-  'aprapy': '연간이자율(복리/단리)',
-  'apr': '연간이자율(단리)',
-  'apy': '연간이자율(복리)',
+  'aprapy': '연간 수익률 (복리/단리)',
+  'apr': '연간 수익률 (단리)',
+  'apy': '연간 수익률 (복리)',
   'aprDetail': '수익률 상세',
   'borrowingInterest': '토큰 대여 이자',
   'currentAPR': '현재 수익률',
@@ -581,14 +609,14 @@ export const ko = {
   'protocolAPR': '프로토콜',
   'lendingAPR': '예치',
   'stakingAPR': '스테이킹',
-  'protocolAPRFull': '프로토콜 이자율',
-  'lendingAPRFull': '예치 이자율',
-  'stakingAPRFull': '스테이킹 이자율',
-  'utilizationRatio.description': `총 예치 수량 중 레버리지 투자자가 레버리지 활용을 위해 대출한 토큰의 비율입니다.<br/> 레버리지 투자자가 대여받으면서 지불한 이자의 일부는 해당 토큰을 예치한 사용자에게 지급됩니다. 따라서 토큰의 대여가 많이 발생할수록 즉, 대여율이 높아질수록 예치를 통해 받는 이자도 많아집니다.`,
-  'leverage.description': `예치한 토큰(담보 자산) 대비 몇 배수(레버리지)의 자산 규모로 이자 농사에 참여할 것인지에 대한 설정입니다. 레버리지를 활용해 대출받은 토큰과 보유한 토큰을 함께 예치하여 높은 이자율과 KLEVA 보상을 얻을 수 있습니다.`,
-  'leverage.example': `레버리지 2.5배 : 담보 토큰 100 + 대출 토큰 150`,
-  'leverage.example.description': `담보 토큰과 대출 토큰의 가치가 동일하다고 가정`,
-  'lendingList': '예치 목록',
+  'protocolAPRFull': '프로토콜 수익률',
+  'lendingAPRFull': '예치 수익률',
+  'stakingAPRFull': '스테이킹 수익률',
+  'utilizationRatio.description': `총 예치 수량 중 레버리지 투자자가 레버리지 활용을 위해 대여받은 토큰의 비율입니다.<br/> 레버리지 투자자가 대여받으면서 지불한 이자의 일부는 해당 토큰을 예치한 사용자에게 지급됩니다. 따라서 토큰의 대여가 많이 발생할수록 즉, 대여율이 높아질수록 예치를 통해 받는 이자도 많아집니다.`,
+  'leverage.description': `예치한 토큰(담보 자산) 대비 몇 배수(레버리지)의 자산 규모로 레버리지 투자에 참여할 것인지에 대한 설정입니다. 레버리지를 활용해 대여받은 토큰과 보유한 토큰을 함께 예치하여 높은 수익률과 KLEVA 보상을 얻을 수 있습니다.`,
+  'leverage.example': `레버리지 2.5배 : 담보 토큰 100 + 대여받은 토큰 150`,
+  'leverage.example.description': `담보 토큰과 대여받은 토큰의 가치가 동일하다고 가정`,
+  'lendingList': '풀 목록',
   'lend': '예치하기',
   'approve': '승인하기',
   'approveToken': '%{token} 승인하기',
@@ -608,12 +636,12 @@ export const ko = {
   'example': '예시',
   'lossBySwap': '스왑에 의한 손실',
   'priceImpact': '프라이스 임팩트',
-  'priceImpact.modal.description': '이자 농사에 참여하기 위해서는 두 토큰 가치의 비율이 50:50인 형태로 예치되어야 하며 50:50을 벗어난 경우, 가치가 더 큰 토큰이 작은 토큰으로 자동 스왑되어 예치됩니다. 스왑이 되는 과정에서 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있으며 토큰 규모가 클수록 스왑 시 거래 가격 변동이 크고 손실도 커질 수 있습니다.',
+  'priceImpact.modal.description': '레버리지 투자에 참여하기 위해서는 두 토큰 가치의 비율이 50:50인 형태로 예치되어야 하며 50:50을 벗어난 경우, 가치가 더 큰 토큰이 작은 토큰으로 자동 스왑되어 예치됩니다. 스왑이 되는 과정에서 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있으며 토큰 규모가 클수록 스왑 시 거래 가격 변동이 크고 손실도 커질 수 있습니다.',
   'slippageSetting': '슬리피지 설정',
   'slippageSetting.description': '토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않습니다.',
   'slippage': '슬리피지',
-  'slippage.modal.description': '이자 농사에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
-  'fiftyfiftyMode': '50:50 비율',  
+  'slippage.modal.description': '레버리지 투자에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
+  'fiftyfiftyMode': '50:50 비율',
   'liquidated': '강제 청산됨',
   'writeAmount': '수량 입력',
   'notEnoughAmount': '토큰 수량이 부족합니다.',
@@ -622,13 +650,18 @@ export const ko = {
   'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
 }
 
+
 export const zh = {
 
+
 }
+
 
 export const ja = {
 
+
 }
+
 
 export default {
   en,
