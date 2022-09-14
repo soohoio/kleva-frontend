@@ -455,7 +455,7 @@ export default class {
   }) => {
 
     const finalLeverageValue = this.finalCalculatedLeverage$.value
-    const { currentPositionLeverage } = this.comp.props
+    const { currentPositionLeverage, baseBorrowingInterestAPR } = this.comp.props
 
     const before_totalAPR = new BigNumber(yieldFarmingAPRBefore)
       .plus(tradingFeeAPRBefore)
@@ -475,9 +475,8 @@ export default class {
 
     const after_klevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(finalLeverageValue)
 
-    const after_borrowingInterestAPR = new BigNumber(borrowingInterestAPRBefore)
+    const after_borrowingInterestAPR = new BigNumber(baseBorrowingInterestAPR)
       .multipliedBy(finalLeverageValue - 1)
-      .div(currentPositionLeverage - 1)
       .toNumber()
 
     const after_totalAPR = new BigNumber(after_yieldFarmingAPR)
@@ -485,12 +484,6 @@ export default class {
       .plus(after_klevaRewardsAPR) // klevaRewards
       .minus(after_borrowingInterestAPR) // borrowingInterest
       .toNumber()
-
-    after_totalAPR
-    after_yieldFarmingAPR
-    after_tradingFeeAPR
-    after_klevaRewardsAPR
-    after_borrowingInterestAPR
 
     return {
       before_totalAPR,

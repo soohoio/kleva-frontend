@@ -470,6 +470,7 @@ class ClosePosition extends Component {
       baseBorrowingInterests,
 
       currentPositionLeverage,
+      baseBorrowingInterestAPR,
     } = this.props
 
     const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title

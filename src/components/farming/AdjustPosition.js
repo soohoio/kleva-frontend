@@ -591,6 +591,7 @@ renderTotalValue = ({
       offset,
       setLeverage,
 
+      baseBorrowingInterestAPR,
       baseBorrowingInterests,
     } = this.props
 

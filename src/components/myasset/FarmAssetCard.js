@@ -49,6 +49,7 @@ class FarmAssetCard extends Component {
     const currentPositionLeverage = new BigNumber(equityValueParsed)
       .plus(debtValueParsed)
       .div(equityValueParsed)
+      .toNumber()
 
     return currentPositionLeverage
   }
