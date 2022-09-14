@@ -15,7 +15,8 @@
   @include desktop {
     width: $CONTENT_WIDTH;
     padding: 0;
-    padding-top: 30px;
+    padding-top: unset;
+    border-top: unset;
     padding-bottom: 100px;
     margin-top: 40px;
   }
@@ -57,10 +58,10 @@
 
 .Videos__sectionTitle {
   @include font-style('font-1', 'b', 22px);
-  border-top: 1px solid #E6E7F2;
-  padding-top: 30px;
   color: #222222;
   margin-bottom: 20px;
+  border-top: 1px solid #E6E7F2;
+  padding-top: 30px;
 
   br {
     display: none;
