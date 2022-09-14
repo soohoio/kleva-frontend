@@ -117,7 +117,8 @@ class InputWithPercentage extends Component {
         return noRounding(new BigNumber(valueLimit).minus(1).toNumber(), 6)
       }
 
-      return noRounding(valueLimit, 6)
+      // return noRounding(valueLimit, 6)
+      return valueLimit
     }
 
     return Number(Number(valueLimit) * (value / 100)).toLocaleString('en-us', { maximumFractionDigits: 6 })
