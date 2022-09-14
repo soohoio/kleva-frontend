@@ -8,6 +8,7 @@ import { openModal$, closeModal$, openLayeredModal$ } from 'streams/ui'
 import CompletedModal from '../components/common/CompletedModal'
 import { I18n } from '../components/common/I18n'
 import { closeLayeredModal$ } from './ui'
+import DeepLinker from '../utils/deeplink'
 
 export const selectedAddress$ = new BehaviorSubject()
 
@@ -66,18 +67,26 @@ export const connectInjected = (injectedType, walletProviderName) => {
     }
 
     if (needToUseDeeplink) {
-      document.location = `dapp://${window.location.host}${window.location.pathname}`;
-      
-      var time = (new Date()).getTime();
-      setTimeout(function () {
-        var now = (new Date()).getTime();
-
-        if ((now - time) < 400) {
-          document.location = `https://metamask.app.link/dapp/${window.location.host}`;
-        }
-      }, 300);
-      window.open(`dapp://${window.location.host}${window.location.pathname}`)
-      return false
+      const deepLinker = new DeepLinker({
+        onIgnored: function () {
+          alert('ignored')
+          console.log('browser failed to respond to the deep link')
+        },
+        onFallback: function () {
+          const ua = navigator.userAgent.toLowerCase();
+          alert('dialog hidden')
+          console.log('dialog hidden or user returned to tab')
+          window.location.href = ua.indexOf("android") > -1
+            ? "https://play.google.com/store/apps/details?id=io.metamask"
+            : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+        },
+        onReturn: function () {
+          console.log('user returned to the page from the native app')
+        },
+      })
+      deepLinker.openURL(`dapp://${window.location.host}${window.location.pathname}`)
+      // exeDeepLink()
+      // checkInstallApp()    
     }
 
     if (notKlaytnNetwork) {
@@ -205,3 +214,36 @@ window.balancesInStakingPool$ = balancesInStakingPool$
 window.allowancesInLendingPool$ = allowancesInLendingPool$
 
 
+
+
+const checkInstallApp = () => {
+  function clearTimers() {
+    clearInterval(check);
+    clearTimeout(timer);
+  }
+
+  function isHideWeb() {
+    if (document.webkitHidden || document.hidden) {
+      clearTimers();
+    }
+  }
+  const check = setInterval(isHideWeb, 200);
+
+  const timer = setTimeout(function () {
+    redirectStore();
+  }, 500);
+}
+
+const redirectStore = () => {
+  const ua = navigator.userAgent.toLowerCase();
+
+  window.location.href =
+    ua.indexOf("android") > -1
+      ? "https://play.google.com/store/apps/details?id=io.metamask"
+      : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+};
+
+const exeDeepLink = () => {
+  let url = `dapp://${window.location.host}${window.location.pathname}`;
+  window.location.href = url;
+}
