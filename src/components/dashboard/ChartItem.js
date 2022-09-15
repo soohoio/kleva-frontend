@@ -41,7 +41,9 @@ class ChartItem extends Component {
       popupColor,
       gradientColor,
 
+      height,
       chartMaxHeight,
+      yAxisArr,
     } = this.props
     
     if (!chartData || chartData.length == 0) return false
@@ -72,7 +74,9 @@ class ChartItem extends Component {
           popupColor={popupColor}
           gradientColor={gradientColor}
           chartData={chartData}
+          height={height}
           chartMaxHeight={chartMaxHeight}
+          yAxisArr={yAxisArr}
         />
       </div>
     )

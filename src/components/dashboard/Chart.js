@@ -168,6 +168,7 @@ class Chart extends Component {
       popupColor,
       borderLineColor,
       circleColor,
+      yAxisArr = [0, 1, 2, 3, 4],
     } = this.props
 
     if (!elem) return
@@ -247,14 +248,16 @@ class Chart extends Component {
     })
 
     // y axis
-    const yAxisOffset = (ceiledUpper / 4)
-    const yAxis = [0, 1, 2, 3, 4].map((idx) => {
+    const yAxisOffset = (ceiledUpper / yAxisArr[yAxisArr.length - 1])
+    const yAxis = yAxisArr.map((idx) => {
 
-      const value = yAxisOffset * (4 - idx)
+      const lastIdx = yAxisArr[yAxisArr.length - 1]
 
-      const y = BUFFER_Y + (chartMaxHeight / 4) * idx
+      const value = yAxisOffset * (lastIdx - idx)
 
-      const stroke = idx == 4 
+      const y = BUFFER_Y + (chartMaxHeight / lastIdx) * idx
+
+      const stroke = idx == lastIdx
         ? "#BBC5E3"
         : "#EEF1FC"
       

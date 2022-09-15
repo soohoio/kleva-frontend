@@ -77,6 +77,7 @@ class Dashboard extends Component {
               circleColor="#2F62FF"
               className="Dashboard__tvlChart"
               chartData={totalTVLData}
+              height={260}
             />
             <div className="Dashboard__lendnfarming">
               <ChartItem
@@ -92,7 +93,9 @@ class Dashboard extends Component {
                 circleColor="#29B8FF"
                 className="Dashboard__lendingChart"
                 chartData={lendingData}
+                height={220}
                 chartMaxHeight={120}
+                yAxisArr={[0, 1, 2, 3]}
               />
               <ChartItem
                 chartId="farming"
@@ -107,7 +110,9 @@ class Dashboard extends Component {
                 circleColor="#29B8FF"
                 className="Dashboard__farmingChart"
                 chartData={farmingData}
+                height={220}
                 chartMaxHeight={120}
+                yAxisArr={[0, 1, 2, 3]}
               />
             </div>
           </div>
