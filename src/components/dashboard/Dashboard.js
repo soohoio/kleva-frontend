@@ -92,6 +92,7 @@ class Dashboard extends Component {
                 circleColor="#29B8FF"
                 className="Dashboard__lendingChart"
                 chartData={lendingData}
+                chartMaxHeight={120}
               />
               <ChartItem
                 chartId="farming"
@@ -106,6 +107,7 @@ class Dashboard extends Component {
                 circleColor="#29B8FF"
                 className="Dashboard__farmingChart"
                 chartData={farmingData}
+                chartMaxHeight={120}
               />
             </div>
           </div>

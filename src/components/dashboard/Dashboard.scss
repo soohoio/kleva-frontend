@@ -3,7 +3,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 26px;
 
   position: fixed;
   top: 0;
@@ -11,12 +10,13 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  padding: 18px 0;
   overflow: scroll;
   z-index: 9;
-
+  padding: 0;
+  
   @include desktop {
     position: static;
+    padding: 18px 0;
     width: $CONTENT_WIDTH;
     margin: 0 auto;
   }
@@ -29,23 +29,27 @@
 .DashboardHeader {
   display: flex;
   align-items: center;
-  height: 60px;
-  padding: 0 20px;
-
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  
   @include desktop {
+    padding: 0;
     margin-bottom: 30px;
   }
 }
 
 .DashboardHeader__title {
-  @include font-style('font-1', 'b', 24px);
+  @include font-style('font-1', 'b', 20px);
+  line-height: 24px;
   color: #222222;
-
+  
   text-align: center;
   position: relative;
   width: 100%;
-
+  
   @include desktop {
+    @include font-style('font-1', 'b', 24px);
+    line-height: 29px;
     text-align: left;
   }
 }
@@ -67,7 +71,7 @@
 
 .Dashboard__content {
   width: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
 
   display: flex;
   align-items: flex-start;
@@ -82,18 +86,20 @@
 .Dashboard__left {
   width: 100%; 
   flex: auto;
-  padding: 0 18px;
-
+  padding: 0 20px 0 25px;
+  
   @include desktop {
+    padding: 0 40px 0 0;
     width: auto;
   }
 }
 
 .Dashboard__right {
-  padding: 0 18px;
+  padding: 0 25px;
   width: 100%;
 
   @include desktop {
+    padding: 0;
     width: 323px;
   }
 }
@@ -101,6 +107,7 @@
 .Chart {
   
   svg {
+    margin-top: -50px;
     width: 100%;
     height: 100%;
   }
@@ -117,5 +124,23 @@
 
   @include desktop {
     flex-direction: row;
+
+    .ChartItem:first-of-type {
+      margin-right: 30px;
+    }
   }
+}
+
+.Dashboard__lendingChart {
+  .ChartItem__value {
+    @include font-style('font-1', 'b', 24px);
+    line-height: 26px;
+  }
+}
+
+.Dashboard__farmingChart {
+  .ChartItem__value {
+    @include font-style('font-1', 'b', 24px);
+    line-height: 26px;
+  } 
 }

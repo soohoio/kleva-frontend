@@ -9,14 +9,21 @@ import { nFormatter, noRounding } from '../../utils/misc'
 import { currentLocale$ } from 'streams/i18n'
 import { buildSmoothPath } from '../../utils/svg'
 
-const height = 300
-const chartMaxHeight = 200
-
-const X_AXIS_VISIBLE_HEIGHT = 22
-
-const BUFFER_Y = (height - chartMaxHeight) - X_AXIS_VISIBLE_HEIGHT
-
-const CircleWrapper = ({ date, subColor, popupColor, borderLineColor, circleColor, value, OFFSET_X, x, y, activeCoordinates$ }) => {
+const CircleWrapper = ({ 
+  date, 
+  subColor, 
+  popupColor, 
+  borderLineColor, 
+  circleColor, 
+  value, 
+  OFFSET_X, 
+  x, 
+  y, 
+  activeCoordinates$,
+  
+  chartMaxHeight,
+  BUFFER_Y,
+}) => {
 
   const isActive = activeCoordinates$.value.x === x && activeCoordinates$.value.y === y
 
@@ -103,7 +110,10 @@ class Chart extends Component {
   yAxis$ = new BehaviorSubject([])
   
   componentDidMount() {
-    const { chartId } = this.props
+    const { 
+      chartId,
+
+    } = this.props
 
     merge(
       this.path$,
@@ -126,7 +136,7 @@ class Chart extends Component {
     ).subscribe(() => {
       const chartElem = document.querySelector(`#chart-${chartId}`)
 
-      this.draw(chartElem)
+      this.draw(chartElem, this.getIngredients())
     })
   }
   
@@ -151,7 +161,7 @@ class Chart extends Component {
     return (xAxisOffset * (3 - idx)) - 24
   }
 
-  draw = (elem) => {
+  draw = (elem, { chartMaxHeight, X_AXIS_VISIBLE_HEIGHT, BUFFER_Y }) => {
     const { 
       chartData,
       subColor,
@@ -202,6 +212,9 @@ class Chart extends Component {
           x={x} 
           y={y}
           activeCoordinates$={this.activeCoordinates$}
+
+          chartMaxHeight={chartMaxHeight}
+          BUFFER_Y={BUFFER_Y}
         />
       )
     })
@@ -252,7 +265,7 @@ class Chart extends Component {
           <line opacity={opacity} x1="0" x2={chartVisibleWidth} y1={y} y2={y} stroke={stroke} />
           <text 
             fill="#C5CADB"
-            x={chartVisibleWidth + 20} 
+            x={chartVisibleWidth + 20 - 10} 
             y={y}
           >
             {nFormatter(value, 0, currentLocale$.value)}
@@ -271,9 +284,34 @@ class Chart extends Component {
   coordianteToString = () => {
     return `${this.activeCoordinates$.value.x}-${this.activeCoordinates$.value.y}`
   }
+
+  getIngredients = () => {
+    const { height = 300, chartMaxHeight = 160 } = this.props
+    
+    const X_AXIS_VISIBLE_HEIGHT = 22 - 3
+    const BUFFER_Y = (height - chartMaxHeight) - X_AXIS_VISIBLE_HEIGHT
+
+    return {
+      height,
+      chartMaxHeight,
+      X_AXIS_VISIBLE_HEIGHT,
+      BUFFER_Y,
+    }
+  }
     
   render() {
-    const { chartId, strokeColor, gradientColor } = this.props
+    const { 
+      chartId, 
+      strokeColor, 
+      gradientColor,
+    } = this.props
+
+    const {
+      height,
+      chartMaxHeight,
+      X_AXIS_VISIBLE_HEIGHT,
+      BUFFER_Y,
+    } = this.getIngredients()
 
     return (
       <div 
@@ -281,7 +319,12 @@ class Chart extends Component {
         ref={(elem) => {
           if (!elem) return
           if (this.path$.value) return
-          this.draw(elem)
+          this.draw(elem, {
+            height,
+            chartMaxHeight,
+            X_AXIS_VISIBLE_HEIGHT,
+            BUFFER_Y,
+          })
         }} 
         onMouseLeave={() => {
           this.activeCoordinates$.next({ x: null, y: null })

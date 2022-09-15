@@ -22,13 +22,14 @@
   strong {
     @include font-style('font-1', 'b', 30px);
     color: #265FFC;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
   }
 
   span {
     @include font-style('font-1', 'b', 16px);
     color: #265FFC;
     margin-left: 6px;
+    line-height: 20px;
   }
 }
 
@@ -191,7 +192,7 @@
 
 .TotalSupplyInfo__accumBuybackInUSD {
 
-  margin-bottom: 12px !important;
+  // margin-bottom: 12px !important;
 
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
@@ -228,6 +229,7 @@
 
 .TotalSupplyInfo__see {
   @include button-1(46px);
+  font-size: 15px;
   margin-top: 24px;
   background-color: #EDF2FC;
   color: #265FFC;
