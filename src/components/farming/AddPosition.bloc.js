@@ -164,6 +164,7 @@ export default class {
 
   getAmountToBorrow = () => {
     const positionValue = this.estimatedPositionValueWithoutLeverage$.value
+
     const leverage = this.leverage$.value
 
     return new BigNumber(positionValue)
@@ -193,40 +194,43 @@ export default class {
       .multipliedBy(10 ** this.baseToken$.value.decimals)
       .toString()
 
-    const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount)
-      .plus(this.getAmountToBorrow() || 0)
-      .toString()
-
     const farmTokenAmount = new BigNumber(this.farmingTokenAmount$.value || 0)
       .multipliedBy(10 ** this.farmingToken$.value.decimals)
       .toString()
 
-    return forkJoin([
-      getOpenPositionResult$({
-        workerAddress: this.worker$.value.workerAddress,
-        leveragedBaseTokenAmount: baseTokenAmount,
-        farmTokenAmount,
-        positionId: 0
+    return getPositionValue$({
+      workerAddress: this.worker$.value.workerAddress,
+      baseTokenAmount: baseTokenAmount,
+      farmingTokenAmount: farmTokenAmount,
+    }).pipe(
+      switchMap((positionValue) => {
+
+        this.estimatedPositionValueWithoutLeverage$.next(positionValue)
+
+        const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount)
+          .plus(this.getAmountToBorrow() || 0)
+          .toString()
+
+        return forkJoin([
+          getOpenPositionResult$({
+            workerAddress: this.worker$.value.workerAddress,
+            leveragedBaseTokenAmount: baseTokenAmount,
+            farmTokenAmount,
+            positionId: 0
+          }),
+          getOpenPositionResult$({
+            workerAddress: this.worker$.value.workerAddress,
+            leveragedBaseTokenAmount: leveragedBaseTokenAmount,
+            farmTokenAmount,
+            positionId: 0
+          }),
+        ])
       }),
-      getOpenPositionResult$({
-        workerAddress: this.worker$.value.workerAddress,
-        leveragedBaseTokenAmount: leveragedBaseTokenAmount,
-        farmTokenAmount,
-        positionId: 0
-      }),
-      getPositionValue$({
-        workerAddress: this.worker$.value.workerAddress,
-        baseTokenAmount: baseTokenAmount,
-        farmingTokenAmount: farmTokenAmount,
-      }),
-    ]).pipe(
-      tap(([openPositionResult, openPositionResult_leverage, positionValue]) => {
+      tap(([openPositionResult, openPositionResult_leverage]) => {
         this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
         this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
 
         this.priceImpact$.next(new BigNumber(openPositionResult.priceImpactBps).div(10000).toString())
-
-        this.estimatedPositionValueWithoutLeverage$.next(positionValue)
 
         if (this.leverage$.value == 1) {
           this.leverageImpact$.next(0)
