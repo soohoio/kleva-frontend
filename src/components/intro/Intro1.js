@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of } from 'rxjs'
+import { Subject, merge, of, fromEvent, BehaviorSubject } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 
 import { I18n } from '../common/I18n'
@@ -14,10 +14,15 @@ import ConnectWalletPopup from '../ConnectWalletPopup'
 class Intro1 extends Component {
 
   destroy$ = new Subject()
+  hideAnimation$ = new BehaviorSubject()
+
+  $startButton = createRef()
+
   
   componentDidMount() {
     merge(
       selectedAddress$,
+      this.hideAnimation$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -25,6 +30,26 @@ class Intro1 extends Component {
       this.forceUpdate()
     })
     
+
+    const $app = document.querySelector(".App")
+
+    fromEvent($app, 'scroll').pipe(
+      tap(() => {
+        // const { height: rootHeight } = $app.getBoundingClientRect()
+        // const { y: startButtonY } = this.$startButton.current.getBoundingClientRect()
+        
+        const shouldHideAnimation = $app.scrollTop > $app.scrollHeight - $app.offsetHeight - 156
+
+        console.log($app.scrollTop, '$app.scrollTop')
+        console.log($app.scrollHeight, '$app.scrollHeight')
+
+        // console.log(startButtonY, 'startButtonY')
+        // console.log(window.screen.availHeight, 'window.screen.availHeight')
+        // console.log(shouldHideAnimation, 'shouldHideAnimation')
+        this.hideAnimation$.next(shouldHideAnimation)
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe()
   }
   
   componentWillUnmount() {
@@ -32,9 +57,8 @@ class Intro1 extends Component {
   }
     
   render() {
-
-
     const { shouldShow } = this.props
+    console.log(this.hideAnimation$.value, `this.hideAnimation$.value`)
 
     return (
       <div className="Intro1">
@@ -46,21 +70,13 @@ class Intro1 extends Component {
             {I18n.t('intro1.description')}
           </p>
           <button
+            ref={this.$startButton}
             onClick={() => {
-
               currentTab$.next('lendnstake')
-              // if (selectedAddress$.value) {
-              //   currentTab$.next('lendnstake')
-              //   return
-              // }
-
-              // openModal$.next({
-              //   classNameAttach: "Modal--mobileCoverAll",
-              //   component: <ConnectWalletPopup />
-              // })
             }}
             className={cx("Intro1__start", {
               "Intro1__start--shouldShow": shouldShow,
+              "Intro1__start--hideAnimation": this.hideAnimation$.value
             })}
           >
             {I18n.t('intro1.start')}

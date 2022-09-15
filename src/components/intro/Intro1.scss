@@ -78,15 +78,23 @@
 
 .Intro1__start {
   display: none;
-
+  
+  animation-fill-mode: forwards;
   &--shouldShow {
     display: flex;
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 85%;
+    width: calc(100% - 60px);
     z-index: 9;
+    animation: start-button-show 500ms;
+    animation-fill-mode: forwards;
+  }
+
+  &--hideAnimation {
+    animation: start-button-hide 500ms;
+    animation-fill-mode: forwards;
   }
 
   height: 56px;
@@ -109,4 +117,28 @@
     height: 60px;
   }
 
+}
+
+@keyframes start-button-show {
+  0% {
+    opacity: 0;
+    bottom: -100px;
+  }
+
+  100% {
+    opacity: 1;
+    bottom: 30px;
+  }
+}
+
+@keyframes start-button-hide {
+  0% {
+    opacity: 1;
+    bottom: 30px;
+  }
+
+  100% {
+    opacity: 0;
+    bottom: -100px;
+  }
 }
