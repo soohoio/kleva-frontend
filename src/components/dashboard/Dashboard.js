@@ -28,7 +28,6 @@ class Dashboard extends Component {
     })
     
     fetchChartData$().subscribe((chartData) => {
-      console.log(chartData, 'chartData')
       chartData$.next(chartData)
     })
   }
@@ -66,6 +65,7 @@ class Dashboard extends Component {
         <div className="Dashboard__content">
           <div className="Dashboard__left">
             <ChartItem
+              key="tvl"
               chartId="tvl"
               title={(
                 <>
@@ -87,6 +87,7 @@ class Dashboard extends Component {
             />
             <div className="Dashboard__lendnfarming">
               <ChartItem
+                key="lending"
                 chartId="lending"
                 title={I18n.t('dashboard.lendingChart.title')}
                 value={`$${lendingData && noRounding(lendingData[lendingData.length - 1]?.value, 0)}`}
@@ -104,6 +105,7 @@ class Dashboard extends Component {
                 yAxisArr={[0, 1, 2, 3]}
               />
               <ChartItem
+                key="farming"
                 chartId="farming"
                 title={I18n.t('dashboard.farmingChart.title')}
                 value={`$${farmingData && noRounding(farmingData[farmingData.length - 1]?.value, 0)}`}

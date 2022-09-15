@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, from, of } from "rxjs"
 import { catchError, map, switchMap } from "rxjs/operators"
 import { dummyItems } from "../components/dashboard/dummy"
 
-const initialChartData = {
+export const chartData$ = new BehaviorSubject({
   total_tvl: [],
   lending_tvl: [],
   farming_tvl: [],
@@ -12,9 +12,7 @@ const initialChartData = {
   kleva_platform_locked: [],
   kleva_buybackburn_fund: [],
   kleva_burn: [],
-}
-
-export const chartData$ = new BehaviorSubject(initialChartData)
+})
 
 const yesterday = new Date(Date.now() - 864e5)
 
@@ -71,7 +69,16 @@ export const fetchChartData$ = () => {
 
           return acc
 
-      }, initialChartData)
+        }, {
+          total_tvl: [],
+          lending_tvl: [],
+          farming_tvl: [],
+          kleva_totalsupply: [],
+          kleva_circulation: [],
+          kleva_platform_locked: [],
+          kleva_buybackburn_fund: [],
+          kleva_burn: [],
+        })
     })
   )
 }

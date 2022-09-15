@@ -104,7 +104,7 @@ class TotalSupplyInfo extends Component {
               <span>{Number(circulationPercentage * 100).toFixed(1)}%</span>
             </>
           )}
-          value={`${noRounding(klevaCirculation)} KLEVA`}
+          value={`${noRounding(klevaCirculation)}`}
         />
         <LabelAndValue 
           className="TotalSupplyInfo__lockup"
@@ -123,7 +123,7 @@ class TotalSupplyInfo extends Component {
               <span>{Number(lockupPercentage * 100).toFixed(1)}%</span>
             </>
           )}
-          value={`${noRounding(klevaLockedPure)} KLEVA`}
+          value={`${noRounding(klevaLockedPure)}`}
         />
         <LabelAndValue 
           className="TotalSupplyInfo__burn"
@@ -133,7 +133,7 @@ class TotalSupplyInfo extends Component {
               <span>{Number(burnPercentage * 100).toFixed(1)}%</span>
             </>
           )}
-          value={`${noRounding(accumBurnAmount)} KLEVA`}
+          value={`${noRounding(accumBurnAmount)}`}
         />
         <hr className="TotalSupplyInfo__hr" />
         <LabelAndValue

@@ -186,6 +186,10 @@ export const nFormatter = (num, forceDigits, forceLocale, lastOnly) => {
       const integerPart = splitted[0]
       const decimalPart = splitted[1] ? "." + Number(`0.${splitted[1]}`).toFixed(2).slice(2) : ''
 
+      if (forceDigits !== undefined) {
+        return integerPart + '만'
+      }
+
       return integerPart + decimalPart + '만'
     } else {
       const splitted = String(num / 1_000_000).split('.')
@@ -203,7 +207,7 @@ export const nFormatter = (num, forceDigits, forceLocale, lastOnly) => {
 
   // rule 03
   if (num >= 1) {
-    if (forceDigits) {
+    if (forceDigits !== undefined) {
       return Number(num).toLocaleString('en-us', { maximumFractionDigits: forceDigits })
     }
     return Number(num).toLocaleString('en-us', { maximumFractionDigits: 4 })
@@ -211,7 +215,7 @@ export const nFormatter = (num, forceDigits, forceLocale, lastOnly) => {
 
   // rule 02
   if (num >= 1e-6) {
-    if (forceDigits) {
+    if (forceDigits !== undefined) {
       return Number(num).toLocaleString('en-us', { maximumFractionDigits: forceDigits })
     }
     return noRounding(num, 6)
