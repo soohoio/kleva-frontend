@@ -11,7 +11,7 @@
   
   @include desktop {
     padding: 0;
-    height: 430px;
+    height: 450px;
     width: 100%;
     margin: 0 auto;
   }
@@ -29,13 +29,15 @@
 
 .Intro6__title {
   @include font-style('font-1', 'eb', 26px);
-  width: $CONTENT_WIDTH;
+  width: 100%;
+  word-break: keep-all;
   margin: 0 auto;
   color: #222222;
   margin-bottom: 30px;
   line-height: 34px;
-
+  
   @include desktop {
+    width: $CONTENT_WIDTH;
     br {
       display: none;
     }

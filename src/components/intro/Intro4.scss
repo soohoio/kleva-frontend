@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
 
-  height: 633px;
+  // height: 633px;
   justify-content: center;
-  padding: 0 30px;
+  padding: 60px 30px;
   
   @include desktop {
     padding: 0;
@@ -28,11 +28,17 @@
 .Intro4__left {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  @include desktop {
+    width: 420px;
+    margin-top: 20px;
+  }
 }
 
 .Intro4__right {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   @include desktop {
     // width: 410px;
@@ -56,8 +62,9 @@
 .Intro4__description {
   @include font-style('font-1', 'b', 29px);
   color: #222222;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
   line-height: 37px;
+  word-break: keep-all;
 
   @include desktop {
     @include font-style('font-1', 'b', 40px);
@@ -70,14 +77,17 @@
   @include font-style('font-1', 'sb', 19px);
   color: #4C505C;
   line-height: 26px;
+  margin-top: 11px;
+  word-break: keep-all;
 
   strong {
     @include font-style('font-1', 'b', 19px);
   }
 
   @include desktop {
-    line-height: 34px;
-    @include font-style('font-1', 'sb', 24px);
+    line-height: 32px;
+    margin: 0;
+    @include font-style('font-1', 'sb', 22px);
 
     strong {
       @include font-style('font-1', 'b', 24px);
