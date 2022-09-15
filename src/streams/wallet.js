@@ -69,13 +69,13 @@ export const connectInjected = (injectedType, walletProviderName) => {
     if (needToUseDeeplink) {
       const deepLinker = new DeepLinker({
         onIgnored: function () {
-          alert('ignored')
-          console.log('browser failed to respond to the deep link')
+          const ua = navigator.userAgent.toLowerCase();
+          window.location.href = ua.indexOf("android") > -1
+            ? "https://play.google.com/store/apps/details?id=io.metamask"
+            : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
         },
         onFallback: function () {
           const ua = navigator.userAgent.toLowerCase();
-          alert('dialog hidden')
-          console.log('dialog hidden or user returned to tab')
           window.location.href = ua.indexOf("android") > -1
             ? "https://play.google.com/store/apps/details?id=io.metamask"
             : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
@@ -212,38 +212,3 @@ window.balancesInWallet$ = balancesInWallet$
 window.balancesInStakingPool$ = balancesInStakingPool$
 
 window.allowancesInLendingPool$ = allowancesInLendingPool$
-
-
-
-
-const checkInstallApp = () => {
-  function clearTimers() {
-    clearInterval(check);
-    clearTimeout(timer);
-  }
-
-  function isHideWeb() {
-    if (document.webkitHidden || document.hidden) {
-      clearTimers();
-    }
-  }
-  const check = setInterval(isHideWeb, 200);
-
-  const timer = setTimeout(function () {
-    redirectStore();
-  }, 500);
-}
-
-const redirectStore = () => {
-  const ua = navigator.userAgent.toLowerCase();
-
-  window.location.href =
-    ua.indexOf("android") > -1
-      ? "https://play.google.com/store/apps/details?id=io.metamask"
-      : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
-};
-
-const exeDeepLink = () => {
-  let url = `dapp://${window.location.host}${window.location.pathname}`;
-  window.location.href = url;
-}
