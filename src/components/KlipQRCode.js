@@ -33,10 +33,11 @@ class KlipQRCode extends Component {
   }
 
   render() {
-    const { request_key } = this.props
+    const { request_key, layered } = this.props
 
     return (
       <Modal
+        layered={layered}
         className="KlipQRCode"
         title="Connect Kakao Klip"
       >

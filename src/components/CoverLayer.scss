@@ -11,9 +11,34 @@
   &--inner {
     z-index: 9998;
   }
+
+  animation: background-appear-transition 200ms;
+  animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+  animation-fill-mode: forwards;
+
+  @include desktop {
+    animation: unset !important;
+  }
 }
 
 .CoverLayer__wrapper {
+
+  &--animation-disappear {
+    .CoverLayer {
+      animation: background-disappear-transition 150ms;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    }
+  }
+  
+  &--animation-appear {
+    .CoverLayer {
+      animation: background-appear-transition 150ms;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    }
+  }
+
   &--hide {
     display: none;
   }
@@ -26,5 +51,33 @@
         z-index: 9999;
       }
     }
+  }
+}
+
+// animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+
+@keyframes background-appear-transition {
+  0% {
+    // opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    // opacity: .4;
+    background-color: rgba(0, 0, 0, .4);
+  }
+}
+
+@keyframes background-disappear-transition {
+  0% {
+    // opacity: .4;
+    background-color: rgba(0, 0, 0, .4);
+    // height: initial;
+  }
+
+  100% {
+    // opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
+    // height: 0;
   }
 }

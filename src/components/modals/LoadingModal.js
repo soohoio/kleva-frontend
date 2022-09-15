@@ -29,8 +29,9 @@ class LoadingModal extends Component {
   }
 
   render() {
+    const { layered } = this.props
     return (
-      <Modal className="LoadingModal">
+      <Modal layered={layered} className="LoadingModal">
         <Loading />
         <p className="LoadingModal__description">{I18n.t('processing')}</p>
       </Modal>

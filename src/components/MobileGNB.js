@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import { browserHistory } from 'react-router'
 import cx from 'classnames'
-import { Subject, merge } from 'rxjs'
+import { BehaviorSubject, Subject, merge } from 'rxjs'
 import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { path$ } from 'streams/location'
@@ -19,17 +19,24 @@ import SubMenu from './SubMenu'
 class MobileGNB extends Component {
   destroy$ = new Subject()
 
+  animation$ = new BehaviorSubject(false)
+
   componentDidMount() {
     merge(
       path$,
       walletProviderName$,
       modalAnimation$,
+      this.animation$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.forceUpdate()
     })
+
+    setTimeout(() => {
+      this.animation$.next(true)
+    }, 10)
   }
 
   componentWillUnmount() {
@@ -39,12 +46,13 @@ class MobileGNB extends Component {
   render() {
     return (
       <div className={cx("MobileGNB", {
-        "MobileGNB--animation-appear": true,
-        [`MobileGNB--animation-${modalAnimation$.value}`]: true,
+        [`MobileGNB--animation-${modalAnimation$.value}`]: this.animation$.value && true,
       })}>
         <div className="MobileGNB__header">
           <img 
-            onClick={() => closeModal$.next(true)} 
+            onClick={() => {
+              closeModal$.next(true)
+            }} 
             className="MobileGNB__close" 
             src="/static/images/exported/x.svg" 
           />
