@@ -168,6 +168,7 @@ class ClosePosition extends Component {
         this.bloc.partialCloseRatio$,
         this.bloc.repayDebtRatio$,
       ).pipe(
+        debounceTime(100),
         tap(() => {
 
           const uniqueID = `${this.bloc.partialCloseRatio$.value}-${this.bloc.minRepaymentDebtRatio$.value}`
