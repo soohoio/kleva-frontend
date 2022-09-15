@@ -1,196 +1,339 @@
 export const dummyItems = [
   {
-    "bdate": "2022-06-01",
-    "total_tvl": 91968837,
-    "lending_tvl": 72431193,
-    "farming_tvl": 19537644,
-    "kleva_totalsupply": 22532482,
-    "kleva_circulation": 3639180,
-    "kleva_platform_locked": 18893302,
-    "kleva_buybackburn_fund": 96429,
+    "bdate": "'2022-06-17",
+    "total_tvl": 104401006,
+    "lending_tvl": 83939343,
+    "farming_tvl": 20461663,
+    "kleva_totalsupply": "None",
+    "kleva_circulation": "None",
+    "kleva_platform_locked": "None",
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-02",
-    "total_tvl": 91132599,
-    "lending_tvl": 71853107,
-    "farming_tvl": 19279493,
-    "kleva_totalsupply": 22642963,
-    "kleva_circulation": 3651373,
-    "kleva_platform_locked": 18991589,
-    "kleva_buybackburn_fund": 1789,
+    "bdate": "'2022-06-18",
+    "total_tvl": 98448623,
+    "lending_tvl": 79678707,
+    "farming_tvl": 18769916,
+    "kleva_totalsupply": "None",
+    "kleva_circulation": "None",
+    "kleva_platform_locked": "None",
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-03",
-    "total_tvl": 89338372,
-    "lending_tvl": 69968263,
-    "farming_tvl": 19370109,
-    "kleva_totalsupply": 22761318,
-    "kleva_circulation": 3672203,
-    "kleva_platform_locked": 19089115,
-    "kleva_buybackburn_fund": 3532,
+    "bdate": "'2022-06-19",
+    "total_tvl": 95361684,
+    "lending_tvl": 76441752,
+    "farming_tvl": 18919932,
+    "kleva_totalsupply": "None",
+    "kleva_circulation": "None",
+    "kleva_platform_locked": "None",
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-04",
-    "total_tvl": 90327835,
-    "lending_tvl": 70193077,
-    "farming_tvl": 20134758,
-    "kleva_totalsupply": 22874389,
-    "kleva_circulation": 3655583,
-    "kleva_platform_locked": 19218806,
-    "kleva_buybackburn_fund": 5320,
+    "bdate": "'2022-06-20",
+    "total_tvl": 99502663,
+    "lending_tvl": 80576042,
+    "farming_tvl": 18926622,
+    "kleva_totalsupply": "None",
+    "kleva_circulation": "None",
+    "kleva_platform_locked": "None",
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-05",
-    "total_tvl": 89425684,
-    "lending_tvl": 69485163,
-    "farming_tvl": 19940521,
-    "kleva_totalsupply": 22989550,
-    "kleva_circulation": 3709072,
-    "kleva_platform_locked": 19280478,
-    "kleva_buybackburn_fund": 7932,
+    "bdate": "'2022-06-21",
+    "total_tvl": 103840262,
+    "lending_tvl": 83445898,
+    "farming_tvl": 20394363,
+    "kleva_totalsupply": "None",
+    "kleva_circulation": "None",
+    "kleva_platform_locked": "None",
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-06",
-    "total_tvl": 88120105,
-    "lending_tvl": 68263639,
-    "farming_tvl": 19856466,
-    "kleva_totalsupply": 23098602,
-    "kleva_circulation": 3771872,
-    "kleva_platform_locked": 19326729,
-    "kleva_buybackburn_fund": 11086,
+    "bdate": "'2022-06-22",
+    "total_tvl": 103821521,
+    "lending_tvl": 84556756,
+    "farming_tvl": 19264765,
+    "kleva_totalsupply": 18016463,
+    "kleva_circulation": 2012571,
+    "kleva_platform_locked": 16003891,
+    "kleva_buybackburn_fund": 0,
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
-    "kleva_totalsupply": 23214980,
-    "kleva_circulation": 3790845,
-    "kleva_platform_locked": 19424134,
-    "kleva_buybackburn_fund": 14040,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-23",
+    "total_tvl": 102259988,
+    "lending_tvl": 82823029,
+    "farming_tvl": 19436958,
+    "kleva_totalsupply": 18123436,
+    "kleva_circulation": 2115836,
+    "kleva_platform_locked": 16007599,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
-    "kleva_totalsupply": 23244557,
-    "kleva_circulation": 22364754,
-    "kleva_platform_locked": 879803,
-    "kleva_buybackburn_fund": 14040,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-24",
+    "total_tvl": 94817644,
+    "lending_tvl": 74617355,
+    "farming_tvl": 20200289,
+    "kleva_totalsupply": 18222932,
+    "kleva_circulation": 2021526,
+    "kleva_platform_locked": 16201407,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-08",
-    "total_tvl": 88507017,
-    "lending_tvl": 68272520,
-    "farming_tvl": 20234497,
-    "kleva_totalsupply": 23332270,
-    "kleva_circulation": 3274533,
-    "kleva_platform_locked": 20057737,
-    "kleva_buybackburn_fund": 16349,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-25",
+    "total_tvl": 97921348,
+    "lending_tvl": 77392109,
+    "farming_tvl": 20529239,
+    "kleva_totalsupply": 18333145,
+    "kleva_circulation": 2033871,
+    "kleva_platform_locked": 16299274,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-09",
-    "total_tvl": 87646453,
-    "lending_tvl": 67696595,
-    "farming_tvl": 19949858,
-    "kleva_totalsupply": 23446332,
-    "kleva_circulation": 3104233,
-    "kleva_platform_locked": 20342099,
-    "kleva_buybackburn_fund": 18310,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-26",
+    "total_tvl": 99529554,
+    "lending_tvl": 78920291,
+    "farming_tvl": 20609263,
+    "kleva_totalsupply": 18443308,
+    "kleva_circulation": 2098425,
+    "kleva_platform_locked": 16344883,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-10",
-    "total_tvl": 88088694,
-    "lending_tvl": 67696595,
-    "farming_tvl": 20392099,
-    "kleva_totalsupply": 23562241,
-    "kleva_circulation": 2961420,
-    "kleva_platform_locked": 20600821,
-    "kleva_buybackburn_fund": 21063,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-27",
+    "total_tvl": 94037896,
+    "lending_tvl": 73673974,
+    "farming_tvl": 20363922,
+    "kleva_totalsupply": 18558411,
+    "kleva_circulation": 2095952,
+    "kleva_platform_locked": 16462459,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-11",
-    "total_tvl": 89278224,
-    "lending_tvl": 68901864,
-    "farming_tvl": 20376360,
-    "kleva_totalsupply": 23675702,
-    "kleva_circulation": 2932446,
-    "kleva_platform_locked": 20743256,
-    "kleva_buybackburn_fund": 23172,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-28",
+    "total_tvl": 97977520,
+    "lending_tvl": 77416247,
+    "farming_tvl": 20561273,
+    "kleva_totalsupply": 18672836,
+    "kleva_circulation": 2151006,
+    "kleva_platform_locked": 16521830,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-12",
-    "total_tvl": 92800361,
-    "lending_tvl": 72273773,
-    "farming_tvl": 20526588,
-    "kleva_totalsupply": 23790363,
-    "kleva_circulation": 2842887,
-    "kleva_platform_locked": 20947475,
-    "kleva_buybackburn_fund": 25336,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-29",
+    "total_tvl": 99625685,
+    "lending_tvl": 79070279,
+    "farming_tvl": 20555406,
+    "kleva_totalsupply": 18790473,
+    "kleva_circulation": 2143302,
+    "kleva_platform_locked": 16647171,
+    "kleva_buybackburn_fund": 0,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-13",
-    "total_tvl": 93873912,
-    "lending_tvl": 73168007,
-    "farming_tvl": 20705905,
-    "kleva_totalsupply": 23905121,
-    "kleva_circulation": 2829702,
-    "kleva_platform_locked": 21075419,
-    "kleva_buybackburn_fund": 27293,
-    "kleva_burn": 879803
+    "bdate": "'2022-06-30",
+    "total_tvl": 98142336,
+    "lending_tvl": 77707767,
+    "farming_tvl": 20434569,
+    "kleva_totalsupply": 18903430,
+    "kleva_circulation": 2067510,
+    "kleva_platform_locked": 16835919,
+    "kleva_buybackburn_fund": 116826,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-14",
-    "total_tvl": 93828053,
-    "lending_tvl": 73141819,
-    "farming_tvl": 20686234,
-    "kleva_totalsupply": 24013540,
-    "kleva_circulation": 2847160,
-    "kleva_platform_locked": 21166381,
-    "kleva_buybackburn_fund": 29316,
-    "kleva_burn": 879803
+    "bdate": "'2022-07-01",
+    "total_tvl": 95191988,
+    "lending_tvl": 75165251,
+    "farming_tvl": 20026737,
+    "kleva_totalsupply": 19012513,
+    "kleva_circulation": 2107330,
+    "kleva_platform_locked": 16905182,
+    "kleva_buybackburn_fund": 119697,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-15",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
-    "kleva_burn": 879803
+    "bdate": "'2022-07-02",
+    "total_tvl": 95076403,
+    "lending_tvl": 75305204,
+    "farming_tvl": 19771199,
+    "kleva_totalsupply": 19129108,
+    "kleva_circulation": 2122629,
+    "kleva_platform_locked": 17006478,
+    "kleva_buybackburn_fund": 122390,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-16",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
-    "kleva_burn": 879803
+    "bdate": "'2022-07-03",
+    "total_tvl": 93317706,
+    "lending_tvl": 73395034,
+    "farming_tvl": 19922673,
+    "kleva_totalsupply": 19240974,
+    "kleva_circulation": 2099394,
+    "kleva_platform_locked": 17141580,
+    "kleva_buybackburn_fund": 125437,
+    "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-17",
-    "total_tvl": 69272076,
-    "lending_tvl": 52507117,
-    "farming_tvl": 16764960,
+    "bdate": "'2022-07-04",
+    "total_tvl": 92234002,
+    "lending_tvl": 73001363,
+    "farming_tvl": 19232640,
+    "kleva_totalsupply": 19355751,
+    "kleva_circulation": 2066736,
+    "kleva_platform_locked": 17289014,
+    "kleva_buybackburn_fund": 128322,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-05",
+    "total_tvl": 92846979,
+    "lending_tvl": 73196864,
+    "farming_tvl": 19650115,
+    "kleva_totalsupply": 19466345,
+    "kleva_circulation": 2070288,
+    "kleva_platform_locked": 17396056,
+    "kleva_buybackburn_fund": 131285,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-06",
+    "total_tvl": 93528525,
+    "lending_tvl": 74366127,
+    "farming_tvl": 19162398,
+    "kleva_totalsupply": 19578322,
+    "kleva_circulation": 2115226,
+    "kleva_platform_locked": 17463096,
+    "kleva_buybackburn_fund": 134190,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-07",
+    "total_tvl": 94856149,
+    "lending_tvl": 75331308,
+    "farming_tvl": 19524841,
+    "kleva_totalsupply": 19697778,
+    "kleva_circulation": 2498102,
+    "kleva_platform_locked": 17199676,
+    "kleva_buybackburn_fund": 1793,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-08",
+    "total_tvl": 93728169,
+    "lending_tvl": 74279338,
+    "farming_tvl": 19448831,
+    "kleva_totalsupply": 19806413,
+    "kleva_circulation": 2536925,
+    "kleva_platform_locked": 17269488,
+    "kleva_buybackburn_fund": 4874,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-09",
+    "total_tvl": 95382729,
+    "lending_tvl": 75941868,
+    "farming_tvl": 19440861,
+    "kleva_totalsupply": 19921366,
+    "kleva_circulation": 2559806,
+    "kleva_platform_locked": 17361560,
+    "kleva_buybackburn_fund": 7224,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-10",
+    "total_tvl": 94955180,
+    "lending_tvl": 75837211,
+    "farming_tvl": 19117969,
+    "kleva_totalsupply": 20032324,
+    "kleva_circulation": 2583898,
+    "kleva_platform_locked": 17448426,
+    "kleva_buybackburn_fund": 9724,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-11",
+    "total_tvl": 92155756,
+    "lending_tvl": 73658411,
+    "farming_tvl": 18497346,
+    "kleva_totalsupply": 20148941,
+    "kleva_circulation": 2557835,
+    "kleva_platform_locked": 17591106,
+    "kleva_buybackburn_fund": 10356,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-12",
+    "total_tvl": 90743809,
+    "lending_tvl": 72633428,
+    "farming_tvl": 18110380,
+    "kleva_totalsupply": 20262317,
+    "kleva_circulation": 2565201,
+    "kleva_platform_locked": 17697117,
+    "kleva_buybackburn_fund": 12960,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-13",
+    "total_tvl": 90343535,
+    "lending_tvl": 72524654,
+    "farming_tvl": 17818881,
+    "kleva_totalsupply": 20374142,
+    "kleva_circulation": 2566687,
+    "kleva_platform_locked": 17807455,
+    "kleva_buybackburn_fund": 14908,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-14",
+    "total_tvl": 80094066,
+    "lending_tvl": 61903120,
+    "farming_tvl": 18190946,
+    "kleva_totalsupply": 20492936,
+    "kleva_circulation": 3247643,
+    "kleva_platform_locked": 17245293,
+    "kleva_buybackburn_fund": 17055,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-15",
+    "total_tvl": 78929193,
+    "lending_tvl": 61431203,
+    "farming_tvl": 17497990,
+    "kleva_totalsupply": 20605812,
+    "kleva_circulation": 4750216,
+    "kleva_platform_locked": 15855596,
+    "kleva_buybackburn_fund": 69156,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-16",
+    "total_tvl": 79254718,
+    "lending_tvl": 61387692,
+    "farming_tvl": 17867026,
+    "kleva_totalsupply": 20721151,
+    "kleva_circulation": 4808424,
+    "kleva_platform_locked": 15912727,
+    "kleva_buybackburn_fund": 70510,
+    "kleva_burn": 0
+  },
+  {
+    "bdate": "'2022-07-17",
+    "total_tvl": 76960052,
+    "lending_tvl": 57820517,
+    "farming_tvl": 19139534,
     "kleva_totalsupply": 20830464,
     "kleva_circulation": 4891612,
     "kleva_platform_locked": 15938852,
@@ -198,10 +341,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-18",
-    "total_tvl": 68836668,
-    "lending_tvl": 51480205,
-    "farming_tvl": 17356463,
+    "bdate": "'2022-07-18",
+    "total_tvl": 76525529,
+    "lending_tvl": 56793606,
+    "farming_tvl": 19731923,
     "kleva_totalsupply": 20945226,
     "kleva_circulation": 4956721,
     "kleva_platform_locked": 15988505,
@@ -209,10 +352,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-19",
-    "total_tvl": 84124871,
-    "lending_tvl": 65454738,
-    "farming_tvl": 18670134,
+    "bdate": "'2022-07-19",
+    "total_tvl": 92107925,
+    "lending_tvl": 70768138,
+    "farming_tvl": 21339787,
     "kleva_totalsupply": 21060067,
     "kleva_circulation": 5028693,
     "kleva_platform_locked": 16031374,
@@ -220,10 +363,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-20",
-    "total_tvl": 88301064,
-    "lending_tvl": 69900832,
-    "farming_tvl": 18400232,
+    "bdate": "'2022-07-20",
+    "total_tvl": 96842545,
+    "lending_tvl": 75214232,
+    "farming_tvl": 21628313,
     "kleva_totalsupply": 21173851,
     "kleva_circulation": 5248521,
     "kleva_platform_locked": 15925329,
@@ -231,10 +374,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-21",
-    "total_tvl": 83538479,
-    "lending_tvl": 65108525,
-    "farming_tvl": 18429954,
+    "bdate": "'2022-07-21",
+    "total_tvl": 92079956,
+    "lending_tvl": 70421925,
+    "farming_tvl": 21658030,
     "kleva_totalsupply": 21286697,
     "kleva_circulation": 5767203,
     "kleva_platform_locked": 15519494,
@@ -242,10 +385,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-22",
-    "total_tvl": 82899765,
-    "lending_tvl": 64405597,
-    "farming_tvl": 18494168,
+    "bdate": "'2022-07-22",
+    "total_tvl": 92818303,
+    "lending_tvl": 71136521,
+    "farming_tvl": 21681782,
     "kleva_totalsupply": 21396706,
     "kleva_circulation": 4194744,
     "kleva_platform_locked": 17201961,
@@ -253,10 +396,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-23",
-    "total_tvl": 87756703,
-    "lending_tvl": 69506899,
-    "farming_tvl": 18249805,
+    "bdate": "'2022-07-23",
+    "total_tvl": 97675238,
+    "lending_tvl": 76237823,
+    "farming_tvl": 21437415,
     "kleva_totalsupply": 21507739,
     "kleva_circulation": 3898774,
     "kleva_platform_locked": 17608965,
@@ -264,10 +407,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-24",
-    "total_tvl": 88143236,
-    "lending_tvl": 69593560,
-    "farming_tvl": 18549676,
+    "bdate": "'2022-07-24",
+    "total_tvl": 98061772,
+    "lending_tvl": 76324484,
+    "farming_tvl": 21737288,
     "kleva_totalsupply": 21619906,
     "kleva_circulation": 3806797,
     "kleva_platform_locked": 17813110,
@@ -275,10 +418,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-25",
-    "total_tvl": 86121511,
-    "lending_tvl": 67761831,
-    "farming_tvl": 18359680,
+    "bdate": "'2022-07-25",
+    "total_tvl": 96227014,
+    "lending_tvl": 75108537,
+    "farming_tvl": 21118477,
     "kleva_totalsupply": 21735830,
     "kleva_circulation": 3664609,
     "kleva_platform_locked": 18071222,
@@ -286,10 +429,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-26",
-    "total_tvl": 84131552,
-    "lending_tvl": 66253943,
-    "farming_tvl": 17877609,
+    "bdate": "'2022-07-26",
+    "total_tvl": 94324633,
+    "lending_tvl": 73600649,
+    "farming_tvl": 20723983,
     "kleva_totalsupply": 21848532,
     "kleva_circulation": 3975374,
     "kleva_platform_locked": 17873158,
@@ -297,10 +440,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-27",
-    "total_tvl": 84092117,
-    "lending_tvl": 65622071,
-    "farming_tvl": 18470045,
+    "bdate": "'2022-07-27",
+    "total_tvl": 94285197,
+    "lending_tvl": 72968778,
+    "farming_tvl": 21316419,
     "kleva_totalsupply": 21964212,
     "kleva_circulation": 3686943,
     "kleva_platform_locked": 18277269,
@@ -308,10 +451,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-28",
-    "total_tvl": 87238222,
-    "lending_tvl": 68517408,
-    "farming_tvl": 18720813,
+    "bdate": "'2022-07-28",
+    "total_tvl": 97431302,
+    "lending_tvl": 75864115,
+    "farming_tvl": 21567187,
     "kleva_totalsupply": 22076901,
     "kleva_circulation": 4054248,
     "kleva_platform_locked": 18022653,
@@ -319,10 +462,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-29",
-    "total_tvl": 90049055,
-    "lending_tvl": 70999177,
-    "farming_tvl": 19049878,
+    "bdate": "'2022-07-29",
+    "total_tvl": 100238454,
+    "lending_tvl": 78345883,
+    "farming_tvl": 21892571,
     "kleva_totalsupply": 22190755,
     "kleva_circulation": 3608891,
     "kleva_platform_locked": 18581864,
@@ -330,10 +473,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-06-30",
-    "total_tvl": 90904424,
-    "lending_tvl": 71419827,
-    "farming_tvl": 19484597,
+    "bdate": "'2022-07-30",
+    "total_tvl": 101160513,
+    "lending_tvl": 78766534,
+    "farming_tvl": 22393979,
     "kleva_totalsupply": 22304829,
     "kleva_circulation": 3593403,
     "kleva_platform_locked": 18711426,
@@ -341,351 +484,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-07-01",
-    "total_tvl": 91968837,
-    "lending_tvl": 72431193,
-    "farming_tvl": 19537644,
-    "kleva_totalsupply": 22532482,
-    "kleva_circulation": 3639180,
-    "kleva_platform_locked": 18893302,
-    "kleva_buybackburn_fund": 96429,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-02",
-    "total_tvl": 91132599,
-    "lending_tvl": 71853107,
-    "farming_tvl": 19279493,
-    "kleva_totalsupply": 22642963,
-    "kleva_circulation": 3651373,
-    "kleva_platform_locked": 18991589,
-    "kleva_buybackburn_fund": 1789,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-03",
-    "total_tvl": 89338372,
-    "lending_tvl": 69968263,
-    "farming_tvl": 19370109,
-    "kleva_totalsupply": 22761318,
-    "kleva_circulation": 3672203,
-    "kleva_platform_locked": 19089115,
-    "kleva_buybackburn_fund": 3532,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-04",
-    "total_tvl": 90327835,
-    "lending_tvl": 70193077,
-    "farming_tvl": 20134758,
-    "kleva_totalsupply": 22874389,
-    "kleva_circulation": 3655583,
-    "kleva_platform_locked": 19218806,
-    "kleva_buybackburn_fund": 5320,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-05",
-    "total_tvl": 89425684,
-    "lending_tvl": 69485163,
-    "farming_tvl": 19940521,
-    "kleva_totalsupply": 22989550,
-    "kleva_circulation": 3709072,
-    "kleva_platform_locked": 19280478,
-    "kleva_buybackburn_fund": 7932,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-06",
-    "total_tvl": 88120105,
-    "lending_tvl": 68263639,
-    "farming_tvl": 19856466,
-    "kleva_totalsupply": 23098602,
-    "kleva_circulation": 3771872,
-    "kleva_platform_locked": 19326729,
-    "kleva_buybackburn_fund": 11086,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
-    "kleva_totalsupply": 23214980,
-    "kleva_circulation": 3790845,
-    "kleva_platform_locked": 19424134,
-    "kleva_buybackburn_fund": 14040,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
-    "kleva_totalsupply": 23244557,
-    "kleva_circulation": 22364754,
-    "kleva_platform_locked": 879803,
-    "kleva_buybackburn_fund": 14040,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-08",
-    "total_tvl": 88507017,
-    "lending_tvl": 68272520,
-    "farming_tvl": 20234497,
-    "kleva_totalsupply": 23332270,
-    "kleva_circulation": 3274533,
-    "kleva_platform_locked": 20057737,
-    "kleva_buybackburn_fund": 16349,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-09",
-    "total_tvl": 87646453,
-    "lending_tvl": 67696595,
-    "farming_tvl": 19949858,
-    "kleva_totalsupply": 23446332,
-    "kleva_circulation": 3104233,
-    "kleva_platform_locked": 20342099,
-    "kleva_buybackburn_fund": 18310,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-10",
-    "total_tvl": 88088694,
-    "lending_tvl": 67696595,
-    "farming_tvl": 20392099,
-    "kleva_totalsupply": 23562241,
-    "kleva_circulation": 2961420,
-    "kleva_platform_locked": 20600821,
-    "kleva_buybackburn_fund": 21063,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-11",
-    "total_tvl": 89278224,
-    "lending_tvl": 68901864,
-    "farming_tvl": 20376360,
-    "kleva_totalsupply": 23675702,
-    "kleva_circulation": 2932446,
-    "kleva_platform_locked": 20743256,
-    "kleva_buybackburn_fund": 23172,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-12",
-    "total_tvl": 92800361,
-    "lending_tvl": 72273773,
-    "farming_tvl": 20526588,
-    "kleva_totalsupply": 23790363,
-    "kleva_circulation": 2842887,
-    "kleva_platform_locked": 20947475,
-    "kleva_buybackburn_fund": 25336,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-13",
-    "total_tvl": 93873912,
-    "lending_tvl": 73168007,
-    "farming_tvl": 20705905,
-    "kleva_totalsupply": 23905121,
-    "kleva_circulation": 2829702,
-    "kleva_platform_locked": 21075419,
-    "kleva_buybackburn_fund": 27293,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-14",
-    "total_tvl": 93828053,
-    "lending_tvl": 73141819,
-    "farming_tvl": 20686234,
-    "kleva_totalsupply": 24013540,
-    "kleva_circulation": 2847160,
-    "kleva_platform_locked": 21166381,
-    "kleva_buybackburn_fund": 29316,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-15",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-16",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
-    "kleva_burn": 879803
-  },
-  {
-    "bdate": "2022-07-17",
-    "total_tvl": 69272076,
-    "lending_tvl": 52507117,
-    "farming_tvl": 16764960,
-    "kleva_totalsupply": 20830464,
-    "kleva_circulation": 4891612,
-    "kleva_platform_locked": 15938852,
-    "kleva_buybackburn_fund": 71778,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-18",
-    "total_tvl": 68836668,
-    "lending_tvl": 51480205,
-    "farming_tvl": 17356463,
-    "kleva_totalsupply": 20945226,
-    "kleva_circulation": 4956721,
-    "kleva_platform_locked": 15988505,
-    "kleva_buybackburn_fund": 72976,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-19",
-    "total_tvl": 84124871,
-    "lending_tvl": 65454738,
-    "farming_tvl": 18670134,
-    "kleva_totalsupply": 21060067,
-    "kleva_circulation": 5028693,
-    "kleva_platform_locked": 16031374,
-    "kleva_buybackburn_fund": 73850,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-20",
-    "total_tvl": 88301064,
-    "lending_tvl": 69900832,
-    "farming_tvl": 18400232,
-    "kleva_totalsupply": 21173851,
-    "kleva_circulation": 5248521,
-    "kleva_platform_locked": 15925329,
-    "kleva_buybackburn_fund": 74638,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-21",
-    "total_tvl": 83538479,
-    "lending_tvl": 65108525,
-    "farming_tvl": 18429954,
-    "kleva_totalsupply": 21286697,
-    "kleva_circulation": 5767203,
-    "kleva_platform_locked": 15519494,
-    "kleva_buybackburn_fund": 76208,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-22",
-    "total_tvl": 82899765,
-    "lending_tvl": 64405597,
-    "farming_tvl": 18494168,
-    "kleva_totalsupply": 21396706,
-    "kleva_circulation": 4194744,
-    "kleva_platform_locked": 17201961,
-    "kleva_buybackburn_fund": 78183,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-23",
-    "total_tvl": 87756703,
-    "lending_tvl": 69506899,
-    "farming_tvl": 18249805,
-    "kleva_totalsupply": 21507739,
-    "kleva_circulation": 3898774,
-    "kleva_platform_locked": 17608965,
-    "kleva_buybackburn_fund": 80198,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-24",
-    "total_tvl": 88143236,
-    "lending_tvl": 69593560,
-    "farming_tvl": 18549676,
-    "kleva_totalsupply": 21619906,
-    "kleva_circulation": 3806797,
-    "kleva_platform_locked": 17813110,
-    "kleva_buybackburn_fund": 82342,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-25",
-    "total_tvl": 86121511,
-    "lending_tvl": 67761831,
-    "farming_tvl": 18359680,
-    "kleva_totalsupply": 21735830,
-    "kleva_circulation": 3664609,
-    "kleva_platform_locked": 18071222,
-    "kleva_buybackburn_fund": 85206,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-26",
-    "total_tvl": 84131552,
-    "lending_tvl": 66253943,
-    "farming_tvl": 17877609,
-    "kleva_totalsupply": 21848532,
-    "kleva_circulation": 3975374,
-    "kleva_platform_locked": 17873158,
-    "kleva_buybackburn_fund": 87069,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-27",
-    "total_tvl": 84092117,
-    "lending_tvl": 65622071,
-    "farming_tvl": 18470045,
-    "kleva_totalsupply": 21964212,
-    "kleva_circulation": 3686943,
-    "kleva_platform_locked": 18277269,
-    "kleva_buybackburn_fund": 89006,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-28",
-    "total_tvl": 87238222,
-    "lending_tvl": 68517408,
-    "farming_tvl": 18720813,
-    "kleva_totalsupply": 22076901,
-    "kleva_circulation": 4054248,
-    "kleva_platform_locked": 18022653,
-    "kleva_buybackburn_fund": 90706,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-29",
-    "total_tvl": 90049055,
-    "lending_tvl": 70999177,
-    "farming_tvl": 19049878,
-    "kleva_totalsupply": 22190755,
-    "kleva_circulation": 3608891,
-    "kleva_platform_locked": 18581864,
-    "kleva_buybackburn_fund": 91845,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-30",
-    "total_tvl": 90904424,
-    "lending_tvl": 71419827,
-    "farming_tvl": 19484597,
-    "kleva_totalsupply": 22304829,
-    "kleva_circulation": 3593403,
-    "kleva_platform_locked": 18711426,
-    "kleva_buybackburn_fund": 93291,
-    "kleva_burn": 0
-  },
-  {
-    "bdate": "2022-07-31",
-    "total_tvl": 91571009,
-    "lending_tvl": 72055574,
-    "farming_tvl": 19515434,
+    "bdate": "'2022-07-31",
+    "total_tvl": 101821738,
+    "lending_tvl": 79402281,
+    "farming_tvl": 22419457,
     "kleva_totalsupply": 22419247,
     "kleva_circulation": 3643745,
     "kleva_platform_locked": 18775503,
@@ -693,10 +495,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-01",
-    "total_tvl": 91968837,
-    "lending_tvl": 72431193,
-    "farming_tvl": 19537644,
+    "bdate": "'2022-08-01",
+    "total_tvl": 102223755,
+    "lending_tvl": 79777900,
+    "farming_tvl": 22445856,
     "kleva_totalsupply": 22532482,
     "kleva_circulation": 3639180,
     "kleva_platform_locked": 18893302,
@@ -704,10 +506,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-02",
-    "total_tvl": 91132599,
-    "lending_tvl": 71853107,
-    "farming_tvl": 19279493,
+    "bdate": "'2022-08-02",
+    "total_tvl": 101391538,
+    "lending_tvl": 79199813,
+    "farming_tvl": 22191725,
     "kleva_totalsupply": 22642963,
     "kleva_circulation": 3651373,
     "kleva_platform_locked": 18991589,
@@ -715,10 +517,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-03",
-    "total_tvl": 89338372,
-    "lending_tvl": 69968263,
-    "farming_tvl": 19370109,
+    "bdate": "'2022-08-03",
+    "total_tvl": 99592610,
+    "lending_tvl": 77314969,
+    "farming_tvl": 22277641,
     "kleva_totalsupply": 22761318,
     "kleva_circulation": 3672203,
     "kleva_platform_locked": 19089115,
@@ -726,10 +528,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-04",
-    "total_tvl": 90327835,
-    "lending_tvl": 70193077,
-    "farming_tvl": 20134758,
+    "bdate": "'2022-08-04",
+    "total_tvl": 100525072,
+    "lending_tvl": 77539784,
+    "farming_tvl": 22985288,
     "kleva_totalsupply": 22874389,
     "kleva_circulation": 3655583,
     "kleva_platform_locked": 19218806,
@@ -737,10 +539,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-05",
-    "total_tvl": 89425684,
-    "lending_tvl": 69485163,
-    "farming_tvl": 19940521,
+    "bdate": "'2022-08-05",
+    "total_tvl": 99649813,
+    "lending_tvl": 76831870,
+    "farming_tvl": 22817943,
     "kleva_totalsupply": 22989550,
     "kleva_circulation": 3709072,
     "kleva_platform_locked": 19280478,
@@ -748,10 +550,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-06",
-    "total_tvl": 88120105,
-    "lending_tvl": 68263639,
-    "farming_tvl": 19856466,
+    "bdate": "'2022-08-06",
+    "total_tvl": 98344235,
+    "lending_tvl": 75610346,
+    "farming_tvl": 22733889,
     "kleva_totalsupply": 23098602,
     "kleva_circulation": 3771872,
     "kleva_platform_locked": 19326729,
@@ -759,10 +561,10 @@ export const dummyItems = [
     "kleva_burn": 0
   },
   {
-    "bdate": "2022-08-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
+    "bdate": "'2022-08-07",
+    "total_tvl": 98088402,
+    "lending_tvl": 75197805,
+    "farming_tvl": 22890597,
     "kleva_totalsupply": 23214980,
     "kleva_circulation": 3790845,
     "kleva_platform_locked": 19424134,
@@ -770,10 +572,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-07",
-    "total_tvl": 87723064,
-    "lending_tvl": 67851099,
-    "farming_tvl": 19871965,
+    "bdate": "'2022-08-07",
+    "total_tvl": 98088402,
+    "lending_tvl": 75197805,
+    "farming_tvl": 22890597,
     "kleva_totalsupply": 23244557,
     "kleva_circulation": 22364754,
     "kleva_platform_locked": 879803,
@@ -781,10 +583,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-08",
-    "total_tvl": 88507017,
-    "lending_tvl": 68272520,
-    "farming_tvl": 20234497,
+    "bdate": "'2022-08-08",
+    "total_tvl": 98873889,
+    "lending_tvl": 75619227,
+    "farming_tvl": 23254662,
     "kleva_totalsupply": 23332270,
     "kleva_circulation": 3274533,
     "kleva_platform_locked": 20057737,
@@ -792,10 +594,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-09",
-    "total_tvl": 87646453,
-    "lending_tvl": 67696595,
-    "farming_tvl": 19949858,
+    "bdate": "'2022-08-09",
+    "total_tvl": 97984938,
+    "lending_tvl": 75043302,
+    "farming_tvl": 22941636,
     "kleva_totalsupply": 23446332,
     "kleva_circulation": 3104233,
     "kleva_platform_locked": 20342099,
@@ -803,10 +605,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-10",
-    "total_tvl": 88088694,
-    "lending_tvl": 67696595,
-    "farming_tvl": 20392099,
+    "bdate": "'2022-08-10",
+    "total_tvl": 98427179,
+    "lending_tvl": 75043302,
+    "farming_tvl": 23383877,
     "kleva_totalsupply": 23562241,
     "kleva_circulation": 2961420,
     "kleva_platform_locked": 20600821,
@@ -814,10 +616,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-11",
-    "total_tvl": 89278224,
-    "lending_tvl": 68901864,
-    "farming_tvl": 20376360,
+    "bdate": "'2022-08-11",
+    "total_tvl": 99624384,
+    "lending_tvl": 76248570,
+    "farming_tvl": 23375814,
     "kleva_totalsupply": 23675702,
     "kleva_circulation": 2932446,
     "kleva_platform_locked": 20743256,
@@ -825,10 +627,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-12",
-    "total_tvl": 92800361,
-    "lending_tvl": 72273773,
-    "farming_tvl": 20526588,
+    "bdate": "'2022-08-12",
+    "total_tvl": 103150216,
+    "lending_tvl": 79620479,
+    "farming_tvl": 23529737,
     "kleva_totalsupply": 23790363,
     "kleva_circulation": 2842887,
     "kleva_platform_locked": 20947475,
@@ -836,10 +638,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-13",
-    "total_tvl": 93873912,
-    "lending_tvl": 73168007,
-    "farming_tvl": 20705905,
+    "bdate": "'2022-08-13",
+    "total_tvl": 104223806,
+    "lending_tvl": 80514713,
+    "farming_tvl": 23709093,
     "kleva_totalsupply": 23905121,
     "kleva_circulation": 2829702,
     "kleva_platform_locked": 21075419,
@@ -847,10 +649,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-14",
-    "total_tvl": 93828053,
-    "lending_tvl": 73141819,
-    "farming_tvl": 20686234,
+    "bdate": "'2022-08-14",
+    "total_tvl": 103977866,
+    "lending_tvl": 80194894,
+    "farming_tvl": 23782972,
     "kleva_totalsupply": 24013540,
     "kleva_circulation": 2847160,
     "kleva_platform_locked": 21166381,
@@ -858,10 +660,10 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-15",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
+    "bdate": "'2022-08-15",
+    "total_tvl": 103703503,
+    "lending_tvl": 80030418,
+    "farming_tvl": 23673085,
     "kleva_totalsupply": 24133757,
     "kleva_circulation": 2830761,
     "kleva_platform_locked": 21302997,
@@ -869,476 +671,388 @@ export const dummyItems = [
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-16",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-16",
+    "total_tvl": 104073927,
+    "lending_tvl": 80370609,
+    "farming_tvl": 23703319,
+    "kleva_totalsupply": 24247578,
+    "kleva_circulation": 2853196,
+    "kleva_platform_locked": 21394382,
+    "kleva_buybackburn_fund": 33629,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-17",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-17",
+    "total_tvl": 102461638,
+    "lending_tvl": 79001641,
+    "farming_tvl": 23459997,
+    "kleva_totalsupply": 24361578,
+    "kleva_circulation": 2872559,
+    "kleva_platform_locked": 21489020,
+    "kleva_buybackburn_fund": 35761,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-18",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-18",
+    "total_tvl": 101554355,
+    "lending_tvl": 78033440,
+    "farming_tvl": 23520915,
+    "kleva_totalsupply": 24477880,
+    "kleva_circulation": 2894376,
+    "kleva_platform_locked": 21583504,
+    "kleva_buybackburn_fund": 37834,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-19",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-19",
+    "total_tvl": 95426246,
+    "lending_tvl": 74471566,
+    "farming_tvl": 20954680,
+    "kleva_totalsupply": 24589487,
+    "kleva_circulation": 3052367,
+    "kleva_platform_locked": 21537120,
+    "kleva_buybackburn_fund": 40132,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-20",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-20",
+    "total_tvl": 95163357,
+    "lending_tvl": 73962652,
+    "farming_tvl": 21200705,
+    "kleva_totalsupply": 24704588,
+    "kleva_circulation": 3801520,
+    "kleva_platform_locked": 20903069,
+    "kleva_buybackburn_fund": 42405,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-21",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-20",
+    "total_tvl": 95163357,
+    "lending_tvl": 73962652,
+    "farming_tvl": 21200705,
+    "kleva_totalsupply": 24704679,
+    "kleva_circulation": 23824876,
+    "kleva_platform_locked": 879803,
+    "kleva_buybackburn_fund": 42405,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-22",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-21",
+    "total_tvl": 95125465,
+    "lending_tvl": 73655711,
+    "farming_tvl": 21469753,
+    "kleva_totalsupply": 24817799,
+    "kleva_circulation": 2925035,
+    "kleva_platform_locked": 21892764,
+    "kleva_buybackburn_fund": 44494,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-23",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-22",
+    "total_tvl": 93965780,
+    "lending_tvl": 73386100,
+    "farming_tvl": 20579680,
+    "kleva_totalsupply": 24931412,
+    "kleva_circulation": 2957513,
+    "kleva_platform_locked": 21973899,
+    "kleva_buybackburn_fund": 46496,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-24",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-23",
+    "total_tvl": 95883715,
+    "lending_tvl": 74936097,
+    "farming_tvl": 20947618,
+    "kleva_totalsupply": 25044049,
+    "kleva_circulation": 3082345,
+    "kleva_platform_locked": 21961704,
+    "kleva_buybackburn_fund": 48522,
     "kleva_burn": 879803
   },
   {
-    "bdate": "2022-08-25",
-    "total_tvl": 93885994,
-    "lending_tvl": 73052065,
-    "farming_tvl": 20833928,
-    "kleva_totalsupply": 24133757,
-    "kleva_circulation": 2830761,
-    "kleva_platform_locked": 21302997,
-    "kleva_buybackburn_fund": 31408,
+    "bdate": "'2022-08-24",
+    "total_tvl": 95016496,
+    "lending_tvl": 73965091,
+    "farming_tvl": 21051406,
+    "kleva_totalsupply": 25161178,
+    "kleva_circulation": 3134090,
+    "kleva_platform_locked": 22027088,
+    "kleva_buybackburn_fund": 50741,
     "kleva_burn": 879803
   },
+  {
+    "bdate": "'2022-08-25",
+    "total_tvl": 93938364,
+    "lending_tvl": 72845753,
+    "farming_tvl": 21092611,
+    "kleva_totalsupply": 25274261,
+    "kleva_circulation": 3321063,
+    "kleva_platform_locked": 21953198,
+    "kleva_buybackburn_fund": 52767,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-26",
+    "total_tvl": 92712393,
+    "lending_tvl": 72295532,
+    "farming_tvl": 20416861,
+    "kleva_totalsupply": 25387212,
+    "kleva_circulation": 24507409,
+    "kleva_platform_locked": 879803,
+    "kleva_buybackburn_fund": 54760,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-26",
+    "total_tvl": 92712393,
+    "lending_tvl": 72295532,
+    "farming_tvl": 20416861,
+    "kleva_totalsupply": 25387169,
+    "kleva_circulation": 4236710,
+    "kleva_platform_locked": 21150459,
+    "kleva_buybackburn_fund": 54760,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-27",
+    "total_tvl": 88891489,
+    "lending_tvl": 69540066,
+    "farming_tvl": 19351424,
+    "kleva_totalsupply": 25503537,
+    "kleva_circulation": 3291687,
+    "kleva_platform_locked": 22211850,
+    "kleva_buybackburn_fund": 56734,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-28",
+    "total_tvl": 86917099,
+    "lending_tvl": 67009724,
+    "farming_tvl": 19907375,
+    "kleva_totalsupply": 25620570,
+    "kleva_circulation": 3322226,
+    "kleva_platform_locked": 22298345,
+    "kleva_buybackburn_fund": 58753,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-29",
+    "total_tvl": 86157503,
+    "lending_tvl": 66154055,
+    "farming_tvl": 20003449,
+    "kleva_totalsupply": 25727441,
+    "kleva_circulation": 3274917,
+    "kleva_platform_locked": 22452523,
+    "kleva_buybackburn_fund": 60828,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-30",
+    "total_tvl": 89255860,
+    "lending_tvl": 68946505,
+    "farming_tvl": 20309354,
+    "kleva_totalsupply": 25846791,
+    "kleva_circulation": 3271356,
+    "kleva_platform_locked": 22575435,
+    "kleva_buybackburn_fund": 62740,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-08-31",
+    "total_tvl": 89142586,
+    "lending_tvl": 68091319,
+    "farming_tvl": 21051267,
+    "kleva_totalsupply": 25958504,
+    "kleva_circulation": 3307312,
+    "kleva_platform_locked": 22651192,
+    "kleva_buybackburn_fund": 108728,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-09-01",
+    "total_tvl": 88317949,
+    "lending_tvl": 67539839,
+    "farming_tvl": 20778110,
+    "kleva_totalsupply": 26070935,
+    "kleva_circulation": 3377229,
+    "kleva_platform_locked": 22693706,
+    "kleva_buybackburn_fund": 110745,
+    "kleva_burn": 879803
+  },
+  {
+    "bdate": "'2022-09-02",
+    "total_tvl": 88102467,
+    "lending_tvl": 67334822,
+    "farming_tvl": 20767645,
+    "kleva_totalsupply": 26178509,
+    "kleva_circulation": 4358642,
+    "kleva_platform_locked": 21819867,
+    "kleva_buybackburn_fund": 1804,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-02",
+    "total_tvl": 88102467,
+    "lending_tvl": 67334822,
+    "farming_tvl": 20767645,
+    "kleva_totalsupply": 26178575,
+    "kleva_circulation": 25107878,
+    "kleva_platform_locked": 1070697,
+    "kleva_buybackburn_fund": 1804,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-03",
+    "total_tvl": 87235416,
+    "lending_tvl": 67197074,
+    "farming_tvl": 20038342,
+    "kleva_totalsupply": 26294006,
+    "kleva_circulation": 3181310,
+    "kleva_platform_locked": 23112697,
+    "kleva_buybackburn_fund": 3821,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-04",
+    "total_tvl": 87554058,
+    "lending_tvl": 67197074,
+    "farming_tvl": 20356984,
+    "kleva_totalsupply": 26414277,
+    "kleva_circulation": 3210791,
+    "kleva_platform_locked": 23203486,
+    "kleva_buybackburn_fund": 5854,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-05",
+    "total_tvl": 87394044,
+    "lending_tvl": 67197074,
+    "farming_tvl": 20196970,
+    "kleva_totalsupply": 26521426,
+    "kleva_circulation": 3236341,
+    "kleva_platform_locked": 23285085,
+    "kleva_buybackburn_fund": 7903,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-06",
+    "total_tvl": 85807292,
+    "lending_tvl": 66279364,
+    "farming_tvl": 19527928,
+    "kleva_totalsupply": 26645693,
+    "kleva_circulation": 3251247,
+    "kleva_platform_locked": 23394446,
+    "kleva_buybackburn_fund": 9995,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-07",
+    "total_tvl": 82884227,
+    "lending_tvl": 63512691,
+    "farming_tvl": 19371535,
+    "kleva_totalsupply": 26757462,
+    "kleva_circulation": 25674794,
+    "kleva_platform_locked": 1082669,
+    "kleva_buybackburn_fund": 11972,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-07",
+    "total_tvl": 82884227,
+    "lending_tvl": 63512691,
+    "farming_tvl": 19371535,
+    "kleva_totalsupply": 26757438,
+    "kleva_circulation": 4317952,
+    "kleva_platform_locked": 22439485,
+    "kleva_buybackburn_fund": 11972,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-08",
+    "total_tvl": 82421900,
+    "lending_tvl": 62964841,
+    "farming_tvl": 19457059,
+    "kleva_totalsupply": 26868799,
+    "kleva_circulation": 3120069,
+    "kleva_platform_locked": 23748730,
+    "kleva_buybackburn_fund": 13946,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-09",
+    "total_tvl": 82863836,
+    "lending_tvl": 63110664,
+    "farming_tvl": 19753171,
+    "kleva_totalsupply": 26986131,
+    "kleva_circulation": 25915434,
+    "kleva_platform_locked": 1070697,
+    "kleva_buybackburn_fund": 16006,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-09",
+    "total_tvl": 82863836,
+    "lending_tvl": 63110664,
+    "farming_tvl": 19753171,
+    "kleva_totalsupply": 26986095,
+    "kleva_circulation": 4262524,
+    "kleva_platform_locked": 22723571,
+    "kleva_buybackburn_fund": 16006,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-10",
+    "total_tvl": 82155331,
+    "lending_tvl": 62479322,
+    "farming_tvl": 19676009,
+    "kleva_totalsupply": 27094917,
+    "kleva_circulation": 3201907,
+    "kleva_platform_locked": 23893010,
+    "kleva_buybackburn_fund": 18100,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-11",
+    "total_tvl": 82293629,
+    "lending_tvl": 62604247,
+    "farming_tvl": 19689382,
+    "kleva_totalsupply": 27201144,
+    "kleva_circulation": 3255516,
+    "kleva_platform_locked": 23945628,
+    "kleva_buybackburn_fund": 20329,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-12",
+    "total_tvl": 81240342,
+    "lending_tvl": 62471195,
+    "farming_tvl": 18769147,
+    "kleva_totalsupply": 27322293,
+    "kleva_circulation": 3261864,
+    "kleva_platform_locked": 24060429,
+    "kleva_buybackburn_fund": 22623,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-13",
+    "total_tvl": 79461727,
+    "lending_tvl": 61461273,
+    "farming_tvl": 18000454,
+    "kleva_totalsupply": 27442344,
+    "kleva_circulation": 3282392,
+    "kleva_platform_locked": 24159952,
+    "kleva_buybackburn_fund": 24994,
+    "kleva_burn": 1070697
+  },
+  {
+    "bdate": "'2022-09-14",
+    "total_tvl": 77828387,
+    "lending_tvl": 60293800,
+    "farming_tvl": 17534587,
+    "kleva_totalsupply": 27554199,
+    "kleva_circulation": 3299114,
+    "kleva_platform_locked": 24255085,
+    "kleva_buybackburn_fund": 27368,
+    "kleva_burn": 1070697
+  }
 ]
-
-// export const items = [
-//   {
-//     "date": new Date("2022-05-27"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-05-28"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-05-29"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-05-30"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-05-31"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-06-01"),
-//     "value": 83040200
-//   },
-//   {
-//     "date": new Date("2022-06-02"),
-//     "value": 94410415
-//   },
-//   {
-//     "date": new Date("2022-06-03"),
-//     "value": 87495523
-//   },
-//   {
-//     "date": new Date("2022-06-04"),
-//     "value": 62862389
-//   },
-//   {
-//     "date": new Date("2022-06-05"),
-//     "value": 64109606
-//   },
-//   {
-//     "date": new Date("2022-06-06"),
-//     "value": 14280531
-//   },
-//   {
-//     "date": new Date("2022-06-07"),
-//     "value": 20952885
-//   },
-//   {
-//     "date": new Date("2022-06-08"),
-//     "value": 96690828
-//   },
-//   {
-//     "date": new Date("2022-06-09"),
-//     "value": 24543675
-//   },
-//   {
-//     "date": new Date("2022-06-10"),
-//     "value": 18059381
-//   },
-//   {
-//     "date": new Date("2022-06-11"),
-//     "value": 99247951
-//   },
-//   {
-//     "date": new Date("2022-06-12"),
-//     "value": 106798110
-//   },
-//   {
-//     "date": new Date("2022-06-13"),
-//     "value": 21378598
-//   },
-//   {
-//     "date": new Date("2022-06-14"),
-//     "value": 50353257
-//   },
-//   {
-//     "date": new Date("2022-06-15"),
-//     "value": 94168120
-//   },
-//   {
-//     "date": new Date("2022-06-16"),
-//     "value": 58808214
-//   },
-//   {
-//     "date": new Date("2022-06-17"),
-//     "value": 48806292
-//   },
-//   {
-//     "date": new Date("2022-06-18"),
-//     "value": 64180784
-//   },
-//   {
-//     "date": new Date("2022-06-19"),
-//     "value": 90831021
-//   },
-//   {
-//     "date": new Date("2022-06-20"),
-//     "value": 66899167
-//   },
-//   {
-//     "date": new Date("2022-06-21"),
-//     "value": 83533009
-//   },
-//   {
-//     "date": new Date("2022-06-22"),
-//     "value": 83446328
-//   },
-//   {
-//     "date": new Date("2022-06-23"),
-//     "value": 79641550
-//   },
-//   {
-//     "date": new Date("2022-06-24"),
-//     "value": 56573179
-//   },
-//   {
-//     "date": new Date("2022-06-25"),
-//     "value": 27238913
-//   },
-//   {
-//     "date": new Date("2022-06-26"),
-//     "value": 50653493
-//   },
-//   {
-//     "date": new Date("2022-06-27"),
-//     "value": 77366300
-//   },
-//   {
-//     "date": new Date("2022-06-28"),
-//     "value": 42645399
-//   },
-//   {
-//     "date": new Date("2022-06-29"),
-//     "value": 91468453
-//   },
-//   {
-//     "date": new Date("2022-06-30"),
-//     "value": 92379309
-//   },
-//   {
-//     "date": new Date("2022-07-01"),
-//     "value": 97267307
-//   },
-//   {
-//     "date": new Date("2022-07-02"),
-//     "value": 39187338
-//   },
-//   {
-//     "date": new Date("2022-07-03"),
-//     "value": 59176012
-//   },
-//   {
-//     "date": new Date("2022-07-04"),
-//     "value": 73684446
-//   },
-//   {
-//     "date": new Date("2022-07-05"),
-//     "value": 30811735
-//   },
-//   {
-//     "date": new Date("2022-07-06"),
-//     "value": 106668462
-//   },
-//   {
-//     "date": new Date("2022-07-07"),
-//     "value": 86930690
-//   },
-//   {
-//     "date": new Date("2022-07-08"),
-//     "value": 84393159
-//   },
-//   {
-//     "date": new Date("2022-07-09"),
-//     "value": 69270786
-//   },
-//   {
-//     "date": new Date("2022-07-10"),
-//     "value": 87534770
-//   },
-//   {
-//     "date": new Date("2022-07-11"),
-//     "value": 11023379
-//   },
-//   {
-//     "date": new Date("2022-07-12"),
-//     "value": 52361326
-//   },
-//   {
-//     "date": new Date("2022-07-13"),
-//     "value": 99118928
-//   },
-//   {
-//     "date": new Date("2022-07-14"),
-//     "value": 20547060
-//   },
-//   {
-//     "date": new Date("2022-07-15"),
-//     "value": 44012528
-//   },
-//   {
-//     "date": new Date("2022-07-16"),
-//     "value": 89653531
-//   },
-//   {
-//     "date": new Date("2022-07-17"),
-//     "value": 69902453
-//   },
-//   {
-//     "date": new Date("2022-07-18"),
-//     "value": 41002856
-//   },
-//   {
-//     "date": new Date("2022-07-19"),
-//     "value": 109041142
-//   },
-//   {
-//     "date": new Date("2022-07-20"),
-//     "value": 31962088
-//   },
-//   {
-//     "date": new Date("2022-07-21"),
-//     "value": 24437685
-//   },
-//   {
-//     "date": new Date("2022-07-22"),
-//     "value": 48930112
-//   },
-//   {
-//     "date": new Date("2022-07-23"),
-//     "value": 72204275
-//   },
-//   {
-//     "date": new Date("2022-07-24"),
-//     "value": 63031080
-//   },
-//   {
-//     "date": new Date("2022-07-25"),
-//     "value": 108133145
-//   },
-//   {
-//     "date": new Date("2022-07-26"),
-//     "value": 65210589
-//   },
-//   {
-//     "date": new Date("2022-07-27"),
-//     "value": 22750081
-//   },
-//   {
-//     "date": new Date("2022-07-28"),
-//     "value": 31040708
-//   },
-//   {
-//     "date": new Date("2022-07-29"),
-//     "value": 23937606
-//   },
-//   {
-//     "date": new Date("2022-07-30"),
-//     "value": 30120968
-//   },
-//   {
-//     "date": new Date("2022-07-31"),
-//     "value": 30120968
-//   },
-//   {
-//     "date": new Date("2022-08-01"),
-//     "value": 50452039
-//   },
-//   {
-//     "date": new Date("2022-08-02"),
-//     "value": 16824428
-//   },
-//   {
-//     "date": new Date("2022-08-03"),
-//     "value": 45510613
-//   },
-//   {
-//     "date": new Date("2022-08-04"),
-//     "value": 68603237
-//   },
-//   {
-//     "date": new Date("2022-08-05"),
-//     "value": 87385759
-//   },
-//   {
-//     "date": new Date("2022-08-06"),
-//     "value": 52248132
-//   },
-//   {
-//     "date": new Date("2022-08-07"),
-//     "value": 102152801
-//   },
-//   {
-//     "date": new Date("2022-08-08"),
-//     "value": 104888811
-//   },
-//   {
-//     "date": new Date("2022-08-09"),
-//     "value": 80653053
-//   },
-//   {
-//     "date": new Date("2022-08-10"),
-//     "value": 21063007
-//   },
-//   {
-//     "date": new Date("2022-08-11"),
-//     "value": 55986877
-//   },
-//   {
-//     "date": new Date("2022-08-12"),
-//     "value": 17599740
-//   },
-//   {
-//     "date": new Date("2022-08-13"),
-//     "value": 44739783
-//   },
-//   {
-//     "date": new Date("2022-08-14"),
-//     "value": 18702497
-//   },
-//   {
-//     "date": new Date("2022-08-15"),
-//     "value": 94650189
-//   },
-//   {
-//     "date": new Date("2022-08-16"),
-//     "value": 70800246
-//   },
-//   {
-//     "date": new Date("2022-08-17"),
-//     "value": 91772822
-//   },
-//   {
-//     "date": new Date("2022-08-18"),
-//     "value": 97660690
-//   },
-//   {
-//     "date": new Date("2022-08-19"),
-//     "value": 77693696
-//   },
-//   {
-//     "date": new Date("2022-08-20"),
-//     "value": 43597282
-//   },
-//   {
-//     "date": new Date("2022-08-21"),
-//     "value": 15257689
-//   },
-//   {
-//     "date": new Date("2022-08-22"),
-//     "value": 101531821
-//   },
-//   {
-//     "date": new Date("2022-08-23"),
-//     "value": 35990219
-//   },
-//   {
-//     "date": new Date("2022-08-24"),
-//     "value": 92086723
-//   },
-// ]

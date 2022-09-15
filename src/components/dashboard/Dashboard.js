@@ -43,6 +43,12 @@ class Dashboard extends Component {
     const lendingData = chartData$.value['lending_tvl']
     const farmingData = chartData$.value['farming_tvl']
 
+    const klevaCirculationData = chartData$.value['kleva_circulation']
+    const klevaLockedData = chartData$.value['kleva_platform_locked']
+    const klevaTotalSupplyData = chartData$.value['kleva_totalsupply']
+    const klevaBuybackburnFundData = chartData$.value['kleva_buybackburn_fund']
+    const klevaBurnData = chartData$.value['kleva_burn']
+
     return !!chartData$.value && (
       <div className="Dashboard">
         <div className="DashboardHeader">
@@ -118,7 +124,13 @@ class Dashboard extends Component {
           </div>
           <ThickHR size="10" className="mobileOnly" />
           <div className="Dashboard__right">
-            <TotalSupplyInfo />
+            <TotalSupplyInfo 
+              klevaCirculationData={klevaCirculationData}
+              klevaLockedData={klevaLockedData}
+              klevaTotalSupplyData={klevaTotalSupplyData}
+              klevaBuybackburnFundData={klevaBuybackburnFundData}
+              klevaBurnData={klevaBurnData}
+            />
           </div>
         </div>
       </div>

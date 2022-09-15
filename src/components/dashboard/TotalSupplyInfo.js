@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import { Subject, merge, of } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
@@ -11,6 +12,8 @@ import LabelAndValue from '../LabelAndValue'
 import QuestionMark from '../common/QuestionMark'
 import { openModal$ } from '../../streams/ui'
 import LockupInfoModal from '../modals/LockupInfoModal'
+import { tokenList } from '../../constants/tokens'
+import { tokenPrices$ } from '../../streams/tokenPrice'
 
 class TotalSupplyInfo extends Component {
   bloc = new Bloc(this)
@@ -19,7 +22,7 @@ class TotalSupplyInfo extends Component {
   
   componentDidMount() {
     merge(
-      of(true),
+      tokenPrices$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -34,18 +37,30 @@ class TotalSupplyInfo extends Component {
   }
     
   render() {
+    const { 
+      klevaCirculationData,
+      klevaLockedData,
+      klevaTotalSupplyData,
+      klevaBuybackburnFundData,
+      klevaBurnData,
+    } = this.props
+
+    const totalSupply = klevaTotalSupplyData[klevaTotalSupplyData.length - 1]?.value
+    const klevaCirculation = klevaCirculationData[klevaCirculationData.length - 1]?.value
+    const klevaPlatformLocked = klevaLockedData[klevaLockedData.length - 1]?.value
+
+    const accumBuybackInUSD = klevaBuybackburnFundData[klevaBuybackburnFundData.length - 1]?.value
+    const accumBurnAmount = klevaBurnData[klevaBurnData.length - 1]?.value
     
-    const marketCap = 24283603
-    const klevaCirculation = 29827092
-    const klevaPlatformLocked = 9382298
+    const klevaLockedPure = klevaPlatformLocked - accumBurnAmount
 
-    const accumBuybackInUSD = 2383390
-    const accumBurnAmount = 4395840
-
-    const totalSupply = klevaCirculation + klevaPlatformLocked + accumBurnAmount
+    const marketCap = new BigNumber(klevaCirculation)
+      .plus(klevaLockedPure)
+      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()])
+      .toNumber()
     
     const circulationPercentage = klevaCirculation / totalSupply
-    const lockupPercentage = klevaPlatformLocked / totalSupply
+    const lockupPercentage = klevaLockedPure / totalSupply
     const burnPercentage = accumBurnAmount / totalSupply
 
     return (
@@ -108,7 +123,7 @@ class TotalSupplyInfo extends Component {
               <span>{Number(lockupPercentage * 100).toFixed(1)}%</span>
             </>
           )}
-          value={`${noRounding(klevaPlatformLocked)} KLEVA`}
+          value={`${noRounding(klevaLockedPure)} KLEVA`}
         />
         <LabelAndValue 
           className="TotalSupplyInfo__burn"
