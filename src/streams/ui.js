@@ -83,6 +83,7 @@ export const classNameAttach$ = new BehaviorSubject()
 export const classNameAttachLayered$ = new BehaviorSubject()
 
 openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScreenClose }) => {
+  console.log('open modal')
   modalAnimation$.next(null)
 
   console.log(classNameAttach, 'classNameAttach')
@@ -94,6 +95,7 @@ openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScre
     // mobile animation
     // if (classNameAttach && (classNameAttach !== "Modal--mobileCoverAll")) {
     if (classNameAttach !== "Modal--mobileCoverAll") {
+      console.log('appear')
       modalAnimation$.next('appear')
     }
   }
@@ -110,6 +112,7 @@ closeModal$.pipe(
   switchMap(() => {
     // if (!isDesktop$.value && (classNameAttach$.value && (classNameAttach$.value !== "Modal--mobileCoverAll"))) {
     if (!isDesktop$.value && (classNameAttach$.value !== "Modal--mobileCoverAll")) {
+      console.log('disappear')
       // mobile animation
       modalAnimation$.next('disappear')
       
@@ -119,6 +122,7 @@ closeModal$.pipe(
     return of(true)
   }),
 ).subscribe(() => {
+  console.log('closeModal done')
   modalContentComponent$.next(null)
   modalAnimation$.next(null)
   classNameAttach$.next(null)

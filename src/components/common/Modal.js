@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
 import { classNameAttach$, classNameAttachLayered$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'
@@ -38,7 +38,9 @@ class Modal extends Component {
     })
 
     merge(
-      modalAnimation$,
+      modalAnimation$.pipe(
+        debounceTime(1),
+      ),
       classNameAttach$,
       classNameAttachLayered$,
     ).pipe(
@@ -53,7 +55,7 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, className, children, mobileCoverAll, onClose, layered } = this.props
+    const { title, className, noAnimation, children, mobileCoverAll, onClose, layered } = this.props
 
 
     return (
@@ -64,21 +66,9 @@ class Modal extends Component {
           : classNameAttach$.value, 
         {
           "Modal--mobileCoverAll": !!mobileCoverAll,
-          [`Modal--animation-${modalAnimation$.value}`]: true,
+          [`Modal--animation-${modalAnimation$.value}`]: !noAnimation && true,
         })}
       >
-        {/* <div className={cx("Modal__header", {
-          "Modal__header--noTitle": !title,
-        })}>
-          {!!title && <span className="Modal__title">{title}</span>}
-          <img onClick={() => {
-            if (layeredModalContentComponent$.value) {
-              closeLayeredModal$.next(true)
-              return
-            }
-            closeModal$.next(true)
-          }} className="Modal__close" src="/static/images/exported/x.svg" />
-        </div> */}
         <div ref={this.$modalContent} className="Modal__content">
           <div className={cx("Modal__header", {
             "Modal__header--noTitle": !title,

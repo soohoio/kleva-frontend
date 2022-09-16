@@ -70,11 +70,14 @@ export const connectInjected = (injectedType, walletProviderName) => {
       const deepLinker = new DeepLinker({
         onIgnored: function () {
           const ua = navigator.userAgent.toLowerCase();
-          window.location.href = ua.indexOf("android") > -1
-            ? "https://play.google.com/store/apps/details?id=io.metamask"
-            : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+
+          alert('onIgnored')
+          if (ua.indexOf("android") > -1) {
+            window.location.href = "https://play.google.com/store/apps/details?id=io.metamask"
+          }
         },
         onFallback: function () {
+          alert('onFallback')
           const ua = navigator.userAgent.toLowerCase();
           window.location.href = ua.indexOf("android") > -1
             ? "https://play.google.com/store/apps/details?id=io.metamask"

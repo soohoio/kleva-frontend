@@ -30,7 +30,7 @@ class CompletedModal extends Component {
     const { layered, children, menus } = this.props
     
     return (
-      <Modal layered={layered} className="CompletedModal">
+      <Modal noAnimation layered={layered} className="CompletedModal">
         <div className="CompletedModal__content">
           {children}
         </div>
