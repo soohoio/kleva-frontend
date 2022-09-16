@@ -25,7 +25,7 @@
 
   &--animation-disappear {
     .CoverLayer {
-      animation: background-disappear-transition 150ms;
+      animation: background-disappear-transition 200ms;
       animation-fill-mode: forwards;
       animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
     }
@@ -33,7 +33,7 @@
   
   &--animation-appear {
     .CoverLayer {
-      animation: background-appear-transition 150ms;
+      animation: background-appear-transition 200ms;
       animation-fill-mode: forwards;
       animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
     }

@@ -81,7 +81,7 @@
   color: #4C505C;
   line-height: 26px;
   margin-top: 13px;
-  word-break: break-all;
+  word-break: keep-all;
 
   br {
     display: none;
@@ -93,6 +93,7 @@
 
   @include desktop {
     line-height: 32px;
+    margin: 0;
     @include font-style('font-1', 'sb', 22px);
     br {
       display: block;

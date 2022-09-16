@@ -291,7 +291,7 @@ class App extends Component<Props> {
     showFooter$.next(shouldShow)
 
     // navigation tab
-    const shouldFloat = scrollTop > 132 
+    const shouldFloat = path$.value == '/main' && scrollTop > 132 
     shouldNavigationTabFloat$.next(shouldFloat)
   }
 

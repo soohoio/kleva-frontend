@@ -16,7 +16,7 @@
   background-color: #fff;
   z-index: 9999;
   border-top: solid 1px #EBEEF5;
-  transition: right 200ms cubic-bezier(0.6, 0, 0.2, 1);
+  transition: right 300ms cubic-bezier(0.6, 0, 0.2, 1);
 
   @include desktop {
     display: none;
@@ -29,7 +29,7 @@
   }
 
   &--animation-disappear {
-    transition: right 150ms cubic-bezier(0.6, 0, 0.2, 1);
+    transition: right 300ms cubic-bezier(0.6, 0, 0.2, 1);
     right: -100%;
     // animation: sidebar-disappear-transition 150ms;
     // animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);

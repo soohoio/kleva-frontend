@@ -65,6 +65,24 @@
       }
     }
   }
+  
+  &--glossary {
+    &::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/static/images/exported/glossary.svg);
+      width: 20px;
+      height: 20px;
+      background-size: 100%;
+      margin-right: 10px;
+
+      @include desktop {
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+      }
+    }
+  }
 
   &--dashboard {
     &::before {

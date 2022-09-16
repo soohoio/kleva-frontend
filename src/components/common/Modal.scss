@@ -50,12 +50,12 @@
   }
 
   &--animation-appear {
-    animation: modal-popup-appear-transition 200ms;
+    animation: modal-popup-appear-transition 300ms;
     animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
   }
 
   &--animation-disappear {
-    animation: modal-popup-disappear-transition 150ms;
+    animation: modal-popup-disappear-transition 300ms;
     animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
     animation-fill-mode: forwards;
   }

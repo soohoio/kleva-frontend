@@ -16,6 +16,7 @@ import Dashboard from '../components/dashboard/Dashboard'
 import Withus from '../components/intro/Withus'
 import UseGuide from '../components/intro/UseGuide'
 import { contentView$, isDesktop$ } from '../streams/ui'
+import Glossary from '../components/intro/Glossary'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -70,6 +71,12 @@ class MainPage extends Component {
     if (currentTab$.value == 'useguide') {
       return (
         <UseGuide />
+      )
+    }
+    
+    if (currentTab$.value == 'glossary') {
+      return (
+        <Glossary />
       )
     }
   }

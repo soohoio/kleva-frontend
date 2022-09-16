@@ -30,6 +30,7 @@
   @include desktop {
     width: 410px;
     text-align: left;
+    margin-bottom: 15px;
   }
 }
 
@@ -38,7 +39,7 @@
   
   @include desktop {
     text-align: left;
-    margin: 20px 40px 0 0;
+    margin: 40px 40px 0 0;
   }
 }
 
@@ -97,8 +98,8 @@
     animation-fill-mode: forwards;
   }
 
+  @include font-style('font-1', 'b', 18px);
   height: 56px;
-  @include font-style('font-1', 'b', 20px);
   color: #FFFFFF;
   outline: 0;
   border: 0;
@@ -110,6 +111,7 @@
   align-items: center;
   
   @include desktop {
+    @include font-style('font-1', 'b', 20px);
     width: 192px;
     transform: unset;
     display: flex;

@@ -75,6 +75,15 @@ class SubMenu extends Component {
         >
           {I18n.t('useGuide')}
         </div>
+        <div
+          onClick={() => {
+            closeModal$.next(true)
+            currentTab$.next('glossary')
+          }}
+          className="SubMenu__item SubMenu__item--glossary"
+        >
+          {I18n.t('glossary')}
+        </div>
         <div onClick={() => {
           closeModal$.next(true)
           currentTab$.next('withus')
