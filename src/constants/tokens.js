@@ -47,19 +47,19 @@ export const singleTokens = {
   "WEMIX": {
     title: "WEMIX",
     address: "0x5096db80b21ef45230c9e423c373f1fc9c0198dd",
-    iconSrc: "/static/images/tokens/token-WEMIX.png",
+    iconSrc: "/static/images/tokens/token-WEMIX.svg",
     decimals: 18,
   }, 
   "KDAI": {
     title: "KDAI",
     address: "0x5c74070fdea071359b86082bd9f9b3deaafbe32b",
-    iconSrc: "/static/images/tokens/token-KDAI.png",
+    iconSrc: "/static/images/tokens/token-KDAI.svg",
     decimals: 18,
   }, 
   "oUSDC": {
     title: "oUSDC",
     address: "0x754288077d0ff82af7a5317c7cb8c444d421d103",
-    iconSrc: "/static/images/tokens/token-KUSDC.png",
+    iconSrc: "/static/images/tokens/token-KUSDC.svg",
     decimals: 6,
   }, 
   "KBUSD": {
@@ -83,7 +83,7 @@ export const singleTokens = {
   "BORA": {
     title: "BORA",
     address: "0x02cbe46fb8a1f579254a9b485788f2d86cad51aa",
-    iconSrc: "/static/images/tokens/token-BORA.png",
+    iconSrc: "/static/images/tokens/token-BORA.svg",
     decimals: 18,
   },
 }
@@ -256,7 +256,7 @@ export const ibTokens = {
   "ibWEMIX": {
     title: "ibWEMIX",
     address: "0xD429914222b7474Ea2C288Ec581D303599EeD137",
-    iconSrc: "/static/images/tokens/token-WEMIX.png",
+    iconSrc: "/static/images/tokens/token-WEMIX.svg",
     decimals: singleTokens["WEMIX"].decimals,
     minDebtSize: new BigNumber(10 * 10 ** 18).toString(),
 
@@ -265,7 +265,7 @@ export const ibTokens = {
   "ibKDAI": {
     title: "ibKDAI",
     address: "0x58770d59238B99Bd75c4298E33c6493eC4F17E2C",
-    iconSrc: "/static/images/tokens/token-KDAI.png",
+    iconSrc: "/static/images/tokens/token-KDAI.svg",
     decimals: singleTokens["KDAI"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 18).toString(),
 
@@ -292,7 +292,7 @@ export const ibTokens = {
   "iboUSDC": {
     title: "iboUSDC",
     address: "0x812668fd9e61ccc7e7bccb0c7f75b1362cd070de",
-    iconSrc: "/static/images/tokens/token-KUSDC.png",
+    iconSrc: "/static/images/tokens/token-KUSDC.svg",
     decimals: singleTokens["oUSDC"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 6).toString(),
 
