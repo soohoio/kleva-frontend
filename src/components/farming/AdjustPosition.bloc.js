@@ -193,10 +193,6 @@ export default class {
       }),
     ]).pipe(
       tap(([openPositionResult, openPositionResult_leverage, positionValue]) => {
-        console.log(openPositionResult, 'openPositionResult')
-        console.log(openPositionResult_leverage, 'openPositionResult_leverage')
-        console.log(positionValue, 'positionValue')
-
         this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
         this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
 

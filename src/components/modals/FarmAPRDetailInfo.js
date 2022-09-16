@@ -83,7 +83,8 @@ class FarmAPRDetailInfo extends Component {
         .toFixed(2)
 
       return {
-        label: `${I18n.t('borrow', { title: token.title})}`,
+        label: `${I18n.t('borrow', { title: token.title })}`,
+        key: token.title,
         value: `${pureValue}%`,
         pureValue,
         onClick: () => setBorrowingAsset({ asset: token }), // define onClick in separate items
@@ -122,6 +123,7 @@ class FarmAPRDetailInfo extends Component {
         {!!tradingFeeAPR && <LabelAndValue label={I18n.t('farming.tradingFeeAPR')} value={`${nFormatter(tradingFeeAPR, 2)}%`} />}
         <LabelAndValue label={I18n.t('farming.klevaReward')} value={`${nFormatter(klevaRewardAPR, 2)}%`} />
         <RadioSet2
+          selectedKey={borrowingAssetMap$?.value[lpToken.address]?.title}
           selectedLabel={borrowingAssetMap$?.value[lpToken.address]?.title}
           list={radioList}
         />

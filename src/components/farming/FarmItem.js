@@ -86,6 +86,7 @@ class FarmItem extends Component {
       .map(([address, { token, baseInterest }]) => {
         return {
           label: `${token.title}`,
+          key: token.title,
           value: `-${new BigNumber(baseInterest)
             .multipliedBy(this.bloc.leverageValue$.value - 1)
             .toFixed(2)}%`,
@@ -117,6 +118,7 @@ class FarmItem extends Component {
         </div>
         <div className="FarmItem__borrowingInterestItem">
           <RadioSet2
+            selectedKey={borrowingAssetMap$?.value[lpToken.address]?.title}
             selectedLabel={borrowingAssetMap$?.value[lpToken.address]?.title}
             list={radioList}
           />

@@ -552,19 +552,21 @@ class ClosePosition extends Component {
     const radioList = [
       {
         label: I18n.t('farming.closePosition.minimizeTrading'),
+        key: 'farming.closePosition.minimizeTrading',
         value: ``,
         onClick: () => this.bloc.closingMethod$.next('minimizeTrading'),
       },
       {
         label: I18n.t('farming.closePosition.baseTokenOnly', { title: baseTokenTitle }),
+        key: 'farming.closePosition.baseTokenOnly',
         value: ``,
         onClick: () => this.bloc.closingMethod$.next('convertToBaseToken'),
       },
     ]
 
-    const selectedLabel = this.bloc.closingMethod$.value === 'minimizeTrading' 
-      ? I18n.t('farming.closePosition.minimizeTrading')
-      : I18n.t('farming.closePosition.baseTokenOnly', { title: baseTokenTitle })
+    const selectedKey = this.bloc.closingMethod$.value === 'minimizeTrading'
+      ? 'farming.closePosition.minimizeTrading'
+      : 'farming.closePosition.baseTokenOnly'
 
     return (
       <div className="ClosePosition">
@@ -779,7 +781,7 @@ class ClosePosition extends Component {
           <div className="ClosePosition__right">
             <RadioSet2
               className="ClosePosition__radioSet"
-              selectedLabel={selectedLabel}
+              selectedKey={selectedKey}
               list={radioList}
             />
 
