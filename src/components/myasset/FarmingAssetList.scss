@@ -27,7 +27,8 @@
 
   @include desktop {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 2fr 165px 120px;
+    // grid-template-columns: 2fr 2fr 2fr 2fr 165px 120px;
+    grid-template-columns: 2.2fr 1.4fr 2fr 2fr 2.2fr 120px;
     height: 48px;
     border-top: 1px solid #DADDE5;
     border-bottom: 1px solid #E6E7F2;

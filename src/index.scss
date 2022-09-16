@@ -93,17 +93,16 @@ body {
   background-color: #F7F7F7;
 
 	font-family: "-apple-system","BlinkMacSystemFont","Helvetica Neue","Apple SD Gothic Neo","Pretendard",sans-serif;
-	letter-spacing: -.4px;
+	letter-spacing: -0.4px;
 
   * {
     font-family: "-apple-system","BlinkMacSystemFont","Helvetica Neue","Apple SD Gothic Neo","Pretendard",sans-serif;
     box-sizing: border-box;
+		letter-spacing: -0.4px;
     -ms-overflow-style: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
-
-		letter-spacing: -0.5px;
 
      &::-webkit-scrollbar {
        display: none;

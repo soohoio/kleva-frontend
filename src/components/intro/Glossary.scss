@@ -19,6 +19,7 @@
     position: static;
     width: $CONTENT_WIDTH;
     margin: 0 auto;
+    padding-bottom: 30px
     // padding: 0 40px 0 0px;
   }
 
@@ -90,10 +91,10 @@
 }
 
 .Glossary__category {
-  @include font-style('font-1', 'sb', 18px);
-  line-height: 22px;
+  @include font-style('font-1', 'b', 24px);
+  line-height: 29px;
   color: #222222;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 
   @include desktop {
     @include font-style('font-1', 'sb', 18px);
@@ -154,13 +155,6 @@
 .GlossaryItem__image {
   max-width: 100%;
   padding: 0 10px;
-}
-
-.Glossary__category {
-  @include font-style('font-1', 'b', 24px);
-  line-height: 29px;
-  color: #222222;
-  margin-bottom: 16px;
 }
 
 .Glossary__itemList {

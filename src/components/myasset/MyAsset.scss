@@ -54,6 +54,7 @@
   .Guide__title {
     @include font-style('font-1', 'b', 22px);
     width: 100%;
+    margin-top: 10px;
   }
 
   .Guide__button {

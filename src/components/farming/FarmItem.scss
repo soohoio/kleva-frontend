@@ -1,11 +1,12 @@
 .FarmItem {
-  @include grid-column-farmitem;
   display: grid;
   width: 100%;
   align-items: center;
   height: 120px;
 
   border-bottom: 1px solid #E6EAF2;
+
+  grid-template-columns: 8fr 6fr 9fr 9fr 5fr auto;
 }
 
 .FarmItem__pairItem, 
@@ -84,6 +85,9 @@
   display: flex;
   flex-direction: column;
 
+  align-items: flex-end;
+  padding-right: 35px;
+
   .LabelAndValue {
     justify-content: center;
 
@@ -117,6 +121,7 @@
 
 .FarmItem__leverageItem {
   flex-direction: column;
+  padding-left: 28px;
 }
 
 .FarmItem__leverageController {

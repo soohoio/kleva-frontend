@@ -1,6 +1,7 @@
 .LendNStakeAssetGridItem {
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+  // grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
+  grid-template-columns: 2fr 2fr 1.8fr 1.7fr 2fr 2fr 120px 74px;
 
   height: 120px;
   border-bottom: 1px solid #E6E7F2;
@@ -72,6 +73,7 @@
 
   .LabelAndValue {
     width: 100%;
+    padding-right: 18px;
   }
 
   .LabelAndValue__label {
@@ -100,7 +102,7 @@
   align-content: center;
   flex-direction: column;
   justify-content: center;
-  padding: 0 10px;
+  padding: 0 10px 0 15px;
 
 }
 
@@ -165,7 +167,7 @@
 }
 
 .LendNStakeAssetGridItem__stakingValue {
-  margin-bottom: 13px;
+  margin-bottom: 11px;
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #333333;
@@ -182,7 +184,7 @@
   height: 4px;
   border-radius: 4px;
   background-color: #E6EBF7;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 
   width: 85px;
 }

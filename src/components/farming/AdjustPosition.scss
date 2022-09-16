@@ -67,6 +67,7 @@
 
   @include desktop {
     @include button-1(50px);
+    font-size: 16px;
     background-color: #EDF2FC;
     color: #265FFC;
   }

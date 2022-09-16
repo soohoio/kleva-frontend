@@ -21,9 +21,11 @@
 }
 
 .FarmList__tableHeader {
-  // @include grid-column-farmitem;
-  // grid-template-columns: 1.7fr 1.6fr 2fr 2fr 1fr auto;
   @include grid-column-farmitem;
+
+  @include desktop {
+    grid-template-columns: 8fr 6fr 8fr 9fr 5fr auto;
+  }
   display: grid;
   width: 100%;
   height: 48px;
@@ -36,23 +38,24 @@
 
 .FarmList__aprHeader {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 .FarmList__leverageHeader {
   width: 120px;
+
+  @include desktop {
+    width: 148px;
+    padding-left: 28px;
+  }
 }
 
 .FarmList__pairHeader {
   display: flex;
   align-items: center;
 }
-.FarmList__aprHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 124px;
-}
+
 .FarmList__aprDetailHeader {
   display: flex;
   align-items: center;
@@ -83,11 +86,6 @@
   @include desktop {
     gap: 0;
   }
-
-  // @include desktop {
-  //   display: grid;
-  //   @include grid-column-farmitem;
-  // }
 }
 
 .FarmList__tabs {
@@ -169,7 +167,8 @@
     
     @include desktop {
       left: unset;
-      right: -6px;
+      right: -4px;
+      top: 120%;
     }
   }
 

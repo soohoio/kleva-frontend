@@ -12,6 +12,10 @@
   margin-bottom: 12px;
   cursor: pointer;
 
+  @include desktop {
+    margin-bottom: 6px;
+  }
+
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -19,7 +23,7 @@
   &--active {
     .RadioSet2__value {
       color: #f53c3c;
-      line-height: 20px;
+      line-height: 19px;
     }
   }
 }
@@ -32,7 +36,8 @@
 .RadioSet2__label {
   @include font-style('font-1', 'm', 16px);
   color: #333333;
-  line-height: 20px;
+  line-height: 19px;
+  margin-right: 6px;
 
   @include desktop {
     @include font-style('font-1', 'm', 14px);
@@ -42,6 +47,7 @@
 .RadioSet2__value {
   @include font-style('font-1', 'm', 17px);
   color: #D0D3E0;
+  line-height: 19px;
 
   @include desktop {
     @include font-style('font-1', 'm', 14px);
@@ -52,6 +58,10 @@
   width: 22px;
   height: 22px;
   margin-right: 9px;
+
+  @include desktop {
+    margin-bottom: 6px;
+  }
   // display: flex;
   // align-items: center;
   // justify-content: center;

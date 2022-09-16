@@ -35,7 +35,6 @@
     flex: 1;
     padding: 0;
     margin-right: 60px;
-    margin-bottom: 15px;
     padding-top: 0;
   }
 }
@@ -190,6 +189,11 @@
   color: #F73D3D;
   margin-bottom: 20px;
   text-align: center;
+
+  @include desktop {
+    @include font-style('font-1', 'm', 15px);
+    margin-top: -8px;
+  }
 }
 
 .AddPosition__wklayConvertLabel {
@@ -209,6 +213,7 @@
 
   @include desktop {
     @include button-1(50px);
+    font-size: 16px;
     background-color: #EDF2FC;
     color: #265FFC;
   }
