@@ -11,9 +11,13 @@
   height: 120px;
   border-bottom: 1px solid #E6E7F2;
 
-  &:nth-child(7n+1) { padding-right: 20px; }
+  &:nth-child(7n+1) { 
+    // padding-right: 20px; 
+  }
   // &:nth-child(7n+2) { padding-right: 20px; }
-  &:nth-child(7n+2) { padding-right: 42px; }
+  &:nth-child(7n+2) { 
+    // padding-right: 42px; 
+  }
   &:nth-child(7n+3) { padding-right: 16px; }
   &:nth-child(7n+4) { 
     // padding-right: 16px; 
@@ -22,7 +26,10 @@
   &:nth-child(7n+5) { 
     // padding-right: 16px; 
   }
-  &:nth-child(7n+6) { padding-right: 16px; }
+  &:nth-child(7n+6) { 
+    // padding-right: 16px; 
+    padding-right: 20px;
+  }
   &:nth-child(7n) { padding-right: 0; }
 
   &--last {
@@ -35,15 +42,19 @@
   }
 
   &--totalSupply {
-    flex-direction: column;
+    // flex-direction: column;
     // flex-wrap: wrap;
     // align-items: center;
     // align-content: center;
     // justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 
     .LendingPoolListItem__tokenSymbol {
       text-align: center;
       color: #333333;
+      margin-left: 4px;
     }
   }
 
@@ -56,7 +67,7 @@
 
 .LendingPoolListItem__tokenValue {
   text-align: center;
-  margin-bottom: 6px;
+  // margin-bottom: 6px;
 }
 
 .LendingPoolListItem__tokenBalance {
@@ -145,6 +156,7 @@
   .LabelAndValue {
     width: 100%;
     margin-bottom: 6px;
+    padding-right: 38px;
 
     &:last-of-type {
       margin-bottom: 0;

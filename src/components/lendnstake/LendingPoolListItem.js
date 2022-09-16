@@ -110,8 +110,8 @@ class LendingPoolListItem extends Component {
         <div className={cx("LendingPoolListItem LendingPoolListItem--totalSupply", {
           "LendingPoolListItem--last": isLastIdx
         })}>
-          <p className="LendingPoolListItem__tokenValue">{noRounding(totalSupply, 0)}</p>
-          <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
+          <span className="LendingPoolListItem__tokenValue">{noRounding(totalSupply, 0)}</span>
+          <span className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</span>
         </div>
         <div className={cx("LendingPoolListItem LendingPoolListItem--utilizationRatio", {
           "LendingPoolListItem--last": isLastIdx,

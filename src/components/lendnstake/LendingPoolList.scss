@@ -3,6 +3,10 @@
   // grid-template-columns: 20fr 20fr 12.5fr 12.5fr 12.5fr 12.5fr 128px;
   // grid-template-columns: 24fr 24fr minmax(120px, 14fr) minmax(120px, 14fr) 86px 24fr 84px;
   grid-template-columns: 8fr 8fr 5fr 8fr 5fr 6fr 6fr;
+
+  @include desktop {
+    grid-template-columns: 5fr 7fr 5.5fr 7fr 5fr 5.5fr 127px;
+  }
   
   // max-width: calc(1920px - 240px);
   max-width: 980px;
@@ -81,12 +85,24 @@
 
     &:nth-child(7n+1) { 
       padding-right: 28px; 
+      @include desktop {
+        padding-right: 0;
+      }
     }
-    &:nth-child(7n+2) { padding-right: 0; }
+    &:nth-child(7n+2) { 
+      padding-right: 0; 
+      @include desktop {
+        justify-content: center;
+      }
+    }
     &:nth-child(7n+3) { 
       // padding-right: 16px; 
       padding-right: 0;
       justify-content: flex-end;
+      @include desktop {
+        justify-content: center;
+        padding-right: 24px;
+      }
     }
     &:nth-child(7n+4) { 
       // padding-right: 16px; 
@@ -100,6 +116,9 @@
       // padding-right: 16px; 
       padding-right: 0;
       justify-content: center;
+      @include desktop {
+        padding-right: 20px;
+      }
     }
     &:nth-child(7n) { padding-right: 0; }
   }
