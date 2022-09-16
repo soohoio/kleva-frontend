@@ -523,7 +523,7 @@ class AddPosition extends Component {
         return {
           asset: token,
           label: `${I18n.t('borrow', { title: token.title })}`,
-          value: `-${new BigNumber(baseInterest)
+          value: `${new BigNumber(baseInterest)
             .multipliedBy(this.bloc.leverage$.value - 1)
             .toFixed(2)}%`,
         }

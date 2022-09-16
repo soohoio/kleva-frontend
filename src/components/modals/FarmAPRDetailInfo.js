@@ -79,7 +79,7 @@ class FarmAPRDetailInfo extends Component {
 
       const pureValue = new BigNumber(baseInterest)
         .multipliedBy(leverageValue$.value - 1)
-        .multipliedBy(-1)
+        // .multipliedBy(-1)
         .toFixed(2)
 
       return {

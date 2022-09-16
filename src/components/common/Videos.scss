@@ -14,13 +14,13 @@
   
   @include desktop {
     width: $CONTENT_WIDTH;
-    padding: 0;
-    padding-top: unset;
     border-top: unset;
     margin-top: 40px;
+    padding: 0;
   }
 
   .VideoItem {
+
     width: 100%;
     flex: unset;
     margin-bottom: 40px;

@@ -43,8 +43,8 @@ class CommonGauge extends Component {
         this.setPercentage(e)
 
         return merge(
-          fromEvent(window, 'mousemove'),
-          fromEvent(window, 'touchmove'),
+          fromEvent(this.$gaugeBar.current, 'mousemove'),
+          fromEvent(this.$gaugeBar.current, 'touchmove'),
         ).pipe(
           tap((e) => {
             this.setPercentage(e)

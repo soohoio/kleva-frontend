@@ -31,6 +31,17 @@
     color: #333333;
     line-height: 22px;
   }
+
+  .Circle {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    margin-bottom: unset;
+  }
+
+  .RadioSet2__item {
+    margin-bottom: 12px;
+  }
 }
 
 .ClosePosition__content {
@@ -59,6 +70,7 @@
 
   @include desktop {
     @include button-1(50px);
+    font-size: 16px;
     background-color: #EDF2FC;
     color: #265FFC;
   }

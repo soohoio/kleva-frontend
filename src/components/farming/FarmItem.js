@@ -87,7 +87,7 @@ class FarmItem extends Component {
         return {
           label: `${token.title}`,
           key: token.title,
-          value: `-${new BigNumber(baseInterest)
+          value: `${new BigNumber(baseInterest)
             .multipliedBy(this.bloc.leverageValue$.value - 1)
             .toFixed(2)}%`,
           onClick: () => this.bloc.setBorrowingAsset({ asset: token }), // define onClick in separate items

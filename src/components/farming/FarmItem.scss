@@ -7,6 +7,17 @@
   border-bottom: 1px solid #E6EAF2;
 
   grid-template-columns: 8fr 6fr 9fr 9fr 5fr auto;
+
+  .Circle {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    margin-bottom: unset;
+  }
+
+  .RadioSet2__item {
+    margin-bottom: 6px;
+  }
 }
 
 .FarmItem__pairItem, 
