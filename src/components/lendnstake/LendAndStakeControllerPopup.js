@@ -209,7 +209,6 @@ class LendAndStakeControllerPopup extends Component {
     const availableBalance = balancesInWallet$.value[stakingToken.address] &&
       balancesInWallet$.value[stakingToken.address].balanceParsed
 
-
     const willReceiveAmount = (ibTokenPrice && this.bloc.depositAmount$.value)
       ? noRounding(new BigNumber(this.bloc.depositAmount$.value).div(ibTokenPrice).toNumber(), 4)
       : "0.00"

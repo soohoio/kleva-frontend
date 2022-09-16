@@ -56,7 +56,7 @@ export const fetchChartData$ = () => {
           kleva_buybackburn_fund,
           kleva_burn,
         }) => {
-          const date = new Date(bdate)
+          const date = new Date(bdate.replace("'", ''))
 
           acc.total_tvl.push({ date, value: total_tvl })
           acc.lending_tvl.push({ date, value: lending_tvl })

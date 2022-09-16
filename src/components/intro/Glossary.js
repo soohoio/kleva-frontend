@@ -137,7 +137,7 @@ class Glossary extends Component {
         <div ref={this.$container}  className="Glossary__content">
           <p ref={this.$elem1} id="glossary-defiGeneral" className="Glossary__category">{I18n.t('glossary.defiGeneral')}</p>
           <div className="Glossary__itemList">
-            {range(1, 9).map((i) => {
+            {range(1, 10).map((i) => {
               return (
                 <div
                   className="Glossary__itemTitle"
@@ -158,7 +158,7 @@ class Glossary extends Component {
           </div>
           <p ref={this.$elem2} id="glossary-lend" className="Glossary__category">{I18n.t('glossary.lend')}</p>
           <div className="Glossary__itemList">
-            {range(10, 13).map((i) => {
+            {range(10, 14).map((i) => {
               return (
                 <div
                   className="Glossary__itemTitle" 
@@ -180,7 +180,7 @@ class Glossary extends Component {
           
           <p ref={this.$elem3} id="glossary-farming" className="Glossary__category">{I18n.t('glossary.farming')}</p>
           <div className="Glossary__itemList">
-            {range(14, 26).map((i) => {
+            {range(14, 27).map((i) => {
               return (
                 <div
                   className="Glossary__itemTitle"

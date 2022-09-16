@@ -87,6 +87,10 @@ class Withus extends Component {
               href="https://klaytn.domains/"
               imgSrc="/static/images/exported/withus-kns.svg"
             />
+            <WithusItem
+              href="https://kokonutswap.finance/"
+              imgSrc="/static/images/exported/withus-kokonut.svg"
+            />
           </div>
           <p className="Withus__category">Audit</p>
           <div className="Withus__items">
@@ -99,8 +103,12 @@ class Withus extends Component {
               imgSrc="/static/images/exported/withus-scvsoft.svg"
             />
             <WithusItem
-              href="https://audit.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.svg"
+              href="https://www.slowmist.com/"
+              imgSrc="/static/images/exported/withus-slowmist.svg"
+            />
+            <WithusItem
+              href="https://hacken.io/"
+              imgSrc="/static/images/exported/withus-hacken.svg"
             />
           </div>
         </div>
