@@ -13,8 +13,6 @@
   // overflow: scroll;
   z-index: 9;
 
-  padding: 0 0 20px 0;
-
   // scroll-behavior:smooth;
 
   @include desktop {
@@ -32,13 +30,13 @@
 .GlossaryHeader {
   display: flex;
   align-items: center;
-  height: 60px;
+  // height: 60px;
   // margin-bottom: 20px;
 
   padding: 18px 20px; 
 
   @include desktop {
-    margin-bottom: 12px;
+    margin-bottom: 30px;
     padding: 0;
   }
 }
@@ -55,6 +53,7 @@
   @include desktop {
     @include font-style('font-1', 'b', 24px);
     text-align: left;
+    line-height: 29px;
   }
 }
 
@@ -75,7 +74,7 @@
 
 .Glossary__content {
   width: 100%;
-  padding: 0 27px 0 20px;
+  padding: 20px 25px 0 25px;
   padding-bottom: 0;
   overflow: scroll;
   scroll-behavior: smooth;
@@ -97,7 +96,9 @@
   margin-bottom: 14px;
 
   @include desktop {
-
+    @include font-style('font-1', 'sb', 18px);
+    line-height: 22px;
+    margin-bottom: 14px;
   }
 }
 
@@ -164,13 +165,13 @@
 
 .Glossary__itemList {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 33px;
   flex-wrap: wrap;
   width: 100%;
   
   @include desktop {
     width: $CONTENT_WIDTH;
-    margin-bottom: 42px;
+    margin-bottom: 36px;
   }
 }
 
@@ -185,8 +186,12 @@
   background-color: #F6F7FB;
   border-radius: 6px;
   margin-bottom: 7px;
+  line-height: 20px;
   
   @include desktop {
+    @include font-style('font-1', 'm', 15px);
+    line-height: 19px;
+    padding: 13px 15px;
     width: 320px;
     margin-bottom: 6px;
     margin-right: 10px;
@@ -201,9 +206,12 @@
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: center;
-  margin-bottom: 33px;
   padding: 0 23px;
+  margin: 8px 0 13px 0;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  flex-shrink: 0;
   
   @include desktop {
     display: none;
@@ -215,6 +223,7 @@
   margin-right: 4px;
   color: #333333;
   display: flex;
+  white-space: nowrap;
   flex: 1;
   align-items: center;
   justify-content: center;
