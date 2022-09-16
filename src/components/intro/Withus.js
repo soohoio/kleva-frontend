@@ -103,6 +103,10 @@ class Withus extends Component {
               imgSrc="/static/images/exported/withus-scvsoft.svg"
             />
             <WithusItem
+              href="https://audit.sooho.io/"
+              imgSrc="/static/images/exported/withus-sooho-audit.svg"
+            />
+            <WithusItem
               href="https://www.slowmist.com/"
               imgSrc="/static/images/exported/withus-slowmist.svg"
             />
