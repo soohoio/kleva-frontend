@@ -91,7 +91,7 @@ class InputWithPercentage extends Component {
     return (val && valueLimit != 0) 
       ? percentage > 100 
         ? "100%+"
-        : `${noRounding(percentage, 0)}%`
+        : `${parseInt(Math.round(percentage))}%`
       : "0%"
   }
 
