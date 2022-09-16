@@ -75,22 +75,31 @@ html {
   scroll-behavior: smooth;
   // font-size: 10px;
 	font-size: 0;
-  overflow: auto;
-  overflow-y: scroll;
+	background-color: #ffffff;
+  // overflow: auto;
+  // overflow-y: scroll;
   z-index: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+	position: relative; 
+	height: 100%; 
+	// overflow: hidden;
 
   &.locked {
     overflow: hidden;
   }
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 body {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   margin: 0;
   padding: 0;
   z-index: 0;
-  background-color: #F7F7F7;
+  background-color: #ffffff;
 
 	font-family: "-apple-system","BlinkMacSystemFont","Helvetica Neue","Apple SD Gothic Neo","Pretendard",sans-serif;
 	letter-spacing: -0.4px;

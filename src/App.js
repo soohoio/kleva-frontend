@@ -63,7 +63,6 @@ class App extends Component<Props> {
   }
 
   componentDidMount() {
-
     const isLoggedInFirst$ = selectedAddress$.pipe(
       pairwise(),
       map(([before, after]) => {

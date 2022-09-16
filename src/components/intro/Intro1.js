@@ -31,17 +31,14 @@ class Intro1 extends Component {
     })
     
 
-    const $app = document.querySelector(".App")
+    const $app = document.querySelector("html")
 
-    fromEvent($app, 'scroll').pipe(
+    fromEvent(window, 'scroll').pipe(
       tap(() => {
         // const { height: rootHeight } = $app.getBoundingClientRect()
         // const { y: startButtonY } = this.$startButton.current.getBoundingClientRect()
         
         const shouldHideAnimation = $app.scrollTop > $app.scrollHeight - $app.offsetHeight - 156
-
-        console.log($app.scrollTop, '$app.scrollTop')
-        console.log($app.scrollHeight, '$app.scrollHeight')
 
         // console.log(startButtonY, 'startButtonY')
         // console.log(window.screen.availHeight, 'window.screen.availHeight')
