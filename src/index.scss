@@ -92,8 +92,11 @@ body {
   z-index: 0;
   background-color: #F7F7F7;
 
+	font-family: "-apple-system","BlinkMacSystemFont","Helvetica Neue","Apple SD Gothic Neo","Pretendard",sans-serif;
+	letter-spacing: -.4px;
+
   * {
-    font-family: 'Pretendard';
+    font-family: "-apple-system","BlinkMacSystemFont","Helvetica Neue","Apple SD Gothic Neo","Pretendard",sans-serif;
     box-sizing: border-box;
     -ms-overflow-style: none;
     -webkit-font-smoothing: antialiased;
