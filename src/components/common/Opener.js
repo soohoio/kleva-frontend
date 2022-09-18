@@ -112,6 +112,7 @@ class Opener extends Component {
           <>
             <div className="Opener__searchContainer">
               <input
+                inputmode="decimal"
                 ref={(elem) => {
                   if (!elem) return
                   elem.focus()

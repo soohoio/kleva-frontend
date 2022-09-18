@@ -51,6 +51,7 @@ class LeverageInput extends Component {
           
           <div className="LeverageInput__inputWrapper">
             <input
+              inputmode="decimal"
               onChange={(e) => {
                 // if (Number(e.target.value) > leverageCap) {
                 //   leverage$.next(leverageCap)

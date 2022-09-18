@@ -46,6 +46,7 @@ class SlippageSetting extends Component {
         <div className="SlippageSetting__controller">
           <div className="SlippageSetting__inputWrapper">
             <input
+              inputmode="decimal"
               onChange={(e) => {
                 if (isNaN(Number(e.target.value))) return
                 if (Number(e.target.value) > 100) return

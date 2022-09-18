@@ -141,6 +141,7 @@ class CommonGauge extends Component {
           </div>
           <div className="CommonGauge__inputWrapper">
             <input
+              inputmode="decimal"
               className="CommonGauge__leverageInput"
               onChange={(e) => {
 

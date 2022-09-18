@@ -160,6 +160,7 @@ class InputWithPercentage extends Component {
           <div className="InputWithPercentage__content">
             {!!imgSrc && <img className="InputWithPercentage__image" src={imgSrc} />}
             <input
+              inputmode="decimal"
               autoFocus={autoFocus}
               ref={this.$input}
               readOnly={isDisabled}

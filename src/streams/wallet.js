@@ -67,29 +67,28 @@ export const connectInjected = (injectedType, walletProviderName) => {
     }
 
     if (needToUseDeeplink) {
-      const deepLinker = new DeepLinker({
-        onIgnored: function () {
-          const ua = navigator.userAgent.toLowerCase();
+      // const deepLinker = new DeepLinker({
+      //   onIgnored: function () {
+      //     const ua = navigator.userAgent.toLowerCase();
 
-          alert('onIgnored')
-          if (ua.indexOf("android") > -1) {
-            window.location.href = "https://play.google.com/store/apps/details?id=io.metamask"
-          }
-        },
-        onFallback: function () {
-          alert('onFallback')
-          const ua = navigator.userAgent.toLowerCase();
-          window.location.href = ua.indexOf("android") > -1
-            ? "https://play.google.com/store/apps/details?id=io.metamask"
-            : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
-        },
-        onReturn: function () {
-          console.log('user returned to the page from the native app')
-        },
-      })
-      deepLinker.openURL(`dapp://${window.location.host}${window.location.pathname}`)
+      //     if (ua.indexOf("android") > -1) {
+      //       window.location.href = "https://play.google.com/store/apps/details?id=io.metamask"
+      //     }
+      //   },
+      //   onFallback: function () {
+      //     const ua = navigator.userAgent.toLowerCase();
+      //     window.location.href = ua.indexOf("android") > -1
+      //       ? "https://play.google.com/store/apps/details?id=io.metamask"
+      //       : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+      //   },
+      //   onReturn: function () {
+      //     console.log('user returned to the page from the native app')
+      //   },
+      // })
+      // deepLinker.openURL(`dapp://${window.location.host}${window.location.pathname}`)
       // exeDeepLink()
       // checkInstallApp()    
+      redirectApp()
     }
 
     if (notKlaytnNetwork) {
@@ -215,3 +214,40 @@ window.balancesInWallet$ = balancesInWallet$
 window.balancesInStakingPool$ = balancesInStakingPool$
 
 window.allowancesInLendingPool$ = allowancesInLendingPool$
+
+
+const redirectApp = () => {
+  exeDeepLink();
+  checkInstallApp();
+};
+
+function checkInstallApp() {
+  function clearTimers() {
+    clearInterval(check);
+    clearTimeout(timer);
+  }
+
+  function isHideWeb() {
+    if (document.webkitHidden || document.hidden) {
+      clearTimers();
+    }
+  }
+  const check = setInterval(isHideWeb, 200);
+
+  const timer = setTimeout(function () {
+    redirectStore();
+  }, 1000);
+}
+
+const redirectStore = () => {
+  const ua = navigator.userAgent.toLowerCase();
+
+  window.location.href =
+      ua.indexOf("android") > -1
+        ? "https://play.google.com/store/apps/details?id=io.metamask"
+        : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+};
+
+function exeDeepLink() {
+  window.location.href = `dapp://${window.location.host}${window.location.pathname}`;
+}
