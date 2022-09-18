@@ -117,7 +117,7 @@ class ConnectWalletPopup extends Component {
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'D`CENT'
-            })} {'>'}
+            })}
           </p>
           <p
             className="ConnectWalletPopup__makeWallet ConnectWalletPopup__makeWallet--kaikas"
@@ -127,7 +127,7 @@ class ConnectWalletPopup extends Component {
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Kaikas'
-            })} {'>'}
+            })}
           </p>
           <p
             className="ConnectWalletPopup__makeWallet"
@@ -137,7 +137,7 @@ class ConnectWalletPopup extends Component {
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Klip'
-            })} {'>'}
+            })}
           </p>
           <p 
             className="ConnectWalletPopup__makeWallet"
@@ -147,7 +147,7 @@ class ConnectWalletPopup extends Component {
           >
             {I18n.t('connectWallet.makeWallet', {
               title: 'Metamask'
-            })} {'>'}
+            })}
           </p>
         </div>
       </Modal>

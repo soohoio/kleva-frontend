@@ -14,8 +14,10 @@
     width: auto;
     background-color: unset;
     padding: 0;
+    overflow: unset;
 
-    min-height: 750px; // for wklay switcher dropdown visibility
+    // for wklay switcher dropdown visibility
+    // min-height: 750px; 
   }
 
   .ThickHR {
@@ -101,10 +103,11 @@
   align-items: center;
   padding-bottom: 20px;
   margin-bottom: 36px;
+  border-bottom: 1px solid #e6eaf2;
   
   @include desktop {
     margin-bottom: 26px;
-    border-bottom: 1px solid #E6EAF2;
+    border-bottom: 0;
   }
 
   .QuestionMark {

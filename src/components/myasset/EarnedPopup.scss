@@ -2,22 +2,65 @@
 
   height: 100%;
   border-radius: 0;
+  padding: 0 20px 40px;
 
   @include desktop {
     width: 395px !important;
     height: auto;
     border-radius: 10px;
+    padding: 35px 30px;
   }
 
   .Modal__content {
-    max-height: unset;
+    // max-height: unset;
+  }
+
+  .Modal__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    // height: 60px;
+    // margin-bottom: 20px;
+
+    padding: 18px 20px; 
+
+    @include desktop {
+      margin-bottom: 30px;
+      padding: 0;
+    }
+  }
+
+  .Modal__title {
+    @include font-style('font-1', 'b', 20px);
+    line-height: 24px;
+    color: #222222;
+    
+    text-align: center;
+    position: relative;
+    width: 100%;
+
+    @include desktop {
+      @include font-style('font-1', 'b', 24px);
+      text-align: left;
+      line-height: 29px;
+    }
+  }
+
+  .Modal__close {
+    width: 30px;
+    height: 30px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -5px;
+    cursor: pointer;
   }
 }
 
 .EarnedItem {
   display: flex;
   width: 100%;
-  padding-top: 18px;
 
   &:last-of-type {
     .EarnedItem__content {
@@ -32,14 +75,12 @@
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid #EBEEF5;
-
-  padding-bottom: 18px;
 }
 
 .EarnedItem__icon {
-  width: 33px;
-  height: 33px;
-  margin-right: 12px;
+  width: 26px;
+  height: 26px;
+  margin: 25px 11px 0 -1px;
   border-radius: 50%;
 }
 
@@ -53,7 +94,7 @@
 }
 
 .EarnedItem__subtitle {
-  @include font-style('font-1', 'm', 15px);
+  @include font-style('font-1', 'm', 14px);
   color: #969BAB;
 }
 
@@ -75,17 +116,19 @@
   color: #131414;
 
   strong {
-    @include font-style('font-1', 'b', 15px);
+    @include font-style('font-1', 'b', 16px);
     color: #265ffc;
     margin-right: 6px; 
   }
 }
 
 .EarnedItem__claimButton {
-  @include button-1(28px);
-  @include font-style('font-1', 'sb', 12px);
+  @include button-1(38px);
+  @include font-style('font-1', 'b', 14px);
+  background-color: #2d65fc;
+  padding: 0 13px;
+  margin-left: 6px;
+  color: #fff;
   width: 72px;
-  margin-left: 20px;
-  background-color: #ebf0ff;
-  color: #265ffc;
+  white-space: nowrap;
 }

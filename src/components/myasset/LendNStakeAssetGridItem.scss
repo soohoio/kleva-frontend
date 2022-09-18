@@ -218,4 +218,25 @@
   background-color: transparent;
   width: 100%;
   color: #265FFC;
+
+  &--disabled {
+    background-color: unset;
+    color: #cccfd9;
+  }
+}
+
+.LendNStakeAssetGridItem__withdrawText {
+  &--desktop {
+    display: none;
+    @include desktop {
+      display: block;
+    }
+  }
+
+  &--mobile {
+    display: block;
+    @include desktop {
+      display: none;
+    }
+  }
 }

@@ -78,8 +78,9 @@
   justify-content: center;
   height: 58px;
   flex: 1;
-  color: #727D99;
-  @include font-style('font-1', 'sb', 18px);
+  @include font-style('font-1', 'm', 18px);
+  color: #636B80;
+  white-space: nowrap;
   line-height: 22px;
   border-bottom: 2px solid transparent;
 

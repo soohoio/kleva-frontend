@@ -56,13 +56,13 @@
 }
 
 .UseGuideHeader__close {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 0;
+  right: -5px;
   cursor: pointer;
 
   @include desktop {

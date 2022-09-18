@@ -171,7 +171,7 @@ class LendNStakeAssetGridItem extends Component {
               "LendNStakeAssetGridItem__withdraw--disabled": !isWithdrawAvailable
             })}
           >
-            {I18n.t('withdraw')}
+            {I18n.t('myasset.withdraw')}
           </button>
         </div>
       </div>
