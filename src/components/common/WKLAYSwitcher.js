@@ -68,6 +68,10 @@ class WKLAYSwitcher extends Component {
             value$={this.bloc.wklayAmountToUnwrap$}
             valueLimit={availableBalance}
             targetToken={tokenList.WKLAY}
+            onEnterKey={() => {
+              if (isUnwrapDisabled) return
+              this.bloc.unwrapWKLAY()
+            }}
           />
           {column && (
             <div className="WKLAYSwitcher__willReceive">
@@ -141,6 +145,10 @@ class WKLAYSwitcher extends Component {
             value$={this.bloc.klayAmountToWrap$}
             valueLimit={availableBalance}
             targetToken={tokenList.KLAY}
+            onEnterKey={() => {
+              if (isWrapDisabled) return
+              this.bloc.wrapKLAY()
+            }}
           />
           {column && (
             <div className="WKLAYSwitcher__willReceive">

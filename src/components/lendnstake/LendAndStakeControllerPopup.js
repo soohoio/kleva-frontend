@@ -33,6 +33,8 @@ class LendAndStakeControllerPopup extends Component {
 
   bloc = new Bloc()
 
+  onEnterKeyCallback$ = new BehaviorSubject(() => {})
+
   componentDidMount() {
     const { stakingToken } = this.props
 
@@ -44,6 +46,7 @@ class LendAndStakeControllerPopup extends Component {
       this.bloc.isWrapping$,
       this.bloc.isLoading$,
       this.bloc.lendCompleted$,
+      this.onEnterKeyCallback$,
       selectedAddress$,
       balancesInWallet$.pipe(
         distinctUntilChanged((a, b) =>
@@ -65,6 +68,9 @@ class LendAndStakeControllerPopup extends Component {
   }
 
   renderButton = () => {
+
+    // reset
+    this.onEnterKeyCallback$.next(() => {})
 
     let { vaultAddress, stakingToken, ibToken } = this.props
     const isLendCompleted = !!this.bloc.lendCompleted$.value
@@ -98,6 +104,7 @@ class LendAndStakeControllerPopup extends Component {
 
       // When lend not approved
       if (!isLendApproved) {
+        this.onEnterKeyCallback$.next(() => this.bloc.approve(stakingToken, vaultAddress))
         return (
           <button
             onClick={() => this.bloc.approve(stakingToken, vaultAddress)}
@@ -108,6 +115,7 @@ class LendAndStakeControllerPopup extends Component {
         )
       }
 
+      this.onEnterKeyCallback$.next(() => this.bloc.deposit(stakingToken, vaultAddress))
       return (
         <button
           onClick={() => {
@@ -139,6 +147,8 @@ class LendAndStakeControllerPopup extends Component {
     const _stakingPoolPID = _stakingPool && _stakingPool.pid
 
     if (!isStakingApproved) {
+      this.onEnterKeyCallback$.next(() => this.bloc.approveStaking(ibToken))
+      
       return (
         <button
           onClick={() => this.bloc.approveStaking(ibToken)}
@@ -149,6 +159,10 @@ class LendAndStakeControllerPopup extends Component {
       )
     }
 
+    this.onEnterKeyCallback$.next(() => {
+      if (isStakingDisabled) return
+      this.bloc.stake(stakingToken, _stakingPoolPID, selectedAddress$.value)
+    })
     return (
       <>
         <button
@@ -262,6 +276,7 @@ class LendAndStakeControllerPopup extends Component {
 
           <InputWithPercentage
             autoFocus
+            onEnterKey={this.onEnterKeyCallback$.value}
             className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
             decimalLimit={stakingToken.decimals}
             value$={this.bloc.depositAmount$}
@@ -305,6 +320,7 @@ class LendAndStakeControllerPopup extends Component {
 
         <InputWithPercentage
           autoFocus
+          onEnterKey={this.onEnterKeyCallback$.value}
           className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
           decimalLimit={ibToken.decimals}
           value$={this.bloc.stakeAmount$}
@@ -342,6 +358,7 @@ class LendAndStakeControllerPopup extends Component {
           <div className="LendAndStakeControllerPopup__inputAndButton">
             <InputWithPercentage
               autoFocus
+              onEnterKey={this.onEnterKeyCallback$.value}
               className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
               decimalLimit={stakingToken.decimals}
               value$={this.bloc.klayAmountToWrap$}
@@ -452,6 +469,7 @@ class LendAndStakeControllerPopup extends Component {
             className={cx("LendAndStakeControllerPopup__depositInput", "LendAndStakeControllerPopup__depositInput--wklay", {
               "LendAndStakeControllerPopup__depositInput--upper": true
             })}
+            onEnterKey={this.onEnterKeyCallback$.value}
             decimalLimit={stakingToken.decimals}
             value$={this.bloc.depositAmount$}
             valueLimit={availableWKLAYBalance}
@@ -494,6 +512,7 @@ class LendAndStakeControllerPopup extends Component {
 
         <InputWithPercentage
           autoFocus
+          onEnterKey={this.onEnterKeyCallback$.value}
           className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
           decimalLimit={ibToken.decimals}
           value$={this.bloc.stakeAmount$}

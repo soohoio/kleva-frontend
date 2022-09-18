@@ -138,6 +138,7 @@ class InputWithPercentage extends Component {
       placeholder,
       targetToken,
       noWarn,
+      onEnterKey,
     } = this.props
 
     // zeroValueDisable: If value is zero, disable
@@ -167,6 +168,13 @@ class InputWithPercentage extends Component {
               className="InputWithPercentage__input"
               value={value$.value}
               placeholder={placeholder || I18n.t('writeAmount')}
+              onKeyDown={(e) => {
+                if (!onEnterKey) return
+                const key = e.key || e.keyCode
+                if (key === 'Enter' || key === 13) {
+                  onEnterKey()
+                }
+              }}
               onChange={(e) => {
 
                 if (isNaN(Number(e.target.value))) return

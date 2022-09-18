@@ -27,10 +27,6 @@ export default class {
       .multipliedBy(10 ** tokenList.WKLAY.decimals)
       .toString()
 
-    openLayeredModal$.next({
-      component: <LoadingModal />
-    })
-
     wrapKLAY$(amount).pipe(
       tap(() => {
         // this.isWrapping$.next(true)

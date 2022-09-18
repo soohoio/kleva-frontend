@@ -87,6 +87,10 @@ class ProfitSimulationPopup extends Component {
             value$={this.bloc.amount$}
             targetToken={stakingToken}
             label={stakingToken.title}
+            onEnterKey={() => {
+              if (isDisabled) return
+              this.calculate()
+            }}
           />
           <button
             onClick={() => {

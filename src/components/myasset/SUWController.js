@@ -27,12 +27,15 @@ import Tip from '../common/Tip'
 class SUWController extends Component {
   destroy$ = new Subject()
 
+  onEnterKeyCallback$ = new BehaviorSubject(() => {})
+
   bloc = new Bloc()
 
   componentDidMount() {
     const { stakingToken } = this.props
 
     merge(
+      this.onEnterKeyCallback$,
       this.bloc.stakeAmount$,
       this.bloc.unstakeAmount$,
       this.bloc.withdrawAmount$,
@@ -64,6 +67,8 @@ class SUWController extends Component {
 
     let { mode, stakingToken } = this.props
 
+    this.onEnterKeyCallback$.next(() => {})
+
     if (this.bloc.isLoading$.value) {
       return (
         <button
@@ -85,6 +90,12 @@ class SUWController extends Component {
         || new BigNumber(this.bloc.wklayAmountToUnwrap$.value).gt(availableWKLAYBalance)
         || !isValidDecimal(this.bloc.wklayAmountToUnwrap$.value, tokenList.WKLAY.decimals)
 
+
+      this.onEnterKeyCallback$.next(() => { 
+        if (isSwitchDisabled) return
+        this.bloc.unwrapWKLAY()
+      })
+        
       return (
         <>
           <button
@@ -120,6 +131,9 @@ class SUWController extends Component {
     if (mode === 'staking') {
 
       if (!isStakingApproved) {
+        this.onEnterKeyCallback$.next(() => {
+          this.bloc.approveStaking(stakingToken)
+        })
         return (
           <button
             onClick={() => this.bloc.approveStaking(stakingToken)}
@@ -130,6 +144,10 @@ class SUWController extends Component {
         )
       }
 
+      this.onEnterKeyCallback$.next(() => {
+        if (isStakingDisabled) return
+        this.bloc.stake(stakingToken, _stakingPoolPID, selectedAddress$.value)
+      })
       return (
         <>
           <button
@@ -157,6 +175,11 @@ class SUWController extends Component {
         || new BigNumber(this.bloc.unstakeAmount$.value).gt(availableUnstakingBalance)
         || !isValidDecimal(this.bloc.unstakeAmount$.value, stakingToken.decimals)
 
+      this.onEnterKeyCallback$.next(() => {
+        if (isUnstakingDiasabled) return
+        this.bloc.unstake(stakingToken, _stakingPoolPID, selectedAddress$.value)
+      })
+
       return (
         <>
           <button
@@ -180,6 +203,11 @@ class SUWController extends Component {
         || new BigNumber(this.bloc.withdrawAmount$.value).lte(0)
         || new BigNumber(this.bloc.withdrawAmount$.value).gt(availableStakingBalance)
         || !isValidDecimal(this.bloc.withdrawAmount$.value, stakingToken.decimals)
+
+      this.onEnterKeyCallback$.next(() => {
+        if (isWithdrawDisabled) return
+        this.bloc.withdraw(stakingToken)
+      })
 
       return (
         <>
@@ -236,6 +264,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
           decimalLimit={stakingToken.decimals}
@@ -273,6 +302,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
           decimalLimit={stakingToken.decimals}
@@ -310,6 +340,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
           decimalLimit={stakingToken.decimals}
@@ -348,6 +379,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
           decimalLimit={WKLAY.decimals}
