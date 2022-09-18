@@ -87,6 +87,14 @@ html {
 
   &.locked {
     overflow: hidden;
+
+		body {
+			overflow: hidden;
+		}
+
+		.App {
+			overflow: hidden;
+		}
   }
 
 	&::-webkit-scrollbar {

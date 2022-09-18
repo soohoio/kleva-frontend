@@ -17,7 +17,18 @@ class CoverLayer extends Component<Props> {
 
   componentDidMount() {
     merge(
-      modalContentComponent$,
+      modalContentComponent$.pipe(
+        tap((contentComponent) => {
+          const $html = document.querySelector('html')
+
+          if (contentComponent) {
+            $html.className = "locked"
+            return
+          }
+          
+          $html.className = ""
+        })
+      ),
       layeredModalContentComponent$,
       modalAnimation$,
     ).pipe(
