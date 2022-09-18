@@ -177,7 +177,7 @@ class InputWithPercentage extends Component {
               }}
               onChange={(e) => {
 
-                if (isNaN(Number(e.target.value))) return
+                if (e.target.value !== "." && isNaN(Number(e.target.value))) return
 
                 if (e.target.value >= 10_000_000_000_000_000) return
 
