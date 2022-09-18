@@ -1,5 +1,5 @@
 import { Subject, BehaviorSubject, fromEvent, interval, merge, timer, of } from 'rxjs'
-import { delay, distinctUntilChanged, startWith, switchMap, takeUntil } from 'rxjs/operators'
+import { delay, distinctUntilChanged, skip, startWith, switchMap, takeUntil } from 'rxjs/operators'
 import { v4 as uuidV4 } from 'uuid'
 import { currentTab$ } from './view'
 import { browserHistory } from 'react-router'
@@ -163,14 +163,17 @@ removeBanner$.subscribe(({ key }) => {
   banners$.next(afterRemove)
 })
 
-currentTab$.subscribe((tab) => {
+currentTab$.pipe(
+  skip(1),
+).subscribe((tab) => {
   contentView$.next(null)
   
   if (!tab) {
     browserHistory.push('/')
     return
   }
-  browserHistory.push('/main')
+
+  browserHistory.push(`/main?t=${tab}`)
 })
 
 export const showStartButton$ = new BehaviorSubject(false)
