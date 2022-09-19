@@ -87,7 +87,7 @@ class SubMenu extends Component {
         <div onClick={() => {
           closeModal$.next(true)
           currentTab$.next('withus')
-        }} className="SubMenu__item SubMenu__item--withus">WITH US</div>
+        }} className="SubMenu__item SubMenu__item--withus">With Us</div>
         <LanguageChange />
       </div>
     )
