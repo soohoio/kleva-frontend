@@ -4,6 +4,10 @@
 
 .LendAndStakeControllerPopup__modal {
   @include desktop {
+    overflow: unset;
+  }
+
+  @include desktop {
     .Modal__content {
       overflow: unset;
     }

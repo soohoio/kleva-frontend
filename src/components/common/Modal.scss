@@ -41,7 +41,7 @@
 
     @include desktop {
       height: auto;
-      max-height: calc(90vh - 122px);
+      max-height: calc(90vh - 60px);
       overflow: scroll;
       padding-top: 40px;
       border-top-left-radius: 10px;
@@ -92,6 +92,10 @@
 .Modal__content {
   overflow: scroll;
   max-height: calc(90vh - 160px);
+
+  @include desktop {
+    max-height: calc(90vh - 60px);
+  }
 
   @include font-style('font-1', 'm', 16px);
   color: #636878;

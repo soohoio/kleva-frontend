@@ -4,11 +4,12 @@
   align-items: center;
   justify-content: center;
 
-  padding: 0 20px;
+  padding: 40px 20px 80px;
+  // padding: 0 20px;
 }
 
 .Guide__title {
-  @include font-style('font-1', 'b', 22px);
+  @include font-style('font-1', 'b', 19px);
   color: #222222;
   line-height: 30px;
 
@@ -22,7 +23,9 @@
 .Guide__description {
   margin-top: 8px;
   @include font-style('font-1', 'm', 15px);
+  text-align: center;
   color: #777D8F;
+  line-height: 20px;
 }
 
 .Guide__button {

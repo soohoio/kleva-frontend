@@ -1,7 +1,10 @@
 
 .WKLAYSwitchModal {
   
+  
   @include desktop {
+    overflow: unset;
+    
     .Modal__content {
       overflow: unset;
     }

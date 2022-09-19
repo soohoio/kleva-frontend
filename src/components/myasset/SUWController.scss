@@ -4,6 +4,8 @@
 
 .SUWController__modal {
   @include desktop {
+    overflow: unset;
+    
     .Modal__content {
       overflow: unset;
     }
