@@ -390,7 +390,7 @@ class SUWController extends Component {
 
         <div className="SUWController__willReceive">
           <span className="SUWController__willReceiveLabel">{I18n.t('willConvert', { title: "KLAY" })}</span>
-          <span className="SUWController__willReceiveAmount">{Number(this.bloc.withdrawAmount$.value).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
+          <span className="SUWController__willReceiveAmount">{Number(this.bloc.wklayAmountToUnwrap$.value).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
         </div>
         {this.renderButton()}
         <button

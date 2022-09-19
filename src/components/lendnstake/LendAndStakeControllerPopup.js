@@ -119,7 +119,7 @@ class LendAndStakeControllerPopup extends Component {
       return (
         <button
           onClick={() => {
-            // if (isDisabled) return
+            if (isDisabled) return
             this.bloc.deposit(stakingToken, vaultAddress)
           }}
           className={cx("LendAndStakeControllerPopup__confirmButton", {
