@@ -14,6 +14,7 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import RadioSet2 from '../common/RadioSet2'
 import LeverageController from '../LeverageController';
 import AddPosition from '../farming/AddPosition'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 import { calcKlevaRewardsAPR, toAPY } from '../../utils/calc'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { klevaAnnualRewards$ } from '../../streams/farming'
@@ -141,11 +142,17 @@ class FarmAPRDetailInfo extends Component {
           />
           <button
             className={cx("FarmAPRDetailInfo__button", {
-              "FarmAPRDetailInfo__button--disabled": !selectedAddress,
+              // "FarmAPRDetailInfo__button--disabled": !selectedAddress,
             })}
             onClick={() => {
 
-              if (!selectedAddress) return
+              if (!selectedAddress) {
+                openModal$.next({
+                  classNameAttach: "Modal--mobileCoverAll",
+                  component: <ConnectWalletPopup />
+                })
+                return
+              }
 
               closeModal$.next(true)
 

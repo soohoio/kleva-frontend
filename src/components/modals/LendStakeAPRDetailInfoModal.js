@@ -11,6 +11,7 @@ import LabelAndValue from '../LabelAndValue'
 import { nFormatter } from '../../utils/misc'
 import LendAndStakeControllerPopup from '../lendnstake/LendAndStakeControllerPopup'
 import { openModal$ } from '../../streams/ui'
+import ConnectWalletPopup from '../ConnectWalletPopup'
 
 class LendStakeAPRDetailInfoModal extends Component {
 
@@ -52,11 +53,18 @@ class LendStakeAPRDetailInfoModal extends Component {
         {!noButton && (
           <div
             className={cx("LendStakeAPRDetailInfoModal__depositButton", {
-              "LendStakeAPRDetailInfoModal__depositButton--disabled": isDepositDisabled || !selectedAddress
+              "LendStakeAPRDetailInfoModal__depositButton--disabled": isDepositDisabled,
             })}
             onClick={() => {
               if (isDepositDisabled) return
-              if (!selectedAddress) return
+
+              if (!selectedAddress) {
+                openModal$.next({
+                  classNameAttach: "Modal--mobileCoverAll",
+                  component: <ConnectWalletPopup />
+                })
+                return
+              }
 
               openModal$.next({
                 classNameAttach: 'Modal--mobileCoverAll',
