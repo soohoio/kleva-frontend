@@ -43,6 +43,12 @@
     margin-bottom: 0;
     border-radius: 8px;
     background-color: transparent !important;
+
+    &--open {
+      .Opener__item:first-of-type {
+        background-image: url(/static/images/exported/btn-up.svg);
+      }
+    }
   }
 
   .Opener__searchContainer {

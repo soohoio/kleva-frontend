@@ -23,6 +23,10 @@
     padding-left: 10px;
   }
 
+  &--opened {
+    background-image: url(/static/images/exported/up.svg);
+  }
+
   &--upper {
     .Dropdown__list {
       top: unset;
