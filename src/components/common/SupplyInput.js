@@ -58,7 +58,7 @@ class SupplyInput extends Component {
         </div>
         <InputWithPercentage
           placeholder={"0"}
-          zeroValueDisable
+          zeroValueDisable={false}
           focused$={focused$}
           decimalLimit={decimalLimit}
           imgSrc={imgSrc}
