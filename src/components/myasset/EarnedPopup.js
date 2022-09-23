@@ -107,6 +107,7 @@ class EarnedPopup extends Component {
 
     return (
       <Modal
+        noAnimation
         className="EarnedPopup"
         title={I18n.t('myasset.earned.klevaReward')}
       >

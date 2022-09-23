@@ -51,6 +51,7 @@
 }
 
 .MyAsset__connectGuide {
+  padding: 0 20px;
   .Guide__title {
     @include font-style('font-1', 'b', 22px);
     width: 100%;
@@ -84,9 +85,14 @@
 }
 
 .MyAsset__participateGuide {
+  padding: 0 20px;
   .Guide__title {
     @include font-style('font-1', 'b', 22px);
     width: 100%;
+
+    @include desktop {
+      margin-top: 10px;
+    }
   }
 
   .Guide__button {
@@ -101,8 +107,12 @@
   }
 
   .Guide__buttons {
+    margin-top: 12px;
     flex-direction: column;
-    margin-top: 20px;
+
+    @include desktop {
+      margin-top: 20px;
+    }
   }
 
   @include desktop {
