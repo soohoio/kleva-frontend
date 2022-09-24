@@ -62,7 +62,7 @@ class Withus extends Component {
             />
             <WithusItem
               href="https://www.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.svg"
+              imgSrc="/static/images/exported/withus-sooho.png"
             />
             <WithusItem
               href="https://birkosully.com/"
@@ -77,11 +77,11 @@ class Withus extends Component {
             />
             <WithusItem
               href="https://claimswap.org/"
-              imgSrc="/static/images/exported/withus-claimswap.svg"
+              imgSrc="/static/images/exported/withus-claimswap.png"
             />
             <WithusItem
               href="https://kokoa.finance/"
-              imgSrc="/static/images/exported/withus-kokoa.svg"
+              imgSrc="/static/images/exported/withus-kokoa.png"
             />
             <WithusItem
               href="https://klaytn.domains/"
@@ -89,7 +89,7 @@ class Withus extends Component {
             />
             <WithusItem
               href="https://kokonutswap.finance/"
-              imgSrc="/static/images/exported/withus-kokonut.svg"
+              imgSrc="/static/images/exported/withus-kokonut.png"
             />
           </div>
           <p className="Withus__category">Audit</p>
@@ -100,15 +100,15 @@ class Withus extends Component {
             />
             <WithusItem
               href="https://scvsoft.net/"
-              imgSrc="/static/images/exported/withus-scvsoft.svg"
+              imgSrc="/static/images/exported/withus-scvsoft.png"
             />
             <WithusItem
               href="https://audit.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho-audit.svg"
+              imgSrc="/static/images/exported/withus-sooho-audit.png"
             />
             <WithusItem
               href="https://www.slowmist.com/"
-              imgSrc="/static/images/exported/withus-slowmist.svg"
+              imgSrc="/static/images/exported/withus-slowmist.png"
             />
             <WithusItem
               href="https://hacken.io/"
