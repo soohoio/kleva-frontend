@@ -762,6 +762,19 @@ renderTotalValue = ({
             <SlippageSetting />
 
             <LabelAndValue
+              className="AdjustPosition__debtRatio"
+              label={I18n.t('myasset.farming.debtRatio')}
+              value={(
+                <>
+                  <BeforeAfter
+                    before={`${before_debtRatio.toFixed(2)}%`}
+                    after={`${debtRatio.toFixed(2)}%`}
+                  />
+                </>
+              )}
+            />
+
+            <LabelAndValue
               className="AdjustPosition__equity"
               label={(
                 <>

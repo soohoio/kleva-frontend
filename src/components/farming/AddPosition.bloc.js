@@ -253,11 +253,21 @@ export default class {
       .multipliedBy(baseTokenPrice)
       .toString()
 
-    const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD)
+    const borrowAmount = this.getAmountToBorrow()
+    
+    const borrowingInUSD = new BigNumber(borrowAmount || 0)
+      .div(10 ** this.baseToken$.value?.decimals)
+      .multipliedBy(baseTokenPrice)
+      .toString()
+
+    const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD).plus(borrowingInUSD)
 
     return {
       farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
-      baseValue: new BigNumber(baseInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
+      baseValue: new BigNumber(baseInUSD)
+        .plus(borrowingInUSD) // borrowing
+        .div(totalInUSD || 1)
+        .multipliedBy(100).toNumber(),
     }
   }
 

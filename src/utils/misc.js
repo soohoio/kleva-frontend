@@ -233,7 +233,7 @@ function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-export const noRounding = (num, digits) => {
+export const noRounding = (num, digits, noTrailingZero) => {
   if (String(num).indexOf('e-') !== -1) {
 
     if (num >= 1e-6) {
@@ -259,6 +259,10 @@ export const noRounding = (num, digits) => {
 
   if (digits == 0) {
     return integerWithCommas
+  }
+
+  if (noTrailingZero) {
+    return Number(integerWithCommas + "." + String(decimalPoints.slice(0, digits))).toString()
   }
 
   return integerWithCommas + "." + String(decimalPoints.slice(0, digits))

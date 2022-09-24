@@ -500,8 +500,6 @@ class ClosePosition extends Component {
     const before_apy = toAPY(before_totalAPR)
     const apy = toAPY(after_totalAPR)
 
-    const { value1, value2 } = this.bloc.getValueInUSD()
-
     const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
       .div(10 ** farmingToken.decimals)
       .toNumber()

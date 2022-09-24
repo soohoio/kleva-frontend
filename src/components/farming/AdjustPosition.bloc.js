@@ -130,9 +130,6 @@ export default class {
       .multipliedBy(Number(this.leverage$.value) - Number(this.before_leverage))
       .toFixed(0)
 
-    console.log(Number(this.leverage$.value), 'Number(this.leverage$.value)')
-    console.log(Number(this.before_leverage), 'Number(this.before_leverage)')
-
     return amountToBeBorrowed
   }
 
@@ -221,11 +218,21 @@ export default class {
       .multipliedBy(baseTokenPrice)
       .toString()
 
-    const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD)
+    const borrowAmount = this.getAmountToBorrow()
+
+    const borrowingInUSD = new BigNumber(borrowAmount || 0)
+      .div(10 ** this.baseToken$.value?.decimals)
+      .multipliedBy(baseTokenPrice)
+      .toString()
+
+    const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD).plus(borrowingInUSD)
 
     return {
       farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
-      baseValue: new BigNumber(baseInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
+      baseValue: new BigNumber(baseInUSD)
+        .plus(borrowingInUSD) // borrowing
+        .div(totalInUSD || 1)
+        .multipliedBy(100).toNumber(),
     }
   }
 
