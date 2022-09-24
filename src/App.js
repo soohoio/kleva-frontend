@@ -23,7 +23,7 @@ import {
   getYearlyKSP$,
 } from './streams/contract'
 
-import { path$ } from './streams/location'
+import { browserHistory$, path$, prevLocation$ } from './streams/location'
 
 import CoverLayer from 'components/CoverLayer'
 

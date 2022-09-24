@@ -10,6 +10,8 @@ import './UseGuide.scss'
 
 import { currentTab$ } from '../../streams/view'
 import { closeModal$ } from '../../streams/ui'
+import { prevLocation$ } from '../../streams/location'
+import { getQS } from '../../utils/misc'
 
 class UseGuide extends Component {
 
@@ -39,6 +41,11 @@ class UseGuide extends Component {
             {I18n.t('useGuide')}
             <img
               onClick={() => {
+                const prevQs = getQS(prevLocation$.value)
+                if (prevLocation$.value && prevQs?.t) {
+                  currentTab$.next(prevQs?.t)
+                  return
+                }
                 currentTab$.next('myasset')
               }}
               className="UseGuideHeader__close"

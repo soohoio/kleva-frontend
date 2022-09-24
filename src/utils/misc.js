@@ -290,8 +290,11 @@ export const replaceall = function (replaceThis, withThis, inThis) {
 
 window.replaceall = replaceall
 
-export const getQS = () => {
-  var a = window.location.search.substr(1).split('&');
+export const getQS = (location) => {
+  var a = location
+    ? location.search.substr(1).split('&')
+    : window.location.search.substr(1).split('&');
+
   if (a == "") return {};
   var b = {};
   for (var i = 0; i < a.length; ++i) {

@@ -6,6 +6,8 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './Withus.scss'
 
 import { currentTab$ } from '../../streams/view'
+import { getQS } from '../../utils/misc'
+import { prevLocation$ } from '../../streams/location'
 
 const WithusItem = ({ href, imgSrc }) => {
   return (
@@ -46,6 +48,11 @@ class Withus extends Component {
             With Us
             <img
               onClick={() => {
+                const prevQs = getQS(prevLocation$.value)
+                if (prevLocation$.value && prevQs?.t) {
+                  currentTab$.next(prevQs?.t)
+                  return
+                }
                 currentTab$.next('myasset')
               }}
               className="WithusHeader__close"

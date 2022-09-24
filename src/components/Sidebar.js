@@ -7,6 +7,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 import { path$ } from 'streams/location'
 
 import './Sidebar.scss'
+import { browserHistory$ } from '../streams/location'
 
 const SidebarItem = ({ active, onClickOverwrite, disabled, title, iconSrc, href, clientSideHref }) => {
   return (
@@ -24,7 +25,8 @@ const SidebarItem = ({ active, onClickOverwrite, disabled, title, iconSrc, href,
 
 
         if (clientSideHref) {
-          browserHistory.push(clientSideHref)
+          browserHistory$.next(clientSideHref)
+          // browserHistory.push(clientSideHref)
           return
         }
         window.open(href)

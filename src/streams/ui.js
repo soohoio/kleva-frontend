@@ -3,6 +3,7 @@ import { delay, distinctUntilChanged, skip, startWith, switchMap, takeUntil } fr
 import { v4 as uuidV4 } from 'uuid'
 import { currentTab$ } from './view'
 import { browserHistory } from 'react-router'
+import { browserHistory$ } from './location'
 
 export const modalContentComponent$ = new BehaviorSubject(null)
 export const overlayBackgroundColor$ = new BehaviorSubject(null)
@@ -169,11 +170,15 @@ currentTab$.pipe(
   contentView$.next(null)
   
   if (!tab) {
-    browserHistory.push('/')
+    console.log('here1')
+    browserHistory$.next('/')
+    // browserHistory.push('/')
     return
   }
 
-  browserHistory.push(`/main?t=${tab}`)
+  console.log('here2')
+  browserHistory$.next(`/main?t=${tab}`)
+  // browserHistory.push(`/main?t=${tab}`)
 })
 
 export const showStartButton$ = new BehaviorSubject(false)
