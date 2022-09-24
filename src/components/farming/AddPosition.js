@@ -409,8 +409,8 @@ class AddPosition extends Component {
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
         </>
       )
     }
@@ -418,8 +418,8 @@ class AddPosition extends Component {
     if (isKLAY(baseToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
         </>
       )
     }
@@ -429,16 +429,16 @@ class AddPosition extends Component {
     if (isSameAddress(token1.address, farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
+        <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
       </>
     )
   }
@@ -453,8 +453,8 @@ class AddPosition extends Component {
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
         </>
       )
     }
@@ -462,8 +462,8 @@ class AddPosition extends Component {
     if (isKLAY(baseToken.address)) {
       return (
         <>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
         </>
       )
     }
@@ -471,16 +471,16 @@ class AddPosition extends Component {
     if (isSameAddress(token1.address, farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(baseTokenAmount, 4)} {baseToken.title}</p>
-        <p>{nFormatter(farmingTokenAmount, 4)} {farmingToken.title}</p>
+        <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
+        <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
       </>
     )
   }
@@ -643,7 +643,7 @@ class AddPosition extends Component {
             <LabelAndValue
               className="AddPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(borrowingAmount, 4)} ${baseToken.title}`}
+              value={`${nFormatter(borrowingAmount)} ${baseToken.title}`}
             />
             <LabelAndValue
               className="AddPosition__totalDeposit"

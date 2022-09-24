@@ -714,15 +714,15 @@ class ClosePosition extends Component {
                       )}
                       value={(
                         <>
-                          <p>{nFormatter(equityFarmingAmount, 4)} {farmingTokenTitle}</p>
-                          <p>{nFormatter(equityBaseAmount, 4)} {baseTokenTitle}</p>
+                          <p>{nFormatter(equityFarmingAmount)} {farmingTokenTitle}</p>
+                          <p>{nFormatter(equityBaseAmount)} {baseTokenTitle}</p>
                         </>
                       )}
                     />
                     <LabelAndValue
                       className="ClosePosition__debt"
                       label={I18n.t('farming.summary.debt')}
-                      value={`${nFormatter(new BigNumber(this.bloc.newDebtValue$.value).div(10 ** baseToken.decimals).toNumber(), 4)} ${baseTokenTitle}`}
+                      value={`${nFormatter(new BigNumber(this.bloc.newDebtValue$.value).div(10 ** baseToken.decimals).toNumber())} ${baseTokenTitle}`}
                     />
                     <LabelAndValue
                       className="ClosePosition__debtRatio"

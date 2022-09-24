@@ -470,8 +470,8 @@ renderTotalValue = ({
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseTokenTitle}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingTokenTitle}</p>
         </>
       )
     }
@@ -479,8 +479,8 @@ renderTotalValue = ({
     if (isKLAY(baseToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingTokenTitle}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseTokenTitle}</p>
         </>
       )
     }
@@ -489,16 +489,16 @@ renderTotalValue = ({
     if (isSameAddress(token1.address, farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p>{nFormatter(resultBaseTokenAmount, 4)} {baseToken.title}</p>
+          <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
+          <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(resultBaseTokenAmount, 4)} {baseTokenTitle}</p>
-        <p>{nFormatter(resultFarmingTokenAmount, 4)} {farmingTokenTitle}</p>
+        <p>{nFormatter(resultBaseTokenAmount)} {baseTokenTitle}</p>
+        <p>{nFormatter(resultFarmingTokenAmount)} {farmingTokenTitle}</p>
       </>
     )
   }
@@ -539,8 +539,8 @@ renderTotalValue = ({
     if (isKLAY(farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseTokenTitle}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingTokenTitle}</p>
         </>
       )
     }
@@ -548,8 +548,8 @@ renderTotalValue = ({
     if (isKLAY(baseToken.address)) {
       return (
         <>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingTokenTitle}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseTokenTitle}</p>
         </>
       )
     }
@@ -558,16 +558,16 @@ renderTotalValue = ({
     if (isSameAddress(token1.address, farmingToken.address)) {
       return (
         <>
-          <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
-          <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
+          <p>{nFormatter(farmingTokenAmount)} {farmingTokenTitle}</p>
+          <p>{nFormatter(baseTokenAmount)} {baseTokenTitle}</p>
         </>
       )
     }
 
     return (
       <>
-        <p>{nFormatter(baseTokenAmount, 4)} {baseTokenTitle}</p>
-        <p>{nFormatter(farmingTokenAmount, 4)} {farmingTokenTitle}</p>
+        <p>{nFormatter(baseTokenAmount)} {baseTokenTitle}</p>
+        <p>{nFormatter(farmingTokenAmount)} {farmingTokenTitle}</p>
       </>
     )
   }
@@ -730,7 +730,7 @@ renderTotalValue = ({
                   <LabelAndValue
                     className="AdjustPosition__borrowingAsset" 
                     label={I18n.t('farming.adjustPosition.borrowingAsset')} 
-                    value={`${nFormatter(debtDelta, 4)} ${baseTokenTitle}`}
+                    value={`${nFormatter(debtDelta)} ${baseTokenTitle}`}
                   />
                   <LabelAndValue 
                     className="AdjustPosition__debtRatio"
@@ -790,7 +790,7 @@ renderTotalValue = ({
             <LabelAndValue
               className="AdjustPosition__debt"
               label={I18n.t('farming.summary.debt')}
-              value={`${nFormatter(resultDebtAmount, 4)} ${baseTokenTitle}`}
+              value={`${nFormatter(resultDebtAmount)} ${baseTokenTitle}`}
             />
             <LabelAndValue
               className="AdjustPosition__totalDeposit"
