@@ -849,8 +849,15 @@ export const getPositionInfo$ = (positionList) => {
     })
   )
 
-  return from(p1).pipe(
-    map((positionInfoList) => {
+  const p2 = multicall(
+    KlayswapCalculatorABI,
+    positionList.map(({ vaultAddress, workerAddress, positionId }) => {
+      return { address: KLAYSWAP_CALCULATOR, name: 'getLpIngridients', params: [workerAddress, positionId] }
+    })
+  )
+
+  return forkJoin([p1, p2]).pipe(
+    map(([positionInfoList, ingredientsList]) => {
 
       return showParamsOnCall(positionInfoList, ['positionValue', 'health', 'debtAmt']).reduce((acc, cur, idx) => {
 
@@ -860,6 +867,9 @@ export const getPositionInfo$ = (positionList) => {
         acc[_position.id]['positionValue'] = cur.positionValue
         acc[_position.id]['health'] = cur.health
         acc[_position.id]['debtValue'] = cur.debtAmt
+
+        acc[_position.id]['baseAmt'] = new BigNumber(ingredientsList[idx].baseAmt._hex).toString()
+        acc[_position.id]['farmAmt'] = new BigNumber(ingredientsList[idx].farmAmt._hex).toString()
         
         return acc
       }, {})

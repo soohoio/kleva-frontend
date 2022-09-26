@@ -107,6 +107,9 @@ class FarmAssetCard extends Component {
 
       token1,
       token2,
+
+      equityFarmingAmount,
+      equityBaseAmount,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -247,7 +250,9 @@ class FarmAssetCard extends Component {
               <>
                 {/* <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
                 <p>{noRounding(new BigNumber(userBaseTokenAmount).minus(debtValueParsed).toNumber(), 4)} {baseToken.title}</p> */}
-                <p>{equityValueParsed} {baseToken.title}</p>
+                {/* <p>{equityValueParsed} {baseToken.title}</p> */}
+                <p>{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
+                <p>{nFormatter(equityBaseAmount)} {baseToken.title}</p>
               </>
             )}
           />

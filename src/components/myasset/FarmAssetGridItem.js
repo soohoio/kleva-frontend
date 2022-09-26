@@ -97,6 +97,9 @@ class FarmAssetGridItem extends Component {
       userFarmingTokenAmount,
       userBaseTokenAmount,
 
+      equityFarmingAmount,
+      equityBaseAmount,
+
       selectedAddress,
       lpToken,
       lpShare,
@@ -203,7 +206,8 @@ class FarmAssetGridItem extends Component {
           <p className="FarmAssetGridItem__assetValue">{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
         </div>
         <div className="FarmAssetGridItem__equityValue">
-          <p className="FarmAssetGridItem__assetValue">{noRounding(equityValueParsed, 4)} {baseToken.title}</p>
+          <p className="FarmAssetGridItem__assetValue">{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
+          <p className="FarmAssetGridItem__assetValue">{nFormatter(equityBaseAmount)} {baseToken.title}</p>
         </div>
         <div className="FarmAssetGridItem__debt">
           <p>

@@ -38,7 +38,6 @@ class ClosePosition extends Component {
   bloc = new Bloc(this)
 
   componentDidMount() {
-
     forkJoin(
       getLpIngridients$({
         workerAddress: this.props.workerInfo.workerAddress,
@@ -80,46 +79,7 @@ class ClosePosition extends Component {
         this.bloc.farmingTokenAmount$,
         this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
-      ).pipe(
-        // switchMap(() => this.bloc.getOpenPositionResult$()),
-        // tap(() => {
-
-        //   const { baseToken } = this.props
-
-        //   const newPositionValue = this.bloc.positionValue$.value
-        //   const { rawKillFactorBps, workFactorBps } = this.bloc.getConfig()
-
-        //   // Check add collateral available
-
-        //   const _addCollateralAvailable = new BigNumber(newPositionValue)
-        //     .multipliedBy(rawKillFactorBps)
-        //     .gte(new BigNumber(this.bloc.before_debtAmount$.value).multipliedBy(10 ** 4))
-
-        //   this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
-
-        //   const amountToBeBorrowed = this.bloc.getAmountToBorrow()
-
-        //   const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
-        //     .plus(amountToBeBorrowed)
-        //     .toString()
-
-        //   // this.bloc.newDebtValue$.next(newDebtValue)
-
-        //   // Check borrow more valid
-        //   const ibToken = getIbTokenFromOriginalToken(baseToken)
-        //   const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
-
-        //   this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
-
-        //   const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
-        //   const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
-
-        //   const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
-
-        //   this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
-        // })
       ),
-
       this.bloc.before_positionValue$,
       this.bloc.before_health$,
       this.bloc.before_debtAmount$,
@@ -267,6 +227,7 @@ class ClosePosition extends Component {
             const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
             const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+            this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
 
             const minDebtSizeParsed = new BigNumber(ibToken?.minDebtSize).div(10 ** ibToken?.decimals).toString()
 
@@ -500,14 +461,6 @@ class ClosePosition extends Component {
     const before_apy = toAPY(before_totalAPR)
     const apy = toAPY(after_totalAPR)
 
-    const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
-      .div(10 ** farmingToken.decimals)
-      .toNumber()
-
-    const resultBaseTokenAmount = new BigNumber(this.bloc.resultBaseTokenAmount$.value)
-      .div(10 ** baseToken.decimals)
-      .toNumber()
-
     const resultDebtAmount = new BigNumber(this.bloc.newDebtValue$.value)
       .div(10 ** baseToken.decimals)
       .toNumber()
@@ -519,10 +472,10 @@ class ClosePosition extends Component {
       .toNumber()
 
     const equityBaseAmount = new BigNumber(this.bloc.before_baseAmount$.value || 0)
-      .minus(this.bloc.before_debtAmount$.value)
       .div(10 ** baseToken.decimals)
       .multipliedBy(100 - this.bloc.partialCloseRatio$.value)
       .div(100)
+      .minus(resultDebtAmount)
       .toNumber()
 
     // debt ratio
@@ -663,18 +616,11 @@ class ClosePosition extends Component {
                     repayDebtRatio$={this.bloc.repayDebtRatio$}
                     debtRepaymentAmount$={this.bloc.debtRepaymentAmount$}
                     repayPercentageLimit={this.bloc.repayPercentageLimit$.value}
-
                     minPartialCloseRatio$={this.bloc.minPartialCloseRatio$}
                     maxPartialCloseRatio$={this.bloc.maxPartialCloseRatio$}
                     minRepaymentDebtRatio$={this.bloc.minRepaymentDebtRatio$}
                     maxRepaymentDebtRatio$={this.bloc.maxRepaymentDebtRatio$}
                   />
-                  {/* {this.bloc.partialCloseAvailable$.value?.reason && (
-                    <p className="ClosePositionPopup__warn">
-                      {this.bloc.partialCloseAvailable$.value?.reason}
-                    </p>
-                  )} */}
-
                   <div className="ClosePosition__remainInfo">
                     <p className="ClosePosition__remainInfoTitle">{I18n.t('farming.closePosition.remainedAsset')}</p>
                     <LabelAndValue

@@ -243,11 +243,24 @@ class FarmingAssetList extends Component {
                     workerInfo,
                     farmingPositionValueInUSD,
                   }) => {
+
+                    const equityFarmingAmount = new BigNumber(positionInfo.farmAmt)
+                      .div(10 ** positionInfo?.farmingToken?.decimals)
+                      .toNumber()
+
+                    const equityBaseAmount = new BigNumber(positionInfo.baseAmt)
+                      .minus(positionInfo.debtValue)
+                      .div(10 ** positionInfo?.baseToken?.decimals)
+                      .toNumber()
+
                     return (
                       <FarmAssetCard
                         key={positionInfo && positionInfo.id}
 
                         selectedAddress={selectedAddress$.value}
+
+                        equityFarmingAmount={equityFarmingAmount}
+                        equityBaseAmount={equityBaseAmount}
 
                         userFarmingTokenAmount={userFarmingTokenAmount}
                         userBaseTokenAmount={userBaseTokenAmount}
@@ -335,11 +348,24 @@ class FarmingAssetList extends Component {
                       workerInfo,
                       farmingPositionValueInUSD,
                     }) => {
+
+                      const equityFarmingAmount = new BigNumber(positionInfo.farmAmt)
+                        .div(10 ** positionInfo?.farmingToken?.decimals)
+                        .toNumber()
+
+                      const equityBaseAmount = new BigNumber(positionInfo.baseAmt)
+                        .minus(positionInfo.debtValue)
+                        .div(10 ** positionInfo?.baseToken?.decimals)
+                        .toNumber()
+
                       return (
                         <FarmAssetGridItem
                           key={positionInfo && positionInfo.id}
 
                           selectedAddress={selectedAddress$.value}
+
+                          equityFarmingAmount={equityFarmingAmount}
+                          equityBaseAmount={equityBaseAmount}
 
                           userFarmingTokenAmount={userFarmingTokenAmount}
                           userBaseTokenAmount={userBaseTokenAmount}
