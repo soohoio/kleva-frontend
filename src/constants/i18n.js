@@ -385,10 +385,10 @@ export const en = {
 
   'burn': 'Burn',
   'burnHistory': 'Burn History',
-  'burnAmount': 'Burn Amount',
-  'detail': 'Detail',
+  'burnAmount': 'Amount Burned',
+  'detail': 'Details',
   'date': 'Date',
-  'seeTx': 'Link',
+  'seeTx': 'Link'
 }
 
 export const ko = {
