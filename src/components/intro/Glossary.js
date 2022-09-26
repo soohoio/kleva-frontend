@@ -108,7 +108,8 @@ class Glossary extends Component {
               "Glossary__tab--active": this.scrollAt$.value == 'defiGeneral',
             })}
             onClick={() => {
-
+              const $tabs = document.querySelector('.Glossary__tabs')
+              $tabs.scrollLeft = 0
             }}
           >
             {I18n.t('glossary.defiGeneral')}
@@ -119,7 +120,7 @@ class Glossary extends Component {
               "Glossary__tab--active": this.scrollAt$.value == 'lending',
             })}
             onClick={() => {
-
+              
             }}
           >
             {I18n.t('glossary.lend')}
@@ -130,7 +131,8 @@ class Glossary extends Component {
               "Glossary__tab--active": this.scrollAt$.value == 'farming',
             })}
             onClick={() => {
-
+              const $tabs = document.querySelector('.Glossary__tabs')
+              $tabs.scrollLeft = $tabs.scrollWidth - $tabs.offsetWidth
             }}
           >
             {I18n.t('glossary.farming')}
