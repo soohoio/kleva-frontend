@@ -86,10 +86,7 @@ class ConnectWalletPopup extends Component {
                 walletType$.next("klip")
                 selectedAddress$.next(result && result.klaytn_address)
                 walletProviderName$.next('Klip')
-
-                if (!isMobile) {
-                  closeModal$.next(true)
-                }
+                closeModal$.next(true)
               })
             }}
           />
