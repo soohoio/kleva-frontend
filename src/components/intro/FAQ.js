@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './FAQ.scss'
 import { I18n } from '../common/I18n'
 
-const FAQItem = ({ title, description, onClick, isActive }) => {
+const FAQItem = ({ title, href, description, onClick, isActive }) => {
   return (
     <div 
       className={cx("FAQItem", {
@@ -18,7 +18,7 @@ const FAQItem = ({ title, description, onClick, isActive }) => {
         <>
           <p className="FAQItem__description">{description}</p>
           <p
-            onClick={() => window.open('https://docs.kleva.io')}
+            onClick={() => window.open(href || 'https://docs.kleva.io')}
             className="FAQItem__link"
           >
             {I18n.t('intro7.seeDetail')}
@@ -65,24 +65,28 @@ class FAQ extends Component {
       <div className="FAQ">
         <p className="FAQ__title">{I18n.t('intro7.title')}</p>
         <FAQItem 
+          href={I18n.t('href.faq.1.q')}
           title={I18n.t('faq.1.q')} 
           description={I18n.t('faq.1.description')} 
           isActive={this.activeIdx$.value == 1}
           onClick={() => this.toggleActive(1)}
         />
         <FAQItem 
+          href={I18n.t('href.faq.2.q')}
           title={I18n.t('faq.2.q')} 
           description={I18n.t('faq.2.description')} 
           isActive={this.activeIdx$.value == 2}
           onClick={() => this.toggleActive(2)}
         />
         <FAQItem 
+          href={I18n.t('href.faq.3.q')}
           title={I18n.t('faq.3.q')} 
           description={I18n.t('faq.3.description')} 
           isActive={this.activeIdx$.value == 3}
           onClick={() => this.toggleActive(3)}
         />
         <FAQItem 
+          href={I18n.t('href.faq.4.q')}
           title={I18n.t('faq.4.q')} 
           description={I18n.t('faq.4.description')} 
           isActive={this.activeIdx$.value == 4}

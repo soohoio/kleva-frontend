@@ -372,6 +372,11 @@ export const en = {
   'href.video.2': 'https://youtu.be/oDe-o0DJO9U',
   'href.video.3': 'https://youtu.be/GpqmdwvvM6Q',
 
+  'href.faq.1.q': "https://docs.kleva.io/v/copy-of-english/tokenomics/kleva-token",
+  'href.faq.2.q': "https://docs.kleva.io/v/copy-of-english/overview/ibtokens",
+  'href.faq.3.q': "https://docs.kleva.io/v/copy-of-english/protocol-details/parameters#interest-rate-model-lending-apr",
+  'href.faq.4.q': "https://docs.kleva.io/v/copy-of-english/guide/withdraw",
+
   'burn': 'Burn',
   'burnHistory': 'Burn History',
   'burnAmount': 'Burn Amount',
@@ -753,6 +758,11 @@ export const ko = {
   'href.video.1': 'https://youtu.be/m-_6dgnGyY4',
   'href.video.2': 'https://youtu.be/GIWDAHHehvg',
   'href.video.3': 'https://youtu.be/ECAvGBTsPHU',
+
+  'href.faq.1.q': "https://docs.kleva.io/undefined-3/kleva",
+  'href.faq.2.q': "https://docs.kleva.io/undefined-1/ibtokens",
+  'href.faq.3.q': "https://docs.kleva.io/undefined-2/undefined#undefined-2",
+  'href.faq.4.q': "https://docs.kleva.io/undefined-4/withdraw",
 
   'burn': '소각',
   'burnHistory': '소각 내역',
