@@ -34,12 +34,15 @@ class NotificationBanner extends Component {
         key: "items001",
         category: 'notice',
         content: 'notice.1',
-        href: 'https://bit.ly/3NXDcgN',
+        href: 'https://klevaprotocol.info/UX_Update_Main',
+      },
+      {
+        key: "items002",
+        category: 'notice',
+        content: 'notice.2',
+        href: 'https://klevaprotocol.info/Report_Aug2022',
       },
     ]
-    // .filter(({ key }) => {
-    //   return !readNotiMap$.value[key]
-    // })
 
     return items
   }

@@ -36,7 +36,8 @@ export const en = {
   'docsShortcut': 'KLEVA Docs',
   'mediumShortcut': 'KLEVA Medium',
   'notice': 'Notice',
-  'notice.1': 'KLEVA Buyback & Burn #1',
+  'notice.1': 'UX Reneal of KLEVA Protocol is now implemented',
+  'notice.2': 'Monthly Community Report for August, 2022',
 
   'dashboard.tvlChart.title': 'Total Value Locked',
   'dashboard.lendingChart.title': 'Lending TVL',
@@ -422,7 +423,8 @@ export const ko = {
   'docsShortcut': 'Docs 바로가기',
   'mediumShortcut': 'Medium 바로가기',
   'notice': '공지',
-  'notice.1': 'KLEVA 토큰 첫 번째 소각 작업 완료!',
+  'notice.1': 'KLEVA 프로토콜 UX 전면 개편 안내',
+  'notice.2': '2022년 8월 커뮤니티 리포트',
 
   'dashboard.tvlChart.title': '운용 자산 규모',
   'dashboard.lendingChart.title': '총 예치 규모',
