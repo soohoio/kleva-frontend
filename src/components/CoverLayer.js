@@ -25,6 +25,7 @@ class CoverLayer extends Component<Props> {
         tap(() => {
           $html.style.top = `-${window.scrollY}px`;
           $html.style.position = 'fixed'
+          $html.style.width = '100%'
         })
       ),
       merge(
@@ -34,6 +35,7 @@ class CoverLayer extends Component<Props> {
           const scrollY = $html.style.top.replace('px', '')
           $html.style.position = ''
           $html.style.top = ''
+          $html.style.width = ''
           window.scrollTo({
             top: parseInt(scrollY || '0') * -1,
             left: 0,
