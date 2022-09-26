@@ -733,7 +733,7 @@ renderTotalValue = ({
                     value={`${nFormatter(debtDelta)} ${baseTokenTitle}`}
                   />
                   <LabelAndValue 
-                    className="AdjustPosition__debtRatio"
+                    className="AdjustPosition__debtRatio2"
                     label={I18n.t('myasset.farming.debtRatio')}
                     value={(
                       <>

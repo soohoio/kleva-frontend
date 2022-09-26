@@ -146,10 +146,35 @@
   }
 }
 
-.AdjustPosition__debtRatio {
+.AdjustPosition__debtRatio2 {
   .LabelAndValue__label {
     @include font-style('font-1', 'm', 15px);
-    color: #636879;
+  }
+  
+  .LabelAndValue__value {
+    @include font-style('font-1', 'b', 16px);
+    color: #333333;
+  }
+
+  .BeforeAfter__before {
+    font-size: 16px;
+  }
+  
+  .BeforeAfter__after {
+    @include font-style('font-1', 'b', 16px);
+  }
+}
+
+.AdjustPosition__debtRatio {
+
+  margin-bottom: 15px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'm', 15px);
+    // color: #636879;
+    
+    font-weight: 700;
+    color: #222;
   }
   
   .LabelAndValue__value {
