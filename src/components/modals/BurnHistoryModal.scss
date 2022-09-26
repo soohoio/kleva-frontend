@@ -106,15 +106,15 @@
   width: 100%;
   display: grid;
   height: 28px;
-  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+  grid-template-columns: 1.5fr 2fr 1.7fr 0.7fr;
 }
 
 .BurnHistoryModal__gridContentItem {
   width: 100%;
   display: grid;
-  height: 45px;
   align-items: center;
-  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+  height: 46px;
+  grid-template-columns: 1.5fr 2fr 1.7fr 0.7fr;
   border-top: 1px solid #F0F2F7;
 
   &:last-of-type {
@@ -195,9 +195,9 @@
     display: flex;
     background-image: url(/static/images/exported/right-gray-arrow.svg);
     background-repeat: no-repeat;
-    width: 8px;
-    height: 13px;
+    width: 7px;
+    height: 11px;
     background-size: 100%;
-    margin-left: 4px;
+    margin-left: 3px;
   }
 }
