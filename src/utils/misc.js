@@ -1,4 +1,6 @@
 import { currentLocale$ } from 'streams/i18n'
+import { browserHistory$ } from '../streams/location'
+import { prevLocation$ } from '../streams/location'
 
 export const addressKeyFind = (item, address) => {
   return item?.[address] || item?.[address.toLowerCase()]
@@ -305,4 +307,19 @@ export const getQS = (location) => {
       b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
   }
   return b;
+}
+
+export const backPage = () => {
+  const prevQs = getQS(prevLocation$.value)
+
+  if (prevLocation$.value && prevQs?.t) {
+    currentTab$.next(prevQs?.t)
+    return
+  }
+
+  if (prevLocation$.value.pathname === "/") {
+    browserHistory$.next('/')
+    return
+  }
+  currentTab$.next('myasset')
 }

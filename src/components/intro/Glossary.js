@@ -11,7 +11,7 @@ import { currentTab$ } from '../../streams/view'
 import { range } from 'lodash'
 import { openModal$ } from '../../streams/ui'
 import Modal from '../common/Modal'
-import { getQS } from '../../utils/misc'
+import { backPage, getQS } from '../../utils/misc'
 import { prevLocation$ } from '../../streams/location'
 
 const GlossaryItem = ({ href, imgSrc }) => {
@@ -94,12 +94,7 @@ class Glossary extends Component {
             {I18n.t('glossary')}
             <img
               onClick={() => {
-                const prevQs = getQS(prevLocation$.value)
-                if (prevLocation$.value && prevQs?.t) {
-                  currentTab$.next(prevQs?.t)
-                  return
-                }
-                currentTab$.next('myasset')
+                backPage()
               }}
               className="GlossaryHeader__close"
               src="/static/images/exported/x.svg"

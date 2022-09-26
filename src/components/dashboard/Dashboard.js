@@ -9,7 +9,7 @@ import { I18n } from 'components/common/I18n'
 import { prevPath$ } from 'streams/location'
 import { chartData$, fetchChartData$ } from '../../streams/chart'
 import ChartItem from './ChartItem'
-import { noRounding, getQS } from '../../utils/misc'
+import { noRounding, getQS, backPage } from '../../utils/misc'
 import TotalSupplyInfo from './TotalSupplyInfo'
 import { currentTab$ } from '../../streams/view'
 import ThickHR from '../common/ThickHR'
@@ -58,12 +58,17 @@ class Dashboard extends Component {
             <img
               onClick={() => {
 
-                const prevQs = getQS(prevLocation$.value)
-                if (prevLocation$.value && prevQs?.t) {
-                  currentTab$.next(prevQs?.t)
-                  return
-                }
-                currentTab$.next('myasset')
+                backPage()
+
+                // const prevQs = getQS(prevLocation$.value)
+
+                // console.log(prevLocation$.value, 'prevLocation$.value')
+
+                // if (prevLocation$.value && prevQs?.t) {
+                //   currentTab$.next(prevQs?.t)
+                //   return
+                // }
+                // currentTab$.next('myasset')
               }}
               className="DashboardHeader__close"
               src="/static/images/close-black.svg"
