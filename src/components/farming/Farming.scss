@@ -30,6 +30,7 @@
 
 .Farming__introMisc {
   @include font-style('font-1', 'sb', 16px);
+  cursor: pointer;
   color: #3C6BFA;
 
   display: flex;

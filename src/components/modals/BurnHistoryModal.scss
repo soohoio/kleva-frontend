@@ -1,0 +1,203 @@
+.BurnHistoryModal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  // overflow: scroll;
+  z-index: 99;
+
+  // scroll-behavior:smooth;
+
+  @include desktop {
+    height: auto;
+    width: 395px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    max-height: calc(90vh - 60px);
+    overflow: scroll;
+    padding: 35px 30px 35px;
+    border-radius: 10px;
+  }
+
+  text {
+    @include font-style('font-1', 'r', 11px);
+  }
+}
+
+.BurnHistoryModalHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  // height: 60px;
+  // margin-bottom: 20px;
+
+  padding: 18px 20px; 
+
+  @include desktop {
+    margin-bottom: 30px;
+    padding: 0;
+  }
+}
+
+.BurnHistoryModalHeader__title {
+  @include font-style('font-1', 'b', 20px);
+  line-height: 24px;
+  color: #222222;
+  
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  @include desktop {
+    @include font-style('font-1', 'b', 24px);
+    text-align: left;
+    line-height: 29px;
+  }
+}
+
+.BurnHistoryModalHeader__close {
+  width: 30px;
+  height: 30px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -5px;
+  cursor: pointer;
+
+  @include desktop {
+    top: 0;
+    // display: none;
+  }
+}
+
+.BurnHistoryModal__content {
+  width: 100%;
+  padding: 0 20px;
+  // padding: 20px 25px 0 25px;
+  padding-bottom: 0;
+  overflow: scroll;
+  scroll-behavior: smooth;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  @include desktop {
+    width: 100%;
+    padding: 0;
+    // padding: 0 20px 0 0px;
+  }
+}
+
+.BurnHistoryModal__gridHeader {
+  width: 100%;
+  display: grid;
+  height: 28px;
+  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+}
+
+.BurnHistoryModal__gridContentItem {
+  width: 100%;
+  display: grid;
+  height: 45px;
+  align-items: center;
+  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+  border-top: 1px solid #F0F2F7;
+
+  &:last-of-type {
+    border-bottom: 1px solid #F0F2F7;
+  }
+}
+
+.BurnHistoryModal__header-date {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  color: #777D8F;
+}
+
+.BurnHistoryModal__header-burnAmount {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  color: #777D8F;
+
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.BurnHistoryModal__header-detail {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  color: #777D8F;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+}
+
+.BurnHistoryModal__header-tx {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  color: #777D8F;
+
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 14px;
+}
+
+.BurnHistoryModal__date {
+  @include font-style('font-1', 'r', 13px);
+  line-height: 15px;
+  color: #969BAB;
+}
+
+.BurnHistoryModal__burnAmount {
+  @include font-style('font-1', 'm', 13px);
+  color: #4C505C;
+  line-height: 15px;
+
+  text-align: right;
+  padding-right: 10px;
+}
+
+.BurnHistoryModal__detail {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  text-align: center;
+  color: #969BAB;
+}
+
+.BurnHistoryModal__tx {
+  @include font-style('font-1', 'm', 13px);
+  line-height: 15px;
+  color: #8B96B2;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: flex-end;
+
+
+  &::after {
+    content: "";
+    display: flex;
+    background-image: url(/static/images/exported/right-gray-arrow.svg);
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 13px;
+    background-size: 100%;
+    margin-left: 4px;
+  }
+}

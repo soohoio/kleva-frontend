@@ -367,6 +367,17 @@ export const en = {
   'processing': 'Transaction Loading',
   'convert.completed.title': 'Successfully Wrapped',
   'convert.completed.description': 'Deposit your <text style="color: #3C6BFA;">WKLAYs</text>',
+
+  'href.video.1': 'https://youtu.be/9PvNPG50Dkk',
+  'href.video.2': 'https://youtu.be/oDe-o0DJO9U',
+  'href.video.3': 'https://youtu.be/GpqmdwvvM6Q',
+
+  'burn': 'Burn',
+  'burnHistory': 'Burn History',
+  'burnAmount': 'Burn Amount',
+  'detail': 'Detail',
+  'date': 'Date',
+  'seeTx': 'Link',
 }
 
 export const ko = {
@@ -738,6 +749,17 @@ export const ko = {
   'processing': '거래를 진행 중입니다.',
   'convert.completed.title': '전환 완료되었습니다.',
   'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
+
+  'href.video.1': 'https://youtu.be/m-_6dgnGyY4',
+  'href.video.2': 'https://youtu.be/GIWDAHHehvg',
+  'href.video.3': 'https://youtu.be/ECAvGBTsPHU',
+
+  'burn': '소각',
+  'burnHistory': '소각 내역',
+  'burnAmount': '소각 수량',
+  'detail': '상세',
+  'date': '일자',
+  'seeTx': '보기',
 }
 
 export const zh = {

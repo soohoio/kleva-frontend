@@ -6,9 +6,11 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './Intro5.scss'
 import { I18n } from '../common/I18n'
 
-export const VideoItem = ({ className, imgSrc, title, subtitle, description, action }) => {
+export const VideoItem = ({ href, className, imgSrc, title, subtitle, description, action }) => {
   return (
-    <div className={cx("VideoItem", className)}>
+    <div onClick={() => {
+      window.open(href)
+    }} className={cx("VideoItem", className)}>
       <div className="VideoItem__imageWrapper">
         <img className="VideoItem__image" src={imgSrc} />
       </div>
@@ -48,11 +50,13 @@ class Intro5 extends Component {
         <p className="Intro5__title">{I18n.t('intro5.title')}</p>
         <div className="Intro5__content">
           <VideoItem
+            href={I18n.t('href.video.1')}
             imgSrc="/static/images/intro/tutorial_thum_1.png"
             title={I18n.t('intro5.video1.title')}
             description={I18n.t('intro5.video1.description')}
           />
           <VideoItem
+            href={I18n.t('href.video.2')}
             className="VideoItem--2"
             imgSrc="/static/images/intro/tutorial_thum_2.png"
             title={I18n.t('intro5.video2.title')}
@@ -60,6 +64,7 @@ class Intro5 extends Component {
             description={I18n.t('intro5.video2.description')}
           />
           <VideoItem
+            href={I18n.t('href.video.3')}
             className="VideoItem--3"
             imgSrc="/static/images/intro/tutorial_thum_3.png"
             title={I18n.t('intro5.video3.title')}

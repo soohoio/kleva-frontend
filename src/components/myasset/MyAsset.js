@@ -31,9 +31,13 @@ class MyAsset extends Component {
   destroy$ = new Subject()
 
   // lendnstake, farming
-  assetMenu$ = new BehaviorSubject('lendnstake')
-
+  
   firstLoading$ = new BehaviorSubject(true)
+  
+  constructor(props) {
+    super(props)
+    this.assetMenu$ = new BehaviorSubject(props.defaultAssetMenu || 'lendnstake')
+  }
 
   componentDidMount() {
     merge(

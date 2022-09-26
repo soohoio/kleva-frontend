@@ -17,6 +17,7 @@ import Withus from '../components/intro/Withus'
 import UseGuide from '../components/intro/UseGuide'
 import { contentView$, isDesktop$ } from '../streams/ui'
 import Glossary from '../components/intro/Glossary'
+import { getQS } from '../utils/misc'
 
 class MainPage extends Component {
   destroy$ = new Subject()
@@ -40,8 +41,12 @@ class MainPage extends Component {
 
   renderTab = () => {
 
-    if (currentTab$.value == 'myasset') {
-      return <MyAsset />
+    if (currentTab$.value.indexOf('myasset') !== -1) {
+      const qs = getQS({
+        search: String(currentTab$.value)
+      })
+
+      return <MyAsset defaultAssetMenu={qs?.assetMenu} />
     }
 
     if (currentTab$.value == 'lendnstake') {

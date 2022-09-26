@@ -26,6 +26,7 @@
 .LendAndStake__introMisc {
   @include font-style('font-1', 'sb', 16px);
   color: #3C6BFA;
+  cursor: pointer;
 
   display: flex;
   align-items: center;

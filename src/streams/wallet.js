@@ -19,7 +19,7 @@ export const walletProviderName$ = new BehaviorSubject()
 selectedAddress$.pipe(
   distinctUntilChanged()
 ).subscribe(() => {
-  closeModal$.next(true)
+  // closeModal$.next(true)
 })
 
 selectedAddress$.pipe(

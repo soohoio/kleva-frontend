@@ -6,7 +6,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 import { modalContentComponent$, overlayBackgroundColor$, openModal$, closeModal$ } from 'streams/ui'
 
 import './CoverLayer.scss'
-import { closeLayeredModal$, layeredModalContentComponent$, modalAnimation$ } from '../streams/ui'
+import { closeLayeredModal$, layeredModalContentComponent$, modalAnimation$, openContentView$, closeContentView$, openLayeredModal$ } from '../streams/ui'
 
 type Props = {
 
@@ -16,19 +16,32 @@ class CoverLayer extends Component<Props> {
   destroy$ = new Subject()
 
   componentDidMount() {
-    merge(
-      modalContentComponent$.pipe(
-        tap((contentComponent) => {
-          const $html = document.querySelector('html')
+    const $html = document.querySelector('html')
 
-          if (contentComponent) {
-            $html.className = "locked"
-            return
-          }
-          
-          $html.className = ""
+    merge(
+      merge(
+        openModal$,
+      ).pipe(
+        tap(() => {
+          $html.style.top = `-${window.scrollY}px`;
+          $html.style.position = 'fixed'
         })
       ),
+      merge(
+        closeModal$,
+      ).pipe(
+        tap(() => {
+          const scrollY = $html.style.top.replace('px', '')
+          $html.style.position = ''
+          $html.style.top = ''
+          window.scrollTo({
+            top: parseInt(scrollY || '0') * -1,
+            left: 0,
+            behavior: "instant",
+          })
+        })
+      ),
+      modalContentComponent$,
       layeredModalContentComponent$,
       modalAnimation$,
     ).pipe(

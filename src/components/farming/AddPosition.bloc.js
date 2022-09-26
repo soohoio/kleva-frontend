@@ -367,7 +367,7 @@ export default class {
               title: I18n.t('viewInMyAsset'),
               onClick: () => {
                 closeModal$.next(true)
-                currentTab$.next('myasset')
+                currentTab$.next('myasset&assetMenu=farming')
               }
             },
             {

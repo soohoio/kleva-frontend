@@ -10,10 +10,11 @@ import { I18n } from '../common/I18n'
 import { noRounding } from '../../utils/misc'
 import LabelAndValue from '../LabelAndValue'
 import QuestionMark from '../common/QuestionMark'
-import { openModal$ } from '../../streams/ui'
+import { openModal$, openLayeredModal$ } from '../../streams/ui'
 import LockupInfoModal from '../modals/LockupInfoModal'
 import { tokenList } from '../../constants/tokens'
 import { tokenPrices$ } from '../../streams/tokenPrice'
+import BurnHistoryModal from '../modals/BurnHistoryModal'
 
 class TotalSupplyInfo extends Component {
   bloc = new Bloc(this)
@@ -141,7 +142,15 @@ class TotalSupplyInfo extends Component {
           label={I18n.t('dashboard.accumBuybackValue.title')}
           value={`$${noRounding(accumBuybackInUSD, 0)}`}
         />
-        <button className="TotalSupplyInfo__see">
+        <button
+          onClick={() => {
+            openModal$.next({
+              classNameAttach: "Modal--mobileCoverAll",
+              component: <BurnHistoryModal />
+            })
+          }}
+          className="TotalSupplyInfo__see"
+        >
           {I18n.t('dashboard.accumBurnAmount.view')}
         </button>
       </div>

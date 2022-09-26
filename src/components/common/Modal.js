@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
-import { debounceTime, takeUntil, tap } from 'rxjs/operators'
+import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
 import { classNameAttach$, classNameAttachLayered$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'

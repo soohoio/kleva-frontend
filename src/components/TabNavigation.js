@@ -56,7 +56,7 @@ class TabNavigation extends Component {
             <div className="TabNavigation__tabs">
               <TabNavigationItem 
                 onClick={() => currentTab$.next('myasset')} 
-                isActive={path$.value === '/main' && currentTab$.value === 'myasset'} 
+                isActive={path$.value === '/main' && currentTab$.value.indexOf('myasset') !== -1}
                 title={I18n.t('myasset')} 
               />
               <TabNavigationItem 

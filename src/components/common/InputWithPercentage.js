@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
-import { Subject, merge, BehaviorSubject, fromEvent } from 'rxjs'
+import { Subject, merge, BehaviorSubject, fromEvent, timer } from 'rxjs'
 import { debounceTime, distinctUntilChanged, take, takeUntil, tap } from 'rxjs/operators'
 
 import Opener from 'components/common/Opener'
@@ -77,6 +77,21 @@ class InputWithPercentage extends Component {
 
     // Initial value
     this.selectedItem$.next(percentItems[0])
+
+    // auto focus (HACK for safari)
+    if (this.props.autoFocus) {
+      setTimeout(() => {
+        if (this.$input?.current) {
+          console.log('focus')
+          this.$input.current.focus()
+          var e = new Event('touchstart')
+          var e2 = new Event('touchend')
+          this.$input.current.dispatchEvent(e)
+          this.$input.current.dispatchEvent(e2)
+          this.setState({ isFocused: true })
+        }
+      }, 0)
+    }
   }
   
   componentWillUnmount() {

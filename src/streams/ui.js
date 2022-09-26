@@ -84,10 +84,7 @@ export const classNameAttach$ = new BehaviorSubject()
 export const classNameAttachLayered$ = new BehaviorSubject()
 
 openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScreenClose }) => {
-  console.log('open modal')
   modalAnimation$.next(null)
-
-  console.log(classNameAttach, 'classNameAttach')
 
   classNameAttach$.next(classNameAttach)
   modalContentComponent$.next(component)
@@ -125,7 +122,7 @@ closeModal$.pipe(
 ).subscribe(() => {
   console.log('closeModal done')
   modalContentComponent$.next(null)
-  modalAnimation$.next(null)
+  // modalAnimation$.next(null)
   classNameAttach$.next(null)
   overlayBackgroundColor$.next(null)
   disableScreenClose$.next(null)

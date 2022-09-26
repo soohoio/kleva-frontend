@@ -357,7 +357,6 @@ class LendAndStakeControllerPopup extends Component {
         <div className="LendAndStakeControllerPopup__inputAndButtonWrapper">
           <div className="LendAndStakeControllerPopup__inputAndButton">
             <InputWithPercentage
-              autoFocus
               onEnterKey={this.onEnterKeyCallback$.value}
               className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
               decimalLimit={stakingToken.decimals}
@@ -511,7 +510,6 @@ class LendAndStakeControllerPopup extends Component {
         </div>
 
         <InputWithPercentage
-          autoFocus
           onEnterKey={this.onEnterKeyCallback$.value}
           className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
           decimalLimit={ibToken.decimals}

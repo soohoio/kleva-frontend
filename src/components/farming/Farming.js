@@ -39,7 +39,12 @@ class Farming extends Component {
           <p className="Farming__introDescription">
             {I18n.t('farming.intro.description')}
           </p>
-          <p className="Farming__introMisc">
+          <p 
+            onClick={() => {
+              window.open(I18n.t('href.video.3'))
+            }}
+            className="Farming__introMisc"
+          >
             {I18n.t('farming.intro.misc')}
           </p>
         </div>

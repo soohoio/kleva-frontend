@@ -36,7 +36,12 @@ class LendAndStake extends Component {
           <p className="LendAndStake__introDescription">
             {I18n.t('lendnstake.intro.description')}
           </p>
-          <p className="LendAndStake__introMisc">
+          <p 
+            onClick={() => {
+              window.open(I18n.t('href.video.2'))
+            }}
+            className="LendAndStake__introMisc"
+          >
             {I18n.t('lendnstake.intro.misc')}
           </p>
         </div>
