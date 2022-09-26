@@ -631,8 +631,8 @@ class AddPosition extends Component {
               className="AddPosition__equity"
               label={(
                 <>
-                  <p>{I18n.t('farming.summary.equity')}</p>
-                  <p>{I18n.t('farming.summary.equity.description')}</p>
+                  <p>{I18n.t('myasset.farming.equityValue.addPosition')}</p>
+                  {/* <p>{I18n.t('farming.summary.equity.description')}</p> */}
                 </>
               )}
               value={this.renderEquityValue({
@@ -642,7 +642,7 @@ class AddPosition extends Component {
             />
             <LabelAndValue
               className="AddPosition__debt"
-              label={I18n.t('farming.summary.debt')}
+              label={I18n.t('myasset.farming.debtValue.addPosition')}
               value={`${nFormatter(borrowingAmount)} ${baseToken.title}`}
             />
             <LabelAndValue

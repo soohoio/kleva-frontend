@@ -778,8 +778,15 @@ renderTotalValue = ({
               className="AdjustPosition__equity"
               label={(
                 <>
-                  <p>{I18n.t('farming.summary.equity')}</p>
-                  <p>{I18n.t('farming.summary.equity.description')}</p>
+                  {this.bloc.borrowMore$.value 
+                    ? <p>{I18n.t('myasset.farming.equityValue.borrowMore')}</p>
+                    : (
+                      <>
+                        <p>{I18n.t('myasset.farming.equityValue.addCollateral')}</p>
+                        <p className="AdjustPosition__equitySubDescription">{I18n.t('farming.summary.equity.description')}</p>
+                      </>
+                    )
+                  }
                 </>
               )}
               value={this.renderEquityValue({

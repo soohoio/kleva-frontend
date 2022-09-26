@@ -48,7 +48,7 @@ class PriceImpact extends Component {
                 })
               }}
             />
-            <p className="PriceImpact__subtitle">{I18n.t('priceImpact')}</p>
+            <p className="PriceImpact__subtitle">{I18n.t('priceImpactWithFee')}</p>
           </div>
         )}
         value={(

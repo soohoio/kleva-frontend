@@ -191,7 +191,7 @@
       line-height: 20px;
     }
 
-    p:last-of-type {
+    .AdjustPosition__equitySubDescription {
       @include font-style('font-1', 'm', 14px);
       margin-top: 3px;
       color: #969BAB;

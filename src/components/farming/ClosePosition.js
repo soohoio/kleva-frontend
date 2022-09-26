@@ -709,7 +709,7 @@ class ClosePosition extends Component {
                       className="ClosePosition__equity"
                       label={(
                         <>
-                          <p>{I18n.t('myasset.farming.equityValue')}</p>
+                          <p>{I18n.t('myasset.farming.equityValue.partialClose')}</p>
                         </>
                       )}
                       value={(
