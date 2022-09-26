@@ -8,10 +8,13 @@ import { I18n } from '../common/I18n'
 
 export const VideoItem = ({ href, className, imgSrc, title, subtitle, description, action }) => {
   return (
-    <div onClick={() => {
-      window.open(href)
-    }} className={cx("VideoItem", className)}>
-      <div className="VideoItem__imageWrapper">
+    <div className={cx("VideoItem", className)}>
+      <div 
+        onClick={() => {
+          window.open(href)
+        }}
+        className="VideoItem__imageWrapper"
+      >
         <img className="VideoItem__image" src={imgSrc} />
       </div>
       <p className="VideoItem__title">
