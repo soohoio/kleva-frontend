@@ -317,7 +317,7 @@ export const backPage = () => {
     return
   }
 
-  if (prevLocation$.value.pathname === "/") {
+  if (prevLocation$.value?.pathname === "/") {
     browserHistory$.next('/')
     return
   }

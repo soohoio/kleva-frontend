@@ -36,9 +36,8 @@ export const en = {
   'docsShortcut': 'KLEVA Docs',
   'mediumShortcut': 'KLEVA Medium',
   'notice': 'Notice',
-  'notice.1': 'UX Reneal of KLEVA Protocol is now implemented',
-  'notice.2': 'Monthly Community Report for August, 2022',
-
+  'notice.1': 'UX Renewal is now implemented',
+  'notice.2': 'Community Report: August, 2022',
   'dashboard.tvlChart.title': 'Total Value Locked',
   'dashboard.lendingChart.title': 'Lending TVL',
   'dashboard.farmingChart.title': 'Farming TVL',
@@ -68,7 +67,7 @@ export const en = {
 
 
 
-  'intro1.title': 'Kleverly LEVerage<br/>your Assets',
+  'intro1.title': 'Kleverly <br/>LEVerage<br/>your Assets',
   'intro1.description': '<strong>KLEVA</strong> Protocol is Decentralized Finance(DeFi) service<br/>that provides <strong style="color: #3C6BFA;">interest</strong><br/>and <strong style="color: #3C6BFA;">KLEVA Token</strong> Reward',
   'intro1.start': 'Start KLEVA',
   'intro2.title': 'Total Value Locked',
@@ -76,7 +75,7 @@ export const en = {
   'intro3.title': 'For stable profit',
   'intro3.description': 'Lend · Stake your assets,<br/>Receive interest<br/>and KLEVA Token Reward!',
   'intro3.description2': 'Deposit your token into Lending Pool<br/> and receive ibToken as Proof of Deposit.<br/> Then, stake your <strong style="color: #3C6BFA;">ibToken</strong> for <strong style="color: #3C6BFA;">interest</strong><br/> and <strong style="color: #3C6BFA;">KLEVA</strong> Token Reward',
-  'intro4.title': 'For higher profit,',
+  'intro4.title': 'For higher profit',
   'intro4.description': 'Participate in<br/>Leveraged Yield Farming!',
   'intro4.description2': `Farm with <strong style="color: #3C6BFA;">Leverage</strong> for higher profit.<br/>But with high profit comes risk,<br/>so be careful in investment!`,
   'intro5.title': 'Learn easily with tutorial',

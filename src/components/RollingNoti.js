@@ -38,7 +38,7 @@ class RollingNoti extends Component {
 
     merge(
       go$,
-      interval(5000),
+      interval(6000),
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -70,7 +70,7 @@ class RollingNoti extends Component {
     const nextVal = child.offsetTop - top
 
     new Tween({ scrollTop: this.$container.current.scrollTop })
-      .to({ scrollTop: nextVal })
+      .to({ scrollTop: nextVal }, 500)
       .onUpdate((data) => {
         if (!this.$container.current) return
         this.$container.current.scrollTop = data.scrollTop
