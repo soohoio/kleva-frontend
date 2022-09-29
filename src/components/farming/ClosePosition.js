@@ -133,7 +133,7 @@ class ClosePosition extends Component {
           const uniqueID = `${this.bloc.partialCloseRatio$.value}-${this.bloc.minRepaymentDebtRatio$.value}`
           this.bloc.dirty$.next(uniqueID)
 
-          this.bloc.getCloseResult()
+          // this.bloc.getCloseResult()
         }),
         tap(() => {
 
@@ -162,7 +162,9 @@ class ClosePosition extends Component {
               : ((maxDebtRepayment / closedPositionValue) * 100) * 0.99 // -1% buffer
             )
 
+            
             // dirty check to prevent infinite loop
+            
             const uniqueID = `${this.bloc.partialCloseRatio$.value}-${this.bloc.minRepaymentDebtRatio$.value}`
             if (this.bloc.dirty$.value != uniqueID) {
               this.bloc.repayDebtRatio$.next(this.bloc.minRepaymentDebtRatio$.value)
@@ -303,6 +305,8 @@ class ClosePosition extends Component {
                 isDebtTooLow,
               }),
             })
+
+            this.bloc.getCloseResult()
           })
         })
       )
@@ -372,6 +376,8 @@ class ClosePosition extends Component {
 
   renderButtons = () => {
     const { farmingToken, baseToken, vaultAddress } = this.props
+
+    const ibToken = getIbTokenFromOriginalToken(this.props.baseToken)
 
     const isDisabled = this.bloc.entirelyClose$.value 
       ? false

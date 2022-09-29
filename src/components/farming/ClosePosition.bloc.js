@@ -381,6 +381,7 @@ export default class {
         this.updatedPositionValue$.next(updatedPositionValue)
         this.updatedHealth$.next(updatedHealth)
         this.updatedDebtAmt$.next(updatedDebtAmt)
+
         this.receiveBaseTokenAmt$.next(receiveBaseTokenAmt)
         this.receiveFarmTokenAmt$.next(receiveFarmTokenAmt)
         this.amountToTrade$.next(amountToTrade)

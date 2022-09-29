@@ -123,14 +123,16 @@
   @include font-style('font-1', 'm', 14px);
   color: #333333;
   width: 100%;
-  text-align: right;
+  // text-align: right;
+  text-align: center;
 }
 
 .KilledGridItem__withdrawnValue {
   @include font-style('font-1', 'b', 14px);
   color: #333333;
   width: 100%;
-  text-align: right;
+  // text-align: right;
+  text-align: center;
 }
 
 .KilledGridItem__content {

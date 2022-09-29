@@ -20,6 +20,14 @@
 
   &--killed {
     margin-bottom: 50px;
+
+    .FarmingAssetList__gridHeader {
+      grid-template-columns: 2fr 2fr 2fr 2fr 140px 160px;
+    }
+
+    .FarmingAssetList__aprDetailHeader {
+      padding-left: unset;
+    }
   }
 }
 
