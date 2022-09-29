@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { browserHistory } from 'react-router'
-import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of, combineLatest } from 'rxjs'
+import { timer, fromEvent, Subject, merge, forkJoin, from, interval, of, combineLatest, pipe } from 'rxjs'
 import { takeUntil, filter, retryWhen, startWith, map, tap, mergeMap, switchMap, delay, distinctUntilChanged, debounceTime, pairwise } from 'rxjs/operators'
 import cx from 'classnames'
 import 'utils/tweening'
@@ -28,7 +28,7 @@ import { browserHistory$, path$, prevLocation$ } from './streams/location'
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
-import { isFocused$, shouldNavigationTabFloat$, showFooter$, showStartButton$ } from './streams/ui'
+import { isFocused$, modalContentComponent$, shouldNavigationTabFloat$, showFooter$, showStartButton$ } from './streams/ui'
 import { debtTokens, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
@@ -63,6 +63,9 @@ class App extends Component<Props> {
   }
 
   componentDidMount() {
+
+    // this.preventPullDownRefresh()
+
     const isLoggedInFirst$ = selectedAddress$.pipe(
       pairwise(),
       map(([before, after]) => {
@@ -293,6 +296,29 @@ class App extends Component<Props> {
     const shouldFloat = path$.value == '/main' && scrollTop > 132 
     shouldNavigationTabFloat$.next(shouldFloat)
   }
+
+  // preventPullDownRefresh = () => {
+  //   let startY
+  //   const $html = document.querySelector('html')
+
+  //   fromEvent(window, 'touchstart').pipe(
+  //     takeUntil(this.destroy$)
+  //   ).subscribe((e) => {
+  //     startY = e.changedTouches[0].pageY
+  //   })
+
+  //   fromEvent(window, 'touchmove', { passive: false }).pipe(
+  //     takeUntil(this.destroy$)
+  //   ).subscribe((e) => {
+  //     if (!!modalContentComponent$.value) {
+  //       var currentY = e.changedTouches[0].pageY
+  //       if ($html.scrollTop <= 0 && startY <= currentY) {
+  //         e.preventDefault()
+  //         return false
+  //       }
+  //     }
+  //   })
+  // }
 
   componentWillUnmount() {
     this.destroy$.next(true)

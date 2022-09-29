@@ -16,7 +16,7 @@ import './index.scss'
 import { closeModal$ } from './streams/ui'
 
 
-// polyflil
+// polyfill
 smoothscroll.polyfill()
 
 const history = browserHistory
