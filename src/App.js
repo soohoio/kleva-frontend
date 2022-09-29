@@ -259,17 +259,19 @@ class App extends Component<Props> {
     })
 
     //
-    this.checkShowFooter()
-    
+    const $html = document.querySelector('html')
+    this.checkShowFooter($html)
+
     merge(
       currentTab$,
       fromEvent(this.$app.current, 'scroll'),
+      fromEvent(window, 'scroll'),
       fromEvent(window, 'resize'),
     ).pipe(
       // debounceTime(50),
       takeUntil(this.destroy$)
     ).subscribe(() => {
-      this.checkShowFooter()
+      this.checkShowFooter($html)
     })
 
     // If page is 'main', but current tab is null, set it to 'myasset'
@@ -281,12 +283,11 @@ class App extends Component<Props> {
     })
   }
 
-  checkShowFooter = () => {
-
-    const scrollHeight = this.$app.current.scrollHeight
-    const clientHeight = this.$app.current.clientHeight
+  checkShowFooter = ($html) => {
+    const scrollHeight = $html.scrollHeight
+    const clientHeight = $html.clientHeight
     const height = scrollHeight - clientHeight
-    const scrollTop = this.$app.current.scrollTop
+    const scrollTop = $html.scrollTop
 
     // footer
     const shouldShow = ((scrollTop / height) > 0.8) || (height - scrollTop < 52)
