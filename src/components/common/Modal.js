@@ -86,7 +86,7 @@ class Modal extends Component {
                 return
               }
               closeModal$.next(true)
-            }} className="Modal__close" src="/static/images/exported/x.svg" />
+            }} className="Modal__close" src="/static/images/exported/x.svg?date=20220929" />
           </div>
           {children}
         </div>

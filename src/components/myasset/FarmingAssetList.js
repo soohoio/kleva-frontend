@@ -383,7 +383,7 @@ class FarmingAssetList extends Component {
                   }
                 </div>
                 <div className="FarmAssetList__threshold">
-                  <img className="FarmAssetList__thresholdIcon" src="/static/images/exported/warn-mark.svg" />
+                  <img className="FarmAssetList__thresholdIcon" src="/static/images/exported/warn-mark.svg?date=20220929" />
                   <span className="FarmAssetList__thresholdTitle">{I18n.t('liquidationThreshold')}</span>
                   <span className="FarmAssetList__thresholdDescription">{I18n.t('liquidationThreshold.description')}</span>
                 </div>

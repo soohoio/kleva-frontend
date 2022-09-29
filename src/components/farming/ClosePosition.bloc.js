@@ -517,13 +517,11 @@ export default class {
 
     // Partial Close
     if (this.closingMethod$.value === "convertToBaseToken") {
-      console.log("partialConvertToBaseToken")
       this.partialConvertToBaseToken()
       return
     }
 
     if (this.closingMethod$.value === "minimizeTrading") {
-      console.log("partialMinimizeTrading")
       this.partialMinimizeTrading()
       return
     }

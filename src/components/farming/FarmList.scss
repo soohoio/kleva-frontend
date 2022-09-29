@@ -191,7 +191,7 @@
 
   &::before {
     content: "";
-    background-image: url(/static/images/common/btn_sorting_down.svg);
+    background-image: url(/static/images/common/btn_sorting_down.svg?date=20220929);
     background-size: 100%;
     width: 14px;
     position: absolute;
@@ -204,7 +204,7 @@
   &--opened {
     &::before {
       content: "";
-      background-image: url(/static/images/common/btn_sorting_up.svg);
+      background-image: url(/static/images/common/btn_sorting_up.svg?date=20220929);
       background-size: 100%;
       width: 14px;
       height: 12px;

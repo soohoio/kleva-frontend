@@ -29,7 +29,7 @@ class Checkbox extends Component {
     const { title, checked$ } = this.props
     return (
       <div onClick={() => checked$.next(!checked$.value)} className="Checkbox">
-        <img className="Checkbox__image" src={`/static/images/exported/${checked$.value ? 'checked': 'unchecked'}.svg`} />
+        <img className="Checkbox__image" src={`/static/images/exported/${checked$.value ? 'checked': 'unchecked'}.svg?date=20220929`} />
         {title && <span className="Checkbox__title">{title}</span>}
       </div>
     )

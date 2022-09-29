@@ -117,9 +117,6 @@ class AdjustPosition extends Component {
           this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
 
           const amountToBeBorrowed = this.bloc.getAmountToBorrow()
-          
-          console.log(this.bloc.before_debtAmount$.value, 'this.bloc.before_debtAmount$.value')
-          console.log(amountToBeBorrowed, 'amountToBeBorrowed')
 
           const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
             .plus(amountToBeBorrowed)

@@ -51,7 +51,7 @@ class Withus extends Component {
                 backPage()
               }}
               className="WithusHeader__close"
-              src="/static/images/exported/x.svg"
+              src="/static/images/exported/x.svg?date=20220929"
             />
           </p>
         </div>
@@ -60,61 +60,61 @@ class Withus extends Component {
           <div className="Withus__items">
             <WithusItem
               href="https://wemixnetwork.com/"
-              imgSrc="/static/images/exported/withus-wemix.svg"
+              imgSrc="/static/images/exported/withus-wemix.svg?date=20220929"
             />
             <WithusItem
               href="https://www.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.png"
+              imgSrc="/static/images/exported/withus-sooho.png?date=20220929"
             />
             <WithusItem
               href="https://birkosully.com/"
-              imgSrc="/static/images/exported/withus-birkosully.svg"
+              imgSrc="/static/images/exported/withus-birkosully.svg?date=20220929"
             />
           </div>
           <p className="Withus__category">Partners</p>
           <div className="Withus__items">
             <WithusItem
               href="https://klayfi.finance/"
-              imgSrc="/static/images/exported/withus-klayfi.svg"
+              imgSrc="/static/images/exported/withus-klayfi.svg?date=20220929"
             />
             <WithusItem
               href="https://claimswap.org/"
-              imgSrc="/static/images/exported/withus-claimswap.png"
+              imgSrc="/static/images/exported/withus-claimswap.png?date=20220929"
             />
             <WithusItem
               href="https://kokoa.finance/"
-              imgSrc="/static/images/exported/withus-kokoa.png"
+              imgSrc="/static/images/exported/withus-kokoa.png?date=20220929"
             />
             <WithusItem
               href="https://klaytn.domains/"
-              imgSrc="/static/images/exported/withus-kns.svg"
+              imgSrc="/static/images/exported/withus-kns.svg?date=20220929"
             />
             <WithusItem
               href="https://kokonutswap.finance/"
-              imgSrc="/static/images/exported/withus-kokonut.png"
+              imgSrc="/static/images/exported/withus-kokonut.png?date=20220929"
             />
           </div>
           <p className="Withus__category">Audit</p>
           <div className="Withus__items">
             <WithusItem
               href="https://peckshield.com/"
-              imgSrc="/static/images/exported/withus-peckshield.svg"
+              imgSrc="/static/images/exported/withus-peckshield.svg?date=20220929"
             />
             <WithusItem
               href="https://scvsoft.net/"
-              imgSrc="/static/images/exported/withus-scvsoft.png"
+              imgSrc="/static/images/exported/withus-scvsoft.png?date=20220929"
             />
             <WithusItem
               href="https://audit.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho-audit.png"
+              imgSrc="/static/images/exported/withus-sooho-audit.png?date=20220929"
             />
             <WithusItem
               href="https://www.slowmist.com/"
-              imgSrc="/static/images/exported/withus-slowmist.png"
+              imgSrc="/static/images/exported/withus-slowmist.png?date=20220929"
             />
             <WithusItem
               href="https://hacken.io/"
-              imgSrc="/static/images/exported/withus-hacken.svg"
+              imgSrc="/static/images/exported/withus-hacken.svg?date=20220929"
             />
           </div>
         </div>

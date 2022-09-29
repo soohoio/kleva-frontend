@@ -27,7 +27,7 @@ class Hamburger extends Component {
         onClick={() => openModal$.next({
           component: <MobileGNB />,
         })}
-        src="/static/images/icon-gnb.svg"
+        src="/static/images/icon-gnb.svg?date=20220929"
       />
     )
   }

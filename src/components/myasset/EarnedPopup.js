@@ -117,8 +117,6 @@ class EarnedPopup extends Component {
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
 
-            console.log(earnedAmount, 'earnedAmount 1')
-
             // return earnedAmount != 0
             return earnedAmount >= 0.0001
           })
@@ -144,7 +142,6 @@ class EarnedPopup extends Component {
             const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
-            console.log(earnedAmount, 'earnedAmount 2')
 
             // return earnedAmount != 0
             return earnedAmount >= 0.0001

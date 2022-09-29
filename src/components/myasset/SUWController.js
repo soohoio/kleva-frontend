@@ -410,8 +410,6 @@ class SUWController extends Component {
       mode,
     } = this.props
 
-    console.log(this.bloc.wklayWithdrawCompleted$.value, 'this.bloc.wklayWithdrawCompleted$.value')
-
     if (this.bloc.wklayWithdrawCompleted$.value) {
       return this.renderWKLAYSwitch()
     }

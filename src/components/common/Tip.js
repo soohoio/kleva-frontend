@@ -33,7 +33,7 @@ class Tip extends Component {
             isOpened$.next(false)
           }} 
           className="Tip__close" 
-          src="/static/images/close-small.svg" 
+          src="/static/images/close-small.svg?date=20220929" 
         />
         <div className="Tip__title">{title}</div>
         <div className="Tip__description">{content}</div>

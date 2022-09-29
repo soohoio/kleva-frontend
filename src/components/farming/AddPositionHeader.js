@@ -39,7 +39,7 @@ class AddPositionHeader extends Component {
               closeContentView$.next(true)
             }}
             className="AddPositionHeader__close" 
-            src="/static/images/close-black.svg" 
+            src="/static/images/close-black.svg?date=20220929" 
           />
         </p>
       </div>

@@ -29,13 +29,13 @@ class LeverageController extends Component {
         <div className="LeverageController__content">
           <img 
             className="LeverageController__minusIcon" 
-            src="/static/images/minus.svg" 
+            src="/static/images/minus.svg?date=20220929" 
             onClick={() => setLeverage(currentLeverage - offset)}
           />
           <span className="LeverageController__leverageValue">{currentLeverage}{leverageLabel}</span>
           <img 
             className="LeverageController__plusIcon" 
-            src="/static/images/plus.svg" 
+            src="/static/images/plus.svg?date=20220929" 
             onClick={() => setLeverage(currentLeverage + offset)}
           />
         </div>

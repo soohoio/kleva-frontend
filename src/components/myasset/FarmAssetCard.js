@@ -280,7 +280,7 @@ class FarmAssetCard extends Component {
                 "FarmAssetCard__gauge--red": debtRatio !== 0 && debtRatio >= midOfWbpsAndThreshold,
               })}
             />
-            {!!liquidationThreshold && <img src="/static/images/exported/warn-mark.svg" className="FarmAssetCard__warnMark" />}
+            {!!liquidationThreshold && <img src="/static/images/exported/warn-mark.svg?date=20220929" className="FarmAssetCard__warnMark" />}
           </div>
           {!!liquidationThreshold && <p className="FarmAssetCard__debtRatioDescription">{I18n.t('myasset.farming.debtRatio.description', { value: Number(liquidationThreshold).toFixed(1) })}</p>}
           <div className="FarmAssetCard__buttons">

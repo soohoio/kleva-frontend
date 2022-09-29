@@ -54,7 +54,7 @@ class MobileGNB extends Component {
               closeModal$.next(true)
             }} 
             className="MobileGNB__close" 
-            src="/static/images/exported/x.svg" 
+            src="/static/images/exported/x.svg?date=20220929" 
           />
         </div>
         {selectedAddress$.value 

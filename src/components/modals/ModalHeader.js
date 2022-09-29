@@ -39,7 +39,7 @@ class ModalHeader extends Component {
               closeContentView$.next(true)
             }}
             className="ModalHeader__close"
-            src="/static/images/close-black.svg"
+            src="/static/images/close-black.svg?date=20220929"
           />
         </p>
       </div>

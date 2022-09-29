@@ -138,7 +138,6 @@ export default class {
               title: I18n.t('confirm'),
               onClick: () => {
                 const inputElem = document.querySelector(".LendAndStakeControllerPopup__depositInput--wklay input")
-                console.log(inputElem, 'inputElem')
                 if (inputElem) {
                   inputElem.focus()
                 }

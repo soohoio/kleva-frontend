@@ -42,28 +42,28 @@ class Footer extends Component {
                 onClick={() => {
                   window.open('https://docs.kleva.io')
                 }}
-                src="/static/images/common/icon_footer_gitbook.svg" 
+                src="/static/images/common/icon_footer_gitbook.svg?date=20220929" 
               />
               <img 
                 className="Footer__icon" 
                 onClick={() => {
                   window.open('https://mobile.twitter.com/kleva_protocol')
                 }}
-                src="/static/images/common/icon_footer_twitter.svg" 
+                src="/static/images/common/icon_footer_twitter.svg?date=20220929" 
               />
               <img 
                 className="Footer__icon" 
                 onClick={() => {
                   window.open('https://t.me/klevaprotocol_official')
                 }}
-                src="/static/images/common/icon_footer_telegram.svg" 
+                src="/static/images/common/icon_footer_telegram.svg?date=20220929" 
               />
               <img 
                 className="Footer__icon" 
                 onClick={() => {
                   window.open('https://medium.com/@KLEVA_Protocol_official')
                 }}
-                src="/static/images/common/icon_footer_medium.svg" 
+                src="/static/images/common/icon_footer_medium.svg?date=20220929" 
               />
             </div>
             <LanguageChange 
@@ -71,7 +71,7 @@ class Footer extends Component {
             />
           </div>
           <div className="Footer__project">
-            <img src="/static/images/common/footer_logo.svg" className="Footer__projectName" />
+            <img src="/static/images/common/footer_logo.svg?date=20220929" className="Footer__projectName" />
             <p className="Footer__copyright">ⓒ WEMIX PTE. LTD. All Rights Reserved.</p>
           </div>
         </div>

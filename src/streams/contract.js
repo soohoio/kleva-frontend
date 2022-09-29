@@ -178,9 +178,6 @@ const sendAsync$ = (method, txObject) => {
 
       // Klip
 
-      // console.log(txObject.value, "txObject.value")
-      // console.log(new BigNumber(txObject.value).toString(), "new BigNumber(txObject.value).toString()")
-
       if (walletType$.value === "klip") {
         executeContractKlip$({
           from: txObject.from,
@@ -190,7 +187,6 @@ const sendAsync$ = (method, txObject) => {
           params: method.arguments,
         }).pipe(
           catchError((e) => {
-            console.log('klip error_', e)
             return of(false)
           })
         ).subscribe((result) => {
@@ -313,7 +309,6 @@ export const multicall = async (abi, calls, getGas) => {
 
     return result
   } catch (e) {
-    console.log(e, '@e')
     return false
   }
 }
@@ -1560,9 +1555,6 @@ export const getCloseBaseOnlyResult$ = ({
   positionId
 }) => {
 
-  console.log(workerAddress, 'workerAddress')
-  console.log(positionId, 'positionId')
-
   return call$({
     abi: KlayswapCalculatorABI,
     address: KLAYSWAP_CALCULATOR,
@@ -1578,8 +1570,6 @@ export const getCloseBaseOnlyResult$ = ({
     }) => {
 
       const worker = workerByAddress[workerAddress]
-
-      console.log(worker, '@worker')
 
       return getDexSelling$({
         tokenIn: worker.farmingToken.address,
@@ -1618,9 +1608,6 @@ export const getCloseMinimizeResult$ = ({
   workerAddress,
   positionId
 }) => {
-
-  console.log(workerAddress, '@@workerAddress')
-  console.log(positionId, '@@positionId')
 
 return call$({
     abi: KlayswapCalculatorABI,
@@ -1703,7 +1690,7 @@ export const getLpAmounts$ = ({
     ]
   }).pipe(
     tap((result) => {
-      console.log(result, '@result@')
+
     })
   )
 }

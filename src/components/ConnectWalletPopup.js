@@ -51,7 +51,7 @@ class ConnectWalletPopup extends Component {
           <WalletConnectOption
             title="DCENT"
             className="WalletConnectOption--dcent"
-            imgSrc="/static/images/logo-dcent.svg"
+            imgSrc="/static/images/logo-dcent.svg?date=20220929"
             onClick={() => {
 
               if (window.klaytn && window.klaytn.isDcentWallet) {
@@ -70,7 +70,7 @@ class ConnectWalletPopup extends Component {
           <WalletConnectOption
             title="Kaikas"
             className="WalletConnectOption--kaikas"
-            imgSrc="/static/images/wallet-option-kaikas.svg"
+            imgSrc="/static/images/wallet-option-kaikas.svg?date=20220929"
             onClick={() => {
               if (connectInjected('kaikas', 'Kaikas')) {
                 closeModal$.next(true)
@@ -80,7 +80,7 @@ class ConnectWalletPopup extends Component {
           <WalletConnectOption
             title="Klip"
             className="WalletConnectOption--klip"
-            imgSrc="/static/images/wallet-option-klip.svg"
+            imgSrc="/static/images/wallet-option-klip.svg?date=20220929"
             onClick={() => {
               accessKlip$().subscribe((result) => {
                 walletType$.next("klip")
@@ -93,7 +93,7 @@ class ConnectWalletPopup extends Component {
           <WalletConnectOption
             title="Metamask"
             className="WalletConnectOption--metamask"
-            imgSrc="/static/images/common/icon_wallet_metamask.svg"
+            imgSrc="/static/images/common/icon_wallet_metamask.svg?date=20220929"
             onClick={() => {
               if (connectInjected('metamask', 'Metamask')) {
                 closeModal$.next(true)

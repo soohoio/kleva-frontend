@@ -166,7 +166,7 @@ class LeverageInput extends Component {
               }}
               className="LeverageInput__minus"
             >
-              <img src="/static/images/minus.svg" />
+              <img src="/static/images/minus.svg?date=20220929" />
             </button>
             <button
               onClick={() => {
@@ -189,7 +189,7 @@ class LeverageInput extends Component {
               }}
               className="LeverageInput__plus"
             >
-              <img src="/static/images/plus.svg" />
+              <img src="/static/images/plus.svg?date=20220929" />
             </button>
           </div>
         </div>

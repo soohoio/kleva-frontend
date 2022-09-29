@@ -229,7 +229,7 @@ class FarmAssetGridItem extends Component {
             />
             {!!liquidationThreshold && (
               <div style={{ left: `calc(100% - 14px)` }} className="FarmAssetGridItem__threshold">
-                <img src="/static/images/exported/warn-mark.svg" />
+                <img src="/static/images/exported/warn-mark.svg?date=20220929" />
                 <p>{Number(liquidationThreshold).toFixed(1)}%</p>
               </div>
             )}

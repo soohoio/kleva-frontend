@@ -67,7 +67,7 @@ class TotalSupplyInfo extends Component {
     return (
       <div className="TotalSupplyInfo">
         <div className="TotalSupplyInfo__title">
-          <img src="/static/images/exported/logo-kleva-2.svg" />
+          <img src="/static/images/exported/logo-kleva-2.svg?date=20220929" />
           <span>{I18n.t('dashboard.totalSupply.title')}</span>
         </div>
         <p className="TotalSupplyInfo__supply">

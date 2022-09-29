@@ -21,7 +21,7 @@ class BeforeAfter extends Component {
     return (
       <div className={cx("BeforeAfter")}>
         <div className="BeforeAfter__before">{before}</div>
-        <img className="BeforeAfter__arrow" src="/static/images/arrow-right2.svg" />
+        <img className="BeforeAfter__arrow" src="/static/images/arrow-right2.svg?date=20220929" />
         <div className="BeforeAfter__after">{after}</div>
       </div>
     )

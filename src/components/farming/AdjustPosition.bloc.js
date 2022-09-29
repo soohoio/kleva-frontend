@@ -166,10 +166,6 @@ export default class {
       .plus(this.before_farmingAmount$.value || 0)
       .toString() || "0"
 
-    console.log(baseTokenAmount, 'baseTokenAmount')
-    console.log(leveragedBaseTokenAmount, 'leveragedBaseTokenAmount')
-    console.log(farmTokenAmount, 'farmTokenAmount')
-
     return forkJoin([
       getOpenPositionResult$({
         workerAddress: workerInfo.workerAddress,

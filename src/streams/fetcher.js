@@ -59,7 +59,7 @@ export const walletInfoFetcher$ = (selectedAddress) => merge(
   retryWhen((errors) => {
     return errors.pipe(
       tap((err) => {
-        console.log(err, 'wallet info fetch')
+        
       }),
       delay(2500),
     )

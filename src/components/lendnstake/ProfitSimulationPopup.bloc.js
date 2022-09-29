@@ -34,8 +34,6 @@ export default class {
 
   calculate = ({ stakingToken, lendingAPR, stakingAPR, protocolAPR, totalAPY }) => {
 
-    console.log(lendingAPR, stakingAPR, protocolAPR, totalAPY)
-
     const lendingProfit = this.aprToProfit(lendingAPR)
     const stakingProfit = this.aprToProfit(stakingAPR)
     const protocolProfit = this.aprToProfit(protocolAPR)

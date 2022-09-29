@@ -35,14 +35,7 @@ class Intro1 extends Component {
 
     fromEvent(window, 'scroll').pipe(
       tap(() => {
-        // const { height: rootHeight } = $app.getBoundingClientRect()
-        // const { y: startButtonY } = this.$startButton.current.getBoundingClientRect()
-        
         const shouldHideAnimation = $app.scrollTop > $app.scrollHeight - $app.offsetHeight - 156
-
-        // console.log(startButtonY, 'startButtonY')
-        // console.log(window.screen.availHeight, 'window.screen.availHeight')
-        // console.log(shouldHideAnimation, 'shouldHideAnimation')
         this.hideAnimation$.next(shouldHideAnimation)
       }),
       takeUntil(this.destroy$)
@@ -55,7 +48,6 @@ class Intro1 extends Component {
     
   render() {
     const { shouldShow } = this.props
-    console.log(this.hideAnimation$.value, `this.hideAnimation$.value`)
 
     return (
       <div className="Intro1">
@@ -80,7 +72,7 @@ class Intro1 extends Component {
           </button>
         </div>
         <div className="Intro1__right">
-          <img src="/static/images/intro/img_intro_1.png" />
+          <img src="/static/images/intro/img_intro_1.png?date=20220929" />
         </div>
       </div>
     )

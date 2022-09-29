@@ -42,7 +42,7 @@ class Header2 extends Component {
                 currentTab$.next(null)
               }}
               className="Header2__logo"
-              src="/static/images/kleva.logo.svg"
+              src="/static/images/kleva.logo.svg?date=20220929"
             />
           </div>
           <div className="Header2__right">

@@ -73,13 +73,7 @@ class EarnedPopup extends Component {
         logFiltered?.data
       )
 
-      console.log(logs, 'logs')
-      console.log(logFiltered, 'logFiltered')
-      console.log(_parsed, '_parsed')
-
       const claimedKLEVA = nFormatter(new BigNumber(_parsed[2]).div(10 ** tokenList.decimals).toNumber(), 2)
-
-      console.log(claimedKLEVA, 'claimedKLEVA')
       
       openModal$.next({ 
         component: (

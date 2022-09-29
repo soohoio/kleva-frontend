@@ -71,7 +71,7 @@ class Dashboard extends Component {
                 // currentTab$.next('myasset')
               }}
               className="DashboardHeader__close"
-              src="/static/images/close-black.svg"
+              src="/static/images/close-black.svg?date=20220929"
             />
           </p>
         </div>
@@ -82,7 +82,7 @@ class Dashboard extends Component {
               chartId="tvl"
               title={(
                 <>
-                  <img src="/static/images/exported/logo-kleva-2.svg" />
+                  <img src="/static/images/exported/logo-kleva-2.svg?date=20220929" />
                   <span>{I18n.t('dashboard.tvlChart.title')}</span>
                 </>
               )}

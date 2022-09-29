@@ -97,7 +97,7 @@ class Glossary extends Component {
                 backPage()
               }}
               className="GlossaryHeader__close"
-              src="/static/images/exported/x.svg"
+              src="/static/images/exported/x.svg?date=20220929"
             />
           </p>
         </div>

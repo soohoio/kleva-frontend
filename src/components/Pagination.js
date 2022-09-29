@@ -29,7 +29,7 @@ class Pagination extends Component {
             }
           }}
         >
-          <img src="/static/images/arrow-left.svg" />
+          <img src="/static/images/arrow-left.svg?date=20220929" />
         </div>
         <div className="Pagination__page">
           <span className="Pagination__currentPage">{currentPage}</span>
@@ -43,7 +43,7 @@ class Pagination extends Component {
             }
           }}
         >
-          <img src="/static/images/arrow-right.svg" />
+          <img src="/static/images/arrow-right.svg?date=20220929" />
         </div>
       </div>
     )

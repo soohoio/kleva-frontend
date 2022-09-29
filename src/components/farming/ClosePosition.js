@@ -100,7 +100,6 @@ class ClosePosition extends Component {
       this.bloc.borrowMoreAvailable$,
       this.bloc.closingMethod$.pipe(
         tap(() => {
-          console.log('get result!')
           this.bloc.getCloseResult()
         })
       ),

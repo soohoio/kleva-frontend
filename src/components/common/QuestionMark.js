@@ -25,7 +25,7 @@ class QuestionMark extends Component {
               color,
               fontSize: size,
               borderColor: color,
-              backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg`
+              backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg?date=20220929`
             }}
             onClick={onClick}
             className="QuestionMark"
@@ -40,7 +40,7 @@ class QuestionMark extends Component {
           color,
           fontSize: size,
           borderColor: color,
-          backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg`
+          backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg?date=20220929`
         }}
         onClick={onClick}
         className="QuestionMark"

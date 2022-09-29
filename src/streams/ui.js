@@ -93,7 +93,6 @@ openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScre
     // mobile animation
     // if (classNameAttach && (classNameAttach !== "Modal--mobileCoverAll")) {
     if (classNameAttach !== "Modal--mobileCoverAll") {
-      console.log('appear')
       modalAnimation$.next('appear')
     }
   }
@@ -110,7 +109,6 @@ closeModal$.pipe(
   switchMap(() => {
     // if (!isDesktop$.value && (classNameAttach$.value && (classNameAttach$.value !== "Modal--mobileCoverAll"))) {
     if (!isDesktop$.value && (classNameAttach$.value !== "Modal--mobileCoverAll")) {
-      console.log('disappear')
       // mobile animation
       modalAnimation$.next('disappear')
       
@@ -120,7 +118,6 @@ closeModal$.pipe(
     return of(true)
   }),
 ).subscribe(() => {
-  console.log('closeModal done')
   modalContentComponent$.next(null)
   // modalAnimation$.next(null)
   classNameAttach$.next(null)
@@ -167,13 +164,11 @@ currentTab$.pipe(
   contentView$.next(null)
   
   if (!tab) {
-    console.log('here1')
     browserHistory$.next('/')
     // browserHistory.push('/')
     return
   }
 
-  console.log('here2')
   browserHistory$.next(`/main?t=${tab}`)
   // browserHistory.push(`/main?t=${tab}`)
 })

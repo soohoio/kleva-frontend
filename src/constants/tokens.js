@@ -5,14 +5,14 @@ export const singleTokens = {
   "KLAY": {
     title: "KLAY",
     address: "0x0000000000000000000000000000000000000000",
-    iconSrc: "/static/images/tokens/token-KLAY.svg",
+    iconSrc: "/static/images/tokens/token-KLAY.svg?date=20220929",
     decimals: 18,
     nativeCoin: true,
   },
   "WKLAY": {
     title: "WKLAY",
     address: "0xF6F6b8Bd0aC500639148f8ca5a590341A97De0DE",
-    iconSrc: "/static/images/tokens/token-KLAY.svg",
+    iconSrc: "/static/images/tokens/token-KLAY.svg?date=20220929",
     decimals: 18,
   },
   // REAL
@@ -20,7 +20,7 @@ export const singleTokens = {
   "KLEVA": {
     title: "KLEVA",
     address: "0x5fFF3a6C16C2208103F318F4713D4D90601A7313",
-    iconSrc: "/static/images/tokens/token-KLEVA.svg",
+    iconSrc: "/static/images/tokens/token-KLEVA.svg?date=20220929",
     decimals: 18,
   },
   
@@ -28,62 +28,62 @@ export const singleTokens = {
   // "KLEVA": {
   //   title: "KLEVA",
   //   address: "0x0b430ad7bf84eb307e221f0e66216205502f835d",
-  //   iconSrc: "/static/images/tokens/token-KLEVA.svg",
+  //   iconSrc: "/static/images/tokens/token-KLEVA.svg?date=20220929",
   //   decimals: 18,
   // },
   "oUSDT": {
     title: "oUSDT",
     address: "0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167",
-    iconSrc: "/static/images/tokens/token-KUSDT.svg",
+    iconSrc: "/static/images/tokens/token-KUSDT.svg?date=20220929",
     decimals: 6,
   },
   "KSP": {
     title: "KSP",
     address: "0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654",
-    iconSrc: "/static/images/tokens/token-KSP.svg",
+    iconSrc: "/static/images/tokens/token-KSP.svg?date=20220929",
     decimals: 18,
   }, 
   
   "WEMIX": {
     title: "WEMIX",
     address: "0x5096db80b21ef45230c9e423c373f1fc9c0198dd",
-    iconSrc: "/static/images/tokens/token-WEMIX.svg",
+    iconSrc: "/static/images/tokens/token-WEMIX.svg?date=20220929",
     decimals: 18,
   }, 
   "KDAI": {
     title: "KDAI",
     address: "0x5c74070fdea071359b86082bd9f9b3deaafbe32b",
-    iconSrc: "/static/images/tokens/token-KDAI.svg",
+    iconSrc: "/static/images/tokens/token-KDAI.svg?date=20220929",
     decimals: 18,
   }, 
   "oUSDC": {
     title: "oUSDC",
     address: "0x754288077d0ff82af7a5317c7cb8c444d421d103",
-    iconSrc: "/static/images/tokens/token-KUSDC.svg",
+    iconSrc: "/static/images/tokens/token-KUSDC.svg?date=20220929",
     decimals: 6,
   }, 
   "KBUSD": {
     title: "KBUSD",
     address: "0x210bc03f49052169d5588a52c317f71cf2078b85",
-    iconSrc: "/static/images/tokens/token-KBUSD.svg",
+    iconSrc: "/static/images/tokens/token-KBUSD.svg?date=20220929",
     decimals: 18,
   }, 
   "oETH": {
     title: "oETH",
     address: "0x34d21b1e550d73cee41151c77f3c73359527a396",
-    iconSrc: "/static/images/tokens/token-KETH.svg",
+    iconSrc: "/static/images/tokens/token-KETH.svg?date=20220929",
     decimals: 18,
   }, 
   "oXRP": {
     title: "oXRP",
     address: "0x9eaefb09fe4aabfbe6b1ca316a3c36afc83a393f",
-    iconSrc: "/static/images/tokens/token-KXRP.svg",
+    iconSrc: "/static/images/tokens/token-KXRP.svg?date=20220929",
     decimals: 6,
   }, 
   "BORA": {
     title: "BORA",
     address: "0x02cbe46fb8a1f579254a9b485788f2d86cad51aa",
-    iconSrc: "/static/images/tokens/token-BORA.svg",
+    iconSrc: "/static/images/tokens/token-BORA.svg?date=20220929",
     decimals: 18,
   },
 }
@@ -238,7 +238,7 @@ export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
     address: "0xa691c5891D8a98109663d07Bcf3ED8d3edef820A",
-    iconSrc: "/static/images/tokens/token-KLAY.svg",
+    iconSrc: "/static/images/tokens/token-KLAY.svg?date=20220929",
     decimals: singleTokens["WKLAY"].decimals,
     minDebtSize: new BigNumber(50 * 10 ** 18).toString(),
 
@@ -247,7 +247,7 @@ export const ibTokens = {
   "iboUSDT": {
     title: "iboUSDT",
     address: "0xfAeeC9B2623b66BBB3545cA24cFc32A8504fcF1B",
-    iconSrc: "/static/images/tokens/token-KUSDT.svg",
+    iconSrc: "/static/images/tokens/token-KUSDT.svg?date=20220929",
     decimals: singleTokens["oUSDT"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 6).toString(),
 
@@ -256,7 +256,7 @@ export const ibTokens = {
   "ibWEMIX": {
     title: "ibWEMIX",
     address: "0xD429914222b7474Ea2C288Ec581D303599EeD137",
-    iconSrc: "/static/images/tokens/token-WEMIX.svg",
+    iconSrc: "/static/images/tokens/token-WEMIX.svg?date=20220929",
     decimals: singleTokens["WEMIX"].decimals,
     minDebtSize: new BigNumber(10 * 10 ** 18).toString(),
 
@@ -265,7 +265,7 @@ export const ibTokens = {
   "ibKDAI": {
     title: "ibKDAI",
     address: "0x58770d59238B99Bd75c4298E33c6493eC4F17E2C",
-    iconSrc: "/static/images/tokens/token-KDAI.svg",
+    iconSrc: "/static/images/tokens/token-KDAI.svg?date=20220929",
     decimals: singleTokens["KDAI"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 18).toString(),
 
@@ -274,7 +274,7 @@ export const ibTokens = {
   "ibKLEVA": {
     title: "ibKLEVA",
     address: "0x7fFc4146B43cD099928a813b2c219Af2e49611E0",
-    iconSrc: "/static/images/tokens/token-KLEVA.svg",
+    iconSrc: "/static/images/tokens/token-KLEVA.svg?date=20220929",
     decimals: singleTokens["KLEVA"].decimals,
     minDebtSize: new BigNumber(50 * 10 ** 18).toString(),
 
@@ -283,7 +283,7 @@ export const ibTokens = {
   "iboETH": {
     title: "iboETH",
     address: "0x87438944076b1A32E28a2572454437563CaA7470",
-    iconSrc: "/static/images/tokens/token-KETH.svg",
+    iconSrc: "/static/images/tokens/token-KETH.svg?date=20220929",
     decimals: singleTokens["oETH"].decimals,
     minDebtSize: new BigNumber(0.04 * 10 ** 18).toString(),
 
@@ -292,7 +292,7 @@ export const ibTokens = {
   "iboUSDC": {
     title: "iboUSDC",
     address: "0x812668fd9e61ccc7e7bccb0c7f75b1362cd070de",
-    iconSrc: "/static/images/tokens/token-KUSDC.svg",
+    iconSrc: "/static/images/tokens/token-KUSDC.svg?date=20220929",
     decimals: singleTokens["oUSDC"].decimals,
     minDebtSize: new BigNumber(100 * 10 ** 6).toString(),
 

@@ -88,8 +88,6 @@ class MainPage extends Component {
 
   render() {
 
-    console.log(contentView$.value, 'contentView$.value')
-
     return (
       <div className="MainPage">
         <Header2 />

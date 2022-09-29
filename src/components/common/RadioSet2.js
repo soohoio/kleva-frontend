@@ -7,7 +7,7 @@ import './RadioSet2.scss'
 
 const Circle = ({ active }) => {
   return (
-    <img className="Circle" src={`/static/images/exported/${active ? "radio-circle-active" : "radio-circle"}.svg`} className={cx("Circle")} />
+    <img className="Circle" src={`/static/images/exported/${active ? "radio-circle-active" : "radio-circle"}.svg?date=20220929`} className={cx("Circle")} />
   )
 }
 

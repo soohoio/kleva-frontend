@@ -46,7 +46,7 @@
 
     &--open {
       .Opener__item:first-of-type {
-        background-image: url(/static/images/exported/btn-up.svg);
+        background-image: url(/static/images/exported/btn-up.svg?date=20220929);
       }
     }
   }
@@ -65,7 +65,7 @@
     
     &:first-of-type {
       min-width: 72px;
-      background-image: url(/static/images/common/btn-down.svg);
+      background-image: url(/static/images/common/btn-down.svg?date=20220929);
       background-repeat: no-repeat;
 
       background-position: right 0px top 50%;
