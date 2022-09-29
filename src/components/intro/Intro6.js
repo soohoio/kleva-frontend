@@ -56,7 +56,7 @@ class Intro6 extends Component {
         <div className="Intro6__content">
           <QuoteItem
             seeTitle={I18n.t('intro6.see1')}
-            href="https://docs.kleva.io/undefined-1/undefined-3/1"
+            href={I18n.t('href.quote.1')}
             imgSrc="/static/images/intro/intro_profile_1.png"
             title={I18n.t('intro6.quote1.title')}
             subtitle={I18n.t('intro6.quote1.subtitle')}
@@ -64,7 +64,7 @@ class Intro6 extends Component {
           />
           <QuoteItem
             seeTitle={I18n.t('intro6.see2')}
-            href="https://docs.kleva.io/undefined-1/undefined-3/3"
+            href={I18n.t('href.quote.2')}
             imgSrc="/static/images/intro/intro_profile_2.png"
             title={I18n.t('intro6.quote2.title')}
             subtitle={I18n.t('intro6.quote2.subtitle')}
@@ -72,7 +72,7 @@ class Intro6 extends Component {
           />
           <QuoteItem
             seeTitle={I18n.t('intro6.see3')}
-            href="https://docs.kleva.io/undefined-1/undefined-3/4-2"
+            href={I18n.t('href.quote.3')}
             imgSrc="/static/images/intro/intro_profile_3.png"
             title={I18n.t('intro6.quote3.title')}
             subtitle={I18n.t('intro6.quote3.subtitle')}

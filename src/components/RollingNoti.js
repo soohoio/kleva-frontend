@@ -78,9 +78,17 @@ class RollingNoti extends Component {
       .start()
   }
 
+  // With transform
+  moveUpDown2 = () => {
+
+  }
+
   render() {
 
     const { items } = this.props
+
+    const itemsOnDisplay = items[this.activeIdx$.value]
+    const itemsOnWaiting = items[this.activeIdx$.value + 1]
 
     return (
       <>

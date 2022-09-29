@@ -373,14 +373,18 @@ export const en = {
   'convert.completed.title': 'Successfully Wrapped',
   'convert.completed.description': 'Deposit your <text style="color: #3C6BFA;">WKLAYs</text>',
 
-  'href.video.1': 'https://youtu.be/9PvNPG50Dkk',
-  'href.video.2': 'https://youtu.be/oDe-o0DJO9U',
-  'href.video.3': 'https://youtu.be/GpqmdwvvM6Q',
+  'href.video.1': 'https://youtu.be/VzECOhctTqE',
+  'href.video.2': 'https://youtu.be/ejC8g0kgwek',
+  'href.video.3': 'https://youtu.be/EAHlMGMj_Ik',
 
   'href.faq.1.q': "https://docs.kleva.io/v/copy-of-english/tokenomics/kleva-token",
   'href.faq.2.q': "https://docs.kleva.io/v/copy-of-english/overview/ibtokens",
   'href.faq.3.q': "https://docs.kleva.io/v/copy-of-english/protocol-details/parameters#interest-rate-model-lending-apr",
   'href.faq.4.q': "https://docs.kleva.io/v/copy-of-english/guide/withdraw",
+  
+  'href.quote.1': "https://docs.kleva.io/v/copy-of-english/overview/how-to-participate-strategies/strategy-1-lend-and-stake",
+  'href.quote.2': "https://docs.kleva.io/v/copy-of-english/overview/how-to-participate-strategies/strategy-2-farming-with-leverage-stablecoins",
+  'href.quote.3': "https://docs.kleva.io/v/copy-of-english/overview/how-to-participate-strategies/strategy-4-farming-with-leverage-hedging",
 
   'burn': 'Burn',
   'burnHistory': 'Burn History',
@@ -430,9 +434,9 @@ export const ko = {
   'notice.1': 'KLEVA 프로토콜 UX 전면 개편 안내',
   'notice.2': '2022년 8월 커뮤니티 리포트',
 
-  'dashboard.tvlChart.title': '운용 자산 규모',
-  'dashboard.lendingChart.title': '총 예치 규모',
-  'dashboard.farmingChart.title': '총 레버리지 투자 규모',
+  'dashboard.tvlChart.title': '총 운용 자산',
+  'dashboard.lendingChart.title': '총 예치 자산',
+  'dashboard.farmingChart.title': '총 레버리지 투자 자산',
   'dashboard.totalSupply.title': '총 발행량',
   'dashboard.marketCap.title': '시가 총액',
   'dashboard.circulatingSupply.title': '유통량',
@@ -766,14 +770,18 @@ export const ko = {
   'convert.completed.title': '전환 완료되었습니다.',
   'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
 
-  'href.video.1': 'https://youtu.be/m-_6dgnGyY4',
-  'href.video.2': 'https://youtu.be/GIWDAHHehvg',
-  'href.video.3': 'https://youtu.be/ECAvGBTsPHU',
+  'href.video.1': 'https://youtu.be/rZR0k6mBPdw',
+  'href.video.2': 'https://youtu.be/5HfaQ7i-Nz8',
+  'href.video.3': 'https://youtu.be/UfwkTQ4pQhc',
 
   'href.faq.1.q': "https://docs.kleva.io/undefined-3/kleva",
   'href.faq.2.q': "https://docs.kleva.io/undefined-1/ibtokens",
   'href.faq.3.q': "https://docs.kleva.io/undefined-2/undefined#undefined-2",
   'href.faq.4.q': "https://docs.kleva.io/undefined-4/withdraw",
+  
+  'href.quote.1': "https://docs.kleva.io/undefined-1/undefined-3/1",
+  'href.quote.2': "https://docs.kleva.io/undefined-1/undefined-3/2",
+  'href.quote.3': "https://docs.kleva.io/undefined-1/undefined-3/4-2",
 
   'burn': '소각',
   'burnHistory': '소각 내역',
