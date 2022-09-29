@@ -295,6 +295,7 @@ class App extends Component<Props> {
 
     // navigation tab
     // const shouldFloat = path$.value == '/main' && scrollTop > 132 
+
     const shouldFloat = path$.value == '/main' && scrollTop > 68 
     shouldNavigationTabFloat$.next(shouldFloat)
   }
