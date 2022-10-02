@@ -9,7 +9,7 @@ import { openModal$ } from 'streams/ui'
 
 import KlipQRCode from '../components/KlipQRCode'
 import { toFixed } from '../utils/calc'
-import { noRounding } from '../utils/misc'
+import { noRounding, replaceall } from '../utils/misc'
 import { isQrCodeModal$, modalContentComponent$, openLayeredModal$ } from './ui'
 
 export const requestStatus$ = new BehaviorSubject({})
@@ -121,7 +121,7 @@ const _requestKeyResultPoll$ = (requestKey) => {
 
 export const executeContractKlip$ = ({ bappName = BAPP_NAME, from, to, value, abi, params }) => {
 
-  value = noRounding(new BigNumber(value).div(10 ** 18).toNumber(), 6)
+  value = replaceall(',', '', noRounding(new BigNumber(value).div(10 ** 18).toNumber(), 6))
 
   value = new BigNumber(value)
     .multipliedBy(10 ** 18)
