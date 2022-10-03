@@ -189,7 +189,9 @@ class AddPosition extends Component {
       || (farmingTokenAllowance && farmingTokenAllowance != 0)
 
     // Available balance check
-    const availableFarmingTokenAmount = balancesInWallet$.value[farmingToken.address]
+    const availableFarmingTokenAmount = isKLAY(farmingToken.address) 
+      ? balancesInWallet$.value[tokenList.WKLAY.address]
+      : balancesInWallet$.value[farmingToken.address]
     const availableBaseTokenAmount = isKLAY(baseToken.address)
       ? balancesInWallet$.value[tokenList.WKLAY.address]
       : balancesInWallet$.value[baseToken.address]

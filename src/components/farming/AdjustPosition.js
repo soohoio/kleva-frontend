@@ -230,7 +230,9 @@ class AdjustPosition extends Component {
     const isFarmingTokenApproved = this.bloc.farmingTokenAmount$.value == 0
       || (farmingTokenAllowance && farmingTokenAllowance != 0)
 
-    const availableFarmingTokenAmount = balancesInWallet$.value[farmingToken.address]
+    const availableFarmingTokenAmount = isKLAY(farmingToken.address) 
+      ? balancesInWallet$.value[tokenList.WKLAY.address]
+      : balancesInWallet$.value[farmingToken.address]
     const availableBaseTokenAmount = isKLAY(baseToken.address)
       ? balancesInWallet$.value[tokenList.WKLAY.address]
       : balancesInWallet$.value[baseToken.address]
