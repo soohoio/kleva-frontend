@@ -82,7 +82,6 @@ class InputWithPercentage extends Component {
     if (this.props.autoFocus) {
       setTimeout(() => {
         if (this.$input?.current) {
-          console.log('focus')
           this.$input.current.focus()
           var e = new Event('touchstart')
           var e2 = new Event('touchend')
@@ -101,6 +100,7 @@ class InputWithPercentage extends Component {
   calcPercentageFromValue = (val) => {
     const { valueLimit } = this.props
 
+    
     const percentage = new BigNumber(val).div(valueLimit).toNumber() * 100
 
     return (val && valueLimit != 0) 
