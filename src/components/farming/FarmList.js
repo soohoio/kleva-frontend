@@ -62,6 +62,7 @@ class FarmList extends Component {
       klevaAnnualRewards$,
       tokenPrices$,
       farmPoolDeposited$,
+      farmPoolDepositedByAddress$,
       selectedAddress$,
       isDesktop$,
       this.borrowingAssetMap$,
@@ -262,7 +263,7 @@ class FarmList extends Component {
           sortTypeChanged$={this.sortTypeChanged$}
           klevaAnnualRewards={klevaAnnualRewards$.value}
           tokenPrices={tokenPrices$.value}
-          farmDeposited={farmPoolDeposited$.value[idx]}
+          farmDeposited={farmPoolDepositedByAddress$.value[lpToken.address.toLowerCase()]}
 
           borrowingAssetMap$={this.borrowingAssetMap$}
 
@@ -293,7 +294,7 @@ class FarmList extends Component {
         sortTypeChanged$={this.sortTypeChanged$}
         klevaAnnualRewards={klevaAnnualRewards$.value}
         tokenPrices={tokenPrices$.value}
-        farmDeposited={farmPoolDeposited$.value[idx]}
+        farmDeposited={farmPoolDepositedByAddress$.value[lpToken.address.toLowerCase()]}
 
         borrowingAssetMap$={this.borrowingAssetMap$}
 
