@@ -71,6 +71,10 @@
       display: flex;
     }
   }
+
+  &--kaikas-mobile {
+    display: flex !important;
+  }
   
   &--klip {
     // @include desktop {

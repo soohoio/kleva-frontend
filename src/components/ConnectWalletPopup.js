@@ -69,7 +69,9 @@ class ConnectWalletPopup extends Component {
           />
           <WalletConnectOption
             title="Kaikas"
-            className="WalletConnectOption--kaikas"
+            className={cx("WalletConnectOption--kaikas", {
+              "WalletConnectOption--kaikas-mobile": window.isMobile && window.klaytn,
+            })}
             imgSrc="/static/images/wallet-option-kaikas.svg?date=20220929"
             onClick={() => {
               if (connectInjected('kaikas', 'Kaikas')) {
