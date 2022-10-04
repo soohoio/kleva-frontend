@@ -126,8 +126,15 @@ export default class {
   getAmountToBorrow = () => {
     if (!this.borrowMore$.value) return 0
 
+    let leverage = this.leverage$.value
+    
+    // @HACK This code resolves Klayswap error: Klayswap contract reverts transaction when there is 0 amount to swap.
+    // if (Number(leverage) >= 1.999 && Number(leverage) <= 2.001) {
+    //   leverage = 1.999
+    // }
+
     const amountToBeBorrowed = new BigNumber(this.before_equityValue$.value)
-      .multipliedBy(Number(this.leverage$.value) - Number(this.before_leverage))
+      .multipliedBy(Number(leverage) - Number(this.before_leverage))
       .toFixed(0)
 
     return amountToBeBorrowed
