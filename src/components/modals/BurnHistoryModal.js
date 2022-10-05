@@ -44,6 +44,12 @@ const burnHistory = [
     burnedInUSD: "34,723.60",
     txid: "0x5f95ddb24d5412365c4ec1084aca496f52d3def1002a748de10625e5a3f3b6f2",
   },
+  { 
+    date: "2022.10.05",
+    burnedKLEVA: "382,401.78",
+    burnedInUSD: "50,782.96",
+    txid: "0xb33d6d91dbabba5d08007fb3c10219b4273f3f20a8b8b3cd6132d72742a7cc2c",
+  },
 ].reverse()
 
 class BurnHistoryModal extends Component {

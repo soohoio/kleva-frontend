@@ -51,7 +51,7 @@ class TotalSupplyInfo extends Component {
     const klevaPlatformLocked = klevaLockedData[klevaLockedData.length - 1]?.value
 
     const accumBurnAmount = klevaBurnData[klevaBurnData.length - 1]?.value
-    const accumBuybackInUSD = 342448 // 2022.9.26
+    const accumBuybackInUSD = 393231 // 2022.10.05
     
     const klevaLockedPure = klevaPlatformLocked - accumBurnAmount
 
