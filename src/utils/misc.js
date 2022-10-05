@@ -224,8 +224,13 @@ export const nFormatter = (num, forceDigits, forceLocale, lastOnly) => {
   }
 
   // rule 01
-  if (num < 1e-6) {
+  if (num > 0 && num < 1e-6) {
     return 0
+  }
+
+  // negative value
+  if (num < 0) {
+    return `-${nFormatter(num * -1)}`
   }
 }
 
