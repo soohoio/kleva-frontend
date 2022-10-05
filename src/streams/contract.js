@@ -29,6 +29,9 @@ import WKLAYABI from 'abis/WKLAY.json'
 // Klayswap Calculator
 import KlayswapCalculatorABI from 'abis/KlayswapCalculator.json'
 
+// KNS
+import KNS_REVERSE_RECORDS_ABI from 'abis/KNS.json'
+
 import { closeLayeredModal$, closeModal$, isFocused$, isQrCodeModal$, layeredModalContentComponent$ } from './ui'
 import { addressKeyFind, coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
@@ -40,7 +43,7 @@ import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
 import { tokenPrices$ } from './tokenPrice'
-import { KLAYSWAP_CALCULATOR } from '../constants/address'
+import { KLAYSWAP_CALCULATOR, KNS_REVERSE_RECORDS_ADDRESS } from '../constants/address'
 import { workerByAddress } from '../constants/workers'
 import copy from 'copy-to-clipboard'
 
@@ -1986,4 +1989,14 @@ export const getDebtRepaymentRange$ = ({
       }
     })
   )
+}
+
+// KNS
+export const getKNSName$ = (address) => {
+  return call$({
+    abi: KNS_REVERSE_RECORDS_ABI,
+    address: KNS_REVERSE_RECORDS_ADDRESS,
+    methodName: "getName",
+    params: [address]
+  })
 }

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "function",
+    "name": "getName",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ]
+  }
+]

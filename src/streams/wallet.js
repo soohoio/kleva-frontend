@@ -1,6 +1,6 @@
 import React from 'react'
-import { from, BehaviorSubject, Subject } from 'rxjs'
-import { distinctUntilChanged, filter, windowTime } from 'rxjs/operators'
+import { from, BehaviorSubject, Subject, of } from 'rxjs'
+import { distinctUntilChanged, filter, switchMap, windowTime } from 'rxjs/operators'
 import ls from 'local-storage'
 import { walletType$ } from './setting'
 
@@ -9,26 +9,30 @@ import CompletedModal from '../components/common/CompletedModal'
 import { I18n } from '../components/common/I18n'
 import { closeLayeredModal$ } from './ui'
 import DeepLinker from '../utils/deeplink'
+import { getKNSName$ } from './contract'
 
 export const selectedAddress$ = new BehaviorSubject()
+
+export const knsDomain$ = new BehaviorSubject()
 
 export const logout$ = new Subject()
 
 export const walletProviderName$ = new BehaviorSubject()
 
+// KNS
 selectedAddress$.pipe(
-  distinctUntilChanged()
-).subscribe(() => {
-  // closeModal$.next(true)
+  switchMap((address) => {
+    if (address) {
+      return getKNSName$(address)
+    }
+
+    return of('')
+  })
+).subscribe((knsDomain) => {
+  knsDomain$.next(knsDomain)
 })
 
-selectedAddress$.pipe(
-  // Only store selectedAddress$ in local storage only in Web environment.
-  // + If the selected address is set with klip, don't store it on local storage.
-  filter((a) => !!a && !isMobile && walletType$.value !== "klip"),
-).subscribe((address) => {
-  
-})
+window.knsDomain$ = knsDomain$
 
 export const connectInjected = (injectedType, walletProviderName) => {
 
