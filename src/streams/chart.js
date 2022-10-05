@@ -14,6 +14,11 @@ export const chartData$ = new BehaviorSubject({
   kleva_burn: [],
 })
 
+export const burnHistoryData$ = new BehaviorSubject({
+  data: [],
+  accumValue: "0",
+})
+
 const yesterday = new Date(Date.now() - 864e5)
 
 const chartDate = `${new Date().getFullYear()}_${String(new Date().getMonth() + 1).padStart(2, "0")}_${String(new Date().getDate()).padStart(2, "0")}`
@@ -21,6 +26,8 @@ const chartBackupDate = `${new Date().getFullYear()}_${String(yesterday.getMonth
 
 const CHART_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartDate}.json`
 const CHART_BACKUP_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartBackupDate}.json`
+
+const BURN_HISTORY_API_URL = "https://275dmnyh53.execute-api.ap-southeast-1.amazonaws.com/dev/data"
 
 export const fetchChartData$ = () => {
   return forkJoin([
@@ -79,6 +86,19 @@ export const fetchChartData$ = () => {
           kleva_buybackburn_fund: [],
           kleva_burn: [],
         })
+    })
+  )
+}
+
+export const getBurnHistory$ = () => {
+  return from(fetch(BURN_HISTORY_API_URL)).pipe(
+    switchMap((res) => res.json()),
+    catchError(() => of(null)),
+    map(({ data, accumValue }) => {
+      return {
+        data: data.reverse(),
+        accumValue,
+      }
     })
   )
 }

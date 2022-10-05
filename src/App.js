@@ -42,6 +42,7 @@ import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
 import { addressKeyFind } from './utils/misc'
 import { currentTab$ } from './streams/view'
+import { burnHistoryData$, chartData$, fetchChartData$, getBurnHistory$ } from './streams/chart'
 
 type Props = {
   isLoading: boolean,
@@ -280,6 +281,15 @@ class App extends Component<Props> {
       takeUntil(this.destroy$)
     ).subscribe(() => {
       currentTab$.next('myasset')
+    })
+
+    // Preload
+    fetchChartData$().subscribe((chartData) => {
+      chartData$.next(chartData)
+    })
+
+    getBurnHistory$().subscribe((burnHistoryData) => {
+      burnHistoryData$.next(burnHistoryData)
     })
   }
 

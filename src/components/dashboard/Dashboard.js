@@ -7,7 +7,7 @@ import './Dashboard.scss'
 
 import { I18n } from 'components/common/I18n'
 import { prevPath$ } from 'streams/location'
-import { chartData$, fetchChartData$ } from '../../streams/chart'
+import { burnHistoryData$, chartData$, fetchChartData$, getBurnHistory$ } from '../../streams/chart'
 import ChartItem from './ChartItem'
 import { noRounding, getQS, backPage } from '../../utils/misc'
 import TotalSupplyInfo from './TotalSupplyInfo'
@@ -31,6 +31,10 @@ class Dashboard extends Component {
     
     fetchChartData$().subscribe((chartData) => {
       chartData$.next(chartData)
+    })
+
+    getBurnHistory$().subscribe((burnHistoryData) => {
+      burnHistoryData$.next(burnHistoryData)
     })
   }
   

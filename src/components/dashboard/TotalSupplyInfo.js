@@ -15,6 +15,7 @@ import LockupInfoModal from '../modals/LockupInfoModal'
 import { tokenList } from '../../constants/tokens'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import BurnHistoryModal from '../modals/BurnHistoryModal'
+import { burnHistoryData$ } from '../../streams/chart'
 
 class TotalSupplyInfo extends Component {
   bloc = new Bloc(this)
@@ -24,6 +25,7 @@ class TotalSupplyInfo extends Component {
   componentDidMount() {
     merge(
       tokenPrices$,
+      burnHistoryData$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -51,7 +53,8 @@ class TotalSupplyInfo extends Component {
     const klevaPlatformLocked = klevaLockedData[klevaLockedData.length - 1]?.value
 
     const accumBurnAmount = klevaBurnData[klevaBurnData.length - 1]?.value
-    const accumBuybackInUSD = 393231 // 2022.10.05
+    // const accumBuybackInUSD = 393231 // 2022.10.05
+    const accumBuybackInUSD = burnHistoryData$.value?.accumValue
     
     const klevaLockedPure = klevaPlatformLocked - accumBurnAmount
 
