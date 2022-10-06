@@ -393,7 +393,9 @@ export const en = {
   'burnAmount': 'Amount Burned',
   'detail': 'Details',
   'date': 'Date',
-  'seeTx': 'Link'
+  'seeTx': 'Link',
+  'copyAddress': 'Copy',
+  'copied': 'Copied',
 }
 
 export const ko = {
@@ -404,7 +406,7 @@ export const ko = {
   'connectWallet': '지갑 연결하기',
   'connect': '연결하기',
   'connectWallet2': '지갑을 연결해 주세요.',
-  'logout': '해제하기',
+  'logout': '연결 해제',
   'connected': '%{title} 지갑에 연결됨',
   'connectWallet.title': '자산 연동을 위해<br/>지갑을 연결해 주세요.',
   'connectWallet.connectWith': '%{title} 지갑 연결',
@@ -792,6 +794,8 @@ export const ko = {
   'detail': '상세',
   'date': '일자',
   'seeTx': '보기',
+  'copyAddress': '주소 복사',
+  'copied': '복사 완료',
 }
 
 export const zh = {

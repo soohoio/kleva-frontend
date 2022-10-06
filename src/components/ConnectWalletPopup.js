@@ -55,7 +55,7 @@ class ConnectWalletPopup extends Component {
             onClick={() => {
 
               if (window.klaytn && window.klaytn.isDcentWallet) {
-                connectInjected('', 'dcent')
+                connectInjected('', 'decent')
                 closeModal$.next(true)
                 return
               }

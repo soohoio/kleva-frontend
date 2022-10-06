@@ -131,3 +131,59 @@
 //     right: -100%;
 //   }
 // }
+
+.MobileGNB__walletProviderIcon {
+  width: 25px;
+  height: 22px;
+  margin-bottom: 8px;
+
+  &--Klip {
+    width: 38px;
+    height: 20px;
+  }
+
+  &--decent {
+    width: 77px;
+    height: 22px;
+  }
+}
+
+.MobileGNB__walletAddress {
+  @include font-style('font-1', 'b', 24px);
+  @include not-draggable;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  line-height: 28px;
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+  margin-right: auto;
+}
+
+.MobileGNB__copyIcon {
+  width: 16px;
+  margin-left: 6px;
+  overflow: hidden;
+
+  &--copied {
+    animation: open .5s ease-in-out;
+
+    path {
+      animation: check 1s ease-out;
+    }
+  }
+} 
+
+@keyframes open {
+  from {
+    width: 0
+  };
+  to {
+    width: 16px;
+  };
+}
+
+@keyframes check {
+  0%   { stroke-dashoffset: 50px; stroke-dasharray: 50;}
+  50%  { stroke-dashoffset: 0 }
+}
