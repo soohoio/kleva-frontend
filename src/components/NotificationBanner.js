@@ -33,14 +33,20 @@ class NotificationBanner extends Component {
       {
         key: "items001",
         category: 'notice',
-        content: 'notice.1',
-        href: 'https://klevaprotocol.info/UX_Update_Main',
+        content: 'notice.3',
+        href: 'https://medium.com/@KLEVA_Protocol_official/493a5adb75e9',
       },
       {
         key: "items002",
         category: 'notice',
-        content: 'notice.2',
-        href: 'https://klevaprotocol.info/Report_Aug2022',
+        content: 'notice.4',
+        href: 'https://medium.com/@KLEVA_Protocol_official/1baf4687e1c8',
+      },
+      {
+        key: "items003",
+        category: 'notice',
+        content: 'notice.1',
+        href: 'https://klevaprotocol.info/UX_Update_Main',
       },
     ]
 

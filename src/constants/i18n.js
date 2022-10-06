@@ -38,6 +38,8 @@ export const en = {
   'notice': 'Notice',
   'notice.1': 'UX Renewal is now implemented',
   'notice.2': 'Community Report: August, 2022',
+  'notice.3': 'KLEVA Buyback & Burn #6',
+  'notice.4': 'Community Report: September, 2022',
   'dashboard.tvlChart.title': 'Total Value Locked',
   'dashboard.lendingChart.title': 'Lending TVL',
   'dashboard.farmingChart.title': 'Farming TVL',
@@ -433,7 +435,8 @@ export const ko = {
   'notice': '공지',
   'notice.1': 'KLEVA 프로토콜 UX 전면 개편 안내',
   'notice.2': '2022년 8월 커뮤니티 리포트',
-
+  'notice.3': 'KLEVA 토큰 6차 바이백&소각 안내',
+  'notice.4': '2022년 9월 커뮤니티 리포트',
   'dashboard.tvlChart.title': '총 운용 자산',
   'dashboard.lendingChart.title': '총 예치 자산',
   'dashboard.farmingChart.title': '총 레버리지 투자 자산',
