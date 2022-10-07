@@ -108,7 +108,7 @@ class RollingNoti extends Component {
               <span 
                 className="RollingNoti__itemContent"
               >
-                {I18n.t(content)}
+                {content}
               </span>
             </div>
           })}

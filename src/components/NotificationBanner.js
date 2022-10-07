@@ -1,12 +1,14 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of } from 'rxjs'
-import { takeUntil, tap, debounceTime } from 'rxjs/operators'
+import { Subject, merge, of, interval } from 'rxjs'
+import { takeUntil, tap, debounceTime, startWith, switchMap } from 'rxjs/operators'
 
 import './NotificationBanner.scss'
 import Shortcuts from './Shortcuts'
 import RollingNoti from './RollingNoti'
 import { readNotiMap$ } from '../streams/setting'
+import { getNotices$, noticeItems$ } from '../streams/notice'
+import { currentLocale$ } from '../streams/i18n'
 
 class NotificationBanner extends Component {
 
@@ -15,6 +17,8 @@ class NotificationBanner extends Component {
   componentDidMount() {
     merge(
       readNotiMap$,
+      noticeItems$,
+      currentLocale$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -22,6 +26,13 @@ class NotificationBanner extends Component {
       this.forceUpdate()
     })
     
+    interval(1000 * 60 * 5).pipe(
+      startWith(0),
+      switchMap(() => getNotices$()),
+      takeUntil(this.destroy$)
+    ).subscribe((notices) => {
+      noticeItems$.next(notices)
+    })
   }
   
   componentWillUnmount() {
@@ -29,28 +40,14 @@ class NotificationBanner extends Component {
   }
 
   getItems = () => {
-    const items = [
-      {
-        key: "items001",
+    return noticeItems$.value.map((item, idx) => {
+      return {
+        key: idx,
         category: 'notice',
-        content: 'notice.3',
-        href: 'https://medium.com/@KLEVA_Protocol_official/493a5adb75e9',
-      },
-      {
-        key: "items002",
-        category: 'notice',
-        content: 'notice.4',
-        href: 'https://medium.com/@KLEVA_Protocol_official/1baf4687e1c8',
-      },
-      {
-        key: "items003",
-        category: 'notice',
-        content: 'notice.1',
-        href: 'https://klevaprotocol.info/UX_Update_Main',
-      },
-    ]
-
-    return items
+        content: item[currentLocale$.value],
+        href: item.href,
+      }
+    })
   }
     
   render() {
