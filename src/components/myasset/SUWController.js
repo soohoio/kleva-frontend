@@ -264,6 +264,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
@@ -302,6 +303,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
@@ -340,6 +342,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"
@@ -379,6 +382,7 @@ class SUWController extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           onEnterKey={this.onEnterKeyCallback$.value}
           autoFocus
           className="SUWController__depositInput SUWController__depositInput--common"

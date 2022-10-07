@@ -329,6 +329,7 @@ class AdjustPosition extends Component {
       return (
         <>
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case1-1"
             headerRightContent={(
               <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -343,6 +344,7 @@ class AdjustPosition extends Component {
             targetToken={baseToken}
           />
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case1-2"
             focused$={this.bloc.isFarmingFocused$}
             decimalLimit={farmingToken.decimals}
@@ -367,6 +369,7 @@ class AdjustPosition extends Component {
       return (
         <>
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case2-1"
             headerRightContent={(
               <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -381,6 +384,7 @@ class AdjustPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case2-2"
             focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
@@ -405,6 +409,7 @@ class AdjustPosition extends Component {
       return (
         <>
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case3-1"
             headerRightContent={(
               <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -419,6 +424,7 @@ class AdjustPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case3-2"
             focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
@@ -436,6 +442,7 @@ class AdjustPosition extends Component {
     return (
       <>
         <SupplyInput
+          isProcessing={this.bloc.isLoading$.value}
           key="case4-1"
           headerRightContent={(
             <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -450,6 +457,7 @@ class AdjustPosition extends Component {
           targetToken={baseToken}
         />
         <SupplyInput
+          isProcessing={this.bloc.isLoading$.value}
           key="case4-2"
           focused$={this.bloc.isFarmingFocused$}
           decimalLimit={farmingToken.decimals}

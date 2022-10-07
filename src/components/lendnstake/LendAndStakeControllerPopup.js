@@ -275,6 +275,7 @@ class LendAndStakeControllerPopup extends Component {
           </div>
 
           <InputWithPercentage
+            isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
             autoFocus
             onEnterKey={this.onEnterKeyCallback$.value}
             className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
@@ -319,6 +320,7 @@ class LendAndStakeControllerPopup extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           autoFocus
           onEnterKey={this.onEnterKeyCallback$.value}
           className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
@@ -343,7 +345,7 @@ class LendAndStakeControllerPopup extends Component {
       || new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance)
       || !isValidDecimal(this.bloc.klayAmountToWrap$.value, stakingToken.decimals)
 
-    const isInvalidValue = availableBalance && (new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance))
+    const isInvalidValue = !this.bloc.isWrapping$.value && availableBalance && (new BigNumber(this.bloc.klayAmountToWrap$.value).gt(availableBalance))
 
     return (
       <>
@@ -357,6 +359,7 @@ class LendAndStakeControllerPopup extends Component {
         <div className="LendAndStakeControllerPopup__inputAndButtonWrapper">
           <div className="LendAndStakeControllerPopup__inputAndButton">
             <InputWithPercentage
+              isProcessing={this.bloc.isWrapping$.value}
               onEnterKey={this.onEnterKeyCallback$.value}
               className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
               decimalLimit={stakingToken.decimals}
@@ -465,6 +468,7 @@ class LendAndStakeControllerPopup extends Component {
           </div>
 
           <InputWithPercentage
+            isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
             className={cx("LendAndStakeControllerPopup__depositInput", "LendAndStakeControllerPopup__depositInput--wklay", {
               "LendAndStakeControllerPopup__depositInput--upper": true
             })}
@@ -510,6 +514,7 @@ class LendAndStakeControllerPopup extends Component {
         </div>
 
         <InputWithPercentage
+          isProcessing={this.bloc.isWrapping$.value || this.bloc.isLoading$.value}
           onEnterKey={this.onEnterKeyCallback$.value}
           className="LendAndStakeControllerPopup__depositInput LendAndStakeControllerPopup__depositInput--common"
           decimalLimit={ibToken.decimals}

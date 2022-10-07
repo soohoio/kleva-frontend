@@ -62,6 +62,7 @@ class WKLAYSwitcher extends Component {
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
+            isProcessing={this.bloc.isWrapping$.value}
             noPercentage={!column}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}
@@ -140,6 +141,7 @@ class WKLAYSwitcher extends Component {
         </div>
         <div className="WKLAYSwitcher__inputAndButton">
           <InputWithPercentage
+            isProcessing={this.bloc.isWrapping$.value}
             className="WKLAYSwitcher__depositInput WKLAYSwitcher__depositInput--common"
             decimalLimit={18}
             value$={this.bloc.klayAmountToWrap$}

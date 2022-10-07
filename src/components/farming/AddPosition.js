@@ -274,6 +274,7 @@ class AddPosition extends Component {
         <>
           <SupplyInput
             key="case1-1"
+            isProcessing={this.bloc.isLoading$.value}
             focused$={this.bloc.isBaseFocused$}
             headerRightContent={(
               <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -288,6 +289,7 @@ class AddPosition extends Component {
           />
           <SupplyInput
             key="case1-2"
+            isProcessing={this.bloc.isLoading$.value}
             focused$={this.bloc.isFarmingFocused$}
             decimalLimit={farmingToken.decimals}
             value$={this.bloc.farmingTokenAmount$}
@@ -311,6 +313,7 @@ class AddPosition extends Component {
       return (
         <>
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case2-1"
             focused$={this.bloc.isFarmingFocused$}
             headerRightContent={(
@@ -325,6 +328,7 @@ class AddPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case2-2"
             focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
@@ -350,6 +354,7 @@ class AddPosition extends Component {
       return (
         <>
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case3-1"
             focused$={this.bloc.isFarmingFocused$}
             headerRightContent={(
@@ -364,6 +369,7 @@ class AddPosition extends Component {
             targetToken={farmingToken}
           />
           <SupplyInput
+            isProcessing={this.bloc.isLoading$.value}
             key="case3-2"
             focused$={this.bloc.isBaseFocused$}
             decimalLimit={baseToken.decimals}
@@ -381,6 +387,7 @@ class AddPosition extends Component {
     return (
       <>
         <SupplyInput
+          isProcessing={this.bloc.isLoading$.value}
           key="case4-1"
           headerRightContent={(
             <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
@@ -395,6 +402,7 @@ class AddPosition extends Component {
           targetToken={baseToken}
         />
         <SupplyInput
+          isProcessing={this.bloc.isLoading$.value}
           key="case4-2"
           focused$={this.bloc.isFarmingFocused$}
           decimalLimit={farmingToken.decimals}

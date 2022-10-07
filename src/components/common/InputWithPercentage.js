@@ -154,13 +154,14 @@ class InputWithPercentage extends Component {
       targetToken,
       noWarn,
       onEnterKey,
+      isProcessing,
     } = this.props
 
     // zeroValueDisable: If value is zero, disable
     const isZeroValue = valueLimit == 0
     const isDisabled = (zeroValueDisable && isZeroValue)
 
-    const isInvalidValue = valueLimit && (new BigNumber(value$.value).gt(valueLimit))
+    const isInvalidValue = !isProcessing && (valueLimit && (new BigNumber(value$.value).gt(valueLimit)))
 
     return (
       <>

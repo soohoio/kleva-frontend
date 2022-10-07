@@ -45,6 +45,7 @@ class SupplyInput extends Component {
       headerRightContent,
 
       focused$,
+      isProcessing,
     } = this.props
 
     return (
@@ -57,6 +58,7 @@ class SupplyInput extends Component {
           {!!headerRightContent && headerRightContent}
         </div>
         <InputWithPercentage
+          isProcessing={isProcessing}
           placeholder={"0"}
           zeroValueDisable={false}
           focused$={focused$}
