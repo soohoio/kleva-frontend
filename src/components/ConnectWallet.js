@@ -11,6 +11,7 @@ import './ConnectWallet.scss'
 import ConnectWalletPopup from './ConnectWalletPopup'
 import { knsDomain$, logout$, walletProviderName$ } from '../streams/wallet'
 import copy from 'copy-to-clipboard'
+import { compactKnsDomain } from '../utils/misc'
 
 class ConnectWallet extends Component {
   destroy$ = new Subject()
@@ -58,7 +59,7 @@ class ConnectWallet extends Component {
   render() {
     const { className } = this.props
 
-    const addressDisplay = knsDomain$.value || (selectedAddress$.value?.slice(0, 4) + "..." + selectedAddress$.value?.slice(-4))
+    const addressDisplay = (knsDomain$.value && compactKnsDomain(knsDomain$.value, 15)) || (selectedAddress$.value?.slice(0, 4) + "..." + selectedAddress$.value?.slice(-4))
 
     return (
       <div
@@ -85,10 +86,17 @@ class ConnectWallet extends Component {
                   this.copy(knsDomain$.value || selectedAddress$.value)
                 }}
                 onMouseEnter={() => this.copiedHide$.next(false)}
-                onMouseLeave={() => this.copied$.next(false)}
+                onMouseLeave={() => {
+                  // this.copied$.next(false)
+                }}
                 className="ConnectWallet__walletAddress"
               >
-                <img className="ConnectWallet__walletProviderIcon" src={`/static/images/common/icon_wallet_${walletProviderName$.value?.toLowerCase()}.svg`} />
+                <img 
+                  className={cx("ConnectWallet__walletProviderIcon", {
+                    [`ConnectWallet__walletProviderIcon--${walletProviderName$.value}`]: true,
+                  })}
+                  src={`/static/images/common/icon_wallet_${walletProviderName$.value?.toLowerCase()}.svg`} 
+                />
                 <div className="ConnectWallet__walletDisplay">
                   {addressDisplay}
                   <p className={cx("ConnectWallet__copyMessage", {

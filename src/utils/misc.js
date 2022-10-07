@@ -328,3 +328,15 @@ export const backPage = () => {
   }
   currentTab$.next('myasset')
 }
+
+export const compactKnsDomain = (domain, sliceUntil) => {
+  const [name, klaySuffix] = domain.split('.')
+
+  if (sliceUntil !== undefined && (name.length > sliceUntil)) {
+    return name.slice(0, sliceUntil) + "...." + klaySuffix
+  }
+
+  return domain
+}
+
+window.compactKnsDomain = compactKnsDomain

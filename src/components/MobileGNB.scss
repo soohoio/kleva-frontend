@@ -136,6 +136,7 @@
   width: 25px;
   height: 22px;
   margin-bottom: 8px;
+  margin-top: -4px;
 
   &--Klip {
     width: 38px;
@@ -161,12 +162,13 @@
 }
 
 .MobileGNB__copyIcon {
-  width: 16px;
+  width: 17px;
   margin-left: 6px;
   overflow: hidden;
 
   &--copied {
-    animation: open .5s ease-in-out;
+    animation: open .3s ease-in-out;
+    margin-top: -2px;
 
     path {
       animation: check 1s ease-out;
