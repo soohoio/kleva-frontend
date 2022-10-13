@@ -129,6 +129,12 @@
     margin-right: -7px;
   }
 
+  &--sooho {
+    .WithusItem__image {
+      height: 70%;
+    }
+  }
+
   @include desktop {
     flex: unset;
     width: 33.33%;

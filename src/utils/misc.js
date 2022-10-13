@@ -2,6 +2,8 @@ import { currentLocale$ } from 'streams/i18n'
 import { browserHistory$ } from '../streams/location'
 import { prevLocation$ } from '../streams/location'
 
+import extractJSON from '../utils/script'
+
 export const addressKeyFind = (item, address) => {
   return item?.[address] || item?.[address.toLowerCase()]
 }

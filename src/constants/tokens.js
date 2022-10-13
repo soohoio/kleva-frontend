@@ -15,22 +15,12 @@ export const singleTokens = {
     iconSrc: "/static/images/tokens/token-KLAY.svg?date=20220929",
     decimals: 18,
   },
-  // REAL
-  
   "KLEVA": {
     title: "KLEVA",
     address: "0x5fFF3a6C16C2208103F318F4713D4D90601A7313",
     iconSrc: "/static/images/tokens/token-KLEVA.svg?date=20220929",
     decimals: 18,
   },
-  
-  // TEST
-  // "KLEVA": {
-  //   title: "KLEVA",
-  //   address: "0x0b430ad7bf84eb307e221f0e66216205502f835d",
-  //   iconSrc: "/static/images/tokens/token-KLEVA.svg?date=20220929",
-  //   decimals: 18,
-  // },
   "oUSDT": {
     title: "oUSDT",
     address: "0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167",
@@ -43,7 +33,6 @@ export const singleTokens = {
     iconSrc: "/static/images/tokens/token-KSP.svg?date=20220929",
     decimals: 18,
   }, 
-  
   "WEMIX": {
     title: "WEMIX",
     address: "0x5096db80b21ef45230c9e423c373f1fc9c0198dd",
@@ -61,12 +50,6 @@ export const singleTokens = {
     address: "0x754288077d0ff82af7a5317c7cb8c444d421d103",
     iconSrc: "/static/images/tokens/token-KUSDC.svg?date=20220929",
     decimals: 6,
-  }, 
-  "KBUSD": {
-    title: "KBUSD",
-    address: "0x210bc03f49052169d5588a52c317f71cf2078b85",
-    iconSrc: "/static/images/tokens/token-KBUSD.svg?date=20220929",
-    decimals: 18,
   }, 
   "oETH": {
     title: "oETH",
@@ -87,12 +70,6 @@ export const singleTokens = {
     decimals: 18,
   },
 }
-
-export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cur) => {
-  acc[cur.address] = cur
-  acc[cur.address.toLowerCase()] = cur
-  return acc
-}, {})
 
 export const lpTokens = {
   // Token A - Token B
@@ -215,25 +192,8 @@ export const lpTokens = {
     address: "0x3bce8d81ac54010bb7ea6e5960f2ded6fc6a7ac5",
     decimals: 18,
   },
-  
 }
 
-const _lpTokenByIngredients = Object.values(lpTokens).reduce((acc, cur) => {
-  acc[`${cur.ingredients[0].address.toLowerCase()}-${cur.ingredients[1].address.toLowerCase()}`] = cur
-  acc[`${cur.ingredients[1].address.toLowerCase()}-${cur.ingredients[0].address.toLowerCase()}`] = cur
-  return acc
-}, {})
-
-export const lpTokenByIngredients = (tokenA, tokenB) => {
-  return _lpTokenByIngredients[`${tokenA && tokenA.address.toLowerCase()}-${tokenB && tokenB.address.toLowerCase()}`]
-}
-
-export const lpTokenByAddress = Object.values(lpTokens).reduce((acc, cur) => {
-  acc[cur.address] = cur
-  return acc
-}, {})
-
-// REAL
 export const ibTokens = {
   "ibKLAY": {
     title: "ibKLAY",
@@ -300,23 +260,6 @@ export const ibTokens = {
   },
 }
 
-export const ibTokenByAddress = Object.values(ibTokens).reduce((acc, cur) => {
-  acc[cur.address.toLowerCase()] = cur
-  return acc
-}, {})
-
-export const getIbTokenFromOriginalToken = (origialToken) => {
-  return Object.values(ibTokens).find((ib) => {
-    return ib.originalToken.address.toLowerCase() === origialToken.address.toLowerCase()
-  })
-}
-
-export const getOriginalTokenFromIbToken = (ibToken) => {
-  return Object.values(singleTokens).find((token) => {
-    return isSameAddress(ibToken.originalToken.address, token.address)
-  })
-}
-
 // REAL
 // key: ibToken address
 // * ORDER IS IMPORTANT * order should be same with lending pool tokens!!
@@ -365,44 +308,54 @@ export const debtTokens = {
   },
 }
 
-// // TEST
-// export const debtTokens = {
-//   [ibTokens.ibKLAY.address]: {
-//     pid: 1,
-//     title: "KLAY",
-//     address: "0x1EDC9f844FF72f6034C08D1FBD265d0e17BFcd51",
-//     decimals: 18,
-//   },
-//   [ibTokens.ibKLEVA.address]: {
-//     pid: 3,
-//     title: "KLEVA",
-//     address: "0xa07B54031Fdc9Dd22cA635198D71097c6353f559",
-//     decimals: 18,
-//   },
-//   [ibTokens.iboUSDT.address]: {
-//     pid: 5,
-//     title: "oUSDT",
-//     address: "0x9d3F14B57c9D47d8FA076948f8e08CC2b8933042",
-//     decimals: 18,
-//   },
-//   [ibTokens.ibWEMIX.address]: {
-//     pid: 7,
-//     title: "WEMIX",
-//     address: "0x1Ff8366eEAF75Cc5c793F1145BA18C2635AfeFe6",
-//     decimals: 18,
-//   },
-//   [ibTokens.ibKDAI.address]: {
-//     pid: 9,
-//     title: "KDAI",
-//     address: "0xB481778883aB56C834cb18D2633803687261E368",
-//     decimals: 18,
-//   },
-// }
+export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cur) => {
+  acc[cur.address] = cur
+  acc[cur.address.toLowerCase()] = cur
+  return acc
+}, {})
+
+const _lpTokenByIngredients = Object.values(lpTokens).reduce((acc, cur) => {
+  acc[`${cur.ingredients[0].address.toLowerCase()}-${cur.ingredients[1].address.toLowerCase()}`] = cur
+  acc[`${cur.ingredients[1].address.toLowerCase()}-${cur.ingredients[0].address.toLowerCase()}`] = cur
+  return acc
+}, {})
+
+export const lpTokenByIngredients = (tokenA, tokenB) => {
+  return _lpTokenByIngredients[`${tokenA && tokenA.address.toLowerCase()}-${tokenB && tokenB.address.toLowerCase()}`]
+}
+
+export const lpTokenByAddress = Object.values(lpTokens).reduce((acc, cur) => {
+  acc[cur.address] = cur
+  return acc
+}, {})
+
+export const ibTokenByAddress = Object.values(ibTokens).reduce((acc, cur) => {
+  acc[cur.address.toLowerCase()] = cur
+  return acc
+}, {})
+
+export const getIbTokenFromOriginalToken = (origialToken) => {
+  return Object.values(ibTokens).find((ib) => {
+    return ib.originalToken.address.toLowerCase() === origialToken.address.toLowerCase()
+  })
+}
+
+export const getOriginalTokenFromIbToken = (ibToken) => {
+  return Object.values(singleTokens).find((token) => {
+    return isSameAddress(ibToken.originalToken.address, token.address)
+  })
+}
 
 export const tokenList = {
   ...singleTokens,
   ...ibTokens,
   ...lpTokens,
+}
+
+export const tokenListByAddress = {
+  ...singleTokensByAddress,
+  ...lpTokenByAddress,
+  ...ibTokenByAddress,
 }
 
 export const isKLAY = (address) => address === tokenList.KLAY.address

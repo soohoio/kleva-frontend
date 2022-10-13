@@ -971,6 +971,7 @@ export const getWorkerInfo$ = (workerList) => {
         acc[workerAddress] = {
           // Deposited real token balance
           ..._worker,
+          lpToken: lpTokenByIngredients(_worker.baseToken, _worker.farmingToken),
           killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
           workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
           rawKillFactorBps: new BigNumber(cur.rawKillFactorBps._hex).toString(),

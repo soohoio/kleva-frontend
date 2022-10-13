@@ -9,11 +9,11 @@ import { currentTab$ } from '../../streams/view'
 import { backPage, getQS } from '../../utils/misc'
 import { prevLocation$ } from '../../streams/location'
 
-const WithusItem = ({ href, imgSrc }) => {
+const WithusItem = ({ className, href, imgSrc }) => {
   return (
     <div 
       onClick={() => window.open(href)}
-      className="WithusItem"
+      className={cx("WithusItem", className)}
     >
       <img className="WithusItem__image" src={imgSrc} />
     </div>
@@ -60,11 +60,12 @@ class Withus extends Component {
           <div className="Withus__items">
             <WithusItem
               href="https://wemixnetwork.com/"
-              imgSrc="/static/images/exported/withus-wemix.svg?date=20220929"
+              imgSrc="/static/images/exported/withus-wemix.svg?date=20221013"
             />
             <WithusItem
+              className="WithusItem--sooho"
               href="https://www.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.png?date=20220929"
+              imgSrc="/static/images/exported/withus-sooho.png?date=20221012"
             />
             <WithusItem
               href="https://birkosully.com/"
@@ -105,8 +106,9 @@ class Withus extends Component {
               imgSrc="/static/images/exported/withus-scvsoft.png?date=20220929"
             />
             <WithusItem
+              className="WithusItem--sooho"
               href="https://audit.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho-audit.png?date=20220929"
+              imgSrc="/static/images/exported/withus-sooho.png?date=20221012"
             />
             <WithusItem
               href="https://www.slowmist.com/"
