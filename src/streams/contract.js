@@ -225,10 +225,8 @@ const sendAsync$ = (method, txObject) => {
         from: window.injected.selectedAddress
       }, (err, result) => {
 
-        const userDenied = result
-          && result.error
-          && result.error.message
-          && result.error.message.indexOf('denied')
+        const userDenied = err === "user_canceled" 
+          || (result && result.error && result.error.message && result.error.message.indexOf('denied'))
 
         if (userDenied) {
           observer.complete(result)

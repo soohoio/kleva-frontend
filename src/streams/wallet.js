@@ -71,28 +71,11 @@ export const connectInjected = (injectedType, walletProviderName) => {
     }
 
     if (needToUseDeeplink) {
-      // const deepLinker = new DeepLinker({
-      //   onIgnored: function () {
-      //     const ua = navigator.userAgent.toLowerCase();
-
-      //     if (ua.indexOf("android") > -1) {
-      //       window.location.href = "https://play.google.com/store/apps/details?id=io.metamask"
-      //     }
-      //   },
-      //   onFallback: function () {
-      //     const ua = navigator.userAgent.toLowerCase();
-      //     window.location.href = ua.indexOf("android") > -1
-      //       ? "https://play.google.com/store/apps/details?id=io.metamask"
-      //       : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
-      //   },
-      //   onReturn: function () {
-      //     console.log('user returned to the page from the native app')
-      //   },
-      // })
-      // deepLinker.openURL(`dapp://${window.location.host}${window.location.pathname}`)
-      // exeDeepLink()
-      // checkInstallApp()    
-      redirectApp()
+      redirectApp({
+        href: `dapp://${window.location.host}${window.location.pathname}`,
+        androidStoreURL: "https://play.google.com/store/apps/details?id=io.metamask",
+        iosStoreURL: "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202",
+      })
     }
 
     if (notKlaytnNetwork) {
@@ -220,12 +203,16 @@ window.balancesInStakingPool$ = balancesInStakingPool$
 window.allowancesInLendingPool$ = allowancesInLendingPool$
 
 
-const redirectApp = () => {
-  exeDeepLink();
-  checkInstallApp();
+export const redirectApp = ({
+  href,
+  androidStoreURL,
+  iosStoreURL,
+}) => {
+  exeDeepLink(href);
+  checkInstallApp({ androidStoreURL, iosStoreURL });
 };
 
-function checkInstallApp() {
+function checkInstallApp({ androidStoreURL, iosStoreURL }) {
   function clearTimers() {
     clearInterval(check);
     clearTimeout(timer);
@@ -239,19 +226,19 @@ function checkInstallApp() {
   const check = setInterval(isHideWeb, 200);
 
   const timer = setTimeout(function () {
-    redirectStore();
-  }, 1000);
+    redirectStore({ androidStoreURL, iosStoreURL });
+  }, 2000);
 }
 
-const redirectStore = () => {
+export const redirectStore = ({ androidStoreURL, iosStoreURL }) => {
   const ua = navigator.userAgent.toLowerCase();
 
   window.location.href =
       ua.indexOf("android") > -1
-        ? "https://play.google.com/store/apps/details?id=io.metamask"
-        : "https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202"
+      ? androidStoreURL
+      : iosStoreURL
 };
 
-function exeDeepLink() {
-  window.location.href = `dapp://${window.location.host}${window.location.pathname}`;
+function exeDeepLink(href) {
+  window.location.href = href
 }

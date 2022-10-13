@@ -6,7 +6,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators'
 import './ConnectWalletPopup.scss'
 import Modal from './common/Modal'
 import { I18n } from './common/I18n'
-import { connectInjected, logout$, selectedAddress$, walletProviderName$ } from '../streams/wallet'
+import { connectInjected, logout$, selectedAddress$, walletProviderName$, redirectApp } from '../streams/wallet'
 import { closeModal$, isDesktop$ } from '../streams/ui'
 import { accessKlip$ } from '../streams/klip'
 import { walletType$ } from '../streams/setting'
@@ -70,10 +70,22 @@ class ConnectWalletPopup extends Component {
           <WalletConnectOption
             title="Kaikas"
             className={cx("WalletConnectOption--kaikas", {
-              "WalletConnectOption--kaikas-mobile": window.isMobile && window.klaytn,
+              "WalletConnectOption--kaikas-mobile": window.isMobile,
             })}
             imgSrc="/static/images/wallet-option-kaikas.svg?date=20220929"
             onClick={() => {
+
+              const needToUseDeeplink = window.isMobile && !window.klaytn
+
+              if (needToUseDeeplink) {
+                redirectApp({
+                  href: "kaikas://wallet/browser?url=" + encodeURIComponent(window.location.host + window.location.pathname),
+                  androidStoreURL: "https://play.google.com/store/apps/details?id=io.klutch.wallet",
+                  iosStoreURL: "https://itunes.apple.com/app/id1626107061",
+                })
+                return
+              }
+
               if (connectInjected('kaikas', 'Kaikas')) {
                 closeModal$.next(true)
               }
