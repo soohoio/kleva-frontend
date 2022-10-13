@@ -22,6 +22,7 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import CompletedModal from '../common/CompletedModal'
 import { currentTab$ } from '../../streams/view'
 import { I18n } from '../common/I18n'
+import { getStrategy } from '../../constants/strategy'
 
 
 export default class {
@@ -190,20 +191,15 @@ export default class {
     })
   }
 
-  getStrategy = () => {
-    // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
-    if (this.farmingTokenAmount$.value == 0) {
-      return { strategyType: "ADD_BASE_TOKEN_ONLY", strategyAddress: STRATEGIES["ADD_BASE_TOKEN_ONLY"] }
-    }
-
-    // FarmingTokenAmount Exists -> AddTwoSidesOptimal
-    return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"] }
-  }
-
   convertToBaseToken = () => {
-    const { positionId, workerInfo, vaultAddress } = this.comp.props
+    const { farmingToken, baseToken, positionId, workerInfo, vaultAddress } = this.comp.props
 
-    const strategyAddress = STRATEGIES["LIQUIDATE_STRATEGY"]
+    // const strategyAddress = STRATEGIES["LIQUIDATE_STRATEGY"]
+    const { strategyAddress } = getStrategy({
+      strategyType: "LIQUIDATE_STRATEGY",
+      farmingToken,
+      baseToken,
+    })
 
     const MIN_BASE_TOKEN_AMOUNT = new BigNumber(this.receiveBaseTokenAmt$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
@@ -243,9 +239,14 @@ export default class {
   }
 
   minimizeTrading = () => {
-    const { positionId, vaultAddress } = this.comp.props
+    const { farmingToken, baseToken, positionId, vaultAddress } = this.comp.props
 
-    const strategyAddress = STRATEGIES["MINIMIZE_TRADING_STRATEGY"]
+    // const strategyAddress = STRATEGIES["MINIMIZE_TRADING_STRATEGY"]
+    const { strategyAddress } = getStrategy({
+      strategyType: "MINIMIZE_TRADING_STRATEGY",
+      farmingToken,
+      baseToken,
+    })
 
     const MIN_FARMING_TOKEN_AMOUNT = new BigNumber(this.receiveFarmTokenAmt$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
@@ -394,9 +395,14 @@ export default class {
   }
 
   partialConvertToBaseToken = () => {
-    const { vaultAddress, positionId } = this.comp.props
+    const { farmingToken, baseToken, vaultAddress, positionId } = this.comp.props
 
-    const strategyAddress = STRATEGIES["PARTIAL_LIQUIDATE_STRATEGY"]
+    // const strategyAddress = STRATEGIES["PARTIAL_LIQUIDATE_STRATEGY"]
+    const { strategyAddress } = getStrategy({ 
+      strategyType: "PARTIAL_LIQUIDATE_STRATEGY", 
+      farmingToken, 
+      baseToken,
+    })
 
     const MAX_LP_TOKEN_TO_LIQUIDATE = new BigNumber(this.lpAmount$.value)
       .multipliedBy(this.partialCloseRatio$.value / 100)
@@ -448,9 +454,14 @@ export default class {
   }
 
   partialMinimizeTrading = () => {
-    const { vaultAddress, positionId } = this.comp.props
+    const { farmingToken, baseToken, vaultAddress, positionId } = this.comp.props
 
-    const strategyAddress = STRATEGIES["PARTIAL_MINIMIZE_TRADING_STRATEGY"]
+    // const strategyAddress = STRATEGIES["PARTIAL_MINIMIZE_TRADING_STRATEGY"]
+    const { strategyAddress } = getStrategy({
+      strategyType: "PARTIAL_MINIMIZE_TRADING_STRATEGY",
+      farmingToken,
+      baseToken,
+    })
 
     const MAX_LP_TOKEN_TO_LIQUIDATE = new BigNumber(this.lpAmount$.value)
       .multipliedBy(this.partialCloseRatio$.value / 100)

@@ -19,6 +19,7 @@ import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import CompletedModal from '../common/CompletedModal'
 import { currentTab$ } from '../../streams/view'
 import { I18n } from '../common/I18n'
+import { getStrategy } from '../../constants/strategy'
 
 export default class {
   constructor(comp) {
@@ -258,19 +259,26 @@ export default class {
     })
   }
 
-  getStrategy = () => {
-    // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
-    if (this.farmingTokenAmount$.value == 0) {
-      return { strategyType: "ADD_BASE_TOKEN_ONLY", strategyAddress: STRATEGIES["ADD_BASE_TOKEN_ONLY"] }
-    }
+  // getStrategy = () => {
+  //   // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
+  //   if (this.farmingTokenAmount$.value == 0) {
+  //     return { strategyType: "ADD_BASE_TOKEN_ONLY", strategyAddress: STRATEGIES["ADD_BASE_TOKEN_ONLY"] }
+  //   }
 
-    // FarmingTokenAmount Exists -> AddTwoSidesOptimal
-    return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"] }
-  }
+  //   // FarmingTokenAmount Exists -> AddTwoSidesOptimal
+  //   return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"] }
+  // }
 
   addCollateral = () => {
     const { vaultAddress, positionId } = this.comp.props
-    const { strategyType, strategyAddress } = this.getStrategy()
+    // const { strategyType, strategyAddress } = this.getStrategy()
+    const { strategyType, strategyAddress } = getStrategy({
+      strategyType: "ADD",
+      farmingToken: this.farmingToken$.value,
+      baseToken: this.baseToken$.value,
+      farmingTokenAmount: this.farmingTokenAmount$.value,
+      baseTokenAmount: this.baseTokenAmount$.value,
+    })
 
     const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
 
