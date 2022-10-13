@@ -60,12 +60,12 @@ class Withus extends Component {
           <div className="Withus__items">
             <WithusItem
               href="https://wemixnetwork.com/"
-              imgSrc="/static/images/exported/withus-wemix.svg?date=20221013"
+              imgSrc="/static/images/exported/withus-wemix.svg?date=20221014"
             />
             <WithusItem
               className="WithusItem--sooho"
               href="https://www.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.png?date=20221012"
+              imgSrc="/static/images/exported/withus-sooho.png?date=20221014"
             />
             <WithusItem
               href="https://birkosully.com/"
@@ -108,7 +108,7 @@ class Withus extends Component {
             <WithusItem
               className="WithusItem--sooho"
               href="https://audit.sooho.io/"
-              imgSrc="/static/images/exported/withus-sooho.png?date=20221012"
+              imgSrc="/static/images/exported/withus-sooho.png?date=20221014"
             />
             <WithusItem
               href="https://www.slowmist.com/"
