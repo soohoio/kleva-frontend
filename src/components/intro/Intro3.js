@@ -39,7 +39,7 @@ class Intro3 extends Component {
             <p className="Intro3__description2 desktopOnly">{I18n.t('intro3.description2')}</p>
           </div>
           <div className="Intro3__right">
-            <img src="/static/images/intro/img_intro_2.png?date=20220929" />
+            <img src="/static/images/intro/img_intro_2-new.png?date=20220929" />
             <p className="Intro3__description2 mobileOnly">{I18n.t('intro3.description2')}</p>
           </div>
         </div>

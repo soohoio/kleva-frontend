@@ -41,12 +41,24 @@ class TotalSupplyInfo extends Component {
     
   render() {
     const { 
+      totalTVLData,
       klevaCirculationData,
       klevaLockedData,
       klevaTotalSupplyData,
       klevaBuybackburnFundData,
       klevaBurnData,
     } = this.props
+
+    const lastUpdatedDate = totalTVLData[totalTVLData.length - 1] && totalTVLData[totalTVLData.length - 1].date
+    const updatedAt = lastUpdatedDate && lastUpdatedDate.getFullYear()
+      + "."
+      + String(lastUpdatedDate.getMonth() + 1).padStart(2, "0")
+      + "."
+      + String(lastUpdatedDate.getDate()).padStart(2, "0")
+      + ". "
+      + String(lastUpdatedDate.getHours()).padStart(2, "0")
+      + ":"
+      + String(lastUpdatedDate.getMinutes()).padStart(2, "0")
 
     const totalSupply = klevaTotalSupplyData[klevaTotalSupplyData.length - 1]?.value
     const klevaCirculation = klevaCirculationData[klevaCirculationData.length - 1]?.value
@@ -78,6 +90,7 @@ class TotalSupplyInfo extends Component {
           <span>KLEVA</span>
         </p>
         <p className="TotalSupplyInfo__marketcap">{I18n.t('dashboard.marketCap.title')} ${noRounding(marketCap, 0)}</p>
+        <p className="TotalSupplyInfo__lastSync">{I18n.t('lastSync', { date: updatedAt })}</p>
 
         <div className="TotalSupplyInfo__gauge">
           <div

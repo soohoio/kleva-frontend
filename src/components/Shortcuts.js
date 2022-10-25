@@ -31,7 +31,7 @@ class Shortcuts extends Component {
     return (
       <div className="Shortcuts">
         <div 
-          onClick={() => window.open('https://docs.kleva.io')}
+          onClick={() => window.open(I18n.t('docs.kleva.io'))}
           className="Shortcuts__item"
         >
           {I18n.t('docsShortcut')}

@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operato
 import './Footer.scss'
 import { showFooter$ } from '../streams/ui'
 import LanguageChange from './LanguageChange'
+import { I18n } from './common/I18n'
 
 class Footer extends Component {
   destroy$ = new Subject()
@@ -40,7 +41,7 @@ class Footer extends Component {
               <img 
                 className="Footer__icon" 
                 onClick={() => {
-                  window.open('https://docs.kleva.io')
+                  window.open(I18n.t('docs.kleva.io'))
                 }}
                 src="/static/images/common/icon_footer_gitbook.svg?date=20220929" 
               />

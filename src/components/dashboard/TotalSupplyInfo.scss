@@ -36,7 +36,7 @@
 .TotalSupplyInfo__marketcap {
   @include font-style('font-1', 'm', 16px);
   color: #333333;
-  margin-bottom: 22px;
+  margin-bottom: 10px;
 }
 
 .TotalSupplyInfo__gauge {
@@ -233,4 +233,12 @@
   margin-top: 24px;
   background-color: #EDF2FC;
   color: #265FFC;
+}
+
+.TotalSupplyInfo__lastSync {
+  @include font-style('font-1', 'm', 14px);
+  font-weight: 400;
+  color: #8B96B2;
+  line-height: 16px;
+  margin-bottom: 20px;
 }

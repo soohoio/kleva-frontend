@@ -14,6 +14,9 @@ import TotalSupplyInfo from './TotalSupplyInfo'
 import { currentTab$ } from '../../streams/view'
 import ThickHR from '../common/ThickHR'
 import { prevLocation$ } from '../../streams/location'
+import { lendingTokenSupplyInfo$ } from '../../streams/vault'
+import { farmPoolDeposited$ } from '../../streams/farming'
+import { lendingPools } from '../../constants/lendingpool'
 
 class Dashboard extends Component {
 
@@ -22,6 +25,8 @@ class Dashboard extends Component {
   componentDidMount() {
     merge(
       chartData$,
+      lendingTokenSupplyInfo$,
+      farmPoolDeposited$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -40,6 +45,32 @@ class Dashboard extends Component {
   
   componentWillUnmount() {
     this.destroy$.next(true)
+  }
+
+  getTVL = () => {
+    const lendingPoolTVL = lendingPools.reduce((acc, { stakingToken, vaultAddress }) => {
+
+      // Lending Pool TVL Info
+      const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
+      const depositedTokenBalance = lendingTokenSupplyInfo && lendingTokenSupplyInfo.depositedTokenBalance
+
+      const tvl = new BigNumber(depositedTokenBalance)
+        .multipliedBy(tokenPrices$.value[stakingToken.address.toLowerCase()])
+        .toNumber()
+
+      return acc += isNaN(tvl) ? 0 : tvl
+    }, 0)
+
+    const farmPoolTVL = farmPoolDeposited$.value && Object.values(farmPoolDeposited$.value).reduce((acc, cur) => {
+
+      const _farmTVL = new BigNumber(cur && cur.deposited)
+
+      return new BigNumber(acc).plus(_farmTVL).toNumber()
+    }, 0)
+
+    return new BigNumber(lendingPoolTVL)
+      .plus(farmPoolTVL)
+      .toNumber() || "-"
   }
     
   render() {
@@ -61,18 +92,7 @@ class Dashboard extends Component {
             {I18n.t('dashboard')}
             <img
               onClick={() => {
-
                 backPage()
-
-                // const prevQs = getQS(prevLocation$.value)
-
-                // console.log(prevLocation$.value, 'prevLocation$.value')
-
-                // if (prevLocation$.value && prevQs?.t) {
-                //   currentTab$.next(prevQs?.t)
-                //   return
-                // }
-                // currentTab$.next('myasset')
               }}
               className="DashboardHeader__close"
               src="/static/images/close-black.svg?date=20220929"
@@ -81,15 +101,20 @@ class Dashboard extends Component {
         </div>
         <div className="Dashboard__content">
           <div className="Dashboard__left">
+            
+            <div className="Dashboard__realtime">
+              <div className="Dashboard__realtimeTop">
+                <img src="/static/images/exported/logo-kleva-2.svg?date=20220929" /> 
+                <span>{I18n.t('dashboard.tvlChart.title')}</span>
+              </div>
+              <p className="Dashboard__realtimeTVL">${noRounding(this.getTVL(), 0)}</p>
+              <p className="Dashboard__realTimeDescription">{I18n.t('dashboard.realtime.description')}</p>
+            </div>
+
             <ChartItem
               key="tvl"
               chartId="tvl"
-              title={(
-                <>
-                  <img src="/static/images/exported/logo-kleva-2.svg?date=20220929" />
-                  <span>{I18n.t('dashboard.tvlChart.title')}</span>
-                </>
-              )}
+              title={I18n.t('dashboard.tvlChart.title2')}
               value={`$${totalTVLData && noRounding(totalTVLData[totalTVLData.length - 1]?.value, 0)}`}
               primaryColor="#1A56FF"
               subColor="#7DB6FA"
@@ -144,6 +169,7 @@ class Dashboard extends Component {
           <ThickHR size="10" className="mobileOnly" />
           <div className="Dashboard__right">
             <TotalSupplyInfo 
+              totalTVLData={totalTVLData}
               klevaCirculationData={klevaCirculationData}
               klevaLockedData={klevaLockedData}
               klevaTotalSupplyData={klevaTotalSupplyData}

@@ -143,3 +143,42 @@
     line-height: 26px;
   } 
 }
+
+.Dashboard__realtime {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #EBEEF5;
+  margin-bottom: 34px;
+}
+
+.Dashboard__realtimeTop {
+  display: flex;
+  align-items: center;
+  margin-bottom: 9px;
+
+  img {
+    display: flex;
+    height: 12px;
+    margin-right: 4px;
+  }
+
+  span {
+    @include font-style('font-1', 'b', 15px);
+    line-height: 18px;
+    color: #333333;
+  }
+}
+
+.Dashboard__realtimeTVL {
+  @include font-style('font-1', 'b', 30px);
+  color: #222222;
+  line-height: 36px;
+  margin-bottom: 13px;
+}
+
+.Dashboard__realTimeDescription {
+  @include font-style('font-1', 'm', 14px);
+  line-height: 20px;
+  color: #969BAB;
+}

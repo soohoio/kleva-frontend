@@ -36,7 +36,7 @@ export const singleTokens = {
   "WEMIX": {
     title: "WEMIX",
     address: "0x5096db80b21ef45230c9e423c373f1fc9c0198dd",
-    iconSrc: "/static/images/tokens/token-WEMIX.svg?date=20220929",
+    iconSrc: "/static/images/tokens/token-WEMIX-CLASSIC.svg?date=20220929",
     decimals: 18,
   }, 
   "KDAI": {
@@ -216,7 +216,7 @@ export const ibTokens = {
   "ibWEMIX": {
     title: "ibWEMIX",
     address: "0xD429914222b7474Ea2C288Ec581D303599EeD137",
-    iconSrc: "/static/images/tokens/token-WEMIX.svg?date=20220929",
+    iconSrc: "/static/images/tokens/token-WEMIX-CLASSIC.svg?date=20220929",
     decimals: singleTokens["WEMIX"].decimals,
     minDebtSize: new BigNumber(10 * 10 ** 18).toString(),
 

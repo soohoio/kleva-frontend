@@ -6,6 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './ChartItem.scss'
 import Chart from './Chart'
 import { chartData$ } from '../../streams/chart'
+import { I18n } from 'components/common/I18n'
 
 class ChartItem extends Component {
 
@@ -63,7 +64,7 @@ class ChartItem extends Component {
       <div className={cx("ChartItem", className)}>
         <p style={{ color: primaryColor }} className="ChartItem__title">{title}</p>
         <p className="ChartItem__value">{value}</p>
-        <p className="ChartItem__lastUpdated">{updatedAt}</p>
+        <p className="ChartItem__lastUpdated">{I18n.t('lastSync', { date: updatedAt })}</p>
         <Chart 
           chartId={chartId}
           primaryColor={primaryColor}

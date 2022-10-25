@@ -18,7 +18,7 @@ const FAQItem = ({ title, href, description, onClick, isActive }) => {
         <>
           <p className="FAQItem__description">{description}</p>
           <p
-            onClick={() => window.open(href || 'https://docs.kleva.io')}
+            onClick={() => window.open(href || I18n.t('docs.kleva.io'))}
             className="FAQItem__link"
           >
             {I18n.t('intro7.seeDetail')}
@@ -93,7 +93,7 @@ class FAQ extends Component {
           onClick={() => this.toggleActive(4)}
         />
         <button 
-          onClick={() => window.open('https://docs.kleva.io')}
+          onClick={() => window.open(I18n.t('docs.kleva.io'))}
           className="FAQ__see"
         >
           {I18n.t('intro7.see')}

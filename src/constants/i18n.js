@@ -40,9 +40,10 @@ export const en = {
   'notice.2': 'Community Report: August, 2022',
   'notice.3': 'KLEVA Buyback & Burn #6',
   'notice.4': 'Community Report: September, 2022',
-  'dashboard.tvlChart.title': 'Total Value Locked',
-  'dashboard.lendingChart.title': 'Lending TVL',
-  'dashboard.farmingChart.title': 'Farming TVL',
+  'dashboard.tvlChart.title': 'Daily TVL',
+  'dashboard.tvlChart.title2': 'Total Value Locked',
+  'dashboard.lendingChart.title': 'Daily Lending TVL',
+  'dashboard.farmingChart.title': 'Daily Farming TVL',
   'dashboard.totalSupply.title': 'Total Supply',
   'dashboard.marketCap.title': 'Market Cap',
   'dashboard.circulatingSupply.title': 'Circulating Supply',
@@ -54,6 +55,7 @@ export const en = {
   'dashboard.burn.title': 'Burned Amount',
   'dashboard.lockup.modal.title': 'Locked Supply',
   'dashboard.lockup.modal.description': 'Locked Supply refers to the total amount of tokens not circulating in the market, such as those held by the developers or staked by users in the KLEVA protocol.',
+  'dashboard.realtime.description': 'Data above is a real-time TVL which varies from Daily TVL updated every 24 hours. ',
 
   'guide.connectWallet.title': 'Connect your wallet <br/>to start KLEVA Protocol',
   'guide.connectWallet.buttonTitle': 'Connect Wallet',
@@ -375,9 +377,9 @@ export const en = {
   'convert.completed.title': 'Successfully Wrapped',
   'convert.completed.description': 'Deposit your <text style="color: #3C6BFA;">WKLAYs</text>',
 
-  'href.video.1': 'https://youtu.be/VzECOhctTqE',
-  'href.video.2': 'https://youtu.be/ejC8g0kgwek',
-  'href.video.3': 'https://youtu.be/EAHlMGMj_Ik',
+  'href.video.1': 'https://youtu.be/53Pv1pI62kA',
+  'href.video.2': 'https://youtu.be/YQix3xUJRKw',
+  'href.video.3': 'https://youtu.be/trDSX2yUwfs',
 
   'href.faq.1.q': "https://docs.kleva.io/v/copy-of-english/tokenomics/kleva-token",
   'href.faq.2.q': "https://docs.kleva.io/v/copy-of-english/overview/ibtokens",
@@ -396,6 +398,9 @@ export const en = {
   'seeTx': 'Link',
   'copyAddress': 'Copy',
   'copied': 'Copied',
+  
+  'docs.kleva.io': 'https://docs.kleva.io',
+  'lastSync': 'Latest Update : %{date}',
 }
 
 export const ko = {
@@ -439,9 +444,10 @@ export const ko = {
   'notice.2': '2022년 8월 커뮤니티 리포트',
   'notice.3': 'KLEVA 토큰 6차 바이백&소각 안내',
   'notice.4': '2022년 9월 커뮤니티 리포트',
-  'dashboard.tvlChart.title': '총 운용 자산',
-  'dashboard.lendingChart.title': '총 예치 자산',
-  'dashboard.farmingChart.title': '총 레버리지 투자 자산',
+  'dashboard.tvlChart.title': '일별 총 운용 자산',
+  'dashboard.tvlChart.title2': '총 운용 자산',
+  'dashboard.lendingChart.title': '일별 예치 자산',
+  'dashboard.farmingChart.title': '일별 레버리지 투자 자산',
   'dashboard.totalSupply.title': '총 발행량',
   'dashboard.marketCap.title': '시가 총액',
   'dashboard.circulatingSupply.title': '유통량',
@@ -453,6 +459,7 @@ export const ko = {
   'dashboard.burn.title': '소각 물량',
   'dashboard.lockup.modal.title': '락업 물량',
   'dashboard.lockup.modal.description': '발행된 총 KLEVA 토큰 중 회사가 보유하거나 클레바 프로토콜 내 유저가 스테이킹하는 등 시장에 유통되지 않는 토큰의 총량을 의미합니다.',
+  'dashboard.realtime.description': '총 운용 자산은 실시간 데이터로 24시간 주기로 업데이트되는 일별 운용 자산의 금액과 차이가 있습니다.',
 
   'guide.connectWallet.title': '자산 연동을 위해 <br/>지갑을 연결해 주세요.',
   'guide.connectWallet.buttonTitle': '지갑 연결하기',
@@ -775,18 +782,18 @@ export const ko = {
   'convert.completed.title': '전환 완료되었습니다.',
   'convert.completed.description': '<text style="color: #3C6BFA;">전환된 WKLAY</text>를 예치해 주세요.',
 
-  'href.video.1': 'https://youtu.be/rZR0k6mBPdw',
-  'href.video.2': 'https://youtu.be/5HfaQ7i-Nz8',
-  'href.video.3': 'https://youtu.be/UfwkTQ4pQhc',
+  'href.video.1': 'https://youtu.be/UdDNamnP9es',
+  'href.video.2': 'https://youtu.be/wJJwWAYgN2s',
+  'href.video.3': 'https://youtu.be/Z9FAeQRZdSM',
 
-  'href.faq.1.q': "https://docs.kleva.io/undefined-3/kleva",
-  'href.faq.2.q': "https://docs.kleva.io/undefined-1/ibtokens",
-  'href.faq.3.q': "https://docs.kleva.io/undefined-2/undefined#undefined-2",
-  'href.faq.4.q': "https://docs.kleva.io/undefined-4/withdraw",
+  'href.faq.1.q': "https://docs.kleva.io/v/new/kleva-1/undefined-3",
+  'href.faq.2.q': "https://docs.kleva.io/v/new/kleva-1/undefined-2",
+  'href.faq.3.q': "https://docs.kleva.io/v/new/undefined-3/undefined",
+  'href.faq.4.q': "https://docs.kleva.io/v/new/undefined/undefined-2",
   
-  'href.quote.1': "https://docs.kleva.io/undefined-1/undefined-3/1",
-  'href.quote.2': "https://docs.kleva.io/undefined-1/undefined-3/2",
-  'href.quote.3': "https://docs.kleva.io/undefined-1/undefined-3/4-2",
+  'href.quote.1': "https://docs.kleva.io/v/new/undefined-1/undefined",
+  'href.quote.2': "https://docs.kleva.io/v/new/undefined-2/4",
+  'href.quote.3': "https://docs.kleva.io/v/new/undefined-2/3",
 
   'burn': '소각',
   'burnHistory': '소각 내역',
@@ -796,6 +803,9 @@ export const ko = {
   'seeTx': '보기',
   'copyAddress': '주소 복사',
   'copied': '복사 완료',
+  
+  'docs.kleva.io': 'https://docs.kleva.io/v/new/',
+  'lastSync': '%{date} 기준',
 }
 
 export const zh = {
