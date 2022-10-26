@@ -33,7 +33,10 @@ export const fetchChartData$ = () => {
   return forkJoin([
     from(fetch(CHART_FETCH_URL)).pipe(
       switchMap((res) => res.json()),
-      catchError(() => of(null))
+      catchError((err) => {
+        console.log(err, '@err')
+        return of(null)
+      })
     ),
     from(fetch(CHART_BACKUP_FETCH_URL)).pipe(
       switchMap((res) => res.json()),
