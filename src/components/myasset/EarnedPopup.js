@@ -12,8 +12,9 @@ import { caver, getTransactionReceipt$, harvestFromStakingPool$ } from '../../st
 import { isSameAddress, nFormatter, noRounding, padAddress } from '../../utils/misc'
 import { I18n } from '../common/I18n'
 import { stakingPools } from '../../constants/stakingpool'
-import { closeModal$, openModal$ } from '../../streams/ui'
+import { closeLayeredModal$, closeModal$, openLayeredModal$, openModal$ } from '../../streams/ui'
 import CompletedModal from '../common/CompletedModal'
+import { tokenPrices$ } from '../../streams/tokenPrice'
 
 const EarnedItem = ({ isLoading, title, subtitle, claimReward, rewardToken, earnedAmount, pid }) => {
   return (
@@ -47,6 +48,7 @@ class EarnedPopup extends Component {
   componentDidMount() {
     merge(
       pendingGT$,
+      tokenPrices$,
       this.isLoading$,
     ).pipe(
       debounceTime(1),
@@ -68,7 +70,7 @@ class EarnedPopup extends Component {
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash)),
     ).subscribe((result) => {
 
-      const log = result.logs.filter(({ address, topics }) => {
+      const log = result?.logs.filter(({ address, topics }) => {
         return isSameAddress(address, tokenList.KLEVA.address) && 
           topics && 
           topics[2] && 
@@ -82,13 +84,13 @@ class EarnedPopup extends Component {
 
       const claimedKLEVA = noRounding(new BigNumber(_parsed[0]).div(10 ** tokenList.KLEVA.decimals).toNumber(), 4)
 
-      openModal$.next({
+      openLayeredModal$.next({
         component: (
           <CompletedModal menus={[
             {
               title: I18n.t('confirm'),
               onClick: () => {
-                closeModal$.next(true)
+                closeLayeredModal$.next(true)
               }
             },
           ]}>
@@ -103,7 +105,24 @@ class EarnedPopup extends Component {
     })
   }
 
+  getPendingAggregation = () => {
+    const pendingReward = Object.values(pendingGT$.value).reduce((acc, cur) => {
+      return new BigNumber(acc).plus(cur).toNumber()
+    }, 0)
+
+    const inUSD = new BigNumber(pendingReward)
+      .div(10 ** tokenList.KLEVA.decimals)
+      .multipliedBy(tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()])
+      .toNumber()
+
+    return { pendingReward, inUSD }
+  }
+
   render() {
+
+    const { pendingReward, inUSD } = this.getPendingAggregation()
+
+    const rewardParsed = new BigNumber(pendingReward).div(10 ** tokenList.KLEVA.decimals).toNumber()
 
     return (
       <Modal
@@ -111,14 +130,21 @@ class EarnedPopup extends Component {
         className="EarnedPopup"
         title={I18n.t('myasset.earned.klevaReward')}
       >
+        <div className="EarnedPopup__claimable">
+          <p className="EarnedPopup__claimableTitle">{I18n.t('myasset.claimableKLEVA')}</p>
+          <div className="EarnedPopup__pendingReward">
+            <span className="EarnedPopup__pendingRewardValue">{noRounding(rewardParsed, 4)}</span>
+            <span className="EarnedPopup__pendingRewardInUSD">${noRounding(inUSD, 2)}</span>
+          </div>
+        </div>
+        
         {Object.values(debtTokens)
           .filter(({ pid }) => {
             const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
 
-            // return earnedAmount != 0
-            return earnedAmount >= 0.0001
+            return earnedAmount >= 0.00005
           })
           .map(({ title, pid }) => {
           const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
@@ -143,8 +169,7 @@ class EarnedPopup extends Component {
               .div(10 ** tokenList["KLEVA"].decimals)
               .toNumber()
 
-            // return earnedAmount != 0
-            return earnedAmount >= 0.0001
+            return earnedAmount >= 0.00005
           })
           .map(({ title, stakingToken, pid }) => {
             const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)

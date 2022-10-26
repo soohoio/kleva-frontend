@@ -1,5 +1,6 @@
 export const en = {
   'tvl': 'TVL',
+  'tvl2': 'TVL',
   'myasset': 'My Asset',
   'lendnstake': 'Lend · Stake',
   'farming1': 'Farm',
@@ -405,6 +406,7 @@ export const en = {
 
 export const ko = {
   'tvl': '총 운용금',
+  'tvl2': '총 운용 자산',
   'myasset': '내 자산',
   'lendnstake': '예치',
   'farming1': '레버리지 투자',

@@ -105,7 +105,7 @@ class Dashboard extends Component {
             <div className="Dashboard__realtime">
               <div className="Dashboard__realtimeTop">
                 <img src="/static/images/exported/logo-kleva-2.svg?date=20220929" /> 
-                <span>{I18n.t('dashboard.tvlChart.title')}</span>
+                <span>{I18n.t('dashboard.tvlChart.title2')}</span>
               </div>
               <p className="Dashboard__realtimeTVL">${noRounding(this.getTVL(), 0)}</p>
               <p className="Dashboard__realTimeDescription">{I18n.t('dashboard.realtime.description')}</p>
@@ -114,7 +114,7 @@ class Dashboard extends Component {
             <ChartItem
               key="tvl"
               chartId="tvl"
-              title={I18n.t('dashboard.tvlChart.title2')}
+              title={I18n.t('dashboard.tvlChart.title')}
               value={`$${totalTVLData && noRounding(totalTVLData[totalTVLData.length - 1]?.value, 0)}`}
               primaryColor="#1A56FF"
               subColor="#7DB6FA"

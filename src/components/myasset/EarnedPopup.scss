@@ -1,5 +1,6 @@
 .EarnedPopup {
 
+  min-height: 300px;
   height: 100%;
   border-radius: 0;
   padding: 0 20px;
@@ -131,4 +132,36 @@
   color: #fff;
   width: 72px;
   white-space: nowrap;
+}
+
+.EarnedPopup__claimable {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #EBEEF5;
+}
+
+.EarnedPopup__claimableTitle {
+  @include font-style('font-1', 'b', 15px);
+  line-height: 17px;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.EarnedPopup__pendingReward {
+  display: flex;
+  align-items: baseline;
+}
+
+.EarnedPopup__pendingRewardValue {
+  @include font-style('font-1', 'b', 28px);
+  line-height: 28px;
+  color: #265FFC;
+  margin-right: 5px;
+}
+
+.EarnedPopup__pendingRewardInUSD {
+  @include font-style('font-1', 'm', 16px);
+  line-height: 20px;
+  color: #8B96B2;
 }

@@ -71,7 +71,7 @@ class TVL extends Component {
   render() {
     return (
       <div className="TVL">
-        <span className="TVL__label">{I18n.t('tvl')}</span>
+        <span className="TVL__label">{I18n.t('tvl2')}</span>
         <span className="TVL__value">${this.formatTVL()}</span>
       </div>
     )
