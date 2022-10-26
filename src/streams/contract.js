@@ -1368,6 +1368,10 @@ export const unwrapWKLAY$ = (amount) => makeTransaction({
 
 // add collateral
 export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data, value }) => {
+  console.log(positionId, 'positionId')
+  console.log(principalAmount, 'principalAmount')
+  console.log(data, 'data')
+  console.log(value, 'value')
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
