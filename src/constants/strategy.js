@@ -28,25 +28,49 @@ const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseToken
   // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
   if (farmingTokenAmount == 0) {
     if (isK4PoolStrategy(farmingToken, baseToken)) {
-      return { strategyType: "ADD_BASE_TOKEN_ONLY", strategyAddress: STRATEGIES["K4POOL:ADD_BASE_TOKEN_ONLY"] }
+      return { 
+        strategyType: "ADD_BASE_TOKEN_ONLY", 
+        strategyAddress: STRATEGIES["K4POOL:ADD_BASE_TOKEN_ONLY"],
+        poolType: "K4POOL",
+      }
     }
 
-    return { strategyType: "ADD_BASE_TOKEN_ONLY", strategyAddress: STRATEGIES["ADD_BASE_TOKEN_ONLY"] }
+    return { 
+      strategyType: "ADD_BASE_TOKEN_ONLY", 
+      strategyAddress: STRATEGIES["ADD_BASE_TOKEN_ONLY"], 
+      poolType: '' 
+    }
   }
 
   // FarmingTokenAmount Exists -> AddTwoSidesOptimal
   if (isK4PoolStrategy(farmingToken, baseToken)) {
-    return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["K4POOL:ADD_TWO_SIDES_OPTIMAL"] }
+    return { 
+      strategyType: "ADD_TWO_SIDES_OPTIMAL", 
+      strategyAddress: STRATEGIES["K4POOL:ADD_TWO_SIDES_OPTIMAL"],
+      poolType: "K4POOL",
+    }
   }
 
-  return { strategyType: "ADD_TWO_SIDES_OPTIMAL", strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"] }
+  return { 
+    strategyType: "ADD_TWO_SIDES_OPTIMAL", 
+    strategyAddress: STRATEGIES["ADD_TWO_SIDES_OPTIMAL"],
+    poolType: '',
+  }
 }
 
 const getCloseStrategy = ({ strategyType, farmingToken, baseToken }) => {
   if (isK4PoolStrategy(farmingToken, baseToken)) {
-    return { strategyType: strategyType, strategyAddress: STRATEGIES["K4POOL:" + strategyType] }
+    return { 
+      strategyType: strategyType, 
+      strategyAddress: STRATEGIES["K4POOL:" + strategyType],
+      poolType: "K4POOL",
+    }
   }
-  return { strategyType: strategyType, strategyAddress: STRATEGIES[strategyType] }
+  return { 
+    strategyType: strategyType, 
+    strategyAddress: STRATEGIES[strategyType], 
+    poolType: '' 
+  }
 }
 
 const K4POOL_STABLE_COINS = [tokenList.oUSDC, tokenList.oUSDT, tokenList.KDAI].map(({ address }) => address)

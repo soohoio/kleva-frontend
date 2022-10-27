@@ -1367,11 +1367,23 @@ export const unwrapWKLAY$ = (amount) => makeTransaction({
 // Adjust Position
 
 // add collateral
-export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data, value }) => {
-  console.log(positionId, 'positionId')
-  console.log(principalAmount, 'principalAmount')
-  console.log(data, 'data')
-  console.log(value, 'value')
+export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data, value, poolType }) => {
+  if (poolType === "K4POOL") {
+    return makeTransaction({
+      abi: VaultABI,
+      address: vaultAddress,
+      methodName: "editPosition",
+      params: [
+        positionId, 
+        principalAmount, 
+        0,
+        0,
+        data
+      ],
+      value,
+    })
+  }
+
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,

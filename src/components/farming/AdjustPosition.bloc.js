@@ -272,7 +272,7 @@ export default class {
   addCollateral = () => {
     const { vaultAddress, positionId } = this.comp.props
     // const { strategyType, strategyAddress } = this.getStrategy()
-    const { strategyType, strategyAddress } = getStrategy({
+    const { strategyType, strategyAddress, poolType } = getStrategy({
       strategyType: "ADD",
       farmingToken: this.farmingToken$.value,
       baseToken: this.baseToken$.value,
@@ -322,6 +322,7 @@ export default class {
       positionId,
       principalAmount,
       data,
+      poolType,
     }).pipe(
       tap(() => this.isLoading$.next(true)),
       switchMap((result) => getTransactionReceipt$(result && result.result || result.tx_hash))
