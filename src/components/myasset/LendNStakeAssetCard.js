@@ -9,11 +9,12 @@ import { toAPY } from 'utils/calc'
 
 import Bloc from './LendNStakeAssetCard.bloc'
 import './LendNStakeAssetCard.scss'
-import { nFormatter, noRounding } from '../../utils/misc'
+import { isSameAddress, nFormatter, noRounding } from '../../utils/misc'
 import { openModal$ } from '../../streams/ui'
 import LendStakeAPRDetailInfoModal from '../modals/LendStakeAPRDetailInfoModal'
 import { I18n } from '../common/I18n'
 import SUWController from './SUWController'
+import { tokenList } from '../../constants/tokens'
 
 class LendNStakeAssetCard extends Component {
   bloc = new Bloc(this)
@@ -58,7 +59,10 @@ class LendNStakeAssetCard extends Component {
 
     const apy = toAPY(totalAPR)
 
+    const isKLAY = isSameAddress(stakingToken.address, tokenList.KLAY.address)
+
     const isStakingAvailable = balanceInWallet != 0
+    // const isStakingAvailable = !isKLAY && balanceInWallet != 0
     const isUnstakingAvailable = balanceInStaking != 0
     const isWithdrawAvailable = balanceInWallet != 0
 

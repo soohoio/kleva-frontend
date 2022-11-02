@@ -20,20 +20,15 @@ export const getStrategy = ({
 }
 
 const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseTokenAmount }) => {
-  // console.log(farmingToken, 'farmingToken')
-  // console.log(baseToken, 'baseToken')
-  // console.log(farmingTokenAmount, 'farmingTokenAmount')
-  // console.log(baseTokenAmount, 'baseTokenAmount')
-  // console.log(isK4PoolStrategy(farmingToken, baseToken), 'isK4PoolStrategy(farmingToken, baseToken)')
   // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
   if (farmingTokenAmount == 0) {
-    if (isK4PoolStrategy(farmingToken, baseToken)) {
-      return { 
-        strategyType: "ADD_BASE_TOKEN_ONLY", 
-        strategyAddress: STRATEGIES["K4POOL:ADD_BASE_TOKEN_ONLY"],
-        poolType: "K4POOL",
-      }
-    }
+    // if (isK4PoolStrategy(farmingToken, baseToken)) {
+    //   return { 
+    //     strategyType: "ADD_BASE_TOKEN_ONLY", 
+    //     strategyAddress: STRATEGIES["K4POOL:ADD_BASE_TOKEN_ONLY"],
+    //     poolType: "K4POOL",
+    //   }
+    // }
 
     return { 
       strategyType: "ADD_BASE_TOKEN_ONLY", 
@@ -43,13 +38,13 @@ const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseToken
   }
 
   // FarmingTokenAmount Exists -> AddTwoSidesOptimal
-  if (isK4PoolStrategy(farmingToken, baseToken)) {
-    return { 
-      strategyType: "ADD_TWO_SIDES_OPTIMAL", 
-      strategyAddress: STRATEGIES["K4POOL:ADD_TWO_SIDES_OPTIMAL"],
-      poolType: "K4POOL",
-    }
-  }
+  // if (isK4PoolStrategy(farmingToken, baseToken)) {
+  //   return { 
+  //     strategyType: "ADD_TWO_SIDES_OPTIMAL", 
+  //     strategyAddress: STRATEGIES["K4POOL:ADD_TWO_SIDES_OPTIMAL"],
+  //     poolType: "K4POOL",
+  //   }
+  // }
 
   return { 
     strategyType: "ADD_TWO_SIDES_OPTIMAL", 
@@ -59,13 +54,13 @@ const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseToken
 }
 
 const getCloseStrategy = ({ strategyType, farmingToken, baseToken }) => {
-  if (isK4PoolStrategy(farmingToken, baseToken)) {
-    return { 
-      strategyType: strategyType, 
-      strategyAddress: STRATEGIES["K4POOL:" + strategyType],
-      poolType: "K4POOL",
-    }
-  }
+  // if (isK4PoolStrategy(farmingToken, baseToken)) {
+  //   return { 
+  //     strategyType: strategyType, 
+  //     strategyAddress: STRATEGIES["K4POOL:" + strategyType],
+  //     poolType: "K4POOL",
+  //   }
+  // }
   return { 
     strategyType: strategyType, 
     strategyAddress: STRATEGIES[strategyType], 

@@ -177,9 +177,13 @@ class LendingPoolListItemCard extends Component {
             </div>
             <div
               className={cx("LendingPoolListItemCard__depositButton", {
-                // "LendingPoolListItemCard__depositButton--disabled": !selectedAddress || isDepositDisabled
+                // @HOTFIX
+                // "LendingPoolListItemCard__depositButton--disabled": isKLAY
               })}
               onClick={() => {
+
+                // @HOTFIX
+                // if (isKLAY) return
 
                 if (!selectedAddress) {
                   openModal$.next({

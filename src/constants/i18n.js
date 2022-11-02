@@ -400,7 +400,7 @@ export const en = {
   'copyAddress': 'Copy',
   'copied': 'Copied',
   
-  'docs.kleva.io': 'https://docs.kleva.io',
+  'docs.kleva.io': 'https://docs.kleva.io/v/copy-of-english/',
   'lastSync': 'Latest Update : %{date}',
 }
 
