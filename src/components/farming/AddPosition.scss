@@ -221,6 +221,7 @@
 
 .AddPosition__buttons {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 6px;
@@ -228,7 +229,9 @@
   @include desktop {
     gap: 0;
     button {
-      width: 130px;
+      width: auto;
+      min-width: 130px;
+      padding: 0 20px;
       margin-right: 8px;
     }
   }
