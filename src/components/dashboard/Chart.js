@@ -1,13 +1,15 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of, BehaviorSubject, fromEvent } from 'rxjs'
-import { takeUntil, tap, debounceTime } from 'rxjs/operators'
+import { Subject, merge, of, BehaviorSubject, fromEvent, interval } from 'rxjs'
+import { takeUntil, tap, debounceTime, filter, skipWhile } from 'rxjs/operators'
 
 import './Chart.scss'
 import { nFormatter, noRounding } from '../../utils/misc'
 
 import { currentLocale$ } from 'streams/i18n'
 import { buildSmoothPath } from '../../utils/svg'
+
+const moving$ = new BehaviorSubject(false)
 
 const CircleWrapper = ({ 
   date, 
@@ -42,6 +44,15 @@ const CircleWrapper = ({
   return (
     <g className="Chart__circleWrapper">
       <rect
+        onPointerDown={() => {
+          moving$.next(true)
+        }}
+        onPointerUp={() => {
+          moving$.next(false)
+        }}
+        onPointerEnter={(e) => {
+          activeCoordinates$.next({ x, y })
+        }}
         onMouseEnter={() => {
           activeCoordinates$.next({ x, y })
         }}
@@ -123,6 +134,7 @@ class Chart extends Component {
       this.yAxis$,
       this.activeCoordinates$,
       this.chartVisibleWidth$,
+      moving$,
       currentLocale$,
     ).pipe(
       debounceTime(1),
@@ -178,7 +190,23 @@ class Chart extends Component {
     this.chartVisibleWidth$.next(chartVisibleWidth)
 
     const maxValue = chartData.reduce((acc, { value }) => Math.max(acc, value), 0)
-    const ceiledUpper = Math.ceil(maxValue / 10 ** (String(maxValue).length - 1)) * 10 ** (String(maxValue).length - 1)
+
+    const ceiledUpperCand = Math.ceil(maxValue / 10 ** (String(maxValue).length - 1)) * 10 ** (String(maxValue).length - 1)
+    const _yAxisOffset = (ceiledUpperCand / yAxisArr[yAxisArr.length - 1])
+    const ceiledUpper = yAxisArr.reduce((acc, cur) => {
+      if (acc.confirmed) {
+        return acc
+      }
+
+      const value = cur * _yAxisOffset
+      if (value > maxValue) {
+        acc.ceiledUpper = value
+        acc.confirmed = true
+        return acc
+      }
+
+      return acc
+    }, { confirmed: false, ceiledUpper: 0 }).ceiledUpper
 
     const OFFSET_X = (chartVisibleWidth / (chartData.length - 1))
 
@@ -249,7 +277,7 @@ class Chart extends Component {
 
     // y axis
     const yAxisOffset = (ceiledUpper / yAxisArr[yAxisArr.length - 1])
-    const yAxis = yAxisArr.map((idx) => {
+    const yAxis = yAxisArr.reduce((acc, cur, idx) => {
 
       const lastIdx = yAxisArr[yAxisArr.length - 1]
 
@@ -263,19 +291,21 @@ class Chart extends Component {
       
       const opacity = 0.5
 
-      return (
+      acc.data.push(
         <>
           <line opacity={opacity} x1="0" x2={chartVisibleWidth} y1={y} y2={y} stroke={stroke} />
-          <text 
+          <text
             fill="#C5CADB"
-            x={chartVisibleWidth + 20 - 10} 
+            x={chartVisibleWidth + 20 - 10}
             y={y}
           >
             {nFormatter(value, 0, currentLocale$.value)}
           </text>
         </>
       )
-    })
+
+      return acc
+    }, { data: [], ceilConfirmed: false }).data
 
     this.path$.next(path)
     this.filledPath$.next(fillPath)
@@ -332,7 +362,9 @@ class Chart extends Component {
         onMouseLeave={() => {
           this.activeCoordinates$.next({ x: null, y: null })
         }}
-        className="Chart"
+        className={cx("Chart", {
+          "Chart--moving": moving$.value
+        })}
     >
         <svg height={height} key={this.coordianteToString()} ref={this.$svg}>
           {this.yAxis$.value}

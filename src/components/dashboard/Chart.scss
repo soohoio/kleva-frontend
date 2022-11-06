@@ -1,5 +1,10 @@
 .Chart {
 
+  &--moving {
+    * {
+      touch-action: none;
+    }
+  }
 
   .Chart__circleWrapper {
     position: relative;
