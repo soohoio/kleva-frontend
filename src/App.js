@@ -322,32 +322,9 @@ class App extends Component<Props> {
     // navigation tab
     // const shouldFloat = path$.value == '/main' && scrollTop > 132 
 
-    const shouldFloat = path$.value == '/main' && scrollTop > 68 
+    const shouldFloat = !modalContentComponent$.value && path$.value == '/main' && scrollTop > 68 
     shouldNavigationTabFloat$.next(shouldFloat)
   }
-
-  // preventPullDownRefresh = () => {
-  //   let startY
-  //   const $html = document.querySelector('html')
-
-  //   fromEvent(window, 'touchstart').pipe(
-  //     takeUntil(this.destroy$)
-  //   ).subscribe((e) => {
-  //     startY = e.changedTouches[0].pageY
-  //   })
-
-  //   fromEvent(window, 'touchmove', { passive: false }).pipe(
-  //     takeUntil(this.destroy$)
-  //   ).subscribe((e) => {
-  //     if (!!modalContentComponent$.value) {
-  //       var currentY = e.changedTouches[0].pageY
-  //       if ($html.scrollTop <= 0 && startY <= currentY) {
-  //         e.preventDefault()
-  //         return false
-  //       }
-  //     }
-  //   })
-  // }
 
   componentWillUnmount() {
     this.destroy$.next(true)

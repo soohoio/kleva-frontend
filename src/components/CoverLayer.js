@@ -1,7 +1,7 @@
 import React, { cloneElement, Component, createRef } from 'react'
 import cx from 'classnames'
-import { merge, Subject } from 'rxjs'
-import { debounceTime, takeUntil, tap } from 'rxjs/operators'
+import { fromEvent, merge, Subject, of } from 'rxjs'
+import { switchMap, filter, debounceTime, takeUntil, tap } from 'rxjs/operators'
 
 import { modalContentComponent$, overlayBackgroundColor$, openModal$, closeModal$ } from 'streams/ui'
 
@@ -14,6 +14,8 @@ type Props = {
 
 class CoverLayer extends Component<Props> {
   destroy$ = new Subject()
+
+  touchStarted = false
 
   componentDidMount() {
     const $html = document.querySelector('html')
@@ -52,6 +54,33 @@ class CoverLayer extends Component<Props> {
     ).subscribe(() => {
       this.forceUpdate()
     })
+
+    fromEvent(window, 'touchstart', { passive: false }).pipe(
+      switchMap((e) => {
+        const prevY = e.touches[0].pageY
+        
+        if (!this.touchStarted) {
+          this.touchStarted = true
+          if ($html.scrollTop < 10) {
+            e.preventDefault()
+            return of(false)
+          }
+        }
+
+        return fromEvent(window, 'touchmove', { passive: false }).pipe(
+          tap((e) => {
+            if (!modalContentComponent$.value) return
+            const deltaY = e.touches[0].pageY - prevY
+            const isUpperDirection = deltaY > 0
+
+            if ($html.scrollTop < 100 && isUpperDirection) {
+              e.preventDefault()
+            }
+          })
+        )
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe()
   }
 
   componentWillUnmount() {
