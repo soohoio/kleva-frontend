@@ -72,7 +72,7 @@ export const en = {
 
 
 
-  'intro1.title': 'Kleverly <br/>LEVerage<br/>your Assets',
+  'intro1.title': 'Kleverly LEVerage<br/>your Assets',
   'intro1.description': '<strong>KLEVA</strong> Protocol is Decentralized Finance(DeFi) service<br/>that provides <strong style="color: #3C6BFA;">interest</strong><br/>and <strong style="color: #3C6BFA;">KLEVA Token</strong> Reward',
   'intro1.start': 'Start KLEVA',
   'intro2.title': 'Total Value Locked',

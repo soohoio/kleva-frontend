@@ -49,9 +49,11 @@
   margin-bottom: 18px;
   line-height: 44px;
   word-break: keep-all;
-
+  padding: 0 10px;
+  
   @include desktop {
     @include font-style('font-1', 'eb', 44px);
+    padding: 0;
     line-height: 54px;
   }
 }
