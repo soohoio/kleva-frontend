@@ -56,19 +56,20 @@ class CoverLayer extends Component<Props> {
     })
 
     fromEvent(window, 'touchstart', { passive: false }).pipe(
-      switchMap((e) => {
-        const prevY = e.touches[0].pageY
-        
-        if (!this.touchStarted) {
-          this.touchStarted = true
-          if ($html.scrollTop < 10) {
-            e.preventDefault()
-            return of(false)
-          }
-        }
+      switchMap((touchStartEvent) => {
+        const prevY = touchStartEvent.touches[0].pageY
 
         return fromEvent(window, 'touchmove', { passive: false }).pipe(
           tap((e) => {
+
+            if (!this.touchStarted) {
+              this.touchStarted = true
+              if ($html.scrollTop < 10) {
+                touchStartEvent.preventDefault()
+                return of(false)
+              }
+            }
+
             if (!modalContentComponent$.value) return
             const deltaY = e.touches[0].pageY - prevY
             const isUpperDirection = deltaY > 0
