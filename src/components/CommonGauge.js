@@ -174,9 +174,9 @@ class CommonGauge extends Component {
                 }
 
                 // If value becomes '', change it to untouched value, which is 0
-                if (e.target.value === '') {
-                  e.target.value = 0
-                }
+                // if (e.target.value === '') {
+                //   e.target.value = 0
+                // }
 
                 // e.target.value.length will be decreased if user inputs backspace.
                 // which means "remove"

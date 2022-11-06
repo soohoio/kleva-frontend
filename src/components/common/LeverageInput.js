@@ -68,10 +68,10 @@ class LeverageInput extends Component {
                 // invalid value: if decimal part length is greater than 2
                 if (decimalPart && decimalPart.length > 2) return
                 
-                if (pureNumberValue < 1) {
-                  leverage$.next(1)
-                  return
-                }
+                // if (pureNumberValue < 1) {
+                //   leverage$.next(1)
+                //   return
+                // }
 
                 // invalid value: if isNaN
                 if (isNaN(pureNumberValue)) {
@@ -93,9 +93,9 @@ class LeverageInput extends Component {
                 }
 
                 // If value becomes '', change it to untouched value, which is 0
-                if (e.target.value === '') {
-                  e.target.value = 0
-                }
+                // if (e.target.value === '') {
+                  // e.target.value = 0
+                // }
 
                 // e.target.value.length will be decreased if user inputs backspace.
                 // which means "remove"
