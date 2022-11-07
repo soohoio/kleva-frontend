@@ -184,7 +184,11 @@ class MyAsset extends Component {
     }
 
     return (
-      <div className="MyAsset">
+      <div 
+        className={cx("MyAsset", {
+          [`MyAsset--contentView`]: !!contentView$.value?.component,
+        })}
+      >
         {!contentView$.value?.component && (
           <>
             <div className="MyAsset__header">

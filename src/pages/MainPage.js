@@ -26,6 +26,7 @@ class MainPage extends Component {
     merge(
       // 'myAsset', 'lendnstake', 'farming'
       currentTab$,
+      isDesktop$,
       contentView$,
     ).pipe(
       debounceTime(1),
@@ -66,19 +67,19 @@ class MainPage extends Component {
         <Dashboard />
       )
     }
-    
+
     if (currentTab$.value == 'withus') {
       return (
         <Withus />
       )
     }
-    
+
     if (currentTab$.value == 'useguide') {
       return (
         <UseGuide />
       )
     }
-    
+
     if (currentTab$.value == 'glossary') {
       return (
         <Glossary />
@@ -88,11 +89,23 @@ class MainPage extends Component {
 
   render() {
 
+    const staticPage = (!isDesktop$.value && ['dashboard', 'withus', 'useguide', 'glossary'].includes(currentTab$.value)) ||
+      (!isDesktop$.value && ['farming', 'myasset'].includes(currentTab$.value) && !!contentView$.value?.component)
+
     return (
-      <div className="MainPage">
-        <Header2 />
-        <TabNavigation />
-        <NotificationBanner />
+      <div 
+        className={cx("MainPage", {
+          [`MainPage--${currentTab$.value}`]: true,
+          [`MainPage--staticPage`]: staticPage
+        })}
+      >
+        <div 
+          className={cx("MainPage__top")}
+        >
+          <Header2 />
+          <TabNavigation />
+          <NotificationBanner />
+        </div>
         <div className={cx("MainPage__tabContent", {
           [`MainPage__tabContent--${currentTab$.value}`]: true,
           [`MainPage__tabContent--${!contentView$.value?.component && 'contentless'}`]: true,

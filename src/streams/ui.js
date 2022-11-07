@@ -33,6 +33,11 @@ export const openContentView$ = new Subject()
 export const closeContentView$ = new Subject()
 
 openContentView$.subscribe(({ key, component }) => {
+
+  if (!isDesktop$.value) {
+    document.querySelector('html').scrollTop = 0
+  }
+
   contentView$.next({ key, component })
 })
 

@@ -38,6 +38,7 @@ class ClosePosition extends Component {
   bloc = new Bloc(this)
 
   componentDidMount() {
+    
     forkJoin(
       getLpIngridients$({
         workerAddress: this.props.workerInfo.workerAddress,

@@ -1,5 +1,5 @@
 .AddPosition {
-  position: fixed;
+  position: static;
   top: 0;
   left: 0;
   width: 100%;
@@ -30,7 +30,8 @@
 
 .AddPosition__left {
   padding: 0 20px;
-  padding-top: 138px; // for floating header
+  // padding-top: 138px; // for floating header
+  padding-top: 106px;
   @include desktop {
     flex: 1;
     padding: 0;

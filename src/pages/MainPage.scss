@@ -1,5 +1,26 @@
 .MainPage {
   height: 100vh;
+
+   &--withus, &--useguide, &--glossary, &--dashboard {
+
+    .MainPage__tabContent {
+      padding-top: 0;
+
+      @include desktop {
+        padding-top: 32px;
+      }
+    }
+  }
+
+  &--staticPage {
+    .MainPage__top {
+      display: none;
+    }
+
+    .MainPage__tabContent {
+      padding-top: 0;
+    }
+  }
 }
 
 .MainPage__tabContent {
