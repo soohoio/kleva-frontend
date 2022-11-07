@@ -440,7 +440,9 @@ class ClosePosition extends Component {
       baseBorrowingInterestAPR,
     } = this.props
 
-    const farmingTokenTitle = isKLAY(farmingToken.address) ? "WKLAY" : farmingToken.title
+    // When base token is "KLAY" user will receive WKLAY
+    // When farming token is "KLAY" user will receive KLAY
+    const farmingTokenTitle = isKLAY(farmingToken.address) ? "KLAY" : farmingToken.title
     const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
 
     // config
