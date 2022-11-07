@@ -1,6 +1,6 @@
 .EarnedPopup {
 
-  min-height: 300px;
+  // min-height: 300px;
   height: 100%;
   border-radius: 0;
   padding: 0 20px;
@@ -13,6 +13,7 @@
   }
 
   .Modal__content {
+    overflow: visible;
     // max-height: unset;
   }
 
@@ -26,6 +27,7 @@
     padding: 18px 20px; 
 
     @include desktop {
+      position: static;
       margin-bottom: 30px;
       padding: 0;
     }
@@ -56,6 +58,13 @@
     transform: translateY(-50%);
     right: -5px;
     cursor: pointer;
+
+    
+    @include desktop {
+      transform: unset;
+      top: 18px;
+      right: 18px;
+    }
   }
 }
 
@@ -66,6 +75,7 @@
   &:last-of-type {
     .EarnedItem__content {
       border: 0;
+      margin-bottom: -15px;
     }
   }
 }
@@ -81,7 +91,7 @@
 .EarnedItem__icon {
   width: 26px;
   height: 26px;
-  margin: 25px 11px 0 -1px;
+  margin: 25px 11px 0 0;
   border-radius: 50%;
 }
 
