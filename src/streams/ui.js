@@ -107,6 +107,12 @@ openModal$.subscribe(({ component, classNameAttach, backgroundColor, disableScre
 
 closeModal$.pipe(
   switchMap(() => {
+    const modalToClose = modalContentComponent$.value
+
+    if (modalToClose?.type?.displayName === 'CompletedModal') {
+      return of(true)
+    }
+
     // if (!isDesktop$.value && (classNameAttach$.value && (classNameAttach$.value !== "Modal--mobileCoverAll"))) {
     if (!isDesktop$.value && (classNameAttach$.value !== "Modal--mobileCoverAll")) {
       // mobile animation

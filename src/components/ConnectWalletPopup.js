@@ -44,6 +44,7 @@ class ConnectWalletPopup extends Component {
 
     return (
       <Modal 
+        layered={this.props.layered}
         className="ConnectWalletPopup"
         title={I18n.t('connectWallet.title')}
       >

@@ -90,6 +90,12 @@ class Modal extends Component {
           </div>
           {children}
         </div>
+        {layeredModalContentComponent$.value && !layered && (
+          <div
+            onClick={() => closeModal$.next(true)}
+            className="Modal__dim"
+          />
+        )}
       </div>
     )
   }
