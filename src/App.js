@@ -129,6 +129,8 @@ class App extends Component<Props> {
           : new BigNumber(feeAPR).toString()
 
         acc[lpTokenAddress]['airdropAPR'] = airdropAPR
+          .multipliedBy(0.7) // 30% performance fee
+          .toNumber()
 
         return acc
       }, {})
