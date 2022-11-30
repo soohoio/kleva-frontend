@@ -79,7 +79,7 @@ class ConnectWalletPopup extends Component {
 
               if (needToUseDeeplink) {
                 redirectApp({
-                  href: "kaikas://wallet/browser?url=" + encodeURIComponent(window.location.host + window.location.pathname),
+                  href: "kaikas://wallet/browser?url=" + encodeURIComponent(window.location.protocol + "//" + window.location.host + window.location.pathname),
                   androidStoreURL: "https://play.google.com/store/apps/details?id=io.klutch.wallet",
                   iosStoreURL: "https://itunes.apple.com/app/id1626107061",
                 })
