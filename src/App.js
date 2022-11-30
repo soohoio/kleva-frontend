@@ -111,25 +111,24 @@ class App extends Component<Props> {
         const tradeVolume = klayswapInfo?.recentPoolInfo[lpTokenAddress]?.lastHourTradeTotalVolume
           || klayswapInfo?.recentPoolInfo[lpTokenAddress.toLowerCase()]?.lastHourTradeTotalVolume
 
-        acc[lpTokenAddress]['kspMiningAPR'] = new BigNumber(yearlyKSP)
-          .multipliedBy(tokenPrices$.value[tokenList.KSP.address])
-          .div(poolVolume)
-          .multipliedBy(100)
-          .multipliedBy(0.85)
+        const kspMiningAPR = klayswapInfo?.recentPoolInfo[lpTokenAddress]?.kspRewardRate
+          || klayswapInfo?.recentPoolInfo[lpTokenAddress.toLowerCase()]?.kspRewardRate
+        
+        const airdropAPR = klayswapInfo?.recentPoolInfo[lpTokenAddress]?.airdropRewardRate
+          || klayswapInfo?.recentPoolInfo[lpTokenAddress.toLowerCase()]?.airdropRewardRate
+        
+        const feeAPR = klayswapInfo?.recentPoolInfo[lpTokenAddress]?.feeRewardRate
+          || klayswapInfo?.recentPoolInfo[lpTokenAddress.toLowerCase()]?.feeRewardRate
+
+        acc[lpTokenAddress]['kspMiningAPR'] = new BigNumber(kspMiningAPR)
           .multipliedBy(0.7) // 30% performance fee
           .toNumber()
 
         acc[lpTokenAddress]['tradingFeeAPR'] = yearlyKSP 
           ? 0
-          : new BigNumber(tradeVolume)
-            .multipliedBy(0.003) // 0.3% fee
-            .div(2)
-            .div(poolVolume)
-            .multipliedBy(365)
-            .multipliedBy(100)
-            .toString()
+          : new BigNumber(feeAPR).toString()
 
-        acc[lpTokenAddress]['airdropAPR'] = 0
+        acc[lpTokenAddress]['airdropAPR'] = airdropAPR
 
         return acc
       }, {})
