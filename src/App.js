@@ -36,7 +36,7 @@ import { lendingPools } from './constants/lendingpool'
 import { fetchUnlockAmount$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$, fetchLendingInfo$, farmPoolDepositedByAddress$ } from './streams/farming'
-import { fetchKlayswapInfo$, tokenPrices$ } from './streams/tokenPrice'
+import { fetchKlayswapInfo$, fetchKokonutSwapInfo$, tokenPrices$ } from './streams/tokenPrice'
 import { calcProtocolAPR } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
@@ -87,17 +87,24 @@ class App extends Component<Props> {
         startWith(0),
       )
     ).pipe(
-      switchMap(() => forkJoin(
+      switchMap(() => forkJoin([
         listTokenSupplyInfo$(lendingPools, debtTokens),
-        fetchKlayswapInfo$,
+        fetchKlayswapInfo$(),
         getYearlyKSP$(farmPool.filter(({ exchange }) => exchange === 'klayswap')),
-      )),
+        fetchKokonutSwapInfo$()
+      ])),
       takeUntil(this.destroy$)
-    ).subscribe(([lendingTokenSupplyInfo, klayswapInfo, klayswapMiningInfo]) => {
+    ).subscribe(([
+      lendingTokenSupplyInfo, 
+      klayswapInfo, 
+      klayswapMiningInfo, 
+      kokonutswapPriceInfo,
+    ]) => {
       lendingTokenSupplyInfo$.next(lendingTokenSupplyInfo)
 
       tokenPrices$.next({
         ...klayswapInfo && klayswapInfo.priceOutput,
+        ...kokonutswapPriceInfo?.tokenPrices,
         [tokenList.KLAY.address]: Number(klayswapInfo.klayPrice),
       })
 

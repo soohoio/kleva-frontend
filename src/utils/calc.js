@@ -45,7 +45,7 @@ export const calcKlevaRewardsAPR = ({
   const klevaRewardsAPR = new BigNumber(klevaAnnualRewardForDebtToken)
     .multipliedBy(klevaTokenPrice)
     .div(
-      new BigNumber(ibTokenInfo?.totalBorrowed)
+      new BigNumber(ibTokenInfo.totalBorrowed)
         .plus(borrowingDelta || 0)
         .multipliedBy(debtTokenPriceInUSD)
         // .div(10 ** borrowingAsset.decimals)
@@ -58,10 +58,13 @@ export const calcKlevaRewardsAPR = ({
 }
 
 export const calcProtocolAPR = ({ ibKlevaTotalSupplyTVL, aprInfo, farmPoolDeposited = [] }) => {
+  console.log(farmPoolDeposited, '@farmPoolDeposited')
   const protocolAPRNumerator = farmPoolDeposited.reduce((acc, { lpToken, deposited }) => {
     const lpPool = lpToken?.address
     const apr = addressKeyFind(aprInfo, lpPool)
-    const yieldFarmingAPR = (apr?.kspMiningAPR || 0) + (apr?.airdropAPR || 0)
+    const yieldFarmingAPR = (apr?.miningAPR || 0) + (apr?.airdropAPR || 0)
+
+    console.log(yieldFarmingAPR, 'yieldFarmingAPR')
 
     const PERCENTAGE_FOR_KLEVA_STAKER = 0.1
 
@@ -69,6 +72,9 @@ export const calcProtocolAPR = ({ ibKlevaTotalSupplyTVL, aprInfo, farmPoolDeposi
   }, 0)
 
   const protocolAPRDenominator = ibKlevaTotalSupplyTVL
+
+  console.log(protocolAPRNumerator, 'protocolAPRNumerator')
+  console.log(protocolAPRDenominator, 'protocolAPRDenominator')
 
   return protocolAPRNumerator / protocolAPRDenominator
 }

@@ -163,7 +163,7 @@ export default class {
     const { aprInfo } = this.comp.props
 
     const yieldFarmingAPR = aprInfo &&
-      new BigNumber(aprInfo.kspMiningAPR || 0)
+      new BigNumber(aprInfo.miningAPR || 0)
         .plus(aprInfo.airdropAPR || 0)
         .multipliedBy(leverageValue)
         .toNumber()

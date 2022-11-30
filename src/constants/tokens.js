@@ -69,6 +69,13 @@ export const singleTokens = {
     iconSrc: "/static/images/tokens/token-BORA.svg?date=20220929",
     decimals: 18,
   },
+  
+  "KSD": {
+    title: "KSD",
+    address: "0x4fa62f1f404188ce860c8f0041d6ac3765a72e67",
+    iconSrc: "/static/images/tokens/token-KSD.png?date=20220929",
+    decimals: 18,
+  },
 }
 
 export const lpTokens = {
@@ -190,6 +197,22 @@ export const lpTokens = {
     ingredients: [singleTokens.KLAY, singleTokens.oUSDC],
     title: "KLAY-oUSDC LP",
     address: "0x3bce8d81ac54010bb7ea6e5960f2ded6fc6a7ac5",
+    decimals: 18,
+  },
+
+  // Kokonutswap
+  "KSD-KLAY LP": {
+    KokonutLP: true,
+    ingredients: [singleTokens.KSD, singleTokens.KLAY],
+    title: "KSD-KLAY LP",
+    address: "0xe995b4a0289c33a28a1f14eb7b306387de71eb0e",
+    decimals: 18,
+  },
+  "KSD-oETH LP": {
+    KokonutLP: true,
+    ingredients: [singleTokens.KSD, singleTokens.oETH],
+    title: "KSD-oETH LP",
+    address: "0x3cde65d7b70071bc60ab5f56709e0a00364e5ba7",
     decimals: 18,
   },
 }

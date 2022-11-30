@@ -169,13 +169,13 @@ class FarmList extends Component {
           const b_aprInfo = aprInfo$.value[b.lpToken.address] || aprInfo$.value[b.lpToken.address.toLowerCase()]
 
           const a_yieldFarmingAPR = a_aprInfo &&
-            new BigNumber(a_aprInfo.kspMiningAPR || 0)
+            new BigNumber(a_aprInfo.miningAPR || 0)
               .plus(a_aprInfo.airdropAPR || 0)
               .multipliedBy(1)
               .toNumber()
 
           const b_yieldFarmingAPR = b_aprInfo &&
-            new BigNumber(b_aprInfo.kspMiningAPR || 0)
+            new BigNumber(b_aprInfo.miningAPR || 0)
               .plus(b_aprInfo.airdropAPR || 0)
               .multipliedBy(1)
               .toNumber()
@@ -189,7 +189,7 @@ class FarmList extends Component {
           const b_aprInfo = aprInfo$.value[b.lpToken.address] || aprInfo$.value[b.lpToken.address.toLowerCase()]
 
           const a_yieldFarmingAPR = a_aprInfo &&
-            new BigNumber(a_aprInfo.kspMiningAPR || 0)
+            new BigNumber(a_aprInfo.miningAPR || 0)
               .plus(a_aprInfo.airdropAPR || 0)
               .multipliedBy(2)
               .toNumber()
@@ -208,7 +208,7 @@ class FarmList extends Component {
             .toNumber()
 
           const b_yieldFarmingAPR = b_aprInfo &&
-            new BigNumber(b_aprInfo.kspMiningAPR || 0)
+            new BigNumber(b_aprInfo.miningAPR || 0)
               .plus(b_aprInfo.airdropAPR || 0)
               .multipliedBy(2)
               .toNumber()

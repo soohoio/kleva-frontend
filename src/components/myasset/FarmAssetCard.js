@@ -145,12 +145,12 @@ class FarmAssetCard extends Component {
 
     // APR
     const currentPositionLeverage = this.getCurrentLeverageValue()
-    // const yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.kspMiningAPR || 0)
+    // const yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.miningAPR || 0)
     //   .plus(aprInfo.airdropAPR || 0)
     //   .toNumber()
 
     // APR Before
-    const before_yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.kspMiningAPR || 0)
+    const before_yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.miningAPR || 0)
       .plus(aprInfo.airdropAPR || 0)
       .multipliedBy(currentPositionLeverage)
       .toNumber()

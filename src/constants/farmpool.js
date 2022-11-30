@@ -17,7 +17,7 @@ const makeFarm = (token1, token2) => {
     lpToken: lpTokenByIngredients(token1, token2),
     workerList: workerList,
     defaultBorrowingAsset,
-    exchange: 'klayswap',
+    exchange: workerList[0].exchange,
   }
 }
 
@@ -37,6 +37,8 @@ const makeFarmListBasedWorkers = workers
   }, { cache: {}, result: [] }).result
 
 export const farmPool = makeFarmListBasedWorkers
+
+console.log(farmPool, '@farmPool')
 
 export const farmPoolByWorker = farmPool.reduce((acc, cur) => {
 
