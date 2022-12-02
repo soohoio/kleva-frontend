@@ -58,13 +58,10 @@ export const calcKlevaRewardsAPR = ({
 }
 
 export const calcProtocolAPR = ({ ibKlevaTotalSupplyTVL, aprInfo, farmPoolDeposited = [] }) => {
-  console.log(farmPoolDeposited, '@farmPoolDeposited')
   const protocolAPRNumerator = farmPoolDeposited.reduce((acc, { lpToken, deposited }) => {
     const lpPool = lpToken?.address
     const apr = addressKeyFind(aprInfo, lpPool)
     const yieldFarmingAPR = (apr?.miningAPR || 0) + (apr?.airdropAPR || 0)
-
-    console.log(yieldFarmingAPR, 'yieldFarmingAPR')
 
     const PERCENTAGE_FOR_KLEVA_STAKER = 0.1
 
@@ -72,9 +69,6 @@ export const calcProtocolAPR = ({ ibKlevaTotalSupplyTVL, aprInfo, farmPoolDeposi
   }, 0)
 
   const protocolAPRDenominator = ibKlevaTotalSupplyTVL
-
-  console.log(protocolAPRNumerator, 'protocolAPRNumerator')
-  console.log(protocolAPRDenominator, 'protocolAPRDenominator')
 
   return protocolAPRNumerator / protocolAPRDenominator
 }

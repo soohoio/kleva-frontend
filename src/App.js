@@ -127,7 +127,7 @@ class App extends Component<Props> {
         const feeAPR = klayswapInfo?.recentPoolInfo[lpTokenAddress]?.feeRewardRate
           || klayswapInfo?.recentPoolInfo[lpTokenAddress.toLowerCase()]?.feeRewardRate
 
-        acc[lpTokenAddress]['kspMiningAPR'] = new BigNumber(kspMiningAPR)
+        acc[lpTokenAddress]['miningAPR'] = new BigNumber(kspMiningAPR)
           .multipliedBy(0.7) // 30% performance fee
           .toNumber()
 
