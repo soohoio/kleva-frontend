@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { isSameAddress } from '../utils/misc'
+import { sortBy, flatten } from 'lodash';
 
 export const singleTokens = {
   "KLAY": {
@@ -84,7 +85,7 @@ export const lpTokens = {
   "KLAY-oUSDT LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.oUSDT],
-    title: "KLAY-oUSDT LP",
+    title: "KLAY+oUSDT",
     address: "0xd83f1b074d81869eff2c46c530d7308ffec18036",
     decimals: 18,
   },
@@ -92,7 +93,7 @@ export const lpTokens = {
   "KLAY-KSP LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.KSP],
-    title: "KLAY-KSP LP",
+    title: "KLAY+KSP",
     address: "0x34cF46c21539e03dEb26E4FA406618650766f3b9",
     decimals: 18,
   },
@@ -100,7 +101,7 @@ export const lpTokens = {
   "KLAY-oETH LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.oETH],
-    title: "KLAY-oETH LP",
+    title: "KLAY+oETH",
     address: "0x27f80731dddb90c51cd934e9bd54bff2d4e99e8a",
     decimals: 18,
   },
@@ -108,7 +109,7 @@ export const lpTokens = {
   "KLAY-oXRP LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.oXRP],
-    title: "KLAY-oXRP LP",
+    title: "KLAY+oXRP",
     address: "0x86e614ef51b305c36a0608baa57fcaaa45844d87",
     decimals: 18,
   },
@@ -116,7 +117,7 @@ export const lpTokens = {
   "KLAY-WEMIX LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.WEMIX],
-    title: "KLAY-WEMIX LP",
+    title: "KLAY+WEMIX",
     address: "0x917EeD7ae9E7D3b0D875dd393Af93fFf3Fc301F8",
     decimals: 18,
   },
@@ -124,7 +125,7 @@ export const lpTokens = {
   "oUSDT-oUSDC LP": {
     KSLP: true,
     ingredients: [singleTokens.oUSDT, singleTokens.oUSDC],
-    title: "oUSDT-oUSDC LP",
+    title: "oUSDT+oUSDC",
     address: "0x2e9269b718cc816de6a9e3c27e5bdb0f6a01b0ac",
     decimals: 6,
   },
@@ -132,7 +133,7 @@ export const lpTokens = {
   "oUSDT-KDAI LP": {
     KSLP: true,
     ingredients: [singleTokens.oUSDT, singleTokens.KDAI],
-    title: "oUSDT-KDAI LP",
+    title: "oUSDT+KDAI",
     address: "0xc320066b25b731a11767834839fe57f9b2186f84",
     decimals: 6,
   },
@@ -140,7 +141,7 @@ export const lpTokens = {
   "oETH-oUSDT LP": {
     KSLP: true,
     ingredients: [singleTokens.oETH, singleTokens.oUSDT],
-    title: "oETH-oUSDT LP",
+    title: "oETH+oUSDT",
     address: "0x029e2a1b2bb91b66bd25027e1c211e5628dbcb93",
     decimals: 18,
   },
@@ -148,14 +149,14 @@ export const lpTokens = {
   "oUSDT-WEMIX LP": {
     KSLP: true,
     ingredients: [singleTokens.oUSDT, singleTokens.WEMIX],
-    title: "oUSDT-WEMIX LP",
+    title: "oUSDT+WEMIX",
     address: "0x2D803838Cb2D40EaCB0207ec4E567e2a8886b47F",
     decimals: 18,
   },
   "KLAY-BORA LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.BORA],
-    title: "KLAY-BORA LP",
+    title: "KLAY+BORA",
     address: "0xbbcA9B2D17987aCE3E98E376931c540270CE71bB",
     decimals: 18,
   },
@@ -163,7 +164,7 @@ export const lpTokens = {
   "oETH-oXRP LP": {
     KSLP: true,
     ingredients: [singleTokens.oETH, singleTokens.oXRP],
-    title: "oETH-oXRP LP",
+    title: "oETH+oXRP",
     address: "0x85ef87815bd7be28bee038ff201db78c7e0ed2b9",
     decimals: 18,
   },
@@ -171,7 +172,7 @@ export const lpTokens = {
   "oXRP-KDAI LP": {
     KSLP: true,
     ingredients: [singleTokens.oXRP, singleTokens.KDAI],
-    title: "oXRP-KDAI LP",
+    title: "oXRP+KDAI",
     address: "0x4B50d0e4F29bF5B39a6234B11753fDB3b28E76Fc",
     decimals: 6,
   },
@@ -179,7 +180,7 @@ export const lpTokens = {
   "KLAY-KLEVA LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.KLEVA],
-    title: "KLAY-KLEVA LP",
+    title: "KLAY+KLEVA",
     address: "0xd5eb5732ef45b82edaee421cbfb3e412b54d1d2f",
     decimals: 18,
   },
@@ -187,7 +188,7 @@ export const lpTokens = {
   "oUSDT-oUSDC LP": {
     KSLP: true,
     ingredients: [singleTokens.oUSDT, singleTokens.oUSDC],
-    title: "oUSDT-oUSDC LP",
+    title: "oUSDT+oUSDC",
     address: "0x2e9269b718cc816de6a9e3c27e5bdb0f6a01b0ac",
     decimals: 6,
   },
@@ -195,7 +196,7 @@ export const lpTokens = {
   "KLAY-oUSDC LP": {
     KSLP: true,
     ingredients: [singleTokens.KLAY, singleTokens.oUSDC],
-    title: "KLAY-oUSDC LP",
+    title: "KLAY+oUSDC",
     address: "0x3bce8d81ac54010bb7ea6e5960f2ded6fc6a7ac5",
     decimals: 18,
   },
@@ -204,15 +205,20 @@ export const lpTokens = {
   "KSD-KLAY LP": {
     KokonutLP: true,
     ingredients: [singleTokens.KSD, singleTokens.KLAY],
-    title: "KSD-KLAY LP",
+    title: "KSD+KLAY LP",
     address: "0xe995b4a0289c33a28a1f14eb7b306387de71eb0e",
     decimals: 18,
   },
-  "KSD-oETH LP": {
+  "4NUTS LP": {
     KokonutLP: true,
-    ingredients: [singleTokens.KSD, singleTokens.oETH],
-    title: "KSD-oETH LP",
-    address: "0x3cde65d7b70071bc60ab5f56709e0a00364e5ba7",
+    ingredients: [
+      singleTokens.KDAI,
+      singleTokens.oUSDC,
+      singleTokens.oUSDT,
+      singleTokens.KSD,
+    ],
+    title: "4NUTS",
+    address: "0x22e3aC1e6595B64266e0b062E01faE31d9cdD578",
     decimals: 18,
   },
 }
@@ -337,14 +343,32 @@ export const singleTokensByAddress = Object.values(singleTokens).reduce((acc, cu
   return acc
 }, {})
 
+export const sortTokenKey = (tokens) => {
+
+  tokens = tokens.filter((a) => !!a)
+
+  const _tokens = flatten(tokens)
+
+  return sortBy(_tokens, (t) => t.address.toLowerCase())
+    .reduce((acc, ingredientItem, idx) => {
+      return acc += ingredientItem.address.toLowerCase() + (idx === _tokens.length - 1 ? "" : "-")
+    }, "")
+}
+
 const _lpTokenByIngredients = Object.values(lpTokens).reduce((acc, cur) => {
-  acc[`${cur.ingredients[0].address.toLowerCase()}-${cur.ingredients[1].address.toLowerCase()}`] = cur
-  acc[`${cur.ingredients[1].address.toLowerCase()}-${cur.ingredients[0].address.toLowerCase()}`] = cur
+
+  const key = sortTokenKey(cur.ingredients)
+
+  acc[key] = cur
+
   return acc
 }, {})
 
-export const lpTokenByIngredients = (tokenA, tokenB) => {
-  return _lpTokenByIngredients[`${tokenA && tokenA.address.toLowerCase()}-${tokenB && tokenB.address.toLowerCase()}`]
+export const lpTokenByIngredients = (...tokens) => {
+
+  const key = sortTokenKey(tokens)
+
+  return _lpTokenByIngredients[key]
 }
 
 export const lpTokenByAddress = Object.values(lpTokens).reduce((acc, cur) => {

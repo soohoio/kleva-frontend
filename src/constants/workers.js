@@ -1,7 +1,7 @@
-import { lpTokenByIngredients, tokenList } from "./tokens"
+import { isEqual, sortBy } from "lodash"
+import { lpTokenByIngredients, sortTokenKey, tokenList } from "./tokens"
 
 // REAL
-
 export const workers = [
   {
     farmingToken: tokenList.KLAY,
@@ -159,7 +159,40 @@ export const workers = [
     exchange: 'klayswap',
   },
 
-
+  // Kokonutswap base pool
+  {
+    farmingTokens: [
+      tokenList.KSD,
+      tokenList.oUSDT,
+      tokenList.oUSDC,
+    ],
+    baseToken: tokenList.KDAI,
+    vaultAddress: tokenList.ibKDAI.address,
+    workerAddress: "0x2d710dCc3AB075154287d39305456fE2FCF4FF91",
+    exchange: 'kokonutswap',
+  },
+  {
+    farmingTokens: [
+      tokenList.KSD,
+      tokenList.KDAI,
+      tokenList.oUSDC,
+    ],
+    baseToken: tokenList.oUSDT,
+    vaultAddress: tokenList.iboUSDT.address,
+    workerAddress: "0xCA866c7EFF996D529DCFB2BD7863ea2d6ab217f9",
+    exchange: 'kokonutswap',
+  },
+  {
+    farmingTokens: [
+      tokenList.KSD,
+      tokenList.KDAI,
+      tokenList.oUSDT,
+    ],
+    baseToken: tokenList.oUSDC,
+    vaultAddress: tokenList.iboUSDC.address,
+    workerAddress: "0xD3db345A452a685A84414313E07e3745C092a7a9",
+    exchange: 'kokonutswap',
+  },
   // Kokonutswap crypto pool
   {
     farmingToken: tokenList.KSD,
@@ -168,22 +201,22 @@ export const workers = [
     workerAddress: "0x780D93666bC7b36e52c280BAc6B92FB73113eBA8",
     exchange: 'kokonutswap',
   },
-  {
-    farmingToken: tokenList.KSD,
-    baseToken: tokenList.oETH,
-    vaultAddress: tokenList.iboETH.address,
-    workerAddress: "0xDDE962995d4D1854bA4BD82Fa7De2B46Db445BaB",
-    exchange: 'kokonutswap',
-  },
-]
+].map((item) => {
+  const arr = [item.farmingToken, item.baseToken, ...(item.farmingTokens || [])].filter(a => !!a)
+  
+  const farmKey = sortTokenKey(arr)  
+  return { ...item, farmKey }
+})
 
+export const workersBy = (tokens) => {
+  const sortedTokenKey = sortTokenKey(tokens)
 
-export const workersBy = (token1, token2) => {
-  return workers.filter(({ farmingToken, baseToken }) => {
-    const isOrderFB = farmingToken.address.toLowerCase() === token1.address.toLowerCase() && baseToken.address.toLowerCase() === token2.address.toLowerCase()
-    const isOrderBF = farmingToken.address.toLowerCase() === token2.address.toLowerCase() && baseToken.address.toLowerCase() === token1.address.toLowerCase()
+  return workers.filter(({ farmingToken, baseToken, farmingTokens = [] }) => {
 
-    return isOrderBF || isOrderFB
+    return isEqual(
+      sortedTokenKey,
+      sortTokenKey([farmingToken, baseToken, ...farmingTokens].filter((a) => !!a))
+    )
   })
 }
 

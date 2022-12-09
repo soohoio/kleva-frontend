@@ -2,19 +2,23 @@ import { lpTokenByIngredients } from "./tokens"
 import { workers, workersBy } from "./workers"
 import { lendingPoolsByStakingTokenAddress } from './lendingpool';
 
-const makeFarm = (token1, token2) => {
+const makeFarm = (tokens) => {
 
-  const workerList = workersBy(token1, token2)
+  const workerList = workersBy(tokens)
 
-  const defaultBorrowingAsset = [token1, token2].filter(({ address }) => {
+  const defaultBorrowingAsset = tokens.filter(({ address }) => {
     const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
     return hasLendingPool
   })[0]
 
+  const tokensMap = tokens.reduce((acc, cur, idx) => {
+    acc[`token${idx + 1}`] = cur
+    return acc
+  }, {})
+
   return {
-    token1,
-    token2,
-    lpToken: lpTokenByIngredients(token1, token2),
+    ...tokensMap,
+    lpToken: lpTokenByIngredients(tokens),
     workerList: workerList,
     defaultBorrowingAsset,
     exchange: workerList[0].exchange,
@@ -23,22 +27,22 @@ const makeFarm = (token1, token2) => {
 
 const makeFarmListBasedWorkers = workers
   .reduce((acc, cur) => {
-    if (acc.cache[`${cur.farmingToken.address}-${cur.baseToken.address}`] || acc.cache[`${cur.baseToken.address}-${cur.farmingToken.address}`]) {
-      return acc
-    }
 
-    acc.cache[`${cur.farmingToken.address}-${cur.baseToken.address}`] = true
-    acc.cache[`${cur.baseToken.address}-${cur.farmingToken.address}`] = true
+    if (acc.cache[cur.farmKey]) return acc
 
-    acc.result.push(makeFarm(cur.farmingToken, cur.baseToken))
+    acc.cache[cur.farmKey] = true
+
+    acc.result.push(
+      makeFarm(
+        [cur.farmingToken, cur.baseToken, ...(cur.farmingTokens || []) ].filter((a) => !!a)
+      )
+    )
 
     return acc
     
   }, { cache: {}, result: [] }).result
 
 export const farmPool = makeFarmListBasedWorkers
-
-console.log(farmPool, '@farmPool')
 
 export const farmPoolByWorker = farmPool.reduce((acc, cur) => {
 

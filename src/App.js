@@ -98,13 +98,13 @@ class App extends Component<Props> {
       lendingTokenSupplyInfo, 
       klayswapInfo, 
       klayswapMiningInfo, 
-      kokonutswapPriceInfo,
+      kokonutswapMiningInfo,
     ]) => {
       lendingTokenSupplyInfo$.next(lendingTokenSupplyInfo)
 
       tokenPrices$.next({
         ...klayswapInfo && klayswapInfo.priceOutput,
-        ...kokonutswapPriceInfo?.tokenPrices,
+        ...kokonutswapMiningInfo?.tokenPrices,
         [tokenList.KLAY.address]: Number(klayswapInfo.klayPrice),
       })
 
@@ -142,7 +142,13 @@ class App extends Component<Props> {
         return acc
       }, {})
 
-      aprInfo$.next(poolAprInfo)
+      // kokonutAPrInfo
+      const kokonutAprInfo = kokonutswapMiningInfo.aprs
+
+      aprInfo$.next({
+        ...poolAprInfo,
+        ...kokonutAprInfo,
+      })
 
       klayswapPoolInfo$.next(klayswapInfo && klayswapInfo.recentPoolInfo)
     })

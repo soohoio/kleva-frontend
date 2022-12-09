@@ -240,6 +240,8 @@ class FarmList extends Component {
     workerList,
     token1,
     token2,
+    token3,
+    token4,
     lpToken,
     tvl,
     exchange,
@@ -272,6 +274,8 @@ class FarmList extends Component {
           workerList={workerList}
           token1={token1}
           token2={token2}
+          token3={token3}
+          token4={token4}
           lpToken={lpToken}
           tvl={tvl}
           exchange={exchange}
@@ -303,6 +307,8 @@ class FarmList extends Component {
         workerList={workerList}
         token1={token1}
         token2={token2}
+        token3={token3}
+        token4={token4}
         lpToken={lpToken}
         tvl={tvl}
         exchange={exchange}
@@ -320,7 +326,6 @@ class FarmList extends Component {
   }
 
   render() {
-
     return (
       <div className="FarmList">
         <div className="FarmList__header">
@@ -389,6 +394,8 @@ class FarmList extends Component {
                 workerList,
                 token1,
                 token2,
+                token3,
+                token4,
                 lpToken,
                 tvl,
                 exchange,
@@ -401,6 +408,8 @@ class FarmList extends Component {
                   workerList,
                   token1,
                   token2,
+                  token3,
+                  token4,
                   lpToken,
                   tvl,
                   exchange,

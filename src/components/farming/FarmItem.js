@@ -16,6 +16,7 @@ import RadioSet2 from '../common/RadioSet2'
 import { openContentView$, openModal$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 import ConnectWalletPopup from '../ConnectWalletPopup'
+import AddPositionMultiToken from './AddPositionMultiToken';
 
 class FarmItem extends Component {
   destroy$ = new Subject()
@@ -52,6 +53,8 @@ class FarmItem extends Component {
       workerList,
       token1,
       token2,
+      token3,
+      token4,
       farmDeposited,
       exchange,
       lpToken,
@@ -101,9 +104,12 @@ class FarmItem extends Component {
           <div className="FarmItem__tokenImages">
             <img className="FarmItem__tokenIcon" src={token1.iconSrc} />
             <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token2.iconSrc} />
+            {token3 && <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token3.iconSrc} />}
+            {token4 && <img className="FarmItem__tokenIcon FarmItem__tokenIcon--baseToken" src={token4.iconSrc} />}
           </div>
           <div className="FarmItem__mainInfo">
-            <p className="FarmItem__title">{token1.title}+{token2.title}</p>
+            <p className="FarmItem__title">{lpToken.title}</p>
+            {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
           </div>
         </div>
@@ -153,7 +159,7 @@ class FarmItem extends Component {
                 key: "AddPosition",
                 component: (
                   <AddPosition
-                    title={`${token1?.title}+${token2?.title}`}
+                    title={lpToken.title}
                     defaultBorrowingAsset={borrowingAsset}
                     defaultLeverage={this.bloc.leverageValue$.value}
                     yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
@@ -163,6 +169,8 @@ class FarmItem extends Component {
 
                     token1={token1}
                     token2={token2}
+                    token3={token3}
+                    token4={token4}
 
                     lpToken={lpToken}
                     borrowingAvailableAssets={borrowingAvailableAssets}

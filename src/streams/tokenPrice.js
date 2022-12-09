@@ -13,7 +13,11 @@ export const fetchKokonutSwapInfo$ = () => from(
   map(({ pools }) => {
     return pools.reduce((acc, cur) => {
       acc.tokenPrices[cur.lpTokenAddress.toLowerCase()] = Number(cur.lpTokenRealPrice)
-      acc.aprs[cur.address.toLowerCase()] = Number(cur.stakingApr)
+      acc.aprs[cur.lpTokenAddress.toLowerCase()] = {
+        'miningAPR': Number(cur.stakingApr) * 0.7,
+        'tradingFeeAPR': Number(cur.baseApr),
+        'airdropAPR': 0,
+      }
       return acc
     }, {
       tokenPrices: {},

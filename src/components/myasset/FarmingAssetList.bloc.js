@@ -21,7 +21,7 @@ export default class {
   getFarmingAssetValue = () => {
     const farmingPositionValues = Object.entries(this.farmingPositionValueMap$.value).reduce((acc, [address, farmingPositionValueInUSD]) => {
       const lpToken = lpTokenByAddress[address]
-      const title = `${lpToken.ingredients[0].title}+${lpToken.ingredients[1].title}`
+      const title = lpToken.title
 
       if (farmingPositionValueInUSD == 0) return acc
 

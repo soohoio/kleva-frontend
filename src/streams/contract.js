@@ -43,7 +43,7 @@ import { isValidDecimal, toFixed } from '../utils/calc'
 import { klayswapPoolInfo$ } from './farming'
 import { currentBlockNumber$ } from 'streams/block'
 import { tokenPrices$ } from './tokenPrice'
-import { KLAYSWAP_CALCULATOR, KNS_REVERSE_RECORDS_ADDRESS } from '../constants/address'
+import { KLAYSWAP_CALCULATOR, KNS_REVERSE_RECORDS_ADDRESS, KOKONUTSWAP_CALCULATOR } from '../constants/address'
 import { workerByAddress } from '../constants/workers'
 import copy from 'copy-to-clipboard'
 
@@ -969,7 +969,11 @@ export const getWorkerInfo$ = (workerList) => {
         acc[workerAddress] = {
           // Deposited real token balance
           ..._worker,
-          lpToken: lpTokenByIngredients(_worker.baseToken, _worker.farmingToken),
+          lpToken: lpTokenByIngredients(
+            _worker.baseToken, 
+            _worker.farmingToken,
+            ...(_worker.farmingTokens || [])
+          ),
           killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
           workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
           rawKillFactorBps: new BigNumber(cur.rawKillFactorBps._hex).toString(),
@@ -996,75 +1000,6 @@ export const call$ = ({ abi, address, methodName, params }) => {
 }
 
 // Contract
-export const getOutputTokenAmount$ = (inputToken, outputToken, inputTokenAmount) => {  
-
-  const lpToken = lpTokenByIngredients(inputToken, outputToken)
-  const lpTokenAddress = lpToken && lpToken.address
-  const lpPoolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address.toLowerCase()]
-
-  const tokenA = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA.toLowerCase()]
-  const tokenB = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB.toLowerCase()]
-
-  return forkJoin(
-    getCurrentPool$(lpTokenAddress),
-    getOutputAmount$(lpTokenAddress, inputToken && inputToken.address, inputTokenAmount),
-  ).pipe(
-    map(([currentPool, outputAmount]) => {
-
-      const reserveA = new BigNumber(currentPool.outputAmountA)
-      
-      const reserveB = new BigNumber(currentPool.outputAmountB)
-
-      const priceImpact = inputToken.address.toLowerCase() == tokenA.address.toLowerCase()
-        ? new BigNumber(inputTokenAmount)
-          .div(new BigNumber(reserveA).plus(inputTokenAmount))
-          .toString()
-        : new BigNumber(inputTokenAmount)
-          .div(new BigNumber(reserveB).plus(inputTokenAmount))
-          .toString()
-
-      return { 
-        outputAmount, 
-        priceImpact,
-      }
-    })
-  )
-}
-
-export const calcInputAmountBasedOnOutputAmount$ = (inputToken, outputToken, outputTokenAmount) => {  
-
-  const lpToken = lpTokenByIngredients(inputToken, outputToken)
-  const lpTokenAddress = lpToken && lpToken.address
-  const lpPoolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address.toLowerCase()]
-
-  const tokenA = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenA.toLowerCase()]
-  const tokenB = singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB] || singleTokensByAddress[lpPoolInfo && lpPoolInfo.tokenB.toLowerCase()]
-
-  return forkJoin(
-    getCurrentPool$(lpTokenAddress),
-    getInputAmount$(lpTokenAddress, outputToken && outputToken.address, outputTokenAmount),
-  ).pipe(
-    map(([currentPool, inputTokenAmount]) => {
-
-      const reserveA = new BigNumber(currentPool.outputAmountA)
-      
-      const reserveB = new BigNumber(currentPool.outputAmountB)
-
-      const priceImpact = inputToken.address.toLowerCase() == tokenA.address.toLowerCase()
-        ? new BigNumber(inputTokenAmount)
-          .div(new BigNumber(reserveA).plus(inputTokenAmount))
-          .toString()
-        : new BigNumber(inputTokenAmount)
-          .div(new BigNumber(reserveB).plus(inputTokenAmount))
-          .toString()
-
-      return { 
-        outputAmount: inputTokenAmount,
-        priceImpact,
-      }
-    })
-  )
-}
 
 export const getOutputAmount$ = (lpTokenAddress, inputTokenAddress, inputTokenAmount) => {
   return call$({ abi: KlayswapExchangeABI, address: lpTokenAddress, methodName: 'estimatePos', params: [inputTokenAddress, inputTokenAmount] })
@@ -1145,20 +1080,6 @@ export const getPoolReserves$ = (lpTokenList) => {
           totalSupply: lpTotalSupplies[idx]?.totalSupply,
           decimals: lpToken?.decimals
         }
-
-        // if (idx % 2 === 0) {
-        //   acc[lpToken.address] = {
-        //     title: lpToken.title,
-        //     ...acc[lpToken.address],
-        //     [tokenA.address]: new BigNumber(cur.reserveA).toString()
-        //   }
-        // } else {
-        //   acc[lpToken.address] = {
-        //     title: lpToken.title,
-        //     ...acc[lpToken.address],
-        //     [tokenB.address]: new BigNumber(cur.reserveB).toString()
-        //   }
-        // }
 
         // Cover lowercase key
         acc[lpToken.address.toLowerCase()] = acc[lpToken.address]
@@ -1298,7 +1219,7 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
         info: { 
           farmIdx: farmIdx, 
           farm: cur,
-          lpToken: lpTokenByIngredients(cur.token1, cur.token2)
+          lpToken: lpTokenByIngredients(cur.token1, cur.token2, cur.token3, cur.token4)
         }
       }
     })
@@ -1554,6 +1475,34 @@ export const getOpenPositionResult$ = ({
       leveragedBaseTokenAmount,
       farmTokenAmount,
       positionId,
+    ]
+  }).pipe(
+    catchError(() => {
+      return of({
+        priceImpactBps: "0",
+        resultBaseTokenAmount: "0",
+        resultFarmTokenAmount: "0",
+        swapedBaseTokenAmount: "0",
+        swapedFarmTokenAmount: "0",
+      })
+    })
+  )
+}
+
+// kokonutswap calculator
+export const getOpenPositionResult_kokonut$ = ({
+  workerAddress,
+  tokenAmounts,
+  positionId,
+}) => {
+
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getOpenPositionResult",
+    params: [
+      workerAddress,
+      tokenAmounts,
     ]
   }).pipe(
     catchError(() => {
