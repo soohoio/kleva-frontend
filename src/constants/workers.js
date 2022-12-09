@@ -107,12 +107,6 @@ export const workers = [
   },
   {
     farmingToken: tokenList.oXRP,
-    baseToken: tokenList.oETH,
-    vaultAddress: tokenList.iboETH.address,
-    workerAddress: "0x127ba4756cFa79f984077Fd6B3903C7B7ba306CA",
-  },
-  {
-    farmingToken: tokenList.oXRP,
     baseToken: tokenList.KDAI,
     vaultAddress: tokenList.ibKDAI.address,
     workerAddress: "0x9339DcADb6F7D40c102E2179253eA2353f718f20",
