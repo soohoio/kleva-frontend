@@ -2,12 +2,22 @@ import { STRATEGIES } from "./address"
 import { tokenList } from "./tokens"
 
 export const getStrategy = ({
+  exchange,
   strategyType,
   farmingToken,
   baseToken,
   farmingTokenAmount,
   baseTokenAmount,
 }) => {
+
+  if (exchange === "kokonutswap") {
+    return {
+      strategyType: strategyType,
+      strategyAddress: STRATEGIES[strategyType],
+      poolType: ''
+    }
+  }
+
   switch (strategyType) {
     case "ADD": // ADD_BASE_TOKEN_ONLY || ADD_TWO_SIDES_OPTIMAL
       return getAddStrategy({ farmingToken, baseToken, farmingTokenAmount, baseTokenAmount })
@@ -19,7 +29,8 @@ export const getStrategy = ({
   }
 }
 
-const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseTokenAmount }) => {
+const getAddStrategy = ({ exchange, farmingToken, baseToken, farmingTokenAmount, baseTokenAmount }) => {
+
   // FarmingTokenAmount Doesn't exist -> AddBaseTokenOnly
   if (farmingTokenAmount == 0) {
     if (isK4PoolStrategy(farmingToken, baseToken)) {
@@ -53,7 +64,7 @@ const getAddStrategy = ({ farmingToken, baseToken, farmingTokenAmount, baseToken
   }
 }
 
-const getCloseStrategy = ({ strategyType, farmingToken, baseToken }) => {
+const getCloseStrategy = ({ exchange, strategyType, farmingToken, baseToken }) => {
   if (isK4PoolStrategy(farmingToken, baseToken)) {
     return { 
       strategyType: strategyType, 

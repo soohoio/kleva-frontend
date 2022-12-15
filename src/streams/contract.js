@@ -32,6 +32,9 @@ import KlayswapCalculatorABI from 'abis/KlayswapCalculator.json'
 // KNS
 import KNS_REVERSE_RECORDS_ABI from 'abis/KNS.json'
 
+// Kokonutswap Calculator
+import KokonutswapCalculatorABI from 'abis/KokonutswapCalculator.json'
+
 import { closeLayeredModal$, closeModal$, isFocused$, isQrCodeModal$, layeredModalContentComponent$ } from './ui'
 import { addressKeyFind, coupleArray } from '../utils/misc'
 import { executeContractKlip$ } from './klip'
@@ -291,6 +294,7 @@ export const multicall = async (abi, calls, getGas) => {
       .map((call) => {
         return [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)]
       })
+
     const { returnData } = await multi.methods.aggregate(calldata).call()
     const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
 
@@ -310,6 +314,7 @@ export const multicall = async (abi, calls, getGas) => {
 
     return result
   } catch (e) {
+    console.log(e, '@e')
     return false
   }
 }
@@ -970,9 +975,7 @@ export const getWorkerInfo$ = (workerList) => {
           // Deposited real token balance
           ..._worker,
           lpToken: lpTokenByIngredients(
-            _worker.baseToken, 
-            _worker.farmingToken,
-            ...(_worker.farmingTokens || [])
+            _worker.tokens || [_worker.farmingToken, _worker.baseToken]
           ),
           killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
           workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
@@ -991,6 +994,7 @@ export const getWorkerInfo$ = (workerList) => {
 export const call$ = ({ abi, address, methodName, params }) => {
   const _contract = new caver.klay.Contract(abi, address)
   const _method = _contract.methods[methodName](...params)
+
   try {
     return from(_method.call())
   } catch (e) {
@@ -1154,7 +1158,6 @@ export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
 }
 
 export const checkAllowances$ = (account, targetContractAddress, tokens) => {
-
   const filteredTokens = tokens
     .map((_token) => {
       if (_token.address === tokenList.KLAY.address) {
@@ -1475,34 +1478,6 @@ export const getOpenPositionResult$ = ({
       leveragedBaseTokenAmount,
       farmTokenAmount,
       positionId,
-    ]
-  }).pipe(
-    catchError(() => {
-      return of({
-        priceImpactBps: "0",
-        resultBaseTokenAmount: "0",
-        resultFarmTokenAmount: "0",
-        swapedBaseTokenAmount: "0",
-        swapedFarmTokenAmount: "0",
-      })
-    })
-  )
-}
-
-// kokonutswap calculator
-export const getOpenPositionResult_kokonut$ = ({
-  workerAddress,
-  tokenAmounts,
-  positionId,
-}) => {
-
-  return call$({
-    abi: KlayswapCalculatorABI,
-    address: KOKONUTSWAP_CALCULATOR,
-    methodName: "getOpenPositionResult",
-    params: [
-      workerAddress,
-      tokenAmounts,
     ]
   }).pipe(
     catchError(() => {
@@ -1963,4 +1938,57 @@ export const getKNSName$ = (address) => {
     methodName: "getName",
     params: [address]
   })
+}
+
+// Kokonutswap Calculator
+export const getOpenPositionResult_kokonut$ = ({
+  workerAddress,
+  tokenAmounts,
+  positionId,
+}) => {
+
+  console.log(workerAddress, 'workerAddress')
+  console.log(tokenAmounts, 'tokenAmounts')
+  console.log(positionId, 'positionId')
+
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getOpenPositionResult",
+    params: [
+      workerAddress,
+      tokenAmounts,
+      positionId,
+    ]
+  }).pipe(
+    catchError((e) => {
+      console.log(e, 'E')
+      return of({
+        priceImpactBps: "0", // lp change
+        resultBaseTokenAmount: "0",
+        resultFarmTokenAmount: "0",
+        swapedBaseTokenAmount: "0",
+        swapedFarmTokenAmount: "0",
+      })
+    })
+  )
+}
+
+export const getPositionValue_kokonut$ = ({ workerAddress, tokenAmounts }) => {
+  console.log(workerAddress, 'workerAddress')
+  console.log(tokenAmounts, 'tokenAmounts')
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getPositionValue",
+    params: [
+      workerAddress,
+      tokenAmounts,
+    ]
+  }).pipe(
+    catchError((e) => {
+      console.log(e, 'p err')
+      return of(0)
+    })
+  )
 }

@@ -212,10 +212,10 @@ export const lpTokens = {
   "4NUTS LP": {
     KokonutLP: true,
     ingredients: [
+      singleTokens.KSD,
       singleTokens.KDAI,
       singleTokens.oUSDC,
       singleTokens.oUSDT,
-      singleTokens.KSD,
     ],
     title: "4NUTS",
     address: "0x22e3aC1e6595B64266e0b062E01faE31d9cdD578",

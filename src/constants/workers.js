@@ -161,10 +161,11 @@ export const workers = [
 
   // Kokonutswap base pool
   {
-    farmingTokens: [
+    tokens: [
       tokenList.KSD,
-      tokenList.oUSDT,
+      tokenList.KDAI,
       tokenList.oUSDC,
+      tokenList.oUSDT,
     ],
     baseToken: tokenList.KDAI,
     vaultAddress: tokenList.ibKDAI.address,
@@ -172,10 +173,11 @@ export const workers = [
     exchange: 'kokonutswap',
   },
   {
-    farmingTokens: [
+    tokens: [
       tokenList.KSD,
       tokenList.KDAI,
       tokenList.oUSDC,
+      tokenList.oUSDT,
     ],
     baseToken: tokenList.oUSDT,
     vaultAddress: tokenList.iboUSDT.address,
@@ -183,9 +185,10 @@ export const workers = [
     exchange: 'kokonutswap',
   },
   {
-    farmingTokens: [
+    tokens: [
       tokenList.KSD,
       tokenList.KDAI,
+      tokenList.oUSDC,
       tokenList.oUSDT,
     ],
     baseToken: tokenList.oUSDC,
@@ -195,6 +198,10 @@ export const workers = [
   },
   // Kokonutswap crypto pool
   {
+    tokens: [
+      tokenList.KLAY,
+      tokenList.KSD,
+    ],
     farmingToken: tokenList.KSD,
     baseToken: tokenList.KLAY,
     vaultAddress: tokenList.ibKLAY.address,
@@ -202,7 +209,7 @@ export const workers = [
     exchange: 'kokonutswap',
   },
 ].map((item) => {
-  const arr = [item.farmingToken, item.baseToken, ...(item.farmingTokens || [])].filter(a => !!a)
+  const arr = item.tokens || [item.farmingToken, item.baseToken]
   
   const farmKey = sortTokenKey(arr)  
   return { ...item, farmKey }
@@ -211,11 +218,11 @@ export const workers = [
 export const workersBy = (tokens) => {
   const sortedTokenKey = sortTokenKey(tokens)
 
-  return workers.filter(({ farmingToken, baseToken, farmingTokens = [] }) => {
+  return workers.filter(({ tokens, farmingToken, baseToken }) => {
 
     return isEqual(
       sortedTokenKey,
-      sortTokenKey([farmingToken, baseToken, ...farmingTokens].filter((a) => !!a))
+      sortTokenKey(tokens || [farmingToken, baseToken])
     )
   })
 }

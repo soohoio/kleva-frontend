@@ -1,0 +1,572 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "wklayAddress_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "routerAddress_",
+        "type": "address"
+      }
+    ],
+    "name": "__MockKokonutswapCalculator_init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "inputAmts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getBalancedAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "balancedAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpAmountOnBalanced",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCloseBaseOnlyResult",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "receiveBaseTokenAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountToTrade",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "extended",
+        "type": "bool"
+      }
+    ],
+    "name": "getCloseMinimizeResult",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "receiveAmounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountToTrade",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "closedLpAmt",
+        "type": "uint256"
+      }
+    ],
+    "name": "getDebtRepaymentRange",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "closedPositionValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "closedHealth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minDebtRepayment",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxDebtRepayment",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountIn",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenOut",
+        "type": "address"
+      }
+    ],
+    "name": "getDexSelling",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenOutAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "priceImpactBps",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "priceImpactBpsWithoutFee",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getLpAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "extended",
+        "type": "bool"
+      }
+    ],
+    "name": "getLpIngridients",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "inputAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "inputUnderlyingAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOpenMetaPositionResult",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "receiveTokensAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "receiveLpAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpAmtOnBalanced",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "inputAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOpenPositionResult",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "receiveTokensAmt",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "receiveLpAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpAmtOnBalanced",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "closedLpAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debtToRepay",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPartialCloseBaseOnlyResult",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "updatedPositionValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "updatedHealth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "updatedDebtAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "receiveBaseTokenAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountToTrade",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "closedLpAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debtToRepay",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPartialCloseMinimizeResult",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "updatedPositionValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "updatedHealth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "updatedDebtAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "receiveAmonuts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountToTrade",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPositionInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "positionValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "health",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debtAmt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpBalance",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "ingridientAmt",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getPositionValue",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "inputAmts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "baseTokenIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTotalValueOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalValue",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "routerAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "wklayAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

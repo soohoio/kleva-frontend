@@ -34,7 +34,7 @@ const makeFarmListBasedWorkers = workers
 
     acc.result.push(
       makeFarm(
-        [cur.farmingToken, cur.baseToken, ...(cur.farmingTokens || []) ].filter((a) => !!a)
+        cur.tokens || [cur.farmingToken, cur.baseToken]
       )
     )
 
