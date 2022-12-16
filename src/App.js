@@ -36,7 +36,7 @@ import { lendingPools } from './constants/lendingpool'
 import { fetchUnlockAmount$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$, fetchLendingInfo$, farmPoolDepositedByAddress$ } from './streams/farming'
-import { fetchKlayswapInfo$, fetchKokonutSwapInfo$, tokenPrices$ } from './streams/tokenPrice'
+import { fetchKlayswapInfo$, fetchKokonutSwapInfo$, liquidities$, tokenPrices$ } from './streams/tokenPrice'
 import { calcProtocolAPR } from './utils/calc'
 import { farmPool } from './constants/farmpool'
 import { workers } from './constants/workers'
@@ -107,6 +107,8 @@ class App extends Component<Props> {
         ...kokonutswapMiningInfo?.tokenPrices,
         [tokenList.KLAY.address]: Number(klayswapInfo.klayPrice),
       })
+
+      liquidities$.next(kokonutswapMiningInfo.liquidities)
 
       const poolAprInfo = Object.entries(klayswapMiningInfo).reduce((acc, [lpTokenAddress, yearlyKSP]) => {
 
