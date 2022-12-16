@@ -33,7 +33,13 @@ class PriceImpact extends Component {
   }
     
   render() {
-    const { lossAmount, tokenToSwap, priceImpact } = this.props
+    const {
+      title,
+      description,
+      lossAmount, 
+      tokenToSwap, 
+      priceImpact 
+    } = this.props
 
     return (
       <LabelAndValue
@@ -41,14 +47,14 @@ class PriceImpact extends Component {
         label={(
           <div className="PriceImpact__label">
             <QuestionMark
-              title={I18n.t('lossBySwap')}
+              title={title || I18n.t('lossBySwap')}
               onClick={() => {
                 openModal$.next({
                   component: <PriceImpactInfoModal />
                 })
               }}
             />
-            <p className="PriceImpact__subtitle">{I18n.t('priceImpactWithFee')}</p>
+            <p className="PriceImpact__subtitle">{description || I18n.t('priceImpactWithFee')}</p>
           </div>
         )}
         value={(

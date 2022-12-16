@@ -157,29 +157,53 @@ class FarmItem extends Component {
 
               openContentView$.next({
                 key: "AddPosition",
-                component: (
-                  <AddPosition
-                    title={lpToken.title}
-                    defaultBorrowingAsset={borrowingAsset}
-                    defaultLeverage={this.bloc.leverageValue$.value}
-                    yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                    tradingFeeAPR={tradingFeeAPR}
-                    workerList={workerList}
-                    workerInfo={workerInfo}
+                component: exchange === "kokonutswap" 
+                  ? (
+                    <AddPositionMultiToken
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={this.bloc.leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
 
-                    token1={token1}
-                    token2={token2}
-                    token3={token3}
-                    token4={token4}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
 
-                    lpToken={lpToken}
-                    borrowingAvailableAssets={borrowingAvailableAssets}
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
 
-                    offset={0.5}
+                      offset={0.5}
 
-                    baseBorrowingInterests={baseBorrowingInterests}
-                  />
-                )
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
+                  : (
+                    <AddPosition
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={this.bloc.leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
+
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
+
+                      offset={0.5}
+
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
               })
             }}
           >

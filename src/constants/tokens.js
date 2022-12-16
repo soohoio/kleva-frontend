@@ -406,3 +406,4 @@ export const tokenListByAddress = {
 }
 
 export const isKLAY = (address) => address === tokenList.KLAY.address
+export const isWKLAY = (address) => address === tokenList.WKLAY.address

@@ -1,0 +1,55 @@
+.PoolTokenRatioBeforeAfter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.PoolTokenRatioBeforeAfter__title {
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px;
+  margin-bottom: 15px;
+}
+
+.PoolTokenRatioBeforeAfter__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.PoolTokenRatioBeforeAfter__itemImage {
+  width: 17px;
+  height: 17px;
+  margin-right: 6px;
+}
+
+.PoolTokenRatioBeforeAfter__itemTitle {
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px
+}
+
+.PoolTokenRatioBeforeAfter__ratioBefore {
+  @include font-style('font-1', 'm', 16px);
+  line-height: 19px;
+  color: #687395;
+}
+
+.PoolTokenRatioBeforeAfter__ratioAfter {
+  @include font-style('font-1', 'b', 16px);
+  margin-left: 6px;
+  line-height: 19px;
+}
+
+.PoolTokenBeforeAfter__arrow {
+  margin: 0 5px;
+}

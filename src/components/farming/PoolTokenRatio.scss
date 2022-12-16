@@ -1,0 +1,60 @@
+.PoolTokenRatio {
+  display: flex;
+  flex-direction: column;
+  padding: 21px;
+  border: 1px solid #89A7FA;
+  border-radius: 9px;
+  margin-bottom: 30px;
+}
+
+.PoolTokenRatio__title {
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px;
+  margin-bottom: 15px;
+}
+
+.PoolTokenRatio__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.PoolTokenRatio__itemImage {
+  width: 17px;
+  height: 17px;
+  margin-right: 6px;
+}
+
+.PoolTokenRatio__itemTitle {
+  @include font-style('font-1', 'b', 15px);
+  line-height: 19px
+}
+
+.PoolTokenRatio__valueInUSD {
+  @include font-style('font-1', 'm', 16px);
+  line-height: 19px;
+  color: #687395;
+}
+
+.PoolTokenRatio__ratio {
+  @include font-style('font-1', 'b', 16px);
+  margin-left: 6px;
+  line-height: 19px;
+}
+
+.PoolTokenRatio__description {
+  @include font-style('font-1', 'm', 14px);
+  color: #636878;
+  margin-top: 15px;
+}

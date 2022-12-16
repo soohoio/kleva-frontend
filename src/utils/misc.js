@@ -9,7 +9,7 @@ export const addressKeyFind = (item, address = "") => {
 }
 
 export const isSameAddress = (address1, address2) => {
-  return address1.toLowerCase() === address2.toLowerCase()
+  return String(address1).toLowerCase() === String(address2).toLowerCase()
 }
 
 export const getFirstBrowserLanguage = function () {

@@ -23,6 +23,7 @@ import { currentTab$ } from '../../streams/view'
 import { groupBy } from 'lodash'
 import KilledCard from './KilledCard'
 import KilledGridItem from './KilledGridItem'
+import { addressKeyFind } from '../../utils/misc'
 
 class FarmingAssetList extends Component {
   bloc = new Bloc(this)
@@ -83,10 +84,32 @@ class FarmingAssetList extends Component {
 
         const result = positions.reduce((acc, cur) => {
 
+          const lpToken = cur.lpToken
+
+          if (cur.tokens) {
+            const lpTokenPrice = addressKeyFind(tokenPrices$.value, cur.lpToken.address)
+
+            const lpPortion = new BigNumber(cur.lpShare)
+              .div(cur.totalShare)
+              .toNumber()
+
+            const lpAmount = new BigNumber(cur.totalStakedLpBalance)
+              .multipliedBy(lpPortion)
+              .toFixed(0)
+
+            const farmingPositionValueInUSD = new BigNumber(lpAmount)
+              .div(10 ** cur.lpToken.decimals)
+              .multipliedBy(lpTokenPrice)
+              .toNumber()
+
+            acc[lpToken.address] = new BigNumber(acc[lpToken.address] || 0).plus(farmingPositionValueInUSD).toNumber()
+
+            return acc
+          }
+
           const baseTokenPrice = tokenPrices$.value[cur.baseToken.address.toLowerCase()]
           const farmingTokenPrice = tokenPrices$.value[cur.farmingToken.address.toLowerCase()]
 
-          const lpToken = cur.lpToken
           const poolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address && lpToken.address.toLowerCase()]
 
           // position value calculation

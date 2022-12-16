@@ -21,10 +21,14 @@ import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
 import { addressKeyFind, isSameAddress, nFormatter, noRounding } from '../../utils/misc'
 import { checkAllowances$ } from '../../streams/contract'
-import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/tokens'
+import { getIbTokenFromOriginalToken, isKLAY, isWKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
 import Checkbox from '../common/Checkbox'
 import { klayswapPoolInfo$ } from '../../streams/farming'
+import { liquidities$, tokenPrices$ } from '../../streams/tokenPrice'
+import PoolTokenRatio from './PoolTokenRatio'
+import PoolTokenRatioBeforeAfter from './PoolTokenRatioBeforeAfter';
+import { MAX_UINT } from '../../constants/setting';
 
 class AddPositionMultiToken extends Component {
   bloc = new Bloc(this)
@@ -36,10 +40,15 @@ class AddPositionMultiToken extends Component {
     merge(
       balancesInWallet$,
       klayswapPoolInfo$,
+      liquidities$,
       this.bloc.isToken1Focused$,
       this.bloc.isToken2Focused$,
       this.bloc.isToken3Focused$,
       this.bloc.isToken4Focused$,
+      this.bloc.otherTokens$,
+      this.bloc.resultTokensAmount$,
+      this.bloc.resultLpAmount$,
+      this.bloc.lpChangeRatio$,
 
       // If the user changes farmingTokenAmount || baseTokenAmount || leverage
       // call view function `getOpenPositionResult`,
@@ -53,7 +62,7 @@ class AddPositionMultiToken extends Component {
         this.bloc.token2Amount$,
         this.bloc.token3Amount$,
         this.bloc.token4Amount$,
-        this.bloc.baseTokenAmount$,
+        // this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
       ).pipe(
         switchMap(() => this.bloc.getOpenPositionResult$()),
@@ -87,12 +96,9 @@ class AddPositionMultiToken extends Component {
       ),
       this.bloc.isLoading$,
       this.bloc.baseToken$,
-      this.bloc.farmingTokens$,
+      this.bloc.baseTokenNum$,
+      this.bloc.otherTokens$,
       this.bloc.estimatedPositionValueWithoutLeverage$,
-      this.bloc.resultBaseTokenAmount$,
-      this.bloc.resultFarmTokenAmount$,
-      this.bloc.leverageImpact$,
-      this.bloc.priceImpact$,
       this.bloc.borrowingAsset$,
       // If worker changed, 
       // 1) check current leverage is suitable for the leverage cap
@@ -109,8 +115,10 @@ class AddPositionMultiToken extends Component {
             this.bloc.leverage$.next(leverageCap)
           }
 
-          this.bloc.farmingTokenAmount$.next('')
-          this.bloc.baseTokenAmount$.next('')
+          this.bloc.token1Amount$.next('')
+          this.bloc.token2Amount$.next('')
+          this.bloc.token3Amount$.next('')
+          this.bloc.token4Amount$.next('')
         })
       ),
     ).pipe(
@@ -130,12 +138,7 @@ class AddPositionMultiToken extends Component {
         return checkAllowances$(
           selectedAddress$.value,
           worker.vaultAddress,
-          [
-            token1?.address,
-            token2?.address,
-            token3?.address,
-            token4?.address,
-          ]
+          [token1, token2, token3, token4].filter((t) => !!t)
         )
       }),
       tap((allowances) => {
@@ -150,14 +153,20 @@ class AddPositionMultiToken extends Component {
   }
 
   renderButtons = () => {
-    const { token1, token2, token3, token4 } = this.props
+    let { token1, token2, token3, token4 } = this.props
     const { ibToken } = this.bloc.getTokens()
 
+    // @IMPORTANT MUTATE
+    token1 = isKLAY(token1.address) ? tokenList.WKLAY : token1
+    token2 = isKLAY(token2.address) ? tokenList.WKLAY : token2
+    token3 = (token3 && isKLAY(token3.address)) ? tokenList.WKLAY : token3
+    token4 = (token4 && isKLAY(token4.address)) ? tokenList.WKLAY : token4
+
     // Allowance check
-    const token1Allowance = addressKeyFind(this.bloc.allowances$.value, token1.address)
-    const token2Allowance = addressKeyFind(this.bloc.allowances$.value, token2.address)
-    const token3Allowance = addressKeyFind(this.bloc.allowances$.value, token3.address)
-    const token4Allowance = addressKeyFind(this.bloc.allowances$.value, token4.address)
+    const token1Allowance = addressKeyFind(this.bloc.allowances$.value, token1?.address)
+    const token2Allowance = addressKeyFind(this.bloc.allowances$.value, token2?.address)
+    const token3Allowance = addressKeyFind(this.bloc.allowances$.value, token3?.address)
+    const token4Allowance = addressKeyFind(this.bloc.allowances$.value, token4?.address)
 
     const isToken1Approved = this.bloc.token1Amount$.value == 0 || (token1Allowance && token1Allowance != 0)
     const isToken2Approved = this.bloc.token2Amount$.value == 0 || (token2Allowance && token2Allowance != 0)
@@ -165,10 +174,10 @@ class AddPositionMultiToken extends Component {
     const isToken4Approved = this.bloc.token4Amount$.value == 0 || (token4Allowance && token4Allowance != 0)
 
     // Available balance check
-    const availableToken1Amount = balancesInWallet$.value[token1.address]
-    const availableToken2Amount = balancesInWallet$.value[token2.address]
-    const availableToken3Amount = balancesInWallet$.value[token3.address]
-    const availableToken4Amount = balancesInWallet$.value[token4.address]
+    const availableToken1Amount = balancesInWallet$.value[token1?.address]
+    const availableToken2Amount = balancesInWallet$.value[token2?.address]
+    const availableToken3Amount = balancesInWallet$.value[token3?.address]
+    const availableToken4Amount = balancesInWallet$.value[token4?.address]
 
     const exceedAvailBalance = new BigNumber(availableToken1Amount).gt(this.bloc.token1Amount$.value) 
       || new BigNumber(availableToken2Amount).gt(this.bloc.token2Amount$.value) 
@@ -177,8 +186,12 @@ class AddPositionMultiToken extends Component {
 
     const needTokenApproval = !(isToken1Approved && isToken2Approved && isToken3Approved && isToken4Approved)
 
+    const otherTokensAmountSum = this.bloc.getOtherTokensAmountSum()
+
+    const baseTokenAmount = this.bloc.getBaseTokenAmount()
+
     const isDisabled = exceedAvailBalance
-      || (this.bloc.baseTokenAmount$.value == 0 && this.bloc.farmingTokenAmount$.value == 0)
+      || (baseTokenAmount == 0 && otherTokensAmountSum == 0)
       || this.bloc.borrowMoreAvailable$.value == false
       || !this.bloc.isDebtSizeValid$.value
 
@@ -272,111 +285,87 @@ class AddPositionMultiToken extends Component {
   }
 
   renderSupplyInput = ({ baseToken }) => {
-    const { token1, token2, token3, token4 } = this.props
+    let { token1, token2, token3, token4 } = this.props
+
+    // @IMPORTANT Mutate
+    token1 = isKLAY(token1.address) ? tokenList.WKLAY : token1
+    token2 = isKLAY(token2.address) ? tokenList.WKLAY : token2
+    token3 = (token3 && isKLAY(token3.address)) ? tokenList.WKLAY : token3
+    token4 = (token4 && isKLAY(token4.address)) ? tokenList.WKLAY : token4
+
+    const sorted = [
+      { token: token1, value$: this.bloc.token1Amount$, focused$: this.bloc.isToken1Focused$ },
+      { token: token2, value$: this.bloc.token2Amount$, focused$: this.bloc.isToken2Focused$ },
+      { token: token3, value$: this.bloc.token3Amount$, focused$: this.bloc.isToken3Focused$ },
+      { token: token4, value$: this.bloc.token4Amount$, focused$: this.bloc.isToken4Focused$ },
+    ]
+    .filter(({ token }) => !!token)
+    .sort((a, b) => {
+      return isWKLAY(b.token.address) ? -1 : 0
+    })
 
     return (
       <>
-        <SupplyInput
-          isProcessing={this.bloc.isLoading$.value}
-          focused$={this.bloc.isToken1Focused$}
-          decimalLimit={token1.decimals}
-          value$={this.bloc.baseTokenAmount$}
-          valueLimit={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[baseToken.address] && balancesInWallet$.value[baseToken.address].balanceParsed}
-          imgSrc={baseToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${baseToken.title}`}
-          targetToken={baseToken}
-        />
-        <SupplyInput
-          isProcessing={this.bloc.isLoading$.value}
-          focused$={this.bloc.isToken2Focused$}
-          decimalLimit={farmingToken.decimals}
-          value$={this.bloc.farmingTokenAmount$}
-          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          imgSrc={farmingToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          targetToken={farmingToken}
-        />
-        <SupplyInput
-          isProcessing={this.bloc.isLoading$.value}
-          focused$={this.bloc.isToken3Focused$}
-          decimalLimit={farmingToken.decimals}
-          value$={this.bloc.farmingTokenAmount$}
-          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          imgSrc={farmingToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          targetToken={farmingToken}
-        />
-        <SupplyInput
-          isProcessing={this.bloc.isLoading$.value}
-          focused$={this.bloc.isToken4Focused$}
-          decimalLimit={farmingToken.decimals}
-          value$={this.bloc.farmingTokenAmount$}
-          valueLimit={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          labelValue={balancesInWallet$.value[farmingToken.address] && balancesInWallet$.value[farmingToken.address].balanceParsed}
-          imgSrc={farmingToken.iconSrc}
-          labelTitle={`${I18n.t('farming.controller.available')} ${farmingToken.title}`}
-          targetToken={farmingToken}
-        />
+        {sorted.map(({ token, value$, focused$ }) => {
+          return (
+            <>
+              <SupplyInput 
+                isProcessing={this.bloc.isLoading$.value}
+                focused$={focused$}
+                decimalLimit={token.decimals}
+                value$={value$}
+                valueLimit={balancesInWallet$.value[token?.address] && balancesInWallet$.value[token?.address].balanceParsed}
+                labelValue={balancesInWallet$.value[token?.address] && balancesInWallet$.value[token?.address].balanceParsed}
+                imgSrc={token.iconSrc}
+                labelTitle={`${I18n.t('farming.controller.available')} ${token.title}`}
+                targetToken={token}
+              />
+              {isWKLAY(token.address) && (
+                <WKLAYSwitcher
+                  balancesInWallet={balancesInWallet$.value}
+                  description={(
+                    <p className="AddPosition__wklayConvertLabel">{I18n.t('lendstake.controller.wklaySwitch.title')}</p>
+                  )}
+                />
+              )}
+            </>
+          )
+        })}
       </>
     )
   }
 
-  renderTotalValue = ({
-    resultFarmingTokenAmount,
-    resultBaseTokenAmount,
-  }) => {
+  renderTotalValue = () => {
     const { token1 } = this.props
     const { tokens, farmingTokens, baseToken } = this.bloc.getTokens()
 
+
     return (
       <>
-        <p>{nFormatter(resultFarmingTokenAmount)} {farmingToken.title}</p>
-        <p>{nFormatter(resultBaseTokenAmount)} {baseToken.title}</p>
+        {tokens.map((token, idx) => {
+          const amount = new BigNumber(this.bloc.resultTokensAmount$.value[idx]).div(10 ** token.decimals).toString()
+          return (
+            <p>{nFormatter(amount)} {token.title}</p>
+          )
+        })}
       </>
     )
   }
 
-  renderEquityValue = ({
-    farmingTokenAmount,
-    baseTokenAmount,
-  }) => {
-    const { token1 } = this.props
-    const { farmingToken, baseToken } = this.bloc.getTokens()
+  renderEquityValue = () => {
+    const { token1, token2, token3, token4 } = this.props
 
-    if (isKLAY(farmingToken.address)) {
-      return (
-        <>
-          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
-          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
-        </>
-      )
-    }
+    // const baseToken = this.bloc.baseToken$.value
 
-    if (isKLAY(baseToken.address)) {
-      return (
-        <>
-          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
-          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
-        </>
-      )
-    }
-
-    if (isSameAddress(token1.address, farmingToken.address)) {
-      return (
-        <>
-          <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
-          <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
-        </>
-      )
-    }
+    // const baseTokenAmount = this.bloc.getBaseTokenAmount()
 
     return (
       <>
-        <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p>
-        <p>{nFormatter(farmingTokenAmount)} {farmingToken.title}</p>
+        {/* <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p> */}
+        {token1 && <p>{nFormatter(this.bloc.token1Amount$.value)} {token1.title}</p>}
+        {token2 && <p>{nFormatter(this.bloc.token2Amount$.value)} {token2.title}</p>}
+        {token3 && <p>{nFormatter(this.bloc.token3Amount$.value)} {token3.title}</p>}
+        {token4 && <p>{nFormatter(this.bloc.token4Amount$.value)} {token4.title}</p>}
       </>
     )
   }
@@ -384,10 +373,12 @@ class AddPositionMultiToken extends Component {
   render() {
     const {
       title,
+      tokens,
       token1,
       token2,
       offset,
       baseBorrowingInterests,
+      lpToken,
     } = this.props
 
     // tokens
@@ -425,17 +416,42 @@ class AddPositionMultiToken extends Component {
         }
       })
 
-    const { farmingValue, baseValue } = this.bloc.getValueInUSD()
+    const lpTokenRatio = addressKeyFind(liquidities$.value, lpToken.address)
 
-    const resultFarmingTokenAmount = new BigNumber(this.bloc.resultFarmTokenAmount$.value)
-      .div(10 ** farmingToken.decimals)
-      .toNumber()
+    const { borrowIncludedTokenAmounts } = this.bloc.getTokenAmountsPure()
+    const lpTVLAfter = borrowIncludedTokenAmounts.reduce((acc, cur, idx) => {
+      const token = this.bloc.tokens && this.bloc.tokens[idx]
+      const tokenPrice = addressKeyFind(tokenPrices$.value, token?.address)
 
-    const resultBaseTokenAmount = new BigNumber(this.bloc.resultBaseTokenAmount$.value)
-      .div(10 ** baseToken.decimals)
-      .toNumber()
+      return new BigNumber(acc)
+        .plus(new BigNumber(cur || 0).div(10 ** token?.decimals).multipliedBy(tokenPrice))
+        .toString()
+    }, lpTokenRatio[0].lpTVL)
 
-    const isKlayRelatedFarm = isKLAY(baseToken.address) || isKLAY(farmingToken.address)
+    const lpTokenRatioList = lpTokenRatio.map(({ token, amount, lpTVL }, idx) => {
+      const tokenPrice = addressKeyFind(tokenPrices$.value, token.address)
+      const valueInUSD = new BigNumber(amount).multipliedBy(tokenPrice).toNumber()
+      const ratio = new BigNumber(valueInUSD).div(lpTVL).multipliedBy(100).toNumber()
+
+
+      const newlyAddedValue = new BigNumber(borrowIncludedTokenAmounts[idx] || 0)
+        .div(10 ** token.decimals)
+        .multipliedBy(tokenPrice)
+        .toString()
+
+      const ratioAfter = new BigNumber(valueInUSD)
+        .plus(newlyAddedValue)
+        .div(lpTVLAfter)
+        .multipliedBy(100)
+        .toNumber()
+
+      return {
+        token,
+        valueInUSD,
+        tokenRatio: ratio,
+        tokenRatioAfter: ratioAfter,
+      }
+    })
 
     return (
       <div className="AddPosition">
@@ -477,7 +493,7 @@ class AddPositionMultiToken extends Component {
               />
             </div>
 
-            {this.renderSupplyInput({ baseToken, farmingToken })}
+            {this.renderSupplyInput({ baseToken })}
             <LeverageInput
               offset={offset}
               leverageCap={leverageCap}
@@ -503,23 +519,19 @@ class AddPositionMultiToken extends Component {
           </div>
           <hr className="AddPosition__hr AddPosition__hr--mobile" />
           <div className="AddPosition__right">
-            {/* if wklay included in pair, value2 is always wklay's ratio even if the borrowing asset is not WKLAY. */}
-            {isKlayRelatedFarm
-              ? (
-                <TokenRatio
-                  value1={isKLAY(farmingToken.address) ? baseValue : farmingValue}
-                  value2={isKLAY(baseToken.address) ? baseValue : farmingValue}
-                />
-              )
-              : (
-                <TokenRatio
-                  value1={farmingValue}
-                  value2={baseValue}
-                />
-              )
-            }
+            {/* lp token ratio */}
+            <PoolTokenRatio
+              lpToken={lpToken}
+              list={lpTokenRatioList}
+            />
+            {/* lp token ratio (after) */}
+            <PoolTokenRatioBeforeAfter
+              list={lpTokenRatioList}
+            />
             <PriceImpact
-              priceImpact={this.bloc.leverageImpact$.value || this.bloc.priceImpact$.value}
+              title={I18n.t('lossByTokenRatio')}
+              description={I18n.t('lpImpact')}
+              priceImpact={this.bloc.lpChangeRatio$.value}
             />
             <SlippageSetting />
 
@@ -531,10 +543,7 @@ class AddPositionMultiToken extends Component {
                   {/* <p>{I18n.t('farming.summary.equity.description')}</p> */}
                 </>
               )}
-              value={this.renderEquityValue({
-                farmingTokenAmount: this.bloc.farmingTokenAmount$.value,
-                baseTokenAmount: this.bloc.baseTokenAmount$.value,
-              })}
+              value={this.renderEquityValue()}
             />
             <LabelAndValue
               className="AddPosition__debt"
@@ -544,10 +553,7 @@ class AddPositionMultiToken extends Component {
             <LabelAndValue
               className="AddPosition__totalDeposit"
               label={I18n.t('farming.summary.totalDeposit')}
-              value={this.renderTotalValue({
-                resultFarmingTokenAmount,
-                resultBaseTokenAmount,
-              })}
+              value={this.renderTotalValue()}
             />
           </div>
         </div>

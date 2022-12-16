@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
-import { addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
+import { addPosition$, approve$, caver, getOpenPositionResult$, getOpenPositionResult_kokonut$, getOutputTokenAmount$, getPositionValue$, getPositionValue_kokonut$, getTransactionReceipt$ } from '../../streams/contract'
 import { fetchWalletInfo$ } from '../../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
@@ -30,7 +30,7 @@ export default class {
     this.token3 = comp.props.token3
     this.token4 = comp.props.token4
 
-    this.tokens = [ this.token1, this.token2, this.token3, this.token4].filter((a) => !!a)
+    this.tokens = [this.token1, this.token2, this.token3, this.token4].filter((a) => !!a)
 
     this.lpToken = comp.props.lpToken
     this.workerList = comp.props.workerList
@@ -39,17 +39,10 @@ export default class {
 
     this.borrowingAsset$ = new BehaviorSubject(comp.props.defaultBorrowingAsset || comp.props.borrowingAvailableAssets[0])
 
-    // this.worker$
-    this.farmingTokens$ = new BehaviorSubject(
-      [
-        this.token1, 
-        this.token2,
-        this.token3,
-        this.token4,
-      ]
-        .filter((t) => t.address.toLowerCase() !== this.borrowingAsset$.value.address.toLowerCase())
-    )
     this.baseToken$ = new BehaviorSubject(this.borrowingAsset$.value)
+    this.baseTokenNum$ = new BehaviorSubject(1)
+    
+    this.otherTokens$ = new BehaviorSubject([])
 
     this.worker$ = new BehaviorSubject()
     this.selectWorker(this.borrowingAsset$.value)
@@ -58,24 +51,21 @@ export default class {
     this.token2Amount$ = new BehaviorSubject('')
     this.token3Amount$ = new BehaviorSubject('')
     this.token4Amount$ = new BehaviorSubject('')
-    
-    // this.farmingTokenAmount$ = new BehaviorSubject('')
-    this.baseTokenAmount$ = new BehaviorSubject('')
 
-    this.priceImpact$ = new BehaviorSubject('')
-    this.leverageImpact$ = new BehaviorSubject('')
+    // this.farmingTokenAmount$ = new BehaviorSubject('')
+    // this.baseTokenAmount$ = new BehaviorSubject('')
+
+    // this.priceImpact$ = new BehaviorSubject('')
+    // this.leverageImpact$ = new BehaviorSubject('')
     this.allowances$ = new BehaviorSubject({})
     this.leverage$ = new BehaviorSubject(1)
     this.borrowMoreAvailable$ = new BehaviorSubject(true)
     this.isDebtSizeValid$ = new BehaviorSubject(true)
 
-    this.resultToken1Amount$ = new BehaviorSubject()
-    this.resultToken2Amount$ = new BehaviorSubject()
-    this.resultToken3Amount$ = new BehaviorSubject()
-    this.resultToken4Amount$ = new BehaviorSubject()
+    this.resultTokensAmount$ = new BehaviorSubject(this.tokens.map(() => 0))
+    this.lpChangeRatio$ = new BehaviorSubject(0)
+    this.resultLpAmount$ = new BehaviorSubject(0)
 
-    // this.resultBaseTokenAmount$ = new BehaviorSubject()
-    // this.resultFarmTokenAmount$ = new BehaviorSubject()
     this.estimatedPositionValueWithoutLeverage$ = new BehaviorSubject(0)
 
     this.fetchAllowances$ = new Subject()
@@ -83,7 +73,7 @@ export default class {
     this.isToken1Focused$ = new BehaviorSubject(false)
     this.isToken2Focused$ = new BehaviorSubject(false)
     this.isToken3Focused$ = new BehaviorSubject(false)
-    this.isToken4Foucsed$ = new BehaviorSubject(false)
+    this.isToken4Focused$ = new BehaviorSubject(false)
 
     this.init()
   }
@@ -100,7 +90,7 @@ export default class {
     return { 
       tokens: this.tokens,
       ibToken, 
-      farmingTokens: this.farmingTokens$.value, 
+      otherTokens: this.tokens.filter((t) => !isSameAddress(baseToken.address, t.address)),
       baseToken, 
     }
   }
@@ -168,12 +158,22 @@ export default class {
     const selectedWorker = this.workerList.find((w) => {
       return w.baseToken.address.toLowerCase() === borrowingAsset.address.toLowerCase()
     })
-    this.worker$.next(selectedWorker)
 
+    this.worker$.next(selectedWorker)
     this.borrowingAsset$.next(borrowingAsset)
 
     this.baseToken$.next(borrowingAsset)
-    this.farmingToken$.next([this.token1, this.token2].find((t) => t.address.toLowerCase() !== borrowingAsset.address.toLowerCase()))
+
+    const baseTokenNum = this.tokens.findIndex((t) => isSameAddress(t.address, borrowingAsset.address)) + 1
+    this.baseTokenNum$.next(baseTokenNum)
+
+    this.otherTokens$.next(this.tokens.filter((t) => {
+      return !isSameAddress(t.address, borrowingAsset.address)
+    }))
+  }
+
+  getBaseTokenAmount = () => {
+    return this[`token${this.baseTokenNum$.value}Amount$`].value || 0
   }
 
   getAmountToBorrow = () => {
@@ -207,88 +207,167 @@ export default class {
     })
   }
 
-  getOpenPositionResult$ = () => {
+  getTokenAmountsPure = () => {
+    const token1Amount = new BigNumber(this.token1Amount$.value || 0)
+      .multipliedBy(10 ** this.token1?.decimals)
+      .toString()
 
-    const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
+    const token2Amount = new BigNumber(this.token2Amount$.value || 0)
+      .multipliedBy(10 ** this.token2?.decimals)
+      .toString()
+
+    const token3Amount = new BigNumber(this.token3Amount$.value || 0)
+      .multipliedBy(10 ** this.token3?.decimals)
+      .toString()
+
+    const token4Amount = new BigNumber(this.token4Amount$.value || 0)
+      .multipliedBy(10 ** this.token4?.decimals)
+      .toString()
+
+    const _tokenAmounts = [
+      token1Amount,
+      token2Amount,
+      token3Amount,
+      token4Amount,
+    ]
+
+    const tokenAmounts = this.tokens.map((t, idx) => _tokenAmounts[idx] || 0)
+
+    const borrowIncludedTokenAmounts = this.tokens
+      .map((t, idx) => {
+        const num = idx + 1
+        if (num == this.baseTokenNum$.value) {
+          return new BigNumber(tokenAmounts[idx] || 0).plus(this.getAmountToBorrow()).toString()
+        }
+
+        return tokenAmounts[idx] || 0
+      })
+
+    const baseTokenAmount = new BigNumber(this.getBaseTokenAmount())
       .multipliedBy(10 ** this.baseToken$.value.decimals)
       .toString()
 
-    const farmTokenAmount = new BigNumber(this.farmingTokenAmount$.value || 0)
-      .multipliedBy(10 ** this.farmingToken$.value.decimals)
-      .toString()
+    return {
+      token1Amount,
+      token2Amount,
+      token3Amount,
+      token4Amount,
+      baseTokenAmount,
+      tokenAmounts,
+      borrowIncludedTokenAmounts,
+    }
+  }
 
-    return getPositionValue$({
+  getOpenPositionResult$ = () => {
+    const { token1Amount, token2Amount, token3Amount, token4Amount, tokenAmounts, baseTokenAmount } = this.getTokenAmountsPure()
+
+    console.log(tokenAmounts, 'tokenAmounts')
+
+    return getPositionValue_kokonut$({
       workerAddress: this.worker$.value.workerAddress,
-      baseTokenAmount: baseTokenAmount,
-      farmingTokenAmount: farmTokenAmount,
+      tokenAmounts,
     }).pipe(
       switchMap((positionValue) => {
 
         this.estimatedPositionValueWithoutLeverage$.next(positionValue)
 
-        const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount)
-          .plus(this.getAmountToBorrow() || 0)
-          .toString()
+        const { borrowIncludedTokenAmounts } = this.getTokenAmountsPure()
 
         return forkJoin([
-          getOpenPositionResult$({
+          getOpenPositionResult_kokonut$({
             workerAddress: this.worker$.value.workerAddress,
-            leveragedBaseTokenAmount: baseTokenAmount,
-            farmTokenAmount,
-            positionId: 0
-          }),
-          getOpenPositionResult$({
-            workerAddress: this.worker$.value.workerAddress,
-            leveragedBaseTokenAmount: leveragedBaseTokenAmount,
-            farmTokenAmount,
+            tokenAmounts: borrowIncludedTokenAmounts,
             positionId: 0
           }),
         ])
       }),
-      tap(([openPositionResult, openPositionResult_leverage]) => {
-        this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
-        this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
+      tap(([openPositionResult_leverage]) => {
 
-        this.priceImpact$.next(new BigNumber(openPositionResult.priceImpactBps).div(10000).toString())
+        console.log(openPositionResult_leverage, 'openPositionResult_leverage')
 
-        if (this.leverage$.value == 1) {
-          this.leverageImpact$.next(0)
-        } else {
-          this.leverageImpact$.next(new BigNumber(openPositionResult_leverage.priceImpactBps).div(10000).toString())
-        }
+        this.resultTokensAmount$.next(openPositionResult_leverage.receiveTokensAmt)
+        this.resultLpAmount$.next(openPositionResult_leverage.receiveLpAmt)
+
+        // console.log(openPositionResult_leverage.receiveLpAmt, 'openPositionResult_leverage.receiveLpAmt')
+        // console.log(openPositionResult_leverage.lpAmtOnBalanced, 'openPositionResult_leverage.lpAmtOnBalanced')
+
+        openPositionResult_leverage.lpAmtOnBalanced = new BigNumber(openPositionResult_leverage.lpAmtOnBalanced)
+          .multipliedBy(2)
+          .toString()
+
+        const lpChangeRatio = new BigNumber(openPositionResult_leverage.receiveLpAmt)
+          .gt(openPositionResult_leverage.lpAmtOnBalanced) 
+            ? new BigNumber(openPositionResult_leverage.receiveLpAmt)
+                .div(openPositionResult_leverage.lpAmtOnBalanced)
+                .minus(1)
+                .toNumber()
+            : new BigNumber(1)
+              .minus(
+                new BigNumber(openPositionResult_leverage.receiveLpAmt)
+                  .div(openPositionResult_leverage.lpAmtOnBalanced)
+              )
+              .toNumber()
+
+        console.log(lpChangeRatio, 'lpChangeRatio')
+
+        this.lpChangeRatio$.next(isNaN(lpChangeRatio) 
+          ? 0
+          : lpChangeRatio
+        )
+
+        // @NEW
+        // openPositionResult.receiveTokensAmt
+        // openPositionResult.receiveLpAmt
+        // openPositionResult.lpAmtOnBalanced
+
+        // openPositionResult_leverage.receiveTokensAmt
+        // openPositionResult_leverage.receiveLpAmt
+        // openPositionResult_leverage.lpAmtOnBalanced
+
+        // @OLD
+        // this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
+        // this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
+
+        // this.priceImpact$.next(new BigNumber(openPositionResult.priceImpactBps).div(10000).toString())
+
+        // if (this.leverage$.value == 1) {
+        //   this.leverageImpact$.next(0)
+        // } else {
+        //   this.leverageImpact$.next(new BigNumber(openPositionResult_leverage.priceImpactBps).div(10000).toString())
+        // }
       })
     )
   }
 
-  getValueInUSD = () => {
-    const farmingTokenPrice = tokenPrices$.value[this.farmingToken$.value.address.toLowerCase()]
-    const baseTokenPrice = tokenPrices$.value[this.baseToken$.value.address.toLowerCase()]
+  // getValueInUSD = () => {
+  //   const farmingTokenPrice = tokenPrices$.value[this.farmingToken$.value.address.toLowerCase()]
+  //   const baseTokenPrice = tokenPrices$.value[this.baseToken$.value.address.toLowerCase()]
 
-    const farmingInUSD = new BigNumber(this.farmingTokenAmount$.value || 0)
-      .multipliedBy(farmingTokenPrice)
-      .toString()
+  //   const farmingInUSD = new BigNumber(this.farmingTokenAmount$.value || 0)
+  //     .multipliedBy(farmingTokenPrice)
+  //     .toString()
 
-    const baseInUSD = new BigNumber(this.baseTokenAmount$.value || 0)
-      .multipliedBy(baseTokenPrice)
-      .toString()
+  //   const baseInUSD = new BigNumber(this.baseTokenAmount$.value || 0)
+  //     .multipliedBy(baseTokenPrice)
+  //     .toString()
 
-    const borrowAmount = this.getAmountToBorrow()
+  //   const borrowAmount = this.getAmountToBorrow()
 
-    const borrowingInUSD = new BigNumber(borrowAmount || 0)
-      .div(10 ** this.baseToken$.value?.decimals)
-      .multipliedBy(baseTokenPrice)
-      .toString()
+  //   const borrowingInUSD = new BigNumber(borrowAmount || 0)
+  //     .div(10 ** this.baseToken$.value?.decimals)
+  //     .multipliedBy(baseTokenPrice)
+  //     .toString()
 
-    const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD).plus(borrowingInUSD)
+  //   const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD).plus(borrowingInUSD)
 
-    return {
-      farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
-      baseValue: new BigNumber(baseInUSD)
-        .plus(borrowingInUSD) // borrowing
-        .div(totalInUSD || 1)
-        .multipliedBy(100).toNumber(),
-    }
-  }
+  //   return {
+  //     farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
+  //     baseValue: new BigNumber(baseInUSD)
+  //       .plus(borrowingInUSD) // borrowing
+  //       .div(totalInUSD || 1)
+  //       .multipliedBy(100).toNumber(),
+  //   }
+  // }
 
   setLeverageValue = (v, leverageCapRaw) => {
     if (v < 1) return
@@ -308,56 +387,62 @@ export default class {
     })
   }
 
+  getOtherTokensAmountSum = () => {
+    const otherTokensAmountSum = this.tokens
+      .reduce((acc, cur, idx) => {
+        if (isSameAddress(cur.address, this.baseToken$.value.address))
+          return acc
+
+        acc += Number(this[`token${idx + 1}Amount$`].value)
+        return acc
+      }, 0)
+
+    return otherTokensAmountSum
+  }
+
   addPosition = () => {
-    // const { strategyType, strategyAddress } = this.getStrategy()
+    const { tokenAmounts, baseTokenAmount } = this.getTokenAmountsPure()
+    const otherTokensAmountSum = this.getOtherTokensAmountSum()
+
+    console.log(otherTokensAmountSum, 'otherTokensAmountSum')
+
     const { strategyType, strategyAddress } = getStrategy({
-      strategyType: "ADD",
-      farmingToken: this.farmingToken$.value,
-      baseToken: this.baseToken$.value,
-      farmingTokenAmount: this.farmingTokenAmount$.value,
-      baseTokenAmount: this.baseTokenAmount$.value,
+      exchange: "kokonutswap",
+      strategyType: (otherTokensAmountSum == 0 && baseTokenAmount != 0)
+        ? "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
+        : "KOKONUTSWAP:ADD_ALL"
     })
 
-    const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
+    console.log(strategyType, 'strategyType')
+    console.log(strategyAddress, 'strategyAddress')
 
     const borrowAmount = this.getAmountToBorrow()
 
-    const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.lpToken?.address)
-    const expectedLpAmount = getLPAmountBasedOnIngredientsToken({
-      poolInfo,
-      token1: {
-        ...this.baseToken$.value,
-        amount: new BigNumber(this.baseTokenAmount$.value || 0)
-          .multipliedBy(10 ** this.baseToken$.value?.decimals)
-          .toString()
-      },
-      token2: {
-        ...this.farmingToken$.value,
-        amount: new BigNumber(this.farmingTokenAmount$.value || 0)
-          .multipliedBy(10 ** this.farmingToken$.value?.decimals)
-          .toString()
-      }
-    })
+    console.log(borrowAmount, 'borrowAmount')
 
-    const MIN_LP_AMOUNT = new BigNumber(expectedLpAmount)
+    const MIN_LP_AMOUNT = new BigNumber(this.resultLpAmount$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
       .toFixed(0)
+    console.log(MIN_LP_AMOUNT, '@MIN_LP_AMOUNT')
 
-    const ext = strategyType === "ADD_BASE_TOKEN_ONLY"
+
+    console.log(tokenAmounts, 'tokenAmounts')
+
+    const ext = strategyType === "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
       : caver.klay.abi.encodeParameters(
-        ['uint256', 'uint256'],
-        [new BigNumber(this.farmingTokenAmount$.value)
-          .multipliedBy(10 ** this.farmingToken$.value.decimals)
-          .toString(),
+        ['uint256[]', 'uint256'],
+        [
+          this.tokens.map((_, idx) => tokenAmounts[idx]),
           MIN_LP_AMOUNT
         ])
 
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
     const principalAmount = baseTokenAmount
-      .multipliedBy(10 ** this.baseToken$.value.decimals)
-      .toString()
+
+    console.log(baseTokenAmount, 'baseTokenAmount')
+    console.log(this.baseToken$.value, 'this.baseToken$.value')
 
     addPosition$(this.worker$.value.vaultAddress, {
       workerAddress: this.worker$.value.workerAddress,

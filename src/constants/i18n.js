@@ -402,6 +402,13 @@ export const en = {
   
   'docs.kleva.io': 'https://docs.kleva.io/v/copy-of-english/',
   'lastSync': 'Latest Update : %{date}',
+
+  // kokonut
+  'lossByTokenRatio': '토큰 비율에 의한 손실',
+  'lpImpact': 'LP 임팩트',
+  'poolTokenRatio': '%{title} 풀 토큰 비율',
+  'poolTokenRatio.description': '<text style="color: #265FFC;">비중이 적은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 수익</text>을 볼 수 있고 <text style="color: #265FFC;">비중이 많은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 손실</text>이 발생합니다.',
+  'poolTokenRatio.after': '예치 후 풀의 토큰 비율',
 }
 
 export const ko = {
@@ -808,6 +815,13 @@ export const ko = {
   
   'docs.kleva.io': 'https://docs.kleva.io/v/new/',
   'lastSync': '%{date} 기준',
+
+  // kokonut
+  'lossByTokenRatio': '토큰 비율에 의한 손실',
+  'lpImpact': 'LP 임팩트',
+  'poolTokenRatio': '%{title} 풀 토큰 비율',
+  'poolTokenRatio.description': '<text style="color: #265FFC;">비중이 적은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 수익</text>을 볼 수 있고 <text style="color: #265FFC;">비중이 많은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 손실</text>이 발생합니다.',
+  'poolTokenRatio.after': '예치 후 풀의 토큰 비율',
 }
 
 export const zh = {

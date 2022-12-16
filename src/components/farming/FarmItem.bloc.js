@@ -36,7 +36,17 @@ export default class {
   }
 
   getBorrowingAvailableAsset = () => {
-    return [this.comp.props.token1, this.comp.props.token2].filter(({ address }) => {
+    return [
+      this.comp.props.token1, 
+      this.comp.props.token2,
+      this.comp.props.token3,
+      this.comp.props.token4,
+    ]
+    .filter((t) => {
+
+      if (!t) return false
+
+      const address = t.address
       const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
       return hasLendingPool
     })
@@ -47,8 +57,12 @@ export default class {
     const {
       token1,
       token2,
+      token3,
+      token4,
       token1BorrowingInterest,
       token2BorrowingInterest,
+      token3BorrowingInterest,
+      token4BorrowingInterest,
     } = this.comp.props
 
     const borrowingAsset = this.comp.props.borrowingAssetMap$.value[this.comp.props.lpToken.address]
@@ -61,6 +75,14 @@ export default class {
       [token2.address.toLowerCase()]: {
         token: token2,
         baseInterest: (token2BorrowingInterest || 0),
+      },
+      [token3 && token3.address.toLowerCase()]: {
+        token: token3,
+        baseInterest: (token3BorrowingInterest || 0),
+      },
+      [token4 && token4.address.toLowerCase()]: {
+        token: token4,
+        baseInterest: (token4BorrowingInterest || 0),
       },
     }
 

@@ -257,6 +257,12 @@ class FarmList extends Component {
 
     const token2BorrowingInterest = lendingTokenSupplyInfo$.value[token2.address.toLowerCase()]
       && lendingTokenSupplyInfo$.value[token2.address.toLowerCase()].borrowingInterest
+    
+    const token3BorrowingInterest = token3 && lendingTokenSupplyInfo$.value[token3.address.toLowerCase()]
+    && lendingTokenSupplyInfo$.value[token3.address.toLowerCase()].borrowingInterest
+  
+    const token4BorrowingInterest = token4 && lendingTokenSupplyInfo$.value[token4.address.toLowerCase()]
+    && lendingTokenSupplyInfo$.value[token4.address.toLowerCase()].borrowingInterest
 
     if (!isDesktop$.value) {
       return (
@@ -288,6 +294,8 @@ class FarmList extends Component {
 
           token1BorrowingInterest={token1BorrowingInterest}
           token2BorrowingInterest={token2BorrowingInterest}
+          token3BorrowingInterest={token3BorrowingInterest}
+          token4BorrowingInterest={token4BorrowingInterest}
         />
       )
     }
@@ -321,6 +329,8 @@ class FarmList extends Component {
 
         token1BorrowingInterest={token1BorrowingInterest}
         token2BorrowingInterest={token2BorrowingInterest}
+        token3BorrowingInterest={token3BorrowingInterest}
+        token4BorrowingInterest={token4BorrowingInterest}
       />
     )
   }

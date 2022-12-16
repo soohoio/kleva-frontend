@@ -1212,7 +1212,7 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
 
   const multicallArray = flatten(farmPools.reduce((acc, cur, farmIdx) => {
 
-    const feedForMulticall = cur.workerList.map(({ workerAddress }, workerIdx) => {
+    const feedForMulticall = cur.workerList.map(({ workerAddress, exchange }, workerIdx) => {
       const workerInfo = workerInfoMap[workerAddress]
 
       return { 
@@ -1222,6 +1222,7 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
         info: { 
           farmIdx: farmIdx, 
           farm: cur,
+          workerInfo,
           lpToken: lpTokenByIngredients(cur.token1, cur.token2, cur.token3, cur.token4)
         }
       }
@@ -1244,16 +1245,24 @@ export const getFarmDeposited$ = (farmPools, workerInfoMap, tokenPrices) => {
       
 
         const multicallArrayItem = multicallArray[idx]
+
+        const workerInfo = multicallArrayItem.info.workerInfo
+
         const lpTokenPrice = tokenPrices[multicallArrayItem.info.lpToken.address.toLowerCase()]
 
-        const _deposited = new BigNumber(cur.amount || 0)
-          .div(10 ** multicallArrayItem.info.lpToken.decimals)
-          .multipliedBy(lpTokenPrice)
-          .toNumber()
+        const _deposited = workerInfo.exchange === 'kokonutswap' 
+          ? new BigNumber(workerInfo.totalStakedLpBalance)
+            .div(10 ** multicallArrayItem.info.lpToken.decimals)
+            .multipliedBy(lpTokenPrice)
+            .toNumber()
+          : new BigNumber(cur.amount || 0)
+            .div(10 ** multicallArrayItem.info.lpToken.decimals)
+            .multipliedBy(lpTokenPrice)
+            .toNumber()
 
         acc.byPid[multicallArrayItem.info.farmIdx] = {
 
-            deposited: new BigNumber(acc.byPid[multicallArrayItem.info.farmIdx] && acc.byPid[multicallArrayItem.info.farmIdx].deposited || 0)
+          deposited: new BigNumber(acc.byPid[multicallArrayItem.info.farmIdx] && acc.byPid[multicallArrayItem.info.farmIdx].deposited || 0)
               .plus(_deposited)
               .toNumber(),
 
@@ -1946,11 +1955,6 @@ export const getOpenPositionResult_kokonut$ = ({
   tokenAmounts,
   positionId,
 }) => {
-
-  console.log(workerAddress, 'workerAddress')
-  console.log(tokenAmounts, 'tokenAmounts')
-  console.log(positionId, 'positionId')
-
   return call$({
     abi: KokonutswapCalculatorABI,
     address: KOKONUTSWAP_CALCULATOR,
@@ -1964,19 +1968,15 @@ export const getOpenPositionResult_kokonut$ = ({
     catchError((e) => {
       console.log(e, 'E')
       return of({
-        priceImpactBps: "0", // lp change
-        resultBaseTokenAmount: "0",
-        resultFarmTokenAmount: "0",
-        swapedBaseTokenAmount: "0",
-        swapedFarmTokenAmount: "0",
+        receiveTokensAmt: [0, 0, 0, 0],
+        receiveLpAmt: 0,
+        lpAmtOnBalanced: 0,
       })
     })
   )
 }
 
 export const getPositionValue_kokonut$ = ({ workerAddress, tokenAmounts }) => {
-  console.log(workerAddress, 'workerAddress')
-  console.log(tokenAmounts, 'tokenAmounts')
   return call$({
     abi: KokonutswapCalculatorABI,
     address: KOKONUTSWAP_CALCULATOR,
