@@ -159,38 +159,69 @@ class FarmingAssetList extends Component {
         const lpToken = positionInfo.lpToken
         const poolInfo = klayswapPoolInfo$.value[lpToken && lpToken.address && lpToken.address.toLowerCase()]
 
-        // position value calculation
-        const { userFarmingTokenAmount, userBaseTokenAmount } = getEachTokenBasedOnLPShare({
-          poolInfo,
-          lpShare: positionInfo.lpShare,
-          farmingToken: positionInfo.farmingToken,
-          baseToken: positionInfo.baseToken,
-          totalShare: positionInfo.totalShare,
-          totalStakedLpBalance: positionInfo.totalStakedLpBalance,
-        })
+        if (positionInfo.tokens) {
+          const lpTokenPrice = addressKeyFind(tokenPrices$.value, lpToken.address)
 
-        const baseTokenPrice = tokenPrices$.value[positionInfo.baseToken.address.toLowerCase()]
-        const farmingTokenPrice = tokenPrices$.value[positionInfo.farmingToken.address.toLowerCase()]
+          const lpPortion = new BigNumber(positionInfo.lpShare)
+            .div(positionInfo.totalShare)
+            .toNumber()
 
-        const farmingPositionValueInUSD = new BigNumber(userFarmingTokenAmount)
-          .multipliedBy(farmingTokenPrice)
-          .plus(
-            new BigNumber(userBaseTokenAmount)
-              .multipliedBy(baseTokenPrice)
-          )
-          .toNumber()
+          const lpAmount = new BigNumber(positionInfo.totalStakedLpBalance)
+            .multipliedBy(lpPortion)
+            .toFixed(0)
 
-        const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
-        const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+          const farmingPositionValueInUSD = new BigNumber(lpAmount)
+            .div(10 ** positionInfo.lpToken.decimals)
+            .multipliedBy(lpTokenPrice)
+            .toNumber()
 
-        return {
-          positionInfo,
-          userFarmingTokenAmount,
-          userBaseTokenAmount,
-          aprInfo,
-          workerInfo,
-          farmingPositionValueInUSD,
-          ...positionInfo,
+          const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
+          const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+
+          return {
+            positionInfo,
+            userFarmingTokenAmount: 0,
+            userBaseTokenAmount: 0,
+            aprInfo,
+            workerInfo,
+            farmingPositionValueInUSD,
+            ...positionInfo,
+          }
+
+        } else {
+          // position value calculation
+          const { userFarmingTokenAmount, userBaseTokenAmount } = getEachTokenBasedOnLPShare({
+            poolInfo,
+            lpShare: positionInfo.lpShare,
+            farmingToken: positionInfo.farmingToken,
+            baseToken: positionInfo.baseToken,
+            totalShare: positionInfo.totalShare,
+            totalStakedLpBalance: positionInfo.totalStakedLpBalance,
+          })
+
+          const baseTokenPrice = tokenPrices$.value[positionInfo.baseToken.address.toLowerCase()]
+          const farmingTokenPrice = tokenPrices$.value[positionInfo.farmingToken.address.toLowerCase()]
+
+          const farmingPositionValueInUSD = new BigNumber(userFarmingTokenAmount)
+            .multipliedBy(farmingTokenPrice)
+            .plus(
+              new BigNumber(userBaseTokenAmount)
+                .multipliedBy(baseTokenPrice)
+            )
+            .toNumber()
+
+          const aprInfo = aprInfo$.value[positionInfo.lpToken.address] || aprInfo$.value[positionInfo.lpToken.address.toLowerCase()]
+          const workerInfo = workerInfo$.value[positionInfo.workerAddress] || workerInfo$.value[positionInfo.workerAddress.toLowerCase()]
+
+          return {
+            positionInfo,
+            userFarmingTokenAmount,
+            userBaseTokenAmount,
+            aprInfo,
+            workerInfo,
+            farmingPositionValueInUSD,
+            ...positionInfo,
+          }
         }
       })
       .sort((a, b) => {

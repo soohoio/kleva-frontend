@@ -1,0 +1,21 @@
+.WarnBeforeKokonutInvest {
+  .CompletedModal {
+    width: 340px;
+  }
+  .CompletedModal__title {
+    @include font-style('font-1', 'b', 20px);
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+
+  .WarnBeforeKokonutInvest__description1 {
+    @include font-style('font-1', 'sb', 15px);
+    line-height: 23px;
+    margin-bottom: 10px;
+  }
+  
+  .WarnBeforeKokonutInvest__description2 {
+    @include font-style('font-1', 'sb', 15px);
+    line-height: 23px;
+  }
+}

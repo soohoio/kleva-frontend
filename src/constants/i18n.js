@@ -409,6 +409,14 @@ export const en = {
   'poolTokenRatio': '%{title} 풀 토큰 비율',
   'poolTokenRatio.description': '<text style="color: #265FFC;">비중이 적은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 수익</text>을 볼 수 있고 <text style="color: #265FFC;">비중이 많은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 손실</text>이 발생합니다.',
   'poolTokenRatio.after': '예치 후 풀의 토큰 비율',
+  'willBeWithdrawnBy': '%{title} 토큰으로 출금됩니다.',
+  'willBeWithdrawnBy.description': '이 풀은 <text style="color: #265FFC;">전부 [대여 토큰]으로 출금</text> 옵션만 지원합니다. 전체 출금 시 투자 규모로 인해 손실이 더 발생할 경우 <text style="color: #265FFC;">부분 출금</text>을 통해 손실을 최소화하시기 바랍니다.',
+  'warnBeforeKokonutInvest.title': '투자 진행 전 고려 사항',
+  'warnBeforeKokonutInvest.description1': '선택하신 풀에서는 전체 출금 및 부분 출금 시 <text style="color: #265FFC;">토큰 스왑을 최소화하여 출금</text> 옵션이 지원되지 않으며, <text style="color: #265FFC;">전부 대여 토큰으로 전환</text>되어 출금됩니다.',
+  'warnBeforeKokonutInvest.description2': '출금 시에는 <text style="color: #265FFC;">부분 출금하기</text>를 통해 프라이스 임팩트를 최소화하실 수 있습니다.',
+  'lpImpact': '토큰 비율에 의한 손실',
+  'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
+
 }
 
 export const ko = {
@@ -822,6 +830,14 @@ export const ko = {
   'poolTokenRatio': '%{title} 풀 토큰 비율',
   'poolTokenRatio.description': '<text style="color: #265FFC;">비중이 적은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 수익</text>을 볼 수 있고 <text style="color: #265FFC;">비중이 많은 토큰</text>을 예치하면 <text style="color: #265FFC;">LP 손실</text>이 발생합니다.',
   'poolTokenRatio.after': '예치 후 풀의 토큰 비율',
+  'willBeWithdrawnBy': '%{title} 토큰으로 출금됩니다.',
+  'willBeWithdrawnBy.description': '이 풀은 <text style="color: #265FFC;">전부 [대여 토큰]으로 출금</text> 옵션만 지원합니다. 전체 출금 시 투자 규모로 인해 손실이 더 발생할 경우 <text style="color: #265FFC;">부분 출금</text>을 통해 손실을 최소화하시기 바랍니다.',
+  'warnBeforeKokonutInvest.title': '투자 진행 전 고려 사항',
+  'warnBeforeKokonutInvest.description1': '선택하신 풀에서는 전체 출금 및 부분 출금 시 <text style="color: #265FFC;">토큰 스왑을 최소화하여 출금</text> 옵션이 지원되지 않으며, <text style="color: #265FFC;">전부 대여 토큰으로 전환</text>되어 출금됩니다.',
+  'warnBeforeKokonutInvest.description2': '출금 시에는 <text style="color: #265FFC;">부분 출금하기</text>를 통해 프라이스 임팩트를 최소화하실 수 있습니다.',
+  'lpImpact': '토큰 비율에 의한 손실',
+  'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
+
 }
 
 export const zh = {

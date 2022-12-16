@@ -18,6 +18,7 @@ import FarmAPRDetailInfo from '../modals/FarmAPRDetailInfo'
 import { openContentView$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 import ConnectWalletPopup from '../ConnectWalletPopup'
+import AddPositionMultiToken from './AddPositionMultiToken';
 
 class FarmItemCard extends Component {
   destroy$ = new Subject()
@@ -54,6 +55,8 @@ class FarmItemCard extends Component {
       workerList,
       token1,
       token2,
+      token3,
+      token4,
       farmDeposited,
       exchange,
       lpToken,
@@ -91,9 +94,11 @@ class FarmItemCard extends Component {
             <div className="FarmItemCard__tokenImages">
               <img className="FarmItemCard__tokenIcon" src={token1.iconSrc} />
               <img className="FarmItemCard__tokenIcon FarmItemCard__tokenIcon--baseToken" src={token2.iconSrc} />
+              {token3 && <img className="FarmItemCard__tokenIcon FarmItemCard__tokenIcon--baseToken" src={token3.iconSrc} />}
+              {token4 && <img className="FarmItemCard__tokenIcon FarmItemCard__tokenIcon--baseToken" src={token4.iconSrc} />}
             </div>
             <div className="FarmItemCard__mainInfo">
-              <p className="FarmItemCard__title">{token1.title}+{token2.title}</p>
+              <p className="FarmItemCard__title">{lpToken.title}</p>
               <p className="FarmItemCard__exchange">{exchange}</p>
             </div>
           </div>
@@ -107,12 +112,15 @@ class FarmItemCard extends Component {
                   openModal$.next({
                     component: (
                       <FarmAPRDetailInfo
-                        title={`${token1.title}+${token2.title}`}
+                        exchange={exchange}
+                        title={`${lpToken.title}`}
                         workerInfo={workerInfo}
                         workerList={workerList}
                         lpToken={lpToken}
                         token1={token1}
                         token2={token2}
+                        token3={token3}
+                        token4={token4}
                         selectedAddress={selectedAddress}
                         
                         yieldFarmingAPRWithoutLeverage={yieldFarmingAPRWithoutLeverage}
@@ -164,27 +172,53 @@ class FarmItemCard extends Component {
 
               openContentView$.next({
                 key: "AddPosition",
-                component: (
-                  <AddPosition
-                    title={`${token1?.title}+${token2?.title}`}
-                    defaultBorrowingAsset={borrowingAsset}
-                    defaultLeverage={this.bloc.leverageValue$.value}
-                    yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                    tradingFeeAPR={tradingFeeAPR}
-                    workerList={workerList}
-                    workerInfo={workerInfo}
+                component: exchange === "kokonutswap"
+                  ? (
+                    <AddPositionMultiToken
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={this.bloc.leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
 
-                    token1={token1}
-                    token2={token2}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
 
-                    lpToken={lpToken}
-                    borrowingAvailableAssets={borrowingAvailableAssets}
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
 
-                    offset={0.5}
+                      offset={0.5}
 
-                    baseBorrowingInterests={baseBorrowingInterests}
-                  />
-                )
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
+                  : (
+                    <AddPosition
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={this.bloc.leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
+
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
+
+                      offset={0.5}
+
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
               })
             }}
           >

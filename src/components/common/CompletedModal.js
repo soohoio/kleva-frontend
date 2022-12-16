@@ -27,10 +27,10 @@ class CompletedModal extends Component {
   }
     
   render() {
-    const { layered, children, menus } = this.props
+    const { layered, children, className, menus } = this.props
     
     return (
-      <Modal noAnimation layered={layered} className="CompletedModal">
+      <Modal noAnimation layered={layered} className={cx("CompletedModal", className)}>
         <div className="CompletedModal__content">
           {children}
         </div>

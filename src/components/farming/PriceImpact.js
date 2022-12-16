@@ -38,7 +38,9 @@ class PriceImpact extends Component {
       description,
       lossAmount, 
       tokenToSwap, 
-      priceImpact 
+      priceImpact,
+
+      infoModal,
     } = this.props
 
     return (
@@ -50,7 +52,7 @@ class PriceImpact extends Component {
               title={title || I18n.t('lossBySwap')}
               onClick={() => {
                 openModal$.next({
-                  component: <PriceImpactInfoModal />
+                  component: infoModal || <PriceImpactInfoModal />
                 })
               }}
             />

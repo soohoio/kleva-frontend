@@ -13,7 +13,7 @@ import { getOriginalTokenFromIbToken, ibTokenByAddress, ibTokens, tokenList } fr
 import { getPositionsAll$ } from '../../streams/graphql'
 import { getEachTokenBasedOnLPShare } from '../../utils/calc'
 import { klayswapPoolInfo$, workerInfo$ } from '../../streams/farming'
-import { nFormatter } from '../../utils/misc'
+import { addressKeyFind, nFormatter } from '../../utils/misc'
 import Guide from '../common/Guide'
 import { currentTab$ } from '../../streams/view'
 
@@ -38,7 +38,6 @@ class ManagementAsset extends Component {
     ).subscribe(() => {
       this.forceUpdate()
     })
-    
 
     selectedAddress$.pipe(
       filter((account) => !!account),
@@ -48,7 +47,6 @@ class ManagementAsset extends Component {
           switchMap(() => {
             return getPositionsAll$(selectedAddress$.value).pipe(
               map((positions) => {
-                
                 const positionsAttachedWorkerInfo = positions.map((p) => {
                   const _workerInfo = workerInfo$.value[p.workerAddress.toLowerCase()]
                   return { ...p, ..._workerInfo }
@@ -61,9 +59,40 @@ class ManagementAsset extends Component {
         )
       }),
       tap((positions) => {
+        console.log(positions, 'positions')
         const result = positions.reduce((acc, cur) => {
 
+          // debt value calculation
           const baseTokenPrice = tokenPrices$.value[cur.baseToken.address.toLowerCase()]
+          const debtValue = new BigNumber(cur.debtAmount)
+            .div(10 ** cur.baseToken.decimals)
+            .multipliedBy(baseTokenPrice)
+            .toNumber()
+
+          // When farming token doesn't exist:
+          if (cur.tokens) {
+            const lpTokenPrice = addressKeyFind(tokenPrices$.value, cur.lpToken.address)
+
+            const lpPortion = new BigNumber(cur.lpShare)
+              .div(cur.totalShare)
+              .toNumber()
+
+            const lpAmount = new BigNumber(cur.totalStakedLpBalance)
+              .multipliedBy(lpPortion)
+              .toFixed(0)
+
+            const farmingPositionValueInUSD = new BigNumber(lpAmount)
+              .div(10 ** cur.lpToken.decimals)
+              .multipliedBy(lpTokenPrice)
+              .toNumber()
+
+            acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue).toNumber()
+            acc.farmingPositionValue = new BigNumber(acc.farmingPositionValue).plus(farmingPositionValueInUSD).toNumber()
+
+            return acc
+          }
+
+          // When farming token exists:
           const farmingTokenPrice = tokenPrices$.value[cur.farmingToken.address.toLowerCase()]
 
           const lpToken = cur.lpToken
@@ -85,13 +114,6 @@ class ManagementAsset extends Component {
               new BigNumber(userBaseTokenAmount)
                 .multipliedBy(baseTokenPrice)
             )
-            .toNumber()
-
-          // debt value calculation
-          
-          const debtValue = new BigNumber(cur.debtAmount)
-            .div(10 ** cur.baseToken.decimals)
-            .multipliedBy(baseTokenPrice)
             .toNumber()
           
           acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue).toNumber()
@@ -149,7 +171,9 @@ class ManagementAsset extends Component {
       ).toNumber()
     }, 0)
 
-    return new BigNumber(unstakedIbTokenValues).plus(stakedValues).toNumber()
+    return new BigNumber(unstakedIbTokenValues)
+      .plus(stakedValues)
+      .toNumber()
   }
     
   render() {

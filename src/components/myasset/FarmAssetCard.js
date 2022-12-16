@@ -21,6 +21,8 @@ import AdjustPosition from '../farming/AdjustPosition'
 import ClosePosition from '../farming/ClosePosition'
 import TotalAssetInfoModal from '../modals/TotalAssetInfoModal'
 import FarmAPRDetailInfo2 from '../modals/FarmAPRDetailInfo2'
+import AdjustPositionMultiToken from '../farming/AdjustPositionMultiToken';
+import ClosePositionMultiToken from '../farming/ClosePositionMultiToken'
 
 class FarmAssetCard extends Component {
   destroy$ = new Subject()
@@ -107,9 +109,19 @@ class FarmAssetCard extends Component {
 
       token1,
       token2,
+      token3,
+      token4,
+      tokens,
+
+      token1Amt,
+      token2Amt,
+      token3Amt,
+      token4Amt,
 
       equityFarmingAmount,
       equityBaseAmount,
+
+      health, 
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -145,9 +157,6 @@ class FarmAssetCard extends Component {
 
     // APR
     const currentPositionLeverage = this.getCurrentLeverageValue()
-    // const yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.miningAPR || 0)
-    //   .plus(aprInfo.airdropAPR || 0)
-    //   .toNumber()
 
     // APR Before
     const before_yieldFarmingAPR = aprInfo && new BigNumber(aprInfo.miningAPR || 0)
@@ -181,15 +190,29 @@ class FarmAssetCard extends Component {
     return (
       <div className="FarmAssetCard">
         <div className="FarmAssetCard__iconWrapper">
-          <img className="FarmAssetCard__icon" src={farmingToken.iconSrc} />
-          <img className="FarmAssetCard__icon" src={baseToken.iconSrc} />
+          {tokens
+            ? (
+              <>
+                <img className="FarmAssetCard__icon" src={token1.iconSrc} />
+                <img className="FarmAssetCard__icon" src={token2.iconSrc} />
+                {token3 && <img className="FarmAssetCard__icon" src={token3.iconSrc} />}
+                {token4 && <img className="FarmAssetCard__icon" src={token4.iconSrc} />}
+              </>
+            )
+            : (
+              <>
+                <img className="FarmAssetCard__icon" src={farmingToken.iconSrc} />
+                <img className="FarmAssetCard__icon" src={baseToken.iconSrc} />
+              </>
+            )
+          }
         </div>
         <div className="FarmAssetCard__content">
           <LabelAndValue
             className="LendNStakeAssetCard__contentHeader"
             label={(
               <>
-                <p className="FarmAssetCard__poolInfoTitle">{farmingToken.title}+{baseToken.title}</p>
+                <p className="FarmAssetCard__poolInfoTitle">{lpToken.title}</p>
                 <p className="FarmAssetCard__poolInfoExchange">{exchange} #{positionId}</p>
               </>
             )}
@@ -205,7 +228,7 @@ class FarmAssetCard extends Component {
                           openModal$.next({
                             component: (
                               <FarmAPRDetailInfo2
-                                title={`${farmingToken.title}+${baseToken.title}`}
+                                title={`${lpToken.title}`}
                                 yieldFarmingAPR={before_yieldFarmingAPR}
                                 klevaRewardAPR={before_klevaRewardsAPR}
                                 tradingFeeAPR={before_tradingFeeAPR}
@@ -238,23 +261,45 @@ class FarmAssetCard extends Component {
             value={(
               <>
                 <p className="FarmAssetCard__balanceInUSD">${nFormatter(balanceTotalInUSD, 2)}</p>
-                <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
-                <p>{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
+
+                {tokens
+                  ? (
+                    <>
+                      <p>{noRounding(token1Amt, 4)} {token1.title}</p>
+                      <p>{noRounding(token2Amt, 4)} {token2.title}</p>
+                      {token3 && <p>{noRounding(token3Amt, 4)} {token3.title}</p>}
+                      {token4 && <p>{noRounding(token4Amt, 4)} {token4.title}</p>}
+                    </>
+                  )
+                  : (
+                    <>
+                      <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
+                      <p>{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
+                    </>
+                  )
+                }
               </>
             )}
           />
           <LabelAndValue
             className="FarmAssetCard__valueItem"
             label={I18n.t('myasset.farming.equityValue')}
-            value={(
-              <>
-                {/* <p>{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
-                <p>{noRounding(new BigNumber(userBaseTokenAmount).minus(debtValueParsed).toNumber(), 4)} {baseToken.title}</p> */}
-                {/* <p>{equityValueParsed} {baseToken.title}</p> */}
-                <p>{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
-                <p>{nFormatter(equityBaseAmount)} {baseToken.title}</p>
-              </>
-            )}
+            value={tokens 
+                ? (
+                  <>
+                    <p>{noRounding(token1Amt, 4)} {token1.title}</p>
+                    <p>{noRounding(token2Amt, 4)} {token2.title}</p>
+                    {token3 && <p>{noRounding(token3Amt, 4)} {token3.title}</p>}
+                    {token4 && <p>{noRounding(token4Amt, 4)} {token4.title}</p>}
+                  </>
+                )
+                : (
+                  <>
+                    <p>{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
+                    <p>{nFormatter(equityBaseAmount)} {baseToken.title}</p>
+                  </>
+              )
+            }
           />
           <LabelAndValue
             className="FarmAssetCard__valueItem FarmAssetCard__valueItem--debt"
@@ -293,57 +338,100 @@ class FarmAssetCard extends Component {
 
                 openContentView$.next({
                   key: "ClosePosition",
-                  component: (
-                    <ClosePosition
-                      id={id}
-                      lpToken={lpToken}
-                      positionId={positionId}
-                      vaultAddress={vaultAddress}
-                      farmingToken={farmingToken}
-                      baseToken={baseToken}
-                      workerInfo={workerInfo}
-                      leverageCap={leverageCap}
-                      lpShare={lpShare}
-                      totalShare={totalShare}
-                      totalStakedLpBalance={totalStakedLpBalance}
+                  component: exchange === "kokonutswap" 
+                    ? (
+                      <ClosePositionMultiToken
+                        id={id}
+                        lpToken={lpToken}
+                        token1={token1}
+                        token2={token2}
+                        token3={token3}
+                        token4={token4}
+                        tokens={tokens}
 
-                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                        token1Amt={token1Amt}
+                        token2Amt={token2Amt}
+                        token3Amt={token3Amt}
+                        token4Amt={token4Amt}
 
-                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+                        positionValue={positionValue}
+                        equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                        health={health}
+                        debtValue={debtValue}
+
+                        positionId={positionId}
+                        vaultAddress={vaultAddress}
+                        farmingToken={farmingToken}
+                        baseToken={baseToken}
+                        workerInfo={workerInfo}
+                        leverageCap={leverageCap}
+                        lpShare={lpShare}
+                        totalShare={totalShare}
+                        totalStakedLpBalance={totalStakedLpBalance}
+
+                        borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                        baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
 
 
-                      selectedAddress={selectedAddress}
-                      title={I18n.t('myasset.farming.adjustPosition')}
-                      currentPositionLeverage={currentPositionLeverage}
+                        selectedAddress={selectedAddress}
+                        title={I18n.t('myasset.farming.adjustPosition')}
+                        currentPositionLeverage={currentPositionLeverage}
 
-                      yieldFarmingAPR={before_yieldFarmingAPR}
-                      tradingFeeAPR={before_tradingFeeAPR}
-                      klevaRewardAPR={before_klevaRewardsAPR}
+                        yieldFarmingAPR={before_yieldFarmingAPR}
+                        tradingFeeAPR={before_tradingFeeAPR}
+                        klevaRewardAPR={before_klevaRewardsAPR}
 
-                      offset={0.5}
-                    />
-                  )
+                        offset={0.5}
+                      />
+                    )
+                    : (
+                      <ClosePosition
+                        id={id}
+                        lpToken={lpToken}
+                        token1={token1}
+                        token2={token2}
+                        token3={token3}
+                        token4={token4}
+                        tokens={tokens}
+
+                        token1Amt={token1Amt}
+                        token2Amt={token2Amt}
+                        token3Amt={token3Amt}
+                        token4Amt={token4Amt}
+
+                        positionValue={positionValue}
+                        equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                        health={health}
+                        debtValue={debtValue}
+
+                        positionId={positionId}
+                        vaultAddress={vaultAddress}
+                        farmingToken={farmingToken}
+                        baseToken={baseToken}
+                        workerInfo={workerInfo}
+                        leverageCap={leverageCap}
+                        lpShare={lpShare}
+                        totalShare={totalShare}
+                        totalStakedLpBalance={totalStakedLpBalance}
+
+                        borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                        baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                        selectedAddress={selectedAddress}
+                        title={I18n.t('myasset.farming.adjustPosition')}
+                        currentPositionLeverage={currentPositionLeverage}
+
+                        yieldFarmingAPR={before_yieldFarmingAPR}
+                        tradingFeeAPR={before_tradingFeeAPR}
+                        klevaRewardAPR={before_klevaRewardsAPR}
+
+                        offset={0.5}
+                      />
+                    )
                 })
-
-                // openModal$.next({
-                //   component: (
-                //     <ClosePositionPopup
-                //       title="Close Position"
-                //       id={id}
-                //       tokenPrices={tokenPrices}
-                //       positionId={positionId}
-                //       vaultAddress={vaultAddress}
-                //       farmingToken={farmingToken}
-                //       baseToken={baseToken}
-                //       workerInfo={workerInfo}
-
-                //       yieldFarmingAPRBefore={before_yieldFarmingAPR}
-                //       tradingFeeAPRBefore={before_tradingFeeAPR}
-                //       klevaRewardsAPRBefore={before_klevaRewardsAPR}
-                //       borrowingInterestAPRBefore={before_borrowingInterestAPR}
-                //     />
-                //   )
-                // })
               }}
             >
               {I18n.t('myasset.withdraw')}
@@ -354,11 +442,58 @@ class FarmAssetCard extends Component {
 
                 openContentView$.next({
                   key: "AdjustPosition",
-                  component: (
+                  component: exchange === "kokonutswap" 
+                    ? (
+                      <AdjustPositionMultiToken
+                        id={id}
+                        token1={token1}
+                        token2={token2}
+                        token3={token3}
+                        token4={token4}
+                        tokens={tokens}
+
+                        token1Amt={token1Amt}
+                        token2Amt={token2Amt}
+                        token3Amt={token3Amt}
+                        token4Amt={token4Amt}
+
+                        positionValue={positionValue}
+                        equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                        health={health}
+                        debtValue={debtValue}
+
+                        lpToken={lpToken}
+                        positionId={positionId}
+                        vaultAddress={vaultAddress}
+                        farmingToken={farmingToken}
+                        baseToken={baseToken}
+                        workerInfo={workerInfo}
+                        leverageCap={leverageCap}
+
+                        borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                        baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                        selectedAddress={selectedAddress}
+                        title={I18n.t('myasset.farming.adjustPosition')}
+                        currentPositionLeverage={currentPositionLeverage}
+
+                        yieldFarmingAPR={before_yieldFarmingAPR}
+                        tradingFeeAPR={before_tradingFeeAPR}
+                        klevaRewardAPR={before_klevaRewardsAPR}
+
+                        offset={0.5}
+                      />
+                    )
+                    : (
                     <AdjustPosition
                       id={id}
                       token1={token1}
                       token2={token2}
+                      token3={token3}
+                      token4={token4}
+                      tokens={tokens}
                       lpToken={lpToken}
                       positionId={positionId}
                       vaultAddress={vaultAddress}

@@ -5,6 +5,20 @@
   border: 1px solid #89A7FA;
   border-radius: 9px;
   margin-bottom: 30px;
+
+  &--desktopOnly {
+    display: none;
+    @include desktop {
+      display: flex;
+    }
+  }
+
+  &--mobileOnly {
+    display: flex;
+    @include desktop {
+      display: none;
+    }
+  }
 }
 
 .PoolTokenRatio__title {

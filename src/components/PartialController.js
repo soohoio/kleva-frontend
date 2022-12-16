@@ -44,6 +44,8 @@ class PartialController extends Component {
       maxPartialCloseRatio$,
       minRepaymentDebtRatio$,
       maxRepaymentDebtRatio$,
+
+      multiToken,
     } = this.props
 
     const baseTokenTitle = isBaseTokenKLAY
@@ -76,9 +78,11 @@ class PartialController extends Component {
               <p>
                 <strong>{nFormatter(farmingTokenCloseAmount, 4)}</strong> <span>{farmingToken.title}</span>
               </p>
-              <p>
-                <strong>{nFormatter(baseTokenCloseAmount, 4)}</strong> <span>{baseTokenTitle}</span>
-              </p>
+              {!multiToken && (
+                <p>
+                  <strong>{nFormatter(baseTokenCloseAmount, 4)}</strong> <span>{baseTokenTitle}</span>
+                </p>
+              )}
             </>
           )}
           offset={25}

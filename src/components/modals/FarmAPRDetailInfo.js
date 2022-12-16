@@ -19,6 +19,7 @@ import { calcKlevaRewardsAPR, toAPY } from '../../utils/calc'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { klevaAnnualRewards$ } from '../../streams/farming'
 import { debtTokens, tokenList } from '../../constants/tokens'
+import AddPositionMultiToken from '../farming/AddPositionMultiToken';
 
 class FarmAPRDetailInfo extends Component {
 
@@ -47,6 +48,9 @@ class FarmAPRDetailInfo extends Component {
 
       token1,
       token2,
+      token3,
+      token4,
+      exchange,
 
       baseBorrowingInterests,
       borrowingAvailableAssets,
@@ -158,28 +162,53 @@ class FarmAPRDetailInfo extends Component {
 
               openContentView$.next({
                 key: "AddPosition",
-                component: (
-                  <AddPosition
-                    defaultBorrowingAsset={borrowingAsset}
-                    title={`${token1?.title}+${token2?.title}`}
-                    defaultLeverage={leverageValue$.value}
-                    yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                    tradingFeeAPR={tradingFeeAPR}
-                    workerList={workerList}
-                    workerInfo={workerInfo}
+                component: exchange === "kokonutswap"
+                  ? (
+                    <AddPositionMultiToken
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
 
-                    token1={token1}
-                    token2={token2}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
 
-                    lpToken={lpToken}
-                    borrowingAvailableAssets={borrowingAvailableAssets}
-                    leverage={1}
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
 
-                    offset={0.5}
+                      offset={0.5}
 
-                    baseBorrowingInterests={baseBorrowingInterests}
-                  />
-                )
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
+                  : (
+                    <AddPosition
+                      title={lpToken.title}
+                      defaultBorrowingAsset={borrowingAsset}
+                      defaultLeverage={leverageValue$.value}
+                      yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
+                      tradingFeeAPR={tradingFeeAPR}
+                      workerList={workerList}
+                      workerInfo={workerInfo}
+
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+
+                      lpToken={lpToken}
+                      borrowingAvailableAssets={borrowingAvailableAssets}
+
+                      offset={0.5}
+
+                      baseBorrowingInterests={baseBorrowingInterests}
+                    />
+                  )
               })
             }}
           >

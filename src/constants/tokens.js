@@ -205,7 +205,7 @@ export const lpTokens = {
   "KSD-KLAY LP": {
     KokonutLP: true,
     ingredients: [singleTokens.KSD, singleTokens.KLAY],
-    title: "KSD+KLAY LP",
+    title: "KSD+KLAY",
     address: "0xe995b4a0289c33a28a1f14eb7b306387de71eb0e",
     decimals: 18,
   },

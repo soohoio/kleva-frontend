@@ -44,6 +44,12 @@ class KilledCard extends Component {
       positionId,
       farmingToken,
       baseToken,
+
+      token1,
+      token2,
+      token3,
+      token4,
+      tokens,
       exchange, // klayswap
     } = this.props
 
@@ -56,15 +62,17 @@ class KilledCard extends Component {
     return (
       <div className="KilledCard">
         <div className="KilledCard__iconWrapper">
-          <img className="KilledCard__icon" src={farmingToken.iconSrc} />
-          <img className="KilledCard__icon" src={baseToken.iconSrc} />
+          <img className="KilledCard__icon" src={token1.iconSrc} />
+          <img className="KilledCard__icon KilledCard__icon--baseToken" src={token2.iconSrc} />
+          {token3 && <img className="KilledCard__icon KilledCard__icon--baseToken" src={token3.iconSrc} />}
+          {token4 && <img className="KilledCard__icon KilledCard__icon--baseToken" src={token4.iconSrc} />}
         </div>
         <div className="KilledCard__content">
           <LabelAndValue
             className="LendNStakeAssetCard__contentHeader"
             label={(
               <>
-                <p className="KilledCard__poolInfoTitle">{farmingToken.title}+{baseToken.title}</p>
+                <p className="KilledCard__poolInfoTitle">{lpToken.title}</p>
                 <p className="KilledCard__poolInfoExchange">{exchange} #{positionId}</p>
               </>
             )}

@@ -3,7 +3,7 @@ import { forkJoin, from, interval, Observable, of, Subject } from 'rxjs'
 import { tap, catchError, map, switchMap, startWith, filter, takeUntil } from 'rxjs/operators'
 import { Interface } from '@ethersproject/abi'
 import BigNumber from 'bignumber.js'
-import { sample, flatten, pick } from 'lodash'
+import { sample, flatten, pick, groupBy } from 'lodash'
 
 import { MULTICALL, FAIRLAUNCH } from 'constants/address'
 import { selectedAddress$ } from 'streams/wallet'
@@ -314,7 +314,7 @@ export const multicall = async (abi, calls, getGas) => {
 
     return result
   } catch (e) {
-    console.log(e, '@e')
+    console.log(calls, e, '@e')
     return false
   }
 }
@@ -843,26 +843,53 @@ export const allowancesMultiInStakingPool$ = (account, stakingPools) => {
 }
 
 export const getPositionInfo$ = (positionList) => {
+
+  const positionListByExchange = groupBy(positionList, 'exchange')
+
   const p1 = multicall(
     KlayswapCalculatorABI,
-    positionList.map(({ vaultAddress, workerAddress, positionId }) => {
+    positionListByExchange?.klayswap.map(({ exchange, vaultAddress, workerAddress, positionId }) => {
       return { address: KLAYSWAP_CALCULATOR, name: 'getPositionInfo', params: [workerAddress, positionId] }
     })
   )
 
   const p2 = multicall(
     KlayswapCalculatorABI,
-    positionList.map(({ vaultAddress, workerAddress, positionId }) => {
+    positionListByExchange?.klayswap.map(({ exchange, vaultAddress, workerAddress, positionId }) => {
       return { address: KLAYSWAP_CALCULATOR, name: 'getLpIngridients', params: [workerAddress, positionId] }
     })
   )
+  
+  const p1_kokonut = multicall(
+    KokonutswapCalculatorABI,
+    positionListByExchange?.kokonutswap.map(({ exchange, vaultAddress, workerAddress, positionId }) => {
+      return { address: KOKONUTSWAP_CALCULATOR, name: 'getPositionInfo', params: [workerAddress, positionId] }
+    })
+  )
 
-  return forkJoin([p1, p2]).pipe(
-    map(([positionInfoList, ingredientsList]) => {
+  const p2_kokonut = multicall(
+    KokonutswapCalculatorABI,
+    positionListByExchange?.kokonutswap.map(({ exchange, vaultAddress, workerAddress, positionId }) => {
+      return { address: KOKONUTSWAP_CALCULATOR, name: 'getLpIngridients', params: [workerAddress, positionId, false] }
+    })
+  )
 
-      return showParamsOnCall(positionInfoList, ['positionValue', 'health', 'debtAmt']).reduce((acc, cur, idx) => {
+  return forkJoin([
+    p1, 
+    p2,
+    p1_kokonut,
+    p2_kokonut,
+  ]).pipe(
+    map(([
+      positionInfoList, 
+      ingredientsList,
+      positionInfoList_kokonut, 
+      ingredientsList_kokonut,
+    ]) => {
 
-        const _position = positionList[idx]
+      const klayswapPositionResult = showParamsOnCall(positionInfoList, ['positionValue', 'health', 'debtAmt']).reduce((acc, cur, idx) => {
+
+        const _position = positionListByExchange?.klayswap[idx]
 
         acc[_position.id] = acc[_position.id] || { ..._position }
         acc[_position.id]['positionValue'] = cur.positionValue
@@ -874,6 +901,40 @@ export const getPositionInfo$ = (positionList) => {
         
         return acc
       }, {})
+
+      const kokonutPositionResult = showParamsOnCall(positionInfoList_kokonut, ['positionValue', 'health', 'debtAmt', 'lpBalance']).reduce((acc, cur, idx) => {
+
+        const _position = positionListByExchange?.kokonutswap[idx]
+
+        const _ingredientsList = flatten(ingredientsList_kokonut[idx])
+
+        acc[_position.id] = acc[_position.id] || { ..._position }
+        acc[_position.id]['positionValue'] = cur.positionValue
+        acc[_position.id]['health'] = cur.health
+        acc[_position.id]['debtValue'] = cur.debtAmt
+        acc[_position.id]['lpBalance'] = cur.lpBalance
+
+        // parsed values
+        acc[_position.id]['token1Amt'] = new BigNumber(_ingredientsList[0]._hex)
+          .div(10 ** _position.token1?.decimals || 0)
+          .toString()
+        acc[_position.id]['token2Amt'] = new BigNumber(_ingredientsList[1]._hex)
+          .div(10 ** _position.token2?.decimals || 0)
+          .toString()
+        acc[_position.id]['token3Amt'] = new BigNumber(_ingredientsList[2]?._hex || 0)
+          .div(10 ** _position.token3?.decimals || 0)
+          .toString()
+        acc[_position.id]['token4Amt'] = new BigNumber(_ingredientsList[3]?._hex || 0)
+          .div(10 ** _position.token4?.decimals || 0)
+          .toString()
+
+        return acc
+      }, {})
+
+      return {
+        ...klayswapPositionResult,
+        ...kokonutPositionResult,
+      }
     }),
     map((positionInfoMap) => {
       return Object.entries(positionInfoMap)
@@ -1317,6 +1378,11 @@ export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data
     })
   }
 
+  console.log(positionId, 'positionId')
+  console.log(vaultAddress, 'vaultAddress')
+  console.log(principalAmount, 'principalAmount')
+  console.log(data, 'data')
+
   return makeTransaction({
     abi: VaultABI,
     address: vaultAddress,
@@ -1364,15 +1430,6 @@ export const minimizeTrading$ = (vaultAddress, { positionId, data }) => {
 }
 
 // add collateral & borrow
-export const addCollateralWithBorrowing$ = (vaultAddress, { positionId, principalAmount, debtAmount, data }) => {
-  return makeTransaction({
-    abi: VaultABI,
-    address: vaultAddress,
-    methodName: "editPosition",
-    params: [positionId, principalAmount, debtAmount, 0, data]
-  })
-}
-
 export const borrowMore$ = (vaultAddress, { positionId, debtAmount, data }) => {
 
   return makeTransaction({
@@ -1555,6 +1612,29 @@ export const getCloseBaseOnlyResult$ = ({
   )
 }
 
+export const getCloseBaseOnlyResult_kokonut$ = ({
+  workerAddress,
+  positionId
+}) => {
+
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getCloseBaseOnlyResult",
+    params: [
+      workerAddress,
+      positionId,
+    ]
+  }).pipe(
+    catchError(() => {
+      return of({
+        error: true,
+        receiveBaseTokenAmt: 0,
+      })
+    })
+  )
+}
+
 export const getCloseMinimizeResult$ = ({
   workerAddress,
   positionId
@@ -1642,6 +1722,25 @@ export const getLpAmounts$ = ({
   }).pipe(
     tap((result) => {
 
+    })
+  )
+}
+
+export const getLpAmounts_kokonut$ = ({
+  workerAddress,
+  positionId,
+}) => {
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getLpAmounts",
+    params: [
+      workerAddress,
+      positionId,
+    ]
+  }).pipe(
+    tap((result) => {
+      console.log(result, '@result')
     })
   )
 }
@@ -1734,6 +1833,35 @@ export const getPartialCloseBaseOnlyResult$ = ({
         tokenOutAmount: 0,
         priceImpactBps: 0,
         priceImpactBpsWithoutFee: 0,
+      })
+    })
+  )
+}
+
+export const getPartialCloseBaseOnlyResult_kokonut$ = ({
+  workerAddress,
+  positionId,
+  closedLpAmt,
+  debtToRepay,
+}) => {
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getPartialCloseBaseOnlyResult",
+    params: [
+      workerAddress,
+      positionId,
+      closedLpAmt,
+      debtToRepay,
+    ]
+  }).pipe(
+    catchError(() => {
+      return of({
+        error: true,
+        updatedPositionValue: 0,
+        updatedHealth: 0,
+        updatedDebtAmt: 0,
+        receiveBaseTokenAmt: 0,
       })
     })
   )
@@ -1939,6 +2067,38 @@ export const getDebtRepaymentRange$ = ({
   )
 }
 
+export const getDebtRepaymentRange_kokonut$ = ({
+  workerAddress,
+  positionId,
+  closedLpAmt,
+}) => {
+
+  return call$({
+    abi: KokonutswapCalculatorABI,
+    address: KOKONUTSWAP_CALCULATOR,
+    methodName: "getDebtRepaymentRange",
+    params: [
+      workerAddress,
+      positionId,
+      closedLpAmt,
+    ]
+  }).pipe(
+    map(({
+      closedPositionValue,
+      closedHealth,
+      minDebtRepayment,
+      maxDebtRepayment,
+    }) => {
+      return {
+        closedPositionValue,
+        closedHealth,
+        minDebtRepayment,
+        maxDebtRepayment,
+      }
+    })
+  )
+}
+
 // KNS
 export const getKNSName$ = (address) => {
   return call$({
@@ -1955,6 +2115,11 @@ export const getOpenPositionResult_kokonut$ = ({
   tokenAmounts,
   positionId,
 }) => {
+
+  console.log(workerAddress, 'workerAddress')
+  console.log(tokenAmounts, 'tokenAmounts')
+  console.log(positionId, 'positionId')
+
   return call$({
     abi: KokonutswapCalculatorABI,
     address: KOKONUTSWAP_CALCULATOR,
@@ -1965,6 +2130,7 @@ export const getOpenPositionResult_kokonut$ = ({
       positionId,
     ]
   }).pipe(
+    tap(console.log),
     catchError((e) => {
       console.log(e, 'E')
       return of({

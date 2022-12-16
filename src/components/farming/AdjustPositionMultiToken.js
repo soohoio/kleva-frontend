@@ -1,12 +1,12 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of } from 'rxjs'
+import { Subject, merge, of, forkJoin, BehaviorSubject } from 'rxjs'
 import { takeUntil, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
-import Bloc from './AddPositionMultiToken.bloc'
-import './AddPosition.scss'
-import AddPositionHeader from './AddPositionHeader'
-import { getOptimalAmount, toAPY } from '../../utils/calc'
+import Bloc from './AdjustPositionMultiToken.bloc'
+import './AdjustPositionMultiToken.scss'
+import ModalHeader from '../modals/ModalHeader'
+import { toAPY } from '../../utils/calc'
 import { I18n } from '../common/I18n'
 import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
@@ -15,108 +15,126 @@ import QuestionMark from '../common/QuestionMark'
 import { closeContentView$, openModal$ } from '../../streams/ui'
 import FarmAPRDetailInfo2 from '../modals/FarmAPRDetailInfo2'
 import LeverageInput from '../common/LeverageInput'
-import BorrowingItem from './BorrowingItem'
 import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
 import { addressKeyFind, isSameAddress, nFormatter, noRounding } from '../../utils/misc'
-import { checkAllowances$ } from '../../streams/contract'
+import { checkAllowances$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, isWKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
-import Checkbox from '../common/Checkbox'
+import Tabs from '../common/Tabs'
+import BeforeAfter from '../BeforeAfter'
+import ThickHR from '../common/ThickHR'
 import { klayswapPoolInfo$ } from '../../streams/farming'
-import { liquidities$, tokenPrices$ } from '../../streams/tokenPrice'
-import PoolTokenRatio from './PoolTokenRatio'
+import Checkbox from '../common/Checkbox'
+import { liquidities$ } from '../../streams/tokenPrice'
+import PoolTokenRatio from './PoolTokenRatio';
 import PoolTokenRatioBeforeAfter from './PoolTokenRatioBeforeAfter';
-import { MAX_UINT } from '../../constants/setting';
-import WarnBeforeKokonutInvest from '../modals/WarnBeforeKokonutInvest'
-import LPImpactInfoModal from '../modals/LPImpactInfoModal'
+import LPImpactInfoModal from '../modals/LPImpactInfoModal';
 
-class AddPositionMultiToken extends Component {
-  bloc = new Bloc(this)
-
+class AdjustPositionMultiToken extends Component {
   destroy$ = new Subject()
+
+  bloc = new Bloc(this)
 
   componentDidMount() {
     const { token1, token2, token3, token4 } = this.props
-
-    openModal$.next({
-      component: <WarnBeforeKokonutInvest />
-    })
 
     merge(
       balancesInWallet$,
       klayswapPoolInfo$,
       liquidities$,
+
+      this.bloc.baseTokenNum$,
+      this.bloc.otherTokens$,
+      this.bloc.token1Amount$,
+      this.bloc.token2Amount$,
+      this.bloc.token3Amount$,
+      this.bloc.token4Amount$,
       this.bloc.isToken1Focused$,
       this.bloc.isToken2Focused$,
       this.bloc.isToken3Focused$,
       this.bloc.isToken4Focused$,
-      this.bloc.otherTokens$,
       this.bloc.resultTokensAmount$,
-      this.bloc.resultLpAmount$,
       this.bloc.lpChangeRatio$,
-
-      // If the user changes farmingTokenAmount || baseTokenAmount || leverage
-      // call view function `getOpenPositionResult`,
-      // it leads to fill following behavior subject,
-      // i) positionValue$
-      // : result of calling view function `getPositionValue(workerAddress, *baseAmt without leverage, farmAmt)`
-      // ii) resultBaseTokenAmount$, resultFarmTokenAmount$
-      // iii) priceImpact$, leverageImpact$
+      this.bloc.resultLpAmount$,
       merge(
         this.bloc.token1Amount$,
         this.bloc.token2Amount$,
         this.bloc.token3Amount$,
         this.bloc.token4Amount$,
-        // this.bloc.baseTokenAmount$,
         this.bloc.leverage$,
+        this.bloc.borrowMore$.pipe(
+          distinctUntilChanged(),
+        ),
       ).pipe(
         switchMap(() => this.bloc.getOpenPositionResult$()),
         tap(() => {
 
-          // Check leverage available
-          const estimatedPositionValueWithoutLeverage = this.bloc.estimatedPositionValueWithoutLeverage$.value
-          const amountToBorrow = this.bloc.getAmountToBorrow()
+          const { baseToken } = this.props
 
-          const newPositionValue = new BigNumber(estimatedPositionValueWithoutLeverage)
-            .plus(amountToBorrow)
+          const newPositionValue = this.bloc.positionValue$.value
+          const { rawKillFactorBps, workFactorBps } = this.bloc.getConfig()
+
+          // Check add collateral available
+
+          const _addCollateralAvailable = new BigNumber(newPositionValue)
+            .multipliedBy(rawKillFactorBps)
+            .gte(new BigNumber(this.bloc.before_debtAmount$.value).multipliedBy(10 ** 4))
+
+          this.bloc.addCollateralAvailable$.next(_addCollateralAvailable)
+
+          const amountToBeBorrowed = this.bloc.getAmountToBorrow()
+
+          const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
+            .plus(amountToBeBorrowed)
             .toString()
 
-          const newDebtValue = new BigNumber(amountToBorrow).toString()
+          console.log(this.bloc.before_debtAmount$.value, 'this.bloc.before_debtAmount$.value')
+          console.log(amountToBeBorrowed, 'amountToBeBorrowed')
 
-          // Min Debt Size Check
-          const ibToken = getIbTokenFromOriginalToken(this.bloc.borrowingAsset$.value)
+          this.bloc.newDebtValue$.next(newDebtValue)
 
-          const { workFactorBps } = this.bloc.getConfig()
+          const newEquityValue = new BigNumber(newPositionValue)
+            .minus(newDebtValue)
+            .toString()
 
+          const finalCalculatedLeverage = new BigNumber(newPositionValue).div(newEquityValue).toNumber()
+          this.bloc.finalCalculatedLeverage$.next(finalCalculatedLeverage)
+
+          // Check borrow more valid
+          const ibToken = getIbTokenFromOriginalToken(baseToken)
           const isDebtSizeValid = newDebtValue == 0 || new BigNumber(newDebtValue).gte(ibToken?.minDebtSize)
+
+          this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
 
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
           const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
 
-          this.bloc.isDebtSizeValid$.next(isDebtSizeValid)
           this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
         })
       ),
+
+      this.bloc.before_positionValue$,
+      this.bloc.before_health$,
+      this.bloc.before_debtAmount$,
+      this.bloc.leverage$,
+
       this.bloc.isLoading$,
       this.bloc.baseToken$,
-      this.bloc.baseTokenNum$,
-      this.bloc.otherTokens$,
-      this.bloc.estimatedPositionValueWithoutLeverage$,
+      this.bloc.positionValue$,
       this.bloc.borrowingAsset$,
-      // If worker changed, 
-      // 1) check current leverage is suitable for the leverage cap
-      // -> If it is higher than leverage cap, lower it
-      // 2) reset farmingTokenAmount$, baseTokenAmount$ to 0
-      this.bloc.worker$.pipe(
-        distinctUntilChanged((a, b) => {
-          return a.workerAddress === b.workerAddress
-        }),
+      this.bloc.newDebtValue$,
+      this.bloc.addCollateralAvailable$,
+      this.bloc.isDebtSizeValid$,
+      this.bloc.borrowMoreAvailable$,
+
+      this.bloc.borrowMore$.pipe(
+        distinctUntilChanged(),
         tap(() => {
-          const { leverageCap } = this.bloc.getConfig()
+          const { workerConfig, leverageCap } = this.bloc.getConfig()
           // If leverage value is greater than leverage cap, lower it to the leverage cap.
           if (new BigNumber(this.bloc.leverage$.value).gt(leverageCap)) {
             this.bloc.leverage$.next(leverageCap)
@@ -135,16 +153,15 @@ class AddPositionMultiToken extends Component {
       this.forceUpdate()
     })
 
-    // Fetch tokens allowances of the vault when worker changed.
+    // Fetch farmingToken & baseToken allowances of the vault when worker changed.
     merge(
       this.bloc.fetchAllowances$,
       this.bloc.worker$,
     ).pipe(
       switchMap(() => {
-        const worker = this.bloc.worker$.value
         return checkAllowances$(
           selectedAddress$.value,
-          worker.vaultAddress,
+          this.props.vaultAddress,
           [token1, token2, token3, token4].filter((t) => !!t)
         )
       }),
@@ -160,8 +177,17 @@ class AddPositionMultiToken extends Component {
   }
 
   renderButtons = () => {
-    let { token1, token2, token3, token4 } = this.props
-    const { ibToken } = this.bloc.getTokens()
+    let { 
+      farmingToken,
+      baseToken,
+      vaultAddress,
+      token1,
+      token2,
+      token3,
+      token4,
+    } = this.props
+
+    const ibToken = getIbTokenFromOriginalToken(baseToken)
 
     // @IMPORTANT MUTATE
     token1 = isKLAY(token1.address) ? tokenList.WKLAY : token1
@@ -169,11 +195,18 @@ class AddPositionMultiToken extends Component {
     token3 = (token3 && isKLAY(token3.address)) ? tokenList.WKLAY : token3
     token4 = (token4 && isKLAY(token4.address)) ? tokenList.WKLAY : token4
 
+    console.log(this.bloc.allowances$.value, 'this.bloc.allowances$.value')
+
     // Allowance check
     const token1Allowance = addressKeyFind(this.bloc.allowances$.value, token1?.address)
     const token2Allowance = addressKeyFind(this.bloc.allowances$.value, token2?.address)
     const token3Allowance = addressKeyFind(this.bloc.allowances$.value, token3?.address)
     const token4Allowance = addressKeyFind(this.bloc.allowances$.value, token4?.address)
+
+    console.log(token1Allowance, 'token1Allowance')
+    console.log(token2Allowance, 'token2Allowance')
+    console.log(token3Allowance, 'token3Allowance')
+    console.log(token4Allowance, 'token4Allowance')
 
     const isToken1Approved = this.bloc.token1Amount$.value == 0 || (token1Allowance && token1Allowance != 0)
     const isToken2Approved = this.bloc.token2Amount$.value == 0 || (token2Allowance && token2Allowance != 0)
@@ -186,9 +219,9 @@ class AddPositionMultiToken extends Component {
     const availableToken3Amount = balancesInWallet$.value[token3?.address]
     const availableToken4Amount = balancesInWallet$.value[token4?.address]
 
-    const exceedAvailBalance = new BigNumber(availableToken1Amount).gt(this.bloc.token1Amount$.value) 
-      || new BigNumber(availableToken2Amount).gt(this.bloc.token2Amount$.value) 
-      || new BigNumber(availableToken3Amount).gt(this.bloc.token3Amount$.value) 
+    const exceedAvailBalance = new BigNumber(availableToken1Amount).gt(this.bloc.token1Amount$.value)
+      || new BigNumber(availableToken2Amount).gt(this.bloc.token2Amount$.value)
+      || new BigNumber(availableToken3Amount).gt(this.bloc.token3Amount$.value)
       || new BigNumber(availableToken4Amount).gt(this.bloc.token4Amount$.value) 
 
     const needTokenApproval = !(isToken1Approved && isToken2Approved && isToken3Approved && isToken4Approved)
@@ -197,15 +230,24 @@ class AddPositionMultiToken extends Component {
 
     const baseTokenAmount = this.bloc.getBaseTokenAmount()
 
-    const isDisabled = exceedAvailBalance
+    const isAddCollateralDisabled =
+      exceedAvailBalance 
       || (baseTokenAmount == 0 && otherTokensAmountSum == 0)
-      || this.bloc.borrowMoreAvailable$.value == false
+      || !this.bloc.addCollateralAvailable$.value
       || !this.bloc.isDebtSizeValid$.value
+
+    const isBorrowMoreDisabled = (Number(noRounding(this.bloc.leverage$.value, 2)) == Number(noRounding(this.props.currentPositionLeverage, 2)))
+      || !this.bloc.borrowMoreAvailable$.value
+      || !this.bloc.isDebtSizeValid$.value
+
+    const isDisabled = this.bloc.borrowMore$.value
+      ? isBorrowMoreDisabled
+      : isAddCollateralDisabled
 
     return (
       <>
         {!this.bloc.isDebtSizeValid$.value && (
-          <p className="AddPosition__minDebtSize">
+          <p className="AdjustPositionMultiToken__minDebtSize">
             {I18n.t('farming.error.minDebtSize', {
               minDebt: `${nFormatter(new BigNumber(ibToken.minDebtSize).div(10 ** ibToken.decimals).toNumber(), 2)} ${this.bloc.borrowingAsset$.value?.title}`
             })}
@@ -214,14 +256,14 @@ class AddPositionMultiToken extends Component {
         {needTokenApproval && (
           <p className="AddPosition__needApprove">{I18n.t('needApprove')}</p>
         )}
-        <div className="AddPosition__buttons">
-          <button onClick={() => closeContentView$.next(true)} className="AddPosition__cancelButton">
+        <div className="AdjustPositionMultiToken__buttons">
+          <button onClick={() => closeContentView$.next(true)} className="AdjustPositionMultiToken__cancelButton">
             {I18n.t('cancel')}
           </button>
           {!isToken1Approved && (
             <button
-              onClick={() => this.bloc.approve(token1, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              onClick={() => this.bloc.approve(token1, vaultAddress)}
+              className="AdjustPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -233,8 +275,8 @@ class AddPositionMultiToken extends Component {
           )}
           {!isToken2Approved && (
             <button
-              onClick={() => this.bloc.approve(token2, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              onClick={() => this.bloc.approve(token2, vaultAddress)}
+              className="AdjustPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -246,8 +288,8 @@ class AddPositionMultiToken extends Component {
           )}
           {!isToken3Approved && (
             <button
-              onClick={() => this.bloc.approve(token3, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              onClick={() => this.bloc.approve(token3, vaultAddress)}
+              className="AdjustPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -259,8 +301,8 @@ class AddPositionMultiToken extends Component {
           )}
           {!isToken4Approved && (
             <button
-              onClick={() => this.bloc.approve(token4, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              onClick={() => this.bloc.approve(token4, vaultAddress)}
+              className="AdjustPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -271,18 +313,27 @@ class AddPositionMultiToken extends Component {
             </button>
           )}
           {!needTokenApproval && (
+
             <button
               onClick={() => {
                 if (isDisabled) return
-                this.bloc.addPosition()
+
+                if (this.bloc.borrowMore$.value) {
+                  this.bloc.borrowMore()
+                  return
+                }
+
+                this.bloc.addCollateral()
               }}
-              className={cx("AddPosition__button", {
-                "AddPosition__button--disabled": isDisabled,
+              className={cx("AdjustPositionMultiToken__button", {
+                "AdjustPositionMultiToken__button--disabled": isDisabled,
               })}
             >
               {this.bloc.isLoading$.value
                 ? "..."
-                : I18n.t('farming')
+                : this.bloc.borrowMore$.value
+                  ? I18n.t('farming.adjustPosition.borrowMore')
+                  : I18n.t('farming.adjustPosition.addCollateral')
               }
             </button>
           )}
@@ -291,7 +342,7 @@ class AddPositionMultiToken extends Component {
     )
   }
 
-  renderSupplyInput = ({ baseToken }) => {
+  renderSupplyInput = () => {
     let { token1, token2, token3, token4 } = this.props
 
     // @IMPORTANT Mutate
@@ -306,17 +357,17 @@ class AddPositionMultiToken extends Component {
       { token: token3, value$: this.bloc.token3Amount$, focused$: this.bloc.isToken3Focused$ },
       { token: token4, value$: this.bloc.token4Amount$, focused$: this.bloc.isToken4Focused$ },
     ]
-    .filter(({ token }) => !!token)
-    .sort((a, b) => {
-      return isWKLAY(b.token.address) ? -1 : 0
-    })
+      .filter(({ token }) => !!token)
+      .sort((a, b) => {
+        return isWKLAY(b.token.address) ? -1 : 0
+      })
 
     return (
       <>
         {sorted.map(({ token, value$, focused$ }) => {
           return (
             <>
-              <SupplyInput 
+              <SupplyInput
                 isProcessing={this.bloc.isLoading$.value}
                 focused$={focused$}
                 decimalLimit={token.decimals}
@@ -344,8 +395,7 @@ class AddPositionMultiToken extends Component {
 
   renderTotalValue = () => {
     const { token1 } = this.props
-    const { tokens, farmingTokens, baseToken } = this.bloc.getTokens()
-
+    const { tokens } = this.bloc.getTokens()
 
     return (
       <>
@@ -360,19 +410,36 @@ class AddPositionMultiToken extends Component {
   }
 
   renderEquityValue = () => {
-    const { token1, token2, token3, token4 } = this.props
+    const { 
+      token1, 
+      token2, 
+      token3, 
+      token4,
+      token1Amt,
+      token2Amt,
+      token3Amt,
+      token4Amt,
+    } = this.props
 
-    // const baseToken = this.bloc.baseToken$.value
-
-    // const baseTokenAmount = this.bloc.getBaseTokenAmount()
+    const token1Amount = new BigNumber(token1Amt)
+      .plus(this.bloc.token1Amount$.value || 0)
+      .toString()
+    const token2Amount = new BigNumber(token2Amt)
+      .plus(this.bloc.token2Amount$.value || 0)
+      .toString()
+    const token3Amount = new BigNumber(token3Amt)
+      .plus(this.bloc.token3Amount$.value || 0)
+      .toString()
+    const token4Amount = new BigNumber(token4Amt)
+      .plus(this.bloc.token4Amount$.value || 0)
+      .toString()
 
     return (
       <>
-        {/* <p>{nFormatter(baseTokenAmount)} {baseToken.title}</p> */}
-        {token1 && <p>{nFormatter(this.bloc.token1Amount$.value)} {token1.title}</p>}
-        {token2 && <p>{nFormatter(this.bloc.token2Amount$.value)} {token2.title}</p>}
-        {token3 && <p>{nFormatter(this.bloc.token3Amount$.value)} {token3.title}</p>}
-        {token4 && <p>{nFormatter(this.bloc.token4Amount$.value)} {token4.title}</p>}
+        {token1 && <p>{nFormatter(token1Amount)} {token1.title}</p>}
+        {token2 && <p>{nFormatter(token2Amount)} {token2.title}</p>}
+        {token3 && <p>{nFormatter(token3Amount)} {token3.title}</p>}
+        {token4 && <p>{nFormatter(token4Amount)} {token4.title}</p>}
       </>
     )
   }
@@ -380,48 +447,45 @@ class AddPositionMultiToken extends Component {
   render() {
     const {
       title,
-      tokens,
-      token1,
-      token2,
-      offset,
-      baseBorrowingInterests,
+      defaultLeverage,
+      yieldFarmingAPR,
+      tradingFeeAPR,
+      klevaRewardAPR,
+      borrowingInterestAPRBefore,
+      workerInfo,
+
+      baseToken,
+
       lpToken,
+      selectedAddress,
+
+      offset,
+      setLeverage,
+
+      baseBorrowingInterestAPR,
+      baseBorrowingInterests,
     } = this.props
 
-    // tokens
-    const { farmingToken, baseToken } = this.bloc.getTokens()
+    const baseTokenTitle = isKLAY(baseToken.address) ? "WKLAY" : baseToken.title
 
     // config
     const { leverageCap } = this.bloc.getConfig()
 
     // before / after
     const {
+      after_totalAPR,
       after_yieldFarmingAPR,
       after_tradingFeeAPR,
       after_klevaRewardsAPR,
       after_borrowingInterestAPR,
-      after_totalAPR,
-    } = this.bloc.getBeforeAfter()
+    } = this.bloc.getBeforeAfterValues({
+      yieldFarmingAPRBefore: yieldFarmingAPR,
+      tradingFeeAPRBefore: tradingFeeAPR,
+      klevaRewardsAPRBefore: klevaRewardAPR,
+      borrowingInterestAPRBefore,
+    })
 
     const apy = toAPY(after_totalAPR)
-
-    const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
-      .div(10 ** baseToken.decimals)
-      .toNumber()
-
-    const radioList = baseBorrowingInterests && Object.entries(baseBorrowingInterests)
-      .filter(([address, { baseInterest }]) => {
-        return baseInterest != 0
-      })
-      .map(([address, { token, baseInterest }]) => {
-        return {
-          asset: token,
-          label: `${I18n.t('borrow', { title: token.title })}`,
-          value: `${new BigNumber(baseInterest)
-            .multipliedBy(this.bloc.leverage$.value - 1)
-            .toFixed(2)}%`,
-        }
-      })
 
     const lpTokenRatio = addressKeyFind(liquidities$.value, lpToken.address)
 
@@ -460,16 +524,43 @@ class AddPositionMultiToken extends Component {
       }
     })
 
+    const borrowingAmount = new BigNumber(this.bloc.getAmountToBorrow())
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+
+    const resultDebtAmount = new BigNumber(this.bloc.newDebtValue$.value)
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+
+    // debt ratio
+    const before_debtRatio = new BigNumber(this.bloc.before_debtAmount$.value)
+      .div(this.bloc.before_positionValue$.value)
+      .multipliedBy(100)
+      .toNumber()
+
+    const debtRatio = new BigNumber(this.bloc.newDebtValue$.value)
+      .div(this.bloc.positionValue$.value)
+      .multipliedBy(100)
+      .toNumber()
+
+    let debtDelta = new BigNumber(resultDebtAmount)
+      .minus(new BigNumber(this.bloc.before_debtAmount$.value).div(10 ** baseToken.decimals))
+      .toNumber()
+
+    debtDelta = debtDelta > 0.1
+      ? debtDelta
+      : 0
+
     return (
-      <div className="AddPosition">
-        <div className="AddPosition__content">
-          <div className="AddPosition__left">
-            <div className="AddPosition__floatingHeader">
-              <AddPositionHeader
+      <div className="AdjustPositionMultiToken">
+        <div className="AdjustPositionMultiToken__content">
+          <div className="AdjustPositionMultiToken__left">
+            <div className="AdjustPositionMultiToken__floatingHeader">
+              <ModalHeader
                 title={title}
               />
               <LabelAndValue
-                className="AddPosition__apy"
+                className="AdjustPositionMultiToken__apy"
                 label={I18n.t('apy')}
                 value={(
                   <>
@@ -481,9 +572,8 @@ class AddPositionMultiToken extends Component {
                         openModal$.next({
                           component: (
                             <FarmAPRDetailInfo2
-                              title={`${token1.title}+${token2.title}`}
-                              token1={token1}
-                              token2={token2}
+                              title={`${lpToken.title}`}
+                              selectedAddress={selectedAddress}
                               yieldFarmingAPR={after_yieldFarmingAPR}
                               klevaRewardAPR={after_klevaRewardsAPR}
                               tradingFeeAPR={after_tradingFeeAPR}
@@ -499,38 +589,65 @@ class AddPositionMultiToken extends Component {
                 )}
               />
             </div>
+
             <PoolTokenRatio
               className="PoolTokenRatio PoolTokenRatio--mobileOnly"
               lpToken={lpToken}
               list={lpTokenRatioList}
             />
-
-            {this.renderSupplyInput({ baseToken })}
-            <LeverageInput
-              offset={offset}
-              leverageCap={leverageCap}
-              setLeverage={this.bloc.setLeverageValue}
-              leverage$={this.bloc.leverage$}
+            <Tabs
+              className="AdjustPositionMultiToken__tabs"
+              list={[
+                {
+                  title: I18n.t('farming.adjustPosition.addCollateral'),
+                  onClick: () => this.bloc.borrowMore$.next(false),
+                  isActive: !this.bloc.borrowMore$.value,
+                },
+                {
+                  title: I18n.t('farming.adjustPosition.borrowMore'),
+                  onClick: () => this.bloc.borrowMore$.next(true),
+                  isActive: this.bloc.borrowMore$.value,
+                }
+              ]}
             />
-            <div className="AddPosition__borrowingAssetList">
-              {radioList.map(({ asset, label, value }) => {
-                const isActive = this.bloc.borrowingAsset$.value?.address.toLowerCase() == asset?.address?.toLowerCase()
-
-                return (
-                  <BorrowingItem
-                    active={isActive}
-                    onClick={() => {
-                      this.bloc.selectWorker(asset)
-                    }}
-                    label={label}
-                    value={value}
+            {this.bloc.borrowMore$.value
+              ? (
+                <>
+                  <LeverageInput
+                    offset={offset}
+                    leverageLowerBound={this.props.currentPositionLeverage}
+                    leverageCap={leverageCap}
+                    setLeverage={this.bloc.setLeverageValue}
+                    leverage$={this.bloc.leverage$}
                   />
-                )
-              })}
-            </div>
+                  <LabelAndValue
+                    className="AdjustPositionMultiToken__borrowingAsset"
+                    label={I18n.t('farming.adjustPosition.borrowingAsset')}
+                    value={`${nFormatter(debtDelta)} ${baseTokenTitle}`}
+                  />
+                  <LabelAndValue
+                    className="AdjustPositionMultiToken__debtRatio2"
+                    label={I18n.t('myasset.farming.debtRatio')}
+                    value={(
+                      <>
+                        <BeforeAfter
+                          before={`${before_debtRatio.toFixed(2)}%`}
+                          after={`${debtRatio.toFixed(2)}%`}
+                        />
+                      </>
+                    )}
+                  />
+                </>
+              )
+              : (
+                <>
+                  {this.renderSupplyInput()}
+                </>
+              )
+            }
           </div>
-          <hr className="AddPosition__hr AddPosition__hr--mobile" />
-          <div className="AddPosition__right">
+          <ThickHR />
+          <div className="AdjustPositionMultiToken__right">
             {/* lp token ratio */}
             <PoolTokenRatio
               className="PoolTokenRatio PoolTokenRatio--desktopOnly"
@@ -550,28 +667,48 @@ class AddPositionMultiToken extends Component {
             <SlippageSetting />
 
             <LabelAndValue
-              className="AddPosition__equity"
+              className="AdjustPositionMultiToken__debtRatio"
+              label={I18n.t('myasset.farming.debtRatio')}
+              value={(
+                <>
+                  <BeforeAfter
+                    before={`${before_debtRatio.toFixed(2)}%`}
+                    after={`${debtRatio.toFixed(2)}%`}
+                  />
+                </>
+              )}
+            />
+
+            <LabelAndValue
+              className="AdjustPositionMultiToken__equity"
               label={(
                 <>
-                  <p>{I18n.t('myasset.farming.equityValue.addPosition')}</p>
-                  {/* <p>{I18n.t('farming.summary.equity.description')}</p> */}
+                  {this.bloc.borrowMore$.value
+                    ? <p>{I18n.t('myasset.farming.equityValue.borrowMore')}</p>
+                    : (
+                      <>
+                        <p>{I18n.t('myasset.farming.equityValue.addCollateral')}</p>
+                        <p className="AdjustPositionMultiToken__equitySubDescription">{I18n.t('farming.summary.equity.description')}</p>
+                      </>
+                    )
+                  }
                 </>
               )}
               value={this.renderEquityValue()}
             />
             <LabelAndValue
-              className="AddPosition__debt"
-              label={I18n.t('myasset.farming.debtValue.addPosition')}
-              value={`${nFormatter(borrowingAmount)} ${baseToken.title}`}
+              className="AdjustPositionMultiToken__debt"
+              label={I18n.t('farming.summary.debt')}
+              value={`${nFormatter(resultDebtAmount)} ${baseTokenTitle}`}
             />
             <LabelAndValue
-              className="AddPosition__totalDeposit"
+              className="AdjustPositionMultiToken__totalDeposit"
               label={I18n.t('farming.summary.totalDeposit')}
               value={this.renderTotalValue()}
             />
           </div>
         </div>
-        <div className="AddPosition__footer">
+        <div className="AdjustPositionMultiToken__footer">
           {this.renderButtons()}
         </div>
       </div>
@@ -579,4 +716,4 @@ class AddPositionMultiToken extends Component {
   }
 }
 
-export default AddPositionMultiToken
+export default AdjustPositionMultiToken

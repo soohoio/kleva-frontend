@@ -37,6 +37,11 @@ class KilledGridItem extends Component {
       farmingToken,
       baseToken,
       exchange, // klayswap
+      token1,
+      token2,
+      token3,
+      token4,
+      tokens,
     } = this.props
 
     const leverage = new BigNumber(positionValueAtKilled).div(
@@ -49,11 +54,13 @@ class KilledGridItem extends Component {
       <div className="KilledGridItem">
         <div className="KilledGridItem__asset">
           <div className="KilledGridItem__iconWrapper">
-            <img className="KilledGridItem__icon" src={farmingToken.iconSrc} />
-            <img className="KilledGridItem__icon" src={baseToken.iconSrc} />
+            <img className="KilledGridItem__icon" src={token1.iconSrc} />
+            <img className="KilledGridItem__icon KilledGridItem__icon--baseToken" src={token2.iconSrc} />
+            {token3 && <img className="KilledGridItem__icon KilledGridItem__icon--baseToken" src={token3.iconSrc} />}
+            {token4 && <img className="KilledGridItem__icon KilledGridItem__icon--baseToken" src={token4.iconSrc} />}
           </div>
           <div className="KilledGridItem__titleWrapper">
-            <p className="KilledGridItem__poolInfoTitle">{farmingToken.title}+{baseToken.title}</p>
+            <p className="KilledGridItem__poolInfoTitle">{lpToken.title}</p>
             <p className="KilledGridItem__poolInfoExchange">{exchange} #{positionId}</p>
           </div>
         </div>

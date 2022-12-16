@@ -28,9 +28,9 @@ class PoolTokenRatio extends Component {
   }
     
   render() {
-    const { list, lpToken } = this.props
+    const { list, lpToken, className } = this.props
     return (
-      <div className="PoolTokenRatio">
+      <div className={cx("PoolTokenRatio", className)}>
         <p className="PoolTokenRatio__title">{I18n.t('poolTokenRatio', { title: lpToken.title })}</p>
         {list.map(({ token, valueInUSD, tokenRatio }) => {
           return (

@@ -18,6 +18,8 @@ import LabelAndValue from 'components/LabelAndValue'
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY, toFixed } from '../../utils/calc'
 import QuestionMark from '../common/QuestionMark'
 import ClosePosition from '../farming/ClosePosition'
+import AdjustPositionMultiToken from '../farming/AdjustPositionMultiToken';
+import ClosePositionMultiToken from '../farming/ClosePositionMultiToken'
 
 class FarmAssetGridItem extends Component {
   destroy$ = new Subject()
@@ -108,6 +110,16 @@ class FarmAssetGridItem extends Component {
 
       token1,
       token2,
+      token3,
+      token4,
+      tokens,
+
+      token1Amt,
+      token2Amt,
+      token3Amt,
+      token4Amt,
+
+      health,
     } = this.props
 
     const debtValueParsed = new BigNumber(debtValue)
@@ -180,11 +192,25 @@ class FarmAssetGridItem extends Component {
       <div className="FarmAssetGridItem">
         <div className="FarmAssetGridItem__asset">
           <div className="FarmAssetGridItem__iconWrapper">
-            <img className="FarmAssetGridItem__icon" src={farmingToken.iconSrc} />
-            <img className="FarmAssetGridItem__icon" src={baseToken.iconSrc} />
+            {tokens 
+              ? (
+                <>
+                  <img className="FarmAssetGridItem__icon" src={token1.iconSrc} />
+                  <img className="FarmAssetGridItem__icon" src={token2.iconSrc} />
+                  {token3 && <img className="FarmAssetGridItem__icon" src={token3.iconSrc} />}
+                  {token4 && <img className="FarmAssetGridItem__icon" src={token4.iconSrc} />}
+                </>
+              )
+              : (
+                <>
+                  <img className="FarmAssetGridItem__icon" src={farmingToken.iconSrc} />
+                  <img className="FarmAssetGridItem__icon" src={baseToken.iconSrc} />
+                </>
+              )
+            }
           </div>
           <div className="FarmAssetGridItem__titleWrapper">
-            <p className="FarmAssetGridItem__poolInfoTitle">{farmingToken.title}+{baseToken.title}</p>
+            <p className="FarmAssetGridItem__poolInfoTitle">{lpToken.title}</p>
             <p className="FarmAssetGridItem__poolInfoExchange">{exchange} #{positionId}</p>
           </div>
         </div>
@@ -202,12 +228,40 @@ class FarmAssetGridItem extends Component {
         </div>
         <div className="FarmAssetGridItem__values">
           <p className="FarmAssetGridItem__marketValue">${nFormatter(balanceTotalInUSD, 2)}</p>
-          <p className="FarmAssetGridItem__assetValue">{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
-          <p className="FarmAssetGridItem__assetValue">{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
+          {tokens 
+            ? (
+              <>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(token1Amt, 4)} {token1.title}</p>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(token2Amt, 4)} {token2.title}</p>
+                {token3 && <p className="FarmAssetGridItem__assetValue">{noRounding(token3Amt, 4)} {token3.title}</p>}
+                {token4 && <p className="FarmAssetGridItem__assetValue">{noRounding(token4Amt, 4)} {token4.title}</p>}
+              </>
+            )
+            : (
+              <>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(userFarmingTokenAmount, 4)} {farmingToken.title}</p>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(userBaseTokenAmount, 4)} {baseToken.title}</p>
+              </>
+            )
+          }
         </div>
         <div className="FarmAssetGridItem__equityValue">
-          <p className="FarmAssetGridItem__assetValue">{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
-          <p className="FarmAssetGridItem__assetValue">{nFormatter(equityBaseAmount)} {baseToken.title}</p>
+          {tokens 
+            ? (
+              <>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(token1Amt, 4)} {token1.title}</p>
+                <p className="FarmAssetGridItem__assetValue">{noRounding(token2Amt, 4)} {token2.title}</p>
+                {token3 && <p className="FarmAssetGridItem__assetValue">{noRounding(token3Amt, 4)} {token3.title}</p>}
+                {token4 && <p className="FarmAssetGridItem__assetValue">{noRounding(token4Amt, 4)} {token4.title}</p>}
+              </>
+            )
+            : (
+              <>
+                <p className="FarmAssetGridItem__assetValue">{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
+                <p className="FarmAssetGridItem__assetValue">{nFormatter(equityBaseAmount)} {baseToken.title}</p>
+              </>
+            )
+          }
         </div>
         <div className="FarmAssetGridItem__debt">
           <p>
@@ -245,37 +299,97 @@ class FarmAssetGridItem extends Component {
 
               openContentView$.next({
                 key: "ClosePosition",
-                component: (
-                  <ClosePosition
-                    id={id}
-                    lpToken={lpToken}
-                    positionId={positionId}
-                    vaultAddress={vaultAddress}
-                    farmingToken={farmingToken}
-                    baseToken={baseToken}
-                    workerInfo={workerInfo}
-                    leverageCap={leverageCap}
+                component: exchange === "kokonutswap"
+                  ? (
+                    <ClosePositionMultiToken
+                      id={id}
+                      lpToken={lpToken}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+                      tokens={tokens}
+                      positionId={positionId}
+                      vaultAddress={vaultAddress}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
+                      workerInfo={workerInfo}
+                      leverageCap={leverageCap}
+                      lpShare={lpShare}
+                      totalShare={totalShare}
+                      totalStakedLpBalance={totalStakedLpBalance}
 
-                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                      token1Amt={token1Amt}
+                      token2Amt={token2Amt}
+                      token3Amt={token3Amt}
+                      token4Amt={token4Amt}
 
-                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+                      positionValue={positionValue}
+                      equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                      health={health}
+                      debtValue={debtValue}
+
+                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
 
 
-                    selectedAddress={selectedAddress}
-                    title={I18n.t('myasset.farming.adjustPosition')}
-                    currentPositionLeverage={currentPositionLeverage}
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
 
-                    yieldFarmingAPR={before_yieldFarmingAPR}
-                    tradingFeeAPR={before_tradingFeeAPR}
-                    klevaRewardAPR={before_klevaRewardsAPR}
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
 
-                    lpShare={lpShare}
-                    totalShare={totalShare}
-                    totalStakedLpBalance={totalStakedLpBalance}
+                      offset={0.5}
+                    />
+                  )
+                  : (
+                    <ClosePosition
+                      id={id}
+                      lpToken={lpToken}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+                      tokens={tokens}
+                      positionId={positionId}
+                      vaultAddress={vaultAddress}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
+                      workerInfo={workerInfo}
+                      leverageCap={leverageCap}
+                      lpShare={lpShare}
+                      totalShare={totalShare}
+                      totalStakedLpBalance={totalStakedLpBalance}
 
-                    offset={0.5}
-                  />
-                )
+                      token1Amt={token1Amt}
+                      token2Amt={token2Amt}
+                      token3Amt={token3Amt}
+                      token4Amt={token4Amt}
+
+                      positionValue={positionValue}
+                      equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                      health={health}
+                      debtValue={debtValue}
+
+                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
+
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
+
+                      offset={0.5}
+                    />
+                  )
               })
             }}
           >
@@ -287,35 +401,82 @@ class FarmAssetGridItem extends Component {
 
               openContentView$.next({
                 key: "AdjustPosition",
-                component: (
-                  <AdjustPosition
-                    id={id}
-                    token1={token1}
-                    token2={token2}
-                    lpToken={lpToken}
-                    positionId={positionId}
-                    vaultAddress={vaultAddress}
-                    farmingToken={farmingToken}
-                    baseToken={baseToken}
-                    workerInfo={workerInfo}
-                    leverageCap={leverageCap}
+                component: exchange === "kokonutswap"
+                  ? (
+                    <AdjustPositionMultiToken
+                      id={id}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+                      tokens={tokens}
 
-                    borrowingInterestAPRBefore={before_borrowingInterestAPR}
+                      token1Amt={token1Amt}
+                      token2Amt={token2Amt}
+                      token3Amt={token3Amt}
+                      token4Amt={token4Amt}
 
-                    baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+                      positionValue={positionValue}
+                      equityValue={new BigNumber(positionValue).minus(debtValue).toString()}
+                      health={health}
+                      debtValue={debtValue}
+
+                      lpToken={lpToken}
+                      positionId={positionId}
+                      vaultAddress={vaultAddress}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
+                      workerInfo={workerInfo}
+                      leverageCap={leverageCap}
+
+                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
 
 
-                    selectedAddress={selectedAddress}
-                    title={I18n.t('myasset.farming.adjustPosition')}
-                    currentPositionLeverage={currentPositionLeverage}
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
 
-                    yieldFarmingAPR={before_yieldFarmingAPR}
-                    tradingFeeAPR={before_tradingFeeAPR}
-                    klevaRewardAPR={before_klevaRewardsAPR}
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
 
-                    offset={0.5}
-                  />
-                )
+                      offset={0.5}
+                    />
+                  )
+                  : (
+                    <AdjustPosition
+                      id={id}
+                      token1={token1}
+                      token2={token2}
+                      token3={token3}
+                      token4={token4}
+                      tokens={tokens}
+                      lpToken={lpToken}
+                      positionId={positionId}
+                      vaultAddress={vaultAddress}
+                      farmingToken={farmingToken}
+                      baseToken={baseToken}
+                      workerInfo={workerInfo}
+                      leverageCap={leverageCap}
+
+                      borrowingInterestAPRBefore={before_borrowingInterestAPR}
+
+                      baseBorrowingInterestAPR={this.getBorrowingInterestAPR()}
+
+
+                      selectedAddress={selectedAddress}
+                      title={I18n.t('myasset.farming.adjustPosition')}
+                      currentPositionLeverage={currentPositionLeverage}
+
+                      yieldFarmingAPR={before_yieldFarmingAPR}
+                      tradingFeeAPR={before_tradingFeeAPR}
+                      klevaRewardAPR={before_klevaRewardsAPR}
+
+                      offset={0.5}
+                    />
+                  )
               })
             }}
           >

@@ -52,11 +52,6 @@ export default class {
     this.token3Amount$ = new BehaviorSubject('')
     this.token4Amount$ = new BehaviorSubject('')
 
-    // this.farmingTokenAmount$ = new BehaviorSubject('')
-    // this.baseTokenAmount$ = new BehaviorSubject('')
-
-    // this.priceImpact$ = new BehaviorSubject('')
-    // this.leverageImpact$ = new BehaviorSubject('')
     this.allowances$ = new BehaviorSubject({})
     this.leverage$ = new BehaviorSubject(1)
     this.borrowMoreAvailable$ = new BehaviorSubject(true)
@@ -283,17 +278,8 @@ export default class {
       }),
       tap(([openPositionResult_leverage]) => {
 
-        console.log(openPositionResult_leverage, 'openPositionResult_leverage')
-
         this.resultTokensAmount$.next(openPositionResult_leverage.receiveTokensAmt)
         this.resultLpAmount$.next(openPositionResult_leverage.receiveLpAmt)
-
-        // console.log(openPositionResult_leverage.receiveLpAmt, 'openPositionResult_leverage.receiveLpAmt')
-        // console.log(openPositionResult_leverage.lpAmtOnBalanced, 'openPositionResult_leverage.lpAmtOnBalanced')
-
-        openPositionResult_leverage.lpAmtOnBalanced = new BigNumber(openPositionResult_leverage.lpAmtOnBalanced)
-          .multipliedBy(2)
-          .toString()
 
         const lpChangeRatio = new BigNumber(openPositionResult_leverage.receiveLpAmt)
           .gt(openPositionResult_leverage.lpAmtOnBalanced) 
@@ -307,8 +293,6 @@ export default class {
                   .div(openPositionResult_leverage.lpAmtOnBalanced)
               )
               .toNumber()
-
-        console.log(lpChangeRatio, 'lpChangeRatio')
 
         this.lpChangeRatio$.next(isNaN(lpChangeRatio) 
           ? 0
@@ -413,20 +397,11 @@ export default class {
         : "KOKONUTSWAP:ADD_ALL"
     })
 
-    console.log(strategyType, 'strategyType')
-    console.log(strategyAddress, 'strategyAddress')
-
     const borrowAmount = this.getAmountToBorrow()
-
-    console.log(borrowAmount, 'borrowAmount')
 
     const MIN_LP_AMOUNT = new BigNumber(this.resultLpAmount$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
       .toFixed(0)
-    console.log(MIN_LP_AMOUNT, '@MIN_LP_AMOUNT')
-
-
-    console.log(tokenAmounts, 'tokenAmounts')
 
     const ext = strategyType === "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])

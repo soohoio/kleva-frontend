@@ -219,12 +219,12 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "share",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "balance",
         "type": "uint256"
       }
     ],
