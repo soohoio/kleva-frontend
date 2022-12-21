@@ -368,6 +368,7 @@ export const en = {
   'priceImpactWithFee': 'Price Impact (Swap Fee Included)',
   'priceImpact.modal.description': 'In order to participate in farming, two tokens must be deposited in a ratio of 50:50. If the ratio is not 50:50, tokens with greater value are automatically swapped into smaller tokens and deposited. In the process of swapping, losses may occur due to differences between the actual number of tokens being swapped and the number of tokens expected to be received. The larger the amount of tokens deposited, the greater the change in trading price and the greater the loss from swapping.',
   'slippageSetting': 'Slippage Settings',
+  'slippageSetting.kokonut': 'Slippage Settings',
   'slippageSetting.description': 'Swap is disabled outside the set slippage range.',
   'slippage': 'Slippage',
   'slippage.modal.description': 'In order to participate in farming, two tokens must be deposited in a ratio of 50:50. If the ratio is not 50:50, tokens with greater value are automatically swapped into smaller tokens and deposited. In the process of swapping, losses may occur due to differences between the actual number of tokens being swapped and the number of tokens expected to be received. The larger the amount of tokens deposited, the greater the change in trading price and the greater the loss from swapping.',
@@ -415,7 +416,7 @@ export const en = {
   'warnBeforeKokonutInvest.title': '투자 진행 전 고려 사항',
   'warnBeforeKokonutInvest.description1': '선택하신 풀에서는 전체 출금 및 부분 출금 시 <text style="color: #265FFC;">토큰 스왑을 최소화하여 출금</text> 옵션이 지원되지 않으며, <text style="color: #265FFC;">전부 대여 토큰으로 전환</text>되어 출금됩니다.',
   'warnBeforeKokonutInvest.description2': '출금 시에는 <text style="color: #265FFC;">부분 출금하기</text>를 통해 프라이스 임팩트를 최소화하실 수 있습니다.',
-  'lpImpact': '토큰 비율에 의한 손실',
+  'lpImpact.modal.title': '토큰 비율에 의한 손실',
   'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
 
 }
@@ -790,6 +791,7 @@ export const ko = {
   'priceImpactWithFee': '프라이스 임팩트 (스왑 수수료 포함)',
   'priceImpact.modal.description': '레버리지 투자에 참여하기 위해서는 두 토큰 가치의 비율이 50:50인 형태로 예치되어야 하며 50:50을 벗어난 경우, 가치가 더 큰 토큰이 작은 토큰으로 자동 스왑되어 예치됩니다. 스왑이 되는 과정에서 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있으며 토큰 규모가 클수록 스왑 시 거래 가격 변동이 크고 손실도 커질 수 있습니다.',
   'slippageSetting': '슬리피지 (체결 편차) 설정',
+  'slippageSetting.kokonut': '슬리피지 설정',
   'slippageSetting.description': '토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않습니다.',
   'slippage': '슬리피지',
   'slippage.modal.description': '레버리지 투자에 참여하기 위해 토큰을 스왑하는 시점에 다른 유저의 스왑에 의하여 거래 가격이 변동될 수 있으며, 이에 따라 실제 스왑되는 토큰 수량과 예상 토큰 수량의 차이에 의한 손실이 발생할 수 있습니다. 슬리피지를 설정하면 토큰 스왑 시 설정한 범위를 벗어나는 가격에는 스왑을 진행하지 않아 예치 시 발생하는 손실을 통제할 수 있습니다.',
@@ -837,7 +839,7 @@ export const ko = {
   'warnBeforeKokonutInvest.title': '투자 진행 전 고려 사항',
   'warnBeforeKokonutInvest.description1': '선택하신 풀에서는 전체 출금 및 부분 출금 시 <text style="color: #265FFC;">토큰 스왑을 최소화하여 출금</text> 옵션이 지원되지 않으며, <text style="color: #265FFC;">전부 대여 토큰으로 전환</text>되어 출금됩니다.',
   'warnBeforeKokonutInvest.description2': '출금 시에는 <text style="color: #265FFC;">부분 출금하기</text>를 통해 프라이스 임팩트를 최소화하실 수 있습니다.',
-  'lpImpact': '토큰 비율에 의한 손실',
+  'lpImpact.modal.title': '토큰 비율에 의한 손실',
   'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
 
 }

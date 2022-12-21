@@ -656,7 +656,9 @@ class AdjustPositionMultiToken extends Component {
               isGain={this.bloc.isLpGain$.value}
               infoModal={<LPImpactInfoModal />}
             />
-            <SlippageSetting />
+            <SlippageSetting 
+              title={I18n.t('slippageSetting.kokonut')}
+            />
 
             {/* <LabelAndValue
               className="AdjustPositionMultiToken__debtRatio"

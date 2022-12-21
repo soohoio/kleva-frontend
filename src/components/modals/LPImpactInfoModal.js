@@ -20,7 +20,7 @@ class LPImpactInfoModal extends Component {
 
   render() {
     return (
-      <Modal title={I18n.t('lpImpact')}>
+      <Modal title={I18n.t('lpImpact.modal.title')}>
         {I18n.t('lpImpact.modal.description')}
       </Modal>
     )

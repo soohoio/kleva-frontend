@@ -33,10 +33,11 @@ class SlippageSetting extends Component {
   }
     
   render() {
+    const { title } = this.props
     return (
       <div className="SlippageSetting">
         <QuestionMark 
-          title={I18n.t('slippageSetting')}
+          title={title || I18n.t('slippageSetting')}
           onClick={() => {
             openModal$.next({
               component: <SlippageInfoModal />
