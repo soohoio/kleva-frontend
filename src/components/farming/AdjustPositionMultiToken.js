@@ -658,7 +658,7 @@ class AdjustPositionMultiToken extends Component {
             />
             <SlippageSetting />
 
-            <LabelAndValue
+            {/* <LabelAndValue
               className="AdjustPositionMultiToken__debtRatio"
               label={I18n.t('myasset.farming.debtRatio')}
               value={(
@@ -669,7 +669,7 @@ class AdjustPositionMultiToken extends Component {
                   />
                 </>
               )}
-            />
+            /> */}
 
             <LabelAndValue
               className="AdjustPositionMultiToken__equity"
