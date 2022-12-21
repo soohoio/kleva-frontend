@@ -14,7 +14,7 @@ import { showDetailDefault$, showSummaryDefault$, slippage$ } from '../../stream
 import { klevaAnnualRewards$, poolReserves$, fetchPositions$, klayswapPoolInfo$ } from '../../streams/farming'
 import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, optimalDeposit } from '../../utils/calc'
 import { addressKeyFind, isSameAddress } from '../../utils/misc'
-import { tokenPrices$ } from '../../streams/tokenPrice'
+import { liquidities$, tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import CompletedModal from '../common/CompletedModal'
 import { currentTab$ } from '../../streams/view'
@@ -70,6 +70,8 @@ export default class {
     this.isToken2Focused$ = new BehaviorSubject(false)
     this.isToken3Focused$ = new BehaviorSubject(false)
     this.isToken4Focused$ = new BehaviorSubject(false)
+
+    this.fiftyfiftyMode$ = new BehaviorSubject(false)
 
     this.init()
   }
@@ -457,5 +459,45 @@ export default class {
         )
       })
     })
+  }
+
+  handleFiftyFiftyMode = ({ from }) => {
+    const lpTokenRatio = addressKeyFind(liquidities$.value, this.lpToken.address)
+
+    const token1Reserve = new BigNumber(lpTokenRatio[0].amount).toString()
+    const token2Reserve = new BigNumber(lpTokenRatio[1].amount).toString()
+
+    if (from === 'token1') {
+
+      if (this.token1Amount$.value == 0) {
+        this.token2Amount$.next(0)
+        return
+      }
+
+      const optimalAmount = new BigNumber(this.token1Amount$.value)
+        .multipliedBy(new BigNumber(token2Reserve).div(token1Reserve))
+
+      this.token2Amount$.next(
+        new BigNumber(optimalAmount)
+          .toFixed(6)
+      )
+      return
+    }
+
+    if (from === 'token2') {
+
+      if (this.token2Amount$.value == 0) {
+        this.token1Amount$.next(0)
+        return
+      }
+
+      const optimalAmount = new BigNumber(this.token2Amount$.value)
+        .multipliedBy(new BigNumber(token1Reserve).div(token2Reserve))
+
+      this.token1Amount$.next(
+        new BigNumber(optimalAmount)
+          .toFixed(6)
+      )
+    }
   }
 } 

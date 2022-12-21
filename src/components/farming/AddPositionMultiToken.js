@@ -62,6 +62,23 @@ class AddPositionMultiToken extends Component {
       this.bloc.lpChangeRatio$,
       this.bloc.isLpGain$,
 
+      this.bloc.fiftyfiftyMode$.pipe(
+        distinctUntilChanged(),
+        tap((isModeOn) => {
+          if (!isModeOn) return
+          const isDisabled = !!token3
+          if (isDisabled) return
+
+          if (this.bloc.token1Amount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'token1' })
+          }
+
+          if (this.bloc.token2Amount$.value != 0) {
+            return this.bloc.handleFiftyFiftyMode({ from: 'token2' })
+          }
+        })
+      ),
+
       // If the user changes farmingTokenAmount || baseTokenAmount || leverage
       // call view function `getOpenPositionResult`,
       // it leads to fill following behavior subject,
@@ -70,8 +87,26 @@ class AddPositionMultiToken extends Component {
       // ii) resultBaseTokenAmount$, resultFarmTokenAmount$
       // iii) priceImpact$, leverageImpact$
       merge(
-        this.bloc.token1Amount$,
-        this.bloc.token2Amount$,
+        this.bloc.token1Amount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isToken1Focused$.value) return
+            const isDisabled = !!token3
+            if (isDisabled) return
+
+            this.bloc.handleFiftyFiftyMode({ from: 'token1' })
+          })
+        ),
+        this.bloc.token2Amount$.pipe(
+          tap(() => {
+            if (!this.bloc.fiftyfiftyMode$.value) return
+            if (!this.bloc.isToken2Focused$.value) return
+            const isDisabled = !!token3
+            if (isDisabled) return
+
+            this.bloc.handleFiftyFiftyMode({ from: 'token2' })
+          })
+        ),
         this.bloc.token3Amount$,
         this.bloc.token4Amount$,
         // this.bloc.baseTokenAmount$,
@@ -315,15 +350,21 @@ class AddPositionMultiToken extends Component {
     .sort((a, b) => {
       return isWKLAY(b.token.address) ? -1 : 0
     })
+    
+    // fiftyfifty mode
+    const isFiftyfiftyEnabled = token1 && token2 && !token3 && !token4
 
     return (
       <>
-        {sorted.map(({ token, value$, focused$ }) => {
+        {sorted.map(({ token, value$, focused$ }, idx) => {
           return (
             <>
               <SupplyInput 
                 isProcessing={this.bloc.isLoading$.value}
                 focused$={focused$}
+                headerRightContent={isFiftyfiftyEnabled && idx === 0 && (
+                  <Checkbox title={I18n.t('fiftyfiftyMode')} checked$={this.bloc.fiftyfiftyMode$} />
+                )}
                 decimalLimit={token.decimals}
                 value$={value$}
                 valueLimit={balancesInWallet$.value[token?.address] && balancesInWallet$.value[token?.address].balanceParsed}

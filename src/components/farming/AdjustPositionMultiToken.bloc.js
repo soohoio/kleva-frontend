@@ -272,7 +272,7 @@ export default class {
     return forkJoin([
       getOpenPositionResult_kokonut$({
         workerAddress: workerInfo.workerAddress,
-        tokenAmounts: newTokenInputAmounts,
+        tokenAmounts: borrowIncludedNewTokenInputAmounts,
         positionId
       }),
       getPositionValue_kokonut$({
