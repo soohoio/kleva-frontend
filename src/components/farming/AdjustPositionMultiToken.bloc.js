@@ -215,7 +215,25 @@ export default class {
         .multipliedBy(10 ** this[`token${idx + 1}`].decimals)
         .toFixed(0)
     })
+    
+    // borrow included (new token input amotuns + borrowed token amount)
+    const borrowIncludedNewTokenInputAmounts = this.tokens.map((t, idx) => {
+      const num = idx + 1
 
+      const amount = BigNumber(this[`token${num}Amount$`].value || 0)
+        .multipliedBy(10 ** this[`token${num}`].decimals)
+        .toFixed(0)
+
+      if (num == this.baseTokenNum$.value) {
+        return new BigNumber(amount)
+          .plus(this.getAmountToBorrow())
+          .toString()
+      }
+
+      return amount
+    })
+
+    // borrow included (new token input amounts + already positioned amounts + borrowed token amount)
     const borrowIncludedTokenAmounts = this.tokens
       .map((t, idx) => {
         const num = idx + 1
@@ -242,18 +260,19 @@ export default class {
       newTokenInputAmounts,
       tokenAmounts,
       borrowIncludedTokenAmounts,
+      borrowIncludedNewTokenInputAmounts,
     }
   }
 
   getOpenPositionResult$ = () => {
     const { workerInfo, positionId } = this.comp.props
 
-    const { token1Amount, token2Amount, token3Amount, token4Amount, tokenAmounts, baseTokenAmount, borrowIncludedTokenAmounts, newTokenInputAmounts } = this.getTokenAmountsPure()
+    const { borrowIncludedTokenAmounts, borrowIncludedNewTokenInputAmounts } = this.getTokenAmountsPure()
 
     return forkJoin([
       getOpenPositionResult_kokonut$({
         workerAddress: workerInfo.workerAddress,
-        tokenAmounts: newTokenInputAmounts,
+        tokenAmounts: borrowIncludedNewTokenInputAmounts,
         positionId
       }),
       getPositionValue_kokonut$({
@@ -264,8 +283,6 @@ export default class {
       tap(([ openPositionResult, positionValue ]) => {
 
         this.positionValue$.next(positionValue)
-
-        console.log(openPositionResult, 'openPositionResult')
 
         this.resultTokensAmount$.next(openPositionResult.receiveTokensAmt)
         this.resultNewLpAmount$.next(openPositionResult.receiveLpAmt)
@@ -436,12 +453,14 @@ export default class {
 
     const strategyAddress = STRATEGIES["KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"]
 
-    const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
-      .multipliedBy(1 - (Number(slippage$.value) / 100))
-      .toFixed(0)
+    // const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
+    //   .multipliedBy(1 - (Number(slippage$.value) / 100))
+    //   .toFixed(0)
 
-    console.log(this.resultNewLpAmount$.value, 'this.resultNewLpAmount$.value')
-    console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
+    // @TODO KLEV-275
+    const MIN_LP_AMOUNT = 1
+
+    // console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
 
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
