@@ -235,6 +235,8 @@ class FarmingAssetList extends Component {
           && !ignorePositionMap$.value[positionInfo?.killedTx]
       })
 
+    if (!lendingTokenSupplyInfo$.value) return
+
     return (
       <div className="FarmingAssetList">
         {isEmpty 

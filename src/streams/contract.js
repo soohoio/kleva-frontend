@@ -2115,10 +2115,6 @@ export const getOpenPositionResult_kokonut$ = ({
   positionId,
 }) => {
 
-  console.log(workerAddress, 'workerAddress')
-  console.log(tokenAmounts, 'tokenAmounts')
-  console.log(positionId, 'positionId')
-
   return call$({
     abi: KokonutswapCalculatorABI,
     address: KOKONUTSWAP_CALCULATOR,
