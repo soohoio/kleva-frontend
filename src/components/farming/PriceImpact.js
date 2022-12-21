@@ -31,6 +31,48 @@ class PriceImpact extends Component {
   componentWillUnmount() {
     this.destroy$.next(true)
   }
+
+  renderContent = () => {
+
+    const {
+      title,
+      description,
+      lossAmount,
+      tokenToSwap,
+      priceImpact,
+      isGain,
+      infoModal,
+    } = this.props
+
+    if (isGain) {
+      return (
+        <>
+          <p className="PriceImpact__impactRatio PriceImpact__impactRatio--gain">
+            +{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
+          </p>
+        </>
+      )
+    }
+
+    return tokenToSwap
+        ? (
+          <>
+            <p className="PriceImpact__lossAmount">
+              -{noRounding(lossAmount, 4)} {tokenToSwap.title}
+            </p>
+            <p className="PriceImpact__impactRatio PriceImpact__impactRatio--sub">
+              -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
+            </p>
+          </>
+        )
+        : (
+          <>
+            <p className="PriceImpact__impactRatio">
+              -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
+            </p>
+          </>
+        )
+  }
     
   render() {
     const {
@@ -39,7 +81,7 @@ class PriceImpact extends Component {
       lossAmount, 
       tokenToSwap, 
       priceImpact,
-
+      isGain,
       infoModal,
     } = this.props
 
@@ -59,29 +101,7 @@ class PriceImpact extends Component {
             <p className="PriceImpact__subtitle">{description || I18n.t('priceImpactWithFee')}</p>
           </div>
         )}
-        value={(
-          <>
-            {tokenToSwap 
-              ? (
-                <>
-                  <p className="PriceImpact__lossAmount">
-                    -{noRounding(lossAmount, 4)} {tokenToSwap.title}
-                  </p>
-                  <p className="PriceImpact__impactRatio PriceImpact__impactRatio--sub">
-                    -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
-                  </p>
-                </>
-              )
-              : (
-                <>
-                  <p className="PriceImpact__impactRatio">
-                    -{new BigNumber(priceImpact).multipliedBy(100).toFixed(2)}%
-                  </p>
-                </>
-              )
-            }
-          </>
-        )}
+        value={this.renderContent()}
       />
     )
   }

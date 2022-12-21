@@ -844,7 +844,11 @@ export const allowancesMultiInStakingPool$ = (account, stakingPools) => {
 
 export const getPositionInfo$ = (positionList) => {
 
-  const positionListByExchange = groupBy(positionList, 'exchange')
+  const positionListByExchange = {
+    klayswap: [],
+    kokonutswap: [],
+    ...groupBy(positionList, 'exchange'),
+  }
 
   const p1 = multicall(
     KlayswapCalculatorABI,
@@ -1377,11 +1381,6 @@ export const addCollateral$ = (vaultAddress, { positionId, principalAmount, data
       value,
     })
   }
-
-  console.log(positionId, 'positionId')
-  console.log(vaultAddress, 'vaultAddress')
-  console.log(principalAmount, 'principalAmount')
-  console.log(data, 'data')
 
   return makeTransaction({
     abi: VaultABI,

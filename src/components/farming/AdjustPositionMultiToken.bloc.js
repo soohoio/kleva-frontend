@@ -60,7 +60,8 @@ export default class {
 
     this.resultTokensAmount$ = new BehaviorSubject(this.tokens.map(() => 0))
     this.lpChangeRatio$ = new BehaviorSubject(0)
-    this.resultLpAmount$ = new BehaviorSubject(0)
+    this.isLpGain$ = new BehaviorSubject(false)
+    this.resultNewLpAmount$ = new BehaviorSubject(0)
 
     this.outputAmount$ = new BehaviorSubject()
     this.expectedLpAmount$ = new BehaviorSubject()
@@ -77,12 +78,6 @@ export default class {
     this.before_health$ = new BehaviorSubject(this.comp.props.health)
     this.before_debtAmount$ = new BehaviorSubject(this.comp.props.debtValue)
     this.before_equityValue$ = new BehaviorSubject(this.comp.props.equityValue)
-
-    console.log(this.comp.props, '@this.comp.props')
-
-    console.log(this.comp.props.health, 'this.comp.props.health')
-    console.log(this.comp.props.debtValue, 'this.comp.props.debtValue')
-    console.log(this.comp.props.equityValue, 'this.comp.props.equityValue')
 
     this.before_leverage = this.comp.props.currentPositionLeverage
     this.newDebtValue$ = new BehaviorSubject(0)
@@ -214,6 +209,7 @@ export default class {
     ]
 
     const tokenAmounts = this.tokens.map((t, idx) => _tokenAmounts[idx] || 0)
+    
     const newTokenInputAmounts = this.tokens.map((t, idx) => {
       return new BigNumber(this[`token${idx + 1}Amount$`].value || 0)
         .multipliedBy(10 ** this[`token${idx + 1}`].decimals)
@@ -250,38 +246,42 @@ export default class {
   }
 
   getOpenPositionResult$ = () => {
-    const { workerInfo } = this.comp.props
+    const { workerInfo, positionId } = this.comp.props
 
-    const { token1Amount, token2Amount, token3Amount, token4Amount, tokenAmounts, baseTokenAmount, borrowIncludedTokenAmounts } = this.getTokenAmountsPure()
+    const { token1Amount, token2Amount, token3Amount, token4Amount, tokenAmounts, baseTokenAmount, borrowIncludedTokenAmounts, newTokenInputAmounts } = this.getTokenAmountsPure()
 
     return forkJoin([
       getOpenPositionResult_kokonut$({
         workerAddress: workerInfo.workerAddress,
-        tokenAmounts: borrowIncludedTokenAmounts,
-        positionId: 0
+        tokenAmounts: newTokenInputAmounts,
+        positionId
       }),
       getPositionValue_kokonut$({
         workerAddress: workerInfo.workerAddress,
         tokenAmounts: borrowIncludedTokenAmounts,
       })
     ]).pipe(
-      tap(([ openPositionResult_leverage, positionValue]) => {
+      tap(([ openPositionResult, positionValue ]) => {
 
         this.positionValue$.next(positionValue)
 
-        this.resultTokensAmount$.next(openPositionResult_leverage.receiveTokensAmt)
-        this.resultLpAmount$.next(openPositionResult_leverage.receiveLpAmt)
+        console.log(openPositionResult, 'openPositionResult')
 
-        const lpChangeRatio = new BigNumber(openPositionResult_leverage.receiveLpAmt)
-          .gt(openPositionResult_leverage.lpAmtOnBalanced)
-          ? new BigNumber(openPositionResult_leverage.receiveLpAmt)
-            .div(openPositionResult_leverage.lpAmtOnBalanced)
+        this.resultTokensAmount$.next(openPositionResult.receiveTokensAmt)
+        this.resultNewLpAmount$.next(openPositionResult.receiveLpAmt)
+
+        const isLpGain = new BigNumber(openPositionResult.receiveLpAmt)
+          .gt(openPositionResult.lpAmtOnBalanced)
+
+        const lpChangeRatio = isLpGain
+          ? new BigNumber(openPositionResult.receiveLpAmt)
+            .div(openPositionResult.lpAmtOnBalanced)
             .minus(1)
             .toNumber()
           : new BigNumber(1)
             .minus(
-              new BigNumber(openPositionResult_leverage.receiveLpAmt)
-                .div(openPositionResult_leverage.lpAmtOnBalanced)
+              new BigNumber(openPositionResult.receiveLpAmt)
+                .div(openPositionResult.lpAmtOnBalanced)
             )
             .toNumber()
 
@@ -289,6 +289,8 @@ export default class {
           ? 0
           : lpChangeRatio
         )
+
+        this.isLpGain$.next(isLpGain)
       })
     )
   }
@@ -379,19 +381,9 @@ export default class {
         : "KOKONUTSWAP:ADD_ALL"
     })
 
-    const MIN_LP_AMOUNT = new BigNumber(this.resultLpAmount$.value)
+    const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
       .toFixed(0)
-
-    console.log(this.resultLpAmount$.value, `this.resultLpAmount$.value`)
-
-    console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
-    console.log([
-      newTokenInputAmounts,
-      MIN_LP_AMOUNT
-    ])
-
-    console.log(strategyType, 'strategyType')
 
     const ext = strategyType === "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
@@ -402,12 +394,7 @@ export default class {
           MIN_LP_AMOUNT
         ])
 
-    console.log(ext, 'ext')
-    console.log(strategyAddress, 'strategyAddress')
-
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
-
-    console.log(data, 'data')
 
     const principalAmount = baseTokenAmount
 
@@ -447,13 +434,14 @@ export default class {
 
     const amountToBeBorrowed = this.getAmountToBorrow()
 
-    console.log(amountToBeBorrowed, '@amountToBeBorrowed')
-
     const strategyAddress = STRATEGIES["KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"]
 
-    const MIN_LP_AMOUNT = new BigNumber(this.resultLpAmount$.value)
+    const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
       .multipliedBy(1 - (Number(slippage$.value) / 100))
       .toFixed(0)
+
+    console.log(this.resultNewLpAmount$.value, 'this.resultNewLpAmount$.value')
+    console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
 
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])

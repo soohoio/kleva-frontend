@@ -19,6 +19,10 @@
   color: #F53C3C;
   line-height: 20px;
 
+  &--gain {
+    color: #00C05A;
+  }
+
   &--sub {
     @include font-style('font-1', 'b', 14px);
   }

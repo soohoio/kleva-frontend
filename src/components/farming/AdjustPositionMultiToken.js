@@ -57,7 +57,8 @@ class AdjustPositionMultiToken extends Component {
       this.bloc.isToken4Focused$,
       this.bloc.resultTokensAmount$,
       this.bloc.lpChangeRatio$,
-      this.bloc.resultLpAmount$,
+      this.bloc.isLpGain$,
+      this.bloc.resultNewLpAmount$,
       merge(
         this.bloc.token1Amount$,
         this.bloc.token2Amount$,
@@ -89,9 +90,6 @@ class AdjustPositionMultiToken extends Component {
           const newDebtValue = new BigNumber(this.bloc.before_debtAmount$.value)
             .plus(amountToBeBorrowed)
             .toString()
-
-          console.log(this.bloc.before_debtAmount$.value, 'this.bloc.before_debtAmount$.value')
-          console.log(amountToBeBorrowed, 'amountToBeBorrowed')
 
           this.bloc.newDebtValue$.next(newDebtValue)
 
@@ -195,18 +193,11 @@ class AdjustPositionMultiToken extends Component {
     token3 = (token3 && isKLAY(token3.address)) ? tokenList.WKLAY : token3
     token4 = (token4 && isKLAY(token4.address)) ? tokenList.WKLAY : token4
 
-    console.log(this.bloc.allowances$.value, 'this.bloc.allowances$.value')
-
     // Allowance check
     const token1Allowance = addressKeyFind(this.bloc.allowances$.value, token1?.address)
     const token2Allowance = addressKeyFind(this.bloc.allowances$.value, token2?.address)
     const token3Allowance = addressKeyFind(this.bloc.allowances$.value, token3?.address)
     const token4Allowance = addressKeyFind(this.bloc.allowances$.value, token4?.address)
-
-    console.log(token1Allowance, 'token1Allowance')
-    console.log(token2Allowance, 'token2Allowance')
-    console.log(token3Allowance, 'token3Allowance')
-    console.log(token4Allowance, 'token4Allowance')
 
     const isToken1Approved = this.bloc.token1Amount$.value == 0 || (token1Allowance && token1Allowance != 0)
     const isToken2Approved = this.bloc.token2Amount$.value == 0 || (token2Allowance && token2Allowance != 0)
@@ -662,6 +653,7 @@ class AdjustPositionMultiToken extends Component {
               title={I18n.t('lossByTokenRatio')}
               description={I18n.t('lpImpact')}
               priceImpact={this.bloc.lpChangeRatio$.value}
+              isGain={this.bloc.isLpGain$.value}
               infoModal={<LPImpactInfoModal />}
             />
             <SlippageSetting />

@@ -56,6 +56,7 @@ class AddPositionMultiToken extends Component {
       this.bloc.resultTokensAmount$,
       this.bloc.resultLpAmount$,
       this.bloc.lpChangeRatio$,
+      this.bloc.isLpGain$,
 
       // If the user changes farmingTokenAmount || baseTokenAmount || leverage
       // call view function `getOpenPositionResult`,
@@ -545,6 +546,7 @@ class AddPositionMultiToken extends Component {
               title={I18n.t('lossByTokenRatio')}
               description={I18n.t('lpImpact')}
               priceImpact={this.bloc.lpChangeRatio$.value}
+              isGain={this.bloc.isLpGain$.value}
               infoModal={<LPImpactInfoModal />}
             />
             <SlippageSetting />

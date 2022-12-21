@@ -59,6 +59,7 @@ export default class {
 
     this.resultTokensAmount$ = new BehaviorSubject(this.tokens.map(() => 0))
     this.lpChangeRatio$ = new BehaviorSubject(0)
+    this.isLpGain$ = new BehaviorSubject(false)
     this.resultLpAmount$ = new BehaviorSubject(0)
 
     this.estimatedPositionValueWithoutLeverage$ = new BehaviorSubject(0)
@@ -256,8 +257,6 @@ export default class {
   getOpenPositionResult$ = () => {
     const { token1Amount, token2Amount, token3Amount, token4Amount, tokenAmounts, baseTokenAmount } = this.getTokenAmountsPure()
 
-    console.log(tokenAmounts, 'tokenAmounts')
-
     return getPositionValue_kokonut$({
       workerAddress: this.worker$.value.workerAddress,
       tokenAmounts,
@@ -281,8 +280,10 @@ export default class {
         this.resultTokensAmount$.next(openPositionResult_leverage.receiveTokensAmt)
         this.resultLpAmount$.next(openPositionResult_leverage.receiveLpAmt)
 
-        const lpChangeRatio = new BigNumber(openPositionResult_leverage.receiveLpAmt)
+        const isLpGain = new BigNumber(openPositionResult_leverage.receiveLpAmt)
           .gt(openPositionResult_leverage.lpAmtOnBalanced) 
+
+        const lpChangeRatio = isLpGain
             ? new BigNumber(openPositionResult_leverage.receiveLpAmt)
                 .div(openPositionResult_leverage.lpAmtOnBalanced)
                 .minus(1)
@@ -298,6 +299,8 @@ export default class {
           ? 0
           : lpChangeRatio
         )
+
+        this.isLpGain$.next(isLpGain)
 
         // @NEW
         // openPositionResult.receiveTokensAmt
@@ -388,8 +391,6 @@ export default class {
     const { tokenAmounts, baseTokenAmount } = this.getTokenAmountsPure()
     const otherTokensAmountSum = this.getOtherTokensAmountSum()
 
-    console.log(otherTokensAmountSum, 'otherTokensAmountSum')
-
     const { strategyType, strategyAddress } = getStrategy({
       exchange: "kokonutswap",
       strategyType: (otherTokensAmountSum == 0 && baseTokenAmount != 0)
@@ -415,9 +416,6 @@ export default class {
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])
 
     const principalAmount = baseTokenAmount
-
-    console.log(baseTokenAmount, 'baseTokenAmount')
-    console.log(this.baseToken$.value, 'this.baseToken$.value')
 
     addPosition$(this.worker$.value.vaultAddress, {
       workerAddress: this.worker$.value.workerAddress,

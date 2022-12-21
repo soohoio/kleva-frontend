@@ -59,7 +59,6 @@ class ManagementAsset extends Component {
         )
       }),
       tap((positions) => {
-        console.log(positions, 'positions')
         const result = positions.reduce((acc, cur) => {
 
           // debt value calculation
