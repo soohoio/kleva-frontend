@@ -1,4 +1,4 @@
-.AddPosition {
+.AddPositionMultiToken {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,7 +8,7 @@
   overflow: scroll;
   z-index: 10;
   padding: 0 0 30px 0;
-  
+
   @include desktop {
     position: static;
     width: auto;
@@ -21,16 +21,17 @@
   }
 }
 
-.AddPosition__content {
+.AddPositionMultiToken__content {
   @include desktop {
     display: flex;
     align-items: flex-start;
   }
 }
 
-.AddPosition__left {
+.AddPositionMultiToken__left {
   padding: 0 20px;
   padding-top: 138px; // for floating header
+
   @include desktop {
     flex: 1;
     padding: 0;
@@ -39,21 +40,22 @@
   }
 }
 
-.AddPosition__right {
+.AddPositionMultiToken__right {
   padding: 0 20px;
+
   @include desktop {
     flex: 1;
     padding: 0;
   }
 }
 
-.AddPosition__apy {
+.AddPositionMultiToken__apy {
   margin-top: 8px;
   align-items: center;
   padding-bottom: 20px;
   margin-bottom: 26px;
   border-bottom: 1px solid #e6eaf2;
-  
+
   @include desktop {
     margin-top: 0;
   }
@@ -67,7 +69,7 @@
     color: #333333;
     line-height: 24px;
   }
-  
+
   .LabelAndValue__value {
     @include font-style('font-1', 'b', 20px);
     color: #265FFC;
@@ -77,11 +79,11 @@
   }
 }
 
-.AddPosition__borrowingAssetList {
+.AddPositionMultiToken__borrowingAssetList {
   margin-top: 16px;
 }
 
-.AddPosition__hr {
+.AddPositionMultiToken__hr {
   width: 100%;
   height: 10px;
   background-color: #F0F2F7;
@@ -95,9 +97,9 @@
   }
 }
 
-.AddPosition__equity {
+.AddPositionMultiToken__equity {
   margin-bottom: 15px;
-  
+
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
@@ -117,8 +119,9 @@
   }
 }
 
-.AddPosition__debt {
+.AddPositionMultiToken__debt {
   margin-bottom: 20px;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
@@ -132,11 +135,12 @@
   }
 }
 
-.AddPosition__totalDeposit {
+.AddPositionMultiToken__totalDeposit {
   border-top: 1px solid #EBEEF5;
   padding-top: 20px;
   margin-bottom: 26px;
   align-items: center;
+
   .LabelAndValue__label {
     @include font-style('font-1', 'b', 15px);
     color: #222222;
@@ -150,10 +154,11 @@
   }
 }
 
-.AddPosition__footer {
+.AddPositionMultiToken__footer {
   padding: 0 20px;
   display: flex;
   flex-direction: column;
+
   @include desktop {
     margin-top: 40px;
     padding-top: 30px;
@@ -162,7 +167,7 @@
   }
 }
 
-.AddPosition__button {
+.AddPositionMultiToken__button {
   @include button-1(50px);
   @include font-style('font-1', 'b', 16px);
   background-color: #2D65FC;
@@ -176,7 +181,7 @@
   }
 }
 
-.AddPosition__needApprove {
+.AddPositionMultiToken__needApprove {
   @include font-style('font-1', 'm', 15px);
   color: #777D8F;
   margin-bottom: 20px;
@@ -184,7 +189,7 @@
   text-align: center;
 }
 
-.AddPosition__minDebtSize {
+.AddPositionMultiToken__minDebtSize {
   @include font-style('font-1', 'b', 14px);
   color: #F73D3D;
   margin-bottom: 20px;
@@ -196,7 +201,7 @@
   }
 }
 
-.AddPosition__wklayConvertLabel {
+.AddPositionMultiToken__wklayConvertLabel {
   @include font-style('font-1', 'm', 15px);
   color: #3B70F7;
   margin-bottom: 6px;
@@ -207,7 +212,7 @@
   }
 }
 
-.AddPosition__cancelButton {
+.AddPositionMultiToken__cancelButton {
 
   display: none;
 
@@ -219,10 +224,11 @@
   }
 }
 
-.AddPosition__buttons {
+.AddPositionMultiToken__buttons {
   display: flex;
   justify-content: center;
   align-items: center;
+
   gap: 6px;
 
   @include desktop {
@@ -234,7 +240,7 @@
   }
 }
 
-.AddPosition__floatingHeader {
+.AddPositionMultiToken__floatingHeader {
   position: fixed;
   z-index: 9;
   top: 0;

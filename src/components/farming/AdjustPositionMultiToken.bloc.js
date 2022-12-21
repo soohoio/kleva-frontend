@@ -267,12 +267,12 @@ export default class {
   getOpenPositionResult$ = () => {
     const { workerInfo, positionId } = this.comp.props
 
-    const { borrowIncludedTokenAmounts, borrowIncludedNewTokenInputAmounts } = this.getTokenAmountsPure()
+    const { newTokenInputAmounts, borrowIncludedTokenAmounts, borrowIncludedNewTokenInputAmounts } = this.getTokenAmountsPure()
 
     return forkJoin([
       getOpenPositionResult_kokonut$({
         workerAddress: workerInfo.workerAddress,
-        tokenAmounts: borrowIncludedNewTokenInputAmounts,
+        tokenAmounts: newTokenInputAmounts,
         positionId
       }),
       getPositionValue_kokonut$({
@@ -398,9 +398,11 @@ export default class {
         : "KOKONUTSWAP:ADD_ALL"
     })
 
-    const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
-      .multipliedBy(1 - (Number(slippage$.value) / 100))
-      .toFixed(0)
+    // const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
+    //   .multipliedBy(1 - (Number(slippage$.value) / 100))
+    //   .toFixed(0)
+
+    const MIN_LP_AMOUNT = 0
 
     const ext = strategyType === "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])

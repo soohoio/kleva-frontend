@@ -32,6 +32,8 @@ import { MAX_UINT } from '../../constants/setting';
 import WarnBeforeKokonutInvest from '../modals/WarnBeforeKokonutInvest'
 import LPImpactInfoModal from '../modals/LPImpactInfoModal'
 
+import "./AddPositionMultiToken.scss"
+
 class AddPositionMultiToken extends Component {
   bloc = new Bloc(this)
 
@@ -208,23 +210,23 @@ class AddPositionMultiToken extends Component {
     return (
       <>
         {!this.bloc.isDebtSizeValid$.value && (
-          <p className="AddPosition__minDebtSize">
+          <p className="AddPositionMultiToken__minDebtSize">
             {I18n.t('farming.error.minDebtSize', {
               minDebt: `${nFormatter(new BigNumber(ibToken.minDebtSize).div(10 ** ibToken.decimals).toNumber(), 2)} ${this.bloc.borrowingAsset$.value?.title}`
             })}
           </p>
         )}
         {needTokenApproval && (
-          <p className="AddPosition__needApprove">{I18n.t('needApprove')}</p>
+          <p className="AddPositionMultiToken__needApprove">{I18n.t('needApprove')}</p>
         )}
-        <div className="AddPosition__buttons">
-          <button onClick={() => closeContentView$.next(true)} className="AddPosition__cancelButton">
+        <div className="AddPositionMultiToken__buttons">
+          <button onClick={() => closeContentView$.next(true)} className="AddPositionMultiToken__cancelButton">
             {I18n.t('cancel')}
           </button>
           {!isToken1Approved && (
             <button
               onClick={() => this.bloc.approve(token1, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              className="AddPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -237,7 +239,7 @@ class AddPositionMultiToken extends Component {
           {!isToken2Approved && (
             <button
               onClick={() => this.bloc.approve(token2, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              className="AddPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -250,7 +252,7 @@ class AddPositionMultiToken extends Component {
           {!isToken3Approved && (
             <button
               onClick={() => this.bloc.approve(token3, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              className="AddPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -263,7 +265,7 @@ class AddPositionMultiToken extends Component {
           {!isToken4Approved && (
             <button
               onClick={() => this.bloc.approve(token4, this.bloc.worker$.value.vaultAddress)}
-              className="AddPosition__button"
+              className="AddPositionMultiToken__button"
             >
               {this.bloc.isLoading$.value
                 ? "..."
@@ -279,8 +281,8 @@ class AddPositionMultiToken extends Component {
                 if (isDisabled) return
                 this.bloc.addPosition()
               }}
-              className={cx("AddPosition__button", {
-                "AddPosition__button--disabled": isDisabled,
+              className={cx("AddPositionMultiToken__button", {
+                "AddPositionMultiToken__button--disabled": isDisabled,
               })}
             >
               {this.bloc.isLoading$.value
@@ -334,7 +336,7 @@ class AddPositionMultiToken extends Component {
                 <WKLAYSwitcher
                   balancesInWallet={balancesInWallet$.value}
                   description={(
-                    <p className="AddPosition__wklayConvertLabel">{I18n.t('lendstake.controller.wklaySwitch.title')}</p>
+                    <p className="AddPositionMultiToken__wklayConvertLabel">{I18n.t('lendstake.controller.wklaySwitch.title')}</p>
                   )}
                 />
               )}
@@ -465,14 +467,14 @@ class AddPositionMultiToken extends Component {
 
     return (
       <div className="AddPosition">
-        <div className="AddPosition__content">
-          <div className="AddPosition__left">
-            <div className="AddPosition__floatingHeader">
+        <div className="AddPositionMultiToken__content">
+          <div className="AddPositionMultiToken__left">
+            <div className="AddPositionMultiToken__floatingHeader">
               <AddPositionHeader
                 title={title}
               />
               <LabelAndValue
-                className="AddPosition__apy"
+                className="AddPositionMultiToken__apy"
                 label={I18n.t('apy')}
                 value={(
                   <>
@@ -515,7 +517,7 @@ class AddPositionMultiToken extends Component {
               setLeverage={this.bloc.setLeverageValue}
               leverage$={this.bloc.leverage$}
             />
-            <div className="AddPosition__borrowingAssetList">
+            <div className="AddPositionMultiToken__borrowingAssetList">
               {radioList.map(({ asset, label, value }) => {
                 const isActive = this.bloc.borrowingAsset$.value?.address.toLowerCase() == asset?.address?.toLowerCase()
 
@@ -532,8 +534,8 @@ class AddPositionMultiToken extends Component {
               })}
             </div>
           </div>
-          <hr className="AddPosition__hr AddPosition__hr--mobile" />
-          <div className="AddPosition__right">
+          <hr className="AddPositionMultiToken__hr AddPositionMultiToken__hr--mobile" />
+          <div className="AddPositionMultiToken__right">
             {/* lp token ratio */}
             <PoolTokenRatio
               className="PoolTokenRatio PoolTokenRatio--desktopOnly"
@@ -554,7 +556,7 @@ class AddPositionMultiToken extends Component {
             <SlippageSetting />
 
             <LabelAndValue
-              className="AddPosition__equity"
+              className="AddPositionMultiToken__equity"
               label={(
                 <>
                   <p>{I18n.t('myasset.farming.equityValue.addPosition')}</p>
@@ -564,18 +566,18 @@ class AddPositionMultiToken extends Component {
               value={this.renderEquityValue()}
             />
             <LabelAndValue
-              className="AddPosition__debt"
+              className="AddPositionMultiToken__debt"
               label={I18n.t('myasset.farming.debtValue.addPosition')}
               value={`${nFormatter(borrowingAmount)} ${baseToken.title}`}
             />
             <LabelAndValue
-              className="AddPosition__totalDeposit"
+              className="AddPositionMultiToken__totalDeposit"
               label={I18n.t('farming.summary.totalDeposit')}
               value={this.renderTotalValue()}
             />
           </div>
         </div>
-        <div className="AddPosition__footer">
+        <div className="AddPositionMultiToken__footer">
           {this.renderButtons()}
         </div>
       </div>
