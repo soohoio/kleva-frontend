@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
-import { Subject, merge, of } from 'rxjs'
+import { Subject, merge, of, timer } from 'rxjs'
 import { takeUntil, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 import Bloc from './AddPositionMultiToken.bloc'
@@ -40,8 +40,10 @@ class AddPositionMultiToken extends Component {
   componentDidMount() {
     const { token1, token2, token3, token4 } = this.props
 
-    openModal$.next({
-      component: <WarnBeforeKokonutInvest />
+    timer(300).subscribe(() => {
+      openModal$.next({
+        component: <WarnBeforeKokonutInvest />
+      })
     })
 
     merge(
