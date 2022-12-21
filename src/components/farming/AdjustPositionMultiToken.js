@@ -679,7 +679,7 @@ class AdjustPositionMultiToken extends Component {
                     ? <p>{I18n.t('myasset.farming.equityValue.borrowMore')}</p>
                     : (
                       <>
-                        <p>{I18n.t('myasset.farming.equityValue.addCollateral')}</p>
+                        <p>{I18n.t('myasset.farming.equityValue.addCollateral.kokonut')}</p>
                         <p className="AdjustPositionMultiToken__equitySubDescription">{I18n.t('farming.summary.equity.description')}</p>
                       </>
                     )
