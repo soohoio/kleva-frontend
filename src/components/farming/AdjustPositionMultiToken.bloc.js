@@ -156,6 +156,10 @@ export default class {
       .multipliedBy(Number(leverage) - Number(this.before_leverage))
       .toFixed(0)
 
+    if (new BigNumber(amountToBeBorrowed).lt(0)) {
+      return 0
+    }
+
     return amountToBeBorrowed
   }
 
@@ -270,6 +274,8 @@ export default class {
 
     const { newTokenInputAmounts, borrowIncludedTokenAmounts, borrowIncludedNewTokenInputAmounts } = this.getTokenAmountsPure()
 
+    console.log(borrowIncludedNewTokenInputAmounts, 'borrowIncludedNewTokenInputAmounts')
+
     return forkJoin([
       getOpenPositionResult_kokonut$({
         workerAddress: workerInfo.workerAddress,
@@ -354,6 +360,9 @@ export default class {
     if (v < 1) return
     if (v > leverageCapRaw) return
     if (v < Number(leverageLowerBound) - 0.1) return
+
+    if (Number(v).toFixed(2) === Number(this.leverage$.value).toFixed(2)) return
+
     this.leverage$.next(v)
   }
 

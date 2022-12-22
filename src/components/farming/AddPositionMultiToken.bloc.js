@@ -361,6 +361,8 @@ export default class {
   setLeverageValue = (v, leverageCapRaw) => {
     if (v < 1) return
     if (v > leverageCapRaw) return
+
+    if (Number(v).toFixed(2) === Number(this.leverage$.value).toFixed(2)) return
     this.leverage$.next(v)
   }
 
