@@ -19,7 +19,7 @@ import TokenRatio from './TokenRatio'
 import PriceImpact from './PriceImpact'
 import SlippageSetting from './SlippageSetting'
 import { addressKeyFind, isSameAddress, nFormatter, noRounding } from '../../utils/misc'
-import { checkAllowances$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
+import { borrowMore$, checkAllowances$, getLpIngridients$, getPositionInfo$, getPositionInfo_single$ } from '../../streams/contract'
 import { getIbTokenFromOriginalToken, isKLAY, isWKLAY, tokenList } from '../../constants/tokens'
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
 import Tabs from '../common/Tabs'
@@ -660,18 +660,20 @@ class AdjustPositionMultiToken extends Component {
               title={I18n.t('slippageSetting.kokonut')}
             />
 
-            {/* <LabelAndValue
-              className="AdjustPositionMultiToken__debtRatio"
-              label={I18n.t('myasset.farming.debtRatio')}
-              value={(
-                <>
-                  <BeforeAfter
-                    before={`${before_debtRatio.toFixed(2)}%`}
-                    after={`${debtRatio.toFixed(2)}%`}
-                  />
-                </>
-              )}
-            /> */}
+            {!this.bloc.borrowMore$.value && (
+              <LabelAndValue
+                className="AdjustPositionMultiToken__debtRatio"
+                label={I18n.t('myasset.farming.debtRatio')}
+                value={(
+                  <>
+                    <BeforeAfter
+                      before={`${before_debtRatio.toFixed(2)}%`}
+                      after={`${debtRatio.toFixed(2)}%`}
+                    />
+                  </>
+                )}
+              />
+            )}
 
             <LabelAndValue
               className="AdjustPositionMultiToken__equity"
