@@ -62,6 +62,7 @@ export default class {
     this.lpChangeRatio$ = new BehaviorSubject(0)
     this.isLpGain$ = new BehaviorSubject(false)
     this.resultNewLpAmount$ = new BehaviorSubject(0)
+    this.newlyAttachedLpAmount$ = new BehaviorSubject(0)
 
     this.outputAmount$ = new BehaviorSubject()
     this.expectedLpAmount$ = new BehaviorSubject()
@@ -278,14 +279,21 @@ export default class {
       getPositionValue_kokonut$({
         workerAddress: workerInfo.workerAddress,
         tokenAmounts: borrowIncludedTokenAmounts,
+      }),
+      getOpenPositionResult_kokonut$({
+        workerAddress: workerInfo.workerAddress,
+        tokenAmounts: borrowIncludedNewTokenInputAmounts,
+        positionId: 0,
       })
     ]).pipe(
-      tap(([ openPositionResult, positionValue ]) => {
+      tap(([ openPositionResult, positionValue, openPositionResult_onlyNewlyAttached ]) => {
 
         this.positionValue$.next(positionValue)
 
         this.resultTokensAmount$.next(openPositionResult.receiveTokensAmt)
         this.resultNewLpAmount$.next(openPositionResult.receiveLpAmt)
+
+        this.newlyAttachedLpAmount$.next(openPositionResult_onlyNewlyAttached.receiveLpAmt)
 
         const isLpGain = new BigNumber(openPositionResult.receiveLpAmt)
           .gt(openPositionResult.lpAmtOnBalanced)
@@ -398,11 +406,13 @@ export default class {
         : "KOKONUTSWAP:ADD_ALL"
     })
 
-    // const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
-    //   .multipliedBy(1 - (Number(slippage$.value) / 100))
-    //   .toFixed(0)
+    const MIN_LP_AMOUNT = new BigNumber(this.newlyAttachedLpAmount$.value)
+      .multipliedBy(1 - (Number(slippage$.value) / 100))
+      .toFixed(0)
 
-    const MIN_LP_AMOUNT = 0
+    console.log(this.newlyAttachedLpAmount$.value, 'this.newlyAttachedLpAmount$.value')
+
+    // const MIN_LP_AMOUNT = 0
 
     const ext = strategyType === "KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"
       ? caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
@@ -455,14 +465,9 @@ export default class {
 
     const strategyAddress = STRATEGIES["KOKONUTSWAP:ADD_BASE_TOKEN_ONLY"]
 
-    // const MIN_LP_AMOUNT = new BigNumber(this.resultNewLpAmount$.value)
-    //   .multipliedBy(1 - (Number(slippage$.value) / 100))
-    //   .toFixed(0)
-
-    // @TODO KLEV-275
-    const MIN_LP_AMOUNT = 1
-
-    // console.log(MIN_LP_AMOUNT, 'MIN_LP_AMOUNT')
+    const MIN_LP_AMOUNT = new BigNumber(this.newlyAttachedLpAmount$.value)
+      .multipliedBy(1 - (Number(slippage$.value) / 100))
+      .toFixed(0)
 
     const ext = caver.klay.abi.encodeParameters(['uint256'], [MIN_LP_AMOUNT])
     const data = caver.klay.abi.encodeParameters(['address', 'bytes'], [strategyAddress, ext])

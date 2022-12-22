@@ -59,6 +59,7 @@ class AdjustPositionMultiToken extends Component {
       this.bloc.lpChangeRatio$,
       this.bloc.isLpGain$,
       this.bloc.resultNewLpAmount$,
+      this.bloc.newlyAttachedLpAmount$,
       merge(
         this.bloc.token1Amount$,
         this.bloc.token2Amount$,
