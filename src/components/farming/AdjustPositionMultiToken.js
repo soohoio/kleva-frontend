@@ -27,7 +27,7 @@ import BeforeAfter from '../BeforeAfter'
 import ThickHR from '../common/ThickHR'
 import { klayswapPoolInfo$ } from '../../streams/farming'
 import Checkbox from '../common/Checkbox'
-import { liquidities$ } from '../../streams/tokenPrice'
+import { liquidities$, tokenPrices$ } from '../../streams/tokenPrice'
 import PoolTokenRatio from './PoolTokenRatio';
 import PoolTokenRatioBeforeAfter from './PoolTokenRatioBeforeAfter';
 import LPImpactInfoModal from '../modals/LPImpactInfoModal';
@@ -44,6 +44,7 @@ class AdjustPositionMultiToken extends Component {
       balancesInWallet$,
       klayswapPoolInfo$,
       liquidities$,
+      tokenPrices$,
 
       this.bloc.baseTokenNum$,
       this.bloc.otherTokens$,
@@ -386,17 +387,19 @@ class AdjustPositionMultiToken extends Component {
   }
 
   renderTotalValue = () => {
-    const { token1 } = this.props
+    const { token1, lpToken } = this.props
     const { tokens } = this.bloc.getTokens()
+  
+    const positionLpAmount = new BigNumber(this.bloc.resultNewLpAmount$.value).div(10 ** lpToken.decimals).toNumber()
+    const lpTokenPrice = addressKeyFind(tokenPrices$.value, lpToken.address)
+    const positionLpValueInUSD = new BigNumber(positionLpAmount)
+      .multipliedBy(lpTokenPrice)
+      .toNumber()
 
     return (
       <>
-        {tokens.map((token, idx) => {
-          const amount = new BigNumber(this.bloc.resultTokensAmount$.value[idx]).div(10 ** token.decimals).toString()
-          return (
-            <p>{nFormatter(amount)} {token.title}</p>
-          )
-        })}
+        <p>{nFormatter(positionLpAmount)} {lpToken.title}</p>
+        <p>(≈ ${nFormatter(positionLpValueInUSD)})</p>
       </>
     )
   }
@@ -661,7 +664,7 @@ class AdjustPositionMultiToken extends Component {
               title={I18n.t('slippageSetting.kokonut')}
             />
 
-            {!this.bloc.borrowMore$.value && (
+            {!this.bloc.borrowMore$.value && !isNaN(debtRatio) && (
               <LabelAndValue
                 className="AdjustPositionMultiToken__debtRatio"
                 label={I18n.t('myasset.farming.debtRatio')}
