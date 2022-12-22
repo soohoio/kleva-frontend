@@ -228,10 +228,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  gap: 6px;
+  flex-direction: column;
 
   @include desktop {
+    flex-direction: row;
     gap: 0;
     button {
       width: 130px;
