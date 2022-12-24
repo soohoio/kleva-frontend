@@ -50,6 +50,7 @@ class KilledCard extends Component {
       token3,
       token4,
       tokens,
+      lpToken,
       exchange, // klayswap
     } = this.props
 

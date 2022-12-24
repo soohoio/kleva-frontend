@@ -42,6 +42,7 @@ class KilledGridItem extends Component {
       token3,
       token4,
       tokens,
+      lpToken,
     } = this.props
 
     const leverage = new BigNumber(positionValueAtKilled).div(
