@@ -1203,9 +1203,9 @@ export const getKlevaAnnualReward$ = (fairLaunchPoolList) => {
         const pool = fairLaunchPoolList[idx]
         
         const utilizationRateInfo = utilizationRatesMap[pool.pid]
-        
-        const utilizationMultiplyFactor = utilizationRateInfo?.ur1 < utilizationRateInfo?.ur2
-          ? Math.min(utilizationRateInfo?.ur1 / utilizationRateInfo?.ur2, 0.7)
+
+        const utilizationMultiplyFactor = new BigNumber(utilizationRateInfo?.ur1).lt(utilizationRateInfo?.ur2)
+          ? Math.min(new BigNumber(utilizationRateInfo?.ur1).div(utilizationRateInfo?.ur2).toNumber(), 0.7)
           : 1
 
         acc[pool.pid] = new BigNumber(rewardPerBlock)
