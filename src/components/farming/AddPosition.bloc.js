@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
-import { addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
+import { addPosition$, approve$, caver, getBorrowAmount$, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
 import { fetchWalletInfo$ } from '../../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
@@ -12,7 +12,7 @@ import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../../consta
 import { closeContentView$, closeModal$, openModal$ } from '../../streams/ui'
 import { showDetailDefault$, showSummaryDefault$, slippage$ } from '../../streams/setting'
 import { klevaAnnualRewards$, poolReserves$, fetchPositions$, klayswapPoolInfo$ } from '../../streams/farming'
-import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, optimalDeposit } from '../../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, getWorkFactorBpsFromLeverage, optimalDeposit } from '../../utils/calc'
 import { addressKeyFind, isSameAddress } from '../../utils/misc'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
@@ -204,12 +204,32 @@ export default class {
       .multipliedBy(10 ** this.farmingToken$.value.decimals)
       .toString()
 
-    return getPositionValue$({
-      workerAddress: this.worker$.value.workerAddress,
-      baseTokenAmount: baseTokenAmount,
-      farmingTokenAmount: farmTokenAmount,
-    }).pipe(
-      switchMap((positionValue) => {
+    console.log(this.leverage$.value, 'this.leverage$.value')
+    console.log(getWorkFactorBpsFromLeverage(this.leverage$.value), 'getWorkFactorBpsFromLeverage(this.leverage$.value)')
+
+    console.log(this.worker$.value.workerAddress, "this.worker$.value.workerAddress,")
+    console.log(baseTokenAmount, "baseTokenAmount,")
+    console.log(farmTokenAmount, "farmTokenAmount,")
+    console.log(MAX_UINT, "MAX_UINT,")
+    console.log(getWorkFactorBpsFromLeverage(this.leverage$.value), "getWorkFactorBpsFromLeverage(this.leverage$.value)")
+
+    return forkJoin([
+      getPositionValue$({
+        workerAddress: this.worker$.value.workerAddress,
+        baseTokenAmount: baseTokenAmount,
+        farmingTokenAmount: farmTokenAmount,
+      }),
+      getBorrowAmount$({
+        workerAddress: this.worker$.value.workerAddress,
+        baseTokenAmount: baseTokenAmount,
+        farmingTokenAmount: farmTokenAmount,
+        positionId: MAX_UINT,
+        workFactorBps: getWorkFactorBpsFromLeverage(this.leverage$.value)
+      })
+    ]).pipe(
+      switchMap(([positionValue, borrowAmount]) => {
+
+        console.log(borrowAmount, '@borrowAmount')
 
         this.estimatedPositionValueWithoutLeverage$.next(positionValue)
 

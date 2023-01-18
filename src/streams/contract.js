@@ -2153,3 +2153,29 @@ export const getPositionValue_kokonut$ = ({ workerAddress, tokenAmounts }) => {
     })
   )
 }
+
+export const getBorrowAmount$ = ({
+  workerAddress,
+  baseTokenAmount,
+  farmingTokenAmount,
+  positionId,
+  workFactorBps,
+}) => {
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "getBorrowAmount",
+    params: [
+      workerAddress,
+      baseTokenAmount,
+      farmingTokenAmount,
+      positionId,
+      workFactorBps,
+    ]
+  }).pipe(
+    catchError((e) => {
+      console.log(e, 'getbrramt err')
+      return of(0)
+    })
+  )
+}

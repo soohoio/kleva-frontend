@@ -13,6 +13,10 @@ export const getBufferedLeverage = (workFactorBps) => {
   return 10000 / (10000 - Number(buffered))
 }
 
+export const getWorkFactorBpsFromLeverage = (leverage) => {
+  return Number(10000 - (10000 / Number(leverage))).toFixed(0)
+}
+
 export const calcKlevaRewardsAPR = ({
   lendingTokenSupplyInfo,
   borrowingAsset,

@@ -80,9 +80,9 @@ class ManagementAsset extends Component {
               .multipliedBy(lpPortion)
               .toFixed(0)
 
-            const farmingPositionValueInUSD = new BigNumber(lpAmount)
+            const farmingPositionValueInUSD = new BigNumber(lpAmount || 0)
               .div(10 ** cur.lpToken.decimals)
-              .multipliedBy(lpTokenPrice)
+              .multipliedBy(lpTokenPrice || 0)
               .toNumber()
 
             acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue).toNumber()
@@ -107,16 +107,16 @@ class ManagementAsset extends Component {
             totalStakedLpBalance: cur.totalStakedLpBalance,
           })
 
-          const farmingPositionValue = new BigNumber(userFarmingTokenAmount)
-            .multipliedBy(farmingTokenPrice)
+          const farmingPositionValue = new BigNumber(userFarmingTokenAmount || 0)
+            .multipliedBy(farmingTokenPrice || 0)
             .plus(
-              new BigNumber(userBaseTokenAmount)
-                .multipliedBy(baseTokenPrice)
+              new BigNumber(userBaseTokenAmount || 0)
+                .multipliedBy(baseTokenPrice || 0)
             )
             .toNumber()
           
-          acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue).toNumber()
-          acc.farmingPositionValue = new BigNumber(acc.farmingPositionValue).plus(farmingPositionValue).toNumber()
+          acc.debtValue = new BigNumber(acc.debtValue).plus(debtValue || 0).toNumber()
+          acc.farmingPositionValue = new BigNumber(acc.farmingPositionValue).plus(farmingPositionValue || 0).toNumber()
 
           return acc
           
@@ -181,6 +181,10 @@ class ManagementAsset extends Component {
     const farmingPositionValueTotal = this.farmingPositionValueTotal$.value
 
     const farmingEquityValueTotal = new BigNumber(ibTokenValueTotal).plus(farmingPositionValueTotal).minus(debtValueTotal).toNumber()
+
+    console.log(ibTokenValueTotal, 'ibTokenValueTotal')
+    console.log(farmingPositionValueTotal, 'farmingPositionValueTotal')
+    console.log(debtValueTotal, 'debtValueTotal')
 
     const totalManagedAsset = new BigNumber(ibTokenValueTotal)
       .plus(farmingPositionValueTotal)
