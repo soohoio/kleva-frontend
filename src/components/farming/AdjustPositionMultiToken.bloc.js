@@ -326,36 +326,6 @@ export default class {
     )
   }
 
-  // getValueInUSD = () => {
-  //   const farmingTokenPrice = tokenPrices$.value[this.farmingToken$.value.address.toLowerCase()]
-  //   const baseTokenPrice = tokenPrices$.value[this.baseToken$.value.address.toLowerCase()]
-
-  //   const farmingInUSD = new BigNumber(this.farmingTokenAmount$.value || 0)
-  //     .multipliedBy(farmingTokenPrice)
-  //     .toString()
-
-  //   const baseInUSD = new BigNumber(this.baseTokenAmount$.value || 0)
-  //     .multipliedBy(baseTokenPrice)
-  //     .toString()
-
-  //   const borrowAmount = this.getAmountToBorrow()
-
-  //   const borrowingInUSD = new BigNumber(borrowAmount || 0)
-  //     .div(10 ** this.baseToken$.value?.decimals)
-  //     .multipliedBy(baseTokenPrice)
-  //     .toString()
-
-  //   const totalInUSD = new BigNumber(farmingInUSD).plus(baseInUSD).plus(borrowingInUSD)
-
-  //   return {
-  //     farmingValue: new BigNumber(farmingInUSD).div(totalInUSD || 1).multipliedBy(100).toNumber(),
-  //     baseValue: new BigNumber(baseInUSD)
-  //       .plus(borrowingInUSD) // borrowing
-  //       .div(totalInUSD || 1)
-  //       .multipliedBy(100).toNumber(),
-  //   }
-  // }
-
   setLeverageValue = (v, leverageCapRaw, leverageLowerBound) => {
     if (v < 1) return
     if (v > leverageCapRaw) return

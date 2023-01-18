@@ -1,5 +1,5 @@
-import { BehaviorSubject, from } from "rxjs";
-import { map, mergeMap, switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, from, of } from "rxjs";
+import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { tokenList, tokenListByAddress } from "../constants/tokens";
 import { addressKeyFind } from '../utils/misc';
 import { BigNumber } from 'bignumber.js'
@@ -12,6 +12,9 @@ export const fetchKokonutSwapInfo$ = () => from(
   fetch("https://prod.kokonut-api.com/pools")
     .then((res) => res.json())
 ).pipe(
+  catchError(() => {
+    return of({ pools: [] })
+  }),
   map(({ pools }) => {
     return pools.reduce((acc, cur) => {
 

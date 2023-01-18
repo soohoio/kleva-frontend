@@ -54,6 +54,41 @@
         "type": "address"
       },
       {
+        "name": "baseTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "name": "farmingTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "name": "positionId",
+        "type": "uint256"
+      },
+      {
+        "name": "workFactorBps",
+        "type": "uint256"
+      }
+    ],
+    "name": "getBorrowAmount",
+    "outputs": [
+      {
+        "name": "borrowAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
         "name": "positionId",
         "type": "uint256"
       }

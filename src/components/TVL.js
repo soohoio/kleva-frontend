@@ -52,7 +52,7 @@ class TVL extends Component {
 
     const farmPoolTVL = farmPoolDeposited$.value && Object.values(farmPoolDeposited$.value).reduce((acc, cur) => {
 
-      const _farmTVL = new BigNumber(cur && cur.deposited)
+      const _farmTVL = new BigNumber(cur && cur.deposited || 0)
 
       return new BigNumber(acc).plus(_farmTVL).toNumber()
     }, 0)
