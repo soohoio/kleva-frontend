@@ -85,7 +85,7 @@ class LendingPoolList extends Component {
             <>
               <LendingPoolListTableHeader />
               <div className="LendingPoolList__tableContents">
-                {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
+                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled }, idx) => {
 
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   
@@ -98,8 +98,8 @@ class LendingPoolList extends Component {
 
                   const _stakingPool = stakingPoolsByToken[ibTokenAddress]
                   const _stakingPoolPID = _stakingPool && _stakingPool.pid
-                  const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID]
-                  const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID]
+                  const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID] || 0
+                  const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID] || 0
                   const klevaPrice = tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()]
                   const originalTokenPrice = tokenPrices$.value[originalToken && originalToken.address.toLowerCase()]
                   const ibTokenPriceRatio = ibTokenPrice
@@ -117,7 +117,7 @@ class LendingPoolList extends Component {
 
                   const stakingAPR = new BigNumber(klevaAnnualReward)
                     .multipliedBy(klevaPrice)
-                    .div(poolDepositedAmount * ibTokenPriceInUSD)
+                    .div((poolDepositedAmount * ibTokenPriceInUSD) || 1)
                     .multipliedBy(100)
                     .toNumber()
 
@@ -140,6 +140,7 @@ class LendingPoolList extends Component {
 
                   return (
                     <LendingPoolListItem
+                      disabled={disabled}
                       selectedAddress={selectedAddress$.value}
                       key={title}
                       balanceInWallet={balancesInWallet$.value[stakingToken.address]}
@@ -173,7 +174,8 @@ class LendingPoolList extends Component {
               />
 
               <div className="LendingPoolList__list">
-                {lendingPools.map(({ title, stakingToken, vaultAddress }, idx) => {
+                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled }, idx) => {
+
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply
                   const totalBorrowed = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalBorrowed
@@ -184,8 +186,8 @@ class LendingPoolList extends Component {
 
                   const _stakingPool = stakingPoolsByToken[ibTokenAddress]
                   const _stakingPoolPID = _stakingPool && _stakingPool.pid
-                  const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID]
-                  const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID]
+                  const poolDepositedAmount = poolAmountInStakingPool$.value[_stakingPoolPID] || 0
+                  const klevaAnnualReward = klevaAnnualRewards$.value[_stakingPoolPID] || 0
                   const klevaPrice = tokenPrices$.value[tokenList.KLEVA.address.toLowerCase()]
                   const originalTokenPrice = tokenPrices$.value[originalToken && originalToken.address.toLowerCase()]
                   const ibTokenPriceRatio = ibTokenPrice
@@ -203,7 +205,7 @@ class LendingPoolList extends Component {
 
                   const stakingAPR = new BigNumber(klevaAnnualReward)
                     .multipliedBy(klevaPrice)
-                    .div(poolDepositedAmount * ibTokenPriceInUSD)
+                    .div((poolDepositedAmount * ibTokenPriceInUSD) || 1)
                     .multipliedBy(100)
                     .toNumber()
 
@@ -224,6 +226,7 @@ class LendingPoolList extends Component {
 
                   return (
                     <LendingPoolListItemCard
+                      disabled={disabled}
                       key={title}
                       selectedAddress={selectedAddress$.value}
                       isExpand={activeIdx == idx}

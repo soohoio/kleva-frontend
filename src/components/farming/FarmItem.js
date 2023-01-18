@@ -63,6 +63,8 @@ class FarmItem extends Component {
       borrowingAssetMap$,
     } = this.props
 
+    if (!this.bloc.worker$.value) return false
+
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
     const borrowingAsset = borrowingAssetMap$.value[lpToken.address]

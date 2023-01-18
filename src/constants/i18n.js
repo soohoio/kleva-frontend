@@ -419,6 +419,9 @@ export const en = {
   'lpImpact.modal.title': '토큰 비율에 의한 손실',
   'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
 
+  'enterpriseOnly.modal.title': "지정 기관 전용",
+  'enterpriseOnly.modal.description': `사전 협의를 통해 지정된 기관만 예치할 수 있습니다. 예치된 자산은 이용자 분들이 대여할 수 있으며, 예치한 기관은 대여에 따른 이자 수익을 받게 됩니다. 스테이킹은 지원되지 않으며 따라서 KLEVA 토큰 보상이 제공되지 않습니다.`,
+
 }
 
 export const ko = {
@@ -841,6 +844,9 @@ export const ko = {
   'warnBeforeKokonutInvest.description2': '출금 시에는 <text style="color: #265FFC;">부분 출금하기</text>를 통해 프라이스 임팩트를 최소화하실 수 있습니다.',
   'lpImpact.modal.title': '토큰 비율에 의한 손실',
   'lpImpact.modal.description': '코코넛스왑 풀은 균형 예치를 위한 자체적인 스왑 기능 대신 균형 수량 정보를 제공합니다. KLEVA에서는 이용자 여러분의 편의를 위해 균형 예치시 수령 가능한 LP를 기준으로 손익을 계산해 드립니다. 투자 진행 시 해당 수치를 참고해 주시기 바랍니다.',
+
+  'enterpriseOnly.modal.title': "지정 기관 전용",
+  'enterpriseOnly.modal.description': `사전 협의를 통해 지정된 기관만 예치할 수 있습니다. 예치된 자산은 이용자 분들이 대여할 수 있으며, 예치한 기관은 대여에 따른 이자 수익을 받게 됩니다. 스테이킹은 지원되지 않으며 따라서 KLEVA 토큰 보상이 제공되지 않습니다.`,
 
 }
 

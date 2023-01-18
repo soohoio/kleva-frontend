@@ -469,7 +469,7 @@ class AddPositionMultiToken extends Component {
         }
       })
 
-    const lpTokenRatio = addressKeyFind(liquidities$.value, lpToken.address)
+    const lpTokenRatio = addressKeyFind(liquidities$.value, lpToken.address) || []
 
     const { borrowIncludedTokenAmounts } = this.bloc.getTokenAmountsPure()
     const lpTVLAfter = borrowIncludedTokenAmounts.reduce((acc, cur, idx) => {
@@ -479,7 +479,7 @@ class AddPositionMultiToken extends Component {
       return new BigNumber(acc)
         .plus(new BigNumber(cur || 0).div(10 ** token?.decimals).multipliedBy(tokenPrice))
         .toString()
-    }, lpTokenRatio[0].lpTVL)
+    }, lpTokenRatio && lpTokenRatio[0]?.lpTVL)
 
     const lpTokenRatioList = lpTokenRatio.map(({ token, amount, lpTVL }, idx) => {
       const tokenPrice = addressKeyFind(tokenPrices$.value, token.address)

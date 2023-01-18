@@ -62,20 +62,29 @@ const NODE_3_URL = "https://en5.klayfi.finance"
 const NODE_4_URL = "https://en6.klayfi.finance"
 const NODE_5_URL = "https://nodepelican.com/"
 const NODE_6_URL = "https://2.nodepelican.com/"
+const NODE_7_URL = "https://klaytn01.fautor.app/"
+const NODE_8_URL = "https://klaytn02.fautor.app/"
+const NODE_9_URL = "https://klaytn03.fautor.app/"
 
 export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
 export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
 export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
 export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
 export const caver_6 = new Caver(new Caver.providers.HttpProvider(NODE_6_URL, kasOption))
+export const caver_7 = new Caver(new Caver.providers.HttpProvider(NODE_7_URL, kasOption))
+export const caver_8 = new Caver(new Caver.providers.HttpProvider(NODE_8_URL, kasOption))
+export const caver_9 = new Caver(new Caver.providers.HttpProvider(NODE_9_URL, kasOption))
 
 export let caver = sample([
   // caver_1,
   // caver_2,
-  caver_3,
-  caver_4,
-  // caver_5,
+  // caver_3,
+  // caver_4,
+  caver_5,
   caver_6,
+  caver_7,
+  caver_8,
+  caver_9,
 ])
 
 const getBlockNumber$ = (web3Instance) => from(
@@ -101,20 +110,32 @@ interval(3000).pipe(
     //   map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
     //   catchError(() => of({ blockNumber: 0, url: ""}))
     // )),
-    from(getBlockNumber$(caver_3).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
-    from(getBlockNumber$(caver_4).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
+    // from(getBlockNumber$(caver_3).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_3_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: ""}))
+    // )),
+    // from(getBlockNumber$(caver_4).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: ""}))
+    // )),
     from(getBlockNumber$(caver_5).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
       catchError(() => of({ blockNumber: 0, url: ""}))
     )),
     from(getBlockNumber$(caver_6).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
+      map((blockNumber) => ({ blockNumber, url: NODE_6_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_7).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_7_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_8).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_8_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
+    from(getBlockNumber$(caver_9).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_9_URL })),
       catchError(() => of({ blockNumber: 0, url: ""}))
     )),
   )),

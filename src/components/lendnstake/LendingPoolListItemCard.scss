@@ -135,3 +135,12 @@
     color: #494a4d;
   }
 }
+
+.LendingPoolListItemCard__enterpriseOnly {
+  @include button-2(45px);
+  @include font-style('font-1', 'm', 15px);
+  line-height: 19px;
+  background-color: #F5F7FC;
+  color: #808CA9;
+  width: 100%;
+}
