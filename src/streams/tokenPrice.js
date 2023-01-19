@@ -4,6 +4,8 @@ import { tokenList, tokenListByAddress } from "../constants/tokens";
 import { addressKeyFind } from '../utils/misc';
 import { BigNumber } from 'bignumber.js'
 
+export const kokonutInvalid$ = new BehaviorSubject(false)
+
 export const fetchKlayswapInfo$ = () => from(
   fetch("https://api.kltalchemy.com/klay/ksInfo").then((res) => res.json())
 )
@@ -11,12 +13,17 @@ export const fetchKlayswapInfo$ = () => from(
 export const fetchKokonutSwapInfo$ = () => from(
   fetch("https://prod.kokonut-api.com/pools")
     .then((res) => res.json())
+    .catch(() => {
+      return { pools: [] }
+    })
 ).pipe(
-  catchError(() => {
+  catchError((err) => {
+    console.log(err, '@err')
     return of({ pools: [] })
   }),
   map(({ pools }) => {
-    return pools.reduce((acc, cur) => {
+    
+    return (pools || []).reduce((acc, cur) => {
 
       acc.tokenPrices[cur.lpTokenAddress.toLowerCase()] = Number(cur.lpTokenRealPrice)
       acc.aprs[cur.lpTokenAddress.toLowerCase()] = {

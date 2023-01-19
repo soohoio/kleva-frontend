@@ -415,8 +415,8 @@ export default class {
   handleFiftyFiftyMode = ({ from }) => {
     const lpTokenRatio = addressKeyFind(liquidities$.value, this.lpToken.address)
 
-    const token1Reserve = new BigNumber(lpTokenRatio[0].amount).toString()
-    const token2Reserve = new BigNumber(lpTokenRatio[1].amount).toString()
+    const token1Reserve = new BigNumber(lpTokenRatio[0]?.amount).toString()
+    const token2Reserve = new BigNumber(lpTokenRatio[1]?.amount).toString()
 
     if (from === 'token1') {
 

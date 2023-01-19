@@ -16,6 +16,8 @@ import { I18n } from '../common/I18n'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup'
 import ProfitSimulationPopup from './ProfitSimulationPopup'
 import ConnectWalletPopup from '../ConnectWalletPopup'
+import EnterpriseOnlyModal from '../modals/EnterpriseOnlyModal'
+import QuestionMark from '../common/QuestionMark'
 
 class LendingPoolListItem extends Component {
   destroy$ = new Subject()
@@ -47,6 +49,7 @@ class LendingPoolListItem extends Component {
       selectedAddress,
       wKLAYBalance,
       isLastIdx,
+      disabled,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -101,10 +104,12 @@ class LendingPoolListItem extends Component {
             label={I18n.t('lendingAPR')}
             value={`${noRounding(lendingAPR, 2)}%`}
           />
-          <LabelAndValue
-            label={I18n.t('stakingAPR')}
-            value={`${noRounding(stakingAPR, 2)}%`}
-          />
+          {!disabled && (
+            <LabelAndValue
+              label={I18n.t('stakingAPR')}
+              value={`${noRounding(stakingAPR, 2)}%`}
+            />
+          )}
         </div>
         
         <div className={cx("LendingPoolListItem LendingPoolListItem--totalSupply", {
@@ -121,79 +126,107 @@ class LendingPoolListItem extends Component {
         <div className={cx("LendingPoolListItem", {
           "LendingPoolListItem--last": isLastIdx
         })}>
-          <div className="LendingPoolListItem__tokenBalance">
-            <p className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </p>
-            <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
-          </div>
+          {disabled 
+            ? (
+              <div className="LendingPoolListItem__tokenBalance">
+                <p className="LendingPoolListItem__tokenValue">-</p>
+              </div>
+            )
+            : (
+            <div className="LendingPoolListItem__tokenBalance">
+              <p className="LendingPoolListItem__tokenValue">{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 3 })} </p>
+              <p className="LendingPoolListItem__tokenSymbol">{stakingToken.title}</p>
+            </div>
+            )
+          }
         </div>
         <div className={cx("LendingPoolListItem", {
           "LendingPoolListItem--last": isLastIdx
         })}>
           <div className="LendingDepositAndSimulation">
-            <div
-              className={cx("LendingDepositAndSimulation__simulationButton", {
-                "LendingDepositAndSimulation__simulationButton--disabled": !lendingAPR || !stakingAPR,
-              })}
-              onClick={() => {
-                if (!lendingAPR || !stakingAPR) return
-                openModal$.next({
-                  classNameAttach: 'Modal--mobileCoverAll',
-                  component: (
-                    <ProfitSimulationPopup 
-                      stakingToken={stakingToken}
-                      lendingAPR={lendingAPR}
-                      stakingAPR={stakingAPR}
-                      protocolAPR={protocolAPR}
-                    />
-                  )
-                })
-              }}
-            >
-              {I18n.t('profitSimulation')}
-            </div>
-            <div
-              className={cx("LendingDepositAndSimulation__depositButton", {
-                // "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDepositDisabled
-                // "LendingDepositAndSimulation__depositButton--disabled": isKLAY
-              })}
-              onClick={() => {
+            {disabled 
+              ? (
+                <div
+                  onClick={() => {
+                    openModal$.next({
+                      component: <EnterpriseOnlyModal />
+                    })
+                  }}
+                  className="LendingDepositAndSimulation__enterpriseOnly"
+                >
+                  {I18n.t('enterpriseOnly.modal.title')}
+                  <QuestionMark />
+                </div>
+              )
+              : (
+                <>
+                  <div
+                    className={cx("LendingDepositAndSimulation__simulationButton", {
+                      "LendingDepositAndSimulation__simulationButton--disabled": !lendingAPR || !stakingAPR,
+                    })}
+                    onClick={() => {
+                      if (!lendingAPR || !stakingAPR) return
+                      openModal$.next({
+                        classNameAttach: 'Modal--mobileCoverAll',
+                        component: (
+                          <ProfitSimulationPopup
+                            stakingToken={stakingToken}
+                            lendingAPR={lendingAPR}
+                            stakingAPR={stakingAPR}
+                            protocolAPR={protocolAPR}
+                          />
+                        )
+                      })
+                    }}
+                  >
+                    {I18n.t('profitSimulation')}
+                  </div>
+                  <div
+                    className={cx("LendingDepositAndSimulation__depositButton", {
+                      // "LendingDepositAndSimulation__depositButton--disabled": !selectedAddress || isDepositDisabled
+                      // "LendingDepositAndSimulation__depositButton--disabled": isKLAY
+                    })}
+                    onClick={() => {
 
-                // @HOTFIX
-                // if (isKLAY) {
-                //   return
-                // }
+                      // @HOTFIX
+                      // if (isKLAY) {
+                      //   return
+                      // }
 
-                if (!selectedAddress) {
-                  openModal$.next({
-                    classNameAttach: "Modal--mobileCoverAll",
-                    component: <ConnectWalletPopup />
-                  })
-                  return
-                }
+                      if (!selectedAddress) {
+                        openModal$.next({
+                          classNameAttach: "Modal--mobileCoverAll",
+                          component: <ConnectWalletPopup />
+                        })
+                        return
+                      }
 
-                // if (isDepositDisabled) {
-                //   return
-                // }
+                      // if (isDepositDisabled) {
+                      //   return
+                      // }
 
-                openModal$.next({
-                  classNameAttach: 'Modal--mobileCoverAll',
-                  component: (
-                    <LendAndStakeControllerPopup
-                      ibToken={ibToken}
-                      ibTokenPrice={ibTokenPrice}
-                      stakingToken={stakingToken}
-                      vaultAddress={vaultAddress}
+                      openModal$.next({
+                        classNameAttach: 'Modal--mobileCoverAll',
+                        component: (
+                          <LendAndStakeControllerPopup
+                            ibToken={ibToken}
+                            ibTokenPrice={ibTokenPrice}
+                            stakingToken={stakingToken}
+                            vaultAddress={vaultAddress}
 
-                      lendingAPR={lendingAPR}
-                      stakingAPR={stakingAPR}
-                      protocolAPR={protocolAPR}
-                    />
-                  )
-                })
-              }}
-            >
-              {I18n.t('lend')}
-            </div>
+                            lendingAPR={lendingAPR}
+                            stakingAPR={stakingAPR}
+                            protocolAPR={protocolAPR}
+                          />
+                        )
+                      })
+                    }}
+                  >
+                    {I18n.t('lend')}
+                  </div>
+                </>
+              )
+            }
           </div>
         </div>
       </>

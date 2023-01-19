@@ -22,6 +22,7 @@ import LendStakeAPRDetailInfoModal from '../modals/LendStakeAPRDetailInfoModal'
 import LendAndStakeControllerPopup from './LendAndStakeControllerPopup';
 import ProfitSimulationPopup from './ProfitSimulationPopup'
 import ConnectWalletPopup from '../ConnectWalletPopup'
+import EnterpriseOnlyModal from '../modals/EnterpriseOnlyModal'
 
 class LendingPoolListItemCard extends Component {
   destroy$ = new Subject()
@@ -53,6 +54,7 @@ class LendingPoolListItemCard extends Component {
       protocolAPR,
       selectedAddress,
       wKLAYBalance,
+      disabled
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -88,7 +90,12 @@ class LendingPoolListItemCard extends Component {
                 openModal$.next({
                   component: (
                     <LendStakeAPRDetailInfoModal
+                      noButton={disabled}
+
+                      stakingUnavailable={disabled}
+
                       isDepositDisabled={isDepositDisabled}
+                      
                       selectedAddress={selectedAddress}
                       ibToken={ibToken}
                       ibTokenPrice={ibTokenPrice}
@@ -138,84 +145,105 @@ class LendingPoolListItemCard extends Component {
               {utilization.toLocaleString('en-us', { maximumFractionDigits: 2 })}%
             </>
           )} />
-          <LabelAndValue 
-            className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--balance" 
-            label={I18n.t('depositAvailable')}
-            value={(
-            <>
-              {/* <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p> */}
-              {/* {isKLAY && <p style={{ textAlign: "right" }}>{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} WKLAY</p>} */}
-              <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
-            </>
-          )} />
+          {!disabled && (
+            <LabelAndValue 
+              className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--balance" 
+              label={I18n.t('depositAvailable')}
+              value={(
+              <>
+                {/* <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p> */}
+                {/* {isKLAY && <p style={{ textAlign: "right" }}>{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} WKLAY</p>} */}
+                <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
+              </>
+            )} />
+          )}
 
           <div className="LendingPoolListItemCard__buttons">
-            <div
-              className={cx("LendingPoolListItemCard__simulationButton", {
-                "LendingPoolListItemCard__simulationButton--disabled": isDisabled
-              })}
-              onClick={() => {
+            {disabled 
+              ? (
+                <div
+                  onClick={() => {
+                    openModal$.next({
+                      component: <EnterpriseOnlyModal />
+                    })
+                  }}
+                  className="LendingPoolListItemCard__enterpriseOnly"
+                >
+                  {I18n.t('enterpriseOnly.modal.title')}
+                  <QuestionMark />
+                </div>
+              )
+              : (
+                <>
+                  <div
+                    className={cx("LendingPoolListItemCard__simulationButton", {
+                      "LendingPoolListItemCard__simulationButton--disabled": isDisabled
+                    })}
+                    onClick={() => {
 
-                if (isDisabled) {
-                  return
-                }
+                      if (isDisabled) {
+                        return
+                      }
 
-                openModal$.next({
-                  classNameAttach: 'Modal--mobileCoverAll',
-                  component: (
-                    <ProfitSimulationPopup
-                      stakingToken={stakingToken}
-                      lendingAPR={lendingAPR}
-                      stakingAPR={stakingAPR}
-                      protocolAPR={protocolAPR}
-                    />
-                  )
-                })
-              }}
-            >
-              {I18n.t('profitSimulation')}
-            </div>
-            <div
-              className={cx("LendingPoolListItemCard__depositButton", {
-                // @HOTFIX
-                // "LendingPoolListItemCard__depositButton--disabled": isKLAY
-              })}
-              onClick={() => {
+                      openModal$.next({
+                        classNameAttach: 'Modal--mobileCoverAll',
+                        component: (
+                          <ProfitSimulationPopup
+                            stakingToken={stakingToken}
+                            lendingAPR={lendingAPR}
+                            stakingAPR={stakingAPR}
+                            protocolAPR={protocolAPR}
+                          />
+                        )
+                      })
+                    }}
+                  >
+                    {I18n.t('profitSimulation')}
+                  </div>
+                  <div
+                    className={cx("LendingPoolListItemCard__depositButton", {
+                      // @HOTFIX
+                      // "LendingPoolListItemCard__depositButton--disabled": isKLAY
+                    })}
+                    onClick={() => {
 
-                // @HOTFIX
-                // if (isKLAY) return
+                      // @HOTFIX
+                      // if (isKLAY) return
 
-                if (!selectedAddress) {
-                  openModal$.next({
-                    classNameAttach: "Modal--mobileCoverAll",
-                    component: <ConnectWalletPopup />
-                  })
-                  return
-                }
+                      if (!selectedAddress) {
+                        openModal$.next({
+                          classNameAttach: "Modal--mobileCoverAll",
+                          component: <ConnectWalletPopup />
+                        })
+                        return
+                      }
 
-                // if (isDepositDisabled) {
-                //   return
-                // }
+                      // if (isDepositDisabled) {
+                      //   return
+                      // }
 
-                openModal$.next({
-                  classNameAttach: 'Modal--mobileCoverAll',
-                  component: (
-                    <LendAndStakeControllerPopup
-                      ibToken={ibToken}
-                      ibTokenPrice={ibTokenPrice}
-                      stakingToken={stakingToken}
-                      vaultAddress={vaultAddress}
+                      openModal$.next({
+                        classNameAttach: 'Modal--mobileCoverAll',
+                        component: (
+                          <LendAndStakeControllerPopup
+                            ibToken={ibToken}
+                            ibTokenPrice={ibTokenPrice}
+                            stakingToken={stakingToken}
+                            vaultAddress={vaultAddress}
 
-                      lendingAPR={lendingAPR}
-                      stakingAPR={stakingAPR}
-                      protocolAPR={protocolAPR}
-                    />
-                  )
-                })
-              }}
-            >
-              {I18n.t('lend')}
-            </div>
+                            lendingAPR={lendingAPR}
+                            stakingAPR={stakingAPR}
+                            protocolAPR={protocolAPR}
+                          />
+                        )
+                      })
+                    }}
+                  >
+                    {I18n.t('lend')}
+                  </div>
+                </>
+              )
+            }
           </div>
         </div>
       </div>

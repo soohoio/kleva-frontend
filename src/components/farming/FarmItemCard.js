@@ -65,6 +65,8 @@ class FarmItemCard extends Component {
       borrowingAssetMap$,
     } = this.props
 
+    if (!this.bloc.worker$.value) return false
+
     const leverageValue = this.bloc.leverageValue$.value
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 

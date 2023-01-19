@@ -70,6 +70,14 @@ export const lendingPools = [
     stakingToken: tokenList["KLEVA"],
     vaultConfigAddress: "0xa38D0a564A953B010dE32a4105FD9c34CeF55306",
   },
+  {
+    title: "KSD",
+    vaultAddress: tokenList["ibKSD"].address,
+    ibToken: tokenList["ibKSD"],
+    stakingToken: tokenList["KSD"],
+    vaultConfigAddress: "0x622149Ec791EB44D0725c17345C79d1f182aa850",
+    disabled: true,
+  },
 ]
 
 export const lendingPoolsByStakingTokenAddress = lendingPools.reduce((acc, cur) => {

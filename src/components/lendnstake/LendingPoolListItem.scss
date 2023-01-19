@@ -174,3 +174,15 @@
     @include font-style('font-1', 'sb', 14px);
   }
 }
+
+// 
+.LendingDepositAndSimulation__enterpriseOnly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  @include font-style('font-1', 'm', 14px);
+  line-height: 18px;
+  color: #808CA9;
+  cursor: pointer;
+}

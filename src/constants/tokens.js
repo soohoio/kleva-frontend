@@ -287,6 +287,16 @@ export const ibTokens = {
 
     originalToken: singleTokens.oUSDC,
   },
+
+  "ibKSD": {
+    title: "ibKSD",
+    address: "0x67247f852286bb4ca7155114d4df886287c5e148",
+    iconSrc: "/static/images/tokens/token-KSD.svg?date=20220929",
+    decimals: singleTokens["KSD"].decimals,
+    minDebtSize: new BigNumber(100 * 10 ** 6).toString(),
+
+    originalToken: singleTokens.KSD,
+  },
 }
 
 // REAL
@@ -333,6 +343,12 @@ export const debtTokens = {
     pid: 26,
     title: "oUSDC",
     address: "0x6346a43803a8ae8d63b04fff7ced9556c5d36a08",
+    decimals: 18,
+  },
+  [ibTokens.ibKSD.address]: {
+    pid: 28,
+    title: "KSD",
+    address: "0xa8789c9875261f44FD46271A8F6165352C78B80A",
     decimals: 18,
   },
 }
