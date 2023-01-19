@@ -90,6 +90,7 @@ class LendingPoolListItemCard extends Component {
                 openModal$.next({
                   component: (
                     <LendStakeAPRDetailInfoModal
+                      noButton={disabled}
 
                       stakingUnavailable={disabled}
 
@@ -144,16 +145,18 @@ class LendingPoolListItemCard extends Component {
               {utilization.toLocaleString('en-us', { maximumFractionDigits: 2 })}%
             </>
           )} />
-          <LabelAndValue 
-            className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--balance" 
-            label={I18n.t('depositAvailable')}
-            value={(
-            <>
-              {/* <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p> */}
-              {/* {isKLAY && <p style={{ textAlign: "right" }}>{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} WKLAY</p>} */}
-              <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
-            </>
-          )} />
+          {!disabled && (
+            <LabelAndValue 
+              className="LendingPoolListItemCard__lv LendingPoolListItemCard__lv--balance" 
+              label={I18n.t('depositAvailable')}
+              value={(
+              <>
+                {/* <p style={{ textAlign: "right" }}>{Number(ibTokenBalanceInWallet && ibTokenBalanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} ib{stakingToken.title}</p> */}
+                {/* {isKLAY && <p style={{ textAlign: "right" }}>{Number(wKLAYBalance && wKLAYBalance.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} WKLAY</p>} */}
+                <p style={{ textAlign: "right" }}>{Number(balanceInWallet && balanceInWallet.balanceParsed || 0).toLocaleString('en-us', { maximumFractionDigits: 2 })} {stakingToken.title}</p>
+              </>
+            )} />
+          )}
 
           <div className="LendingPoolListItemCard__buttons">
             {disabled 
