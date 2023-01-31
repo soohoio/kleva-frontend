@@ -431,7 +431,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      }
+    ],
     "name": "killFactorBps",
     "outputs": [
       {
@@ -496,7 +502,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      }
+    ],
     "name": "rawKillFactorBps",
     "outputs": [
       {
@@ -815,7 +827,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+        {
+          "internalType": "address",
+          "name": "ownerAddress",
+          "type": "address"
+        }
+    ],
     "name": "workFactorBps",
     "outputs": [
       {

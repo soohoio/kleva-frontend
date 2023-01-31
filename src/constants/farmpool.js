@@ -6,9 +6,9 @@ const makeFarm = (tokens) => {
 
   const workerList = workersBy(tokens)
 
-  const defaultBorrowingAsset = tokens.filter(({ address }) => {
+  const defaultBorrowingAsset = tokens.filter(({ address, borrowingDisabled }) => {
     const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
-    return hasLendingPool
+    return !borrowingDisabled && hasLendingPool
   })[0]
 
   const tokensMap = tokens.reduce((acc, cur, idx) => {

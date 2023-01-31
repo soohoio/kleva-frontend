@@ -65,7 +65,7 @@ class FarmItemCard extends Component {
       borrowingAssetMap$,
     } = this.props
 
-    if (!this.bloc.worker$.value) return false
+    // if (!this.bloc.worker$.value) return false
 
     const leverageValue = this.bloc.leverageValue$.value
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
@@ -181,7 +181,7 @@ class FarmItemCard extends Component {
                       defaultBorrowingAsset={borrowingAsset}
                       defaultLeverage={this.bloc.leverageValue$.value}
                       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                      tradingFeeAPR={tradingFeeAPR}
+                      tradingFeeAPR={tradingFeeAPRWithoutLeverage}
                       workerList={workerList}
                       workerInfo={workerInfo}
 
@@ -204,7 +204,7 @@ class FarmItemCard extends Component {
                       defaultBorrowingAsset={borrowingAsset}
                       defaultLeverage={this.bloc.leverageValue$.value}
                       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                      tradingFeeAPR={tradingFeeAPR}
+                      tradingFeeAPR={tradingFeeAPRWithoutLeverage}
                       workerList={workerList}
                       workerInfo={workerInfo}
 

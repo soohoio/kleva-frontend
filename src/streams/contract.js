@@ -984,19 +984,19 @@ export const getPositionInfo_single$ = ({ workerAddress, positionId }) => {
   })
 }
 
-export const getWorkerInfo$ = (workerList) => {
+export const getWorkerInfo$ = (workerList, ownerAddress) => {
   // KillFactorBPS
   const p1 = multicall(
     KlayswapWorkerABI,
     workerList.map(({ workerAddress, id }) => {
-      return { address: workerAddress, name: 'killFactorBps', params: [] }
+      return { address: workerAddress, name: 'killFactorBps', params: [ownerAddress || "0x" + "0".repeat(40)] }
     })
   )
   
   const p2 = multicall(
     KlayswapWorkerABI,
     workerList.map(({ workerAddress, id }) => {
-      return { address: workerAddress, name: 'workFactorBps', params: [] }
+      return { address: workerAddress, name: 'workFactorBps', params: [ownerAddress || "0x" + "0".repeat(40)] }
     })
   )
 
@@ -1010,7 +1010,7 @@ export const getWorkerInfo$ = (workerList) => {
   const p4 = multicall(
     KlayswapWorkerABI,
     workerList.map(({ workerAddress, id }) => {
-      return { address: workerAddress, name: 'rawKillFactorBps', params: [] }
+      return { address: workerAddress, name: 'rawKillFactorBps', params: [ownerAddress || "0x" + "0".repeat(40)] }
     })
   )
   

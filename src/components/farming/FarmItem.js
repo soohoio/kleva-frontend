@@ -63,7 +63,7 @@ class FarmItem extends Component {
       borrowingAssetMap$,
     } = this.props
 
-    if (!this.bloc.worker$.value) return false
+    // if (!this.bloc.worker$.value) return false
 
     const borrowingAvailableAssets = this.bloc.getBorrowingAvailableAsset()
 
@@ -73,6 +73,7 @@ class FarmItem extends Component {
       yieldFarmingAPRWithoutLeverage,
       yieldFarmingAPR,
       tradingFeeAPR,
+      tradingFeeAPRWithoutLeverage,
       debtTokenKlevaRewardsAPR,
       totalAPR,
       APY,
@@ -95,7 +96,10 @@ class FarmItem extends Component {
           value: `${new BigNumber(baseInterest)
             .multipliedBy(this.bloc.leverageValue$.value - 1)
             .toFixed(2)}%`,
-          onClick: () => this.bloc.setBorrowingAsset({ asset: token }), // define onClick in separate items
+          onClick: () => {
+            console.log('hi')
+            this.bloc.setBorrowingAsset({ asset: token })
+          }, // define onClick in separate items
         }
       })
 
@@ -166,7 +170,7 @@ class FarmItem extends Component {
                       defaultBorrowingAsset={borrowingAsset}
                       defaultLeverage={this.bloc.leverageValue$.value}
                       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                      tradingFeeAPR={tradingFeeAPR}
+                      tradingFeeAPR={tradingFeeAPRWithoutLeverage}
                       workerList={workerList}
                       workerInfo={workerInfo}
 
@@ -189,7 +193,7 @@ class FarmItem extends Component {
                       defaultBorrowingAsset={borrowingAsset}
                       defaultLeverage={this.bloc.leverageValue$.value}
                       yieldFarmingAPR={yieldFarmingAPRWithoutLeverage}
-                      tradingFeeAPR={tradingFeeAPR}
+                      tradingFeeAPR={tradingFeeAPRWithoutLeverage}
                       workerList={workerList}
                       workerInfo={workerInfo}
 

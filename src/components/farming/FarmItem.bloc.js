@@ -45,6 +45,7 @@ export default class {
     .filter((t) => {
 
       if (!t) return false
+      if (t && t.borrowingDisabled) return false
 
       const address = t.address
       const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
@@ -122,6 +123,7 @@ export default class {
       ...this.comp.props.borrowingAssetMap$.value,
       [this.comp.props.lpToken.address]: asset,
     })
+    console.log(selectedWorker, 'selectedWorker')
     this.worker$.next(selectedWorker)
 
     const leverageCap = this.getLeverageCap()
@@ -227,7 +229,7 @@ export default class {
 
     const workerConfig = workerInfo &&
       worker &&
-      workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
+      (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
 
     const leverageCapRaw = workerConfig && 10000 / (10000 - workerConfig.workFactorBps)
     const leverageCap = workerConfig && getBufferedLeverage(workerConfig.workFactorBps)

@@ -96,7 +96,8 @@ export default class {
   getConfig = () => {
     const { workerInfo } = this.comp.props
     const workerConfig = workerInfo
-      && workerInfo[this.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.worker$.value.workerAddress]
+      && this.worker$.value
+      && (workerInfo[this.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.worker$.value.workerAddress])
 
     const leverageCap = getBufferedLeverage(workerConfig.workFactorBps)
 
@@ -154,8 +155,13 @@ export default class {
 
   selectWorker = (borrowingAsset) => {
     const selectedWorker = this.workerList.find((w) => {
+      console.log(w.baseToken.address, 'w.baseToken.address')
+      console.log(borrowingAsset.address, 'borrowingAsset.address')
       return w.baseToken.address.toLowerCase() === borrowingAsset.address.toLowerCase()
     })
+
+    console.log(selectedWorker, 'selectedWorker')
+    console.log(borrowingAsset, 'borrowingAsset')
 
     this.worker$.next(selectedWorker)
     this.borrowingAsset$.next(borrowingAsset)
