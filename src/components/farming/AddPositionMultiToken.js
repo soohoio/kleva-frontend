@@ -506,6 +506,8 @@ class AddPositionMultiToken extends Component {
       }
     })
 
+    const { workerConfig } = this.bloc.getConfig()
+
     return (
       <div className="AddPosition">
         <div className="AddPositionMultiToken__content">
@@ -553,6 +555,7 @@ class AddPositionMultiToken extends Component {
 
             {this.renderSupplyInput({ baseToken })}
             <LeverageInput
+              workerConfig={workerConfig}
               offset={offset}
               leverageCap={leverageCap}
               setLeverage={this.bloc.setLeverageValue}

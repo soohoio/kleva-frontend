@@ -677,6 +677,8 @@ renderTotalValue = ({
       ? debtDelta
       : 0
 
+    const { workerConfig } = this.bloc.getConfig()
+
     return (
       <div className="AdjustPosition">
         <div className="AdjustPosition__content">
@@ -736,6 +738,7 @@ renderTotalValue = ({
               ? (
                 <>
                   <LeverageInput
+                    workerConfig={workerConfig}
                     offset={offset}
                     leverageLowerBound={this.props.currentPositionLeverage}
                     leverageCap={leverageCap}

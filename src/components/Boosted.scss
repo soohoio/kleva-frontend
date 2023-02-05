@@ -1,0 +1,12 @@
+.Boosted {
+  display: flex;
+  align-items: center;
+  margin-top: 7px;
+}
+
+.Boosted__description {
+  @include font-style('font-1', 'sb', 15px);
+  margin-left: 7px;
+  color: #8B96B2;
+  line-height: 21px;
+}

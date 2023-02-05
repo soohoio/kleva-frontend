@@ -13,10 +13,11 @@ import { I18n } from '../common/I18n';
 import { currentLocale$ } from 'streams/i18n';
 import LabelAndValue from '../LabelAndValue'
 import RadioSet2 from '../common/RadioSet2'
-import { openContentView$, openModal$ } from '../../streams/ui'
+import { isDesktop$, openContentView$, openModal$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 import ConnectWalletPopup from '../ConnectWalletPopup'
 import AddPositionMultiToken from './AddPositionMultiToken';
+import Boosted from '../Boosted'
 
 class FarmItem extends Component {
   destroy$ = new Subject()
@@ -79,6 +80,13 @@ class FarmItem extends Component {
       APY,
       leverageCapRaw,
       leverageCap,
+
+      boostedMaximumYieldFarmingAPR,
+      boostedMaximumTradingFeeAPR,
+      boostedMaximumDebtTokenKlevaRewardsAPR,
+      boostedMaximumBorrowingInterestAPR,
+      boostedMaximumTotalAPR,
+      boostedMaximumAPY,
     } = this.bloc.getRenderIngredients()
 
     const {
@@ -103,6 +111,8 @@ class FarmItem extends Component {
         }
       })
 
+    const workerConfig = this.bloc.getWorkerConfig()
+
     return (
       <div className="FarmItem">
 
@@ -117,11 +127,24 @@ class FarmItem extends Component {
             <p className="FarmItem__title">{lpToken.title}</p>
             {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
+            <Boosted workerConfig={workerConfig} />
           </div>
         </div>
         <div className="FarmItem__aprItem">
           <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
           <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
+          <p className="FarmItem__boostedApr">
+            <span 
+              className="FarmItem__boostedAprTitle"
+            >
+              {I18n.t('boostedMaximumaAPR.2')}
+            </span>
+            <span
+              className="FarmItem__boostedAprValue"
+            >
+              {nFormatter(boostedMaximumAPY, 2)}%
+            </span>
+          </p>
         </div>
         <div className="FarmItem__aprDetailItem">
           {yieldFarmingAPR != 0 && <LabelAndValue label={I18n.t('farming.yieldFarmingAPR')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />}

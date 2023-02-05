@@ -116,10 +116,18 @@ export default class {
   getConfig = () => {
     const { workerInfo } = this.comp.props
 
-    const leverageCap = getBufferedLeverage(workerInfo?.workFactorBps)
+    const leverageCap = workerConfig.isMembershipUser
+      ? getBufferedLeverage(workerConfig.membershipWorkFactorBps)
+      : getBufferedLeverage(workerConfig.workFactorBps)
 
-    const workFactorBps = workerInfo?.workFactorBps
-    const rawKillFactorBps = workerInfo?.rawKillFactorBps
+    const workFactorBps = workerConfig.isMembershipUser
+      ? workerConfig?.membershipWorkFactorBps
+      : workerConfig?.workFactorBps
+    
+    // @TODO?
+    const rawKillFactorBps = workerConfig.isMembershipUser
+      ? workerConfig?.membershipKillFactorBps
+      : workerConfig?.workFactorBps
 
     return { workerInfo, workFactorBps, rawKillFactorBps, leverageCap }
   }

@@ -1028,7 +1028,22 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
     })
   )
 
-  return forkJoin([p1, p2, p3, p4, p5, p6]).pipe(
+  const p7 = multicall(
+    KlayswapCalculatorABI,
+    workerList.map((worker) => {
+      const { workerAddress } = worker
+      return { 
+        address: KLAYSWAP_CALCULATOR, 
+        name: 'membershipInfo', 
+        params: [
+          workerAddress,
+          ownerAddress || "0x" + "0".repeat(40),
+        ]
+      }
+    })
+  )
+
+  return forkJoin([p1, p2, p3, p4, p5, p6, p7]).pipe(
     map(([
       killFactorBpsList, 
       workFactorBpsList, 
@@ -1036,6 +1051,7 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
       rawKillFactorBpsList,
       totalShareList,
       totalStakedLpBalanceList,
+      membershipInfoList,
     ]) => {
 
       const coupled = coupleArray({
@@ -1051,11 +1067,14 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
         labelE: 'totalShare',
         arrayF: flatten(totalStakedLpBalanceList),
         labelF: 'totalStakedLpBalance',
+        arrayG: membershipInfoList,
+        labelG: 'membershipInfo',
       })
 
       return flatten(coupled).reduce((acc, cur, idx) => {
         const _worker = workerList[idx]
         const workerAddress = _worker && _worker.workerAddress
+        const membershipInfo = cur.membershipInfo
 
         acc[workerAddress] = {
           // Deposited real token balance
@@ -1069,6 +1088,10 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
           lpPoolId: new BigNumber(cur.lpPoolId._hex).toString(),
           totalShare: new BigNumber(cur.totalShare._hex).toString(),
           totalStakedLpBalance: new BigNumber(cur.totalStakedLpBalance._hex).toString(),
+
+          isMembershipUser: membershipInfo.isMembershipUser,
+          membershipKillFactorBps: new BigNumber(membershipInfo.membershipKillFactorBps._hex).toString(),
+          membershipWorkFactorBps: new BigNumber(membershipInfo.membershipWorkFactorBps._hex).toString(),
         }
 
         return acc
@@ -2196,6 +2219,25 @@ export const getBorrowAmount$ = ({
   }).pipe(
     catchError((e) => {
       console.log(e, 'getbrramt err')
+      return of(0)
+    })
+  )
+}
+
+export const getMembershipInfo$ = ({ workerAddress, userAddress }) => {
+  console.log(workerAddress, 'workerAddress')
+  console.log(userAddress, 'userAddress')
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "membershipInfo",
+    params: [
+      workerAddress,
+      userAddress || "0x" + "0".repeat(40),
+    ]
+  }).pipe(
+    catchError((e) => {
+      console.log(e, 'getMembershipInfo err')
       return of(0)
     })
   )

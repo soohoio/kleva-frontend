@@ -9,6 +9,8 @@ import QuestionMark from './QuestionMark'
 import LeverageInfoModal from '../modals/LeverageInfoModal'
 import { openModal$ } from '../../streams/ui'
 import { noRounding, replaceall } from '../../utils/misc'
+import Boosted from '../Boosted'
+import { getBufferedLeverage } from '../../utils/calc'
 
 class LeverageInput extends Component {
   destroy$ = new Subject()
@@ -31,21 +33,32 @@ class LeverageInput extends Component {
   }
     
   render() {
-    const { leverageCap, leverageLowerBound, offset, leverage$, setLeverage } = this.props
+    const { workerConfig, leverageCap, leverageLowerBound, offset, leverage$, setLeverage } = this.props
 
     const leverageValue = noRounding(leverage$.value, 2)
+
+    const boostedLeverageCap = workerConfig
+      && noRounding(getBufferedLeverage(workerConfig.membershipWorkFactorBps), 1)
 
     return (
       <div className="LeverageInput">
         <div className="LeverageInput__header">
-          {I18n.t('leverage')}
-          <QuestionMark
-            onClick={() => {
-              openModal$.next({
-                component: <LeverageInfoModal />
-              })
-            }}
-          />
+          <div className="LeverageInput__headerLeft">
+            {I18n.t('leverage')}
+            <QuestionMark
+              onClick={() => {
+                openModal$.next({
+                  component: <LeverageInfoModal />
+                })
+              }}
+            />
+          </div>
+          <div className="LeverageInput__headerRight">
+            <Boosted
+               workerConfig={workerConfig}
+                description={`${I18n.t('boostedMaximumaAPR.2')} ${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
+            />
+          </div>
         </div>
         <div className="LeverageInput__content">
           

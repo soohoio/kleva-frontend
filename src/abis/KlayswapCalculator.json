@@ -508,5 +508,44 @@
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "name": "userAddress",
+        "type": "address"
+      }
+    ],
+    "name": "membershipInfo",
+    "outputs": [
+      {
+        "name": "isMembershipUser",
+        "type": "bool"
+      },
+      {
+        "name": "workFactorBps",
+        "type": "uint256"
+      },
+      {
+        "name": "membershipWorkFactorBps",
+        "type": "uint256"
+      },
+      {
+        "name": "killFactorBps",
+        "type": "uint256"
+      },
+      {
+        "name": "membershipKillFactorBps",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

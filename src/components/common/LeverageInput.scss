@@ -18,9 +18,20 @@
   @include font-style('font-1', 'b', 16px);
   color: #222222;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
   line-height: 20px;
+}
+
+.LeverageInput__headerLeft {
+  display: flex;
+  align-items: center;
+}
+
+.LeverageInput__headerRight {
+  display: flex;
+  align-items: center;
 }
 
 .LeverageInput__content {

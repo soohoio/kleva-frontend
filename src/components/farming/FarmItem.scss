@@ -87,6 +87,25 @@
   color: #777D8F;
 }
 
+.FarmItem__boostedApr {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  line-height: 17px;
+}
+
+.FarmItem__boostedAprTitle {
+  color: #9E3EFF;
+}
+
+.FarmItem__boostedAprValue {
+  @include font-style('font-1', 'eb', 15px);
+  line-height: 17px;
+  background: linear-gradient(93.56deg, #8319FF 1.72%, #DB00FF 96.65%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .FarmItem__apy {
   @include font-style('font-1', 'b', 17px);
   color: #265FFC;

@@ -1,0 +1,44 @@
+
+.BoostInfoModal__description {
+  @include font-style('font-1', 'm', 16px);
+  line-height: 24px;
+  color: #636878;
+  margin-bottom: 10px;
+}
+
+.BoostInfoModal__description2 {
+  @include font-style('font-1', 'm', 16px);
+  line-height: 24px;
+  color: #636878;
+  padding-top: 20px;
+  border-top: 1px solid #E6EAF2;
+}
+
+.BoostInfoModal__content {
+  margin-bottom: 20px;
+}
+
+.BoostInfoModal__LabelAndValue {
+  margin-bottom: 4px;
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 16px);
+    color: #222222;
+    line-height: 24px;
+  }
+
+  .BeforeAfter__before {
+    font-size: 16px;
+  }
+
+  .BeforeAfter__after {
+    @include font-style('font-1', 'b', 16px);
+    color: #265FFC;
+  }
+}
+
+.BoostInfoModal__subtitle {
+  @include font-style('font-1', 'm', 14px);
+  color: #969BAB;
+  line-height: 18px;
+}

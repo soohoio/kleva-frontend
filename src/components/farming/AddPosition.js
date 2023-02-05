@@ -559,6 +559,8 @@ class AddPosition extends Component {
 
     const isKlayRelatedFarm = isKLAY(baseToken.address) || isKLAY(farmingToken.address)
 
+    const { workerConfig } = this.bloc.getConfig()
+
     return (
       <div className="AddPosition">
         <div className="AddPosition__content">
@@ -601,6 +603,7 @@ class AddPosition extends Component {
             
             {this.renderSupplyInput({ baseToken, farmingToken })}
             <LeverageInput
+              workerConfig={workerConfig}
               offset={offset}
               leverageCap={leverageCap}
               setLeverage={this.bloc.setLeverageValue}

@@ -46,6 +46,7 @@ export const coupleArray = ({
   arrayD,
   arrayE,
   arrayF,
+  arrayG,
    
   labelA, 
   labelB, 
@@ -53,6 +54,7 @@ export const coupleArray = ({
   labelD,
   labelE,
   labelF,
+  labelG,
 }) => {
   let result = []
   for (let i = 0; i < arrayA.length; i++) {
@@ -94,6 +96,13 @@ export const coupleArray = ({
       result[i] = {
         ...result[i],
         [labelF]: arrayF[i],
+      }
+    }
+    
+    if (labelG) {
+      result[i] = {
+        ...result[i],
+        [labelG]: arrayG[i],
       }
     }
   }

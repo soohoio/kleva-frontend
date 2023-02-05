@@ -19,6 +19,7 @@ import { openContentView$ } from '../../streams/ui'
 import AddPosition from './AddPosition'
 import ConnectWalletPopup from '../ConnectWalletPopup'
 import AddPositionMultiToken from './AddPositionMultiToken';
+import Boosted from '../Boosted'
 
 class FarmItemCard extends Component {
   destroy$ = new Subject()
@@ -83,11 +84,20 @@ class FarmItemCard extends Component {
 
       yieldFarmingAPRWithoutLeverage,
       tradingFeeAPRWithoutLeverage,
+
+      boostedMaximumYieldFarmingAPR,
+      boostedMaximumTradingFeeAPR,
+      boostedMaximumDebtTokenKlevaRewardsAPR,
+      boostedMaximumBorrowingInterestAPR,
+      boostedMaximumTotalAPR,
+      boostedMaximumAPY,
     } = this.bloc.getRenderIngredients()
 
     const {
       baseBorrowingInterests,
     } = this.bloc.getBorrowingInterests()
+
+    const workerConfig = this.bloc.getWorkerConfig()
 
     return (
       <div className="FarmItemCard">
@@ -102,6 +112,8 @@ class FarmItemCard extends Component {
             <div className="FarmItemCard__mainInfo">
               <p className="FarmItemCard__title">{lpToken.title}</p>
               <p className="FarmItemCard__exchange">{exchange}</p>
+              {/* Boosted */}
+              <Boosted workerConfig={workerConfig} />
             </div>
           </div>
           <div className="FarmItemCard__subInfo">
@@ -147,6 +159,10 @@ class FarmItemCard extends Component {
               />
             </p>
             <p className="FarmItemCard__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value, true)}</p>
+            <div className="FarmItemCard__boostedAPR">
+              <span className="FarmItemCard__boostedAPRTitle">{I18n.t('boostedMaximumaAPR')}</span>
+              <span className="FarmItemCard__boostedAPRValue">{nFormatter(boostedMaximumAPY, 2)}%</span>
+            </div>
           </div>
         </div>
         <div className="FarmItemCard__footer">

@@ -546,6 +546,8 @@ class AdjustPositionMultiToken extends Component {
       ? debtDelta
       : 0
 
+    const { workerConfig } = this.bloc.getConfig()
+
     return (
       <div className="AdjustPositionMultiToken">
         <div className="AdjustPositionMultiToken__content">
@@ -609,6 +611,7 @@ class AdjustPositionMultiToken extends Component {
               ? (
                 <>
                   <LeverageInput
+                    workerConfig={workerConfig}
                     offset={offset}
                     leverageLowerBound={this.props.currentPositionLeverage}
                     leverageCap={leverageCap}

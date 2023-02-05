@@ -195,6 +195,17 @@ export default class {
     return yieldFarmingAPR
   }
 
+  getWorkerConfig = () => {
+    const { aprInfo, workerInfo } = this.comp.props
+    const worker = this.worker$.value
+    
+    const workerConfig = workerInfo &&
+      worker &&
+      (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
+
+    return workerConfig
+  }
+
   getRenderIngredients = () => {
     const {
       aprInfo,
@@ -204,11 +215,27 @@ export default class {
     const leverageValue = this.leverageValue$.value
     const worker = this.worker$.value
 
+    const workerConfig = workerInfo &&
+      worker &&
+      (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
+
+    const leverageCapRaw = workerConfig.isMembershipUser
+      ? workerConfig && 10000 / (10000 - workerConfig.membershipWorkFactorBps)
+      : workerConfig && 10000 / (10000 - workerConfig.workFactorBps)
+
+    const leverageCap = workerConfig.isMembershipUser
+      ? workerConfig && getBufferedLeverage(workerConfig.membershipWorkFactorBps)
+      : workerConfig && getBufferedLeverage(workerConfig.workFactorBps)
+
+    const boostedMaximumLeverageCap = workerConfig && getBufferedLeverage(workerConfig.membershipWorkFactorBps)
+
     const { selectedBorrowingInterestAPR: selectedBorrowingInterestAPRWithoutLeverage } = this.getBorrowingInterests(this.leverageValue$.value)
     const { selectedBorrowingInterestAPR } = this.getBorrowingInterests(this.leverageValue$.value)
+    const { selectedBorrowingInterestAPR: boostedMaximumBorrowingInterestAPR } = this.getBorrowingInterests(boostedMaximumLeverageCap)
 
     const yieldFarmingAPRWithoutLeverage = this.getYieldFarmingAPR(1)
     const yieldFarmingAPR = this.getYieldFarmingAPR(leverageValue)
+    const boostedMaximumYieldFarmingAPR = this.getYieldFarmingAPR(boostedMaximumLeverageCap)
 
     const tradingFeeAPRWithoutLeverage = aprInfo && new BigNumber(aprInfo.tradingFeeAPR || 0)
       .toNumber()
@@ -217,8 +244,20 @@ export default class {
       .multipliedBy(leverageValue)
       .toNumber()
 
+    const boostedMaximumTradingFeeAPR = aprInfo && new BigNumber(tradingFeeAPRWithoutLeverage)
+      .multipliedBy(boostedMaximumLeverageCap)
+      .toNumber()
+
     const debtTokenKlevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(this.leverageValue$.value)
+    const boostedMaximumDebtTokenKlevaRewardsAPR = this.getDebtTokenKlevaRewardsAPR(boostedMaximumLeverageCap)
     
+    // boosted APR
+    const boostedMaximumTotalAPR = new BigNumber(boostedMaximumYieldFarmingAPR)
+      .plus(boostedMaximumTradingFeeAPR)
+      .plus(boostedMaximumDebtTokenKlevaRewardsAPR)
+      .minus(boostedMaximumBorrowingInterestAPR)
+      .toNumber()
+
     const totalAPR = new BigNumber(yieldFarmingAPR)
       .plus(tradingFeeAPR)
       .plus(debtTokenKlevaRewardsAPR)
@@ -227,12 +266,7 @@ export default class {
 
     const APY = toAPY(totalAPR)
 
-    const workerConfig = workerInfo &&
-      worker &&
-      (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
-
-    const leverageCapRaw = workerConfig && 10000 / (10000 - workerConfig.workFactorBps)
-    const leverageCap = workerConfig && getBufferedLeverage(workerConfig.workFactorBps)
+    const boostedMaximumAPY = toAPY(boostedMaximumTotalAPR)
 
     return {
       yieldFarmingAPRWithoutLeverage,
@@ -244,6 +278,14 @@ export default class {
       APY,
       leverageCapRaw,
       leverageCap,
+
+      // boosted
+      boostedMaximumYieldFarmingAPR,
+      boostedMaximumTradingFeeAPR,
+      boostedMaximumDebtTokenKlevaRewardsAPR,
+      boostedMaximumBorrowingInterestAPR,
+      boostedMaximumTotalAPR,
+      boostedMaximumAPY,
     }
   }
 } 

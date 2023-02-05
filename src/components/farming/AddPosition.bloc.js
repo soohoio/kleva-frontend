@@ -97,9 +97,13 @@ export default class {
     const workerConfig = workerInfo 
       && workerInfo[this.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.worker$.value.workerAddress]
 
-    const leverageCap = getBufferedLeverage(workerConfig.workFactorBps)
+    const leverageCap = workerConfig.isMembershipUser 
+      ? getBufferedLeverage(workerConfig.membershipWorkFactorBps)
+      : getBufferedLeverage(workerConfig.workFactorBps)
 
-    const workFactorBps = workerConfig?.workFactorBps
+    const workFactorBps = workerConfig.isMembershipUser 
+      ? workerConfig?.membershipWorkFactorBps
+      : workerConfig?.workFactorBps
 
     return { workerConfig, workFactorBps, leverageCap }
   }

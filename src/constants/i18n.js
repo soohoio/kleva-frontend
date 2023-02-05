@@ -422,6 +422,17 @@ export const en = {
   'enterpriseOnly.modal.title': "Whitelisted Only",
   'enterpriseOnly.modal.description': `Deposit available only for whitelisted institutions. Users can borrow the deposited asset, and whitelisted institutions receive lending interest. Staking of ibToken is not supported, thus no KLEVA reward is provided.`,
 
+  // ALM
+  'boostedMaximumaAPR': "Max",
+  'boostedMaximumaAPR.2': "Max",
+  'boostInfoModal.description': "Users who have staked more than 10,000 ibKLEVA will experience benefits at Boosted Pools",
+  'boostInfoModal.maxLeverage': 'Max Leverage',
+  'boostInfoModal.liquidationLimit': 'Liquidation Threshold',
+  'boostInfoModal.liquidationFee': 'Liquidation Fee',
+  'boostInfoModal.liquidationReward': 'Liquidator Prize 2% 2%',
+  'boostInfoModal.description2': 'Should ibKLEVA be <text style="color: #265FFC;">unstaked</text>, Liquidation Fee and Liquidation <text style="color: #265FFC;">Threshold will return to original values, while Max Leverage remains unchanged.</text> Please be aware of Liquidation Risks when unstaking ibKLEVA.',
+  
+
 }
 
 export const ko = {
@@ -847,6 +858,17 @@ export const ko = {
 
   'enterpriseOnly.modal.title': "지정 기관 전용",
   'enterpriseOnly.modal.description': `사전 협의를 통해 지정된 기관만 예치할 수 있습니다. 예치된 자산은 이용자 분들이 대여할 수 있으며, 예치한 기관은 대여에 따른 이자 수익을 받게 됩니다. 스테이킹은 지원되지 않으며 따라서 KLEVA 토큰 보상이 제공되지 않습니다.`,
+
+  // ALM
+  'boostedMaximumaAPR': "최대 수익률",
+  'boostedMaximumaAPR.2': "최대",
+  'boostInfoModal.description': "Boost 풀은 ibKLEVA를 10,000개 이상 스테이킹 할 경우 아래와 같은 혜택이 적용됩니다. ",
+  'boostInfoModal.maxLeverage': '최대 레버리지 계수',
+  'boostInfoModal.liquidationLimit': '청산 한도',
+  'boostInfoModal.liquidationFee': '청산 수수료',
+  'boostInfoModal.liquidationReward': '청산인 보상 2%',
+  'boostInfoModal.description2': 'ibKLEVA를 중도 <text style="color: #265FFC;">언스테이킹</text>할 경우 최대 레버리지 계수는 유지되지만 <text style="color: #265FFC;">청산 한도와 청산 수수료가 이전 값으로 복귀</text>되어 청산 위험이 높아지니 유의하여 주시기 바랍니다.',
+  
 
 }
 
