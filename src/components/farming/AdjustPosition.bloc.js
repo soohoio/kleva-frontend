@@ -115,6 +115,8 @@ export default class {
 
   getConfig = () => {
     const { workerInfo } = this.comp.props
+    const workerConfig = workerInfo
+      && workerInfo[this.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.worker$.value.workerAddress]
 
     const leverageCap = workerConfig.isMembershipUser
       ? getBufferedLeverage(workerConfig.membershipWorkFactorBps)
