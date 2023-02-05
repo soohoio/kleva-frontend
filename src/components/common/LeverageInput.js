@@ -56,7 +56,7 @@ class LeverageInput extends Component {
           <div className="LeverageInput__headerRight">
             <Boosted
                workerConfig={workerConfig}
-                description={`${I18n.t('boostedMaximumaAPR.2')} ${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
+              description={`${I18n.t('boostedMaximumaAPR.2')} ${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
             />
           </div>
         </div>

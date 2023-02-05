@@ -133,23 +133,21 @@ export default class {
 
   getConfig = () => {
     const { workerInfo } = this.comp.props
-    const workerConfig = workerInfo
-      && workerInfo[this.worker$.value.workerAddress.toLowerCase()] || workerInfo[this.worker$.value.workerAddress]
 
-    const leverageCap = workerConfig.isMembershipUser
-      ? getBufferedLeverage(workerConfig.membershipWorkFactorBps)
-      : getBufferedLeverage(workerConfig.workFactorBps)
+    const leverageCap = workerInfo.isMembershipUser
+      ? getBufferedLeverage(workerInfo.membershipWorkFactorBps)
+      : getBufferedLeverage(workerInfo.workFactorBps)
 
-    const workFactorBps = workerConfig.isMembershipUser
-      ? workerConfig?.membershipWorkFactorBps
-      : workerConfig?.workFactorBps
+    const workFactorBps = workerInfo.isMembershipUser
+      ? workerInfo?.membershipWorkFactorBps
+      : workerInfo?.workFactorBps
 
     // @TODO?
-    const rawKillFactorBps = workerConfig.isMembershipUser
-      ? workerConfig?.membershipKillFactorBps
-      : workerConfig?.workFactorBps
+    const rawKillFactorBps = workerInfo.isMembershipUser
+      ? workerInfo?.membershipKillFactorBps
+      : workerInfo?.workFactorBps
 
-    return { workerInfo, workFactorBps, rawKillFactorBps, leverageCap }
+    return { workerConfig: workerInfo, workerInfo, workFactorBps, rawKillFactorBps, leverageCap }
   }
 
   getAmountToBorrow = () => {
@@ -283,8 +281,6 @@ export default class {
     const { workerInfo, positionId } = this.comp.props
 
     const { newTokenInputAmounts, borrowIncludedTokenAmounts, borrowIncludedNewTokenInputAmounts } = this.getTokenAmountsPure()
-
-    console.log(borrowIncludedNewTokenInputAmounts, 'borrowIncludedNewTokenInputAmounts')
 
     return forkJoin([
       getOpenPositionResult_kokonut$({
