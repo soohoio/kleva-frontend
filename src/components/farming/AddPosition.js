@@ -534,8 +534,9 @@ class AddPosition extends Component {
       .toNumber()
 
     const radioList = baseBorrowingInterests && Object.entries(baseBorrowingInterests)
-      .filter(([address, { baseInterest }]) => {
-        return baseInterest != 0
+      .filter(([address, { token, baseInterest }]) => {
+        return !!token
+        // return baseInterest != 0
       })
       .map(([address, { token, baseInterest }]) => {
         return {

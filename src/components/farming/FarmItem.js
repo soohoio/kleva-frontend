@@ -93,9 +93,11 @@ class FarmItem extends Component {
       baseBorrowingInterests,
     } = this.bloc.getBorrowingInterests()
 
+    console.log(baseBorrowingInterests, '@baseBorrowingInterests')
     const radioList = Object.entries(baseBorrowingInterests)
-      .filter(([address, { baseInterest }]) => {
-        return baseInterest != 0
+      .filter(([address, { token, baseInterest }]) => {
+        return !!token
+        // return baseInterest != 0
       })
       .map(([address, { token, baseInterest }]) => {
         return {
@@ -127,13 +129,13 @@ class FarmItem extends Component {
             <p className="FarmItem__title">{lpToken.title}</p>
             {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
-            <Boosted workerConfig={workerConfig} />
+            {/* <Boosted workerConfig={workerConfig} /> */}
           </div>
         </div>
         <div className="FarmItem__aprItem">
           <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
           <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
-          <p className="FarmItem__boostedApr">
+          {/* <p className="FarmItem__boostedApr">
             <span 
               className="FarmItem__boostedAprTitle"
             >
@@ -144,7 +146,7 @@ class FarmItem extends Component {
             >
               {nFormatter(boostedMaximumAPY, 2)}%
             </span>
-          </p>
+          </p> */}
         </div>
         <div className="FarmItem__aprDetailItem">
           {yieldFarmingAPR != 0 && <LabelAndValue label={I18n.t('farming.yieldFarmingAPR')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />}

@@ -192,11 +192,15 @@ class App extends Component<Props> {
     merge(
       interval(1000 * 60),
       tokenPrices$,
+      selectedAddress$,
     ).pipe(
       startWith(0),
     ).pipe(
       switchMap(() => {
-        return forkJoin(getWorkerInfo$(workers),)
+        return forkJoin(getWorkerInfo$(
+          workers,
+          selectedAddress$.value,
+        ),)
       }),
       tap(([workerInfo]) => {
 

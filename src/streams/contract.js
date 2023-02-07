@@ -985,6 +985,7 @@ export const getPositionInfo_single$ = ({ workerAddress, positionId }) => {
 }
 
 export const getWorkerInfo$ = (workerList, ownerAddress) => {
+
   // KillFactorBPS
   const p1 = multicall(
     KlayswapWorkerABI,
@@ -1082,8 +1083,10 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
           lpToken: lpTokenByIngredients(
             _worker.tokens || [_worker.farmingToken, _worker.baseToken]
           ),
-          killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
-          workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
+          // killFactorBps: new BigNumber(cur.killFactorBps._hex).toString(),
+          // workFactorBps: new BigNumber(cur.workFactorBps._hex).toString(),
+          killFactorBps: new BigNumber(membershipInfo.killFactorBps._hex).toString(),
+          workFactorBps: new BigNumber(membershipInfo.workFactorBps._hex).toString(),
           rawKillFactorBps: new BigNumber(cur.rawKillFactorBps._hex).toString(),
           lpPoolId: new BigNumber(cur.lpPoolId._hex).toString(),
           totalShare: new BigNumber(cur.totalShare._hex).toString(),

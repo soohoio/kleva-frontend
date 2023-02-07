@@ -77,9 +77,10 @@ class FarmAPRDetailInfo extends Component {
     const leverageCap = Number(noRounding(workerConfig && 10000 / (10000 - workerConfig.workFactorBps), 1))
 
     const radioList = Object.entries(baseBorrowingInterests)
-    .filter(([address, { baseInterest }]) => {
-      return baseInterest != 0
-    })
+      .filter(([address, { token, baseInterest }]) => {
+        return !!token
+        // return baseInterest != 0
+      })
     .map(([address, { token, baseInterest }]) => {
 
       const pureValue = new BigNumber(baseInterest)

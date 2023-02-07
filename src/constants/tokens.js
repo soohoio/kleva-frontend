@@ -76,7 +76,7 @@ export const singleTokens = {
     address: "0x4fa62f1f404188ce860c8f0041d6ac3765a72e67",
     iconSrc: "/static/images/tokens/token-KSD.svg?date=20220929",
     decimals: 18,
-    borrowingDisabled: true,
+    // borrowingDisabled: true,
   },
 }
 

@@ -215,9 +215,12 @@ export default class {
     const leverageValue = this.leverageValue$.value
     const worker = this.worker$.value
 
+    console.log(worker, 'worker')
     const workerConfig = workerInfo &&
       worker &&
       (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
+
+    // console.log(workerInfo, 'workerInfo')
 
     const leverageCapRaw = workerConfig.isMembershipUser
       ? workerConfig && 10000 / (10000 - workerConfig.membershipWorkFactorBps)
