@@ -8,8 +8,8 @@ const makeFarm = (tokens) => {
 
   const defaultBorrowingAsset = tokens.filter(({ address, borrowingDisabled }) => {
     const hasLendingPool = !!lendingPoolsByStakingTokenAddress[address.toLowerCase()]
-    // return !borrowingDisabled && hasLendingPool
-    return hasLendingPool
+    return !borrowingDisabled && hasLendingPool
+    // return hasLendingPool
   })[0]
 
   const tokensMap = tokens.reduce((acc, cur, idx) => {
