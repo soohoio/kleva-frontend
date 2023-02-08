@@ -79,7 +79,8 @@ class FarmAPRDetailInfo extends Component {
 
     const radioList = Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
-        return baseInterest != 0
+        const hasLendingPool = token && lendingPoolsByStakingTokenAddress[token.address]
+        return hasLendingPool || baseInterest != 0
       })
     .map(([address, { token, baseInterest }]) => {
 
