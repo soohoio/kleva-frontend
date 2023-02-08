@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import LeverageController from '../LeverageController'
 
 import './FarmItem.scss'
-import { nFormatter } from '../../utils/misc'
+import { isBoostedPool, nFormatter } from '../../utils/misc'
 
 import Bloc from './FarmItem.bloc'
 import { I18n } from '../common/I18n';
@@ -18,6 +18,7 @@ import AddPosition from './AddPosition'
 import ConnectWalletPopup from '../ConnectWalletPopup'
 import AddPositionMultiToken from './AddPositionMultiToken';
 import Boosted from '../Boosted'
+import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
 
 class FarmItem extends Component {
   destroy$ = new Subject()
@@ -93,11 +94,10 @@ class FarmItem extends Component {
       baseBorrowingInterests,
     } = this.bloc.getBorrowingInterests()
 
-    console.log(baseBorrowingInterests, '@baseBorrowingInterests')
     const radioList = Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
-        // return !!token
-        return baseInterest != 0
+        const hasLendingPool = token && lendingPoolsByStakingTokenAddress[token.address]
+        return hasLendingPool || baseInterest != 0
       })
       .map(([address, { token, baseInterest }]) => {
         return {
@@ -129,24 +129,26 @@ class FarmItem extends Component {
             <p className="FarmItem__title">{lpToken.title}</p>
             {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
-            {/* <Boosted workerConfig={workerConfig} /> */}
+            <Boosted workerConfig={workerConfig} />
           </div>
         </div>
         <div className="FarmItem__aprItem">
           <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
           <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
-          {/* <p className="FarmItem__boostedApr">
-            <span 
-              className="FarmItem__boostedAprTitle"
-            >
-              {I18n.t('boostedMaximumaAPR.2')}
-            </span>
-            <span
-              className="FarmItem__boostedAprValue"
-            >
-              {nFormatter(boostedMaximumAPY, 2)}%
-            </span>
-          </p> */}
+          {isBoostedPool(workerConfig) && (
+            <p className="FarmItem__boostedApr">
+              <span 
+                className="FarmItem__boostedAprTitle"
+              >
+                {I18n.t('boostedMaximumaAPR.2')}
+              </span>
+              <span
+                className="FarmItem__boostedAprValue"
+              >
+                {nFormatter(boostedMaximumAPY, 2)}%
+              </span>
+            </p>
+          )}
         </div>
         <div className="FarmItem__aprDetailItem">
           {yieldFarmingAPR != 0 && <LabelAndValue label={I18n.t('farming.yieldFarmingAPR')} value={`${nFormatter(yieldFarmingAPR, 2)}%`} />}

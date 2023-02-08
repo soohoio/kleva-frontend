@@ -8,7 +8,7 @@ import { openModal$ } from 'streams/ui'
 import LeverageController from '../LeverageController'
 
 import './FarmItemCard.scss'
-import { nFormatter } from '../../utils/misc'
+import { isBoostedPool, nFormatter } from '../../utils/misc'
 
 import Bloc from './FarmItem.bloc'
 import { I18n } from '../common/I18n';
@@ -113,7 +113,7 @@ class FarmItemCard extends Component {
               <p className="FarmItemCard__title">{lpToken.title}</p>
               <p className="FarmItemCard__exchange">{exchange}</p>
               {/* Boosted */}
-              {/* <Boosted workerConfig={workerConfig} /> */}
+              <Boosted workerConfig={workerConfig} />
             </div>
           </div>
           <div className="FarmItemCard__subInfo">
@@ -159,10 +159,12 @@ class FarmItemCard extends Component {
               />
             </p>
             <p className="FarmItemCard__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value, true)}</p>
-            {/* <div className="FarmItemCard__boostedAPR">
-              <span className="FarmItemCard__boostedAPRTitle">{I18n.t('boostedMaximumaAPR')}</span>
-              <span className="FarmItemCard__boostedAPRValue">{nFormatter(boostedMaximumAPY, 2)}%</span>
-            </div> */}
+            {isBoostedPool(workerConfig) && (
+              <div className="FarmItemCard__boostedAPR">
+                <span className="FarmItemCard__boostedAPRTitle">{I18n.t('boostedMaximumaAPR')}</span>
+                <span className="FarmItemCard__boostedAPRValue">{nFormatter(boostedMaximumAPY, 2)}%</span>
+              </div>
+            )}
           </div>
         </div>
         <div className="FarmItemCard__footer">

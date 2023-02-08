@@ -20,6 +20,7 @@ import { tokenPrices$ } from '../../streams/tokenPrice'
 import { klevaAnnualRewards$ } from '../../streams/farming'
 import { debtTokens, tokenList } from '../../constants/tokens'
 import AddPositionMultiToken from '../farming/AddPositionMultiToken';
+import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
 
 class FarmAPRDetailInfo extends Component {
 
@@ -78,7 +79,6 @@ class FarmAPRDetailInfo extends Component {
 
     const radioList = Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
-        // return !!token
         return baseInterest != 0
       })
     .map(([address, { token, baseInterest }]) => {

@@ -7,7 +7,7 @@ import './Boosted.scss'
 import QuestionMark from './common/QuestionMark'
 import { openModal$ } from '../streams/ui'
 import BoostInfoModal from './modals/BoostInfoModal'
-import { noRounding } from '../utils/misc'
+import { isBoostedPool, noRounding } from '../utils/misc'
 import { getBufferedLeverage } from '../utils/calc'
 
 class Boosted extends Component {
@@ -32,6 +32,8 @@ class Boosted extends Component {
     
   render() {
     const { workerConfig, description } = this.props
+
+    if (!isBoostedPool(workerConfig)) return <></>
 
     return (
       <div 

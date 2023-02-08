@@ -33,6 +33,7 @@ import WarnBeforeKokonutInvest from '../modals/WarnBeforeKokonutInvest'
 import LPImpactInfoModal from '../modals/LPImpactInfoModal'
 
 import "./AddPositionMultiToken.scss"
+import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
 
 class AddPositionMultiToken extends Component {
   bloc = new Bloc(this)
@@ -457,7 +458,6 @@ class AddPositionMultiToken extends Component {
 
     const radioList = baseBorrowingInterests && Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
-        // return !!token
         return baseInterest != 0
       })
       .map(([address, { token, baseInterest }]) => {

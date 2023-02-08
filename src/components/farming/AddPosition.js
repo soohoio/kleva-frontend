@@ -25,6 +25,7 @@ import { getIbTokenFromOriginalToken, isKLAY, tokenList } from '../../constants/
 import WKLAYSwitcher from '../common/WKLAYSwitcher'
 import Checkbox from '../common/Checkbox'
 import { klayswapPoolInfo$ } from '../../streams/farming'
+import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
 
 class AddPosition extends Component {
   bloc = new Bloc(this)
@@ -535,7 +536,6 @@ class AddPosition extends Component {
 
     const radioList = baseBorrowingInterests && Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
-        // return !!token
         return baseInterest != 0
       })
       .map(([address, { token, baseInterest }]) => {

@@ -215,22 +215,21 @@ export default class {
     const leverageValue = this.leverageValue$.value
     const worker = this.worker$.value
 
-    console.log(worker, 'worker')
     const workerConfig = workerInfo &&
       worker &&
       (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
 
-    // console.log(workerInfo, 'workerInfo')
+    console.log(workerInfo, 'workerInfo')
 
-    const leverageCapRaw = workerConfig.isMembershipUser
-      ? workerConfig && 10000 / (10000 - workerConfig.membershipWorkFactorBps)
-      : workerConfig && 10000 / (10000 - workerConfig.workFactorBps)
+    const leverageCapRaw = workerConfig?.isMembershipUser
+      ? workerConfig && 10000 / (10000 - workerConfig?.membershipWorkFactorBps)
+      : workerConfig && 10000 / (10000 - workerConfig?.workFactorBps)
 
-    const leverageCap = workerConfig.isMembershipUser
-      ? workerConfig && getBufferedLeverage(workerConfig.membershipWorkFactorBps)
-      : workerConfig && getBufferedLeverage(workerConfig.workFactorBps)
+    const leverageCap = workerConfig?.isMembershipUser
+      ? workerConfig && getBufferedLeverage(workerConfig?.membershipWorkFactorBps)
+      : workerConfig && getBufferedLeverage(workerConfig?.workFactorBps)
 
-    const boostedMaximumLeverageCap = workerConfig && getBufferedLeverage(workerConfig.membershipWorkFactorBps)
+    const boostedMaximumLeverageCap = workerConfig && getBufferedLeverage(workerConfig?.membershipWorkFactorBps)
 
     const { selectedBorrowingInterestAPR: selectedBorrowingInterestAPRWithoutLeverage } = this.getBorrowingInterests(this.leverageValue$.value)
     const { selectedBorrowingInterestAPR } = this.getBorrowingInterests(this.leverageValue$.value)
