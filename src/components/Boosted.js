@@ -33,6 +33,8 @@ class Boosted extends Component {
   render() {
     const { workerConfig, description } = this.props
 
+    return <></>
+
     if (!isBoostedPool(workerConfig)) return <></>
 
     return (

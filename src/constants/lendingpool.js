@@ -76,11 +76,12 @@ export const lendingPools = [
     ibToken: tokenList["ibKSD"],
     stakingToken: tokenList["KSD"],
     vaultConfigAddress: "0x622149Ec791EB44D0725c17345C79d1f182aa850",
-    // disabled: true,
+    disabled: true,
   },
 ]
 
 export const lendingPoolsByStakingTokenAddress = lendingPools.reduce((acc, cur) => {
+  if (cur.disabled) return acc
   acc[cur.stakingToken.address] = cur
   acc[cur.stakingToken.address.toLowerCase()] = cur
   return acc

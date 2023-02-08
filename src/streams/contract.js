@@ -69,8 +69,8 @@ const NODE_9_URL = "https://klaytn03.fautor.app/"
 export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
 export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
 export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
-export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
-export const caver_6 = new Caver(new Caver.providers.HttpProvider(NODE_6_URL, kasOption))
+// export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
+// export const caver_6 = new Caver(new Caver.providers.HttpProvider(NODE_6_URL, kasOption))
 export const caver_7 = new Caver(new Caver.providers.HttpProvider(NODE_7_URL, kasOption))
 export const caver_8 = new Caver(new Caver.providers.HttpProvider(NODE_8_URL, kasOption))
 export const caver_9 = new Caver(new Caver.providers.HttpProvider(NODE_9_URL, kasOption))
@@ -80,8 +80,8 @@ export let caver = sample([
   // caver_2,
   // caver_3,
   // caver_4,
-  caver_5,
-  caver_6,
+  // caver_5,
+  // caver_6,
   caver_7,
   caver_8,
   caver_9,
@@ -118,14 +118,14 @@ interval(3000).pipe(
     //   map((blockNumber) => ({ blockNumber, url: NODE_4_URL })),
     //   catchError(() => of({ blockNumber: 0, url: ""}))
     // )),
-    from(getBlockNumber$(caver_5).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
-    from(getBlockNumber$(caver_6).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_6_URL })),
-      catchError(() => of({ blockNumber: 0, url: ""}))
-    )),
+    // from(getBlockNumber$(caver_5).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_5_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: ""}))
+    // )),
+    // from(getBlockNumber$(caver_6).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_6_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: ""}))
+    // )),
     from(getBlockNumber$(caver_7).pipe(
       map((blockNumber) => ({ blockNumber, url: NODE_7_URL })),
       catchError(() => of({ blockNumber: 0, url: ""}))
@@ -1092,8 +1092,8 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
           totalShare: new BigNumber(cur.totalShare._hex).toString(),
           totalStakedLpBalance: new BigNumber(cur.totalStakedLpBalance._hex).toString(),
 
-          isMembershipUser: membershipInfo.isMembershipUser,
-          // isMembershipUser: false,
+          // isMembershipUser: membershipInfo.isMembershipUser,
+          isMembershipUser: false,
           membershipKillFactorBps: new BigNumber(membershipInfo.membershipKillFactorBps._hex).toString(),
           membershipWorkFactorBps: new BigNumber(membershipInfo.membershipWorkFactorBps._hex).toString(),
         }

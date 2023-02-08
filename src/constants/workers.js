@@ -196,18 +196,18 @@ export const workers = [
     workerAddress: "0xD3db345A452a685A84414313E07e3745C092a7a9",
     exchange: 'kokonutswap',
   },
-  {
-    tokens: [
-      tokenList.KSD,
-      tokenList.KDAI,
-      tokenList.oUSDC,
-      tokenList.oUSDT,
-    ],
-    baseToken: tokenList.KSD,
-    vaultAddress: tokenList.ibKSD.address,
-    workerAddress: "0xda325e255528420BC2835608Ad11A3eB44c5F993",
-    exchange: 'kokonutswap',
-  },
+  // {
+  //   tokens: [
+  //     tokenList.KSD,
+  //     tokenList.KDAI,
+  //     tokenList.oUSDC,
+  //     tokenList.oUSDT,
+  //   ],
+  //   baseToken: tokenList.KSD,
+  //   vaultAddress: tokenList.ibKSD.address,
+  //   workerAddress: "0xda325e255528420BC2835608Ad11A3eB44c5F993",
+  //   exchange: 'kokonutswap',
+  // },
   // Kokonutswap crypto pool
   {
     tokens: [
@@ -220,17 +220,17 @@ export const workers = [
     workerAddress: "0x780D93666bC7b36e52c280BAc6B92FB73113eBA8",
     exchange: 'kokonutswap',
   },
-  {
-    tokens: [
-      tokenList.KLAY,
-      tokenList.KSD,
-    ],
-    farmingToken: tokenList.KLAY,
-    baseToken: tokenList.KSD,
-    vaultAddress: tokenList.ibKSD.address,
-    workerAddress: "0x08e789716e1A8F04a3765e155DF1B5FC005086a0",
-    exchange: 'kokonutswap',
-  },
+  // {
+  //   tokens: [
+  //     tokenList.KLAY,
+  //     tokenList.KSD,
+  //   ],
+  //   farmingToken: tokenList.KLAY,
+  //   baseToken: tokenList.KSD,
+  //   vaultAddress: tokenList.ibKSD.address,
+  //   workerAddress: "0x08e789716e1A8F04a3765e155DF1B5FC005086a0",
+  //   exchange: 'kokonutswap',
+  // },
 ].map((item) => {
   const arr = item.tokens || [item.farmingToken, item.baseToken]
   

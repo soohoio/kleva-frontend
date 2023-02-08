@@ -135,7 +135,7 @@ class FarmItem extends Component {
         <div className="FarmItem__aprItem">
           <p className="FarmItem__apy">{nFormatter(APY, 2)}%</p>
           <p className="FarmItem__apr">{nFormatter(totalAPR, 2)}%</p>
-          {isBoostedPool(workerConfig) && (
+          {false && isBoostedPool(workerConfig) && (
             <p className="FarmItem__boostedApr">
               <span 
                 className="FarmItem__boostedAprTitle"
