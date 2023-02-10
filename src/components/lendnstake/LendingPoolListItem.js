@@ -50,6 +50,7 @@ class LendingPoolListItem extends Component {
       wKLAYBalance,
       isLastIdx,
       disabled,
+      controllerDisabled,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -126,7 +127,7 @@ class LendingPoolListItem extends Component {
         <div className={cx("LendingPoolListItem", {
           "LendingPoolListItem--last": isLastIdx
         })}>
-          {disabled 
+          {controllerDisabled 
             ? (
               <div className="LendingPoolListItem__tokenBalance">
                 <p className="LendingPoolListItem__tokenValue">-</p>
@@ -144,7 +145,7 @@ class LendingPoolListItem extends Component {
           "LendingPoolListItem--last": isLastIdx
         })}>
           <div className="LendingDepositAndSimulation">
-            {disabled 
+            {controllerDisabled 
               ? (
                 <div
                   onClick={() => {

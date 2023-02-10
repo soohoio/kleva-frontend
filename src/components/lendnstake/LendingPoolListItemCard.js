@@ -54,7 +54,8 @@ class LendingPoolListItemCard extends Component {
       protocolAPR,
       selectedAddress,
       wKLAYBalance,
-      disabled
+      disabled,
+      controllerDisabled,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -159,7 +160,7 @@ class LendingPoolListItemCard extends Component {
           )}
 
           <div className="LendingPoolListItemCard__buttons">
-            {disabled 
+            {controllerDisabled 
               ? (
                 <div
                   onClick={() => {

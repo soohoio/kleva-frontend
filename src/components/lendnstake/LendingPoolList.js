@@ -85,7 +85,7 @@ class LendingPoolList extends Component {
             <>
               <LendingPoolListTableHeader />
               <div className="LendingPoolList__tableContents">
-                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled }, idx) => {
+                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled, controllerDisabled }, idx) => {
 
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   
@@ -141,6 +141,7 @@ class LendingPoolList extends Component {
                   return (
                     <LendingPoolListItem
                       disabled={disabled}
+                      controllerDisabled={controllerDisabled}
                       selectedAddress={selectedAddress$.value}
                       key={title}
                       balanceInWallet={balancesInWallet$.value[stakingToken.address]}
@@ -174,7 +175,7 @@ class LendingPoolList extends Component {
               />
 
               <div className="LendingPoolList__list">
-                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled }, idx) => {
+                {lendingPools.map(({ title, stakingToken, vaultAddress, disabled, controllerDisabled }, idx) => {
 
                   const lendingTokenSupplyInfo = lendingTokenSupplyInfo$.value[vaultAddress]
                   const totalSupply = lendingTokenSupplyInfo && lendingTokenSupplyInfo.totalSupply
@@ -227,6 +228,7 @@ class LendingPoolList extends Component {
                   return (
                     <LendingPoolListItemCard
                       disabled={disabled}
+                      controllerDisabled={controllerDisabled}
                       key={title}
                       selectedAddress={selectedAddress$.value}
                       isExpand={activeIdx == idx}

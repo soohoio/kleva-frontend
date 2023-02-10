@@ -76,7 +76,8 @@ export const lendingPools = [
     ibToken: tokenList["ibKSD"],
     stakingToken: tokenList["KSD"],
     vaultConfigAddress: "0x622149Ec791EB44D0725c17345C79d1f182aa850",
-    disabled: true,
+    controllerDisabled: true,
+    // disabled: true,
   },
 ]
 
