@@ -425,7 +425,7 @@ export const en = {
   // ALM
   'boostedMaximumaAPR': "Max",
   'boostedMaximumaAPR.2': "Max",
-  'boostInfoModal.description': "Users who have staked more than 10,000 ibKLEVA will experience benefits at Boosted Pools",
+  'boostInfoModal.description': "Users who have staked more than 7,500 ibKLEVA will experience benefits at Boosted Pools",
   'boostInfoModal.maxLeverage': 'Max Leverage',
   'boostInfoModal.liquidationLimit': 'Liquidation Threshold',
   'boostInfoModal.liquidationFee': 'Liquidation Fee',
@@ -862,7 +862,7 @@ export const ko = {
   // ALM
   'boostedMaximumaAPR': "최대 수익률",
   'boostedMaximumaAPR.2': "최대",
-  'boostInfoModal.description': "Boost 풀은 ibKLEVA를 10,000개 이상 스테이킹 할 경우 아래와 같은 혜택이 적용됩니다. ",
+  'boostInfoModal.description': "Boost 풀은 ibKLEVA를 7,500개 이상 스테이킹 할 경우 아래와 같은 혜택이 적용됩니다. ",
   'boostInfoModal.maxLeverage': '최대 레버리지 계수',
   'boostInfoModal.liquidationLimit': '청산 한도',
   'boostInfoModal.liquidationFee': '청산 수수료',

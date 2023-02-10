@@ -33,7 +33,7 @@ import { debtTokens, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
 import { lendingPools } from './constants/lendingpool'
-import { fetchUnlockAmount$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
+import { fetchUnlockAmount$, fetchWalletInfo$, lockedKlevaAmount$, unlockableKlevaAmount$ } from './streams/wallet'
 import { vaultInfoFetcher$, walletInfoFetcher$ } from './streams/fetcher'
 import { aprInfo$, farmPoolDeposited$, klevaAnnualRewards$, workerInfo$, klayswapPoolInfo$, protocolAPR$, fetchLendingInfo$, farmPoolDepositedByAddress$ } from './streams/farming'
 import { fetchKlayswapInfo$, fetchKokonutSwapInfo$, liquidities$, tokenPrices$ } from './streams/tokenPrice'
@@ -193,6 +193,7 @@ class App extends Component<Props> {
       interval(1000 * 60),
       tokenPrices$,
       selectedAddress$,
+      fetchWalletInfo$,
     ).pipe(
       startWith(0),
     ).pipe(
