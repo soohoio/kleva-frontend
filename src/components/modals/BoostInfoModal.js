@@ -69,18 +69,6 @@ class BoostInfoModal extends Component {
           />
           <LabelAndValue
             className="BoostInfoModal__LabelAndValue"
-            label={I18n.t('boostInfoModal.liquidationFee')}
-            value={(
-              <>
-                <BeforeAfter
-                  before={`${liquidationThreshold.toFixed(2)}%`}
-                  after={`${boostedLiquidationThreshold.toFixed(2)}%`}
-                />
-              </>
-            )}
-          />
-          <LabelAndValue
-            className="BoostInfoModal__LabelAndValue"
             label={(
               <div>
                 <p>{I18n.t('boostInfoModal.liquidationLimit')}</p>
@@ -92,6 +80,18 @@ class BoostInfoModal extends Component {
                 <BeforeAfter
                   before={`5%`}
                   after={`3%`}
+                />
+              </>
+            )}
+          />
+          <LabelAndValue
+            className="BoostInfoModal__LabelAndValue"
+            label={I18n.t('boostInfoModal.liquidationFee')}
+            value={(
+              <>
+                <BeforeAfter
+                  before={`${liquidationThreshold.toFixed(2)}%`}
+                  after={`${boostedLiquidationThreshold.toFixed(2)}%`}
                 />
               </>
             )}
