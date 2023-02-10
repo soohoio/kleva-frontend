@@ -537,7 +537,8 @@ class AddPosition extends Component {
     const radioList = baseBorrowingInterests && Object.entries(baseBorrowingInterests)
       .filter(([address, { token, baseInterest }]) => {
         const hasLendingPool = token && lendingPoolsByStakingTokenAddress[token.address]
-        return hasLendingPool || baseInterest != 0
+        // return hasLendingPool || baseInterest != 0
+        return hasLendingPool
       })
       .map(([address, { token, baseInterest }]) => {
         return {
