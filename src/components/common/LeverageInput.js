@@ -55,7 +55,7 @@ class LeverageInput extends Component {
           </div>
           <div className="LeverageInput__headerRight">
             <Boosted
-               workerConfig={workerConfig}
+              workerConfig={workerConfig}
               description={`${I18n.t('boostedMaximumaAPR.2')} ${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
             />
           </div>
@@ -184,21 +184,25 @@ class LeverageInput extends Component {
             <button
               onClick={() => {
                 const nextLeverage = Number(leverageValue) + offset
+
+                const leverageCapNoRounding = noRounding(leverageCap, 1)
+
                 if (leverageLowerBound && (nextLeverage < leverageLowerBound)) {
-                  setLeverage(leverageLowerBound, leverageCap, leverageLowerBound)
+                  setLeverage(leverageLowerBound, leverageCapNoRounding, leverageLowerBound)
                   return
                 }
 
                 if (nextLeverage < 1) {
-                  setLeverage(1, leverageCap, leverageLowerBound)
+                  setLeverage(1, leverageCapNoRounding, leverageLowerBound)
                   return
                 }
 
-                if (nextLeverage > leverageCap) {
-                  setLeverage(leverageCap, leverageCap, leverageLowerBound)
+                if (nextLeverage > leverageCapNoRounding) {
+                  setLeverage(leverageCapNoRounding, leverageCapNoRounding, leverageLowerBound)
                   return
                 }
-                setLeverage(nextLeverage, leverageCap, leverageLowerBound)
+
+                setLeverage(nextLeverage, leverageCapNoRounding, leverageLowerBound)
               }}
               className="LeverageInput__plus"
             >

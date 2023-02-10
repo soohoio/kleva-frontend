@@ -219,8 +219,6 @@ export default class {
       worker &&
       (workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress])
 
-    console.log(workerInfo, 'workerInfo')
-
     const leverageCapRaw = workerConfig?.isMembershipUser
       ? workerConfig && 10000 / (10000 - workerConfig?.membershipWorkFactorBps)
       : workerConfig && 10000 / (10000 - workerConfig?.workFactorBps)
