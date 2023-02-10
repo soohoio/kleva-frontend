@@ -353,6 +353,9 @@ export const compactKnsDomain = (domain, sliceUntil) => {
 window.compactKnsDomain = compactKnsDomain
 
 export const isBoostedPool = (workerConfig) => {
+
+  if (workerConfig.isMembershipUser) return true
+  
   return (workerConfig.membershipKillFactorBps !== workerConfig.killFactorBps)
     || (workerConfig.membershipWorkFactorBps !== workerConfig.workFactorBps)
 }
