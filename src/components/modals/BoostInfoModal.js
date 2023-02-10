@@ -43,6 +43,14 @@ class BoostInfoModal extends Component {
     const liquidationThreshold = Number(killFactorBps / 100)
     const boostedLiquidationThreshold = Number(membershipKillFactorBps / 100)
 
+    const boostedLiquidationFee = [
+      "0x2e9269b718cc816de6a9e3c27e5bdb0f6a01b0ac",
+      "0x22e3aC1e6595B64266e0b062E01faE31d9cdD578",
+      "0xc320066b25b731a11767834839fe57f9b2186f84",
+    ].includes(workerConfig.lpToken?.address) 
+      ? "0%"
+      : "3%"
+
     return (
       <Modal 
         title="Boosted"
@@ -79,7 +87,7 @@ class BoostInfoModal extends Component {
               <>
                 <BeforeAfter
                   before={`5%`}
-                  after={`3%`}
+                  after={boostedLiquidationFee}
                 />
               </>
             )}
