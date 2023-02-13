@@ -12,6 +12,7 @@ const config = require('./webpack.config.js')
 
 const port = process.env.PORT
 const app = express()
+app.disable("x-powered-by")
 
 const compiler = webpack(config)
 const middleware = webpackMiddleware(compiler, {
