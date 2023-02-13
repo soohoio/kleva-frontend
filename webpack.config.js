@@ -1,12 +1,17 @@
 const webpack = require('webpack')
+
 const path = require('path')
 const fs = require('fs')
 
 const Dotenv = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const nodeStdLib = require('node-stdlib-browser')
 
-const extractCSS = new ExtractTextPlugin('[hash:6]-lyf.css')
+const extractCSS = new MiniCssExtractPlugin({
+  filename: '[hash:6]-lyf.css'
+})
 
 const ENV_DIR = './config/'
 const envPath = ENV_DIR + `${process.env.NODE_ENV}`.toLowerCase() + '.env'
@@ -14,9 +19,7 @@ const envPath = ENV_DIR + `${process.env.NODE_ENV}`.toLowerCase() + '.env'
 module.exports = {
   devtool: 'source-map',
   mode: 'development',
-  node: {
-    fs: 'empty',
-  },
+  node: {},
   entry: [
     'whatwg-fetch',
     '@babel/polyfill',
@@ -32,44 +35,45 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        // use: 'babel-loader',
-        loader: 'babel-loader',
-        query: { compact: false },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: extractCSS.extract({
-          use: [
-            {
-              loader: 'css-loader',
+        oneOf: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: { compact: false },
             },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: [path.resolve(__dirname, 'src/styles')],
+          },
+          {
+            test: /\.css$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          },
+          {
+            test: /\.scss$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              'css-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  includePaths: [path.resolve(__dirname, 'src/styles')],
+                },
               },
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                // Or array of paths
-                resources: [
-                  './src/styles/_colors.scss',
-                  './src/styles/_mixins.scss',
-                  './src/styles/_common.scss',
-                  './src/styles/_fonts.scss',
-                ]
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  resources: [
+                    './src/styles/_colors.scss',
+                    './src/styles/_mixins.scss',
+                    './src/styles/_common.scss',
+                    './src/styles/_fonts.scss',
+                  ]
+                },
               },
-            },
-          ],
-        }),
-      },
+            ],
+          },
+        ]
+      }
     ],
   },
   resolve: {
@@ -82,8 +86,22 @@ module.exports = {
       streams: path.resolve(__dirname, 'src/streams/'),
       abis: path.resolve(__dirname, 'src/abis/'),
     },
+    fallback: {
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "assert": require.resolve("assert/"),
+      "buffer": require.resolve("buffer/"),
+      "fs": false,
+      "os": require.resolve("os-browserify/browser"),
+      "path": require.resolve("path-browserify"),
+      "process": require.resolve("process/browser"),
+      "stream": require.resolve("stream-browserify"),
+      "util": require.resolve("util/"),
+      ...nodeStdLib,
+    }
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       inject: 'body',
@@ -94,6 +112,8 @@ module.exports = {
     new Dotenv({
       path: envPath,
     }),
-    new webpack.EnvironmentPlugin(['MODE', process.env.MODE]),
+    new webpack.EnvironmentPlugin({
+      MODE: process.env.MODE || "development"
+    }),
   ],
 }

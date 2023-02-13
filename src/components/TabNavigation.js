@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import './TabNavigation.scss'
 import { I18n } from './common/I18n'
 import { currentTab$ } from '../streams/view'
-import SubMenu from './Submenu'
+import SubMenu from './SubMenu'
 import { shouldNavigationTabFloat$ } from '../streams/ui'
 import { path$ } from '../streams/location'
 
