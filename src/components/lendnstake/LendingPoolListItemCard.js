@@ -91,9 +91,9 @@ class LendingPoolListItemCard extends Component {
                 openModal$.next({
                   component: (
                     <LendStakeAPRDetailInfoModal
-                      noButton={disabled}
+                      noButton={controllerDisabled}
 
-                      stakingUnavailable={disabled}
+                      stakingUnavailable={controllerDisabled}
 
                       isDepositDisabled={isDepositDisabled}
                       

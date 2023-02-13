@@ -105,7 +105,7 @@ class LendingPoolListItem extends Component {
             label={I18n.t('lendingAPR')}
             value={`${noRounding(lendingAPR, 2)}%`}
           />
-          {!disabled && (
+          {!controllerDisabled && (
             <LabelAndValue
               label={I18n.t('stakingAPR')}
               value={`${noRounding(stakingAPR, 2)}%`}
