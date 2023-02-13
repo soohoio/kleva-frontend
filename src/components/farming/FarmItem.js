@@ -130,7 +130,10 @@ class FarmItem extends Component {
             <p className="FarmItem__title">{lpToken.title}</p>
             {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
-            <Boosted workerConfig={workerConfig} />
+            <Boosted
+              className="FarmItem__Boosted"
+              workerConfig={workerConfig} 
+            />
           </div>
         </div>
         <div className="FarmItem__aprItem">

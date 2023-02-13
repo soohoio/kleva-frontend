@@ -31,7 +31,7 @@ class Boosted extends Component {
   }
     
   render() {
-    const { workerConfig, description } = this.props
+    const { className, workerConfig, description } = this.props
 
     return <></>
 
@@ -39,7 +39,7 @@ class Boosted extends Component {
 
     return (
       <div 
-        className="Boosted"
+        className={cx("Boosted", className)}
       >
         <img src="/static/images/exported/boosted.svg" />
         <QuestionMark
