@@ -6,7 +6,7 @@ import { takeUntil, tap, debounceTime, distinctUntilChanged, switchMap } from 'r
 import Bloc from './AdjustPosition.bloc'
 import './AdjustPosition.scss'
 import ModalHeader from '../modals/ModalHeader'
-import { toAPY } from '../../utils/calc'
+import { getBufferedLeverage, toAPY } from '../../utils/calc'
 import { I18n } from '../common/I18n'
 import SupplyInput from '../common/SupplyInput'
 import LabelAndValue from '../LabelAndValue'
@@ -140,7 +140,10 @@ class AdjustPosition extends Component {
           const a1 = new BigNumber(newPositionValue).multipliedBy(workFactorBps).toString()
           const a2 = new BigNumber(newDebtValue).multipliedBy(10 ** 4).toString()
 
-          const _borrowMoreAvailable = new BigNumber(a1).isGreaterThan(a2)
+          // ALM-related
+
+          const _borrowMoreAvailable = new BigNumber(finalCalculatedLeverage).lte(getBufferedLeverage(workFactorBps))
+            && new BigNumber(a1).isGreaterThan(a2)
 
           this.bloc.borrowMoreAvailable$.next(isDebtSizeValid && _borrowMoreAvailable)
         })
