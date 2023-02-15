@@ -10,7 +10,7 @@ export const getBufferedLeverage = (workFactorBps) => {
   // const buffered = (workFactorBps - 100) / 0.99
   const buffered = (workFactorBps - 300) / 0.97
   
-  return 10000 / (10000 - Number(buffered))
+  return 10000 / (10000 - Math.round(Number(buffered)))
 }
 
 export const getWorkFactorBpsFromLeverage = (leverage) => {
