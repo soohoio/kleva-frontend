@@ -20,7 +20,6 @@
 .FarmItemCard__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   
   padding: 20px 0;
   padding-bottom: 14px;
@@ -32,7 +31,6 @@
 
 .FarmItemCard__headerLeft {
   display: flex;
-  align-items: center;
 }
 
 .FarmItemCard__content {
@@ -58,7 +56,7 @@
   padding-top: 1px;
   height: 56px;
   margin-left: -1px;
-  z-index: 0;
+  margin-top: -5px;
 }
 
 .FarmItemCard__tokenIcon {
@@ -73,19 +71,19 @@
 
   &:nth-of-type(2) {
     position: relative;
-    top: -12px;
+    top: -8px;
     z-index: 9;
   }
 
   &:nth-of-type(3) {
     position: relative;
-    top: -24px;
+    top: -16px;
     z-index: 10;
   }
 
   &:nth-of-type(4) {
     position: relative;
-    top: -36px;
+    top: -24px;
     z-index: 11;
   }
 }
@@ -215,17 +213,18 @@
 .FarmItemCard__boostedAPR {
   display: flex;
   align-items: center;
-  margin-top: 11px;
+  margin-top: 10px;
 }
 
 .FarmItemCard__boostedAPRTitle {
   @include font-style('font-1', 'm', 15px);
   color: #9E3EFF;
   margin-right: 4px;
+  line-height: 17px;
 }
 
 .FarmItemCard__boostedAPRValue {
-  @include font-style('font-1', 'eb', 15px);
+  @include font-style('font-1', 'b', 15px);
   line-height: 17px;
   background: linear-gradient(93.56deg, #8319FF 1.72%, #DB00FF 96.65%);
   -webkit-background-clip: text;
@@ -233,5 +232,6 @@
 }
 
 .FarmItemCard__Boosted {
-  margin-top: 7px;
+  margin-top: 9px;
+  margin-bottom: 6px;
 }
