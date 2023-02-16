@@ -542,6 +542,22 @@
       {
         "name": "membershipKillFactorBps",
         "type": "uint256"
+      },
+      {
+        "name": "liquidatePrizeBps",
+        "type": "uint256"
+      },
+      {
+        "name": "membershipLiquidatePrizeBps",
+        "type": "uint256"
+      },
+      {
+        "name": "killTreasuryBps",
+        "type": "uint256"
+      },
+      {
+        "name": "membershipKillTreasuryBps",
+        "type": "uint256"
       }
     ],
     "payable": false,

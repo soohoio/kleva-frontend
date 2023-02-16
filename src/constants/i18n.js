@@ -429,7 +429,7 @@ export const en = {
   'boostInfoModal.maxLeverage': 'Max Leverage',
   'boostInfoModal.liquidationLimit': 'Liquidation Threshold',
   'boostInfoModal.liquidationFee': 'Liquidation Fee',
-  'boostInfoModal.liquidationReward': 'Liquidator Prize %{reward}',
+  'boostInfoModal.liquidationReward': 'Liquidator Prize',
   'boostInfoModal.description2': 'Should ibKLEVA be <text style="color: #265FFC;">unstaked</text>, Liquidation Fee and Liquidation <text style="color: #265FFC;">Threshold will return to original values, while Max Leverage remains unchanged.</text> Please be aware of Liquidation Risks when unstaking ibKLEVA.',
   
 
@@ -866,7 +866,7 @@ export const ko = {
   'boostInfoModal.maxLeverage': '최대 레버리지 계수',
   'boostInfoModal.liquidationLimit': '청산 한도',
   'boostInfoModal.liquidationFee': '청산 수수료',
-  'boostInfoModal.liquidationReward': '청산인 보상 %{reward}',
+  'boostInfoModal.liquidationReward': '청산인 보상',
   'boostInfoModal.description2': 'ibKLEVA를 중도 <text style="color: #265FFC;">언스테이킹</text>할 경우 최대 레버리지 계수는 유지되지만 <text style="color: #265FFC;">청산 한도와 청산 수수료가 이전 값으로 복귀</text>되어 청산 위험이 높아지니 유의하여 주시기 바랍니다.',
   
 

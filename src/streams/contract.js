@@ -1096,6 +1096,11 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
           isMembershipUser: false,
           membershipKillFactorBps: new BigNumber(membershipInfo.membershipKillFactorBps._hex).toString(),
           membershipWorkFactorBps: new BigNumber(membershipInfo.membershipWorkFactorBps._hex).toString(),
+
+          liquidatePrizeBps: new BigNumber(membershipInfo.liquidatePrizeBps._hex).toString(),
+          membershipLiquidatePrizeBps: new BigNumber(membershipInfo.membershipLiquidatePrizeBps._hex).toString(),
+          killTreasuryBps: new BigNumber(membershipInfo.killTreasuryBps._hex).toString(),
+          membershipKillTreasuryBps: new BigNumber(membershipInfo.membershipKillTreasuryBps._hex).toString(),
         }
 
         return acc

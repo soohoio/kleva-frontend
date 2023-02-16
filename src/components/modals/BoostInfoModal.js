@@ -33,31 +33,26 @@ class BoostInfoModal extends Component {
     const {
       workFactorBps,
       killFactorBps,
+      killTreasuryBps,
+      liquidatePrizeBps,
+      
       membershipKillFactorBps,
       membershipWorkFactorBps,
+      membershipKillTreasuryBps,
+      membershipLiquidatePrizeBps,
     } = workerConfig
 
     const leverageCap = noRounding(getBufferedLeverage(workFactorBps), 1)
     const boostedLeverageCap = noRounding(getBufferedLeverage(membershipWorkFactorBps), 1)
+    
+    const liquidationReward = `${Number(liquidatePrizeBps / 100)}%`
+    const liquidationFee = `${Number(killTreasuryBps / 100)}%`
 
     const liquidationThreshold = Number(killFactorBps / 100)
     const boostedLiquidationThreshold = Number(membershipKillFactorBps / 100)
 
-    const boostedLiquidationReward = [
-      "0x2e9269b718cc816de6a9e3c27e5bdb0f6a01b0ac",
-      "0x22e3aC1e6595B64266e0b062E01faE31d9cdD578",
-      "0xc320066b25b731a11767834839fe57f9b2186f84",
-    ].includes(workerConfig.lpToken?.address) 
-      ? "0%"
-      : "2%"
-
-    const boostedLiquidationFee = [
-      "0x2e9269b718cc816de6a9e3c27e5bdb0f6a01b0ac",
-      "0x22e3aC1e6595B64266e0b062E01faE31d9cdD578",
-      "0xc320066b25b731a11767834839fe57f9b2186f84",
-    ].includes(workerConfig.lpToken?.address) 
-      ? "0%"
-      : "3%"
+    const boostedLiquidationReward = `${Number(membershipLiquidatePrizeBps / 100)}%`
+    const boostedLiquidationFee = `${Number(membershipKillTreasuryBps / 100)}%`
 
     return (
       <Modal 
@@ -104,18 +99,29 @@ class BoostInfoModal extends Component {
             label={(
               <div>
                 <p>{I18n.t('boostInfoModal.liquidationFee')}</p>
-                <p className="BoostInfoModal__subtitle">
-                  {I18n.t('boostInfoModal.liquidationReward', {
-                    reward: boostedLiquidationReward
-                  })}
-                </p>
               </div>
             )}
             value={(
               <>
                 <BeforeAfter
-                  before={`5%`}
+                  before={liquidationFee}
                   after={boostedLiquidationFee}
+                />
+              </>
+            )}
+          />
+          <LabelAndValue
+            className="BoostInfoModal__LabelAndValue"
+            label={(
+              <div>
+                <p>{I18n.t('boostInfoModal.liquidationReward')}</p>
+              </div>
+            )}
+            value={(
+              <>
+                <BeforeAfter
+                  before={liquidationReward}
+                  after={boostedLiquidationReward}
                 />
               </>
             )}
