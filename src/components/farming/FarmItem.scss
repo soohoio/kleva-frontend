@@ -104,7 +104,7 @@
 }
 
 .FarmItem__boostedAprValue {
-  @include font-style('font-1', 'b', 15px);
+  @include font-style('font-1', 'b', 14px);
   line-height: 17px;
   background: linear-gradient(93.56deg, #8319FF 1.72%, #DB00FF 96.65%);
   -webkit-background-clip: text;
