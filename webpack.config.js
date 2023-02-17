@@ -9,6 +9,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const nodeStdLib = require('node-stdlib-browser')
 
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 const extractCSS = new MiniCssExtractPlugin({
   filename: '[hash:6]-lyf.css'
 })
@@ -53,6 +55,19 @@ module.exports = {
             use: [
               MiniCssExtractPlugin.loader,
               'css-loader',
+              {
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions: {
+                    ident: 'postcss',
+                    plugins: [
+                      require('postcss-import'),
+                      require('tailwindcss'),
+                      require('autoprefixer'),
+                    ],
+                  },
+                },
+              },
               {
                 loader: 'sass-loader',
                 options: {
@@ -110,6 +125,7 @@ module.exports = {
     }),
     extractCSS,
     new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new Dotenv({
       path: envPath,
