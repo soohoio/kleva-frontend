@@ -11,7 +11,7 @@
     "build:qa": "NODE_ENV=qa webpack --config webpack.prod.config.js",
     "build:real": "removeNPMAbsolutePaths ./ && NODE_ENV=real webpack --config webpack.prod.config.js",
     "build:test": "NODE_ENV=real MODE=test webpack --config webpack.prod.config.js",
-    "local": "NODE_ENV=local node ./frontserver.js webpack.config.js --watch",
+    "local": "NODE_ENV=development node ./frontserver.js webpack.config.js --watch",
     "local:test": "NODE_ENV=local MODE=test node ./frontserver.js webpack.config.js --watch",
     "real": "NODE_ENV=real node ./frontserver.js webpack.prod.config.js --watch",
     "test-client": "NODE_ENV=test node ./frontserver.js webpack.prod.config.js --watch",

@@ -3,4 +3,4 @@ if (process.env.NODE_ENV === 'test') {
   return
 }
 
-require(`./frontserver.${process.env.NODE_ENV}.js`)
+require(`./frontserver.local.js`)

@@ -2186,6 +2186,10 @@ export const getOpenPositionResult_kokonut$ = ({
 }
 
 export const getPositionValue_kokonut$ = ({ workerAddress, tokenAmounts }) => {
+
+  console.log(workerAddress, 'workerAddress')
+  console.log(tokenAmounts, 'tokenAmounts')
+
   return call$({
     abi: KokonutswapCalculatorABI,
     address: KOKONUTSWAP_CALCULATOR,
