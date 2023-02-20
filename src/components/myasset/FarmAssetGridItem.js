@@ -139,7 +139,9 @@ class FarmAssetGridItem extends Component {
 
     const liquidationThreshold = debtValue == 0
       ? 0
-      : Number(killFactorBps / 100)
+      : (workerInfo && workerInfo.isMembershipUser)
+        ? Number(workerInfo.membershipKillFactorBps / 100)
+        : Number(killFactorBps / 100)
 
     const safetyBuffer = debtValue == 0
       ? 0

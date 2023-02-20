@@ -336,6 +336,8 @@ class FarmList extends Component {
   }
 
   render() {
+
+    // console.log(workerInfo$.value, 'workerInfo$.value')
     return (
       <div className="FarmList">
         <div className="FarmList__header">

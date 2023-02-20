@@ -78,7 +78,8 @@ export const calcProtocolAPR = ({ ibKlevaTotalSupplyTVL, aprInfo, farmPoolDeposi
 }
 
 export const toAPY = (apr) => {
-  return ((1 + (apr / 365 / 100)) ** 365 - 1) * 100
+  const apy = ((1 + (apr / 365 / 100)) ** 365 - 1) * 100
+  return String(apy).length > 20 ? Infinity : apy
 }
 
 export const toFixed = (num, fixed) => {

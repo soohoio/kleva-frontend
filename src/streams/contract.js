@@ -1092,8 +1092,7 @@ export const getWorkerInfo$ = (workerList, ownerAddress) => {
           totalShare: new BigNumber(cur.totalShare._hex).toString(),
           totalStakedLpBalance: new BigNumber(cur.totalStakedLpBalance._hex).toString(),
 
-          // isMembershipUser: membershipInfo.isMembershipUser,
-          isMembershipUser: false,
+          isMembershipUser: membershipInfo.isMembershipUser,
           membershipKillFactorBps: new BigNumber(membershipInfo.membershipKillFactorBps._hex).toString(),
           membershipWorkFactorBps: new BigNumber(membershipInfo.membershipWorkFactorBps._hex).toString(),
 
