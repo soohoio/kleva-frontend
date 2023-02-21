@@ -24,6 +24,13 @@ export const fetchKokonutSwapInfo$ = () => from(
     console.log(err, '@err')
     return of(KOKONUT_DUMMY_DATA)
   }),
+  map((result) => {
+    if (result.statusCode == 500) {
+      return KOKONUT_DUMMY_DATA
+    }
+
+    return result
+  }),
   map(({ pools }) => {
     
     return (pools || []).reduce((acc, cur) => {
