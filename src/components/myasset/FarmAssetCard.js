@@ -13,7 +13,7 @@ import { debtTokens, getIbTokenFromOriginalToken, lpTokenByIngredients, tokenLis
 // import AdjustPositionPopup from 'components/AdjustPositionPopup'
 
 import './FarmAssetCard.scss'
-import { nFormatter, noRounding } from '../../utils/misc'
+import { isSameAddress, nFormatter, noRounding } from '../../utils/misc'
 import LabelAndValue from 'components/LabelAndValue'
 import { calcKlevaRewardsAPR, getBufferedLeverage, toAPY } from '../../utils/calc'
 import QuestionMark from '../common/QuestionMark'
@@ -78,6 +78,49 @@ class FarmAssetCard extends Component {
       lendingTokenSupplyInfo[baseToken.address].borrowingInterest
 
     return borrowingInterest
+  }
+
+  renderEquityTokenAmounts = () => {
+
+    const {
+      baseToken,
+      token1,
+      token2,
+      token3,
+      token4,
+      debtValue,
+      token1Amt,
+      token2Amt,
+      token3Amt,
+      token4Amt,
+    } = this.props
+
+    const debtValueParsed = new BigNumber(debtValue)
+      .div(10 ** baseToken.decimals)
+      .toNumber()
+
+    const tokens = [
+      { address: token1.address, title: token1.title, amount: token1Amt },
+      { address: token2.address, title: token2.title, amount: token2Amt },
+      token3 && { address: token3.address, title: token3.title, amount: token3Amt },
+      token4 && { address: token4.address, title: token4.title, amount: token4Amt },
+    ]
+      .filter(Boolean)
+      .map((token) => {
+        const { address, title, amount } = token
+        return {
+          title,
+          amount: isSameAddress(address, baseToken.address)
+            ? new BigNumber(amount).minus(debtValueParsed).toString()
+            : amount
+        }
+      })
+
+    return tokens.map(({ title, amount }) => (
+      <p>
+        {noRounding(amount, 4)} {title}
+      </p>
+    ))
   }
 
   render() {
@@ -287,14 +330,7 @@ class FarmAssetCard extends Component {
             className="FarmAssetCard__valueItem"
             label={I18n.t('myasset.farming.equityValue')}
             value={tokens 
-                ? (
-                  <>
-                    <p>{noRounding(token1Amt, 4)} {token1.title}</p>
-                    <p>{noRounding(token2Amt, 4)} {token2.title}</p>
-                    {token3 && <p>{noRounding(token3Amt, 4)} {token3.title}</p>}
-                    {token4 && <p>{noRounding(token4Amt, 4)} {token4.title}</p>}
-                  </>
-                )
+                ? this.renderEquityTokenAmounts()
                 : (
                   <>
                     <p>{nFormatter(equityFarmingAmount)} {farmingToken.title}</p>
