@@ -57,7 +57,7 @@ const kasOption = {
   ]
 }
 
-const NODE_URL = 'https://klaytn-mainnet-rpc.allthatnode.com:8551/rwaalCntHYKW4i2xomOPb2mNUUGhXwaP'
+// const NODE_URL = 'https://klaytn-mainnet-rpc.allthatnode.com:8551/rwaalCntHYKW4i2xomOPb2mNUUGhXwaP'
 // const NODE_3_URL = "https://en5.klayfi.finance"
 // const NODE_4_URL = "https://en6.klayfi.finance"
 const NODE_5_URL = "https://nodepelican.com/"
@@ -66,7 +66,7 @@ const NODE_6_URL = "https://2.nodepelican.com/"
 // const NODE_8_URL = "https://klaytn02.fautor.app/"
 // const NODE_9_URL = "https://klaytn03.fautor.app/"
 
-export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
+// export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
 // export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
 // export const caver_4 = new Caver(new Caver.providers.HttpProvider(NODE_4_URL, kasOption))
 export const caver_5 = new Caver(new Caver.providers.HttpProvider(NODE_5_URL, kasOption))
@@ -76,7 +76,7 @@ export const caver_6 = new Caver(new Caver.providers.HttpProvider(NODE_6_URL, ka
 // export const caver_9 = new Caver(new Caver.providers.HttpProvider(NODE_9_URL, kasOption))
 
 export let caver = sample([
-  caver_1,
+  // caver_1,
   // caver_2,
   // caver_3,
   // caver_4,
@@ -102,10 +102,10 @@ interval(3000).pipe(
     return isFocused$.value
   }),
   switchMap(() => forkJoin(
-    from(getBlockNumber$(caver_1).pipe(
-      map((blockNumber) => ({ blockNumber, url: NODE_URL })),
-      catchError(() => of({ blockNumber: 0, url: "" }))
-    )),
+    // from(getBlockNumber$(caver_1).pipe(
+    //   map((blockNumber) => ({ blockNumber, url: NODE_URL })),
+    //   catchError(() => of({ blockNumber: 0, url: "" }))
+    // )),
     // from(getBlockNumber$(caver_2).pipe(
     //   map((blockNumber) => ({ blockNumber, url: NODE_2_URL })),
     //   catchError(() => of({ blockNumber: 0, url: ""}))
