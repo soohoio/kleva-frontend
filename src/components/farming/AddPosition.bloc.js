@@ -64,6 +64,8 @@ export default class {
     this.isFarmingFocused$ = new BehaviorSubject(false)
     this.isBaseFocused$ = new BehaviorSubject(false)
 
+    this.borrowAmount$ = new BehaviorSubject(0)
+
     this.init()
   }
 
@@ -170,18 +172,21 @@ export default class {
   }
 
   getAmountToBorrow = () => {
-    const positionValue = this.estimatedPositionValueWithoutLeverage$.value
+    
+    return this.borrowAmount$.value
 
-    let leverage = this.leverage$.value
+    // const positionValue = this.estimatedPositionValueWithoutLeverage$.value
 
-    // @HACK This code resolves Klayswap error: Klayswap contract reverts transaction when there is 0 amount to swap.
-    if (Number(leverage) >= 1.999 && Number(leverage) <= 2.001) {
-      leverage = 1.999
-    }
+    // let leverage = this.leverage$.value
 
-    return new BigNumber(positionValue)
-      .multipliedBy(leverage - 1)
-      .toFixed(0)
+    // // @HACK This code resolves Klayswap error: Klayswap contract reverts transaction when there is 0 amount to swap.
+    // if (Number(leverage) >= 1.999 && Number(leverage) <= 2.001) {
+    //   leverage = 1.999
+    // }
+
+    // return new BigNumber(positionValue)
+    //   .multipliedBy(leverage - 1)
+    //   .toFixed(0)
   }
 
   getDebtTokenKlevaRewardsAPR = () => {
@@ -210,15 +215,6 @@ export default class {
       .multipliedBy(10 ** this.farmingToken$.value.decimals)
       .toString()
 
-    console.log(this.leverage$.value, 'this.leverage$.value')
-    console.log(getWorkFactorBpsFromLeverage(this.leverage$.value), 'getWorkFactorBpsFromLeverage(this.leverage$.value)')
-
-    console.log(this.worker$.value.workerAddress, "this.worker$.value.workerAddress,")
-    console.log(baseTokenAmount, "baseTokenAmount,")
-    console.log(farmTokenAmount, "farmTokenAmount,")
-    console.log(MAX_UINT, "MAX_UINT,")
-    console.log(getWorkFactorBpsFromLeverage(this.leverage$.value), "getWorkFactorBpsFromLeverage(this.leverage$.value)")
-
     return forkJoin([
       getPositionValue$({
         workerAddress: this.worker$.value.workerAddress,
@@ -235,6 +231,7 @@ export default class {
     ]).pipe(
       switchMap(([positionValue, borrowAmount]) => {
 
+        this.borrowAmount$.next(borrowAmount)
         console.log(borrowAmount, '@borrowAmount')
 
         this.estimatedPositionValueWithoutLeverage$.next(positionValue)
