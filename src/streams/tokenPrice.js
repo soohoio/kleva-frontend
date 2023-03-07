@@ -8,8 +8,10 @@ import { _fetchKlayswapInfo$ } from "./externalInfo";
 
 export const kokonutInvalid$ = new BehaviorSubject(false)
 
+
+
 export const fetchKlayswapInfo$ = () => from(
-  fetch("https://api.kltalchemy.com/klay/ksInfo").then((res) => res.json())
+  fetch("https://kleva-data.s3.ap-northeast-2.amazonaws.com/klayswap-aggregation.json").then((res) => res.json())
 ).pipe(
   timeout(3000),
   catchError((err) => {
