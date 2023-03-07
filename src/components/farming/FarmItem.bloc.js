@@ -145,7 +145,11 @@ export default class {
       worker &&
       workerInfo[worker.workerAddress.toLowerCase()] || workerInfo[worker.workerAddress]
     
-    const leverageCap = Number(noRounding(workerConfig && 10000 / (10000 - workerConfig.workFactorBps), 1))
+    // const leverageCap = Number(noRounding(workerConfig && 10000 / (10000 - workerConfig.workFactorBps), 1))
+
+    const leverageCap = workerConfig?.isMembershipUser
+      ? workerConfig && getBufferedLeverage(workerConfig?.membershipWorkFactorBps)
+      : workerConfig && getBufferedLeverage(workerConfig?.workFactorBps)
 
     return leverageCap
   }
