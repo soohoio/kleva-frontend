@@ -563,5 +563,32 @@
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "workerAddress",
+        "type": "address"
+      },
+      {
+        "name": "baseAmount",
+        "type": "uint256"
+      },
+      {
+        "name": "farmAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "expectLpToEarn",
+    "outputs": [
+      {
+        "name": "lpExpected",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

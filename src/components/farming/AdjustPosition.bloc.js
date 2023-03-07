@@ -4,7 +4,7 @@ import { distinctUntilChanged, switchMap, takeUntil, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
-import { addCollateral$, borrowMore$, addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
+import { addCollateral$, borrowMore$, addPosition$, approve$, caver, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$, getBorrowAmount$ } from '../../streams/contract'
 import { fetchWalletInfo$ } from '../../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
@@ -12,7 +12,7 @@ import { debtTokens, getIbTokenFromOriginalToken, tokenList } from '../../consta
 import { closeContentView$, closeModal$, openModal$ } from '../../streams/ui'
 import { showDetailDefault$, showSummaryDefault$, slippage$ } from '../../streams/setting'
 import { klevaAnnualRewards$, poolReserves$, fetchPositions$, klayswapPoolInfo$ } from '../../streams/farming'
-import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, optimalDeposit } from '../../utils/calc'
+import { calcKlevaRewardsAPR, getBufferedLeverage, getLPAmountBasedOnIngredientsToken, getOptimalAmount, getWorkFactorBpsFromLeverage, optimalDeposit } from '../../utils/calc'
 import { addressKeyFind, isSameAddress } from '../../utils/misc'
 import { tokenPrices$ } from '../../streams/tokenPrice'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
@@ -80,6 +80,8 @@ export default class {
     this.isFarmingFocused$ = new BehaviorSubject(false)
     this.isBaseFocused$ = new BehaviorSubject(false)
 
+    this.borrowAmount$ = new BehaviorSubject(0)
+
     this.init()
   }
 
@@ -133,20 +135,7 @@ export default class {
   }
 
   getAmountToBorrow = () => {
-    if (!this.borrowMore$.value) return 0
-
-    let leverage = this.leverage$.value
-    
-    // @HACK This code resolves Klayswap error: Klayswap contract reverts transaction when there is 0 amount to swap.
-    // if (Number(leverage) >= 1.999 && Number(leverage) <= 2.001) {
-    //   leverage = 1.999
-    // }
-
-    const amountToBeBorrowed = new BigNumber(this.before_equityValue$.value)
-      .multipliedBy(Number(leverage) - Number(this.before_leverage))
-      .toFixed(0)
-
-    return amountToBeBorrowed
+    return this.borrowAmount$.value
   }
 
   getDebtTokenKlevaRewardsAPR = (leverageValue) => {
@@ -166,41 +155,56 @@ export default class {
   }
 
   getOpenPositionResult$ = () => {
-    const { workerInfo } = this.comp.props
+    const { workerInfo, positionId } = this.comp.props
 
     const baseTokenAmount = new BigNumber(this.baseTokenAmount$.value || 0)
       .multipliedBy(10 ** this.baseToken$.value.decimals)
       .toString() || "0"
 
-    const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount || 0)
-      .plus(this.getAmountToBorrow() || 0)
-      .plus(this.before_baseAmount$.value || 0)
-      .toFixed(0) || "0"
+    return getBorrowAmount$({
+      workerAddress: workerInfo.workerAddress,
+      baseTokenAmount: 0,
+      farmingTokenAmount: 0,
+      positionId,
+      workFactorBps: getWorkFactorBpsFromLeverage(this.leverage$.value),
+    }).pipe(
+      switchMap((borrowAmount) => {
 
-    const farmTokenAmount = new BigNumber(this.farmingTokenAmount$.value || 0)
-      .multipliedBy(10 ** this.farmingToken$.value.decimals)
-      .plus(this.before_farmingAmount$.value || 0)
-      .toString() || "0"
+        this.borrowAmount$.next(this.borrowMore$.value 
+          ? borrowAmount
+          : 0
+        )
 
-    return forkJoin([
-      getOpenPositionResult$({
-        workerAddress: workerInfo.workerAddress,
-        leveragedBaseTokenAmount: baseTokenAmount,
-        farmTokenAmount,
-        positionId: 0
+        const leveragedBaseTokenAmount = new BigNumber(baseTokenAmount || 0)
+          .plus(this.getAmountToBorrow() || 0)
+          .plus(this.before_baseAmount$.value || 0)
+          .toFixed(0) || "0"
+
+        const farmTokenAmount = new BigNumber(this.farmingTokenAmount$.value || 0)
+          .multipliedBy(10 ** this.farmingToken$.value.decimals)
+          .plus(this.before_farmingAmount$.value || 0)
+          .toString() || "0"
+
+        return forkJoin([
+          getOpenPositionResult$({
+            workerAddress: workerInfo.workerAddress,
+            leveragedBaseTokenAmount: baseTokenAmount,
+            farmTokenAmount,
+            positionId: 0
+          }),
+          getOpenPositionResult$({
+            workerAddress: workerInfo.workerAddress,
+            leveragedBaseTokenAmount: leveragedBaseTokenAmount,
+            farmTokenAmount,
+            positionId: 0
+          }),
+          getPositionValue$({
+            workerAddress: workerInfo.workerAddress,
+            baseTokenAmount: leveragedBaseTokenAmount,
+            farmingTokenAmount: farmTokenAmount,
+          }),
+        ])
       }),
-      getOpenPositionResult$({
-        workerAddress: workerInfo.workerAddress,
-        leveragedBaseTokenAmount: leveragedBaseTokenAmount,
-        farmTokenAmount,
-        positionId: 0
-      }),
-      getPositionValue$({
-        workerAddress: workerInfo.workerAddress,
-        baseTokenAmount: leveragedBaseTokenAmount,
-        farmingTokenAmount: farmTokenAmount,
-      }),
-    ]).pipe(
       tap(([openPositionResult, openPositionResult_leverage, positionValue]) => {
         this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
         this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)

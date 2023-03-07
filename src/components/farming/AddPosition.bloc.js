@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators'
 import BigNumber from 'bignumber.js'
 
 import { STRATEGIES } from 'constants/address'
-import { addPosition$, approve$, caver, getBorrowAmount$, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
+import { addPosition$, approve$, caver, getBorrowAmount$, getExpectedLpAmount$, getOpenPositionResult$, getOutputTokenAmount$, getPositionValue$, getTransactionReceipt$ } from '../../streams/contract'
 import { fetchWalletInfo$ } from '../../streams/wallet'
 import { MAX_UINT } from 'constants/setting'
 import { lendingPoolsByStakingTokenAddress } from '../../constants/lendingpool'
@@ -65,6 +65,7 @@ export default class {
     this.isBaseFocused$ = new BehaviorSubject(false)
 
     this.borrowAmount$ = new BehaviorSubject(0)
+    this.expectedLpAmount$ = new BehaviorSubject(0)
 
     this.init()
   }
@@ -253,13 +254,19 @@ export default class {
             farmTokenAmount,
             positionId: 0
           }),
+          getExpectedLpAmount$({
+            workerAddress: this.worker$.value.workerAddress,
+            baseAmount: leveragedBaseTokenAmount,
+            farmAmount: farmTokenAmount,
+          })
         ])
       }),
-      tap(([openPositionResult, openPositionResult_leverage]) => {
+      tap(([openPositionResult, openPositionResult_leverage, expectedLpAmount]) => {
         this.resultBaseTokenAmount$.next(openPositionResult_leverage.resultBaseTokenAmount)
         this.resultFarmTokenAmount$.next(openPositionResult_leverage.resultFarmTokenAmount)
 
         this.priceImpact$.next(new BigNumber(openPositionResult.priceImpactBps).div(10000).toString())
+        this.expectedLpAmount$.next(expectedLpAmount)
 
         if (this.leverage$.value == 1) {
           this.leverageImpact$.next(0)
@@ -342,22 +349,7 @@ export default class {
 
     const borrowAmount = this.getAmountToBorrow()
 
-    const poolInfo = addressKeyFind(klayswapPoolInfo$.value, this.lpToken?.address)
-    const expectedLpAmount = getLPAmountBasedOnIngredientsToken({
-      poolInfo,
-      token1: {
-        ...this.baseToken$.value,
-        amount: new BigNumber(this.baseTokenAmount$.value || 0)
-          .multipliedBy(10 ** this.baseToken$.value?.decimals)
-          .toString()
-      },
-      token2: {
-        ...this.farmingToken$.value,
-        amount: new BigNumber(this.farmingTokenAmount$.value || 0)
-          .multipliedBy(10 ** this.farmingToken$.value?.decimals)
-          .toString()
-      }
-    })
+    const expectedLpAmount = this.expectedLpAmount$.value
 
     const MIN_LP_AMOUNT = new BigNumber(expectedLpAmount)
     .multipliedBy(1 - (Number(slippage$.value) / 100))

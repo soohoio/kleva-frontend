@@ -2254,3 +2254,22 @@ export const getMembershipInfo$ = ({ workerAddress, userAddress }) => {
     })
   )
 }
+
+export const getExpectedLpAmount$ = ({ workerAddress, baseAmount, farmAmount }) => {
+
+  return call$({
+    abi: KlayswapCalculatorABI,
+    address: KLAYSWAP_CALCULATOR,
+    methodName: "expectLpToEarn",
+    params: [
+      workerAddress,
+      baseAmount,
+      farmAmount,
+    ]
+  }).pipe(
+    catchError((e) => {
+      console.log(e, 'expectLpToEarn err')
+      return of(0)
+    })
+  )
+}
