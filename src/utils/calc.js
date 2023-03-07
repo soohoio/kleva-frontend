@@ -6,11 +6,15 @@ export const getBufferedWorkFactorBps = (workFactorBps) => {
   return (workFactorBps - 300) / 0.97
 }
 
+function truncateNumber(num) {
+  return Math.trunc(num * 100) / 100;
+}
+
 export const getBufferedLeverage = (workFactorBps) => {
   // const buffered = (workFactorBps - 100) / 0.99
   const buffered = (workFactorBps - 300) / 0.97
   
-  return 10000 / (10000 - Math.round(Number(buffered)))
+  return truncateNumber(10000 / (10000 - Math.round(Number(buffered))))
 }
 
 export const getWorkFactorBpsFromLeverage = (leverage) => {
