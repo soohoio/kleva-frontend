@@ -1,5 +1,6 @@
 const opn = require('opn')
 const path = require('path')
+const compression = require('compression')
 const uuid = require('uuid')
 const express = require('express')
 const webpack = require('webpack')
@@ -29,9 +30,23 @@ const middleware = webpackMiddleware(compiler, {
 })
 
 app.use(middleware)
-console.log(__dirname, '__dirname')
+
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use(webpackHotMiddleware(compiler))
+
+app.get('*', (req, res) => {
+  console.log(compiler.outputPath, `compiler.outputPath`)
+  
+  var filename = path.join(compiler.outputPath, 'index.html');
+  compiler.outputFileSystem.readFile(filename, function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    res.set('content-type', 'text/html');
+    res.send(result);
+    res.end();
+  });
+});
 
 app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
