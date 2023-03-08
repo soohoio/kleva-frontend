@@ -51,6 +51,7 @@ class LendingPoolListItem extends Component {
       isLastIdx,
       disabled,
       controllerDisabled,
+      disabledMessage,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -146,19 +147,27 @@ class LendingPoolListItem extends Component {
         })}>
           <div className="LendingDepositAndSimulation">
             {controllerDisabled 
-              ? (
-                <div
-                  onClick={() => {
-                    openModal$.next({
-                      component: <EnterpriseOnlyModal />
-                    })
-                  }}
-                  className="LendingDepositAndSimulation__enterpriseOnly"
-                >
-                  {I18n.t('enterpriseOnly.modal.title')}
-                  <QuestionMark />
-                </div>
-              )
+              ? disabledMessage 
+                ? (
+                  <div
+                    className="LendingDepositAndSimulation__enterpriseOnly"
+                  >
+                    {I18n.t(disabledMessage)}
+                  </div>
+                )
+                : (
+                  <div
+                    onClick={() => {
+                      openModal$.next({
+                        component: <EnterpriseOnlyModal />
+                      })
+                    }}
+                    className="LendingDepositAndSimulation__enterpriseOnly"
+                  >
+                    {I18n.t('enterpriseOnly.modal.title')}
+                    <QuestionMark />
+                  </div>
+                )
               : (
                 <>
                   <div

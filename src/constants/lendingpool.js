@@ -33,6 +33,8 @@ export const lendingPools = [
     
     stakingToken: tokenList["oUSDT"],
     vaultConfigAddress: "0x24Ae164a3D5E80f8584b412312131EC027b606A9",
+    controllerDisabled: true,
+    disabledMessage: "temp.unavailable",
   },
   {
     title: "KDAI",

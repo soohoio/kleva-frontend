@@ -56,6 +56,7 @@ class LendingPoolListItemCard extends Component {
       wKLAYBalance,
       disabled,
       controllerDisabled,
+      disabledMessage,
     } = this.props
 
     const totalAPR = new BigNumber(lendingAPR)
@@ -161,19 +162,29 @@ class LendingPoolListItemCard extends Component {
 
           <div className="LendingPoolListItemCard__buttons">
             {controllerDisabled 
-              ? (
-                <div
-                  onClick={() => {
-                    openModal$.next({
-                      component: <EnterpriseOnlyModal />
-                    })
-                  }}
-                  className="LendingPoolListItemCard__enterpriseOnly"
-                >
-                  {I18n.t('enterpriseOnly.modal.title')}
-                  <QuestionMark />
-                </div>
-              )
+              ? disabledMessage 
+                ? (
+                  (
+                    <div
+                      className="LendingPoolListItemCard__enterpriseOnly"
+                    >
+                      {I18n.t(disabledMessage)}
+                    </div>
+                  )
+                )
+                : (
+                  <div
+                    onClick={() => {
+                      openModal$.next({
+                        component: <EnterpriseOnlyModal />
+                      })
+                    }}
+                    className="LendingPoolListItemCard__enterpriseOnly"
+                  >
+                    {I18n.t('enterpriseOnly.modal.title')}
+                    <QuestionMark />
+                  </div>
+                )
               : (
                 <>
                   <div
