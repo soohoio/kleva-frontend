@@ -65,6 +65,7 @@ const NODE_6_URL = "https://2.nodepelican.com/"
 // const NODE_7_URL = "https://klaytn01.fautor.app/"
 // const NODE_8_URL = "https://klaytn02.fautor.app/"
 // const NODE_9_URL = "https://klaytn03.fautor.app/"
+const NODE_10_URL = "https://klaytn-mainnet-d-kv-api.allthatnode.com"
 
 // export const caver_1 = new Caver(new Caver.providers.HttpProvider(NODE_URL, kasOption))
 // export const caver_3 = new Caver(new Caver.providers.HttpProvider(NODE_3_URL, kasOption))
@@ -74,6 +75,7 @@ export const caver_6 = new Caver(new Caver.providers.HttpProvider(NODE_6_URL, ka
 // export const caver_7 = new Caver(new Caver.providers.HttpProvider(NODE_7_URL, kasOption))
 // export const caver_8 = new Caver(new Caver.providers.HttpProvider(NODE_8_URL, kasOption))
 // export const caver_9 = new Caver(new Caver.providers.HttpProvider(NODE_9_URL, kasOption))
+export const caver_10 = new Caver(new Caver.providers.HttpProvider(NODE_10_URL, kasOption))
 
 export let caver = sample([
   // caver_1,
@@ -85,6 +87,7 @@ export let caver = sample([
   // caver_7,
   // caver_8,
   // caver_9,
+  caver_10,
 ])
 
 const getBlockNumber$ = (web3Instance) => from(
@@ -138,6 +141,10 @@ interval(3000).pipe(
     //   map((blockNumber) => ({ blockNumber, url: NODE_9_URL })),
     //   catchError(() => of({ blockNumber: 0, url: ""}))
     // )),
+    from(getBlockNumber$(caver_10).pipe(
+      map((blockNumber) => ({ blockNumber, url: NODE_10_URL })),
+      catchError(() => of({ blockNumber: 0, url: ""}))
+    )),
   )),
 ).subscribe((nodes) => {
   const bestNode = nodes.reduce((acc, cur) => {
