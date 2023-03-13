@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import smoothscroll from 'smoothscroll-polyfill'
 import { hot } from 'react-hot-loader/root'
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
 
 window.isMobile = window.isMobile.tablet || window.isMobile.phone
 
@@ -16,6 +18,8 @@ import { path$ } from 'streams/location'
 import './index.scss'
 import { closeModal$ } from './streams/ui'
 
+
+
 // Google Tag Manager
 if (window.location.host === "kleva.io") {
   (function (w, d, s, l, i) {
@@ -26,6 +30,16 @@ if (window.location.host === "kleva.io") {
       j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
         'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
   })(window, document, 'script', 'dataLayer', 'GTM-M36SM6B');
+
+  Sentry.init({
+    dsn: "https://354503e3b5de4ccc9321d54d91d6383f@o263474.ingest.sentry.io/4504813400948736",
+    integrations: [new BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
 }
 
 // polyfill

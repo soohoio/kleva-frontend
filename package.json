@@ -26,6 +26,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@ethersproject/abi": "^5.4.0",
+    "@sentry/browser": "^7.42.0",
+    "@sentry/tracing": "^7.42.0",
     "@tweenjs/tween.js": "^18.4.2",
     "acceptedlanguages": "0.0.2",
     "autoprefixer": "^10.4.13",
