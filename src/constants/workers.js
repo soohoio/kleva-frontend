@@ -158,6 +158,20 @@ export const workers = [
     workerAddress: "0xBBf637ed726797fe0Cd3380C3f8CDF38DB2Cfc24",
     exchange: 'klayswap',
   },
+  {
+    farmingToken: tokenList.KLAY,
+    baseToken: tokenList.KDAI,
+    vaultAddress: tokenList.ibKDAI.address,
+    workerAddress: "0x531A28763a35839541Bf63e9590d38Da76717B30",
+    exchange: 'klayswap',
+  },
+  {
+    farmingToken: tokenList.KDAI,
+    baseToken: tokenList.KLAY,
+    vaultAddress: tokenList.ibKLAY.address,
+    workerAddress: "0xa2beae02d687b4035a2123412eBf932feed9Db69",
+    exchange: 'klayswap',
+  },
 
   // Kokonutswap base pool
   {

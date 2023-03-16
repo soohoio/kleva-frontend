@@ -201,6 +201,13 @@ export const lpTokens = {
     address: "0x3bce8d81ac54010bb7ea6e5960f2ded6fc6a7ac5",
     decimals: 18,
   },
+  "KLAY-KDAI LP": {
+    KSLP: true,
+    ingredients: [singleTokens.KLAY, singleTokens.KDAI],
+    title: "KLAY+KDAI",
+    address: "0xa3987cf6C14F1992e8b4a9E23192Eb79dC2969b8",
+    decimals: 18,
+  },
 
   // Kokonutswap
   "KSD-KLAY LP": {
