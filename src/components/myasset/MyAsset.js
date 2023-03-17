@@ -62,7 +62,7 @@ class MyAsset extends Component {
 
         return interval(1000 * 30).pipe(
           startWith(0),
-          switchMap(() => getPositions$(selectedAddress$.value, 1))
+          switchMap(() => getPositions$(selectedAddress$.value, 1, 1))
         )
       }),
       tap((positions) => {

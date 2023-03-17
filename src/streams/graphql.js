@@ -5,66 +5,18 @@ import { farmPool, farmPoolByWorker } from '../constants/farmpool'
 
 export const ITEM_PER_PAGE = 5
 
-export const GRAPH_NODE_URL = "https://event.nodepelican.com/subgraphs/name/kleva"
-
-export const getUserPositionSummary$ = (owner) => {
-  return from(
-    request(
-      GRAPH_NODE_URL,
-      gql`
-      query($id: ID!) {
-        userPositionSummary(id: $id) {
-          id,
-          livePositionCount,
-          killedPositionCount,
-        }
-      }
-    `, {
-      id: String(owner).toLowerCase(),
-    })).pipe(
-      map(({ userPositionSummary }) => {
-        return userPositionSummary
-      })
-    )
-}
+// export const GRAPH_NODE_URL = "https://event.nodepelican.com/subgraphs/name/kleva"
+export const GRAPH_NODE_URL = "https://rm5darpzya.execute-api.ap-northeast-2.amazonaws.com/default/defi-kleva-endpoint"
 
 export const getPositions$ = (owner, page = 1, first, skip) => {
 
   return from(
-    request(
-    GRAPH_NODE_URL,
-    gql`
-      query($first: Int!, $skip: Int!, $where: Position_filter) {
-        positions(
-            first: $first, 
-            skip: $skip, 
-            where: $where, 
-            orderBy: latestBlockTime,
-            orderDirection: desc
-        ) {
-          id,
-          positionId,
-          owner,
-          workerAddress,
-          lpShare,
-          debtShare,
-          debtAmount,
-          latestBlockTime,
-          
-          positionValueAtKilled,
-          debtAtKilled,
-          restAmountAtKilled,
-          prizeAtKilled,
-          killedTx,
-        }
-      }
-    `,
-    { 
-      first: first || ITEM_PER_PAGE,
-      skip: skip || Math.max(0, ITEM_PER_PAGE * (page - 1)),
-      where: { owner, lpShare_gt: 0 },
-    }
-  )).pipe(
+    fetch(`${GRAPH_NODE_URL}?method=live&owner=${owner}&first=${first}&skip=${skip || 0}&orderBy=latestBlockTime&orderDirection=desc`)
+    .then((res) => res.json())
+    .catch(() => {
+      return { positions: [] }
+    })
+  ).pipe(
     map(({ positions }) => {
       return positions
         .filter((item) => {
@@ -74,7 +26,7 @@ export const getPositions$ = (owner, page = 1, first, skip) => {
           return !!_farm
         })
         .map((item) => {
-          const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]      
+          const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
 
           return { ...item, ..._farm }
       })
@@ -85,55 +37,27 @@ export const getPositions$ = (owner, page = 1, first, skip) => {
 export const getKilledPositions$ = (owner, page = 1, first, skip) => {
 
   return from(
-    request(
-      GRAPH_NODE_URL,
-      gql`
-      query($first: Int!, $skip: Int!, $where: Position_filter) {
-        positions(
-            first: $first, 
-            skip: $skip, 
-            where: $where, 
-            orderBy: latestBlockTime,
-            orderDirection: desc
-        ) {
-          id,
-          positionId,
-          owner,
-          workerAddress,
-          lpShare,
-          debtShare,
-          debtAmount,
-          latestBlockTime,
-
-          positionValueAtKilled,
-          debtAtKilled,
-          prizeAtKilled,
-          restAmountAtKilled,
-          killedTx,
-        }
-      }
-    `,
-      {
-        first: first || ITEM_PER_PAGE,
-        skip: skip || Math.max(0, ITEM_PER_PAGE * (page - 1)),
-        where: { owner, killed: true },
-      }
-    )).pipe(
-      map(({ positions }) => {
-        return positions
-          .filter((item) => {
-            const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
-
-            // Invalid or Deprecated worker
-            return !!_farm
-          })
-          .map((item) => {
-            const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
-
-            return { ...item, ..._farm }
-          })
+    fetch(`${GRAPH_NODE_URL}?method=kill&owner=${owner}&first=${first}&skip=${skip || 0}&orderBy=latestBlockTime&orderDirection=desc`)
+      .then((res) => res.json())
+      .catch(() => {
+        return { positions: [] }
       })
-    )
+  ).pipe(
+    map(({ positions }) => {
+      return positions
+        .filter((item) => {
+          const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
+
+          // Invalid or Deprecated worker
+          return !!_farm
+        })
+        .map((item) => {
+          const _farm = farmPoolByWorker[item.workerAddress] || farmPoolByWorker[item.workerAddress.toLowerCase()]
+
+          return { ...item, ..._farm }
+        })
+    })
+  )
 }
 
 export const getPositionsAll$ = (owner) => {
