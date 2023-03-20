@@ -175,3 +175,12 @@
   line-height: 20px;
   color: #8B96B2;
 }
+
+.EarnedPopup__rewards {
+  overflow: scroll;
+  max-height: calc(100vh - 138.5px);
+  
+  @include desktop {
+    max-height: 400px;
+  }
+}

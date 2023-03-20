@@ -138,58 +138,60 @@ class EarnedPopup extends Component {
           </div>
         </div>
         
-        {Object.values(debtTokens)
-          .filter(({ pid }) => {
-            const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
-              .div(10 ** tokenList["KLEVA"].decimals)
-              .toNumber()
+        <div className="EarnedPopup__rewards">
+          {Object.values(debtTokens)
+            .filter(({ pid }) => {
+              const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
+                .div(10 ** tokenList["KLEVA"].decimals)
+                .toNumber()
 
-            return earnedAmount >= 0.00005
-          })
-          .map(({ title, pid }) => {
-          const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
-            .div(10 ** tokenList["KLEVA"].decimals)
-            .toNumber()
+              return earnedAmount >= 0.00005
+            })
+            .map(({ title, pid }) => {
+              const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
+                .div(10 ** tokenList["KLEVA"].decimals)
+                .toNumber()
 
-          return (
-            <EarnedItem
-              isLoading={this.isLoading$.value}
-              title={title}
-              subtitle={I18n.t('myasset.earned.leverageReward')}
-              pid={pid}
-              rewardToken={tokenList["KLEVA"]}
-              earnedAmount={earnedAmount}
-              claimReward={this.claimReward}
-            />
-          )
-        })}
-        {stakingPools
-          .filter(({ pid }) => {
-            const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
-              .div(10 ** tokenList["KLEVA"].decimals)
-              .toNumber()
+              return (
+                <EarnedItem
+                  isLoading={this.isLoading$.value}
+                  title={title}
+                  subtitle={I18n.t('myasset.earned.leverageReward')}
+                  pid={pid}
+                  rewardToken={tokenList["KLEVA"]}
+                  earnedAmount={earnedAmount}
+                  claimReward={this.claimReward}
+                />
+              )
+            })}
+          {stakingPools
+            .filter(({ pid }) => {
+              const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
+                .div(10 ** tokenList["KLEVA"].decimals)
+                .toNumber()
 
-            return earnedAmount >= 0.00005
-          })
-          .map(({ title, stakingToken, pid }) => {
-            const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
-              .div(10 ** tokenList["KLEVA"].decimals)
-              .toNumber()
+              return earnedAmount >= 0.00005
+            })
+            .map(({ title, stakingToken, pid }) => {
+              const earnedAmount = new BigNumber(pendingGT$.value[pid] || 0)
+                .div(10 ** tokenList["KLEVA"].decimals)
+                .toNumber()
 
-            const originalToken = getOriginalTokenFromIbToken(stakingToken)
+              const originalToken = getOriginalTokenFromIbToken(stakingToken)
 
-            return (
-              <EarnedItem
-                isLoading={this.isLoading$.value}
-                title={originalToken?.title}
-                subtitle={I18n.t('myasset.earned.stakingReward')}
-                pid={pid}
-                rewardToken={tokenList["KLEVA"]}
-                earnedAmount={earnedAmount}
-                claimReward={this.claimReward}
-              />
-          )
-        })}
+              return (
+                <EarnedItem
+                  isLoading={this.isLoading$.value}
+                  title={originalToken?.title}
+                  subtitle={I18n.t('myasset.earned.stakingReward')}
+                  pid={pid}
+                  rewardToken={tokenList["KLEVA"]}
+                  earnedAmount={earnedAmount}
+                  claimReward={this.claimReward}
+                />
+              )
+            })}
+        </div>
       </Modal>
     )
   }
