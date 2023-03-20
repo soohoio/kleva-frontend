@@ -27,7 +27,7 @@ const chartBackupDate = `${new Date().getFullYear()}_${String(yesterday.getMonth
 const CHART_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartDate}.json`
 const CHART_BACKUP_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartBackupDate}.json`
 
-const BURN_HISTORY_API_URL = "https://275dmnyh53.execute-api.ap-southeast-1.amazonaws.com/dev/data"
+const BURN_HISTORY_API_URL = "https://kleva-data.s3.ap-northeast-2.amazonaws.com/burn-history.json"
 
 export const fetchChartData$ = () => {
   return forkJoin([
