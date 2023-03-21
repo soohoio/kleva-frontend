@@ -11,7 +11,7 @@ import { I18n } from 'components/common/I18n'
 import './InputWithPercentage.scss'
 import { toFixed } from '../../utils/calc'
 import { tokenList } from '../../constants/tokens'
-import { noRounding } from '../../utils/misc'
+import { noRounding, replaceall } from '../../utils/misc'
 
 const percentItems = [
   { title: "0%", value: 0, key: "0%" },
@@ -100,7 +100,8 @@ class InputWithPercentage extends Component {
   calcPercentageFromValue = (val) => {
     const { valueLimit } = this.props
 
-    
+    val = replaceall(',', '', val)
+
     const percentage = new BigNumber(val).div(valueLimit).toNumber() * 100
 
     return (val && valueLimit != 0) 
@@ -192,6 +193,8 @@ class InputWithPercentage extends Component {
                 }
               }}
               onChange={(e) => {
+
+                e.target.value = replaceall(',', '', e.target.value)
 
                 if (e.target.value !== "." && isNaN(Number(e.target.value))) return
 
