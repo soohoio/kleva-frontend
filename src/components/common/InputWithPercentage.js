@@ -137,7 +137,8 @@ class InputWithPercentage extends Component {
       return valueLimit
     }
 
-    return Number(Number(valueLimit) * (value / 100)).toLocaleString('en-us', { maximumFractionDigits: 6 })
+    // return Number(Number(valueLimit) * (value / 100)).toLocaleString('en-us', { maximumFractionDigits: 6 })
+    return String(Number(valueLimit) * (value / 100))
   }
     
   render() {
