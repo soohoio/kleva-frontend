@@ -41,30 +41,37 @@ class Footer extends Component {
               <img 
                 className="Footer__icon" 
                 onClick={() => {
-                  window.open(I18n.t('docs.kleva.io'))
+                  window.open("https://discord.gg/kleva")
                 }}
-                src="/static/images/common/icon_footer_gitbook.svg?date=20220929" 
+                src="/static/images/common/icon_footer_discord.svg?date=20220929"
               />
-              <img 
-                className="Footer__icon" 
-                onClick={() => {
-                  window.open('https://mobile.twitter.com/kleva_protocol')
-                }}
-                src="/static/images/common/icon_footer_twitter.svg?date=20220929" 
-              />
-              <img 
-                className="Footer__icon" 
-                onClick={() => {
-                  window.open('https://t.me/klevaprotocol_official')
-                }}
-                src="/static/images/common/icon_footer_telegram.svg?date=20220929" 
-              />
-              <img 
-                className="Footer__icon" 
+              <img
+                className="Footer__icon"
                 onClick={() => {
                   window.open('https://medium.com/@KLEVA_Protocol_official')
                 }}
-                src="/static/images/common/icon_footer_medium.svg?date=20220929" 
+                src="/static/images/common/icon_footer_medium2.svg?date=20220929"
+              />
+              <img
+                className="Footer__icon"
+                onClick={() => {
+                  window.open('https://mobile.twitter.com/kleva_protocol')
+                }}
+                src="/static/images/common/icon_footer_twitter.svg?date=20220929"
+              />
+              <img
+                className="Footer__icon"
+                onClick={() => {
+                  window.open('https://t.me/klevaprotocol_official')
+                }}
+                src="/static/images/common/icon_footer_telegram.svg?date=20220929"
+              />
+              <img 
+                className="Footer__icon" 
+                onClick={() => {
+                  window.open(I18n.t('docs.kleva.io'))
+                }}
+                src="/static/images/common/icon_footer_gitbook.svg?date=20220929" 
               />
             </div>
             <LanguageChange 
