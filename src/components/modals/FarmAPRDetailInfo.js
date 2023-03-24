@@ -8,7 +8,7 @@ import "./FarmAPRDetailInfo.scss"
 import Modal from '../common/Modal'
 import { I18n } from '../common/I18n'
 import LabelAndValue from '../LabelAndValue'
-import { nFormatter, noRounding } from '../../utils/misc'
+import { nFormatter, noRounding, addressKeyFind } from '../../utils/misc'
 import { closeModal$, openContentView$, openModal$ } from '../../streams/ui'
 import { lendingTokenSupplyInfo$ } from '../../streams/vault'
 import RadioSet2 from '../common/RadioSet2'
@@ -101,7 +101,7 @@ class FarmAPRDetailInfo extends Component {
 
     const borrowingAsset = borrowingAssetMap$?.value[lpToken.address]
 
-    const borrowingInterest = new BigNumber(baseBorrowingInterests[borrowingAsset?.address]?.baseInterest)
+    const borrowingInterest = new BigNumber(addressKeyFind(baseBorrowingInterests, borrowingAsset?.address)?.baseInterest)
       .multipliedBy(leverageValue$.value - 1)
       .toNumber()
 
