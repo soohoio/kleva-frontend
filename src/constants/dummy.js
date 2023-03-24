@@ -32392,7 +32392,7 @@ export const KLAYSWAP_DUMMY_DATA = {
   ]
 }
 
-export const KLAY_PRICE = "0.31"
+export const KLAY_PRICE = "0.22"
 
 export const AIRDROP_DATA = [
   [

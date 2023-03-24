@@ -1,5 +1,5 @@
 import { BehaviorSubject, from, of } from "rxjs";
-import { catchError, map, mergeMap, switchMap, tap, timeout } from "rxjs/operators";
+import { catchError, map, mergeMap, retry, switchMap, tap, timeout } from "rxjs/operators";
 import { tokenList, tokenListByAddress } from "../constants/tokens";
 import { addressKeyFind } from '../utils/misc';
 import { BigNumber } from 'bignumber.js'
@@ -13,8 +13,10 @@ export const kokonutInvalid$ = new BehaviorSubject(false)
 export const fetchKlayswapInfo$ = () => from(
   fetch("https://kleva-data.s3.ap-northeast-2.amazonaws.com/klayswap-aggregation.json").then((res) => res.json())
 ).pipe(
-  timeout(3000),
+  timeout(8000),
+  retry(10),
   catchError((err) => {
+    console.log(err, '@err')
     return _fetchKlayswapInfo$()
   })
 )

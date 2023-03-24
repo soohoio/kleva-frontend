@@ -21,10 +21,6 @@ export const _fetchKlayswapInfo$ = () => {
     // fetch$(`https://ss.klayswap.com/stat/airdropInfo.min.json?t=${new Date().getTime()}`),
   ).pipe(
     map(([klayPrice, klayswapInfo, _airdropInfo]) => {
-      console.log(klayPrice, 'klayPrice')
-      console.log(klayswapInfo, 'klayswapInfo')
-
-      console.log(_airdropInfo, '_airdropInfo')
 
       const airdropInfo = _airdropInfo
         .filter((pool) => pool[13] === true) // 13: isActive
