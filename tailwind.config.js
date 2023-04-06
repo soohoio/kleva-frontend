@@ -8,6 +8,9 @@ module.exports = {
     './src/**/*.js',
   ],
   theme: {
+    screens: {
+      dt: "1200px",
+    },
     extend: {},
   },
   plugins: [],

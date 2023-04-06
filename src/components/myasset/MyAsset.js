@@ -25,6 +25,7 @@ import { currentTab$ } from '../../streams/view'
 import { getPositions$ } from '../../streams/graphql'
 import { hasPosition$ } from '../../streams/farming'
 import Videos from '../common/Videos'
+import ALMExplainPanel from './ALMExplainPanel'
 
 
 class MyAsset extends Component {
@@ -141,6 +142,7 @@ class MyAsset extends Component {
               })
             }}
           />
+          <ALMExplainPanel />
           <Videos
             sectionTitle={I18n.t('intro5.title')}
           />
@@ -175,6 +177,7 @@ class MyAsset extends Component {
               }
             ]}
           />
+          <ALMExplainPanel />
           <Videos
             hideIndexMap={{ 0: true }}
             sectionTitle={I18n.t('intro5.title')}
