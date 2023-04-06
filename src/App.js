@@ -28,7 +28,7 @@ import { browserHistory$, path$, prevLocation$ } from './streams/location'
 import CoverLayer from 'components/CoverLayer'
 
 import './App.scss'
-import { isFocused$, modalContentComponent$, shouldNavigationTabFloat$, showFooter$, showStartButton$ } from './streams/ui'
+import { isFocused$, modalContentComponent$, openModal$, shouldNavigationTabFloat$, showFooter$, showStartButton$ } from './streams/ui'
 import { debtTokens, tokenList } from './constants/tokens'
 import { stakingPools } from './constants/stakingpool'
 import { lendingTokenSupplyInfo$ } from './streams/vault'
@@ -43,6 +43,7 @@ import { workers } from './constants/workers'
 import { addressKeyFind } from './utils/misc'
 import { currentTab$ } from './streams/view'
 import { burnHistoryData$, chartData$, fetchChartData$, getBurnHistory$ } from './streams/chart'
+import ALMInfoModal from './components/modals/ALMInfoModal'
 
 type Props = {
   isLoading: boolean,
@@ -311,6 +312,11 @@ class App extends Component<Props> {
 
     getBurnHistory$().subscribe((burnHistoryData) => {
       burnHistoryData$.next(burnHistoryData)
+    })
+
+    // ALM Modal
+    openModal$.next({
+      component: <ALMInfoModal />
     })
   }
 

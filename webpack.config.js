@@ -26,8 +26,8 @@ module.exports = {
     'whatwg-fetch',
     '@babel/polyfill',
     'react-hot-loader/patch',
-    path.resolve(__dirname, 'src/index.js'),
     'webpack-hot-middleware/client',
+    path.resolve(__dirname, 'src/index.js'),
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
