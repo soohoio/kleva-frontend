@@ -12,8 +12,8 @@
   "env": {
     "development": {
       "plugins": [
-        "react-hot-loader/babel",
-        "react-refresh/babel"
+        // "react-hot-loader/babel",
+        // "react-refresh/babel"
       ]
     }
   },

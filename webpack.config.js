@@ -125,7 +125,7 @@ module.exports = {
     }),
     extractCSS,
     new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
+    // new ReactRefreshWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new Dotenv({
       path: envPath,
