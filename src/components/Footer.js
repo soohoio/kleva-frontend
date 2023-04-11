@@ -62,7 +62,7 @@ class Footer extends Component {
               <img
                 className="Footer__icon"
                 onClick={() => {
-                  window.open('https://t.me/klevaprotocol_official')
+                  window.open('https://t.me/Kleva_Announcement')
                 }}
                 src="/static/images/common/icon_footer_telegram.svg?date=20220929"
               />
