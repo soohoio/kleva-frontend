@@ -14,7 +14,13 @@ class QuestionMark extends Component {
   }
     
   render() {
-    const { title, size, info, color, onClick } = this.props
+    const { title, size, info, color, transparent, onClick } = this.props
+
+    const backgroundImage = transparent 
+      ? "question-mark-transparent"
+      : info 
+        ? "infomark"
+        : "questionmark"
 
     if (title) {
       return (
@@ -25,10 +31,10 @@ class QuestionMark extends Component {
               color,
               fontSize: size,
               borderColor: color,
-              backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg?date=20220929`
+              backgroundImage: `url(/static/images/exported/${backgroundImage}.svg?date=20220929`
             }}
             onClick={onClick}
-            className="QuestionMark"
+            className="QuestionMark bg-no-repeat"
         />
         </div>
       )
@@ -40,10 +46,10 @@ class QuestionMark extends Component {
           color,
           fontSize: size,
           borderColor: color,
-          backgroundImage: `url(/static/images/exported/${info ? 'infomark' : 'questionmark'}.svg?date=20220929`
+          backgroundImage: `url(/static/images/exported/${backgroundImage}.svg?date=20220929`
         }}
         onClick={onClick}
-        className="QuestionMark"
+        className="QuestionMark bg-no-repeat"
       />
     )
   }

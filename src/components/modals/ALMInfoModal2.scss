@@ -1,0 +1,40 @@
+.ALMInfoModal2 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.ALMInfoModal2__LabelAndValue {
+  margin-bottom: 4px;
+
+  &--withIcon {
+    .LabelAndValue__value {
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: "";
+        display: flex;
+        background-repeat: no-repeat;
+        width: 80px;
+        height: 17px;
+        margin-right: 9px;
+        background-image: url(/static/images/exported/boosted.svg);
+      }
+    }
+  }
+
+  .LabelAndValue__label {
+    @include font-style('font-1', 'b', 16px);
+    color: #222222;
+    line-height: 24px;
+  }
+
+  .BeforeAfter__before {
+    font-size: 16px;
+  }
+
+  .BeforeAfter__after {
+    @include font-style('font-1', 'b', 16px);
+    color: #8F00FF;
+  }
+}

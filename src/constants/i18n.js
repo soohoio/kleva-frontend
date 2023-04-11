@@ -432,9 +432,13 @@ export const en = {
   'boostInfoModal.liquidationReward': 'Liquidator Prize',
   'boostInfoModal.description2': 'Should ibKLEVA be <text style="color: #265FFC;">unstaked</text>, Liquidation Fee and Liquidation <text style="color: #265FFC;">Threshold will return to original values, while Max Leverage remains unchanged.</text> Please be aware of Liquidation Risks when unstaking ibKLEVA.',
   'almInfoModal.description': `<strong style="color: #8F00FF;">ibKLEVA를 7,500개 이상</strong> 스테이킹한 유저에게 레버리지 투자 시 Boosted 기능을 이용할 수 있는 KLVEA 멤버십 혜택이 제공됩니다.`,
+  'almInfoModal2.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong> (조건 충족 시 멤버십 혜택이 자동 적용됩니다.)`,
   'almInfoModal.ex.title': 'oUSDT+oUSDC 풀 예시',
-  'almExplainPanel.title': `<strong style="color: #8F00FF;">ibKLEVA 7,500개 이상 스테이킹</strong> 시 고배율 레버리지의 멤버십 혜택이 주어집니다.`,
+  'almExplainPanel.title': `<strong style="color: #8F00FF;">ibKLEVA 7,500개 이상 스테이킹</strong> 시 더 높은 레버리지와 청산 한도 혜택이 제공됩니다.`,
   'almExplainPanel.detail': '혜택 자세히 보기',
+  'membership': '멤버십',
+  'condition': '조건',
+  'membership.applied': "혜택 적용중",
   
   'temp.unavailable': "Unavailable"
   
@@ -875,9 +879,13 @@ export const ko = {
   'boostInfoModal.liquidationReward': '청산인 보상',
   'boostInfoModal.description2': 'ibKLEVA를 중도 <text style="color: #265FFC;">언스테이킹</text>할 경우 최대 레버리지 계수는 유지되지만 <text style="color: #265FFC;">청산 한도와 청산 수수료가 이전 값으로 복귀</text>되어 청산 위험이 높아지니 유의하여 주시기 바랍니다.',
   'almInfoModal.description': `<strong style="color: #8F00FF;">ibKLEVA를 7,500개 이상</strong> 스테이킹한 유저에게 레버리지 투자 시 Boosted 기능을 이용할 수 있는 KLVEA 멤버십 혜택이 제공됩니다.`,
+  'almInfoModal2.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong> (조건 충족 시 멤버십 혜택이 자동 적용됩니다.)`,
   'almInfoModal.ex.title': 'oUSDT+oUSDC 풀 예시',
-  'almExplainPanel.title': `<strong style="color: #8F00FF;">ibKLEVA 7,500개 이상 스테이킹</strong> 시 고배율 레버리지의 멤버십 혜택이 주어집니다.`,
+  'almExplainPanel.title': `<strong style="color: #8F00FF;">ibKLEVA 7,500개 이상 스테이킹</strong> 시 더 높은 레버리지와 청산 한도 혜택이 제공됩니다.`,
   'almExplainPanel.detail': '혜택 자세히 보기',
+  'membership': '멤버십',
+  'condition': '조건',
+  'membership.applied': "혜택 적용중",
   
   'temp.unavailable': "비활성화됨",
   
