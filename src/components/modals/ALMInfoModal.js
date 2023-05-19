@@ -79,12 +79,13 @@ class ALMInfoModal extends Component {
               "h-[32px]",
               "mb-[17px] mr-auto",
             )}
-            src="/static/images/exported/membership-title-kr.svg" 
+            src="/static/images/exported/title208x30.svg"
           />
           <p
             className={join(
               "text-[#333333]",
               "leading-[24px]",
+              "letter-spacing-[-0.5px]",
             )}
           >
             {I18n.t('almInfoModal.description')}
@@ -112,6 +113,7 @@ class ALMInfoModal extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={`${leverageCap}${I18n.t('farming.multiplyLabel')}`}
                     after={`${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
                   />
@@ -128,6 +130,7 @@ class ALMInfoModal extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={`${liquidationThreshold.toFixed(2)}%`}
                     after={`${boostedLiquidationThreshold.toFixed(2)}%`}
                   />
@@ -144,6 +147,7 @@ class ALMInfoModal extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={liquidationFee}
                     after={boostedLiquidationFee}
                   />
@@ -160,6 +164,7 @@ class ALMInfoModal extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={liquidationReward}
                     after={boostedLiquidationReward}
                   />
@@ -173,7 +178,8 @@ class ALMInfoModal extends Component {
             "absolute bottom-0 left-0 w-[100%] h-[50px]",
             "bg-[#1C1C23] px-[25px]",
             "flex justify-between items-center",
-            "rounded-b-[16px]"
+            "dt:rounded-b-[16px]",
+            "rounded-br-none rounded-bl-none",
           )}
         >
           <span 
