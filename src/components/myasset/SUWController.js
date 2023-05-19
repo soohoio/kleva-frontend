@@ -266,7 +266,12 @@ class SUWController extends Component {
             </>
           )}
         </>
-        <div className="SUWController__available">
+        <div 
+          className={join(
+            "SUWController__available",
+            isIbKleva && "mt-[25px]",
+          )}
+        >
           <span 
             className="SUWController__availableLabel"
           >
