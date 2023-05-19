@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   line-height: 19px;
-  margin-bottom: 32px;
+  // margin-bottom: 32px;
 
   @include desktop {
     @include font-style('font-1', 'sb', 16px);

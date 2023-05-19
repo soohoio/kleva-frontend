@@ -31,7 +31,7 @@ class Boosted extends Component {
   }
     
   render() {
-    const { className, workerConfig, description } = this.props
+    const { className, workerConfig, description, imgSrc } = this.props
 
     if (!isBoostedPool(workerConfig)) return <></>
 
@@ -39,7 +39,7 @@ class Boosted extends Component {
       <div 
         className={cx("Boosted", className)}
       >
-        <img src="/static/images/exported/boosted.svg" />
+        <img src={imgSrc || "/static/images/exported/boosted.svg"} />
         <QuestionMark
           onClick={() => {
             openModal$.next({

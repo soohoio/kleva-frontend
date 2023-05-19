@@ -37,10 +37,11 @@ class Farming extends Component {
         <div 
           className={join(
             "Farming__intro",
-            "dt:flex dt:flex-row dt:justify-between",
+            "mb-[30px]",
+            "dt:flex dt:flex-row dt:justify-between dt:mb-[15px]",
           )}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col mb-[20px] dt:mb-0">
             <p className="Farming__introTitle">
               {I18n.t('farming.intro.title')}
             </p>

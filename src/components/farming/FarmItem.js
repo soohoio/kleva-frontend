@@ -132,6 +132,7 @@ class FarmItem extends Component {
             {/* <p className="FarmItem__title">{token1.title}+{token2.title}</p> */}
             <p className="FarmItem__exchange">{exchange}</p>
             <Boosted
+              imgSrc="/static/images/exported/boosted_75x12.svg"
               className="FarmItem__Boosted"
               workerConfig={workerConfig} 
             />
