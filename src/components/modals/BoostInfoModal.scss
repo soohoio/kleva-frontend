@@ -1,3 +1,9 @@
+.BoostInfoModal {
+  .Modal__close {
+    top: 15px;
+    right: 15px;
+  }
+}
 
 .BoostInfoModal__description {
   @include font-style('font-1', 'm', 16px);
@@ -27,6 +33,10 @@
     line-height: 24px;
   }
 
+  .LabelAndValue__value {
+    line-height: 24px;
+  }
+
   .BeforeAfter__before {
     font-size: 16px;
   }
@@ -34,6 +44,13 @@
   .BeforeAfter__after {
     @include font-style('font-1', 'b', 16px);
     color: #265FFC;
+  }
+
+  .BeforeAfter__arrow {
+    margin: 0 5px;
+
+    width: 11px; 
+    height: 10px;
   }
 }
 

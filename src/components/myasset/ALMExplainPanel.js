@@ -45,7 +45,7 @@ class ALMExplainPanel extends Component {
     return {
       ibKlevaStakingBalance,
       stakingPercentage,
-      isMembershipApplied: true,
+      isMembershipApplied,
     }
   }
 

@@ -42,7 +42,7 @@ class BoostInfoModal extends Component {
     return {
       ibKlevaStakingBalance,
       stakingPercentage,
-      isMembershipApplied,
+      isMembershipApplied: true,
     }
   }
 
@@ -124,6 +124,7 @@ class BoostInfoModal extends Component {
             value={(
               <>
                 <BeforeAfter
+                  imgSrc={"/static/images/exported/arrow icon.svg"}
                   before={(
                     <>
                       {isMembershipApplied 
@@ -155,6 +156,7 @@ class BoostInfoModal extends Component {
             value={(
               <>
                 <BeforeAfter
+                  imgSrc={"/static/images/exported/arrow icon.svg"}
                   before={`${liquidationThreshold.toFixed(2)}%`}
                   after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationThreshold.toFixed(2)}%</span>}
                 />
@@ -171,6 +173,7 @@ class BoostInfoModal extends Component {
             value={(
               <>
                 <BeforeAfter
+                  imgSrc={"/static/images/exported/arrow icon.svg"}
                   before={liquidationFee}
                   after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationFee}</span>}
                 />
@@ -187,6 +190,7 @@ class BoostInfoModal extends Component {
             value={(
               <>
                 <BeforeAfter
+                  imgSrc={"/static/images/exported/arrow icon.svg"}
                   before={liquidationReward}
                   after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationReward}</span>}
                 />

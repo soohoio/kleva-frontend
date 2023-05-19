@@ -18,10 +18,14 @@ class BeforeAfter extends Component {
     
   render() {
     const { before, after } = this.props
+    let { imgSrc } = this.props
+
+    imgSrc = imgSrc || "/static/images/arrow-right2.svg?date=20220929"
+
     return (
       <div className={cx("BeforeAfter")}>
         <div className="BeforeAfter__before">{before}</div>
-        <img className="BeforeAfter__arrow" src="/static/images/arrow-right2.svg?date=20220929" />
+        <img className="BeforeAfter__arrow" src={imgSrc} />
         <div className="BeforeAfter__after">{after}</div>
       </div>
     )
