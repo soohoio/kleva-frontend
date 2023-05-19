@@ -448,7 +448,7 @@ export const en = {
   'membership.applied2.desktop.description': "스테이킹 조건 충족 시 멤버십 혜택이 자동 적용됩니다.",
   'membership.applied.myasset.desktop.description': "Boosted 풀에 투자 시 더 높은 레버리지와 청산 한도, 낮은 청산 비용 혜택을 받으실 수 있습니다.",
   'membership.ibStaking.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 KLEVA 멤버십 혜택을 받을 수 있습니다.`,
-  'membership.farming.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
+  'membership.farming.description': `<strong style="color: #8F00FF;">ibKLEVA를 7,500개 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
   'membership.farming.description.applied': `<strong style="color: #8F00FF;">KLEVA 멤버십 혜택이 적용 중입니다.</strong> Boosted 기능을 활용하여 높은 수익을 얻을 수 있습니다.`,
   
   'temp.unavailable': "Unavailable",
@@ -909,7 +909,7 @@ export const ko = {
   'membership.applied2.desktop.description': "스테이킹 조건 충족 시 멤버십 혜택이 자동 적용됩니다.",
   'membership.applied.myasset.desktop.description': "Boosted 풀에 투자 시 더 높은 레버리지와 청산 한도, 낮은 청산 비용 혜택을 받으실 수 있습니다.",
   'membership.ibStaking.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 KLEVA 멤버십 혜택을 받을 수 있습니다.`,
-  'membership.farming.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
+  'membership.farming.description': `<strong style="color: #8F00FF;">ibKLEVA를 7,500개 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
   'membership.farming.description.applied': `<strong style="color: #8F00FF;">KLEVA 멤버십 혜택이 적용 중입니다.</strong> Boosted 기능을 활용하여 높은 수익을 얻을 수 있습니다.`,
   
   'temp.unavailable': "비활성화됨",
