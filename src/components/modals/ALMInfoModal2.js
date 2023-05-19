@@ -182,6 +182,44 @@ class ALMInfoModal2 extends Component {
               )}
             />
           </div>
+          <div
+            className={join(
+              "mt-[20px]",
+            )}
+          >
+            <span
+              className={join(
+                "text-[#969BAB] text-[14px] leading-[21px] font-[500]",
+              )}
+            >
+              {I18n.t('almInfoModal2.ex.info')}
+            </span>
+            <div
+              className={join(
+                "inline-block items-center",
+                "ml-[4px]",
+                "cursor-pointer",
+              )}
+              onClick={() => {
+                window.open('https://medium.com/@KLEVA_Protocol_official/product-update-kleva-membership-4ae8361417cc')
+              }}
+            >
+              <span
+                className={join(
+                  "text-[15px] text-[#222222] font-[500]",
+                )}
+              >
+                {I18n.t('almInfoModal2.ex.link')}
+              </span>
+              <img
+                className={join(
+                  "w-[8px] h-[13px]",
+                  "ml-[4px]",
+                )}
+                src="/static/images/exported/right-black-arrow.svg" 
+              />
+            </div>
+          </div>
         </div>
       </Modal>
     )
