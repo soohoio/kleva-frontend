@@ -85,7 +85,7 @@ class ALMExplainPanel extends Component {
                   ? "hidden dt:block"
                   : "block"
                 ,
-                "text-[#9585A6] text-[15px] font-[500]",
+                "text-[#9585A6] text-[15px] font-[500] dt:text-[14px]",
                 "leading-[21px]",
                 "mb-[13px]",
                 "dt:mb-0",
@@ -145,7 +145,7 @@ class ALMExplainPanel extends Component {
                   ? "dt:mb-[12px] dt:mr-[16px]"
                   : "dt:mb-0 dt:mr-[16px]",
               )}
-              src="/static/images/exported/membership-title-kr.svg"
+              src="/static/images/exported/112x16.svg"
             />
             <QuestionMark
               className="dt:hidden"
@@ -330,8 +330,8 @@ class ALMExplainPanel extends Component {
           hasSelectedAddress
             ? ["mx-0 dt:h-[92px]"]
             : ["mx-[20px] dt:h-[52px]"],
-          "mt-[20px] dt:mx-auto dt:mt-[40px]",
-          "p-[25px]",
+          "mt-[20px] dt:mx-auto",
+          "px-[20px] py-[22px] dt:p-[25px]",
           "rounded-[8px]",
           "bg-[#F8F2FF]",
        )}
