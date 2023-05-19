@@ -887,7 +887,7 @@ export const ko = {
   'boostedMaximumaAPR': "최대 수익률",
   'boostedMaximumaAPR.2': "최대",
   'boostInfoModal.description': `<strong style="color: #265FFC;">ibKLEVA를 7,500개 이상 스테이킹</strong>하면 아래와 같은 혜택이 적용됩니다.`,
-  'boostInfoModal.maxLeverage': '최대 레버리지 계수',
+  'boostInfoModal.maxLeverage': '최대 레버리지 배수',
   'boostInfoModal.liquidationLimit': '청산 한도',
   'boostInfoModal.liquidationFee': '청산 수수료',
   'boostInfoModal.liquidationReward': '청산인 보상',

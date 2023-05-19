@@ -59,16 +59,16 @@ class ALMExplainPanel extends Component {
             className="flex flex-col dt:items-center dt:flex-row"
           >
             <div
-              className="flex items-center mr-auto mb-[18px] dt:mb-0"
+              className="flex items-center mr-auto mb-[12px] dt:mb-0"
             >
               <img
                 className={join(
                   "h-[15px]",
                   "dt:mb-0 dt:mr-[16px]",
                 )}
-                src="/static/images/exported/membership-title-kr.svg"
+                src="/static/images/exported/112x16.svg"
               />
-              <QuestionMark
+              {/* <QuestionMark
                 className="dt:hidden"
                 color="#FBF7FF"
                 transparent
@@ -77,7 +77,7 @@ class ALMExplainPanel extends Component {
                     component: <ALMInfoModal2 />
                   })
                 }}
-              />
+              /> */}
             </div>
             <p
               className={join(
@@ -87,7 +87,7 @@ class ALMExplainPanel extends Component {
                 ,
                 "text-[#9585A6] text-[15px] font-[500] dt:text-[14px]",
                 "leading-[21px]",
-                "mb-[13px]",
+                "mb-[12px]",
                 "dt:mb-0",
               )}
             >
@@ -102,7 +102,7 @@ class ALMExplainPanel extends Component {
             }}
             className={join(
               "flex items-center",
-              "text-[#8F00FF] text-[15px] leading-[16px]",
+              "text-[#8F00FF] text-[15px] leading-[16px] dt:text-[14px]",
               "font-[500]",
               "cursor-pointer",
             )}
@@ -177,7 +177,9 @@ class ALMExplainPanel extends Component {
                 }}
               >
                 {I18n.t('membership.applied2.desktop.description')}
-                <span className="ml-[4px] text-[14px] leading-[16px] font-[600] text-[#8F00FF]">{I18n.t('almExplainPanel.detail')}</span>
+                <span className="ml-[4px] text-[14px] leading-[16px] font-[600] text-[#8F00FF]">
+                  {I18n.t('almExplainPanel.detail')}
+                </span>
                 <img
                   className={join(
                     "ml-[4px]",
@@ -332,7 +334,7 @@ class ALMExplainPanel extends Component {
             : ["mx-[20px] dt:h-[52px]"],
           "mt-[20px] dt:mx-auto",
           "px-[20px] py-[22px] dt:p-[25px]",
-          "rounded-[8px]",
+          "rounded-[8px] dt:rounded-[9px]",
           "bg-[#F8F2FF]",
        )}
       >
