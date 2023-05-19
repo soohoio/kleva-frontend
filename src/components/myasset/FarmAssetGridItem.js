@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { join } from 'tailwind-merge'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap } from 'rxjs/operators'
@@ -263,7 +264,26 @@ class FarmAssetGridItem extends Component {
           <LabelAndValue
             className="FarmAssetGridItem__apy"
             label=""
-            value={`${nFormatter(before_apy, 2)}%`}
+            value={
+              (workerInfo.isMembershipUser)
+                ? (
+                  <div className="flex items-center">
+                    <img
+                      className="w-[13px] h-[17px] mr-[2px]"
+                      src="/static/images/exported/lightning.svg"
+                    />
+                    <span
+                      className={join(
+                        "font-[700] leading-[19px] text-[18px]",
+                        "FarmAssetCard__boostedAprTitle"
+                      )}
+                    >
+                      {nFormatter(before_apy, 2)}%
+                    </span>
+                  </div>
+                )
+                : `${nFormatter(before_apy, 2)}%`
+            }
           />
           <LabelAndValue
             className="FarmAssetGridItem__apr"

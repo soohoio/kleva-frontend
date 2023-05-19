@@ -1,10 +1,12 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { join } from 'tailwind-merge'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators'
 
 import './Modal.scss'
 import { classNameAttach$, classNameAttachLayered$, closeLayeredModal$, closeModal$, freezeModalScroll$, layeredModalContentComponent$, modalAnimation$, unfreezeModalScroll$ } from '../../streams/ui'
+import { I18n } from './I18n'
 
 function preventDefault(e) {
   e.preventDefault()
@@ -55,7 +57,7 @@ class Modal extends Component {
   }
 
   render() {
-    const { title, className, noAnimation, children, mobileCoverAll, onClose, layered } = this.props
+    const { title, className, noAnimation, children, mobileCoverAll, onClose, layered, noClose } = this.props
 
 
     return (
@@ -74,19 +76,21 @@ class Modal extends Component {
             "Modal__header--noTitle": !title,
           })}>
             {!!title && <span className="Modal__title">{title}</span>}
-            <img onClick={() => {
-
-              if (typeof onClose === 'function') {
-                onClose()
-                return
-              }
-
-              if (layeredModalContentComponent$.value) {
-                closeLayeredModal$.next(true)
-                return
-              }
-              closeModal$.next(true)
-            }} className="Modal__close" src="/static/images/exported/x.svg?date=20220929" />
+            {!noClose && (
+              <img onClick={() => {
+  
+                if (typeof onClose === 'function') {
+                  onClose()
+                  return
+                }
+  
+                if (layeredModalContentComponent$.value) {
+                  closeLayeredModal$.next(true)
+                  return
+                }
+                closeModal$.next(true)
+              }} className="Modal__close" src="/static/images/exported/x.svg?date=20220929" />
+            )}
           </div>
           {children}
         </div>

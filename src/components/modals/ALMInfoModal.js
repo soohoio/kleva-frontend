@@ -13,6 +13,7 @@ import { I18n } from '../common/I18n'
 import Modal from '../common/Modal'
 
 import "./ALMInfoModal.scss"
+import { closeModal$ } from '../../streams/ui'
 
 class ALMInfoModal extends Component {
 
@@ -66,6 +67,7 @@ class ALMInfoModal extends Component {
     return (
       <Modal
         className="ALMInfoModal"
+        noClose
       >
         <div
           className={join(
@@ -165,6 +167,30 @@ class ALMInfoModal extends Component {
               )}
             />
           </div>
+        </div>
+        <div 
+          className={join(
+            "absolute bottom-0 left-0 w-[100%] h-[50px]",
+            "bg-[#1C1C23] px-[25px]",
+            "flex justify-between items-center",
+            "rounded-b-[16px]"
+          )}
+        >
+          <span 
+            onClick={() => {
+              const today = new Date()
+              const dayID = `${today.getFullYear()}.${today.getMonth()}.${today.getDate()}`
+              
+              closeModal$.next(true)
+              localStorage.setItem(`dontshow.${dayID}`, true)
+            }}
+            className="text-[#989FB6] text-[15px] font-[500] cursor-pointer"
+          >
+            {I18n.t('dontshowtoday')}
+          </span>
+          <span 
+            onClick={() => closeModal$.next(true)}
+            className="text-[#ffffff] text-[16px] font-[700] cursor-pointer">{I18n.t('close')}</span>
         </div>
       </Modal>
     )

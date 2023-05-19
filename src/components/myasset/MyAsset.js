@@ -196,7 +196,7 @@ class MyAsset extends Component {
           <>
             <div className="MyAsset__header">
               <MyAssetHeader />
-              <ALMExplainPanel />
+              <ALMExplainPanel className="mx-auto" />
             </div>
             <ThickHR />
           </>

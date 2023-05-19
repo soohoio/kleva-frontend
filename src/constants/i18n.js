@@ -439,8 +439,18 @@ export const en = {
   'membership': '멤버십',
   'condition': '조건',
   'membership.applied': "혜택 적용중",
+  'membership.applied2': "KLEVA 멤버십 혜택 적용 중",
+  'membership.applied2.description': "Boosted 표시가 있는 풀에 투자 시 고배율의 레버리지 및 청산 혜택을 받을 수 있습니다.",
+  'membership.applied2.desktop.description': "스테이킹 조건 충족 시 멤버십 혜택이 자동 적용됩니다.",
+  'membership.applied.myasset.desktop.description': "Boosted 풀에 투자 시 더 높은 레버리지와 청산 한도, 낮은 청산 비용 혜택을 받으실 수 있습니다.",
+  'membership.ibStaking.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 KLEVA 멤버십 혜택을 받을 수 있습니다.`,
+  'membership.farming.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
+  'membership.farming.description.applied': `<strong style="color: #8F00FF;">KLEVA 멤버십 혜택이 적용 중입니다.</strong> Boosted 기능을 활용하여 높은 수익을 얻을 수 있습니다.`,
   
-  'temp.unavailable': "Unavailable"
+  'temp.unavailable': "Unavailable",
+
+  'dontshowtoday': '오늘 하루 그만보기',
+  'close': '닫기',
   
 
 }
@@ -872,7 +882,7 @@ export const ko = {
   // ALM
   'boostedMaximumaAPR': "최대 수익률",
   'boostedMaximumaAPR.2': "최대",
-  'boostInfoModal.description': "Boost 풀은 ibKLEVA를 7,500개 이상 스테이킹 할 경우 아래와 같은 혜택이 적용됩니다. ",
+  'boostInfoModal.description': `<strong style="color: #265FFC;">ibKLEVA를 7,500개 이상 스테이킹</strong>하면 아래와 같은 혜택이 적용됩니다.`,
   'boostInfoModal.maxLeverage': '최대 레버리지 계수',
   'boostInfoModal.liquidationLimit': '청산 한도',
   'boostInfoModal.liquidationFee': '청산 수수료',
@@ -886,9 +896,18 @@ export const ko = {
   'membership': '멤버십',
   'condition': '조건',
   'membership.applied': "혜택 적용중",
+  'membership.applied2': "KLEVA 멤버십 혜택 적용 중",
+  'membership.applied2.description': "Boosted 표시가 있는 풀에 투자 시 고배율의 레버리지 및 청산 혜택을 받을 수 있습니다.",
+  'membership.applied2.desktop.description': "스테이킹 조건 충족 시 멤버십 혜택이 자동 적용됩니다.",
+  'membership.applied.myasset.desktop.description': "Boosted 풀에 투자 시 더 높은 레버리지와 청산 한도, 낮은 청산 비용 혜택을 받으실 수 있습니다.",
+  'membership.ibStaking.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 KLEVA 멤버십 혜택을 받을 수 있습니다.`,
+  'membership.farming.description': `<strong style="color: #8F00FF;">7,500 ibKLEVA 스테이킹</strong>하면 고배율 레버리지 투자가 가능한 Boosted 기능을 이용할 수 있습니다.`,
+  'membership.farming.description.applied': `<strong style="color: #8F00FF;">KLEVA 멤버십 혜택이 적용 중입니다.</strong> Boosted 기능을 활용하여 높은 수익을 얻을 수 있습니다.`,
   
   'temp.unavailable': "비활성화됨",
-  
+
+  'dontshowtoday': '오늘 하루 그만보기',
+  'close': '닫기',
 
 }
 

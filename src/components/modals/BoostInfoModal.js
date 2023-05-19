@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { join } from 'tailwind-merge'
 import cx from 'classnames'
 import { Subject, merge, of } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
@@ -11,6 +12,8 @@ import BeforeAfter from '../BeforeAfter'
 import "./BoostInfoModal.scss"
 import { getBufferedLeverage } from '../../utils/calc'
 import { noRounding } from '../../utils/misc'
+import { ibTokens } from '../../constants/tokens'
+import { balancesInStakingPool$ } from '../../streams/wallet'
 
 class BoostInfoModal extends Component {
 
@@ -22,6 +25,25 @@ class BoostInfoModal extends Component {
 
   componentWillUnmount() {
     this.destroy$.next(true)
+  }
+
+  getStatus = () => {
+    const ibKleva = ibTokens.ibKLEVA
+
+    const ibKlevaStakingBalance = balancesInStakingPool$.value?.[ibKleva.address]?.balanceParsed
+
+    const stakingPercentage = Math.min(
+      (ibKlevaStakingBalance / 7500) * 100,
+      100
+    )
+
+    const isMembershipApplied = stakingPercentage >= 100
+
+    return {
+      ibKlevaStakingBalance,
+      stakingPercentage,
+      isMembershipApplied,
+    }
   }
 
   render() {
@@ -42,6 +64,8 @@ class BoostInfoModal extends Component {
       membershipLiquidatePrizeBps,
     } = workerConfig
 
+    const { isMembershipApplied } = this.getStatus()
+
     const leverageCap = noRounding(getBufferedLeverage(workFactorBps), 1)
     const boostedLeverageCap = noRounding(getBufferedLeverage(membershipWorkFactorBps), 1)
     
@@ -58,11 +82,39 @@ class BoostInfoModal extends Component {
       <Modal 
         title="Boosted"
       >
-        <p 
-          className="BoostInfoModal__description"
-        >
-          {I18n.t('boostInfoModal.description')}
-        </p>
+        {isMembershipApplied
+          ? (
+            <div
+              className={join(
+                "flex flex-col",
+                "mb-[17px]",
+              )}
+            >
+              <p
+                className={join(
+                  "text-[#8F00FF] text-[17px] font-bold",
+                  "mb-[5px]",
+                )}
+              >
+                {I18n.t('membership.applied2')}
+              </p>
+              <p
+                className={join(
+                  "text-[#636878]",
+                )}
+              >
+                {I18n.t('membership.applied2.description')}
+              </p>
+            </div>
+          )
+          : (
+            <p
+              className="BoostInfoModal__description"
+            >
+              {I18n.t('boostInfoModal.description')}
+            </p>
+          )
+        }
         <div
           className="BoostInfoModal__content"
         >
@@ -72,8 +124,23 @@ class BoostInfoModal extends Component {
             value={(
               <>
                 <BeforeAfter
-                  before={`${leverageCap}${I18n.t('farming.multiplyLabel')}`}
-                  after={`${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
+                  before={(
+                    <>
+                      {isMembershipApplied 
+                        ? (
+                          <div className="flex items-center">
+                            <img
+                              className="w-[72px] h-[15px] mr-[8px]"
+                              src="/static/images/exported/boosted.svg" 
+                            />
+                            {leverageCap}{I18n.t('farming.multiplyLabel')}
+                          </div>
+                        )
+                        : `${leverageCap}${I18n.t('farming.multiplyLabel')}`
+                      }
+                    </>
+                  )}
+                  after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLeverageCap}{I18n.t('farming.multiplyLabel')}</span>}
                 />
               </>
             )}
@@ -89,7 +156,7 @@ class BoostInfoModal extends Component {
               <>
                 <BeforeAfter
                   before={`${liquidationThreshold.toFixed(2)}%`}
-                  after={`${boostedLiquidationThreshold.toFixed(2)}%`}
+                  after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationThreshold.toFixed(2)}%</span>}
                 />
               </>
             )}
@@ -105,7 +172,7 @@ class BoostInfoModal extends Component {
               <>
                 <BeforeAfter
                   before={liquidationFee}
-                  after={boostedLiquidationFee}
+                  after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationFee}</span>}
                 />
               </>
             )}
@@ -121,7 +188,7 @@ class BoostInfoModal extends Component {
               <>
                 <BeforeAfter
                   before={liquidationReward}
-                  after={boostedLiquidationReward}
+                  after={<span className={isMembershipApplied && "text-[#8F00FF]"}>{boostedLiquidationReward}</span>}
                 />
               </>
             )}

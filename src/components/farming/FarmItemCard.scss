@@ -229,9 +229,14 @@
 .FarmItemCard__boostedAPRValue {
   @include font-style('font-1', 'b', 15px);
   line-height: 17px;
-  background: linear-gradient(93.56deg, #8319FF 1.72%, #DB00FF 96.65%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  color: #AAB4D1;
+  
+  &--boosted {
+    background: linear-gradient(93.56deg, #8319FF 1.72%, #DB00FF 96.65%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .FarmItemCard__Boosted {

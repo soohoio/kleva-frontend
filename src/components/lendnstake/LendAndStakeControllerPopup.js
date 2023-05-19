@@ -1,5 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 import cx from 'classnames'
+import { join } from 'tailwind-merge'
 import BigNumber from 'bignumber.js'
 import { BehaviorSubject, Subject, merge } from 'rxjs'
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators'
@@ -253,12 +254,19 @@ class LendAndStakeControllerPopup extends Component {
       )
     }
 
+    const isIbKleva = isSameAddress(ibToken.address, tokenList.ibKLEVA.address)
+
     if (!isLendCompleted) {
       return (
         <>
           <p className="LendAndStakeControllerPopup__title">{I18n.t('lendnstake.controller.tokenToIbToken')}</p>
 
-          <div className="LendAndStakeControllerPopup__ibTokenPrice Tip__parent">
+          <div 
+            className={join(
+              "LendAndStakeControllerPopup__ibTokenPrice Tip__parent",
+              isIbKleva && "mb-[25px]",
+            )}
+          >
             1 ib{stakingToken.title} = {noRounding(ibTokenPrice, 4)} {stakingToken.title}
             <QuestionMark
               onClick={() => this.isTipOpened$.next(!this.isTipOpened$.value)}
@@ -269,7 +277,24 @@ class LendAndStakeControllerPopup extends Component {
               content={I18n.t('tip.ibToken.description')}
             />
           </div>
-          <div className="LendAndStakeControllerPopup__available">
+          {isIbKleva && (
+            <>
+              <div
+                className={join(
+                  "text-[15px] leading-[22px] font-medium"
+                )}
+              >
+                {I18n.t('membership.ibStaking.description')}
+              </div>
+              <div className="w-[100%] h-[1px] border-[#E6EAF2] bg-[#E6EAF2] mt-[20px]" />
+            </>
+          )}
+          <div 
+            className={join(
+              "LendAndStakeControllerPopup__available",
+              isIbKleva && "mt-[25px]",
+            )}
+          >
             <span className="LendAndStakeControllerPopup__availableLabel">{I18n.t('lendstake.controller.available')} {stakingToken.title}</span>
             <span className="LendAndStakeControllerPopup__availableAmount">{Number(availableBalance).toLocaleString('en-us', { maximumFractionDigits: 4 })}</span>
           </div>

@@ -24,8 +24,8 @@ const yesterday = new Date(Date.now() - 864e5)
 const chartDate = `${new Date().getFullYear()}_${String(new Date().getMonth() + 1).padStart(2, "0")}_${String(new Date().getDate()).padStart(2, "0")}`
 const chartBackupDate = `${new Date().getFullYear()}_${String(yesterday.getMonth() + 1).padStart(2, "0")}_${String(yesterday.getDate()).padStart(2, "0")}`
 
-const CHART_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartDate}.json`
-const CHART_BACKUP_FETCH_URL = `https://wt-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartBackupDate}.json`
+const CHART_FETCH_URL = `https://td-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartDate}.json`
+const CHART_BACKUP_FETCH_URL = `https://td-mars-share.s3.ap-northeast-2.amazonaws.com/KLEVA_${chartBackupDate}.json`
 
 const BURN_HISTORY_API_URL = "https://kleva-data.s3.ap-northeast-2.amazonaws.com/burn-history.json"
 

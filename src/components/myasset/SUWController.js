@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { join } from 'tailwind-merge'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
 import { BehaviorSubject, Subject, merge } from 'rxjs'
@@ -233,6 +234,8 @@ class SUWController extends Component {
     const availableBalance = balancesInWallet$.value[stakingToken.address] &&
       balancesInWallet$.value[stakingToken.address].balanceParsed
 
+    const isIbKleva = isSameAddress(stakingToken.address, tokenList.ibKLEVA.address)
+
     const isApproved = (allowancesInStakingPool$.value && allowancesInStakingPool$.value[stakingToken.address] != 0)
 
     if (!isApproved) {
@@ -248,6 +251,21 @@ class SUWController extends Component {
     return (
       <>
         <p className="SUWController__title">{I18n.t('myasset.suwController.staking.title')}</p>
+        <>
+          {isIbKleva && (
+            <>
+              <div
+                className={join(
+                  "text-[15px] leading-[22px] font-medium",
+                  "mt-[25px]",
+                )}
+              >
+                {I18n.t('membership.ibStaking.description')}
+              </div>
+              <div className="w-[100%] h-[1px] border-[#E6EAF2] bg-[#E6EAF2] mt-[20px]" />
+            </>
+          )}
+        </>
         <div className="SUWController__available">
           <span 
             className="SUWController__availableLabel"

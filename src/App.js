@@ -315,9 +315,14 @@ class App extends Component<Props> {
     })
 
     // ALM Modal
-    openModal$.next({
-      component: <ALMInfoModal />
-    })
+    const today = new Date()
+    const dayID = `${today.getFullYear()}.${today.getMonth()}.${today.getDate()}`
+
+    if (!localStorage.getItem(`dontshow.${dayID}`)) {
+      openModal$.next({
+        component: <ALMInfoModal />
+      })
+    }
   }
 
   checkShowFooter = ($html) => {

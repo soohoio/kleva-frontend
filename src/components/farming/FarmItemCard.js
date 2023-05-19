@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { join } from 'tailwind-merge'
 import cx from 'classnames'
 import { Subject, merge } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
@@ -162,10 +163,25 @@ class FarmItemCard extends Component {
               />
             </p>
             <p className="FarmItemCard__tvl">{I18n.t('tvl')} ${farmDeposited && nFormatter(farmDeposited.deposited, 0, currentLocale$.value, true)}</p>
-            {false && isBoostedPool(workerConfig) && (
+            {isBoostedPool(workerConfig) && (
               <div className="FarmItemCard__boostedAPR">
-                <span className="FarmItemCard__boostedAPRTitle">{I18n.t('boostedMaximumaAPR')}</span>
-                <span className="FarmItemCard__boostedAPRValue">{nFormatter(boostedMaximumAPY, 2)}%</span>
+                <span 
+                  className={join(
+                    "FarmItemCard__boostedAPRTitle",
+                    workerConfig.isMembershipUser 
+                      ? "text-[#6800EF]"
+                      : "text-[#AAB4D1]"
+                )}>
+                  {I18n.t('boostedMaximumaAPR')}
+                </span>
+                <span 
+                  className={join(
+                    "FarmItemCard__boostedAPRValue",
+                    workerConfig.isMembershipUser && "FarmItemCard__boostedAPRValue--boosted"
+                  )}
+                >
+                  {nFormatter(boostedMaximumAPY, 2)}%
+                </span>
               </div>
             )}
           </div>

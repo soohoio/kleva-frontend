@@ -1,4 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 import cx from 'classnames'
 import { BehaviorSubject, Subject, merge, of } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
@@ -14,13 +15,15 @@ class QuestionMark extends Component {
   }
     
   render() {
-    const { title, size, info, color, transparent, onClick } = this.props
+    const { title, size, info, color, transparent, onClick, className } = this.props
+    let { backgroundImage } = this.props
 
-    const backgroundImage = transparent 
+    backgroundImage = backgroundImage || (transparent 
       ? "question-mark-transparent"
       : info 
         ? "infomark"
         : "questionmark"
+    )
 
     if (title) {
       return (
@@ -49,7 +52,10 @@ class QuestionMark extends Component {
           backgroundImage: `url(/static/images/exported/${backgroundImage}.svg?date=20220929`
         }}
         onClick={onClick}
-        className="QuestionMark bg-no-repeat"
+        className={twMerge(
+          "QuestionMark bg-no-repeat",
+          className
+        )}
       />
     )
   }
