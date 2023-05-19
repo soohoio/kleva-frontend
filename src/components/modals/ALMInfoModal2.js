@@ -66,7 +66,10 @@ class ALMInfoModal2 extends Component {
     return (
       <Modal
         title={`KLEVA ${I18n.t('membership')}`}
-        className="ALMInfoModal2"
+        className={join(
+          "ALMInfoModal2",
+          "dt:px-[30px]",
+        )}
       >
         <div
           className={join(
@@ -94,9 +97,17 @@ class ALMInfoModal2 extends Component {
               "w-[100%] h-[1px]",
               "bg-[#E6EAF2]",
               "border-none",
-              "my-[25px]",
+              "my-[22px]",
             )}
           />
+          <p
+            className={join(
+              "text-[#222222] text-[17px] font-[700]",
+              "leading-[18px] mb-[7px]",
+            )}
+          >
+            {I18n.t('almInfoModal2.ex.merits')}
+          </p>
           <p
             className={join(
               "text-[15px] font-normal",
@@ -112,6 +123,7 @@ class ALMInfoModal2 extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={`${leverageCap}${I18n.t('farming.multiplyLabel')}`}
                     after={`${boostedLeverageCap}${I18n.t('farming.multiplyLabel')}`}
                   />
@@ -128,6 +140,7 @@ class ALMInfoModal2 extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={`${liquidationThreshold.toFixed(2)}%`}
                     after={`${boostedLiquidationThreshold.toFixed(2)}%`}
                   />
@@ -144,6 +157,7 @@ class ALMInfoModal2 extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={liquidationFee}
                     after={boostedLiquidationFee}
                   />
@@ -160,6 +174,7 @@ class ALMInfoModal2 extends Component {
               value={(
                 <>
                   <BeforeAfter
+                    imgSrc={"/static/images/exported/arrow icon.svg"}
                     before={liquidationReward}
                     after={boostedLiquidationReward}
                   />

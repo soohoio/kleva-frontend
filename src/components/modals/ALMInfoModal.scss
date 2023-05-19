@@ -27,7 +27,7 @@
   }
 
   .LabelAndValue__label {
-    @include font-style('font-1', 'b', 16px);
+    @include font-style('font-1', 'm', 16px);
     color: #222222;
     line-height: 24px;
   }

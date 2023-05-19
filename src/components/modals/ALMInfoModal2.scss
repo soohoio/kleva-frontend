@@ -1,6 +1,13 @@
 .ALMInfoModal2 {
-  padding-left: 30px;
-  padding-right: 30px;
+
+  .Modal__header {
+    padding-bottom: 25px;
+  }
+
+  .Modal__close {
+    top: 15px;
+    right: 15px;
+  }
 }
 
 .ALMInfoModal2__LabelAndValue {
@@ -15,22 +22,32 @@
         content: "";
         display: flex;
         background-repeat: no-repeat;
-        width: 80px;
-        height: 17px;
-        margin-right: 9px;
-        background-image: url(/static/images/exported/boosted.svg);
+        width: 72px;
+        height: 15px;
+        margin-right: 8px;
+        background-image: url(/static/images/exported/boosted_75x12.svg);
       }
     }
   }
 
   .LabelAndValue__label {
-    @include font-style('font-1', 'b', 16px);
+    @include font-style('font-1', 'm', 16px);
     color: #222222;
+    line-height: 24px;
+  }
+
+  .BeforeAfter {
     line-height: 24px;
   }
 
   .BeforeAfter__before {
     font-size: 16px;
+  }
+
+  .BeforeAfter__arrow {
+    width: 11px;
+    height: 10px;
+    margin: 0 5px;
   }
 
   .BeforeAfter__after {
