@@ -37,7 +37,10 @@ class QuestionMark extends Component {
               backgroundImage: `url(/static/images/exported/${backgroundImage}.svg?date=20220929`
             }}
             onClick={onClick}
-            className="QuestionMark bg-no-repeat"
+            className={twMerge(
+              "QuestionMark bg-no-repeat",
+              className
+            )}
         />
         </div>
       )

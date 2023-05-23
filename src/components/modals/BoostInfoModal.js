@@ -80,6 +80,7 @@ class BoostInfoModal extends Component {
 
     return (
       <Modal 
+        className="BoostInfoModal"
         title="Boosted"
       >
         {isMembershipApplied

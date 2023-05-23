@@ -3,6 +3,7 @@ import { twMerge, join } from 'tailwind-merge'
 import { Subject, merge, of } from 'rxjs'
 import { takeUntil, tap, debounceTime } from 'rxjs/operators'
 import { I18n } from '../common/I18n'
+import { nFormatter } from '../../utils/misc'
 
 class ALMStakingStatus extends Component {
   destroy$ = new Subject()
@@ -42,11 +43,11 @@ class ALMStakingStatus extends Component {
               "text-[#8F00FF] font-[700]",
             )}
           >
-            {ibKlevaStakingBalance} ibKLEVA
-          </span> {I18n.t('myasset.inStaking')}
+            {nFormatter(ibKlevaStakingBalance, 0)} ibKLEVA
+          </span> {I18n.t('myasset.inStaking2')}
         </span>
         <span>
-          {I18n.t('membership')} 7,500
+          {I18n.t('membership2')} 7,500
         </span>
       </div>
     )

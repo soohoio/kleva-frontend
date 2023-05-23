@@ -10,6 +10,7 @@ import ALMStakingGauge from './ALMStakingGauge'
 import QuestionMark from '../common/QuestionMark'
 import { openModal$ } from '../../streams/ui'
 import ALMInfoModal2 from '../modals/ALMInfoModal2'
+import { currentLocale$ } from '../../streams/i18n'
 
 class ALMExplainPanel extends Component {
   destroy$ = new Subject()
@@ -18,6 +19,7 @@ class ALMExplainPanel extends Component {
     merge(
       selectedAddress$,
       balancesInStakingPool$,
+      currentLocale$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -63,10 +65,18 @@ class ALMExplainPanel extends Component {
             >
               <img
                 className={join(
-                  "h-[15px]",
-                  "dt:mb-0 dt:mr-[16px]",
+                  currentLocale$.value === 'en'
+                    ? "w-[140px] h-[16px]"
+                    : "w-[112px] h-[16px]"
+                  ,
+                  (selectedAddress$.value)
+                    ? "dt:mb-[12px] dt:mr-[16px]"
+                    : "dt:mb-0 dt:mr-[16px]",
                 )}
-                src="/static/images/exported/112x16.svg"
+                src={currentLocale$.value === 'en'
+                  ? "/static/images/exported/[BI]KM140x16_color.svg"
+                  : "/static/images/exported/112x16.svg"
+                }
               />
               {/* <QuestionMark
                 className="dt:hidden"
@@ -140,15 +150,21 @@ class ALMExplainPanel extends Component {
           >
             <img
               className={join(
-                "h-[15px]",
+                currentLocale$.value === 'en' 
+                  ? "w-[140px] h-[16px]"
+                  : "w-[112px] h-[16px]"
+                ,
                 (selectedAddress$.value) 
                   ? "dt:mb-[12px] dt:mr-[16px]"
                   : "dt:mb-0 dt:mr-[16px]",
               )}
-              src="/static/images/exported/112x16.svg"
+              src={currentLocale$.value === 'en' 
+                ? "/static/images/exported/[BI]KM140x16_color.svg"
+                : "/static/images/exported/112x16.svg"
+              }
             />
             <QuestionMark
-              className="dt:hidden"
+              className="dt:hidden w-[18px] h-[18px]"
               color="#FBF7FF"
               transparent
               onClick={() => {
@@ -164,7 +180,7 @@ class ALMExplainPanel extends Component {
                 className={join(
                   "flex items-center",
                   "hidden dt:block",
-                  "text-[#9585A6] text-[15px] font-[500]",
+                  "text-[#9585A6] text-[15px] font-[500] dt:text-[14px]",
                   "leading-[21px]",
                   "mb-[13px]",
                   "dt:mb-0",
@@ -239,7 +255,7 @@ class ALMExplainPanel extends Component {
             join(
               "flex justify-between items-center",
               "mt-[20px] mx-[20px] dt:mx-auto",
-              "p-[20px] dt:px-[20px] dt:py-[25px]",
+              "p-[20px] dt:px-[25px] dt:py-[20px]",
               "dt:w-[980px]",
               "h-[52px]",
               "rounded-[9px]",
@@ -260,10 +276,13 @@ class ALMExplainPanel extends Component {
                 className={join(
                   "h-[16px]",
                 )}
-                src="/static/images/exported/membership-title-kr-white.svg" 
+                src={currentLocale$.value === 'en' 
+                  ? "/static/images/exported/[BI]KM140x16_white.svg" 
+                  : "/static/images/exported/membership-title-kr-white.svg"
+                }
               />
               <QuestionMark
-                className="dt:hidden ml-[5px]"
+                className="dt:hidden ml-[5px] w-[18px] h-[18px]"
                 transparent
                 backgroundImage={"18x18_Icon_Info_KM"}
                 onClick={() => {
@@ -315,7 +334,6 @@ class ALMExplainPanel extends Component {
               className={join(
                 "ml-[3px]",
                 "relative",
-                "top-[1px]",
               )}
               src="/static/images/exported/7x12_arrow.png"
             />
@@ -333,7 +351,7 @@ class ALMExplainPanel extends Component {
             ? ["mx-0 dt:h-[92px]"]
             : ["mx-[20px] dt:h-[52px]"],
           "mt-[20px] dt:mx-auto",
-          "px-[20px] py-[22px] dt:p-[25px]",
+          "p-[25px] dt:p-[25px]",
           "rounded-[8px] dt:rounded-[9px]",
           "bg-[#F8F2FF]",
        )}

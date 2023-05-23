@@ -184,7 +184,7 @@ class ALMInfoModal2 extends Component {
           </div>
           <div
             className={join(
-              "mt-[20px]",
+              "mt-[12px]",
             )}
           >
             <span
@@ -206,17 +206,17 @@ class ALMInfoModal2 extends Component {
             >
               <span
                 className={join(
-                  "text-[15px] text-[#222222] font-[500]",
+                  "text-[14px] text-[#222222] font-[500]",
                 )}
               >
                 {I18n.t('almInfoModal2.ex.link')}
               </span>
               <img
                 className={join(
-                  "w-[8px] h-[13px]",
+                  "w-[7px] h-[12px]",
                   "ml-[4px]",
                 )}
-                src="/static/images/exported/right-black-arrow.svg" 
+                src="/static/images/exported/7x12_ABK.svg"
               />
             </div>
           </div>

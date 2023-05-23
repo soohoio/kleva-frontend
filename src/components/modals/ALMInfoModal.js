@@ -14,6 +14,7 @@ import Modal from '../common/Modal'
 
 import "./ALMInfoModal.scss"
 import { closeModal$ } from '../../streams/ui'
+import { currentLocale$ } from '../../streams/i18n'
 
 class ALMInfoModal extends Component {
 
@@ -22,6 +23,7 @@ class ALMInfoModal extends Component {
   componentDidMount() {
     merge(
       workerInfo$,
+      currentLocale$,
     ).pipe(
       debounceTime(1),
       takeUntil(this.destroy$)
@@ -79,7 +81,10 @@ class ALMInfoModal extends Component {
               "h-[32px]",
               "mb-[17px] mr-auto",
             )}
-            src="/static/images/exported/title208x30.svg"
+            src={currentLocale$.value ==='en' 
+              ? "/static/images/exported/[BI]KM263x30.svg"
+              : "/static/images/exported/title208x30.svg"
+            }
           />
           <p
             className={join(
