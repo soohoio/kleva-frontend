@@ -1,9 +1,17 @@
 .ALMInfoModal {
-  width: 375px;
   padding: 45px 30px 35px;
+  width: 375px;
   height: 435px;
-
-  border-radius: 16px;
+  
+  border-radius: 16px;  
+  
+  left: 50%;
+  
+  transform: translateX(-50%);
+  
+  @include desktop {
+    transform: translate(-50%, 50%);
+  }
 }
 
 .ALMInfoModal__LabelAndValue {

@@ -68,7 +68,9 @@ class ALMInfoModal extends Component {
 
     return (
       <Modal
-        className="ALMInfoModal"
+        className={join(
+          "ALMInfoModal",
+        )}
         noClose
       >
         <div

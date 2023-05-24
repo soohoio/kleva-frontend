@@ -42,7 +42,7 @@ class BoostInfoModal extends Component {
     return {
       ibKlevaStakingBalance,
       stakingPercentage,
-      isMembershipApplied: true,
+      isMembershipApplied,
     }
   }
 
