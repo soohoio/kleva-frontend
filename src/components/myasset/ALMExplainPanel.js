@@ -155,7 +155,7 @@ class ALMExplainPanel extends Component {
                   : "w-[112px] h-[16px]"
                 ,
                 (selectedAddress$.value) 
-                  ? "dt:mb-[12px] dt:mr-[16px]"
+                  ? "dt:mb-[12px] dt:mr-[16px] dt:relative dt:top-[3px]"
                   : "dt:mb-0 dt:mr-[16px]",
               )}
               src={currentLocale$.value === 'en' 
@@ -351,7 +351,7 @@ class ALMExplainPanel extends Component {
             ? ["mx-0 dt:h-[92px]"]
             : ["mx-[20px] dt:h-[52px]"],
           "mt-[20px] dt:mx-auto",
-          "p-[25px] dt:p-[25px]",
+          "py-[20px] px-[22px] dt:p-[25px]",
           "rounded-[8px] dt:rounded-[9px]",
           "bg-[#F8F2FF]",
        )}
