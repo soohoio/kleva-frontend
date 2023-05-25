@@ -335,7 +335,7 @@ class ALMExplainPanel extends Component {
                 "ml-[3px]",
                 "relative",
               )}
-              src="/static/images/exported/7x12_arrow.png"
+              src="/static/images/exported/icon_7x12_arrow.svg"
             />
           </div>
         </div>
